@@ -1,0 +1,10 @@
+DESCRIPTION     "happy coding my love..."
+
+EXPORTS
+	
+cancel_lzip_aakp						@293
+compress_lzip_rspk						@300
+get_progress_lzip						@310
+pause_lzip_aakp							@400
+resume_lzip_aakp						@413
+uncompress_lzip_rspk						@469

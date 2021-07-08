@@ -1,0 +1,337 @@
+#2021 developed by ama   &  card
+AMANDA_FLAGS__=              -O1  -Wall -Wno-stringop-truncation -Wno-maybe-uninitialized
+AMANDA_FLAGS_z=              -O1  -Wall -Wno-stringop-truncation -Wno-maybe-uninitialized
+MISLAI_FLAGS__=              -O0 -Wall -Wno-unused-value -Wno-unused-variable
+CARDO__FLAGS__=-D_FIXED_________
+JULIETFLAGS__=-D_FIXED________
+AMANDA_SIZE_ = 62
+amanda_32z: be_xml_32aakp.o espaco_arp.exe           \
+	tar_32aakp_z.o                               \
+	val_create_32arp.o                           \
+	pedro_32aakp.o                               \
+	val_extract_32arp.o
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe read_i               \
+	feline_gcc_version_x86.ric                   \
+	be_xml_32aakp.o                              \
+	tar_32aakp_z.o                               \
+	val_create_32arp.o                           \
+	pedro_32aakp.o                               \
+	val_extract_32arp.o
+
+	i686-w64-mingw32-gcc.exe $(CARDO__FLAGS__)   \
+	-o ar_tar_process.DLL -mdll                  \
+	pedro_32aakp.o be_xml_32aakp.o               \
+	interface1.def tar_32aakp_z.o                \
+	val_create_32arp.o val_extract_32arp.o       \
+	-Wl,-enable-stdcall-fixup -lpsapi
+
+	@cp ar_tar_process.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+	@./amanda_informa.exe "ricardo"
+#	unc78gnu.bat tar_1_33.c
+#	unc78gnu.bat create_zen_ar.c
+
+amanda_32: be_xml_32aakp.o tar_32aakp.o              \
+	val_create_32arp.o                           \
+	pedro_32aakp.o val_extract_32arp.o
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe read_i               \
+	feline_gcc_version_x86.ric                   \
+	be_xml_32aakp.o tar_32aakp.o                 \
+	val_create_32arp.o                           \
+	pedro_32aakp.o val_extract_32arp.o
+
+	i686-w64-mingw32-gcc.exe $(CARDO__FLAGS__)   \
+	-o ar_tar_process.DLL -mdll                  \
+	pedro_32aakp.o be_xml_32aakp.o               \
+	interface1.def tar_32aakp.o                  \
+	val_create_32arp.o val_extract_32arp.o       \
+	-Wl,-enable-stdcall-fixup -lpsapi
+
+	@cp ar_tar_process.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp rspgzip200_32.dll                        'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+
+	@cp rspbzip2_32.dll                          'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+
+	@cp bw_lzip_aakp_32.DLL                      'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp rsp_lzma_aakp_32.DLL                     'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp rsp_xz_aakp_32.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp BE_compress_aakp_32.DLL                  'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp BE_lzop_arp_32.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp rsp_lz4_arp_32.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp RSP_Zstandard_arp_32.DLL                 'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp rsp_brotli_arp_32.DLL                    'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp RSP_encrypt_32.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp rsp_gzip2_32.DLL                         'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@cp rsp_bzip3_32.DLL                         'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+	@./amanda_informa.exe "ricardo"
+
+tar_32aakp_z.o                                  : makefile sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c    \
+	fnmatch_arp.c tar_1_33.c compression_support_ar.c update_arp_k.c iso_support_arp.c arp.h arp_2.h             \
+	cpu_fixed_z.c multi_volume_p.c
+#	unc78.bat openat.c
+	i686-w64-mingw32-gcc.exe -Wfatal-errors      \
+	-Werror -c -o tar_32aakp_z.o                 \
+	tar_1_33.c -DPSAPI_VERSION=1                 \
+	$(AMANDA_FLAGS_z)
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x86.ric                   \
+	tar_32aakp_z.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+tar_32aakp.o                                    : makefile sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c    \
+	fnmatch_arp.c tar_1_33.c compression_support_ar.c update_arp_k.c iso_support_arp.c arp.h arp_2.h             \
+	cpu_fixed_z.c multi_volume_p.c
+#	unc78.bat openat.c
+	i686-w64-mingw32-gcc.exe -Wfatal-errors      \
+	-Werror -c -o tar_32aakp.o                   \
+	tar_1_33.c -DPSAPI_VERSION=1                 \
+	$(AMANDA_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x86.ric                   \
+	tar_32aakp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+val_create_32arp.o                              : makefile val_create.c arp.h arp_2.h
+	i686-w64-mingw32-gcc.exe -Wfatal-errors      \
+	-Werror -c -o val_create_32arp.o             \
+	val_create.c                                 \
+	$(AMANDA_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x86.ric                   \
+	val_create_32arp.o
+
+#	unc78.bat 
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+val_extract_32arp.o                             : makefile val_extract.c arp.h arp_2.h
+	i686-w64-mingw32-gcc.exe -Wfatal-errors      \
+	-Werror                                      \
+	-c -o val_extract_32arp.o                    \
+	val_extract.c                                \
+	$(AMANDA_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x86.ric                   \
+	val_extract_32arp.o
+
+#	unc78.bat 
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+be_xml_32aakp.o             : makefile        be_xml.c
+	i686-w64-mingw32-gcc.exe -Wfatal-errors      \
+	-Werror                                      \
+	-c -o be_xml_32aakp.o                        \
+	be_xml.c                                     \
+	$(AMANDA_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x86.ric                   \
+	be_xml_32aakp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+pedro_32aakp.o             : makefile pedro.c
+	i686-w64-mingw32-gcc.exe -Wfatal-errors      \
+	-Werror                                      \
+	-c -o pedro_32aakp.o                         \
+	pedro.c                                      \
+	$(AMANDA_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x86.ric                   \
+	pedro_32aakp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+clean_ar:
+	@-rm *unc-backup*
+	@cp makefile makefile.a
+	@cp makefile makefile.o
+	@-rm *.a
+	@-rm *.o
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+#########################64 bits DLL
+
+ricardo_64: makefile tar_64aakp.o pedro_64aakp.o     \
+	val_create_64arp.o                           \
+	val_extract_64arp.o be_xml_64aakp.o
+
+	@x86_64-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe read_i               \
+	feline_gcc_version_x64.ric                   \
+	tar_64aakp.o pedro_64aakp.o                  \
+	val_create_64arp.o                           \
+	val_extract_64arp.o be_xml_64aakp.o
+
+	x86_64-w64-mingw32-gcc.exe $(JULIETFLAGS__)  \
+	-o ar_tar_process.DLL -mdll                  \
+	pedro_64aakp.o be_xml_64aakp.o               \
+	interface1.def tar_64aakp.o                  \
+	val_create_64arp.o val_extract_64arp.o       \
+	-Wl,-enable-stdcall-fixup -lpsapi
+
+	@cp ar_tar_process.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp rspgzip200_64.dll                        'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp rspbzip2_64.dll                          'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp bw_lzip_aakp_64.DLL                      'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp rsp_lzma_aakp_64.DLL                     'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp rsp_xz_aakp_64.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp BE_compress_aakp_64.DLL                  'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp BE_lzop_arp_64.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp rsp_lz4_arp_64.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp RSP_Zstandard_arp_64.DLL                 'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp rsp_brotli_arp_64.DLL                    'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp RSP_encrypt_64.DLL                       'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp rsp_gzip2_64.DLL                         'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@cp rsp_bzip3_64.DLL                         'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+	@./amanda_informa.exe ricardo
+
+tar_64aakp.o                                    : makefile sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c       \
+	fnmatch_arp.c tar_1_33.c compression_support_ar.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c
+#	unc78.bat openat.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors    \
+	-Werror -c -o tar_64aakp.o                   \
+	tar_1_33.c -DPSAPI_VERSION=1                 \
+	$(AMANDA_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x64.ric                   \
+	tar_64aakp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+val_create_64arp.o                              : makefile val_create.c arp.h arp_2.h
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors    \
+	-Werror -c -o val_create_64arp.o             \
+	val_create.c                                 \
+	$(AMANDA_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x64.ric                   \
+	val_create_64arp.o
+
+#	unc78.bat 
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+val_extract_64arp.o                             : makefile val_extract.c arp.h arp_2.h
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors    \
+	-Werror -c -o val_extract_64arp.o            \
+	val_extract.c                                \
+	$(AMANDA_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x64.ric                   \
+	val_extract_64arp.o
+
+#	unc78.bat 
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+be_xml_64aakp.o             : makefile        be_xml.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors    \
+	-Werror -c -o be_xml_64aakp.o                \
+	be_xml.c                                     \
+	$(AMANDA_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x64.ric                   \
+	be_xml_64aakp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+pedro_64aakp.o             : makefile          pedro.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors    \
+	-Werror -c -o                                \
+	pedro_64aakp.o                               \
+	pedro.c                                      \
+	$(AMANDA_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x64.ric                   \
+	pedro_64aakp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+
+espaco_arp.exe: espaco_arp.c
+	x86_64-w64-mingw32-gcc.ExE -O3 -o espaco_arp.exe espaco_arp.c
+	@./espaco_arp.exe $(AMANDA_SIZE_)
+#	rm *--*

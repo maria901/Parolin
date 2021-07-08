@@ -1,0 +1,1333 @@
+#2021 amanda & MathMan, updated 06/march/2021 18:06 PM
+AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror
+FELINE_FLAGS__=-Wno-unused-function -I c/include
+JULIET_FLAGS  =
+
+AMANDA_SIZE__ =                                    62
+
+amanda_32: pedro_32arp.o                           \
+	arp_dll_32arp.o backward_references_32arp.o \
+	backward_references_hq_32arp.o             \
+	bit_cost_32arp.o bit_reader_32arp.o        \
+	block_splitter_32arp.o brotli_32arp.o      \
+	brotli2_32arp.o brotli2dll_32arp.o         \
+	brotli2_multi_32.o                         \
+	brotli_bit_stream_32arp.o cluster_32arp.o  \
+	command_32arp.o compress_fragment_32arp.o  \
+	compress_fragment_two_pass_32arp.o         \
+	constants_32arp.o context_32arp.o          \
+	decode_32arp.o dictionary_32arp.o          \
+	dictionary_hash_32arp.o	encode_32arp.o     \
+	encoder_dict_32arp.o entropy_encode_32arp.o \
+	fast_log_32arp.o histogram_32arp.o         \
+	huffman_32arp.o literal_cost_32arp.o       \
+	longfile_32arp.o                           \
+	memory_32arp.o metablock_32arp.o           \
+	platform_32arp.o state_32arp.o             \
+	stdio_v2_32arp.o                           \
+	static_dict_32arp.o transform_32arp.o      \
+	utf8_util_32arp.o
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe read_i             \
+	feline_gcc_version_x86.ric                 \
+	pedro_32arp.o                              \
+	arp_dll_32arp.o backward_references_32arp.o \
+	backward_references_hq_32arp.o             \
+	bit_cost_32arp.o bit_reader_32arp.o        \
+	block_splitter_32arp.o brotli_32arp.o      \
+	brotli2_32arp.o brotli2dll_32arp.o         \
+	brotli2_multi_32.o                         \
+	brotli_bit_stream_32arp.o cluster_32arp.o  \
+	command_32arp.o compress_fragment_32arp.o  \
+	compress_fragment_two_pass_32arp.o         \
+	constants_32arp.o context_32arp.o          \
+	decode_32arp.o dictionary_32arp.o          \
+	dictionary_hash_32arp.o	encode_32arp.o     \
+	encoder_dict_32arp.o entropy_encode_32arp.o \
+	fast_log_32arp.o histogram_32arp.o         \
+	huffman_32arp.o literal_cost_32arp.o       \
+	longfile_32arp.o                           \
+	memory_32arp.o metablock_32arp.o           \
+	platform_32arp.o state_32arp.o             \
+	stdio_v2_32arp.o                           \
+	static_dict_32arp.o transform_32arp.o      \
+	utf8_util_32arp.o
+
+	@i686-w64-mingw32-gcc -O3 -o               \
+	rsp_brotli2_arp_32.DLL -mdll               \
+	arp.def pedro_32arp.o                      \
+	arp_dll_32arp.o backward_references_32arp.o \
+	backward_references_hq_32arp.o             \
+	bit_cost_32arp.o bit_reader_32arp.o        \
+	block_splitter_32arp.o brotli_32arp.o      \
+	brotli2_32arp.o brotli2dll_32arp.o         \
+	brotli2_multi_32.o                         \
+	brotli_bit_stream_32arp.o cluster_32arp.o  \
+	command_32arp.o compress_fragment_32arp.o  \
+	compress_fragment_two_pass_32arp.o         \
+	constants_32arp.o context_32arp.o          \
+	decode_32arp.o dictionary_32arp.o          \
+	dictionary_hash_32arp.o	encode_32arp.o     \
+	encoder_dict_32arp.o entropy_encode_32arp.o \
+	fast_log_32arp.o histogram_32arp.o         \
+	huffman_32arp.o literal_cost_32arp.o       \
+	longfile_32arp.o                           \
+	memory_32arp.o metablock_32arp.o           \
+	platform_32arp.o state_32arp.o             \
+	stdio_v2_32arp.o                           \
+	static_dict_32arp.o transform_32arp.o      \
+	utf8_util_32arp.o -Wl,-enable-stdcall-fixup
+
+	@cp rsp_brotli2_arp_32.DLL ../../
+	@cp rsp_brotli2_arp_32.DLL 'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+#		   ./test_arp.exe -f -9 test_arp.exe    -o test_arp.exe2.br
+#		   ./test_arp.exe -d -f test_arp.exe2.br -o test_arp.out
+
+#			dumppe rsp_brotli2_arp_32.DLL
+
+brotli2_multi_32.o : c/tools/stdio_v2.c            \
+	c/tools/brotli2_thread.c c/tools/stdio_v3.h \
+	c/tools/brotli2_multi.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	brotli2_multi_32.o c/tools/brotli2_multi.c \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	brotli2_multi_32.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+longfile_32arp.o :                                 \
+	c/tools/longfile.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	longfile_32arp.o                           \
+	c/tools/longfile.c                         \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	longfile_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+stdio_v2_32arp.o :                                 \
+	c/tools/stdio_v2.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	stdio_v2_32arp.o                           \
+	c/tools/stdio_v2.c                         \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	stdio_v2_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+pedro_32arp.o :                                    \
+	pedro.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	pedro_32arp.o                              \
+	pedro.c                                    \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	pedro_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+arp_dll_32arp.o :                                  \
+	c/tools/helper_utilities_by_amanda_and_ricardo.c \
+	 c/tools/arp_dll.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	arp_dll_32arp.o c/tools/arp_dll.c          \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	arp_dll_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+constants_32arp.o : c/common/constants.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	constants_32arp.o c/common/constants.c     \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	constants_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+context_32arp.o : c/common/context.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	context_32arp.o c/common/context.c         \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	context_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+dictionary_32arp.o : c/common/dictionary.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	dictionary_32arp.o c/common/dictionary.c   \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	dictionary_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+platform_32arp.o : c/common/platform.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	platform_32arp.o c/common/platform.c       \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	platform_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+transform_32arp.o : c/common/transform.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	transform_32arp.o c/common/transform.c     \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	transform_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+bit_reader_32arp.o : c/dec/bit_reader.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	bit_reader_32arp.o c/dec/bit_reader.c      \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	bit_reader_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+decode_32arp.o : c/dec/decode.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	decode_32arp.o c/dec/decode.c              \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	decode_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+huffman_32arp.o : c/dec/huffman.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	huffman_32arp.o c/dec/huffman.c            \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	huffman_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+state_32arp.o : c/dec/state.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	state_32arp.o c/dec/state.c                \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	state_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+backward_references_32arp.o :                      \
+	c/enc/backward_references.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	backward_references_32arp.o                \
+	c/enc/backward_references.c                \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	backward_references_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+backward_references_hq_32arp.o :                   \
+	c/enc/backward_references_hq.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	backward_references_hq_32arp.o             \
+	c/enc/backward_references_hq.c             \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	backward_references_hq_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+bit_cost_32arp.o : c/enc/bit_cost.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	bit_cost_32arp.o c/enc/bit_cost.c          \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	bit_cost_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+block_splitter_32arp.o : c/enc/block_splitter.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	block_splitter_32arp.o                     \
+	c/enc/block_splitter.c                     \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	block_splitter_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+brotli_bit_stream_32arp.o :                        \
+	c/enc/brotli_bit_stream.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	brotli_bit_stream_32arp.o                  \
+	c/enc/brotli_bit_stream.c                  \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	brotli_bit_stream_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+cluster_32arp.o : c/enc/cluster.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	cluster_32arp.o c/enc/cluster.c            \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	cluster_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+command_32arp.o : c/enc/command.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	command_32arp.o c/enc/command.c            \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	command_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+compress_fragment_32arp.o :                        \
+	c/enc/compress_fragment.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	compress_fragment_32arp.o                  \
+	c/enc/compress_fragment.c                  \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x86.ric                   \
+	compress_fragment_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+compress_fragment_two_pass_32arp.o :               \
+	c/enc/compress_fragment_two_pass.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	compress_fragment_two_pass_32arp.o         \
+	c/enc/compress_fragment_two_pass.c         \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x86.ric                   \
+	compress_fragment_two_pass_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+dictionary_hash_32arp.o : c/enc/dictionary_hash.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	dictionary_hash_32arp.o                    \
+	c/enc/dictionary_hash.c                    \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	dictionary_hash_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+encode_32arp.o : c/enc/encode.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	encode_32arp.o c/enc/encode.c              \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	encode_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+encoder_dict_32arp.o : c/enc/encoder_dict.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	encoder_dict_32arp.o c/enc/encoder_dict.c  \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	encoder_dict_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+entropy_encode_32arp.o : c/enc/entropy_encode.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	entropy_encode_32arp.o                     \
+	c/enc/entropy_encode.c                     \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	entropy_encode_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+fast_log_32arp.o : c/enc/fast_log.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	fast_log_32arp.o c/enc/fast_log.c          \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	fast_log_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+histogram_32arp.o : c/enc/histogram.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	histogram_32arp.o c/enc/histogram.c        \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	histogram_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+literal_cost_32arp.o : c/enc/literal_cost.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	literal_cost_32arp.o c/enc/literal_cost.c  \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	literal_cost_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+memory_32arp.o : c/enc/memory.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	memory_32arp.o c/enc/memory.c              \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version          \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i              \
+	feline_gcc_version_x86.ric                   \
+	memory_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+metablock_32arp.o : c/enc/metablock.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	metablock_32arp.o c/enc/metablock.c        \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	metablock_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+static_dict_32arp.o : c/enc/static_dict.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	static_dict_32arp.o c/enc/static_dict.c    \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	static_dict_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+utf8_util_32arp.o : c/enc/utf8_util.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	utf8_util_32arp.o c/enc/utf8_util.c        \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	utf8_util_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+brotli_32arp.o : c/tools/brotli.c                  \
+	c/tools/stdio_v3.h
+	i686-w64-mingw32-gcc.exe -c -o             \
+	brotli_32arp.o c/tools/brotli.c            \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	brotli_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+#	unc77.bat c/tools/brotli.c
+
+brotli2_32arp.o : c/tools/brotli2.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	brotli2_32arp.o c/tools/brotli2.c          \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	brotli2_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+brotli2dll_32arp.o : c/tools/brotli2dll.c
+	i686-w64-mingw32-gcc.exe -c -o             \
+	brotli2dll_32arp.o c/tools/brotli2dll.c    \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	brotli2dll_32arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+################################64 bits
+
+ricardo_64: pedro_64arp.o                          \
+	arp_dll_64arp.o backward_references_64arp.o \
+	backward_references_hq_64arp.o             \
+	bit_cost_64arp.o bit_reader_64arp.o        \
+	block_splitter_64arp.o brotli_64arp.o      \
+	brotli2_64arp.o brotli2dll_64arp.o         \
+	brotli2_multi_64.o                         \
+	brotli_bit_stream_64arp.o cluster_64arp.o  \
+	command_64arp.o compress_fragment_64arp.o  \
+	compress_fragment_two_pass_64arp.o         \
+	constants_64arp.o context_64arp.o          \
+	decode_64arp.o dictionary_64arp.o          \
+	dictionary_hash_64arp.o	encode_64arp.o     \
+	encoder_dict_64arp.o entropy_encode_64arp.o \
+	fast_log_64arp.o histogram_64arp.o         \
+	huffman_64arp.o literal_cost_64arp.o       \
+	longfile_64arp.o                           \
+	memory_64arp.o metablock_64arp.o           \
+	platform_64arp.o state_64arp.o             \
+	stdio_v2_64arp.o                           \
+	static_dict_64arp.o transform_64arp.o      \
+	utf8_util_64arp.o
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe read_i             \
+	feline_gcc_version_x64.ric                 \
+	pedro_64arp.o                              \
+	arp_dll_64arp.o backward_references_64arp.o \
+	backward_references_hq_64arp.o             \
+	bit_cost_64arp.o bit_reader_64arp.o        \
+	block_splitter_64arp.o brotli_64arp.o      \
+	brotli2_64arp.o brotli2dll_64arp.o         \
+	brotli2_multi_64.o                         \
+	brotli_bit_stream_64arp.o cluster_64arp.o  \
+	command_64arp.o compress_fragment_64arp.o  \
+	compress_fragment_two_pass_64arp.o         \
+	constants_64arp.o context_64arp.o          \
+	decode_64arp.o dictionary_64arp.o          \
+	dictionary_hash_64arp.o	encode_64arp.o     \
+	encoder_dict_64arp.o entropy_encode_64arp.o \
+	fast_log_64arp.o histogram_64arp.o         \
+	huffman_64arp.o literal_cost_64arp.o       \
+	longfile_64arp.o                           \
+	memory_64arp.o metablock_64arp.o           \
+	platform_64arp.o state_64arp.o             \
+	stdio_v2_64arp.o                           \
+	static_dict_64arp.o transform_64arp.o      \
+	utf8_util_64arp.o
+
+	@x86_64-w64-mingw32-gcc.exe -O3 -o         \
+	rsp_brotli2_arp_64.DLL -mdll arp.def       \
+	pedro_64arp.o                              \
+	arp_dll_64arp.o backward_references_64arp.o \
+	backward_references_hq_64arp.o             \
+	bit_cost_64arp.o bit_reader_64arp.o        \
+	block_splitter_64arp.o brotli_64arp.o      \
+	brotli2_64arp.o brotli2dll_64arp.o         \
+	brotli2_multi_64.o                         \
+	brotli_bit_stream_64arp.o cluster_64arp.o  \
+	command_64arp.o compress_fragment_64arp.o  \
+	compress_fragment_two_pass_64arp.o         \
+	constants_64arp.o context_64arp.o          \
+	decode_64arp.o dictionary_64arp.o          \
+	dictionary_hash_64arp.o	encode_64arp.o     \
+	encoder_dict_64arp.o entropy_encode_64arp.o \
+	fast_log_64arp.o histogram_64arp.o         \
+	huffman_64arp.o literal_cost_64arp.o       \
+	longfile_64arp.o                           \
+	memory_64arp.o metablock_64arp.o           \
+	platform_64arp.o state_64arp.o             \
+	stdio_v2_64arp.o                           \
+	static_dict_64arp.o transform_64arp.o      \
+	utf8_util_64arp.o -Wl,-enable-stdcall-fixup
+
+	@cp rsp_brotli2_arp_64.DLL ../../
+	@cp rsp_brotli2_arp_64.DLL 'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+brotli2_multi_64.o : c/tools/stdio_v2.c            \
+	c/tools/brotli2_thread.c c/tools/stdio_v3.h \
+	c/tools/brotli2_multi.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	brotli2_multi_64.o c/tools/brotli2_multi.c \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	brotli2_multi_64.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+longfile_64arp.o :                                 \
+	c/tools/longfile.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	longfile_64arp.o                           \
+	c/tools/longfile.c                         \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	longfile_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+stdio_v2_64arp.o :                                 \
+	c/tools/stdio_v2.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	stdio_v2_64arp.o                           \
+	c/tools/stdio_v2.c                         \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	stdio_v2_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+brotli2_64arp.o : c/tools/brotli2.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	brotli2_64arp.o c/tools/brotli2.c          \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	brotli2_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+brotli2dll_64arp.o : c/tools/brotli2dll.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	brotli2dll_64arp.o c/tools/brotli2dll.c    \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	brotli2dll_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+pedro_64arp.o :                                    \
+	pedro.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	pedro_64arp.o                              \
+	pedro.c                                    \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	pedro_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+arp_dll_64arp.o :                                  \
+	c/tools/helper_utilities_by_amanda_and_ricardo.c \
+	 c/tools/arp_dll.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	arp_dll_64arp.o c/tools/arp_dll.c          \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	arp_dll_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+constants_64arp.o : c/common/constants.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	constants_64arp.o c/common/constants.c     \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	constants_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+context_64arp.o : c/common/context.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	context_64arp.o c/common/context.c         \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	context_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+dictionary_64arp.o : c/common/dictionary.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	dictionary_64arp.o c/common/dictionary.c   \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	dictionary_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+platform_64arp.o : c/common/platform.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	platform_64arp.o c/common/platform.c       \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	platform_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+transform_64arp.o : c/common/transform.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	transform_64arp.o c/common/transform.c     \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	transform_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+bit_reader_64arp.o : c/dec/bit_reader.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	bit_reader_64arp.o c/dec/bit_reader.c      \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	bit_reader_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+decode_64arp.o : c/dec/decode.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	decode_64arp.o c/dec/decode.c              \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	decode_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+huffman_64arp.o : c/dec/huffman.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	huffman_64arp.o c/dec/huffman.c            \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	huffman_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+state_64arp.o : c/dec/state.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	state_64arp.o c/dec/state.c                \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	state_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+backward_references_64arp.o :                      \
+	c/enc/backward_references.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	backward_references_64arp.o                \
+	c/enc/backward_references.c                \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	backward_references_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+backward_references_hq_64arp.o :                   \
+	c/enc/backward_references_hq.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	backward_references_hq_64arp.o             \
+	c/enc/backward_references_hq.c             \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	backward_references_hq_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+bit_cost_64arp.o : c/enc/bit_cost.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	bit_cost_64arp.o c/enc/bit_cost.c          \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	bit_cost_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+block_splitter_64arp.o : c/enc/block_splitter.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	block_splitter_64arp.o                     \
+	c/enc/block_splitter.c                     \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	block_splitter_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+brotli_bit_stream_64arp.o :                        \
+	c/enc/brotli_bit_stream.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	brotli_bit_stream_64arp.o                  \
+	c/enc/brotli_bit_stream.c                  \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	brotli_bit_stream_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+cluster_64arp.o : c/enc/cluster.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	cluster_64arp.o c/enc/cluster.c            \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	cluster_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+command_64arp.o : c/enc/command.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	command_64arp.o c/enc/command.c            \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	command_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+compress_fragment_64arp.o :                        \
+	c/enc/compress_fragment.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	compress_fragment_64arp.o                  \
+	c/enc/compress_fragment.c                  \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	compress_fragment_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+compress_fragment_two_pass_64arp.o :               \
+	c/enc/compress_fragment_two_pass.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	compress_fragment_two_pass_64arp.o         \
+	c/enc/compress_fragment_two_pass.c         \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	compress_fragment_two_pass_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+dictionary_hash_64arp.o : c/enc/dictionary_hash.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	dictionary_hash_64arp.o                    \
+	c/enc/dictionary_hash.c                    \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	dictionary_hash_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+encode_64arp.o : c/enc/encode.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	encode_64arp.o c/enc/encode.c              \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	encode_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+encoder_dict_64arp.o : c/enc/encoder_dict.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	encoder_dict_64arp.o c/enc/encoder_dict.c  \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	encoder_dict_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+entropy_encode_64arp.o : c/enc/entropy_encode.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	entropy_encode_64arp.o                     \
+	c/enc/entropy_encode.c                     \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	entropy_encode_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+fast_log_64arp.o : c/enc/fast_log.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	fast_log_64arp.o c/enc/fast_log.c          \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	fast_log_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+histogram_64arp.o : c/enc/histogram.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	histogram_64arp.o c/enc/histogram.c        \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	histogram_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+literal_cost_64arp.o : c/enc/literal_cost.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	literal_cost_64arp.o c/enc/literal_cost.c  \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	literal_cost_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+memory_64arp.o : c/enc/memory.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	memory_64arp.o c/enc/memory.c              \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	memory_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+metablock_64arp.o : c/enc/metablock.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	metablock_64arp.o c/enc/metablock.c        \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	metablock_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+static_dict_64arp.o : c/enc/static_dict.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	static_dict_64arp.o c/enc/static_dict.c    \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	static_dict_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+utf8_util_64arp.o : c/enc/utf8_util.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	utf8_util_64arp.o c/enc/utf8_util.c        \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	utf8_util_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+
+brotli_64arp.o : c/tools/brotli.c
+	x86_64-w64-mingw32-gcc.exe -c -o           \
+	brotli_64arp.o c/tools/brotli.c            \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	brotli_64arp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE__)
+#	unc77.bat c/tools/brotli.c

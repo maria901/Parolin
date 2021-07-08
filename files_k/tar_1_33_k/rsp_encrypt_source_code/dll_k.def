@@ -1,0 +1,37 @@
+
+EXPORTS
+
+bytetostring						@300
+CancelExecution						@310
+ControlName						@320
+debugreal						@330
+decrypt_arp						@331
+DecryptStringAES					@340
+DecryptStringAES_CTR					@350
+DecryptStringRC4					@360
+encrypt_arp						@361
+EncryptStringAES					@370
+EncryptStringAES_CTR					@380
+EncryptStringRC4					@390
+GetCPUBrandString					@400
+GetCPUSpeed						@410
+GetCPUVendor						@420
+GetProgress						@430
+GetReturn						@440
+GetStatus						@450
+interface1						@460
+internal_progress_z					@465
+NewDecryptFileAES					@470
+NewDecryptFileAES_CTR					@480
+NewDecryptFileRC4					@490
+NewEncryptFileAES					@500
+NewEncryptFileAES_CTR					@510
+NewEncryptFileAES_CTR_SHA512_k				@515
+NewEncryptFileRC4					@520
+PauseExecution						@530
+ResumeExecution						@540
+SetProcessorPriority					@550
+shellexecute_alladin					@560
+stringtobyte						@570
+update_progress_arp					@571
+WaitExecution						@10025

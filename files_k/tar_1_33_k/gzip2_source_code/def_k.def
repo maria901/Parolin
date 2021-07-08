@@ -1,0 +1,28 @@
+
+EXPORTS
+	
+About							@300
+bytetostring						@310
+cancel_g2___aakp_g2___ar				@315
+CancelExecution						@320
+Compress						@330
+compress_g2___rspk_ar					@335
+CompressGzip2						@340
+CompressGzip2_SHA512_k					@345
+CompressGzip_utf8_k					@350
+ControlName						@360
+get_progress_g2___ar					@365
+GetFinished						@370
+GetProgress						@380
+GetReturnValue						@390
+interface1						@400
+pause_g2___aakp_g2___ar					@405
+PauseExecution						@410
+resume_g2___aakp_g2___ar				@415
+ResumeExecution						@420
+stringtobyte						@430
+Uncompress						@440
+uncompress_g2___rspk_ar					@445
+UncompressGzip2						@450
+UncompressGzip_utf8_k					@460
+WaitExecution						@470

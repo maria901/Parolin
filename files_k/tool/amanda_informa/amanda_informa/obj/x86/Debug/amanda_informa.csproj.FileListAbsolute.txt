@@ -1,0 +1,7 @@
+C:\Amanda Ava Pereira\nosso_trabalho\amanda_projects\Lurdes_tar_gzip_parolin_k\files_k\tool\amanda_informa\amanda_informa\bin\Debug\amanda_informa.exe
+C:\Amanda Ava Pereira\nosso_trabalho\amanda_projects\Lurdes_tar_gzip_parolin_k\files_k\tool\amanda_informa\amanda_informa\bin\Debug\amanda_informa.pdb
+C:\Amanda Ava Pereira\nosso_trabalho\amanda_projects\Lurdes_tar_gzip_parolin_k\files_k\tool\amanda_informa\amanda_informa\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Amanda Ava Pereira\nosso_trabalho\amanda_projects\Lurdes_tar_gzip_parolin_k\files_k\tool\amanda_informa\amanda_informa\obj\x86\Debug\amanda_informa.MainForm.resources
+C:\Amanda Ava Pereira\nosso_trabalho\amanda_projects\Lurdes_tar_gzip_parolin_k\files_k\tool\amanda_informa\amanda_informa\obj\x86\Debug\amanda_informa.csproj.GenerateResource.Cache
+C:\Amanda Ava Pereira\nosso_trabalho\amanda_projects\Lurdes_tar_gzip_parolin_k\files_k\tool\amanda_informa\amanda_informa\obj\x86\Debug\amanda_informa.exe
+C:\Amanda Ava Pereira\nosso_trabalho\amanda_projects\Lurdes_tar_gzip_parolin_k\files_k\tool\amanda_informa\amanda_informa\obj\x86\Debug\amanda_informa.pdb

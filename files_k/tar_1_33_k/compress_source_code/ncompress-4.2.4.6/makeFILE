@@ -1,0 +1,117 @@
+#december 2020 amanda & ricardo
+
+AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror
+FELINE_FLAGS__=-Wno-unused-function
+JULIET_FLAGS  =
+
+AMANDA_SIZE   =                              62
+
+amanda_32: compress_32aakp.o                       \
+	pedro_32aakp.o ricardo_64
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe read_i             \
+	feline_gcc_version_x86.ric                 \
+	compress_32aakp.o                          \
+	pedro_32aakp.o
+
+	@i686-w64-mingw32-gcc.exe $(AMANDA_FLAGS__) \
+	-shared -o                                 \
+	BE_compress_aakp_32.DLL AAKP.def           \
+	compress_32aakp.o                          \
+	pedro_32aakp.o -Wl,-enable-stdcall-fixup   \
+	-static-libgcc
+
+	@cp BE_compress_aakp_32.DLL ../../
+
+	@cp BE_compress_aakp_32.DLL  'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
+	@./espaco_arp.exe $(AMANDA_SIZE)
+
+compress_32aakp.o:                                 \
+	helper_utilities_by_amanda_and_ricardo.c   \
+	compress42.c
+
+	@i686-w64-mingw32-gcc.exe -c -o             \
+	compress_32aakp.o compress42.c             \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	compress_32aakp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE)
+
+pedro_32aakp.o: pedro.c
+
+	@i686-w64-mingw32-gcc.exe -c -o             \
+	pedro_32aakp.o pedro.c                     \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@i686-w64-mingw32-gcc.exe --version        \
+	>feline_gcc_version_x86.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x86.ric                 \
+	pedro_32aakp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE)
+
+ricardo_64: compress_64aakp.o pedro_64aakp.o
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe read_i             \
+	feline_gcc_version_x64.ric                 \
+	compress_64aakp.o pedro_64aakp.o
+
+	@x86_64-w64-mingw32-gcc -O3 -shared -o     \
+	BE_compress_aakp_64.DLL AAKP.def           \
+	compress_64aakp.o                          \
+	pedro_64aakp.o -Wl,-enable-stdcall-fixup   \
+	-static-libgcc
+
+	@cp BE_compress_aakp_64.DLL ../../
+
+	@cp BE_compress_aakp_64.DLL  'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
+	@./espaco_arp.exe $(AMANDA_SIZE)
+
+compress_64aakp.o  : helper_utilities_by_amanda_and_ricardo.c \
+	compress42.c
+
+	@x86_64-w64-mingw32-gcc.exe -c -o           \
+	compress_64aakp.o compress42.c             \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	compress_64aakp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE)
+
+pedro_64aakp.o: pedro.c
+
+	@x86_64-w64-mingw32-gcc.exe -c -o           \
+	pedro_64aakp.o pedro.c                     \
+	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
+	$(FELINE_FLAGS__)
+
+	@x86_64-w64-mingw32-gcc.exe --version      \
+	>feline_gcc_version_x64.ric
+
+	@./file_gcc_version.exe write_i            \
+	feline_gcc_version_x64.ric                 \
+	pedro_64aakp.o
+
+	@./espaco_arp.exe $(AMANDA_SIZE)
