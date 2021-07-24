@@ -1,0 +1,195 @@
+//[closed? 07/07/2021] by smartape
+
+ /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://arsoftware.net.br/binarywork_____________________       *
+ *     Mirrors: https://locacaodiaria.com.br/corporacaodotrabalhobinario/       *
+ *              http: //nomade.sourceforge.net/binarywork_______________/       *
+ *                                                                              *
+ *     E-mails direto dos felizes programadores:                                *
+ *     Ricardinho:    arsoftware25@gmail.com    ricardo@arsoftware.net.br       *
+ *     Koci______:    arsoftware10@gmail.com    am_koci@arsoftware.net.br       *
+ *                                                                              *
+ *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+
+#define __MARIA__ (35)
+
+#define MEU_AMANDA_S_SMART_APE_SIZE     ((((((1 << 17) / 1000 / 2 - 6)))))
+#define MEU_AMANDA_S_SMART_APE_SIZE_v27 ((((((1 << 17) / 1000 / 2 - 9)))))
+#define WAITTIME_AMANDA_S_SMART_APE     ((((((((((((((10))))))))))))))
+#include /* amanda's smart ape */ <windows.h>
+#include /* amanda's smart ape  */ <stdint.h>
+#include /* amanda's smart ape   */ <stdio.h>
+#include /* amanda's smart ape  */ <stdlib.h>
+#include /* amanda's smart ape  */ <string.h>
+#include /* amanda's smart ape    */ <time.h>
+#include /* amanda's smart ape   */ <errno.h>
+#include /* amanda's smart ape   */ <fcntl.h>
+#include /* amanda's smart ape   */ <ctype.h>
+#include /* amanda's smart ape    */ <math.h>
+#include /* amanda's smart ape  */ <wctype.h>
+#include /* amanda's smart ape   */ <wchar.h>
+#include /* amanda's smart ape  */ <stdarg.h>
+#include /* amanda's smart ape  */ <stddef.h>
+#include /* amanda's smart ape  */ <setjmp.h>
+#include /* amanda's smart ape  */ <locale.h>
+#include /* amanda's smart ape  */ <signal.h>
+#include /* amanda's smart ape  */ <limits.h>
+#include /* amanda's smart ape   */ <float.h>
+#include /* amanda's smart ape  */ <iso646.h>
+
+#undef NDEBUG
+#include /* amanda's smart ape  */ <assert.h>
+#include /* amanda's smart ape */ <stdbool.h>
+#include /* amanda's smart ape */ <process.h>
+
+void pedro_dprintf(
+    int amanda_level,
+    char *format, ...);
+
+/**
+ * for cygwin window size as width [93] use [83]
+ *
+ */
+int main(int arp_argc, char *arp_argv[])
+{
+    int counter_amanda_s_smart_ape = MEU_AMANDA_S_SMART_APE_SIZE;
+    int i_arp;
+    int espacos_arp;
+
+    // printf("size %d\n", MEU_AMANDA_S_SMART_APE_SIZE);
+/*
+    if (4 == arp_argc)
+    {
+        Beep(1000, atoi(arp_argv[arp_argc - 1]));
+        return 0;
+    }
+
+    if (3 == arp_argc)
+    {
+        MessageBox(0, "Finished MathMan...", "Amanda Informa", MB_OK | MB_ICONINFORMATION | MB_SYSTEMMODAL);
+        return 0;
+    }
+*/
+    {
+        espacos_arp = atoi(arp_argv[1]);
+//        fprintf(stdout, "\n");
+
+  	counter_amanda_s_smart_ape = __MARIA__;
+
+        while (counter_amanda_s_smart_ape--)
+        {
+            Sleep(WAITTIME_AMANDA_S_SMART_APE);
+            fprintf(stdout, ".");
+            fflush(stdout);
+        }
+
+/*
+        fprintf(stdout, ".....[   OK   ].");
+        fflush(stdout);
+*/
+
+/*
+        fprintf(stdout, ".");
+        fflush(stdout);
+
+        Sleep(60);
+        fprintf(stdout, ".");
+        fflush(stdout);
+
+        Sleep(60);
+        fprintf(stdout, ".");
+        fflush(stdout);
+
+        Sleep(60);
+        fprintf(stdout, ".");
+        fflush(stdout);
+
+        Sleep(60);
+        fprintf(stdout, ".");
+        fflush(stdout);
+*/
+        Sleep(60);
+        fprintf(stdout, "[");
+        fflush(stdout);
+
+        Sleep(60);
+        fprintf(stdout, " ");
+        fflush(stdout);
+
+        Sleep(60);
+        fprintf(stdout, " ");
+        fflush(stdout);
+
+        Sleep(60);
+        fprintf(stdout, " ");
+        fflush(stdout);
+
+        Sleep(1000);
+        fprintf(stdout, "O");
+        fflush(stdout);
+
+        Sleep(1000);
+        fprintf(stdout, "K");
+        fflush(stdout);
+
+        Sleep(1000);
+        fprintf(stdout, " ");
+        fflush(stdout);
+        Sleep(60);
+        fprintf(stdout, " ");
+        fflush(stdout);
+        Sleep(60);
+        fprintf(stdout, " ");
+        fflush(stdout);
+
+        Sleep(60);
+        fprintf(stdout, "]");
+        fflush(stdout);
+
+/*
+        Sleep(WAITTIME_AMANDA_S_SMART_APE);
+        fprintf(stdout, ".");
+        fflush(stdout);
+*/
+/*
+        for (i_arp = 0; i_arp < espacos_arp - 6; i_arp++)
+        {
+            Sleep(WAITTIME_AMANDA_S_SMART_APE);
+            fprintf(stdout, ".");
+            fflush(stdout);
+        }
+*/
+	counter_amanda_s_smart_ape = __MARIA__;
+
+        while (counter_amanda_s_smart_ape--)
+        {
+            Sleep(WAITTIME_AMANDA_S_SMART_APE);
+            fprintf(stdout, ".");
+            fflush(stdout);
+        }
+
+	      fprintf(stdout, "\n");
+              fflush(stdout);
+    }
+    return (0);
+}
