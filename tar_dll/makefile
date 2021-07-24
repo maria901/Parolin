@@ -75,8 +75,8 @@ pedro_64aakp.o: pedro.c
 	(cd '/tar/7zip/CPP/7zip/Bundles/Alone7z' && rm /bin/tar/x64/BE_7zip_r_64.DLL ; make_amanda_kp -f 'makefile.gcc.x64')
 	
 clean_7zip   :
-	(cd /bin/tar/x64/7zip_obj && rm *.o)
-	(cd /bin/tar/x86/7zip_obj && rm *.o)
+	(cd /bw_tmp/7zip_x86 && rm *.o)
+	(cd /bw_tmp/7zip_x64 && rm *.o)
 	
 #########################################################################################################################################
 ## section Brotli
@@ -113,6 +113,15 @@ bzip3_32:
 		
 bzip3_64:
 	(cd /tar/bzip3 && make_amanda_kp ricardo_64 -f 'makefile')
+
+#########################################################################################################################################
+## section Bzip3
+
+compress_32:
+	(cd /tar/compress/ncompress-4.2.4.6 && make_amanda_kp amanda_32  -f 'makefile')
+		
+compress_64:
+	(cd /tar/compress/ncompress-4.2.4.6 && make_amanda_kp ricardo_64 -f 'makefile')
 	
 #########################################################################################################################################
 clean:

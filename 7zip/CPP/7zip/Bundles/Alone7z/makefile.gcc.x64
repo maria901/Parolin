@@ -1,11 +1,13 @@
-PROG = ../BE_7zip_r_64
+AMANDA_VERSION = /tar/7zip/CPP/7zip/Bundles/Alone7z/version_x64.o
+
+PROG = ../../../../bin/tar/x64/BE_7zip_r_64
 
 IS_MINGW = 1
 
 CC  = x86_64-w64-mingw32-gcc.exe
 CXX = x86_64-w64-mingw32-g++.exe
 
-O = /bin/tar/x64/7zip_obj
+O = /bw_tmp/7zip_x64
 
 CONSOLE_VARIANT_FLAGS=-DPROG_VARIANT_R
 

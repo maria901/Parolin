@@ -1,6 +1,42 @@
 #compilando...
 
 
+if [ "7zip32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe 7zip_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "7zip64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe 7zip_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "7zipclean" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe clean_7zip -f makefile
+
+exit
+
+fi
+
+
 if [ "brotli32" == "$1" ] 
 then
 
@@ -137,6 +173,42 @@ if [ "bzip3clean" == "$1" ]
 then
 
 	cd /bw_tmp/bzip3/
+
+	rm *.o
+
+exit
+
+fi
+
+
+if [ "compress32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe compress_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "compress64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe compress_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "compressclean" == "$1" ] 
+then
+
+	cd /bw_tmp/compress/
 
 	rm *.o
 

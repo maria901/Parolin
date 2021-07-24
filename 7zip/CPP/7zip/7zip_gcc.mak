@@ -92,7 +92,7 @@ ifdef IS_MINGW
 
 RM = del
 MY_MKDIR=mkdir
-LIB2 = -loleaut32 -luuid -ladvapi32 -lUser32 maria.def -mdll -Wl,-enable-stdcall-fixup
+LIB2 = $(AMANDA_VERSION) -loleaut32 -luuid -ladvapi32 -lUser32 maria.def -mdll -Wl,-enable-stdcall-fixup
 
 CXXFLAGS_EXTRA = -DUNICODE -D_UNICODE
 # -Wno-delete-non-virtual-dtor
@@ -154,6 +154,10 @@ $(O):
 	$(MY_MKDIR) $(O)
 
 $(PROGPATH): $(OBJS)
+
+	(cd /tar/7zip/CPP/7zip/Bundles/Alone7z/ && /bw_tmp/amandaricardo_mvbuild26_33.exe amanda_file_counter_32.ini versio_n.ama.rc version_ricardo_mislaine_final_2_.rc aline_definitive_header_2_.h "31.5 bits ;-)" BE_7zip_r_32.DLL increase          &&   i686-w64-mingw32-windres.exe -o version_x86.o -O coff version_ricardo_mislaine_final_2_.rc)
+	(cd /tar/7zip/CPP/7zip/Bundles/Alone7z/ && /bw_tmp/amandaricardo_mvbuild26_33.exe amanda_file_counter_32.ini versio_n.ama.rc version_ricardo_mislaine_final_2_.rc aline_definitive_header_2_.h "63.5 bits ;-)" BE_7zip_r_64.DLL increase_nao_amor && x86_64-w64-mingw32-windres.exe -o version_x64.o -O coff version_ricardo_mislaine_final_2_.rc)
+	
 	$(CXX) -o $(PROGPATH) -s $(MY_ARCH_2) $(LDFLAGS) $(LD_arch) $(OBJS) $(MY_LIBS) $(LIB2)
 
 #	-s strips debug sections from executable in GCC
