@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,3,2,144
- PRODUCTVERSION 3,3,2,144
+ FILEVERSION 3,3,9,151
+ PRODUCTVERSION 3,3,9,151
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -46,18 +46,18 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "BinayrWork Corp. https://arsoftware.net.br/binarywork/ \0"
-            VALUE "CompanyName", "BinayrWork Corp. https://arsoftware.net.br/binarywork/ \0"
+            VALUE "Comments", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
+            VALUE "CompanyName", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "FileDescription", "BW Bzip3 DLL \0"
-            VALUE "FileVersion", "3, 3, 2, 144 \0"
+            VALUE "FileVersion", "3, 3, 9, 151 \0"
             VALUE "InternalName", "rsp_bzip3_64.DLL \0"
-            VALUE "LegalCopyright", "Copyright © 2020 BW \0"
-            VALUE "LegalTrademarks", "https://arsoftware.net.br/binarywork/ \0"
+            VALUE "LegalCopyright", "CopyLeft © 2021 BW \0"
+            VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
             VALUE "OriginalFilename", "rsp_bzip3_64.DLL \0"
-            VALUE "PrivateBuild", "144 \0"
-            VALUE "ProductName", "BW Bzip3 DLL 3, 3, 2, 144 63.5 bits ;-) \0"
-            VALUE "ProductVersion", "3, 3, 2, 144 \0"
-            VALUE "SpecialBuild", "amandaricardo_koci\0"
+            VALUE "PrivateBuild", "151 \0"
+            VALUE "ProductName", "BW Bzip3 DLL 3, 3, 9, 151 63.5 bits ;-) \0"
+            VALUE "ProductVersion", "3, 3, 9, 151 \0"
+            VALUE "SpecialBuild", "amandaricardo_koci_e_pereira\0"
         END
     END
     BLOCK "VarFileInfo"

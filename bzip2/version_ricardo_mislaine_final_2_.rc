@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,8,2,94
- PRODUCTVERSION 2,8,2,94
+ FILEVERSION 2,8,3,95
+ PRODUCTVERSION 2,8,3,95
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -49,14 +49,14 @@ BEGIN
             VALUE "Comments", "BinayrWork Corp. https://arsoftware.net.br/binarywork/ \0"
             VALUE "CompanyName", "BinayrWork Corp. https://arsoftware.net.br/binarywork/ \0"
             VALUE "FileDescription", "BW Bzip2 DLL \0"
-            VALUE "FileVersion", "2, 8, 2, 94 \0"
+            VALUE "FileVersion", "2, 8, 3, 95 \0"
             VALUE "InternalName", "rspbzip2_64.dll \0"
             VALUE "LegalCopyright", "Copyright © 2020 BW \0"
             VALUE "LegalTrademarks", "https://arsoftware.net.br/binarywork/ \0"
             VALUE "OriginalFilename", "rspbzip2_64.dll \0"
-            VALUE "PrivateBuild", "94 \0"
-            VALUE "ProductName", "BW Bzip2 DLL 2, 8, 2, 94 64 bits \0"
-            VALUE "ProductVersion", "2, 8, 2, 94 \0"
+            VALUE "PrivateBuild", "95 \0"
+            VALUE "ProductName", "BW Bzip2 DLL 2, 8, 3, 95 64 bits \0"
+            VALUE "ProductVersion", "2, 8, 3, 95 \0"
             VALUE "SpecialBuild", "amandaricardo_koci\0"
         END
     END

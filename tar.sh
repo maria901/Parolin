@@ -109,5 +109,40 @@ exit
 fi
 
 
+if [ "bzip332" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe bzip3_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "bzip364" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe bzip3_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "bzip3clean" == "$1" ] 
+then
+
+	cd /bw_tmp/bzip3/
+
+	rm *.o
+
+exit
+
+fi
+
 
 echo "Erro amor..."

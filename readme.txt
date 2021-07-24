@@ -235,7 +235,8 @@ Sorry for this limitation
 Changelog:
 
 What is new in version 5.4.21 build 005626 Sabado 24 Julho 2021  08:35 codename Floc'hlay and Ébalard
-Rearranged the sources for ease of access and compilation, minor modifications.
+Rearranged the sources for ease of access and compilation, minor modifications,
+soon we will have a major release (6.0).
 
 What is new in version 5.4.20 build 005625 Sat 12/June/2021   02:27:57 codename Payrard
 Fixed a sftp bug that was causing the connection to never finish, minor modifications.
