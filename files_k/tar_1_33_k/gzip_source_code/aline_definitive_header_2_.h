@@ -1,1 +1,0 @@
-#define AMARIC__VERSION "3.7.7 build 87"

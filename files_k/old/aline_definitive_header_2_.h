@@ -1,1 +1,0 @@
-#define AMARIC__VERSION "2.5.9 build 136"
