@@ -1,34 +1,32 @@
 
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  *                                                                                *
-  *      Licensa de Cópia (C) <202*>  <Corporação do Trabalho Binário>             *
-  *                                                                                *
-  *   Este programa é software livre: você pode redistribuir isto e/ou modificar   *
-  *   isto sobre os termos do GNU Licensa Geral Pública como publicado pela        *
-  *   Fundação de Software Livre, tanto a versão 3 da Licensa, ou                  *
-  *   (dependendo da sua opção) qualquer versão posterior.                         *
-  *                                                                                *
-  *   Este programa é distribuído na esperança que isto vai ser útil,              *
-  *   mas SEM QUALQUER GARANTIA; sem até mesmo a implicada garantia de             *
-  *   COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a                 *
-  *   Licensa Geral Pública para mais detalhes.                                    *
-  *                                                                                *
-  *   Você deve ter recebido uma cópia da LICENSA GERAL PUBLICA                    *
-  *       e a GNU Licensa Pública Menor junto com este programa                    *
-  *       Se não, veja <http://www.gnu.org/licenses/>.                             *
-  *                                                                                *
-  *   Suporte: https://arsoftware.net.br/binarywork ____________________           *
-  *   Mirrors: https://locacaodiaria.com.br/corporacaodotrabalhobinario/           *
-  *             http://nomade.sourceforge.net/binarywork/ ______________            *
-  *                                                                                *
-  *       e-mails direto dos felizes programadores:                                *
-  *       MathMan: arsoftware25@gmail.com  ricardo@arsoftware.net.br               *
-  *        Amanda: arsoftware10@gmail.com  amanda@arsoftware.net.br                *
-  *                                                                                *
-  *       contato imediato(para uma resposta muita rápida) WhatsApp                *
-  *       (+55)41 9627 1708 - isto está sempre ligado                              *
-  *                                                                                *
-  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+ /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails direto dos felizes programadores:                                *
+ *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
+ *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *                                                                              *
+ *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
    
 C code and DLL (with sample project) with library libarchive and GNU tar 1.34
 to list, update, delete, extract and create latest GNU tar files uncompressed or
@@ -49,6 +47,9 @@ support was included.
 What we implement is largely based on user feedback. If there is a particular
 API that is critical to your use of Parolin, then please let us know. We can
 then adjust our priorities accordingly.
+
+SourceForge: https://sourceforge.net/projects/parolin/ updated monthly
+GitHub     : https://github.com/maria901/Parolin     / updated daily..., no binaries
 
 About the encryption support:
 
@@ -233,8 +234,10 @@ Sorry for this limitation
 
 Changelog:
 
+What is new in version 5.4.21 build 005626 Sabado 24 Julho 2021  08:35 codename Floc'hlay and Ébalard
+Rearranged the sources for ease of access and compilation, minor modifications.
 
-What is new in version 5.4.20 build 005625 Sat 12/June/2021 02:27:57 codename Payrard
+What is new in version 5.4.20 build 005625 Sat 12/June/2021   02:27:57 codename Payrard
 Fixed a sftp bug that was causing the connection to never finish, minor modifications.
 
 What is new in version 5.4.19 build 005622 Fri 28/May/2021 21:35:29  codename Liddicott
