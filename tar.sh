@@ -217,4 +217,40 @@ exit
 fi
 
 
+if [ "compress232" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe compress2_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "compress264" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe compress2_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "compress2clean" == "$1" ] 
+then
+
+	cd /bw_tmp/compress2/
+
+	rm *.o
+
+exit
+
+fi
+
+
 echo "Erro amor..."

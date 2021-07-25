@@ -115,13 +115,22 @@ bzip3_64:
 	(cd /tar/bzip3 && make_amanda_kp ricardo_64 -f 'makefile')
 
 #########################################################################################################################################
-## section Bzip3
+## section compress
 
 compress_32:
 	(cd /tar/compress/ncompress-4.2.4.6 && make_amanda_kp amanda_32  -f 'makefile')
 		
 compress_64:
 	(cd /tar/compress/ncompress-4.2.4.6 && make_amanda_kp ricardo_64 -f 'makefile')
+
+#########################################################################################################################################
+## section compress2
+
+compress2_32:
+	(cd /tar/compress2/compress2_0.0.2 && make_amanda_kp amanda_32  -f 'makefile')
+		
+compress2_64:
+	(cd /tar/compress2/compress2_0.0.2 && make_amanda_kp ricardo_64 -f 'makefile')
 	
 #########################################################################################################################################
 clean:
