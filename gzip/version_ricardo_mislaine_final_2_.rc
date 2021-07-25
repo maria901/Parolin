@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,7,7,87
- PRODUCTVERSION 3,7,7,87
+ FILEVERSION 3,8,1,91
+ PRODUCTVERSION 3,8,1,91
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -46,17 +46,17 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "BinayrWork Corp. https://arsoftware.net.br/binarywork/ \0"
-            VALUE "CompanyName", "BinayrWork Corp. https://arsoftware.net.br/binarywork/ \0"
+            VALUE "Comments", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
+            VALUE "CompanyName", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "FileDescription", "BW Gzip DLL \0"
-            VALUE "FileVersion", "3, 7, 7, 87 \0"
-            VALUE "InternalName", "rspgzip200_32.dll \0"
-            VALUE "LegalCopyright", "Copyright © 2020 BW \0"
-            VALUE "LegalTrademarks", "https://arsoftware.net.br/binarywork/ \0"
-            VALUE "OriginalFilename", "rspgzip200_32.dll \0"
-            VALUE "PrivateBuild", "87 \0"
-            VALUE "ProductName", "BW Gzip DLL 3, 7, 7, 87 32 bits \0"
-            VALUE "ProductVersion", "3, 7, 7, 87 \0"
+            VALUE "FileVersion", "3, 8, 1, 91 \0"
+            VALUE "InternalName", "rspgzip200_64.dll \0"
+            VALUE "LegalCopyright", "CopyLeft © 2021 BW \0"
+            VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
+            VALUE "OriginalFilename", "rspgzip200_64.dll \0"
+            VALUE "PrivateBuild", "91 \0"
+            VALUE "ProductName", "BW Gzip DLL 3, 8, 1, 91 64 bits \0"
+            VALUE "ProductVersion", "3, 8, 1, 91 \0"
             VALUE "SpecialBuild", "amandaricardo_koci\0"
         END
     END
