@@ -131,6 +131,15 @@ compress2_32:
 		
 compress2_64:
 	(cd /tar/compress2/compress2_0.0.2 && make_amanda_kp ricardo_64 -f 'makefile')
+
+#########################################################################################################################################
+## section compress2
+
+gzip_32:
+	(cd /tar/gzip && make_amanda_kp amanda_32  -f 'makefile')
+		
+gzip_64:
+	(cd /tar/gzip && make_amanda_kp ricardo_64 -f 'makefile')
 	
 #########################################################################################################################################
 clean:

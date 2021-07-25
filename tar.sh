@@ -253,4 +253,40 @@ exit
 fi
 
 
+if [ "gzip32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe gzip_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "gzip64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe gzip_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "gzipclean" == "$1" ] 
+then
+
+	cd /bw_tmp/gzip/
+
+	rm *.o
+
+exit
+
+fi
+
+
 echo "Erro amor..."
