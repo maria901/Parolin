@@ -282,7 +282,7 @@ then
 
 	cd /bw_tmp/gzip/
 
-	rm *.o
+	rm *.o *.a
 
 exit
 

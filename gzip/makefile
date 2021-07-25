@@ -45,6 +45,8 @@ ricardo_64: /bw_tmp/gzip/amanda_zlib64.a /bw_tmp/gzip/dll_64.o /bw_tmp/gzip/zlib
 
 	@x86_64-w64-mingw32-gcc.exe -DNPRINTF_NO -O3 -mdll def_k.def -o /bin/tar/x64/rspgzip200_64.dll dprintf.c /bw_tmp/gzip/amanda_zlib64.a /bw_tmp/gzip/ver64.o /bw_tmp/gzip/dll_64.o /bw_tmp/gzip/zlib_64.o /bw_tmp/gzip/longfile_64.o /bw_tmp/gzip/md5_64.o /bw_tmp/gzip/folder_i_64.o /bw_tmp/gzip/pedro_64.o /bw_tmp/gzip/sha512_k_64.o /bw_tmp/gzip/amanda_zlib64.a -Wl,-enable-stdcall-fixup
 
+#	x86_64-w64-mingw32-strip.exe /bin/tar/x64/rspgzip200_64.dll
+	
 /bw_tmp/gzip/amanda_zlib64.a:
 	@make ricardo_win64 -C ./zlib_src/
 
