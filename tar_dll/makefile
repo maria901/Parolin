@@ -140,7 +140,28 @@ gzip_32:
 		
 gzip_64:
 	(cd /tar/gzip && make_amanda_kp ricardo_64 -f 'makefile')
-	
+
+#########################################################################################################################################
+## section gzip2
+
+gzip2_32:
+	(cd /tar/gzip2 && make_amanda_kp amanda_32  -f 'makefile')
+		
+gzip2_64:
+	(cd /tar/gzip2 && make_amanda_kp ricardo_64 -f 'makefile')
+
+#########################################################################################################################################
+## section libarchive
+
+libarchive_32:
+	(cd /tar/libarchive/libarchive-3.5.1/amanda_tests && make_amanda_kp amanda_32      -f 'makefile')
+		
+libarchive_64:
+	(cd /tar/libarchive/libarchive-3.5.1/amanda_tests && make_amanda_kp ricardo_64     -f 'makefile')
+
+libarchiveupdatesources_at_x86:
+	(cd /tar/libarchive/libarchive-3.5.1/amanda_tests && make_amanda_kp update_c_i_x86 -f 'makefile')
+
 #########################################################################################################################################
 clean:
 	(shopt -s nocaseglob ; rm *.o *.dll)

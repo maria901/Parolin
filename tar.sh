@@ -289,4 +289,89 @@ exit
 fi
 
 
+if [ "gzip232" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe gzip2_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "gzip264" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe gzip2_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "gzip2clean" == "$1" ] 
+then
+
+	cd /bw_tmp/gzip2/
+
+	rm *.o *.a
+
+exit
+
+fi
+
+
+if [ "libarchive32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe libarchive_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "libarchive64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe libarchive_64 -f makefile
+
+exit
+
+fi
+
+
+
+if [ "libarchiveupdatesources_at_x86" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe libarchiveupdatesources_at_x86 -f makefile
+
+exit
+
+fi
+
+
+if [ "libarchiveclean" == "$1" ] 
+then
+
+	cd /bw_tmp/libarchive/
+
+	rm *.o *.a
+
+exit
+
+fi
+
+
 echo "Erro amor..."

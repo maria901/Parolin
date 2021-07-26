@@ -1,0 +1,69 @@
+//2021 june 28
+
+#include  <windows.h>
+#include   <stdint.h>
+#include    <stdio.h>
+#include   <stdlib.h>
+#include   <string.h>
+#include     <time.h>
+#include    <errno.h>
+#include    <fcntl.h>
+#include    <ctype.h>
+#include     <math.h>
+#include   <wctype.h>
+#include    <wchar.h>
+#include   <stdarg.h>
+#include   <stddef.h>
+#include   <setjmp.h>
+#include   <locale.h>
+#include   <signal.h>
+#include   <limits.h>
+#include    <float.h>
+#include   <iso646.h>
+
+#undef NDEBUG
+#include   <assert.h>
+
+#include  <stdbool.h>
+
+#include  <process.h>
+
+#include <stdio.h>
+
+int main(void)
+{
+
+     DWORD amanda_i;
+
+     FILE * myfile_amanda;
+
+     myfile_amanda = fopen("amanda_meu_amor.bin.ava", "wb");
+
+     if(myfile_amanda)
+     {
+
+	  fclose(myfile_amanda);
+	  
+	  amanda_i =  GetFileAttributesA(
+	       "amanda_meu_amor.bin.ava");
+
+	  if(INVALID_FILE_ATTRIBUTES != amanda_i)
+	  {
+	       printf("Attribute %ld %016lx 0x%lx\n", amanda_i, amanda_i, amanda_i);
+
+/*
+ *
+ * printf("FILE_ATTRIBUTE_NORMAL %d %016x 0x%x\n", FILE_ATTRIBUTE_NORMAL, FILE_ATTRIBUTE_NORMAL, FILE_ATTRIBUTE_NORMAL);
+ *
+ */
+	       
+	  }
+	  else
+	  {
+	       printf("Error, your idiot\n");
+	  }
+	    	  
+     }
+
+     return 0;
+}
