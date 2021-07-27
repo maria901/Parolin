@@ -1,0 +1,12 @@
+DESCRIPTION "BinaryWork Corp. development version amanda_0xbadc0da - April 2021 ;-)"
+EXPORTS
+
+
+
+   get_tar_info_p                                    @17
+   libarchive_close_p                                @27                 
+   libarchive_create_archive_init_p                  @51
+   libarchive_extract_entries_p                      @60
+   libarchive_list_entries_p                         @81
+   libarchive_process_p                              @98
+   set_progress_p                                    @99
