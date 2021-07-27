@@ -636,7 +636,11 @@ fi
 if [ "lzopclean" == "$1" ] 
 then
 
-	cd /bw_tmp/lzma/
+	cd /bw_tmp/lzop/
+
+	rm *.o
+	
+	cd /bw_tmp/lzop_b/
 
 	rm *.o
 
@@ -644,5 +648,40 @@ exit
 
 fi
 
+
+if [ "lzop232" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lzop2_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "lzop264" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lzop2_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "lzop2clean" == "$1" ] 
+then
+
+	cd /bw_tmp/lzop2/
+
+	rm *.o
+	
+exit
+
+fi
 
 echo "Erro amor..."

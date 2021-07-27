@@ -236,6 +236,16 @@ lzop_lib__64:
 lzop_dll__64:
 	(cd /tar/lzop/lzop-1.04 && make_amanda_kp ricardo_64   -f 'makefile')
 
+
+#########################################################################################################################################
+## section lzop2
+
+lzop2_32:
+	(cd /tar/lzop2/new_mode && make_amanda_kp amanda_32      -f 'makefile')
+
+lzop2_64:
+	(cd /tar/lzop2/new_mode && make_amanda_kp ricardo_64     -f 'makefile')
+	
 #########################################################################################################################################
 clean:
 	(shopt -s nocaseglob ; rm *.o *.dll)
