@@ -457,4 +457,41 @@ exit
 fi
 
 
+
+if [ "lz432" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lz4_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "lz464" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lz4_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "lz464" == "$1" ] 
+then
+
+	cd /bw_tmp/lz4/
+
+	rm *.o
+
+exit
+
+fi
+
+
 echo "Erro amor..."

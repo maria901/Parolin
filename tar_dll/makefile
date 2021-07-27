@@ -185,5 +185,14 @@ make_amanda_x64_clean:
 	(cd /tar/libarchive/libarchive-3.5.1/amanda_tests && make_amanda_kp make_amanda_x64_clean     -f 'makefile')
 
 #########################################################################################################################################
+## section lz4
+
+lz4_32:
+	(cd /tar/lz4/lz4_v1.9.3/lib && make_amanda_kp amanda_32  -f 'makefile')
+		
+lz4_64:
+	(cd /tar/lz4/lz4_v1.9.3/lib && make_amanda_kp ricardo_64 -f 'makefile')
+	
+#########################################################################################################################################
 clean:
 	(shopt -s nocaseglob ; rm *.o *.dll)
