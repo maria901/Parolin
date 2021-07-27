@@ -19,6 +19,7 @@ libarchive/archive_check_magic.lo: libarchive/archive_check_magic.c \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/limits.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdlib_s.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/malloc.h \
+ /usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/stdint.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/stdint.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/stddef.h \
@@ -95,7 +96,6 @@ libarchive/archive_check_magic.lo: libarchive/archive_check_magic.c \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/immintrin.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/mmintrin.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/xmmintrin.h \
- /usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/emmintrin.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/pmmintrin.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/tmmintrin.h \
@@ -288,6 +288,7 @@ libarchive/archive_windows.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/limits.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdlib_s.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/malloc.h:
+/usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/stdint.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/stdint.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/stddef.h:
@@ -364,7 +365,6 @@ libarchive/archive_windows.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/immintrin.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/mmintrin.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/xmmintrin.h:
-/usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/emmintrin.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/pmmintrin.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/tmmintrin.h:

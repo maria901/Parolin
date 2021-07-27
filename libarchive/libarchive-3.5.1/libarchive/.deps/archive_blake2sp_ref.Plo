@@ -13,6 +13,8 @@ libarchive/archive_blake2sp_ref.lo: libarchive/archive_blake2sp_ref.c \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/crtdefs.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdlib_s.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/malloc.h \
+ /usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/errno.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/string.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/string_s.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/stdio.h \
@@ -40,6 +42,8 @@ libarchive/archive_blake2sp_ref.lo: libarchive/archive_blake2sp_ref.c \
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/crtdefs.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdlib_s.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/malloc.h:
+/usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/errno.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/string.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/string_s.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/stdio.h:

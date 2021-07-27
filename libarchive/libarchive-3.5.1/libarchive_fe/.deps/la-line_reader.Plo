@@ -21,6 +21,7 @@ libarchive_fe/la-line_reader.lo: libarchive_fe/line_reader.c \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/limits.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdlib_s.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/malloc.h \
+ /usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/string.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/string_s.h \
  libarchive_fe/err.h libarchive_fe/line_reader.h
@@ -47,6 +48,7 @@ config.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/limits.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdlib_s.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/malloc.h:
+/usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/string.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/string_s.h:
 libarchive_fe/err.h:

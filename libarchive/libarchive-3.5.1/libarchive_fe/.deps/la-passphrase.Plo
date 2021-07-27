@@ -16,6 +16,7 @@ libarchive_fe/la-passphrase.lo: libarchive_fe/passphrase.c \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/limits.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdlib_s.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/malloc.h \
+ /usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/unistd.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/io.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/string.h \
@@ -87,7 +88,6 @@ libarchive_fe/la-passphrase.lo: libarchive_fe/passphrase.c \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/immintrin.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/mmintrin.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/xmmintrin.h \
- /usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/emmintrin.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/pmmintrin.h \
  /usr/lib/gcc/x86_64-w64-mingw32/11/include/tmmintrin.h \
@@ -274,6 +274,7 @@ config.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/limits.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdlib_s.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/malloc.h:
+/usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/unistd.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/io.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/string.h:
@@ -346,7 +347,6 @@ libarchive_fe/passphrase.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/immintrin.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/mmintrin.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/xmmintrin.h:
-/usr/lib/gcc/x86_64-w64-mingw32/11/include/mm_malloc.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/emmintrin.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/pmmintrin.h:
 /usr/lib/gcc/x86_64-w64-mingw32/11/include/tmmintrin.h:

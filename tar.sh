@@ -1,6 +1,30 @@
 #compilando...
 
 
+if [ "compile32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe amanda_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "compile64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe ricardo_64 -f makefile
+
+exit
+
+fi
+
+
 if [ "7zip32" == "$1" ] 
 then
 
@@ -349,7 +373,6 @@ exit
 fi
 
 
-
 if [ "libarchiveupdatesources_at_x86" == "$1" ] 
 then
 
@@ -361,6 +384,53 @@ exit
 
 fi
 
+
+if [ "make_libarchive_x86" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe make_amanda_x86 -f makefile
+
+exit
+
+fi
+
+
+if [ "make_libarchive_x86_clean" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe make_amanda_x86_clean -f makefile
+
+exit
+
+fi
+
+
+if [ "make_libarchive_x64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe make_amanda_x64 -f makefile
+
+exit
+
+fi
+
+
+if [ "make_libarchive_x64_clean" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe make_amanda_x64_clean -f makefile
+
+exit
+
+fi
 
 if [ "libarchiveclean" == "$1" ] 
 then

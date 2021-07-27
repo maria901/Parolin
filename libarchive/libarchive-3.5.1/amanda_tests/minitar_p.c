@@ -2247,11 +2247,11 @@ int __stdcall libarchive_extract_entries_p(char *filename_utf_8_p, char * passwo
 static int
 getpor_10000_int64_t_ar(int64_t avamax, int64_t fatia)
 {
-	double maxa;
-	double fatiaa;
-	maxa = (double)max;
-	fatiaa = (double)fatia;
-	if (max == 0 || fatia == 0)
+	double maxa                  ;
+	double fatiaa                ;
+	maxa = (double) avamax       ;
+	fatiaa = (double) fatia      ;
+	if (avamax == 0 || fatia == 0)
 	{
 		return 0;
 	}
