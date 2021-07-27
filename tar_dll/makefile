@@ -6,70 +6,72 @@ CARDO__FLAGS__ =              -D_FIXED_________ -O3
 JULIETFLAGS__  =              -D_FIXED________  -O3
 RIC            =  
 
-amanda_32: be_xml_32aakp.o tar_32aakp.o val_create_32arp.o pedro_32aakp.o val_extract_32arp.o
+amanda_32: /bw_tmp/parolin/be_xml_32aakp.o /bw_tmp/parolin/tar_32aakp.o /bw_tmp/parolin/val_create_32arp.o /bw_tmp/parolin/pedro_32aakp.o /bw_tmp/parolin/val_extract_32arp.o
+
+	-rm *.DLL *.dll *.ric *~ *.exe *.EXE *.o *.a
 
 	@/bw_tmp/amandaricardo_mvbuild26_33.exe amanda_file_counter_32.ini versio_n.ama.rc version_ricardo_mislaine_final_2_.rc aline_definitive_header_2_.h "32 bits" ar_tar_process.DLL increase
 
 	@i686-w64-mingw32-windres.exe -o /bw_tmp/parolin/amanda_ver32.o -O coff version_ricardo_mislaine_final_2_.rc
 
-	i686-w64-mingw32-gcc.exe $(CARDO__FLAGS__) -o /bin/tar/x86/ar_tar_process.DLL -mdll /bw_tmp/parolin/amanda_ver32.o pedro_32aakp.o be_xml_32aakp.o def.def tar_32aakp.o val_create_32arp.o val_extract_32arp.o -Wl,-enable-stdcall-fixup -lpsapi
+	i686-w64-mingw32-gcc.exe $(CARDO__FLAGS__) -o /bin/tar/x86/ar_tar_process.DLL -mdll /bw_tmp/parolin/amanda_ver32.o /bw_tmp/parolin/pedro_32aakp.o /bw_tmp/parolin/be_xml_32aakp.o def.def /bw_tmp/parolin/tar_32aakp.o /bw_tmp/parolin/val_create_32arp.o /bw_tmp/parolin/val_extract_32arp.o -Wl,-enable-stdcall-fixup -lpsapi
 
-tar_32aakp_z.o: sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c fnmatch_arp.c tar_1_33.c compression_support_ar.c update_arp_k.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c libarchive_update_i.c enum_files_and_folders_1.c
+/bw_tmp/parolin/tar_32aakp_z.o: sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c fnmatch_arp.c tar_1_33.c compression_support_ar.c update_arp_k.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c libarchive_update_i.c enum_files_and_folders_1.c
 
-	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o $@ tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS_z)
+	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/tar_32aakp_z.o tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS_z)
 
-tar_32aakp.o: sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c fnmatch_arp.c tar_1_33.c compression_support_ar.c update_arp_k.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c libarchive_update_i.c enum_files_and_folders_1.c
+/bw_tmp/parolin/tar_32aakp.o: sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c fnmatch_arp.c tar_1_33.c compression_support_ar.c update_arp_k.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c libarchive_update_i.c enum_files_and_folders_1.c
 
-	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o $@ tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS__)
+	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/tar_32aakp.o tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS__)
 
-val_create_32arp.o: val_create.c arp.h arp_2.h
-	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o val_create_32arp.o val_create.c $(AMANDA_FLAGS__)
+/bw_tmp/parolin/val_create_32arp.o: val_create.c arp.h arp_2.h
+	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/val_create_32arp.o val_create.c $(AMANDA_FLAGS__)
 
-val_extract_32arp.o: val_extract.c arp.h arp_2.h
+/bw_tmp/parolin/val_extract_32arp.o: val_extract.c arp.h arp_2.h
 
-	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o val_extract_32arp.o val_extract.c $(AMANDA_FLAGS__)
+	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/val_extract_32arp.o val_extract.c $(AMANDA_FLAGS__)
 
-be_xml_32aakp.o: be_xml.c
-	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o $@ $< $(AMANDA_FLAGS__)
+/bw_tmp/parolin/be_xml_32aakp.o: be_xml.c
+	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/be_xml_32aakp.o $< $(AMANDA_FLAGS__)
 
-pedro_32aakp.o: pedro.c
-	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o $@ $< $(AMANDA_FLAGS__)
+/bw_tmp/parolin/pedro_32aakp.o: pedro.c
+	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/pedro_32aakp.o $< $(AMANDA_FLAGS__)
 
 #########################64 bits DLL
 
-ricardo_64: tar_64aakp.o pedro_64aakp.o val_create_64arp.o val_extract_64arp.o be_xml_64aakp.o
+ricardo_64: /bw_tmp/parolin/tar_64aakp.o /bw_tmp/parolin/pedro_64aakp.o /bw_tmp/parolin/val_create_64arp.o /bw_tmp/parolin/val_extract_64arp.o /bw_tmp/parolin/be_xml_64aakp.o
 
 	@/bw_tmp/amandaricardo_mvbuild26_33.exe amanda_file_counter_32.ini versio_n.ama.rc version_ricardo_mislaine_final_2_.rc aline_definitive_header_2_.h "64 bits" ar_tar_process.DLL increase
 
 	@x86_64-w64-mingw32-windres.exe -o /bw_tmp/parolin/amanda_ver64.o -O coff version_ricardo_mislaine_final_2_.rc
 
-	x86_64-w64-mingw32-gcc.exe $(JULIETFLAGS__) -o /bin/tar/x64/ar_tar_process.DLL -mdll /bw_tmp/parolin/amanda_ver64.o pedro_64aakp.o be_xml_64aakp.o def.def tar_64aakp.o val_create_64arp.o val_extract_64arp.o -Wl,-enable-stdcall-fixup -lpsapi
+	x86_64-w64-mingw32-gcc.exe $(JULIETFLAGS__) -o /bin/tar/x64/ar_tar_process.DLL -mdll /bw_tmp/parolin/amanda_ver64.o /bw_tmp/parolin/pedro_64aakp.o /bw_tmp/parolin/be_xml_64aakp.o def.def /bw_tmp/parolin/tar_64aakp.o /bw_tmp/parolin/val_create_64arp.o /bw_tmp/parolin/val_extract_64arp.o -Wl,-enable-stdcall-fixup -lpsapi
 
 	$(RIC)
 
-tar_64aakp.o: sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c fnmatch_arp.c tar_1_33.c compression_support_ar.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c libarchive_update_i.c enum_files_and_folders_1.c
+/bw_tmp/parolin/tar_64aakp.o: sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c fnmatch_arp.c tar_1_33.c compression_support_ar.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c libarchive_update_i.c enum_files_and_folders_1.c
 
-	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o tar_64aakp.o tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS__)
-
-	$(RIC)
-
-val_create_64arp.o: val_create.c arp.h arp_2.h
-	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o val_create_64arp.o val_create.c $(AMANDA_FLAGS__)
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/tar_64aakp.o tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS__)
 
 	$(RIC)
 
-val_extract_64arp.o: val_extract.c arp.h arp_2.h
-	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o val_extract_64arp.o val_extract.c $(AMANDA_FLAGS__)
+/bw_tmp/parolin/val_create_64arp.o: val_create.c arp.h arp_2.h
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/val_create_64arp.o val_create.c $(AMANDA_FLAGS__)
+
+	$(RIC)
+
+/bw_tmp/parolin/val_extract_64arp.o: val_extract.c arp.h arp_2.h
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/val_extract_64arp.o val_extract.c $(AMANDA_FLAGS__)
 #jhjhj
 	$(RIC)
 
-be_xml_64aakp.o: be_xml.c
-	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o be_xml_64aakp.o be_xml.c $(AMANDA_FLAGS__)
+/bw_tmp/parolin/be_xml_64aakp.o: be_xml.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/be_xml_64aakp.o be_xml.c $(AMANDA_FLAGS__)
 
 	$(RIC)
 
-pedro_64aakp.o: pedro.c
-	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o pedro_64aakp.o pedro.c $(AMANDA_FLAGS__)
+/bw_tmp/parolin/pedro_64aakp.o: pedro.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/pedro_64aakp.o pedro.c $(AMANDA_FLAGS__)
 
 	$(RIC_amandinha)
 
