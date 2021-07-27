@@ -25,6 +25,18 @@ exit
 fi
 
 
+if [ "updatec#" == "$1" ] 
+then
+
+cd '/tar/c#_x86/tar_sample_ar/tar_sample_ar/'
+
+cp --preserve=timestamps *.cs *.resx '/tar/c#_x64/tar_sample_ar_x64/tar_sample_ar'
+
+exit
+
+fi
+
+
 if [ "7zip32" == "$1" ] 
 then
 

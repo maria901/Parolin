@@ -14,7 +14,7 @@ amanda_32: /bw_tmp/parolin/be_xml_32aakp.o /bw_tmp/parolin/tar_32aakp.o /bw_tmp/
 
 	@i686-w64-mingw32-windres.exe -o /bw_tmp/parolin/amanda_ver32.o -O coff version_ricardo_mislaine_final_2_.rc
 
-	i686-w64-mingw32-gcc.exe $(CARDO__FLAGS__) -o /bin/tar/x86/ar_tar_process.DLL -mdll /bw_tmp/parolin/amanda_ver32.o /bw_tmp/parolin/pedro_32aakp.o /bw_tmp/parolin/be_xml_32aakp.o def.def /bw_tmp/parolin/tar_32aakp.o /bw_tmp/parolin/val_create_32arp.o /bw_tmp/parolin/val_extract_32arp.o -Wl,-enable-stdcall-fixup -lpsapi
+	i686-w64-mingw32-gcc.exe $(CARDO__FLAGS__) -o /bin/tar/x86/ar_tar_process.DLL -mdll version_amanda.c /bw_tmp/parolin/amanda_ver32.o /bw_tmp/parolin/pedro_32aakp.o /bw_tmp/parolin/be_xml_32aakp.o def.def /bw_tmp/parolin/tar_32aakp.o /bw_tmp/parolin/val_create_32arp.o /bw_tmp/parolin/val_extract_32arp.o -Wl,-enable-stdcall-fixup -lpsapi
 
 /bw_tmp/parolin/tar_32aakp_z.o: sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c fnmatch_arp.c tar_1_33.c compression_support_ar.c update_arp_k.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c libarchive_update_i.c enum_files_and_folders_1.c
 
@@ -45,7 +45,7 @@ ricardo_64: /bw_tmp/parolin/tar_64aakp.o /bw_tmp/parolin/pedro_64aakp.o /bw_tmp/
 
 	@x86_64-w64-mingw32-windres.exe -o /bw_tmp/parolin/amanda_ver64.o -O coff version_ricardo_mislaine_final_2_.rc
 
-	x86_64-w64-mingw32-gcc.exe $(JULIETFLAGS__) -o /bin/tar/x64/ar_tar_process.DLL -mdll /bw_tmp/parolin/amanda_ver64.o /bw_tmp/parolin/pedro_64aakp.o /bw_tmp/parolin/be_xml_64aakp.o def.def /bw_tmp/parolin/tar_64aakp.o /bw_tmp/parolin/val_create_64arp.o /bw_tmp/parolin/val_extract_64arp.o -Wl,-enable-stdcall-fixup -lpsapi
+	x86_64-w64-mingw32-gcc.exe $(JULIETFLAGS__) -o /bin/tar/x64/ar_tar_process.DLL -mdll version_amanda.c /bw_tmp/parolin/amanda_ver64.o /bw_tmp/parolin/pedro_64aakp.o /bw_tmp/parolin/be_xml_64aakp.o def.def /bw_tmp/parolin/tar_64aakp.o /bw_tmp/parolin/val_create_64arp.o /bw_tmp/parolin/val_extract_64arp.o -Wl,-enable-stdcall-fixup -lpsapi
 
 	$(RIC)
 

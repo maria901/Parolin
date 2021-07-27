@@ -1,34 +1,32 @@
 ﻿
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  *                                                                                *
-  *      Licensa de Cópia (C) <202*>  <Corporação do Trabalho Binário>             *
-  *                                                                                *
-  *   Este programa é software livre: você pode redistribuir isto e/ou modificar   *
-  *   isto sobre os termos do GNU Licensa Geral Pública como publicado pela        *
-  *   Fundação de Software Livre, tanto a versão 3 da Licensa, ou                  *
-  *   (dependendo da sua opção) qualquer versão posterior.                         *
-  *                                                                                *
-  *   Este programa é distribuído na esperança que isto vai ser útil,              *
-  *   mas SEM QUALQUER GARANTIA; sem até mesmo a implicada garantia de             *
-  *   COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a                 *
-  *   Licensa Geral Pública para mais detalhes.                                    *
-  *                                                                                *
-  *   Você deve ter recebido uma cópia da LICENSA GERAL PUBLICA                    *
-  *       e a GNU Licensa Pública Menor junto com este programa                    *
-  *       Se não, veja <http://www.gnu.org/licenses/>.                             *
-  *                                                                                *
-  *   Suporte: https://arsoftware.net.br/binarywork ____________________           *
-  *   Mirrors: https://locacaodiaria.com.br/corporacaodotrabalhobinario/           *
-  *             http://nomade.sourceforge.net/binarywork/ ______________            *
-  *                                                                                *
-  *       e-mails direto dos felizes programadores:                                *
-  *       MathMan: arsoftware25@gmail.com  ricardo@arsoftware.net.br               *
-  *        Amanda: arsoftware10@gmail.com  amanda@arsoftware.net.br                *
-  *                                                                                *
-  *       contato imediato(para uma resposta muita rápida) WhatsApp                *
-  *       (+55)41 9627 1708 - isto está sempre ligado                              *
-  *                                                                                *
-  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+ /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails direto dos felizes programadores:                                *
+ *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
+ *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *                                                                              *
+ *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
  
 using System;
 using System.Collections.Generic;
@@ -61,7 +59,8 @@ namespace tar_sample_ar
 		}
 		protected bool already_ar = false;
 		int ret_arp;
-						
+		StringBuilder ver = new StringBuilder(300);
+		
 		void MainFormLoad(object sender, EventArgs e)
 		{
 			
@@ -75,13 +74,15 @@ namespace tar_sample_ar
 			}
 			this.Icon = util_ar.pedro_get_icon();
 			
+			util_ar.ControlName(ver);
+			
 			if (IntPtr.Size == 4)
 			{
-				this.Text = "Tar sample project - 32 bits";
+				this.Text = "Tar sample project - " + ver.ToString();
 			}
 			else if (IntPtr.Size == 8)
 			{
-				this.Text = "Tar sample project - 64 bits";
+				this.Text = "Tar sample project - " + ver.ToString();
 			}
 			else
 			{
