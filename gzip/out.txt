@@ -1,9 +1,0 @@
-windres -O coff -o versio_n.o versio_n.rc
-gcc -O3 -mdll -DNPRINTF  dprintf.c def.def dll.c \
-\
-zlib.c \
-longfile.c md5.c \
-zlib.a \
-versio_n.o \
-folder.c -o rspgzip200.dll
-makefile:2: recipe for target 'gcc' failed
