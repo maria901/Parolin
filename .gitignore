@@ -4,6 +4,7 @@
 *.lo
 *.la
 *.ric
+*~
 
 # Libraries
 *.lib
