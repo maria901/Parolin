@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 4,6,9,281
- PRODUCTVERSION 4,6,9,281
+ FILEVERSION 4,7,3,285
+ PRODUCTVERSION 4,7,3,285
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -46,17 +46,17 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "BinayrWork Corp. https://arsoftware.net.br/binarywork/ \0"
-            VALUE "CompanyName", "BinayrWork Corp. https://arsoftware.net.br/binarywork/ \0"
+            VALUE "Comments", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
+            VALUE "CompanyName", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "FileDescription", "BW LZ5 DLL \0"
-            VALUE "FileVersion", "4, 6, 9, 281 \0"
+            VALUE "FileVersion", "4, 7, 3, 285 \0"
             VALUE "InternalName", "rsp_lz5_64.DLL \0"
-            VALUE "LegalCopyright", "Copyright © 2020 BW \0"
-            VALUE "LegalTrademarks", "https://arsoftware.net.br/binarywork/ \0"
+            VALUE "LegalCopyright", "Copyright © 2021 BW \0"
+            VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
             VALUE "OriginalFilename", "rsp_lz5_64.DLL \0"
-            VALUE "PrivateBuild", "281 \0"
-            VALUE "ProductName", "BW LZ5 DLL 4, 6, 9, 281 63.5 bits ;-) \0"
-            VALUE "ProductVersion", "4, 6, 9, 281 \0"
+            VALUE "PrivateBuild", "285 \0"
+            VALUE "ProductName", "BW LZ5 DLL 4, 7, 3, 285 63.5 bits ;-) \0"
+            VALUE "ProductVersion", "4, 7, 3, 285 \0"
             VALUE "SpecialBuild", "amandaricardo_koci\0"
         END
     END

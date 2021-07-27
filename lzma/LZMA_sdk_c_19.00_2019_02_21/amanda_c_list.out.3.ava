@@ -1,0 +1,129 @@
+7zAlloc_64k.o                       :                                                     7zAlloc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o 7zAlloc_64k.o                        $(AMANDA_FLAGS__)                  7zAlloc.c
+7zArcIn_64k.o                       :                                                     7zArcIn.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o 7zArcIn_64k.o                        $(AMANDA_FLAGS__)                  7zArcIn.c
+7zBuf_64k.o                         :                                                       7zBuf.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o 7zBuf_64k.o                          $(AMANDA_FLAGS__)                    7zBuf.c
+7zBuf2_64k.o                        :                                                      7zBuf2.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o 7zBuf2_64k.o                         $(AMANDA_FLAGS__)                   7zBuf2.c
+7zCrc_64k.o                         :                                                       7zCrc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o 7zCrc_64k.o                          $(AMANDA_FLAGS__)                    7zCrc.c
+7zCrcOpt_64k.o                      :                                                    7zCrcOpt.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o 7zCrcOpt_64k.o                       $(AMANDA_FLAGS__)                 7zCrcOpt.c
+7zDec_64k.o                         :                                                       7zDec.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o 7zDec_64k.o                          $(AMANDA_FLAGS__)                    7zDec.c
+7zFile_64k.o                        :                                                      7zFile.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o 7zFile_64k.o                         $(AMANDA_FLAGS__)                   7zFile.c
+7zStream_64k.o                      :                                                    7zStream.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o 7zStream_64k.o                       $(AMANDA_FLAGS__)                 7zStream.c
+Aes_64k.o                           :                                                         Aes.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Aes_64k.o                            $(AMANDA_FLAGS__)                      Aes.c
+AesOpt_64k.o                        :                                                      AesOpt.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o AesOpt_64k.o                         $(AMANDA_FLAGS__)                   AesOpt.c
+Alloc_64k.o                         :                                                       Alloc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Alloc_64k.o                          $(AMANDA_FLAGS__)                    Alloc.c
+Bcj2_64k.o                          :                                                        Bcj2.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Bcj2_64k.o                           $(AMANDA_FLAGS__)                     Bcj2.c
+Bcj2Enc_64k.o                       :                                                     Bcj2Enc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Bcj2Enc_64k.o                        $(AMANDA_FLAGS__)                  Bcj2Enc.c
+Bra_64k.o                           :                                                         Bra.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Bra_64k.o                            $(AMANDA_FLAGS__)                      Bra.c
+Bra86_64k.o                         :                                                       Bra86.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Bra86_64k.o                          $(AMANDA_FLAGS__)                    Bra86.c
+BraIA64_64k.o                       :                                                     BraIA64.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o BraIA64_64k.o                        $(AMANDA_FLAGS__)                  BraIA64.c
+CpuArch_64k.o                       :                                                     CpuArch.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o CpuArch_64k.o                        $(AMANDA_FLAGS__)                  CpuArch.c
+Delta_64k.o                         :                                                       Delta.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Delta_64k.o                          $(AMANDA_FLAGS__)                    Delta.c
+DllSecur_64k.o                      :                                                    DllSecur.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o DllSecur_64k.o                       $(AMANDA_FLAGS__)                 DllSecur.c
+LzFind_64k.o                        :                                                      LzFind.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o LzFind_64k.o                         $(AMANDA_FLAGS__)                   LzFind.c
+LzFindMt_64k.o                      :                                                    LzFindMt.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o LzFindMt_64k.o                       $(AMANDA_FLAGS__)                 LzFindMt.c
+Lzma2Dec_64k.o                      :                                                    Lzma2Dec.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Lzma2Dec_64k.o                       $(AMANDA_FLAGS__)                 Lzma2Dec.c
+Lzma2DecMt_64k.o                    :                                                  Lzma2DecMt.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Lzma2DecMt_64k.o                     $(AMANDA_FLAGS__)               Lzma2DecMt.c
+Lzma2Enc_64k.o                      :                                                    Lzma2Enc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Lzma2Enc_64k.o                       $(AMANDA_FLAGS__)                 Lzma2Enc.c
+Lzma86Dec_64k.o                     :                                                   Lzma86Dec.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Lzma86Dec_64k.o                      $(AMANDA_FLAGS__)                Lzma86Dec.c
+Lzma86Enc_64k.o                     :                                                   Lzma86Enc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Lzma86Enc_64k.o                      $(AMANDA_FLAGS__)                Lzma86Enc.c
+LzmaDec_64k.o                       :                                                     LzmaDec.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o LzmaDec_64k.o                        $(AMANDA_FLAGS__)                  LzmaDec.c
+LzmaEnc_64k.o                       :                                                     LzmaEnc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o LzmaEnc_64k.o                        $(AMANDA_FLAGS__)                  LzmaEnc.c
+LzmaLib_64k.o                       :                                                     LzmaLib.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o LzmaLib_64k.o                        $(AMANDA_FLAGS__)                  LzmaLib.c
+MtCoder_64k.o                       :                                                     MtCoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o MtCoder_64k.o                        $(AMANDA_FLAGS__)                  MtCoder.c
+MtDec_64k.o                         :                                                       MtDec.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o MtDec_64k.o                          $(AMANDA_FLAGS__)                    MtDec.c
+Ppmd7_64k.o                         :                                                       Ppmd7.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Ppmd7_64k.o                          $(AMANDA_FLAGS__)                    Ppmd7.c
+Ppmd7Dec_64k.o                      :                                                    Ppmd7Dec.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Ppmd7Dec_64k.o                       $(AMANDA_FLAGS__)                 Ppmd7Dec.c
+Ppmd7Enc_64k.o                      :                                                    Ppmd7Enc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Ppmd7Enc_64k.o                       $(AMANDA_FLAGS__)                 Ppmd7Enc.c
+Sha256_64k.o                        :                                                      Sha256.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Sha256_64k.o                         $(AMANDA_FLAGS__)                   Sha256.c
+Sort_64k.o                          :                                                        Sort.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Sort_64k.o                           $(AMANDA_FLAGS__)                     Sort.c
+Threads_64k.o                       :                                                     Threads.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Threads_64k.o                        $(AMANDA_FLAGS__)                  Threads.c
+Xz_64k.o                            :                                                          Xz.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o Xz_64k.o                             $(AMANDA_FLAGS__)                       Xz.c
+XzCrc64_64k.o                       :                                                     XzCrc64.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o XzCrc64_64k.o                        $(AMANDA_FLAGS__)                  XzCrc64.c
+XzCrc64Opt_64k.o                    :                                                  XzCrc64Opt.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o XzCrc64Opt_64k.o                     $(AMANDA_FLAGS__)               XzCrc64Opt.c
+XzDec_64k.o                         :                                                       XzDec.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o XzDec_64k.o                          $(AMANDA_FLAGS__)                    XzDec.c
+XzEnc_64k.o                         :                                                       XzEnc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o XzEnc_64k.o                          $(AMANDA_FLAGS__)                    XzEnc.c

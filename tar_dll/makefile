@@ -192,7 +192,44 @@ lz4_32:
 		
 lz4_64:
 	(cd /tar/lz4/lz4_v1.9.3/lib && make_amanda_kp ricardo_64 -f 'makefile')
+
+#########################################################################################################################################
+## section lz5
+
+lz5_32:
+	(cd /tar/lz5 && make_amanda_kp amanda_32  -f 'makefile')
+		
+lz5_64:
+	(cd /tar/lz5 && make_amanda_kp ricardo_64 -f 'makefile')
 	
+#########################################################################################################################################
+## section lzip
+
+lzip_32:
+	(cd /tar/lzip/lzlib-1.12 && make_amanda_kp amanda_32  -f 'makefile')
+
+lzip_64:
+	(cd /tar/lzip/lzlib-1.12 && make_amanda_kp ricardo_64 -f 'makefile')
+
+
+#########################################################################################################################################
+## section lzma
+
+lzma_32:
+	(cd /tar/lzma/LZMA_sdk_c_19.00_2019_02_21 && make_amanda_kp amanda_32  -f 'makefile')
+
+lzma_64:
+	(cd /tar/lzma/LZMA_sdk_c_19.00_2019_02_21 && make_amanda_kp ricardo_64 -f 'makefile')
+	
+#########################################################################################################################################
+## section lzop
+
+lzop_lib__32:
+	(cd /tar/lzop/lzo-2.10 && make_amanda_kp amanda_32  -f 'makefile')
+
+lzma_64:
+	(cd /tar/lzma/LZMA_sdk_c_19.00_2019_02_21 && make_amanda_kp ricardo_64 -f 'makefile')
+
 #########################################################################################################################################
 clean:
 	(shopt -s nocaseglob ; rm *.o *.dll)

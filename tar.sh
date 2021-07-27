@@ -457,7 +457,6 @@ exit
 fi
 
 
-
 if [ "lz432" == "$1" ] 
 then
 
@@ -482,10 +481,158 @@ exit
 fi
 
 
-if [ "lz464" == "$1" ] 
+if [ "lz4clean" == "$1" ] 
 then
 
 	cd /bw_tmp/lz4/
+
+	rm *.o
+
+exit
+
+fi
+
+
+if [ "lz532" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lz5_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "lz564" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lz5_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "lz5clean" == "$1" ] 
+then
+
+	cd /bw_tmp/lz5/
+
+	rm *.o *.exe
+
+exit
+
+fi
+
+
+if [ "lzip32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lzip_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "lzip64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lzip_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "lzipclean" == "$1" ] 
+then
+
+	cd /bw_tmp/lzip/
+
+	rm *.o
+
+exit
+
+fi
+
+
+if [ "lzma32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lzma_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "lzma64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lzma_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "lzmaclean" == "$1" ] 
+then
+
+	cd /bw_tmp/lzma/
+
+	rm *.o
+
+exit
+
+fi
+
+
+if [ "lzop32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lzop_lib__32 -f makefile
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lzop_dll__32 -f makefile
+
+exit
+
+fi
+
+
+if [ "lzma64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lzma_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "lzmaclean" == "$1" ] 
+then
+
+	cd /bw_tmp/lzma/
 
 	rm *.o
 
