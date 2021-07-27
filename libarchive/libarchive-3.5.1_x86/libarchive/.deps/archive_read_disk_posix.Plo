@@ -1,2 +1,0 @@
-libarchive/archive_read_disk_posix.lo: \
- libarchive/archive_read_disk_posix.c
