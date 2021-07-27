@@ -617,19 +617,23 @@ exit
 fi
 
 
-if [ "lzma64" == "$1" ] 
+if [ "lzop64" == "$1" ] 
 then
 
 cd /tar/tar_dll
 
-make_amanda_kp.exe lzma_64 -f makefile
+make_amanda_kp.exe lzop_lib__64 -f makefile
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe lzop_dll__64 -f makefile
 
 exit
 
 fi
 
 
-if [ "lzmaclean" == "$1" ] 
+if [ "lzopclean" == "$1" ] 
 then
 
 	cd /bw_tmp/lzma/

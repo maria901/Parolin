@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION $_major_,$_minor_,$_revision_,$_build_
- PRODUCTVERSION $_major_,$_minor_,$_revision_,$_build_
+ FILEVERSION 1,0,4,351
+ PRODUCTVERSION 1,0,4,351
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -48,15 +48,15 @@ BEGIN
         BEGIN
             VALUE "Comments", "BinaryWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "CompanyName", "BinaryWork Corp. https://nomade.sourceforge.io/ \0"
-            VALUE "FileDescription", "Bucaneiro Engineering Gzip2 DLL \0"
-            VALUE "FileVersion", "$_major_, $_minor_, $_revision_, $_build_ \0"
-            VALUE "InternalName", "$_filename_ \0"
-            VALUE "LegalCopyright", "CopyLeft © $_ano_meu_amor..._ BW \0"
+            VALUE "FileDescription", "BW Lzop DLL \0"
+            VALUE "FileVersion", "1, 0, 4, 351 \0"
+            VALUE "InternalName", "BE_lzop_arp_32.DLL \0"
+            VALUE "LegalCopyright", "CopyLeft © 2021 BW \0"
             VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
-            VALUE "OriginalFilename", "$_filename_ \0"
-            VALUE "PrivateBuild", "$_build_ \0"
-            VALUE "ProductName", "Bucaneiro Engineering Gzip2 DLL $_major_, $_minor_, $_revision_, $_build_ $_number_of_bits_ \0"
-            VALUE "ProductVersion", "$_major_, $_minor_, $_revision_, $_build_ \0"
+            VALUE "OriginalFilename", "BE_lzop_arp_32.DLL \0"
+            VALUE "PrivateBuild", "351 \0"
+            VALUE "ProductName", "BW Lzop DLL 1, 0, 4, 351 32 bits \0"
+            VALUE "ProductVersion", "1, 0, 4, 351 \0"
             VALUE "SpecialBuild", "amandaricardo_koci\0"
         END
     END

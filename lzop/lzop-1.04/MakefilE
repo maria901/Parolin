@@ -1,729 +1,139 @@
 #May 2021 amanda & MathMan
 
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror
-FELINE_FLAGS__=-Wno-unused-function -I ./include
-JULIET_FLAGS  =
-
-AMANDA_SIZE__ =                                    62
-
-amanda_32: src/c_ansic_32aakp_rspk.o               \
-	src/c_ansim_32aakp_rspk.o                  \
-	src/c_init_32aakp_rspk.o                   \
-	src/c_none_32aakp_rspk.o                   \
-	src/c_screen_32aakp_rspk.o                 \
-	src/compress_32aakp_rspk.o                 \
-	src/djgpp2_32aakp_rspk.o                   \
-	src/filter_32aakp_rspk.o                   \
-	src/frames_32aakp_rspk.o                   \
-	src/help_32aakp_rspk.o                     \
-	src/lzop_32aakp_rspk.o                     \
-	src/mblock_32aakp_rspk.o                   \
-	src/p_lzo_32aakp_rspk.o                    \
-	src/s_curses_32aakp_rspk.o                 \
-	src/s_djgpp2_32aakp_rspk.o                 \
-	src/s_object_32aakp_rspk.o                 \
-	src/s_vcsa_32aakp_rspk.o                   \
-	src/util_32aakp_rspk.o                     \
-	pedro_32aakp_rspk.o
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe read_i             \
-	feline_gcc_version_x86.ric                 \
-	src/c_ansic_32aakp_rspk.o                  \
-	src/c_ansim_32aakp_rspk.o                  \
-	src/c_init_32aakp_rspk.o                   \
-	src/c_none_32aakp_rspk.o                   \
-	src/c_screen_32aakp_rspk.o                 \
-	src/compress_32aakp_rspk.o                 \
-	src/djgpp2_32aakp_rspk.o                   \
-	src/filter_32aakp_rspk.o                   \
-	src/frames_32aakp_rspk.o                   \
-	src/help_32aakp_rspk.o                     \
-	src/lzop_32aakp_rspk.o                     \
-	src/mblock_32aakp_rspk.o                   \
-	src/p_lzo_32aakp_rspk.o                    \
-	src/s_curses_32aakp_rspk.o                 \
-	src/s_djgpp2_32aakp_rspk.o                 \
-	src/s_object_32aakp_rspk.o                 \
-	src/s_vcsa_32aakp_rspk.o                   \
-	src/util_32aakp_rspk.o                     \
-	pedro_32aakp_rspk.o                        \
-	liblzo_32aakp_rspk.a
-
-	@i686-w64-mingw32-gcc.exe -O3 -mdll -o     \
-	BE_lzop_arp_32.DLL                         \
-	src/c_ansic_32aakp_rspk.o                  \
-	src/c_ansim_32aakp_rspk.o                  \
-	src/c_init_32aakp_rspk.o                   \
-	src/c_none_32aakp_rspk.o                   \
-	src/c_screen_32aakp_rspk.o                 \
-	src/compress_32aakp_rspk.o                 \
-	src/djgpp2_32aakp_rspk.o                   \
-	src/filter_32aakp_rspk.o                   \
-	src/frames_32aakp_rspk.o                   \
-	src/help_32aakp_rspk.o                     \
-	src/lzop_32aakp_rspk.o                     \
-	src/mblock_32aakp_rspk.o                   \
-	src/p_lzo_32aakp_rspk.o                    \
-	src/s_curses_32aakp_rspk.o                 \
-	src/s_djgpp2_32aakp_rspk.o                 \
-	src/s_object_32aakp_rspk.o                 \
-	src/s_vcsa_32aakp_rspk.o                   \
-	src/util_32aakp_rspk.o                     \
-	pedro_32aakp_rspk.o                        \
-	liblzo_32aakp_rspk.a                       \
-	-Wl,-enable-stdcall-fixup arp.def
-	@cp BE_lzop_arp_32.DLL ../../
-	@cp BE_lzop_arp_32.DLL  'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar/tar_sample_ar/bin/Release/'
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/c_ansic_32aakp_rspk.o: src/c_ansic.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/c_ansic_32aakp_rspk.o src/c_ansic.c    \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/c_ansic_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/c_ansim_32aakp_rspk.o: src/c_ansim.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/c_ansim_32aakp_rspk.o src/c_ansim.c    \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
+AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wextra -Wno-unused-function -I ./include
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/c_ansim_32aakp_rspk.o
+amanda_32: /bw_tmp/lzop_b/c_ansic_32aakp_rspk.o /bw_tmp/lzop_b/c_ansim_32aakp_rspk.o /bw_tmp/lzop_b/c_init_32aakp_rspk.o /bw_tmp/lzop_b/c_none_32aakp_rspk.o /bw_tmp/lzop_b/c_screen_32aakp_rspk.o /bw_tmp/lzop_b/compress_32aakp_rspk.o /bw_tmp/lzop_b/djgpp2_32aakp_rspk.o /bw_tmp/lzop_b/filter_32aakp_rspk.o /bw_tmp/lzop_b/frames_32aakp_rspk.o /bw_tmp/lzop_b/help_32aakp_rspk.o /bw_tmp/lzop_b/lzop_32aakp_rspk.o /bw_tmp/lzop_b/mblock_32aakp_rspk.o /bw_tmp/lzop_b/p_lzo_32aakp_rspk.o /bw_tmp/lzop_b/s_curses_32aakp_rspk.o /bw_tmp/lzop_b/s_djgpp2_32aakp_rspk.o /bw_tmp/lzop_b/s_object_32aakp_rspk.o /bw_tmp/lzop_b/s_vcsa_32aakp_rspk.o /bw_tmp/lzop_b/util_32aakp_rspk.o /bw_tmp/lzop_b/pedro_32aakp_rspk.o
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+#	-rm *.DLL *.dll *.ric *~ *.exe *.EXE *.o *.a
 
-src/c_init_32aakp_rspk.o: src/c_init.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/c_init_32aakp_rspk.o src/c_init.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
+#	(cd src && rm *.DLL *.dll *.ric *~ *.exe *.EXE *.o *.a)
+		
+	@/bw_tmp/amandaricardo_mvbuild26_33.exe amanda_file_counter_32.ini versio_n.ama.rc version_ricardo_mislaine_final_2_.rc aline_definitive_header_2_.h "32 bits" BE_lzop_arp_32.DLL increase
 
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
+	@i686-w64-mingw32-windres.exe -o /bw_tmp/lzop_b/amanda_ver32.o -O coff version_ricardo_mislaine_final_2_.rc
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/c_init_32aakp_rspk.o
+	@i686-w64-mingw32-gcc.exe -O3 -mdll -o /bin/tar/x86/BE_lzop_arp_32.DLL /bw_tmp/lzop_b/amanda_ver32.o /bw_tmp/lzop_b/c_ansic_32aakp_rspk.o /bw_tmp/lzop_b/c_ansim_32aakp_rspk.o /bw_tmp/lzop_b/c_init_32aakp_rspk.o /bw_tmp/lzop_b/c_none_32aakp_rspk.o /bw_tmp/lzop_b/c_screen_32aakp_rspk.o /bw_tmp/lzop_b/compress_32aakp_rspk.o /bw_tmp/lzop_b/djgpp2_32aakp_rspk.o /bw_tmp/lzop_b/filter_32aakp_rspk.o /bw_tmp/lzop_b/frames_32aakp_rspk.o /bw_tmp/lzop_b/help_32aakp_rspk.o /bw_tmp/lzop_b/lzop_32aakp_rspk.o /bw_tmp/lzop_b/mblock_32aakp_rspk.o /bw_tmp/lzop_b/p_lzo_32aakp_rspk.o /bw_tmp/lzop_b/s_curses_32aakp_rspk.o /bw_tmp/lzop_b/s_djgpp2_32aakp_rspk.o /bw_tmp/lzop_b/s_object_32aakp_rspk.o /bw_tmp/lzop_b/s_vcsa_32aakp_rspk.o /bw_tmp/lzop_b/util_32aakp_rspk.o /bw_tmp/lzop_b/pedro_32aakp_rspk.o /bw_tmp/lzop/liblzo_32aakp_rspk.a -Wl,-enable-stdcall-fixup arp.def
+	
+/bw_tmp/lzop_b/c_ansic_32aakp_rspk.o: src/c_ansic.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/c_ansic_32aakp_rspk.o src/c_ansic.c $(AMANDA_FLAGS__)
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/c_ansim_32aakp_rspk.o: src/c_ansim.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/c_ansim_32aakp_rspk.o src/c_ansim.c $(AMANDA_FLAGS__)
 
-src/c_none_32aakp_rspk.o: src/c_none.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/c_none_32aakp_rspk.o src/c_none.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
+/bw_tmp/lzop_b/c_init_32aakp_rspk.o: src/c_init.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/c_init_32aakp_rspk.o src/c_init.c $(AMANDA_FLAGS__)
 
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
+/bw_tmp/lzop_b/c_none_32aakp_rspk.o: src/c_none.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/c_none_32aakp_rspk.o src/c_none.c $(AMANDA_FLAGS__)
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/c_none_32aakp_rspk.o
+/bw_tmp/lzop_b/c_screen_32aakp_rspk.o: src/c_screen.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/c_screen_32aakp_rspk.o src/c_screen.c $(AMANDA_FLAGS__)
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/compress_32aakp_rspk.o: src/compress.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/compress_32aakp_rspk.o src/compress.c $(AMANDA_FLAGS__)
 
-src/c_screen_32aakp_rspk.o: src/c_screen.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/c_screen_32aakp_rspk.o src/c_screen.c  \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
+/bw_tmp/lzop_b/djgpp2_32aakp_rspk.o: src/djgpp2.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/djgpp2_32aakp_rspk.o src/djgpp2.c $(AMANDA_FLAGS__)
 
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
+/bw_tmp/lzop_b/filter_32aakp_rspk.o: src/filter.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/filter_32aakp_rspk.o src/filter.c $(AMANDA_FLAGS__)
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/c_screen_32aakp_rspk.o
+/bw_tmp/lzop_b/frames_32aakp_rspk.o: src/frames.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/frames_32aakp_rspk.o src/frames.c $(AMANDA_FLAGS__)
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/help_32aakp_rspk.o: src/help.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/help_32aakp_rspk.o src/help.c $(AMANDA_FLAGS__)
 
-src/compress_32aakp_rspk.o: src/compress.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/compress_32aakp_rspk.o src/compress.c  \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
+/bw_tmp/lzop_b/lzop_32aakp_rspk.o: src/lzop.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/lzop_32aakp_rspk.o src/lzop.c $(AMANDA_FLAGS__)
 
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
+/bw_tmp/lzop_b/mblock_32aakp_rspk.o: src/mblock.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/mblock_32aakp_rspk.o src/mblock.c $(AMANDA_FLAGS__)
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/compress_32aakp_rspk.o
+/bw_tmp/lzop_b/p_lzo_32aakp_rspk.o: src/p_lzo.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/p_lzo_32aakp_rspk.o src/p_lzo.c $(AMANDA_FLAGS__)
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/s_curses_32aakp_rspk.o: src/s_curses.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/s_curses_32aakp_rspk.o src/s_curses.c $(AMANDA_FLAGS__)
 
-src/djgpp2_32aakp_rspk.o: src/djgpp2.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/djgpp2_32aakp_rspk.o src/djgpp2.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
+/bw_tmp/lzop_b/s_djgpp2_32aakp_rspk.o: src/s_djgpp2.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/s_djgpp2_32aakp_rspk.o src/s_djgpp2.c $(AMANDA_FLAGS__)
 
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
+/bw_tmp/lzop_b/s_object_32aakp_rspk.o: src/s_object.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/s_object_32aakp_rspk.o src/s_object.c $(AMANDA_FLAGS__)
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/djgpp2_32aakp_rspk.o
+/bw_tmp/lzop_b/s_vcsa_32aakp_rspk.o: src/s_vcsa.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/s_vcsa_32aakp_rspk.o src/s_vcsa.c $(AMANDA_FLAGS__)
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/util_32aakp_rspk.o: src/util.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/util_32aakp_rspk.o src/util.c $(AMANDA_FLAGS__)
 
-src/filter_32aakp_rspk.o: src/filter.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/filter_32aakp_rspk.o src/filter.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/filter_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/frames_32aakp_rspk.o: src/frames.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/frames_32aakp_rspk.o src/frames.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/frames_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/help_32aakp_rspk.o: src/help.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/help_32aakp_rspk.o src/help.c          \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/help_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/lzop_32aakp_rspk.o: src/lzop.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/lzop_32aakp_rspk.o src/lzop.c          \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/lzop_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/mblock_32aakp_rspk.o: src/mblock.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/mblock_32aakp_rspk.o src/mblock.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/mblock_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/p_lzo_32aakp_rspk.o: src/p_lzo.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/p_lzo_32aakp_rspk.o src/p_lzo.c        \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/p_lzo_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/s_curses_32aakp_rspk.o: src/s_curses.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/s_curses_32aakp_rspk.o src/s_curses.c  \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/s_curses_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/s_djgpp2_32aakp_rspk.o: src/s_djgpp2.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/s_djgpp2_32aakp_rspk.o src/s_djgpp2.c  \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/s_djgpp2_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/s_object_32aakp_rspk.o: src/s_object.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/s_object_32aakp_rspk.o src/s_object.c  \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/s_object_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/s_vcsa_32aakp_rspk.o: src/s_vcsa.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/s_vcsa_32aakp_rspk.o src/s_vcsa.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/s_vcsa_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/util_32aakp_rspk.o: src/util.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	src/util_32aakp_rspk.o src/util.c          \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	src/util_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-pedro_32aakp_rspk.o: pedro.c
-	i686-w64-mingw32-gcc.exe -c -o             \
-	pedro_32aakp_rspk.o pedro.c                \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@i686-w64-mingw32-gcc.exe --version        \
-	>feline_gcc_version_x86.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x86.ric                 \
-	pedro_32aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/pedro_32aakp_rspk.o: pedro.c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/pedro_32aakp_rspk.o pedro.c $(AMANDA_FLAGS__)
 
 ###############################64 bits
 
-ricardo_64: src/c_ansic_64aakp_rspk.o              \
-	src/c_ansim_64aakp_rspk.o                  \
-	src/c_init_64aakp_rspk.o                   \
-	src/c_none_64aakp_rspk.o                   \
-	src/c_screen_64aakp_rspk.o                 \
-	src/compress_64aakp_rspk.o                 \
-	src/djgpp2_64aakp_rspk.o                   \
-	src/filter_64aakp_rspk.o                   \
-	src/frames_64aakp_rspk.o                   \
-	src/help_64aakp_rspk.o                     \
-	src/lzop_64aakp_rspk.o                     \
-	src/mblock_64aakp_rspk.o                   \
-	src/p_lzo_64aakp_rspk.o                    \
-	src/s_curses_64aakp_rspk.o                 \
-	src/s_djgpp2_64aakp_rspk.o                 \
-	src/s_object_64aakp_rspk.o                 \
-	src/s_vcsa_64aakp_rspk.o                   \
-	src/util_64aakp_rspk.o                     \
-	pedro_64aakp_rspk.o
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe read_i             \
-	feline_gcc_version_x64.ric                 \
-	src/c_ansic_64aakp_rspk.o                  \
-	src/c_ansim_64aakp_rspk.o                  \
-	src/c_init_64aakp_rspk.o                   \
-	src/c_none_64aakp_rspk.o                   \
-	src/c_screen_64aakp_rspk.o                 \
-	src/compress_64aakp_rspk.o                 \
-	src/djgpp2_64aakp_rspk.o                   \
-	src/filter_64aakp_rspk.o                   \
-	src/frames_64aakp_rspk.o                   \
-	src/help_64aakp_rspk.o                     \
-	src/lzop_64aakp_rspk.o                     \
-	src/mblock_64aakp_rspk.o                   \
-	src/p_lzo_64aakp_rspk.o                    \
-	src/s_curses_64aakp_rspk.o                 \
-	src/s_djgpp2_64aakp_rspk.o                 \
-	src/s_object_64aakp_rspk.o                 \
-	src/s_vcsa_64aakp_rspk.o                   \
-	src/util_64aakp_rspk.o                     \
-	pedro_64aakp_rspk.o                        \
-	liblzo_64aakp_rspk.a
-
-	@x86_64-w64-mingw32-gcc -O3 -mdll -o       \
-	BE_lzop_arp_64.DLL                         \
-	src/c_ansic_64aakp_rspk.o                  \
-	src/c_ansim_64aakp_rspk.o                  \
-	src/c_init_64aakp_rspk.o                   \
-	src/c_none_64aakp_rspk.o                   \
-	src/c_screen_64aakp_rspk.o                 \
-	src/compress_64aakp_rspk.o                 \
-	src/djgpp2_64aakp_rspk.o                   \
-	src/filter_64aakp_rspk.o                   \
-	src/frames_64aakp_rspk.o                   \
-	src/help_64aakp_rspk.o                     \
-	src/lzop_64aakp_rspk.o                     \
-	src/mblock_64aakp_rspk.o                   \
-	src/p_lzo_64aakp_rspk.o                    \
-	src/s_curses_64aakp_rspk.o                 \
-	src/s_djgpp2_64aakp_rspk.o                 \
-	src/s_object_64aakp_rspk.o                 \
-	src/s_vcsa_64aakp_rspk.o                   \
-	src/util_64aakp_rspk.o                     \
-	pedro_64aakp_rspk.o                        \
-	liblzo_64aakp_rspk.a                       \
-	-Wl,-enable-stdcall-fixup arp.def
-
-	@cp BE_lzop_arp_64.DLL ../../
-
-	@cp BE_lzop_arp_64.DLL  'C:/Amanda Ava Pereira/nosso_trabalho/amanda_projects/Lurdes_tar_gzip_parolin_k/files_k/tar_sample_ar_x64/tar_sample_ar/bin/Release'
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/c_ansic_64aakp_rspk.o: src/c_ansic.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/c_ansic_64aakp_rspk.o src/c_ansic.c    \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/c_ansic_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/c_ansim_64aakp_rspk.o: src/c_ansim.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/c_ansim_64aakp_rspk.o src/c_ansim.c    \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/c_ansim_64aakp_rspk.o
+ricardo_64: /bw_tmp/lzop_b/c_ansic_64aakp_rspk.o /bw_tmp/lzop_b/c_ansim_64aakp_rspk.o /bw_tmp/lzop_b/c_init_64aakp_rspk.o /bw_tmp/lzop_b/c_none_64aakp_rspk.o /bw_tmp/lzop_b/c_screen_64aakp_rspk.o /bw_tmp/lzop_b/compress_64aakp_rspk.o /bw_tmp/lzop_b/djgpp2_64aakp_rspk.o /bw_tmp/lzop_b/filter_64aakp_rspk.o /bw_tmp/lzop_b/frames_64aakp_rspk.o /bw_tmp/lzop_b/help_64aakp_rspk.o /bw_tmp/lzop_b/lzop_64aakp_rspk.o /bw_tmp/lzop_b/mblock_64aakp_rspk.o /bw_tmp/lzop_b/p_lzo_64aakp_rspk.o /bw_tmp/lzop_b/s_curses_64aakp_rspk.o /bw_tmp/lzop_b/s_djgpp2_64aakp_rspk.o /bw_tmp/lzop_b/s_object_64aakp_rspk.o /bw_tmp/lzop_b/s_vcsa_64aakp_rspk.o /bw_tmp/lzop_b/util_64aakp_rspk.o /bw_tmp/lzop_b/pedro_64aakp_rspk.o
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+	@/bw_tmp/amandaricardo_mvbuild26_33.exe amanda_file_counter_32.ini versio_n.ama.rc version_ricardo_mislaine_final_2_.rc aline_definitive_header_2_.h "64 bits" BE_lzop_arp_64.DLL increase
 
-src/c_init_64aakp_rspk.o: src/c_init.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/c_init_64aakp_rspk.o src/c_init.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
+	@x86_64-w64-mingw32-windres.exe -o /bw_tmp/lzop_b/amanda_ver64.o -O coff version_ricardo_mislaine_final_2_.rc
 
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
+	@x86_64-w64-mingw32-gcc -O3 -mdll -o /bin/tar/x64/BE_lzop_arp_64.DLL /bw_tmp/lzop_b/amanda_ver64.o /bw_tmp/lzop_b/c_ansic_64aakp_rspk.o /bw_tmp/lzop_b/c_ansim_64aakp_rspk.o /bw_tmp/lzop_b/c_init_64aakp_rspk.o /bw_tmp/lzop_b/c_none_64aakp_rspk.o /bw_tmp/lzop_b/c_screen_64aakp_rspk.o /bw_tmp/lzop_b/compress_64aakp_rspk.o /bw_tmp/lzop_b/djgpp2_64aakp_rspk.o /bw_tmp/lzop_b/filter_64aakp_rspk.o /bw_tmp/lzop_b/frames_64aakp_rspk.o /bw_tmp/lzop_b/help_64aakp_rspk.o /bw_tmp/lzop_b/lzop_64aakp_rspk.o /bw_tmp/lzop_b/mblock_64aakp_rspk.o /bw_tmp/lzop_b/p_lzo_64aakp_rspk.o /bw_tmp/lzop_b/s_curses_64aakp_rspk.o /bw_tmp/lzop_b/s_djgpp2_64aakp_rspk.o /bw_tmp/lzop_b/s_object_64aakp_rspk.o /bw_tmp/lzop_b/s_vcsa_64aakp_rspk.o /bw_tmp/lzop_b/util_64aakp_rspk.o /bw_tmp/lzop_b/pedro_64aakp_rspk.o /bw_tmp/lzop/liblzo_64aakp_rspk.a -Wl,-enable-stdcall-fixup arp.def
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/c_init_64aakp_rspk.o
+/bw_tmp/lzop_b/c_ansic_64aakp_rspk.o: src/c_ansic.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/c_ansic_64aakp_rspk.o src/c_ansic.c $(AMANDA_FLAGS__)
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/c_ansim_64aakp_rspk.o: src/c_ansim.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/c_ansim_64aakp_rspk.o src/c_ansim.c $(AMANDA_FLAGS__)
 
-src/c_none_64aakp_rspk.o: src/c_none.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/c_none_64aakp_rspk.o src/c_none.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
+/bw_tmp/lzop_b/c_init_64aakp_rspk.o: src/c_init.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/c_init_64aakp_rspk.o src/c_init.c $(AMANDA_FLAGS__)
 
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
+/bw_tmp/lzop_b/c_none_64aakp_rspk.o: src/c_none.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/c_none_64aakp_rspk.o src/c_none.c $(AMANDA_FLAGS__)
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/c_none_64aakp_rspk.o
+/bw_tmp/lzop_b/c_screen_64aakp_rspk.o: src/c_screen.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/c_screen_64aakp_rspk.o src/c_screen.c $(AMANDA_FLAGS__)
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/compress_64aakp_rspk.o: src/compress.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/compress_64aakp_rspk.o src/compress.c $(AMANDA_FLAGS__)
 
-src/c_screen_64aakp_rspk.o: src/c_screen.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/c_screen_64aakp_rspk.o src/c_screen.c  \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
+/bw_tmp/lzop_b/djgpp2_64aakp_rspk.o: src/djgpp2.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/djgpp2_64aakp_rspk.o src/djgpp2.c $(AMANDA_FLAGS__)
 
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
+/bw_tmp/lzop_b/filter_64aakp_rspk.o: src/filter.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/filter_64aakp_rspk.o src/filter.c $(AMANDA_FLAGS__)
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/c_screen_64aakp_rspk.o
+/bw_tmp/lzop_b/frames_64aakp_rspk.o: src/frames.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/frames_64aakp_rspk.o src/frames.c $(AMANDA_FLAGS__)
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/help_64aakp_rspk.o: src/help.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/help_64aakp_rspk.o src/help.c $(AMANDA_FLAGS__)
 
-src/compress_64aakp_rspk.o: src/compress.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/compress_64aakp_rspk.o src/compress.c  \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
+/bw_tmp/lzop_b/lzop_64aakp_rspk.o: src/lzop.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/lzop_64aakp_rspk.o src/lzop.c $(AMANDA_FLAGS__)
 
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
+/bw_tmp/lzop_b/mblock_64aakp_rspk.o: src/mblock.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/mblock_64aakp_rspk.o src/mblock.c $(AMANDA_FLAGS__)
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/compress_64aakp_rspk.o
+/bw_tmp/lzop_b/p_lzo_64aakp_rspk.o: src/p_lzo.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/p_lzo_64aakp_rspk.o src/p_lzo.c $(AMANDA_FLAGS__)
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/s_curses_64aakp_rspk.o: src/s_curses.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/s_curses_64aakp_rspk.o src/s_curses.c $(AMANDA_FLAGS__)
 
-src/djgpp2_64aakp_rspk.o: src/djgpp2.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/djgpp2_64aakp_rspk.o src/djgpp2.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
+/bw_tmp/lzop_b/s_djgpp2_64aakp_rspk.o: src/s_djgpp2.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/s_djgpp2_64aakp_rspk.o src/s_djgpp2.c $(AMANDA_FLAGS__)
 
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
+/bw_tmp/lzop_b/s_object_64aakp_rspk.o: src/s_object.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/s_object_64aakp_rspk.o src/s_object.c $(AMANDA_FLAGS__)
 
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/djgpp2_64aakp_rspk.o
+/bw_tmp/lzop_b/s_vcsa_64aakp_rspk.o: src/s_vcsa.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/s_vcsa_64aakp_rspk.o src/s_vcsa.c $(AMANDA_FLAGS__)
 
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/util_64aakp_rspk.o: src/util.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/util_64aakp_rspk.o src/util.c $(AMANDA_FLAGS__)
 
-src/filter_64aakp_rspk.o: src/filter.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/filter_64aakp_rspk.o src/filter.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/filter_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/frames_64aakp_rspk.o: src/frames.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/frames_64aakp_rspk.o src/frames.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/frames_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/help_64aakp_rspk.o: src/help.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/help_64aakp_rspk.o src/help.c          \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/help_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/lzop_64aakp_rspk.o: src/lzop.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/lzop_64aakp_rspk.o src/lzop.c          \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/lzop_64aakp_rspk.o 
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/mblock_64aakp_rspk.o: src/mblock.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/mblock_64aakp_rspk.o src/mblock.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/mblock_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/p_lzo_64aakp_rspk.o: src/p_lzo.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/p_lzo_64aakp_rspk.o src/p_lzo.c        \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/p_lzo_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/s_curses_64aakp_rspk.o: src/s_curses.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/s_curses_64aakp_rspk.o src/s_curses.c  \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/s_curses_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/s_djgpp2_64aakp_rspk.o: src/s_djgpp2.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/s_djgpp2_64aakp_rspk.o src/s_djgpp2.c  \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/s_djgpp2_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/s_object_64aakp_rspk.o: src/s_object.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/s_object_64aakp_rspk.o src/s_object.c  \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/s_object_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/s_vcsa_64aakp_rspk.o: src/s_vcsa.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/s_vcsa_64aakp_rspk.o src/s_vcsa.c      \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/s_vcsa_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-src/util_64aakp_rspk.o: src/util.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	src/util_64aakp_rspk.o src/util.c          \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	src/util_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
-
-pedro_64aakp_rspk.o: pedro.c
-	x86_64-w64-mingw32-gcc.exe -c -o           \
-	pedro_64aakp_rspk.o pedro.c                \
-	$(AMANDA_FLAGS__) $(JULIET_FLAGS)          \
-	$(FELINE_FLAGS__)
-
-	@x86_64-w64-mingw32-gcc.exe --version      \
-	>feline_gcc_version_x64.ric
-
-	@./file_gcc_version.exe write_i            \
-	feline_gcc_version_x64.ric                 \
-	pedro_64aakp_rspk.o
-
-	@./espaco_arp.exe $(AMANDA_SIZE__)
+/bw_tmp/lzop_b/pedro_64aakp_rspk.o: pedro.c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/lzop_b/pedro_64aakp_rspk.o pedro.c $(AMANDA_FLAGS__)

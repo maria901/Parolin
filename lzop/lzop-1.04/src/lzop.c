@@ -3594,7 +3594,7 @@ int __stdcall get_progress_ju___ar (void)
 	 return 0;
  }
 
-BOOL WINAPI DllMain (HINSTANCE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+BOOL WINAPI DllMain (__attribute__((unused)) HINSTANCE hModule, DWORD ul_reason_for_call, __attribute__((unused)) LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
 	{
