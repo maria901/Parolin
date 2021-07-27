@@ -1,0 +1,10 @@
+DESCRIPTION     "happy coding... - 2021 BW"
+
+EXPORTS
+
+cancel_c2___aakp_c2___ar				@315
+compress_c2___rspk_ar					@335
+get_progress_c2___ar					@385
+pause_c2___aakp_c2___ar					@455
+resume_c2___aakp_c2___ar				@465
+uncompress_c2___rspk_ar					@1993
