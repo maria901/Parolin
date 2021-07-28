@@ -684,4 +684,41 @@ exit
 
 fi
 
+
+if [ "psftp32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe psftp_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "psftp64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe psftp_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "psftpclean" == "$1" ] 
+then
+
+	cd /bw_tmp/psftp/
+
+	rm *.o
+	
+exit
+
+fi
+
+
 echo "Erro amor..."
