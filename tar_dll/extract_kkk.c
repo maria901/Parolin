@@ -551,6 +551,23 @@ stripfilenameandpath_amanda_s_smart_ape(char *path, char *onlypath, char *onlyfi
 	stripfilenameandpath(path, onlypath, onlyfilename);
 }
 
+char *strrstr_ends_with(char* str, char* substr)
+{
+	char *ptr_i;
+	
+	ptr_i = strrstr(str, substr);
+	
+	if(ptr_i)
+	{
+		if(strlen(ptr_i) == strlen(substr))
+		{
+			return ptr_i;
+		}
+	}
+	
+	return NULL;
+}
+
 /**
  * It will read the extension to detect whether the file is a valid compressed
  * file
@@ -565,182 +582,182 @@ bool __amandacall is_compressed_z(char *filename_in_z)
   char *whole_path_copy_arp = filename_in_z;
   char *ptr_arp;
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.Z2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.Z2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.Z2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.Z2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.gz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.gz")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.gzip2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.gzip2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.gzip2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.gzip2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.bzip3")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.bzip3")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.bzip3")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.bzip3")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lz")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lzma")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lzma")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.xz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.xz")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.Z")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.Z")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lzo")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lzo")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lz4")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lz4")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.bz2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.bz2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.br")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.br")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.zst")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.zst")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.gz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.gz")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lz")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lzma")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lzma")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.xz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.xz")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.Z")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.Z")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lzo")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lzo")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lz4")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lz4")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.bz2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.bz2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.br")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.br")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.zst")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.zst")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.gzip2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.gzip2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.bzip3")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.bzip3")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lzo2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lzo2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.br2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.br2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lz5")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lz5")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.gzip2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.gzip2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.bzip3")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.bzip3")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lzo2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lzo2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.br2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.br2")))
     {
       return 1;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lz5")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lz5")))
     {
       return 1;
     }
@@ -766,208 +783,209 @@ void __amandacall adjust_extension_z(char *filename_in_z, char *filename_out_z)
 {
   char *ptr_arp;
   char *whole_path_copy_arp = filename_in_z;
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.Z2")))
+  
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.Z2")))
     {
       strcat(filename_out_z, ".tar.Z2");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.Z2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.Z2")))
     {
       strcat(filename_out_z, ".val.Z2");
       return;
     }
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lzo2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lzo2")))
     {
       strcat(filename_out_z, ".tar.lzo2");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.br2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.br2")))
     {
       strcat(filename_out_z, ".tar.br2");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lz5")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lz5")))
     {
       strcat(filename_out_z, ".tar.lz5");
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lzo2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lzo2")))
     {
       strcat(filename_out_z, ".val.lzo2");
       return;
     }
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.br2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.br2")))
     {
       strcat(filename_out_z, ".val.br2");
       return;
     }
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lz5")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lz5")))
     {
       strcat(filename_out_z, ".val.lz5");
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.gz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.gz")))
     {
       strcat(filename_out_z, ".tar.gz");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.gzip2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.gzip2")))
     {
       strcat(filename_out_z, ".tar.gzip2");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.gzip2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.gzip2")))
     {
       strcat(filename_out_z, ".val.gzip2");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.bzip3")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.bzip3")))
     {
       strcat(filename_out_z, ".tar.bzip3");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.bzip3")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.bzip3")))
     {
       strcat(filename_out_z, ".val.bzip3");
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lzma")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lzma")))
     {
       strcat(filename_out_z, ".tar.lzma");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lz")))
     {
       strcat(filename_out_z, ".tar.lz");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.xz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.xz")))
     {
       strcat(filename_out_z, ".tar.xz");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.Z")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.Z")))
     {
       strcat(filename_out_z, ".tar.Z");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lzo")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lzo")))
     {
       strcat(filename_out_z, ".tar.lzo");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lz4")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lz4")))
     {
       strcat(filename_out_z, ".tar.lz4");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.bz2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.bz2")))
     {
       strcat(filename_out_z, ".tar.bz2");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.br")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.br")))
     {
       strcat(filename_out_z, ".tar.br");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.zst")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.zst")))
     {
       strcat(filename_out_z, ".tar.zst");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.gz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.gz")))
     {
       strcat(filename_out_z, ".val.gz");
       return;
     }
  
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lzma")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lzma")))
     {
       strcat(filename_out_z, ".val.lzma");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lz")))
     {
       strcat(filename_out_z, ".val.lz");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.xz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.xz")))
     {
       strcat(filename_out_z, ".val.xz");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.Z")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.Z")))
     {
       strcat(filename_out_z, ".val.Z");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lzo")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lzo")))
     {
       strcat(filename_out_z, ".val.lzo");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lz4")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lz4")))
     {
       strcat(filename_out_z, ".val.lz4");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.bz2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.bz2")))
     {
       strcat(filename_out_z, ".val.bz2");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.br")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.br")))
     {
       strcat(filename_out_z, ".val.br");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.zst")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.zst")))
     {
       strcat(filename_out_z, ".val.zst");
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar")))
     {
       strcat(filename_out_z, ".tar");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val")))
     {
       strcat(filename_out_z, ".val");
       return;
     }
 	
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".iso")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".iso")))
     {
       strcat(filename_out_z, ".iso");
       return;
@@ -998,7 +1016,7 @@ void __stdcall replace_extension_arp
 
   strcpy(whole_path_copy_arp, whole_path_arp);
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".7z")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".7z")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1006,7 +1024,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".zip")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".zip")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1014,7 +1032,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lz5")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lz5")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1022,7 +1040,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lz5")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lz5")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1030,7 +1048,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.Z2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.Z2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1038,7 +1056,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.Z2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.Z2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1046,7 +1064,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lzo2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lzo2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1054,7 +1072,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lzo2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lzo2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1062,7 +1080,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.br2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.br2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1070,7 +1088,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.br2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.br2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1078,7 +1096,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.bzip3")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.bzip3")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1086,7 +1104,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.bzip3")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.bzip3")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1094,7 +1112,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.gzip2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.gzip2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1102,22 +1120,14 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.gzip2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.gzip2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
       strcpy(out_data_arp, whole_path_copy_arp);
       return;
     }
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.gz")))
-    {
-      strcpy(ptr_arp, ".");
-      strcat(ptr_arp, new_extension_arp);
-      strcpy(out_data_arp, whole_path_copy_arp);
-      return;
-    }
-
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.gzip2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.gz")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1125,7 +1135,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.gzip2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.gzip2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1133,7 +1143,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.bzip3")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.gzip2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1141,7 +1151,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.bzip3")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.bzip3")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1149,7 +1159,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.bzip3")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1157,7 +1167,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lzma")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lz")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1165,7 +1175,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.xz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lzma")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1173,7 +1183,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.Z")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.xz")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1181,7 +1191,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lzo")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.Z")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1189,7 +1199,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.lz4")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lzo")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1197,7 +1207,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.bz2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.lz4")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1205,7 +1215,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.br")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.bz2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1213,7 +1223,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar.zst")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.br")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1221,7 +1231,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.gz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar.zst")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1229,7 +1239,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.gz")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1237,7 +1247,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lzma")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lz")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1245,7 +1255,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.xz")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lzma")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1253,7 +1263,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.Z")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.xz")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1261,7 +1271,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lzo")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.Z")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1269,7 +1279,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.lz4")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lzo")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1277,7 +1287,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.bz2")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.lz4")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1285,7 +1295,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.br")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.bz2")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1293,7 +1303,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val.zst")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.br")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1301,7 +1311,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".tar")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val.zst")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1309,7 +1319,7 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".val")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".tar")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -1317,7 +1327,15 @@ void __stdcall replace_extension_arp
       return;
     }
 
-  if ((ptr_arp = strrstr(whole_path_copy_arp, ".iso")))
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".val")))
+    {
+      strcpy(ptr_arp, ".");
+      strcat(ptr_arp, new_extension_arp);
+      strcpy(out_data_arp, whole_path_copy_arp);
+      return;
+    }
+
+  if ((ptr_arp = strrstr_ends_with(whole_path_copy_arp, ".iso")))
     {
       strcpy(ptr_arp, ".");
       strcat(ptr_arp, new_extension_arp);
@@ -2254,7 +2272,7 @@ extract_file(char *file_name_in_arp, int typeflag)
           strcpy(temp_file_arp, constructed_filename_kp);
           strcat(temp_file_arp, ".$_$arp.tmp");
 
-          ret_arp_ = decrypt_arp(constructed_filename_kp, temp_file_arp, the_pass_arp, &temp_2_arp);
+          ret_arp_ = decrypt_arp(constructed_filename_kp, temp_file_arp, the_pass_arp, &temp_2_arp, encryption_method__i);
 
           if (0 == ret_arp_)
             {
@@ -2478,7 +2496,7 @@ exit_now_arp:;
           update_progress_arp(&temp_arp);
           strcpy(temp_file_arp, constructed_filename_kp);
           strcat(temp_file_arp, ".$_$arp.tmp");
-          ret_arp_ = decrypt_arp(constructed_filename_kp, temp_file_arp, the_pass_arp, &temp_2_arp);
+          ret_arp_ = decrypt_arp(constructed_filename_kp, temp_file_arp, the_pass_arp, &temp_2_arp, encryption_method__i);
 
           if (0 == ret_arp_)
             {

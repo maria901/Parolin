@@ -91,7 +91,8 @@ bool mode_is_libarchive_update_i = false;
 
 bool dont_delete_7zip_file_i = false;
 
-char compression_level_p[300];
+char encryption_method__i[300] = {0};
+char compression_level_p [300];
 
 char compression_level_char_i[300] = "6";
 FILE * my___temp_file_i;
@@ -919,7 +920,7 @@ int __stdcall progress_sftp(void)
      return 0;//progress_arp_func();
 }
 typedef int (*decrypt_arp_)(char * inputfile, char * outputfile, char *                                            key,
-                            int64_t *the_arp_file_size);
+                            int64_t *the_arp_file_size, char * encryption_method_i);
 typedef int (*encrypt_arp_)(char * inputfile, char * outputfile, char * key, int is_rc4_arp);
 typedef int (__stdcall *PauseExecution__arp_)(void);
 typedef int (__stdcall *ResumeExecution_arp_)(void);
@@ -1081,10 +1082,10 @@ int encrypt_arp(char * inputfile, char * outputfile, char * key, int encryption_
  *
  */
 int decrypt_arp(char * inputfile, char * outputfile, char * key, int64_t  *
-                the_arp_file_size)
+                the_arp_file_size, char *encryption_method_i)
 {
 	init_rsp_arp_encrypt_arp();
-	return decrypt_arp_func(inputfile, outputfile, key, the_arp_file_size);
+	return decrypt_arp_func(inputfile, outputfile, key, the_arp_file_size, encryption_method_i);
 }
 
 /**
@@ -7759,7 +7760,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 		my_func_ar_ = my_func__;
 		return process_iso(true_if_it_is_extract_ar, tar_file_ar);
 	}
-     
+      
 	if (0 == true_if_it_is_extract_ar)
 	{
 		file_size_total_int64 = getfilesize_ar(tar_file_ar);
@@ -7794,7 +7795,8 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 				_wrename(amanda_utf8towide_2_(temp_file_for_encrypted), amanda_utf8towide_1_(temp_file_for_encrypted_v2));
 			}
 			update_progress_arp(&temp_long_long);
-			ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int);
+			ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int, encryption_method__i);
+				
 			strcpy(file_to_keep_z, temp_file_for_encrypted_v2);
 			strcpy(tar_file_ar, temp_file_for_encrypted_v2);
 			if (0 == ret_arp_)
@@ -7843,7 +7845,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 				_wrename(amanda_utf8towide_2_(temp_file_for_encrypted), amanda_utf8towide_1_(temp_file_for_encrypted_v2));
 			}
 			update_progress_arp(&temp_long_long);
-			ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int);
+			ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int, encryption_method__i);
 			strcpy(file_to_keep_z, temp_file_for_encrypted_v2);
 			strcpy(tar_file_ar, temp_file_for_encrypted_v2);
 			if (0 == ret_arp_)
@@ -9838,7 +9840,11 @@ vai_em_frente_ar:
 
 					if (!already_arp)
 					{
+						//encryption_method__i[0] = 0;
 						strcpy(string_format_arp, archive_format_string(detected_format_arp));
+						
+						//pedro_dprintf(0, "pegou %s\n", 
+						
 						already_arp++;
 					}
 
@@ -9944,6 +9950,7 @@ exit_now_k:             ;
 		     }
 
 			init_decoder_z = 1;
+			//encryption_method__i[0] = 0;
 			strcpy(string_format_arp, "VAL");
 			while (1)
 			{
@@ -10080,6 +10087,11 @@ final_jump_arp:
 
 	if (true_if_it_is_extract_ar)
 	{
+		
+		//so aqui...
+		
+		strcat(string_format_arp, encryption_method__i);
+		encryption_method__i[0] = 0;
 		if (last_list_error_int_arp)
 		{
 			fatal_exit_k = last_list_error_int_arp;
@@ -10099,6 +10111,8 @@ final_jump_arp:
 	if (fatal_exit_k)
 		last_list_error_int_arp = fatal_exit_k,
 		strcpy(last_list_error_message_arp, error_message_k); //que que é isto cara?...
+
+	//encryption_method__i[0] = 0;
 
 	return fatal_exit_k;
 }

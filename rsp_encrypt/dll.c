@@ -130,12 +130,32 @@ dprintf (char *format, ...);
 #define ushort unsigned short
 #endif
 
+/**
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we
+ * provide two functions that are exactly the same because someone may
+ * use it in multi-thread code
+ *
+ * @param pUTF8 the input utf-8 encoded filename
+ *
+ * @return the static allocated WCHAR array with the filename as wide string
+ *
+ */
+WCHAR * amanda_utf8towide_1_(char *pUTF8)
+{
+	static WCHAR ricardo_k[1024];
+
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, 1024);
+	return ricardo_k;
+}
+
 int
 adler32filelong (uchar * inputfile);
 
-static uchar inputfile[310];
+static uchar inputfile [310];
 static uchar outputfile[310];
 static uchar key[257];
+
+static char * encryption_method__i;
 
 int init_aes = 0;
 
@@ -1075,8 +1095,8 @@ int __stdcall newfileencrypt2_sha512 (uint type, uchar * inputfile, uchar * outp
 	static uchar buf    [AMANDA_TAMANHO];
 	static uchar buf_arp[AMANDA_TAMANHO];
 	static uchar bufout [AMANDA_TAMANHO];
-	HANDLE stream;
-	HANDLE stream2;
+	FILE *  stream = NULL;
+	FILE * stream2 = NULL;
 	//uint ret;
 	uint len;
 	//__int64 intfilesize;
@@ -1159,7 +1179,7 @@ int __stdcall newfileencrypt2_sha512 (uint type, uchar * inputfile, uchar * outp
 
 	filesize = 0;
 
-	if ((stream = lfopen ((char *) inputfile, "rb")) != NULL)
+	if ((stream = _wfopen (amanda_utf8towide_1_((char *) inputfile), L"rb")) != NULL)
 	{
 
 	}
@@ -1172,13 +1192,13 @@ int __stdcall newfileencrypt2_sha512 (uint type, uchar * inputfile, uchar * outp
 		return 1;
 	}
 
-	if ((stream2 = lfopen ((char *) outputfile, "wb")) != NULL)
+	if ((stream2 = _wfopen (amanda_utf8towide_1_((char *) outputfile), L"wb")) != NULL)
 	{
 
 	}
 	else
 	{
-		lfclose (stream);
+		fclose (stream);
 #ifdef NPRINTF
 		dprintf ("error opening output file \n");
 #endif
@@ -1209,13 +1229,13 @@ int __stdcall newfileencrypt2_sha512 (uint type, uchar * inputfile, uchar * outp
 			rc4_setup (&s, (uchar *) key_v2, 256);
 			//rc4_crypt (&s, tmpbuf, size);
 			fatia = 0x706c6176 - 1;
-			pedro_dprintf(-1, "encryption method is ARP_RC4\n");
+			pedro_dprintf(-1, "encryption method is ARP_RC4\n");			
 		}
 		else if(ARP_SERPENT == encryption_method_internal)
 		{
 			pedro_dprintf(-1, "encryption method is ARP_SERPENT\n");
 			init_serpent((char *) key);
-			fatia = 0x706c6176 - 2;
+			fatia = 0x706c6176 - 2;			
 		}
 		else if(ARP_MARS == encryption_method_internal)
 		{
@@ -1240,10 +1260,10 @@ int __stdcall newfileencrypt2_sha512 (uint type, uchar * inputfile, uchar * outp
 			pedro_dprintf(-1, "encryption method is ARP_AES\n");
 			fatia = 0x706c6176;
 		}
-		lfwrite (&fatia, 4, stream2);
-		lfwrite (sha512_digest_k, 64, stream2);
+		fwrite (&fatia, 1, 4, stream2);
+		fwrite (sha512_digest_k, 1, 64, stream2);
 		pedro_dprintf(-1, "salvando o tamanho do arquivo %lld\n", filesize);
-		lfwrite (&filesize, 8, stream2);
+		fwrite (&filesize, 1, 8, stream2);
 	}
 
 	if (type == 18)
@@ -1251,7 +1271,7 @@ int __stdcall newfileencrypt2_sha512 (uint type, uchar * inputfile, uchar * outp
 #ifdef NPRINTF
 		dprintf ("executando decrypt new !!!!!!!!!! \n");
 #endif
-		len = lfread (&fatia, 4, stream);
+		len = fread (&fatia, 1, 4, stream);
 
 		if(0 < len)
 		{
@@ -1268,6 +1288,7 @@ int __stdcall newfileencrypt2_sha512 (uint type, uchar * inputfile, uchar * outp
 #endif
 			encryption_method_internal_un = ARP_AES;
 			pedro_dprintf(-1, "unencryption method is AES\n");
+			strcpy(encryption_method__i, " + AES");
 		}
 		else if(fatia == (0x706c6176 - 1))
 		{
@@ -1275,47 +1296,52 @@ int __stdcall newfileencrypt2_sha512 (uint type, uchar * inputfile, uchar * outp
 			rc4_setup (&s, (uchar *) key_v2, 256);
 			encryption_method_internal_un = ARP_RC4;
 			pedro_dprintf(-1, "unencryption method is RC4\n");
+			strcpy(encryption_method__i, " + RC4");
 		}
 		else if(fatia == (0x706c6176 - 2))
 		{
 			init_serpent((char *) key);
 			encryption_method_internal_un = ARP_SERPENT;
 			pedro_dprintf(-1, "unencryption method is SERPENT\n");
+			strcpy(encryption_method__i, " + SERPENT");
 		}
 		else if(fatia == (0x706c6176 - 3))
 		{
 			init_mars_arp((char *) key);
 			encryption_method_internal_un = ARP_MARS;
 			pedro_dprintf(-1, "unencryption method is ARP_MARS\n");
+			strcpy(encryption_method__i, " + MARS");
 		}
 		else if(fatia == (0x706c6176 - 4))
 		{
 			init_rc6__arp((char *) key);
 			encryption_method_internal_un = ARP_RC6;
 			pedro_dprintf(-1, "unencryption method is ARP_RC6\n");
+			strcpy(encryption_method__i, " + RC6");
 		}
 		else if(fatia == (0x706c6176 - 5))
 		{
 			init_twofish_arp((char *) key);
 			encryption_method_internal_un = ARP_TWOFISH;
 			pedro_dprintf(-1, "unencryption method is ARP_TWOFISH\n");
+			strcpy(encryption_method__i, " + TWOFISH");
 		}
 		else
 		{
-			lfclose (stream);
-			lfclose (stream2);
+			fclose (stream);
+			fclose (stream2);
 			return 3;
 			;
 		}
 
-		len = lfread (sha512_digest_b_k, 64, stream);
+		len = fread (sha512_digest_b_k, 1, 64, stream);
 		if(0 < len)
 		{
 			intfatia += len;
 			*bytes_read_arp += len / 2;
 			bytes_read_z    += len / 2;
 		}
-		len = lfread (&the_arp_file_size, 8, stream);
+		len = fread (&the_arp_file_size, 1, 8, stream);
 		if(0 < len)
 		{
 			intfatia += len;
@@ -1327,7 +1353,7 @@ int __stdcall newfileencrypt2_sha512 (uint type, uchar * inputfile, uchar * outp
 	while (1)
 	{
         
-		len = lfread (buf, AMANDA_TAMANHO, stream);
+		len = fread (buf, 1, AMANDA_TAMANHO, stream);
 		
 		pedro_dprintf(-1, "len %d\n", len);
 		
@@ -1363,7 +1389,7 @@ ret1:
 			if(ARP_RC4 == encryption_method_internal)
 			{
 				rc4_crypt (&s, buf,                         len);
-				lfwrite (buf, len,                      stream2);
+				fwrite (buf, 1, len,                      stream2);
 				pedro_dprintf(-1, "len 2 %d\n", len);
 			}
 			else if(ARP_SERPENT == encryption_method_internal)
@@ -1374,7 +1400,7 @@ ret1:
 										key,
 										len
 									   );
-				lfwrite (buf_arp, len,                  stream2);
+				fwrite (buf_arp, 1, len,                  stream2);
 			}
 			else if(ARP_MARS == encryption_method_internal)
 			{
@@ -1384,7 +1410,7 @@ ret1:
 										key,
 										len
 									   );
-				lfwrite (buf_arp, len,                  stream2);
+				fwrite (buf_arp, 1, len,                  stream2);
 			}
 			else if(ARP_RC6 == encryption_method_internal)
 			{
@@ -1394,7 +1420,7 @@ ret1:
 										key,
 										len
 									   );
-				lfwrite (buf_arp, len,                  stream2);
+				fwrite (buf_arp, 1, len,                  stream2);
 			}
 			else if(ARP_TWOFISH == encryption_method_internal)
 			{
@@ -1404,12 +1430,12 @@ ret1:
 										key,
 										len
 									   );
-				lfwrite (buf_arp, len,                  stream2);
+				fwrite (buf_arp, 1, len,                  stream2);
 			}
 			else
 			{
 				encryptstring2 (&done, buf, key, bufout, len, 0);
-				lfwrite (bufout, len,                   stream2);
+				fwrite (bufout, 1, len,                   stream2);
 			}
 			
 		}
@@ -1419,12 +1445,12 @@ ret1:
 			if(ARP_RC4 == encryption_method_internal_un)
 			{				
 				rc4_crypt (&s, buf,                         len);
-				lfwrite (buf, len,                      stream2);				
+				fwrite (buf, 1, len,                      stream2);				
 			}
 			else if(ARP_AES == encryption_method_internal_un)
 			{
 				encryptstring2 (&done, buf, key, bufout, len, 0);
-				lfwrite (bufout, len,                   stream2);
+				fwrite (bufout, 1, len,                   stream2);
 			}
 			else if(ARP_SERPENT == encryption_method_internal_un)
 			{
@@ -1434,7 +1460,7 @@ ret1:
 										key,
 										len
 									   );
-				lfwrite (buf_arp, len,                  stream2);
+				fwrite (buf_arp, 1, len,                  stream2);
 			}
 			else if(ARP_MARS == encryption_method_internal_un)
 			{
@@ -1444,7 +1470,7 @@ ret1:
 										key,
 										len
 									   );
-				lfwrite (buf_arp, len,                  stream2);
+				fwrite (buf_arp, 1, len,                  stream2);
 			}
 			else if(ARP_RC6 == encryption_method_internal_un)
 			{
@@ -1454,7 +1480,7 @@ ret1:
 										key,
 										len
 									   );
-				lfwrite (buf_arp, len,                  stream2);
+				fwrite (buf_arp, 1, len,                  stream2);
 			}
 			else if(ARP_TWOFISH == encryption_method_internal_un)
 			{
@@ -1464,7 +1490,7 @@ ret1:
 											key,
 											len
 										   );
-				lfwrite (buf_arp, len,                  stream2);
+				fwrite (buf_arp, 1, len,                  stream2);
 			}
 			else
 			{
@@ -1473,8 +1499,8 @@ ret1:
 		}
 	}
 
-	lfclose (stream);
-	lfclose (stream2);
+	fclose (stream);
+	fclose (stream2);
 
 	if (type == 18)
 	{
@@ -1520,7 +1546,7 @@ int encrypt_arp(uchar * inputfile, uchar * outputfile, uchar * key, int encrypti
 	return ret_arp;
 }
 
-int decrypt_arp(uchar * inputfile, uchar * outputfile, uchar * key, int64_t *the_arp_file_size_)
+int decrypt_arp(uchar * inputfile, uchar * outputfile, uchar * key, int64_t *the_arp_file_size_, char * encryption_method_i)
 {
 	int ret_arp;
 	char key_arp [300]  = {0};
@@ -1532,6 +1558,8 @@ int decrypt_arp(uchar * inputfile, uchar * outputfile, uchar * key, int64_t *the
 	intpause              = 0;
 	intpriority           = 0;
 	unicodemode           = 1;
+	
+	encryption_method__i = encryption_method_i;
 	
 	free_to_work_arp = 1;
 	ret_arp = newfileencrypt2_sha512 (18, inputfile, outputfile, (uchar *) key_arp);
