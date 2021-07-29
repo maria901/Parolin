@@ -255,7 +255,16 @@ psftp_32:
 
 psftp_64:
 	(cd /tar/psftp/putty-0.74-2021-02-03.b63a66c/windows/VS2012/psftp/ && make_amanda_kp ricardo_64     -f 'makefile')
-	
+
+#########################################################################################################################################
+## section psftp
+
+rsp_encrypt_32:
+	(cd /tar/rsp_encrypt && make_amanda_kp amanda_32      -f 'makefile')
+
+rsp_encrypt_64:
+	(cd /tar/rsp_encrypt && make_amanda_kp ricardo_64     -f 'makefile')
+
 #########################################################################################################################################
 clean:
 	(shopt -s nocaseglob ; rm *.o *.dll)

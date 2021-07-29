@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5,6,8,5643
- PRODUCTVERSION 5,6,8,5643
+ FILEVERSION 1,0,7,291
+ PRODUCTVERSION 1,0,7,291
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -46,17 +46,17 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
-            VALUE "CompanyName", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
-            VALUE "FileDescription", "BW Tar DLL \0"
-            VALUE "FileVersion", "5, 6, 8, 5643 \0"
-            VALUE "InternalName", "ar_tar_process.DLL \0"
+            VALUE "Comments", "BinaryWork Corp. https://nomade.sourceforge.io/ \0"
+            VALUE "CompanyName", "BinaryWork Corp. https://nomade.sourceforge.io/ \0"
+            VALUE "FileDescription", "BW Rsp Encrypt DLL \0"
+            VALUE "FileVersion", "1, 0, 7, 291 \0"
+            VALUE "InternalName", "RSP_encrypt_32.DLL \0"
             VALUE "LegalCopyright", "CopyLeft © 2021 BW \0"
             VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
-            VALUE "OriginalFilename", "ar_tar_process.DLL \0"
-            VALUE "PrivateBuild", "5643 \0"
-            VALUE "ProductName", "BW Tar DLL 5, 6, 8, 5643 64 bits \0"
-            VALUE "ProductVersion", "5, 6, 8, 5643 \0"
+            VALUE "OriginalFilename", "RSP_encrypt_32.DLL \0"
+            VALUE "PrivateBuild", "291 \0"
+            VALUE "ProductName", "BW Rsp Encrypt DLL 1, 0, 7, 291 32 bits \0"
+            VALUE "ProductVersion", "1, 0, 7, 291 \0"
             VALUE "SpecialBuild", "amandaricardo_koci\0"
         END
     END

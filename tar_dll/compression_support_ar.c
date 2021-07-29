@@ -6,7 +6,6 @@
 #define MACHINE_ARP "32"
 #endif
 
-
 /**
  * It will init the required DLLs for the compression and
  * decompression

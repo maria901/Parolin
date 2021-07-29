@@ -1,32 +1,30 @@
 
  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
- *        Licensa de C?pia (C) <2021>  <Corpora??o do Trabalho Bin?rio>         *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
- *     Este  programa  ? software livre: voc? pode redistribuir isto e/ou       *
- *     modificar  isto sobre os termos do  GNU Licensa Geral P?blica como       8
- *     publicado  pela Funda??o  de Software  Livre, tanto a vers?o 3  da       *
- *     Licensa, ou (dependendo da sua op??o) qualquer vers?o posterior.         *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
  *                                                                              *
- *     Este  programa ? distribu?do na  esperan?a que isto vai  ser ?til,       *
- *     mas SEM  QUALQUER GARANTIA; sem  at? mesmo a implicada garantia de       *
- *     COMERCIALIZA??O ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
- *     Licensa Geral P?blica para mais detalhes.                                *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
  *                                                                              *
- *     Voc? deve ter recebido uma  c?pia da LICENSA GERAL PUBLICA e a GNU       *
- *     Licensa P?blica Menor junto com este programa                            *
- *     Se n?o, veja <http://www.gnu.org/licenses/>.                             *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
  *                                                                              *
- *     Suporte: https://arsoftware.net.br/binarywork_____________________       *
- *     Mirrors: https://locacaodiaria.com.br/corporacaodotrabalhobinario/       *
- *              http: //nomade.sourceforge.net/binarywork_______________/       *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
  *     E-mails direto dos felizes programadores:                                *
- *     Ricardinho:    arsoftware25@gmail.com    ricardo@arsoftware.net.br       *
- *     Koci______:    arsoftware10@gmail.com    am_koci@arsoftware.net.br       *
+ *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
+ *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
  *                                                                              *
- *     contato imediato(para uma resposta muita r?pida) WhatsApp                *
- *     (+55)41 9627 1708 - isto est? sempre ligado (eu acho...)                 *      
+ *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
@@ -7767,6 +7765,9 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 		file_size_total_int64 = getfilesize_ar(tar_file_ar);
 		file_total__read_int64 = 0;
 	}
+	
+	keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
+	
 	if (true_if_it_is_extract_ar)
 	{
 		while (clean_list_itens_is_list_())
@@ -7776,6 +7777,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 		numero_de_itens = 0;
 		processed_itens_ar = 0;
 		keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
+				
 		if (keep_temp_file_flag_z)
 		{
 			if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_for_encrypted, L"AM_"))
@@ -7812,6 +7814,8 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 				fatal_exit_k = 40005;
 				goto saida_o_k;
 			}
+				
+			
 		}
 		ret_k = process_tar(0, tar_file_ar, list_function_ar_ok);
 		if (2004 == ret_k)

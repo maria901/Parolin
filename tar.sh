@@ -721,4 +721,41 @@ exit
 fi
 
 
+
+if [ "rsp_encrypt32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe rsp_encrypt_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "rsp_encrypt64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe rsp_encrypt_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "rsp_encrypt_clean" == "$1" ] 
+then
+
+	cd /bw_tmp/rsp_encrypt/
+
+	rm *.o
+	
+exit
+
+fi
+
+
 echo "Erro amor..."
