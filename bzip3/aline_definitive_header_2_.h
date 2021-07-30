@@ -1,0 +1,1 @@
+#define AMARIC__VERSION "3.3.9 build 151"

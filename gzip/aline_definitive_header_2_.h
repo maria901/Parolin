@@ -1,0 +1,1 @@
+#define AMARIC__VERSION "3.8.5 build 95"
