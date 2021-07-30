@@ -1,1 +1,0 @@
-#define AMARIC__VERSION "5.8.6 build 5661"
