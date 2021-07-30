@@ -1,6 +1,0 @@
-
-requires msvc and mingw to compile
-
-read the makefile to se how
-
-<RSP Software> <2009>

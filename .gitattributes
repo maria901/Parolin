@@ -1,2 +1,4 @@
-* -crlf
+* text=auto
 
+*.ico         binary
+*.pdf         binary
