@@ -1,0 +1,1 @@
+#define AMARIC__VERSION "4.7.3 build 285"

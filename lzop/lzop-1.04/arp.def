@@ -1,0 +1,10 @@
+DESCRIPTION "my lzop amazing dll ;-)"
+
+EXPORTS
+
+cancel_ju___aakp_ju___ar				@327
+compress_ju___rspk_ar					@340
+get_progress_ju___ar					@350
+pause_ju___aakp_ju___ar					@360
+resume_ju___aakp_ju___ar				@370
+uncompress_ju___rspk_ar					@380

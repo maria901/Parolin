@@ -1,0 +1,216 @@
+../../src/common/tuklib_cpucores_64k.o:                          ../../src/common/tuklib_cpucores.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/common/tuklib_cpucores_64k.o $(AMANDA_FLAGS__) ../../src/common/tuklib_cpucores.c
+../../src/common/tuklib_physmem_64k.o:                            ../../src/common/tuklib_physmem.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/common/tuklib_physmem_64k.o $(AMANDA_FLAGS__) ../../src/common/tuklib_physmem.c
+../../src/liblzma/check/check_64k.o :                               ../../src/liblzma/check/check.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/check/check_64k.o  $(AMANDA_FLAGS__) ../../src/liblzma/check/check.c
+../../src/liblzma/check/crc32_fast_64k.o:                      ../../src/liblzma/check/crc32_fast.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/check/crc32_fast_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/check/crc32_fast.c
+../../src/liblzma/check/crc32_table_64k.o:                    ../../src/liblzma/check/crc32_table.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/check/crc32_table_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/check/crc32_table.c
+../../src/liblzma/check/crc64_fast_64k.o:                      ../../src/liblzma/check/crc64_fast.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/check/crc64_fast_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/check/crc64_fast.c
+../../src/liblzma/check/crc64_table_64k.o:                    ../../src/liblzma/check/crc64_table.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/check/crc64_table_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/check/crc64_table.c
+../../src/liblzma/check/sha256_64k.o:                              ../../src/liblzma/check/sha256.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/check/sha256_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/check/sha256.c
+../../src/liblzma/common/alone_decoder_64k.o:              ../../src/liblzma/common/alone_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/alone_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/alone_decoder.c
+../../src/liblzma/common/alone_encoder_64k.o:              ../../src/liblzma/common/alone_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/alone_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/alone_encoder.c
+../../src/liblzma/common/auto_decoder_64k.o:                ../../src/liblzma/common/auto_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/auto_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/auto_decoder.c
+../../src/liblzma/common/block_buffer_decoder_64k.o: ../../src/liblzma/common/block_buffer_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/block_buffer_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/block_buffer_decoder.c
+../../src/liblzma/common/block_buffer_encoder_64k.o: ../../src/liblzma/common/block_buffer_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/block_buffer_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/block_buffer_encoder.c
+../../src/liblzma/common/block_decoder_64k.o:              ../../src/liblzma/common/block_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/block_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/block_decoder.c
+../../src/liblzma/common/block_encoder_64k.o:              ../../src/liblzma/common/block_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/block_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/block_encoder.c
+../../src/liblzma/common/block_header_decoder_64k.o: ../../src/liblzma/common/block_header_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/block_header_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/block_header_decoder.c
+../../src/liblzma/common/block_header_encoder_64k.o: ../../src/liblzma/common/block_header_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/block_header_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/block_header_encoder.c
+../../src/liblzma/common/block_util_64k.o:                    ../../src/liblzma/common/block_util.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/block_util_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/block_util.c
+../../src/liblzma/common/common_64k.o:                            ../../src/liblzma/common/common.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/common_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/common.c
+../../src/liblzma/common/easy_buffer_encoder_64k.o:  ../../src/liblzma/common/easy_buffer_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/easy_buffer_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/easy_buffer_encoder.c
+../../src/liblzma/common/easy_decoder_memusage_64k.o: ../../src/liblzma/common/easy_decoder_memusage.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/easy_decoder_memusage_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/easy_decoder_memusage.c
+../../src/liblzma/common/easy_encoder_64k.o:                ../../src/liblzma/common/easy_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/easy_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/easy_encoder.c
+../../src/liblzma/common/easy_encoder_memusage_64k.o: ../../src/liblzma/common/easy_encoder_memusage.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/easy_encoder_memusage_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/easy_encoder_memusage.c
+../../src/liblzma/common/easy_preset_64k.o:                  ../../src/liblzma/common/easy_preset.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/easy_preset_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/easy_preset.c
+../../src/liblzma/common/filter_buffer_decoder_64k.o: ../../src/liblzma/common/filter_buffer_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/filter_buffer_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/filter_buffer_decoder.c
+../../src/liblzma/common/filter_buffer_encoder_64k.o: ../../src/liblzma/common/filter_buffer_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/filter_buffer_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/filter_buffer_encoder.c
+../../src/liblzma/common/filter_common_64k.o:              ../../src/liblzma/common/filter_common.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/filter_common_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/filter_common.c
+../../src/liblzma/common/filter_decoder_64k.o:            ../../src/liblzma/common/filter_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/filter_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/filter_decoder.c
+../../src/liblzma/common/filter_encoder_64k.o:            ../../src/liblzma/common/filter_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/filter_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/filter_encoder.c
+../../src/liblzma/common/filter_flags_decoder_64k.o: ../../src/liblzma/common/filter_flags_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/filter_flags_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/filter_flags_decoder.c
+../../src/liblzma/common/filter_flags_encoder_64k.o: ../../src/liblzma/common/filter_flags_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/filter_flags_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/filter_flags_encoder.c
+../../src/liblzma/common/hardware_cputhreads_64k.o:  ../../src/liblzma/common/hardware_cputhreads.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/hardware_cputhreads_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/hardware_cputhreads.c
+../../src/liblzma/common/hardware_physmem_64k.o:        ../../src/liblzma/common/hardware_physmem.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/hardware_physmem_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/hardware_physmem.c
+../../src/liblzma/common/index_64k.o:                              ../../src/liblzma/common/index.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/index_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/index.c
+../../src/liblzma/common/index_decoder_64k.o:              ../../src/liblzma/common/index_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/index_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/index_decoder.c
+../../src/liblzma/common/index_encoder_64k.o:              ../../src/liblzma/common/index_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/index_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/index_encoder.c
+../../src/liblzma/common/index_hash_64k.o:                    ../../src/liblzma/common/index_hash.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/index_hash_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/index_hash.c
+../../src/liblzma/common/outqueue_64k.o:                        ../../src/liblzma/common/outqueue.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/outqueue_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/outqueue.c
+../../src/liblzma/common/stream_buffer_decoder_64k.o: ../../src/liblzma/common/stream_buffer_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/stream_buffer_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/stream_buffer_decoder.c
+../../src/liblzma/common/stream_buffer_encoder_64k.o: ../../src/liblzma/common/stream_buffer_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/stream_buffer_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/stream_buffer_encoder.c
+../../src/liblzma/common/stream_decoder_64k.o:            ../../src/liblzma/common/stream_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/stream_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/stream_decoder.c
+../../src/liblzma/common/stream_encoder_64k.o:            ../../src/liblzma/common/stream_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/stream_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/stream_encoder.c
+../../src/liblzma/common/stream_encoder_mt_64k.o:      ../../src/liblzma/common/stream_encoder_mt.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/stream_encoder_mt_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/stream_encoder_mt.c
+../../src/liblzma/common/stream_flags_common_64k.o:  ../../src/liblzma/common/stream_flags_common.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/stream_flags_common_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/stream_flags_common.c
+../../src/liblzma/common/stream_flags_decoder_64k.o: ../../src/liblzma/common/stream_flags_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/stream_flags_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/stream_flags_decoder.c
+../../src/liblzma/common/stream_flags_encoder_64k.o: ../../src/liblzma/common/stream_flags_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/stream_flags_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/stream_flags_encoder.c
+../../src/liblzma/common/vli_decoder_64k.o:                  ../../src/liblzma/common/vli_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/vli_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/vli_decoder.c
+../../src/liblzma/common/vli_encoder_64k.o:                  ../../src/liblzma/common/vli_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/vli_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/vli_encoder.c
+../../src/liblzma/common/vli_size_64k.o:                        ../../src/liblzma/common/vli_size.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/common/vli_size_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/common/vli_size.c
+../../src/liblzma/delta/delta_common_64k.o:                  ../../src/liblzma/delta/delta_common.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/delta/delta_common_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/delta/delta_common.c
+../../src/liblzma/delta/delta_decoder_64k.o:                ../../src/liblzma/delta/delta_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/delta/delta_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/delta/delta_decoder.c
+../../src/liblzma/delta/delta_encoder_64k.o:                ../../src/liblzma/delta/delta_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/delta/delta_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/delta/delta_encoder.c
+../../src/liblzma/lz/lz_decoder_64k.o:                            ../../src/liblzma/lz/lz_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lz/lz_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lz/lz_decoder.c
+../../src/liblzma/lz/lz_encoder_64k.o:                            ../../src/liblzma/lz/lz_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lz/lz_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lz/lz_encoder.c
+../../src/liblzma/lz/lz_encoder_mf_64k.o:                      ../../src/liblzma/lz/lz_encoder_mf.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lz/lz_encoder_mf_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lz/lz_encoder_mf.c
+../../src/liblzma/lzma/fastpos_table_64k.o:                  ../../src/liblzma/lzma/fastpos_table.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lzma/fastpos_table_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lzma/fastpos_table.c
+../../src/liblzma/lzma/lzma2_decoder_64k.o:                  ../../src/liblzma/lzma/lzma2_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lzma/lzma2_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lzma/lzma2_decoder.c
+../../src/liblzma/lzma/lzma2_encoder_64k.o:                  ../../src/liblzma/lzma/lzma2_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lzma/lzma2_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lzma/lzma2_encoder.c
+../../src/liblzma/lzma/lzma_decoder_64k.o:                    ../../src/liblzma/lzma/lzma_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lzma/lzma_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lzma/lzma_decoder.c
+../../src/liblzma/lzma/lzma_encoder_64k.o:                    ../../src/liblzma/lzma/lzma_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lzma/lzma_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lzma/lzma_encoder.c
+../../src/liblzma/lzma/lzma_encoder_optimum_fast_64k.o: ../../src/liblzma/lzma/lzma_encoder_optimum_fast.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lzma/lzma_encoder_optimum_fast_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lzma/lzma_encoder_optimum_fast.c
+../../src/liblzma/lzma/lzma_encoder_optimum_normal_64k.o: ../../src/liblzma/lzma/lzma_encoder_optimum_normal.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lzma/lzma_encoder_optimum_normal_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lzma/lzma_encoder_optimum_normal.c
+../../src/liblzma/lzma/lzma_encoder_presets_64k.o:    ../../src/liblzma/lzma/lzma_encoder_presets.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/lzma/lzma_encoder_presets_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/lzma/lzma_encoder_presets.c
+../../src/liblzma/rangecoder/price_table_64k.o:          ../../src/liblzma/rangecoder/price_table.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/rangecoder/price_table_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/rangecoder/price_table.c
+../../src/liblzma/simple/arm_64k.o  :                                ../../src/liblzma/simple/arm.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/simple/arm_64k.o   $(AMANDA_FLAGS__) ../../src/liblzma/simple/arm.c
+../../src/liblzma/simple/armthumb_64k.o:                        ../../src/liblzma/simple/armthumb.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/simple/armthumb_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/simple/armthumb.c
+../../src/liblzma/simple/ia64_64k.o :                               ../../src/liblzma/simple/ia64.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/simple/ia64_64k.o  $(AMANDA_FLAGS__) ../../src/liblzma/simple/ia64.c
+../../src/liblzma/simple/powerpc_64k.o:                          ../../src/liblzma/simple/powerpc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/simple/powerpc_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/simple/powerpc.c
+../../src/liblzma/simple/simple_coder_64k.o:                ../../src/liblzma/simple/simple_coder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/simple/simple_coder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/simple/simple_coder.c
+../../src/liblzma/simple/simple_decoder_64k.o:            ../../src/liblzma/simple/simple_decoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/simple/simple_decoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/simple/simple_decoder.c
+../../src/liblzma/simple/simple_encoder_64k.o:            ../../src/liblzma/simple/simple_encoder.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/simple/simple_encoder_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/simple/simple_encoder.c
+../../src/liblzma/simple/sparc_64k.o:                              ../../src/liblzma/simple/sparc.c
+	x86_64-w64-mingw32-gcc.exe -Wfatal-errors \
+	-Werror -c -o ../../src/liblzma/simple/sparc_64k.o $(AMANDA_FLAGS__) ../../src/liblzma/simple/sparc.c

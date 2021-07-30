@@ -1,0 +1,4 @@
+lz4.c
+lz4frame.c
+lz4hc.c
+xxhash.c
