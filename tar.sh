@@ -758,4 +758,45 @@ exit
 fi
 
 
+
+if [ "xz32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe xz_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "xz64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe xz_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "xz_clean" == "$1" ] 
+then
+
+	cd /bw_tmp/xz/
+
+	rm *.o *.a
+	
+	cd /bw_tmp/xz_b/
+
+	rm *.o *.a
+	
+exit
+
+fi
+
+
 echo "Erro amor..."
