@@ -234,6 +234,14 @@ Sorry for this limitation
 
 Changelog:
 
+What is new in version 5.8.6  build 005661 Sexta  30 Julho 2021  18:45 codename Gabard
+Finished the replacement of the folders for folders based on Cygwin for ease
+of use, and no more predefined folders that may not exist in your system,
+notice that you need to create the paths referred in tar.sh or it will
+not compile, or maybe you can customize the folders to fit your needs,
+minor modifications, notice that yet the update archives code is in debug
+mode then if possible don't use it.
+
 What is new in version 5.4.21 build 005626 Sabado 24 Julho 2021  08:35 codename Floc'hlay and Ébalard
 Rearranged the sources for ease of access and compilation, minor modifications,
 soon we will have a major release (6.0).
