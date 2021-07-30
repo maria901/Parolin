@@ -1,0 +1,10 @@
+DESCRIPTION "my Zstandard dll"
+
+EXPORTS
+
+cancel_zs___aakp_zs___ar				@327
+compress_zs___rspk_ar					@340
+get_progress_zs___ar					@350
+pause_zs___aakp_zs___ar					@360
+resume_zs___aakp_zs___ar				@370
+uncompress_zs___rspk_ar					@380

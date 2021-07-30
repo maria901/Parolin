@@ -1,0 +1,1 @@
+#define AMARIC__VERSION "1.0.2 build 899"
