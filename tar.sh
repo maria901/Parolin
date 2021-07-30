@@ -799,4 +799,40 @@ exit
 fi
 
 
+if [ "Zstandard32" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe Zstandard_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "Zstandard64" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe Zstandard_64 -f makefile
+
+exit
+
+fi
+
+
+if [ "xz_clean" == "$1" ] 
+then
+
+	cd /bw_tmp/Zstandard/
+
+	rm *.o	
+	
+exit
+
+fi
+
+
 echo "Erro amor..."

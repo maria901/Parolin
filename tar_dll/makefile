@@ -274,6 +274,16 @@ xz_32:
 xz_64:
 	(cd /tar/xz/xz-5.2.5/ && make_amanda_kp ricardo_64     -f 'makefile')
 	
+
+#########################################################################################################################################
+## section Zstandard
+
+Zstandard_32:
+	(cd /tar/Zstandard/zstd-1.5.0/build/VS2010 && make_amanda_kp amanda_32      -f 'makefile')
+
+Zstandard_64:
+	(cd /tar/Zstandard/zstd-1.5.0/build/VS2010 && make_amanda_kp ricardo_64     -f 'makefile')
+	
 #########################################################################################################################################
 clean:
 	(shopt -s nocaseglob ; rm *.o *.dll)
