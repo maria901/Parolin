@@ -1,0 +1,62 @@
+amanda_32: src/c_ansic_32aakp_rspk.o src/c_ansim_32aakp_rspk.o src/c_init_32aakp_rspk.o                                   \
+	       src/c_none_32aakp_rspk.o src/c_screen_32aakp_rspk.o src/compress_32aakp_rspk.o                                 \
+	       src/djgpp2_32aakp_rspk.o src/filter_32aakp_rspk.o src/frames_32aakp_rspk.o                                     \
+	       src/help_32aakp_rspk.o src/lzop_32aakp_rspk.o src/mblock_32aakp_rspk.o                                         \
+	       src/p_lzo_32aakp_rspk.o src/s_curses_32aakp_rspk.o src/s_djgpp2_32aakp_rspk.o                                  \
+	       src/s_object_32aakp_rspk.o src/s_vcsa_32aakp_rspk.o src/util_32aakp_rspk.o
+
+
+src/c_ansic_32aakp_rspk.o                   :                                                 src/c_ansic.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/c_ansic_32aakp_rspk.o                    $(AMANDA_FLAGS__)              src/c_ansic.c
+src/c_ansim_32aakp_rspk.o                   :                                                 src/c_ansim.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/c_ansim_32aakp_rspk.o                    $(AMANDA_FLAGS__)              src/c_ansim.c
+src/c_init_32aakp_rspk.o                    :                                                  src/c_init.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/c_init_32aakp_rspk.o                     $(AMANDA_FLAGS__)               src/c_init.c
+src/c_none_32aakp_rspk.o                    :                                                  src/c_none.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/c_none_32aakp_rspk.o                     $(AMANDA_FLAGS__)               src/c_none.c
+src/c_screen_32aakp_rspk.o                  :                                                src/c_screen.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/c_screen_32aakp_rspk.o                   $(AMANDA_FLAGS__)             src/c_screen.c
+src/compress_32aakp_rspk.o                  :                                                src/compress.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/compress_32aakp_rspk.o                   $(AMANDA_FLAGS__)             src/compress.c
+src/djgpp2_32aakp_rspk.o                    :                                                  src/djgpp2.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/djgpp2_32aakp_rspk.o                     $(AMANDA_FLAGS__)               src/djgpp2.c
+src/filter_32aakp_rspk.o                    :                                                  src/filter.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/filter_32aakp_rspk.o                     $(AMANDA_FLAGS__)               src/filter.c
+src/frames_32aakp_rspk.o                    :                                                  src/frames.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/frames_32aakp_rspk.o                     $(AMANDA_FLAGS__)               src/frames.c
+src/help_32aakp_rspk.o                      :                                                    src/help.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/help_32aakp_rspk.o                       $(AMANDA_FLAGS__)                 src/help.c
+src/lzop_32aakp_rspk.o                      :                                                    src/lzop.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/lzop_32aakp_rspk.o                       $(AMANDA_FLAGS__)                 src/lzop.c
+src/mblock_32aakp_rspk.o                    :                                                  src/mblock.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/mblock_32aakp_rspk.o                     $(AMANDA_FLAGS__)               src/mblock.c
+src/p_lzo_32aakp_rspk.o                     :                                                   src/p_lzo.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/p_lzo_32aakp_rspk.o                      $(AMANDA_FLAGS__)                src/p_lzo.c
+src/s_curses_32aakp_rspk.o                  :                                                src/s_curses.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/s_curses_32aakp_rspk.o                   $(AMANDA_FLAGS__)             src/s_curses.c
+src/s_djgpp2_32aakp_rspk.o                  :                                                src/s_djgpp2.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/s_djgpp2_32aakp_rspk.o                   $(AMANDA_FLAGS__)             src/s_djgpp2.c
+src/s_object_32aakp_rspk.o                  :                                                src/s_object.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/s_object_32aakp_rspk.o                   $(AMANDA_FLAGS__)             src/s_object.c
+src/s_vcsa_32aakp_rspk.o                    :                                                  src/s_vcsa.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/s_vcsa_32aakp_rspk.o                     $(AMANDA_FLAGS__)               src/s_vcsa.c
+src/util_32aakp_rspk.o                      :                                                    src/util.c
+	gcc.exe -Wfatal-errors \
+	-Werror -c -o src/util_32aakp_rspk.o                       $(AMANDA_FLAGS__)                 src/util.c
