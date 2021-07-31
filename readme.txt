@@ -234,6 +234,11 @@ Sorry for this limitation
 
 Changelog:
 
+What is new in version 6.0.8  build 005683 Sabado 31 Julho 2021  17:45 codename Ikonen
+First release compiled with -Wextra for safety, minor modifications,
+notice that the update archive portions of the code is not complete
+yet.
+
 What is new in version 5.8.6  build 005661 Sexta  30 Julho 2021  18:45 codename Gabard
 Finished the replacement of the folders for folders based on Cygwin for ease
 of use, and no more predefined folders that may not exist in your system,

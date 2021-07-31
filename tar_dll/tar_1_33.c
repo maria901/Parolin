@@ -199,8 +199,11 @@ inittimer2(int value)
  *
  */
 
-void strncpy_z(char *dest_z, char *src_z, size_t len)
+void strncpy_z(char *dest_z, char *src_z, size_t len_)
 {
+	
+	int len = (int) len_;
+	
 	assert(0 <= (int) len);
 
 	len--;
@@ -210,7 +213,7 @@ void strncpy_z(char *dest_z, char *src_z, size_t len)
 		len = 0;
 	}
 
-	if (strlen(src_z) < len)
+	if (strlen(src_z) < (size_t) len)
 	{
 		strcpy(dest_z, src_z);
 	}
@@ -580,7 +583,7 @@ typedef struct _amanda_i_
 our_map_arp_i   global_our_map_arp_i         = { 0 };
 our_map_arp_i * global_ptr_our_map_arp_v27_i = NULL;
 
-unsigned __stdcall my_thread_function_v27(void * my_argument_z   )
+unsigned __stdcall my_thread_function_v27(__attribute__((unused)) void * my_argument_z   )
 {
 #define BUF_SIZE_ARP_I (sizeof(our_map_arp_i))
 
@@ -3225,12 +3228,12 @@ xheader_list_append(struct keyword_list **root, char const *kw,
  *
  */
 static void
-_gnu_flush_write(size_t buffer_level)
+_gnu_flush_write(__attribute__((unused)) size_t buffer_level)
 {
 	ssize_t status;
 
 	status = _flush_write();
-	if (status != record_size)
+	if ((int64_t)status != (int64_t)record_size)
 	{
 	}
 	else
@@ -3239,7 +3242,7 @@ _gnu_flush_write(size_t buffer_level)
 			records_written++;
 	}
 
-	if (status == record_size)
+	if ((int64_t)status == (int64_t)record_size)
 	{
 		return;
 	}
@@ -3276,7 +3279,7 @@ simple_flush_write(size_t level __attribute__((unused)))
 {
 	ssize_t status;
 	status = _flush_write();
-	if (status != record_size)
+	if ((int64_t)status != (int64_t)record_size)
 	{
 	}
 	else
@@ -3315,7 +3318,7 @@ void TimetToFileTime(time_t t, LPFILETIME pft)
  */
 BOOL GetLastWriteTime_complete_arp(HANDLE hFile,
                                    char * lpszString_amanda,
-                                   DWORD dwSize,
+                                   __attribute__((unused)) DWORD dwSize,
                                    __time64_t *s_arp,
                                    VAL_data * VAL_data_arp)
 {
@@ -3451,9 +3454,8 @@ void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data * VAL_data_ar
 	}
 	else
 	{
-		if (GetLastWriteTime_complete_arp(hFile, szBuf, MAX_PATH, s_arp, VAL_data_arp))
-			;
-
+		GetLastWriteTime_complete_arp(hFile, szBuf, MAX_PATH, s_arp, VAL_data_arp);
+	
 		CloseHandle(hFile);
 	}
 	return;
@@ -3463,7 +3465,7 @@ void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data * VAL_data_ar
  * To convert timestamp for file, as far I know not in use these days, it was only for debug purposes
  *
  */
-void printf_time(time_t s_arp, char *file_arp)
+void printf_time(time_t s_arp, __attribute__((unused)) char * file_arp)
 {
 	FILETIME ftime_in = { 0 };
 	SYSTEMTIME systime_arp = { 0 };
@@ -3488,7 +3490,7 @@ void printf_time(time_t s_arp, char *file_arp)
  *
  */
 char const *
-tartime(struct timespec t, bool full_time)
+tartime(struct timespec t, __attribute__((unused)) bool full_time)
 {
 	enum { fraclen = sizeof ".FFFFFFFFF" - 1 };
 	static char buffer[5000];
@@ -3584,7 +3586,7 @@ all_names_found(struct tar_stat_info *p)
  */
 void
 simple_print_header(struct tar_stat_info *st, union block *blk,
-                    off_t block_ordinal)
+                    __attribute__((unused)) off_t block_ordinal)
 {
 	char *temp_name;
 
@@ -4165,7 +4167,7 @@ skip_file(off_t size)
  *
  */
 void
-mv_begin_write(const char *file_name, off_t totsize, off_t sizeleft)
+mv_begin_write(__attribute__((unused)) const char *file_name, __attribute__((unused)) off_t totsize, __attribute__((unused)) off_t sizeleft)
 {
 }
 
@@ -4207,7 +4209,7 @@ skip_member(void)
  *
  */
 int
-gname_to_gid(char const *gname, short *gidp)
+gname_to_gid(__attribute__((unused)) char const *gname, __attribute__((unused)) short *gidp)
 {
 	return 0;
 }
@@ -4216,7 +4218,7 @@ gname_to_gid(char const *gname, short *gidp)
  * Tar related function, version 1.34, slightly modified
  *
  */
-int uname_to_uid(char const *uname, short *uidp)
+int uname_to_uid(__attribute__((unused)) char const *uname, __attribute__((unused)) short *uidp)
 {
 	return 0;
 }
@@ -4843,7 +4845,7 @@ read_header_old_1_32(union block **return_block, struct tar_stat_info *info,
 				if (n)
 					size += BLOCKSIZE - n;
 
-				if (name_size != info->stat.st_size || size < name_size)
+				if ((size_t)name_size != (size_t)(info->stat.st_size) || size < name_size)
 				{
 					assert(0 && "nunca pode acontecer");
 				}
@@ -5048,7 +5050,7 @@ read_header(union block **return_block, struct tar_stat_info *info,
 				if (n)
 					size += BLOCKSIZE - n;
 
-				if (name_size != info->stat.st_size || size < name_size)
+				if ((size_t)name_size != (size_t)(info->stat.st_size) || size < name_size)
 				{
 					//xalloc_die ();
 					assert(0 && "nunca pode acontecer");
@@ -5189,7 +5191,7 @@ read_header(union block **return_block, struct tar_stat_info *info,
  *
  */
 void
-close_error(char const *name)
+close_error(__attribute__((unused)) char const *name)
 {
 }
 
@@ -5198,7 +5200,7 @@ close_error(char const *name)
  *
  */
 void
-close_warn(char const *name)
+close_warn(__attribute__((unused)) char const *name)
 {
 }
 
@@ -5207,7 +5209,7 @@ close_warn(char const *name)
  *
  */
 void
-open_error(char const *name)
+open_error(__attribute__((unused)) char const *name)
 {
 }
 
@@ -5216,7 +5218,7 @@ open_error(char const *name)
  *
  */
 void
-open_warn(char const *name)
+open_warn(__attribute__((unused)) char const *name)
 {
 }
 
@@ -5990,6 +5992,7 @@ void
 _gnu_flush_read(void)
 {
 	size_t status;          /* result from system call */
+	size_t status_b = -1;
 	read_error_count = 0;   /* clear error count */
 	for (;;)
 	{
@@ -6000,7 +6003,7 @@ _gnu_flush_read(void)
 			records_read++;
 			return;
 		}
-		if (-1 == status)
+		if (status_b == status)
 		{
 			fatal_exit_k = 1;
 			strcpy(error_message_k, "Cannot read from tar file");
@@ -6019,6 +6022,7 @@ void
 simple_flush_read(void)
 {
 	size_t status;          /* result from system call */
+	int status_i;
 	read_error_count = 0;   /* clear error count */
 	for (;;)
 	{
@@ -6030,7 +6034,10 @@ simple_flush_read(void)
 			records_read++;
 			return;
 		}
-		if (0 > status)
+		
+		status_i =(int) status;
+		
+		if (0 > status_i)
 		{
 			fatal_exit_k = 1;
 			strcpy(error_message_k, "Cannot read from tar file");
@@ -6365,7 +6372,7 @@ open_archive(enum access_mode wanted_access)
  * Required function for a standard windows DLL
  *
  */
-int __stdcall DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+int __stdcall DllMain(__attribute__((unused)) HANDLE hModule, DWORD ul_reason_for_call, __attribute__((unused)) LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
 	{
@@ -6421,7 +6428,7 @@ char copy_for_extract_ar[1024];
  * This function is called by the thread initializer, for list process
  *
  */
-int __stdcall startapi_ar_2(int parameter)//for list process thread...
+int __stdcall startapi_ar_2(__attribute__((unused)) int parameter)//for list process thread...
 {
      bool is_7zip_libarchive_i = false;
      int is_multi_volume_p;
@@ -6556,7 +6563,7 @@ int __stdcall startapi_ar_2(int parameter)//for list process thread...
  * This function is called when a thread is initialized, for an extraction process
  *
  */
-int __stdcall startapi_ar_3(int parameter)//extract call function...
+int __stdcall startapi_ar_3(__attribute__((unused)) int parameter)//extract call function...
 {
      bool is_7zip_libarchive_i = false;
      int is_multi_volume_p;
@@ -6692,7 +6699,7 @@ int __stdcall list_tar_file_ar(char * tar_file_ar)
 
 	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
 	                        (SIZE_T)0,
-	                        (LPTHREAD_START_ROUTINE)startapi_ar_2,
+	                        (void *)startapi_ar_2,
 	                        (LPVOID)parameter,
 	                        (DWORD)0,
 	                        (LPDWORD)&ThreadId);
@@ -6869,7 +6876,7 @@ int __stdcall extract_tar_file_ar(char * tar_file_ar, char * destination_folder_
 	MYCAST parameter = 1;
 	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
 	                        (SIZE_T)0,
-	                        (LPTHREAD_START_ROUTINE)startapi_ar_3,
+	                        (void *)startapi_ar_3,
 	                        (LPVOID)parameter,
 	                        (DWORD)0,
 	                        (LPDWORD)&ThreadId);
@@ -6968,6 +6975,8 @@ int __stdcall GetExtrationProgress_ar(void)
 	
 	if (global_ptr_our_map_arp_v27)
 	{
+		assert(0 && "Don't handle iso files anymore in Parolin");
+		/*
 		static int old_value_arp = 0;
 		if (time_point_arp_2 < GetTickCount())
 		{
@@ -6976,6 +6985,7 @@ int __stdcall GetExtrationProgress_ar(void)
 			return old_value_arp;
 		}
 		return old_value_arp;
+		*/
 	}
 	ret_ar = getpor_10000(numero_de_itens, processed_itens_ar);
 	if (0 > ret_ar)
@@ -10192,7 +10202,7 @@ int __stdcall update_archive_ar_v2(char *tar_filename_ar,
 
 	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
 	                        (SIZE_T)0,
-	                        (LPTHREAD_START_ROUTINE)startapi_ar_6,
+	                        (void *)startapi_ar_6,
 	                        (LPVOID)parameter,
 	                        (DWORD)0,
 	                        (LPDWORD)&ThreadId);
@@ -10453,15 +10463,17 @@ char global_temp_folder_i[1027];
 
 bool ScanFolder(char * lpcszFolder_ar, int first_call)//return value is irrelevant...
 {
-     static __time64_t s_arp_3;
-     static VAL_data VAL_data_i;
+	 int64_t  size_i;
+	 __attribute__((unused)) int len_i;
+     static   __time64_t s_arp_3;
+     static   VAL_data VAL_data_i;
      WIN32_FIND_DATAW ffd;
-     char * szDir = malloc(5000);
-     char * lpcszFolder = malloc(5001);
+     char *   szDir = malloc(5000);
+     char *   lpcszFolder = malloc(5001);
      static char temp_del_entry_i[1027];
      static char dest_entry_i[1027];
-     static char dir_out_entry_i[1027];
-     static char dir_out_entry_2_i[1027];
+     __attribute__((unused)) static char dir_out_entry_i[1027];
+     __attribute__((unused)) static char dir_out_entry_2_i[1027];
      HANDLE hFind = INVALID_HANDLE_VALUE;
      bool recurse_on_subfolders_arp = true;
 
@@ -10571,17 +10583,21 @@ ok_ar:;
 
 				   if(false == delete_if_true_i)
 				   {
-
+/*
 					strcpy(dest_entry_i, global_temp_folder_i);
 					strcat(dest_entry_i, "\\");
-					strcat(dest_entry_i, final_file_or_folder_ar);
+					strcat(dest_entry_i, "d");
+*/
+					
+					strcpy(dest_entry_i, ar_gettemppath_z());
+					strcat(dest_entry_i, "d");
 //melhore este humor...
 
 					pedro_dprintf(0, "entry -> folder %s\n", final_file_or_folder_ar);
 					pedro_dprintf(0, "entry -> folder complete 1 %s\n", temp_del_entry_i);//path original complete for time functions
 					pedro_dprintf(0, "entry -> folder complete 2 %s\n", dest_entry_i);
 
-					
+					//exit(27);
 
 					if(is_update_i)
 					{
@@ -10605,9 +10621,9 @@ ok_ar:;
 					
 					if(check_temp_folder_passed_i(global_temp_folder_i, temp_del_entry_i))
 					{
-					     rspmakedir_v2(dest_entry_i);
+					     //rspmakedir_v2(dest_entry_i);
 
-					     set_folder_time(temp_del_entry_i, dest_entry_i);
+					     //set_folder_time(temp_del_entry_i, dest_entry_i);
 					}
 
 					/*
@@ -10729,6 +10745,7 @@ ok_ar:;
 					strcat(dest_entry_i, final_file_or_folder_ar);
 					if(check_temp_folder_passed_i(global_temp_folder_i, temp_del_entry_i))
 					{
+						/*
 					     stripfilenameandpath(dest_entry_i, dir_out_entry_i, NULL);
 
 					     rspmakedir_v2(dir_out_entry_i);
@@ -10738,11 +10755,12 @@ ok_ar:;
 					     stripfilenameandpath(temp_del_entry_i, dir_out_entry_2_i, NULL);
 
 					     set_folder_time(dir_out_entry_2_i, dir_out_entry_i);
+						 */
 					}
 
 					if(is_update_i)
 					{
-					     check_item_z_june_24(final_file_or_folder_ar);
+					     
 					     get_timestamp_arp(temp_del_entry_i, &s_arp_3, & VAL_data_i);
 			     
 					     attributes_i  =  GetFileAttributesW(
@@ -10773,19 +10791,6 @@ ok_ar:;
 					     {
 						  attributes_i = 0x20;						  
 					     }
-					     
-					     add_more_one_z_june_24
-						  (
-						       atime_i                         ,
-						       mtime_i                         ,
-						       ctime_i                         ,
-						       getfilesize_ar(final_file_or_folder_ar),
-						       _ftelli64(my___temp_file_i)     ,
-						       final_file_or_folder_ar         ,
-						       false                           ,
-						       true                            ,
-						       attributes_i);
-
 
 					     pedro_dprintf(0, "dest_entry_i     %s\n", dest_entry_i    );
 					     pedro_dprintf(0, "temp_del_entry_i %s\n", temp_del_entry_i);
@@ -10794,18 +10799,54 @@ ok_ar:;
 
 					     pedro_dprintf(0, "position on write file %lld\n", _ftelli64(my___temp_file_i));
 					     					     
-					     /*
+					     
 					     {
-#define THE_SIZE_I (1 << 17);
+
+#define THE_SIZE_I (1 << 17)
+
 						  char * buf_i = malloc(THE_SIZE_I);
-						  int len_i;
+						  __attribute__((unused)) int len_i;
 						  FILE * the_file_i;
 
-						  the_file_i = _wfopen(
+						  the_file_i = _wfopen(amanda_utf8towide_1_(temp_del_entry_i), L"rb");
+						  
+						  if(the_file_i)
+						  {
+							  check_item_z_june_24(final_file_or_folder_ar);
+							  add_more_one_z_june_24
+							  (
+								   atime_i                         ,
+								   mtime_i                         ,
+								   ctime_i                         ,
+								   getfilesize_ar(temp_del_entry_i),
+								   _ftelli64(my___temp_file_i)     ,
+								   final_file_or_folder_ar         ,
+								   false                           ,
+								   true                            ,
+								   attributes_i);
+								   size_i = 0;							   
+								   while((len_i = fread(buf_i, 1, THE_SIZE_I, the_file_i)))
+								   {
+									   ;
+									   if((fwrite(buf_i, 1, len_i, my___temp_file_i)) != (size_t)len_i)
+									   {
+										   fatal_exit_k = 12345100;
+									   }
+									   size_i += len_i;
+								   }
+								   
+								   pedro_dprintf(0, "did and size %lld\n", size_i);
+								   
+								   fclose(the_file_i);
+						  }
+						  else
+						  {
+							  files_that_cannot_be_read_update++;//precisa melhorar isto e mostrar uma lista de arquivos que nao puderam ser lidos...
+						  }
 						  
 						  free(buf_i);
 					     }
-					     */
+					     
 					     
 					     assert(0 && "nao saia...");
 
@@ -10855,6 +10896,10 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
      
      init_rsp_arp_encrypt_arp();
      dllinit_arp();
+
+	 my___temp_file_i = NULL;
+
+	 files_that_cannot_be_read_update = 0;
 
      bool is_7zip_libarchive_i = is_valid_7zip_i_func(tar_filename_ar);     
 
@@ -10950,19 +10995,20 @@ temp_$$$ ta bom
 
 	strcpy(global_temp_folder_i, temp_folder_i);
 	
-	ScanFolder(temp_folder_i, 1);
+	//ScanFolder(temp_folder_i, 1);
 
 	delete_if_true_i = false;
-	
+	/*
 	if(ispathfolder(temp_folder_i))
 	{
 	     strcpy(error_message_k, "Unable to remove temp folder, aborting...");
 	     returnvalue_i = 103;
 	     goto sai_agora_i;
 	}
+	*/
 	//assert(0);
 	
-	rspmakedir_v2(temp_folder_i);
+	//rspmakedir_v2(temp_folder_i);
 	
 	extract_pause__flag = false;
 	extract_cancel_flag = false;
@@ -11043,9 +11089,17 @@ temp_$$$ ta bom
 	     }
 
 	     _fseeki64(my___temp_file_i, 0, SEEK_END);
-	     
+	     fatal_exit_k = 0;
+		 
 	     ScanFolder(path_with_the_files_ar, 1);
 	     
+		 if(12345100 == fatal_exit_k)
+		 {
+			strcpy(error_message_k, "Cannot write to temporary file, aborting...");
+			returnvalue_i = 107;
+			goto sai_agora_i;
+		 }
+		 
 	     is_update_i = false;
 	     
 	     if(i_z) //to make the compiler happy...
@@ -11058,13 +11112,19 @@ temp_$$$ ta bom
 	     //aqui basta chamar o compressor
 	     use_name_i = true;
 	     libarchive_create_archive_ar_v2(tar_filename_ar,
-					     temp_folder_i,//aqui...
+					     temp_folder_i,//aqui...sim, vamos la
 					     patern_ar,
 					     compression_mode_external_ar,
 					     recurse_in_subfolders_arp,
 					     the__patern_ar__mode,
 					     compression_level_char_i);
 
+			if(my___temp_file_i)
+			{
+				fclose(my___temp_file_i);
+				my___temp_file_i =  NULL;
+			}
+			
 	     return 0;
 	}
 
@@ -11073,36 +11133,23 @@ sai_agora_i:;
 	return_value_ar = returnvalue_i;
 
 	running_update = 0;
+
+	if(my___temp_file_i)
+	{
+		fclose(my___temp_file_i);
+		my___temp_file_i =  NULL;
+	}
 	
 	return 10;
 }
-int remove_temp_folder_i(void)
-{
 
-     char temp_folder_i[1027];
-     strcpy(temp_folder_i, ar_gettemppath_z());
-
-     strcat(temp_folder_i, "temp_$$$");
-
-//tem que criar o diretorio e copiar
-
-//criar o código
-	
-     strcpy(global_patern_ar, "*");
-     true_if_include_i      = true;
-     delete_if_true_i       = true;
-	
-     ScanFolder(temp_folder_i, 1);
-	
-     return 27;
-}
 /**
  * This function is called when the new thread for the update process is started
  *
  * @return it is 0 if no error or the return value with a string with the error information,
  * can be got with the function 'get_error_message'
  */
-int __stdcall startapi_ar_6(int parameter)
+int __stdcall startapi_ar_6(__attribute__((unused)) int parameter)
 {
 	return update_archive_ar_v2_internal(tar_filename_ar___,
 	                                     path_with_the_files_ar___,

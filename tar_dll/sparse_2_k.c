@@ -762,7 +762,7 @@ oldgnu_store_sparse_info(struct tar_sparse_file *file, size_t *pindex,
  */
 void
 finish_header(struct tar_stat_info *st,
-              union block *header, off_t block_ordinal)
+              union block *header, __attribute__((unused)) off_t block_ordinal)
 {
   /* Note: It is important to do this before the call to write_extended(),
      so that the actual ustar header is printed */
@@ -1113,7 +1113,7 @@ xheader_string_begin(struct xheader *xhdr)
  *
  */
 void
-uid_to_uname(uid_t uid, char **uname)
+uid_to_uname(__attribute__((unused)) uid_t uid, char **uname)
 {
 #if 1
   *uname = xstrdup("");       //little memory leak
@@ -1456,7 +1456,7 @@ start_header(struct tar_stat_info *st)
   {
     uid_t uid = st->stat.st_uid;
     if (archive_format == POSIX_FORMAT
-        && MAX_OCTAL_VAL(header->header.uid) < uid)
+        && (int)(MAX_OCTAL_VAL(header->header.uid)) < uid)
       {
         xheader_store("uid", st, NULL);
         uid = 0;
@@ -1468,7 +1468,7 @@ start_header(struct tar_stat_info *st)
   {
     gid_t gid = st->stat.st_gid;
     if (archive_format == POSIX_FORMAT
-        && MAX_OCTAL_VAL(header->header.gid) < gid)
+        && (int)(MAX_OCTAL_VAL(header->header.gid)) < gid)
       {
         xheader_store("gid", st, NULL);
         gid = 0;
@@ -1480,7 +1480,7 @@ start_header(struct tar_stat_info *st)
   {
     off_t size = st->stat.st_size;
     if (archive_format == POSIX_FORMAT
-        && MAX_OCTAL_VAL(header->header.size) < size)
+        && (long int)(MAX_OCTAL_VAL(header->header.size)) < size)
       {
         xheader_store("size", st, NULL);
         size = 0;
@@ -1510,10 +1510,10 @@ start_header(struct tar_stat_info *st)
 
     if (archive_format == POSIX_FORMAT)
       {
-        if (MAX_OCTAL_VAL(header->header.mtime) < mtime.tv_sec
+        if ((time_t)(MAX_OCTAL_VAL(header->header.mtime)) < mtime.tv_sec
             || mtime.tv_nsec != 0)
           xheader_store("mtime", st, &mtime);
-        if (MAX_OCTAL_VAL(header->header.mtime) < mtime.tv_sec)
+        if ((time_t)(MAX_OCTAL_VAL(header->header.mtime)) < mtime.tv_sec)
           mtime.tv_sec = 0;
       }
     if (!TIME_TO_CHARS(mtime.tv_sec, header->header.mtime))
@@ -1528,7 +1528,7 @@ start_header(struct tar_stat_info *st)
       minor_t devminor = minor(st->stat.st_rdev);
 
       if (archive_format == POSIX_FORMAT
-          && MAX_OCTAL_VAL(header->header.devmajor) < devmajor)
+          && (int)(MAX_OCTAL_VAL(header->header.devmajor)) < devmajor)
         {
           xheader_store("devmajor", st, NULL);
           devmajor = 0;
@@ -1537,7 +1537,7 @@ start_header(struct tar_stat_info *st)
         return NULL;
 
       if (archive_format == POSIX_FORMAT
-          && MAX_OCTAL_VAL(header->header.devminor) < devminor)
+          && (int)(MAX_OCTAL_VAL(header->header.devminor)) < devminor)
         {
           xheader_store("devminor", st, NULL);
           devminor = 0;
@@ -2590,7 +2590,7 @@ safer_name_suffix(char const *file_name, bool link_target,
  *
  */
 char *
-mdir_name(char const *file)
+mdir_name(__attribute__((unused)) char const *file)
 {
   assert(0 && "dentro de dir name");
 
@@ -3713,7 +3713,7 @@ sparse_dump_region(struct tar_sparse_file *file, size_t i)
 
       blk = find_next_block();
       bytes_read = read(file->fd, blk->buffer, bufsize);
-      if (-1 == bytes_read)
+      if (-1 == (int)bytes_read)
         {
           /*
              read_diag_details (file->stat_info->orig_file_name,

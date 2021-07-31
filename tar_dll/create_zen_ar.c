@@ -209,6 +209,7 @@ int time_point_arp = 0;
 bool flag_iso_arp = false;
 
 int files_that_cannot_be_read;
+int files_that_cannot_be_read_update;
 int paths_with_invalid_attributes_arp;
 HANDLE hMapFile_arp = NULL;
 
@@ -423,7 +424,7 @@ void __stdcall get_create_process_ar(char *message_ar)
  *
  */
 long int
-get_stat_ctime_ns(struct _stat const *st)
+get_stat_ctime_ns(__attribute__((unused)) struct _stat const *st)
 {
 # if defined STAT_TIMESPEC
   return STAT_TIMESPEC(st, st_ctim).tv_nsec;
@@ -464,7 +465,7 @@ get_stat_ctime(struct _stat const *st)
  *
  */
 long int
-get_stat_mtime_ns(struct _stat const *st)
+get_stat_mtime_ns(__attribute__((unused)) struct _stat const *st)
 {
 # if defined STAT_TIMESPEC
   return STAT_TIMESPEC(st, st_mtim).tv_nsec;
@@ -505,7 +506,7 @@ get_stat_mtime(struct _stat const *st)
  *
  */
 long int
-get_stat_atime_ns(struct _stat const *st)
+get_stat_atime_ns(__attribute__((unused)) struct _stat const *st)
 {
 # if defined STAT_TIMESPEC
   return STAT_TIMESPEC(st, st_atim).tv_nsec;
@@ -673,7 +674,7 @@ simple_finish_header(union block *header)
  *
  */
 union block *
-write_extended(bool global, struct tar_stat_info *st, union block *old_header)
+write_extended(__attribute__((unused)) bool global, struct tar_stat_info *st, union block *old_header)
 {
   union block *header = NULL;
   if (st->xhdr.buffer || st->xhdr.stk == NULL)
@@ -754,7 +755,7 @@ mode_to_chars(mode_t v, char *p, size_t s)
      Otherwise, just copy the bits we know about.  */
   int negative;
   uintmax_t u;
-
+int vv = (int) v;
 #if 1
   if (S_ISUID == TSUID && S_ISGID == TSGID && S_ISVTX == TSVTX
       && S_IRUSR == TUREAD && S_IWUSR == TUWRITE && S_IXUSR == TUEXEC
@@ -764,7 +765,7 @@ mode_to_chars(mode_t v, char *p, size_t s)
       && archive_format != USTAR_FORMAT
       && archive_format != GNU_FORMAT)
     {
-      negative = v < 0;
+      negative = vv < 0;
       u = v;
     }
   else
@@ -871,11 +872,15 @@ to_chars(int negative, uintmax_t value, size_t valsize,
 char *
 umaxtostr(uintmax_t i, char *buf)
 {
+	
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-overflow="
+			
   char *p = buf + INT_STRLEN_BOUND(uintmax_t);
 
   *p = 0;
 
-  if (i < 0)
+  if ((int)i < 0)
     {
       do
         *--p = '0' - i % 10;
@@ -891,6 +896,9 @@ umaxtostr(uintmax_t i, char *buf)
     }
 
   return p;
+
+#pragma GCC diagnostic pop
+
 }
 
 /**
@@ -916,8 +924,9 @@ to_chars_subst(int negative, int gnu_format, uintmax_t value, size_t valsize,
       //minval_string = p;
     }
   else
+  {
     ;            //minval_string = "0";
-
+  }
   if (negative)
     {
       char *p = STRINGIFY_BIGINT(-value, valbuf + 1);
@@ -925,8 +934,10 @@ to_chars_subst(int negative, int gnu_format, uintmax_t value, size_t valsize,
       //value_string = p;
     }
   else
+  {
     ;            //value_string = STRINGIFY_BIGINT (value, valbuf);
-
+  }
+  
   if (substitute)
     {
       int negsub;
@@ -1175,7 +1186,7 @@ tar_name_copy_str(char *dst, const char *src, size_t len)
  *
  */
 void
-gid_to_gname(int gid, char **gname)
+gid_to_gname(__attribute__((unused)) int gid, char **gname)
 {
   *gname = strdup("");
   return;
@@ -1372,12 +1383,12 @@ trocadordebackslashfrente(char *path)
 size_t
 blocking_read(int fd, void *buf, size_t count)
 {
-  size_t bytes;
+  int bytes;
 
   if (mode_is_update_arp)
     {
       bytes = read(fd, buf, min(count, bytes_left_in_the_update_file_arp));
-      if (0 <= bytes)
+      if (0 <= (int)bytes)
         {
           bytes_left_in_the_update_file_arp -= bytes;
         }
@@ -1442,11 +1453,14 @@ dump_regular_file(int fd, struct tar_stat_info *st)
   mv_begin_write(st->file_name, st->stat.st_size, st->stat.st_size);
   while (size_left > 0)
     {
-      size_t bufsize, count;
+      size_t bufsize, count, count2 = -1;
+	  
+	  int icount;
+	  
       blk = find_next_block();
       bufsize = available_space_after(blk);
 
-      if (size_left < bufsize)
+      if ((int64_t)size_left < (int64_t)bufsize)
         {
           /* Last read -- zero out area beyond.  */
           bufsize = size_left;
@@ -1455,9 +1469,9 @@ dump_regular_file(int fd, struct tar_stat_info *st)
             memset(blk->buffer + size_left, 0, BLOCKSIZE - count);
         }
 
-      count = (fd <= 0) ? bufsize : blocking_read(fd, blk->buffer, bufsize);
+      icount = count = (fd <= 0) ? bufsize : blocking_read(fd, blk->buffer, bufsize);
 
-      if (0 < count)
+      if (0 < icount)
         {
           if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
             {
@@ -1469,7 +1483,7 @@ dump_regular_file(int fd, struct tar_stat_info *st)
             }
         }
 
-      if (-1 == count)
+      if (count2 == count)
         {
           pad_archive(size_left);
           return dump_status_short;
@@ -2773,7 +2787,7 @@ int __stdcall create_archive_ar(char *           tar_filename_ar,
 
   myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
 			  (SIZE_T)0,
-			  (LPTHREAD_START_ROUTINE)startapi,
+			  (void *)startapi,
 			  (LPVOID)parameter,
 			  (DWORD)0,
 			  (LPDWORD)&ThreadId);
@@ -2791,7 +2805,7 @@ int __stdcall create_archive_ar(char *           tar_filename_ar,
  * @return always 0 as you may expect...
  *
  */
-int __stdcall startapi(int parameter)
+int __stdcall startapi(__attribute__((unused)) int parameter)
 {
     char      exit_data_ar[1024];
      if(is_7zip_maria)
@@ -2841,7 +2855,7 @@ int __stdcall startapi(int parameter)
 	  return_value_ar = split_in_multiple_volumes_p(tar_filename__ar);
      }
 
-     remove_temp_folder_i();
+     //remove_temp_folder_i();
   
      mode_is_parolin_p = true;
      use_name_i = false;
@@ -3926,11 +3940,14 @@ int __stdcall GetProgress_ar(void)
 
   else if (AAKP_MODE_ISO == compression_mode_ar)
     {
+		
+		assert(0 && "Cannot handle iso anymore in Parolin, only libarchive");
+	/*
       if (global_ptr_our_map_arp)
         {
           static int old_value_arp = 0;
 
-          if (time_point_arp < GetTickCount())
+          if (time_point_arp < (int) GetTickCount())
             {
               time_point_arp = GetTickCount() + 50;
               old_value_arp = global_ptr_our_map_arp->progress_arp;
@@ -3938,6 +3955,7 @@ int __stdcall GetProgress_ar(void)
             }
           return old_value_arp;
         }
+	*/
 
       return 0;
     }
@@ -4141,7 +4159,7 @@ void __fastcall clean_up_update_ARP(void)
  * @return 0 if no error, other value otherwise
  *
  */
-int iso_create_arp(char *tar_filename_ar, char * path_with_the_files_ar, char * patern_ar)
+int iso_create_arp(char *tar_filename_ar, char * path_with_the_files_ar, __attribute__((unused)) char * patern_ar)
 {
   DWORD exit_code_arp;
   char command_line_arp[1024];
@@ -4317,7 +4335,13 @@ int __stdcall paths_with_invalid_attributes(void)
  */
 int __stdcall get_cannot_read_warnings(void)
 {
-  return files_that_cannot_be_read;
+
+	int ret_val_i;
+	ret_val_i =  files_that_cannot_be_read + files_that_cannot_be_read_update;
+	files_that_cannot_be_read_update = 0;
+
+	return ret_val_i;
+
 }
 
 bool check_valid_path_i(char *data_i)

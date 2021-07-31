@@ -872,7 +872,7 @@ xattr_coder(struct tar_stat_info const *st, char const *keyword,
  */
 static void
 xattr_acls_d_decoder(struct tar_stat_info *st,
-                     char const *keyword, char const *arg, size_t size)
+                     __attribute__((unused)) char const *keyword, char const *arg, size_t size)
 {
   st->acls_d_ptr = xmemdup(arg, size + 1);
   st->acls_d_len = size;
@@ -884,7 +884,7 @@ xattr_acls_d_decoder(struct tar_stat_info *st,
  */
 static void
 xattr_acls_d_coder(struct tar_stat_info const *st, char const *keyword,
-                   struct xheader *xhdr, void const *data)
+                   struct xheader *xhdr, __attribute__((unused)) void const *data)
 {
   xheader_print_n(xhdr, keyword, st->acls_d_ptr, st->acls_d_len);
 }
@@ -895,7 +895,7 @@ xattr_acls_d_coder(struct tar_stat_info const *st, char const *keyword,
  */
 static void
 xattr_acls_a_decoder(struct tar_stat_info *st,
-                     char const *keyword, char const *arg, size_t size)
+                     __attribute__((unused)) char const *keyword, char const *arg, size_t size)
 {
   st->acls_a_ptr = xmemdup(arg, size + 1);
   st->acls_a_len = size;
@@ -907,7 +907,7 @@ xattr_acls_a_decoder(struct tar_stat_info *st,
  */
 static void
 xattr_acls_a_coder(struct tar_stat_info const *st, char const *keyword,
-                   struct xheader *xhdr, void const *data)
+                   struct xheader *xhdr, __attribute__((unused)) void const *data)
 {
   xheader_print_n(xhdr, keyword, st->acls_a_ptr, st->acls_a_len);
 }
@@ -918,7 +918,7 @@ xattr_acls_a_coder(struct tar_stat_info const *st, char const *keyword,
  */
 static void
 xattr_selinux_decoder(struct tar_stat_info *st,
-                      char const *keyword, char const *arg, size_t size)
+                      __attribute__((unused)) char const *keyword, char const *arg, __attribute__((unused)) size_t size)
 {
   decode_string(&st->cntx_name, arg);
 }
@@ -929,7 +929,7 @@ xattr_selinux_decoder(struct tar_stat_info *st,
  */
 static void
 xattr_selinux_coder(struct tar_stat_info const *st, char const *keyword,
-                    struct xheader *xhdr, void const *data)
+                    struct xheader *xhdr, __attribute__((unused)) void const *data)
 {
   code_string(st->cntx_name, keyword, xhdr);
 }
@@ -939,9 +939,9 @@ xattr_selinux_coder(struct tar_stat_info const *st, char const *keyword,
  *
  */
 static void
-volume_offset_decoder(struct tar_stat_info *st,
+volume_offset_decoder(__attribute__((unused)) struct tar_stat_info *st,
                       char const *keyword,
-                      char const *arg, size_t size)
+                      char const *arg, __attribute__((unused)) size_t size)
 {
   uintmax_t u;
 
@@ -956,7 +956,7 @@ volume_offset_decoder(struct tar_stat_info *st,
  *
  */
 static void
-volume_offset_coder(struct tar_stat_info const *st, char const *keyword,
+volume_offset_coder(__attribute__((unused)) struct tar_stat_info const *st, char const *keyword,
                     struct xheader *xhdr, void const *data)
 {
   off_t const *v = data;
@@ -969,9 +969,9 @@ volume_offset_coder(struct tar_stat_info const *st, char const *keyword,
  *
  */
 static void
-volume_size_decoder(struct tar_stat_info *st,
+volume_size_decoder(__attribute__((unused)) struct tar_stat_info *st,
                     char const *keyword,
-                    char const *arg, size_t size)
+                    char const *arg, __attribute__((unused)) size_t size)
 {
   uintmax_t u;
 
@@ -984,7 +984,7 @@ volume_size_decoder(struct tar_stat_info *st,
  *
  */
 static void
-volume_size_coder(struct tar_stat_info const *st, char const *keyword,
+volume_size_coder(__attribute__((unused)) struct tar_stat_info const *st, char const *keyword,
                   struct xheader *xhdr, void const *data)
 {
   off_t const *v = data;
@@ -997,7 +997,7 @@ volume_size_coder(struct tar_stat_info const *st, char const *keyword,
  *
  */
 static void
-volume_filename_decoder(struct tar_stat_info *st,
+volume_filename_decoder(__attribute__((unused)) struct tar_stat_info *st,
                         char const *keyword __attribute__((unused)),
                         char const *arg,
                         size_t size __attribute__((unused)))
@@ -1010,7 +1010,7 @@ volume_filename_decoder(struct tar_stat_info *st,
  *
  */
 static void
-volume_label_decoder(struct tar_stat_info *st,
+volume_label_decoder(__attribute__((unused)) struct tar_stat_info *st,
                      char const *keyword __attribute__((unused)),
                      char const *arg,
                      size_t size __attribute__((unused)))
@@ -1023,7 +1023,7 @@ volume_label_decoder(struct tar_stat_info *st,
  *
  */
 static void
-volume_label_coder(struct tar_stat_info const *st, char const *keyword,
+volume_label_coder(__attribute__((unused)) struct tar_stat_info const *st, char const *keyword,
                    struct xheader *xhdr, void const *data)
 {
   code_string(data, keyword, xhdr);
@@ -1068,7 +1068,7 @@ dumpdir_size(const char *p)
  *
  */
 static void
-dumpdir_coder(struct tar_stat_info const *st, char const *keyword,
+dumpdir_coder(__attribute__((unused)) struct tar_stat_info const *st, char const *keyword,
               struct xheader *xhdr, void const *data)
 {
   xheader_print_n(xhdr, keyword, data, dumpdir_size(data));
@@ -1326,7 +1326,7 @@ static void
 sparse_minor_decoder(struct tar_stat_info *st,
                      char const *keyword,
                      char const *arg,
-                     size_t size)
+                     __attribute__((unused)) size_t size)
 {
   uintmax_t u;
 
@@ -1340,7 +1340,7 @@ sparse_minor_decoder(struct tar_stat_info *st,
  */
 static void
 sparse_minor_coder(struct tar_stat_info const *st, char const *keyword,
-                   struct xheader *xhdr, void const *data)
+                   struct xheader *xhdr, __attribute__((unused)) void const *data)
 {
   code_num(st->sparse_minor, keyword, xhdr);
 }
@@ -1353,7 +1353,7 @@ static void
 sparse_major_decoder(struct tar_stat_info *st,
                      char const *keyword,
                      char const *arg,
-                     size_t size)
+                     __attribute__((unused)) size_t size)
 {
   uintmax_t u;
 
@@ -1367,7 +1367,7 @@ sparse_major_decoder(struct tar_stat_info *st,
  */
 static void
 sparse_major_coder(struct tar_stat_info const *st, char const *keyword,
-                   struct xheader *xhdr, void const *data)
+                   struct xheader *xhdr, __attribute__((unused)) void const *data)
 {
   code_num(st->sparse_major, keyword, xhdr);
 }
@@ -1765,7 +1765,7 @@ strtosysint(char const *arg, char **arglim, intmax_t minval, uintmax_t maxval)
           if (minval <= i && i <= imaxval)
             return i;
           errno = ERANGE;
-          return i < minval ? minval : maxval;
+          return i < minval ? (intmax_t) minval : (intmax_t) maxval;
         }
     }
   else
@@ -2424,7 +2424,7 @@ xheader_read(struct xheader *xhdr, union block *p, off_t size)
   if (size < 0)
     size = 0; /* Already diagnosed.  */
 
-  if (SIZE_MAX - BLOCKSIZE <= size)
+  if ((off_t)(SIZE_MAX - BLOCKSIZE) <= size)
     {
       //xalloc_die ();
 

@@ -91,7 +91,7 @@ open_output_file(char const *file_name, int typeflag, mode_t mode,
  *
  */
 static int
-extract_failure(char *file_name, int typeflag)
+extract_failure(__attribute__((unused)) char *file_name, __attribute__((unused)) int typeflag)
 {
   return 1;
 }
@@ -101,7 +101,7 @@ extract_failure(char *file_name, int typeflag)
  *
  */
 static int
-extract_skip(char *file_name, int typeflag)
+extract_skip(__attribute__((unused)) char *file_name, __attribute__((unused)) int typeflag)
 {
   skip_member();
   return 0;
@@ -395,7 +395,7 @@ ispathfile(char *path)
 
   ret = GetFileAttributesW(amanda_utf8towide_1_(x));
 
-  if (0xffffffff != ret)
+  if ((int)0xffffffff != (int)ret)
     {
       if (ret & (0x00000010))
         {
@@ -1482,7 +1482,7 @@ ispathreadonly(char *path)
 UNC:
 
   ret = GetFileAttributesW(amanda_utf8towide_1_(x));
-  if (0xffffffff != ret)
+  if ((int)0xffffffff != (int)ret)
     {
       if (0x00000010 & ret)
         {
@@ -1556,7 +1556,7 @@ UNC:
 
   ret = GetFileAttributesW(amanda_utf8towide_1_(x));
 
-  if (0xffffffff != ret)
+  if ((int)0xffffffff != (int)ret)
     {
       if (ret & (0x00000010))
         {
@@ -1923,9 +1923,9 @@ trocadordebackslashtras(char *path)
  *
  */
 static int
-open_output_file(char const *file_name, int typeflag, mode_t mode,
-                 int file_created, mode_t *current_mode,
-                 mode_t *current_mode_mask, char *constructed_filename_kp)
+open_output_file(char const *file_name, int typeflag, __attribute__((unused)) mode_t mode,
+                 __attribute__((unused)) int file_created, __attribute__((unused)) mode_t *current_mode,
+                 __attribute__((unused)) mode_t *current_mode_mask, char *constructed_filename_kp)
 {
   constructed_filename_kp[0] = 0;
   int fd;
@@ -1998,9 +1998,9 @@ open_output_file(char const *file_name, int typeflag, mode_t mode,
  *
  */
 static int
-open_output_file_VAL(char const *file_name, int typeflag, mode_t mode,
-                     int file_created, mode_t *current_mode,
-                     mode_t *current_mode_mask, char *constructed_filename_kp)
+open_output_file_VAL(char const *file_name, __attribute__((unused)) int typeflag, __attribute__((unused)) mode_t mode,
+                     __attribute__((unused)) int file_created, __attribute__((unused)) mode_t *current_mode,
+                     __attribute__((unused)) mode_t *current_mode_mask, __attribute__((unused)) char *constructed_filename_kp)
 {
   constructed_filename_kp[0] = 0;
   int fd;
@@ -2229,7 +2229,7 @@ extract_file(char *file_name_in_arp, int typeflag)
 
         written = available_space_after(data_block);
 
-        if (written > size)
+        if (written > (size_t)size)
           written = size;
         errno = 0;
         count = blocking_write(fd, data_block->buffer, written);
@@ -2464,13 +2464,14 @@ extract_file_VAL(char *file_name_in_arp)
 
       count = blocking_write(fd, buffer_arp, len_arp);
 
-      if (0 > count)
+      if (0 > (int)count)
         {
           fatal_exit_k = 27022;
           strcpy(error_message_k, "Cannot write to destination file");
           break;
         }
-      if (count != len_arp)
+		
+      if ((int)count != (int)len_arp)
         {
           fatal_exit_k = 27023;
           strcpy(error_message_k, "Cannot write to destination file");
