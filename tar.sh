@@ -823,7 +823,7 @@ exit
 fi
 
 
-if [ "xz_clean" == "$1" ] 
+if [ "Zstandard_clean" == "$1" ] 
 then
 
 	cd /bw_tmp/Zstandard/
