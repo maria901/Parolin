@@ -83,7 +83,13 @@ bool check_valid_path_i(char *data_i);
 
 typedef void (*add_more_one_func) (char *);
 
+bool mode_is_update_libarchive_v27 = false;
+
 bool use_7zip_extraction_progress_i = false;
+
+bool progress_is_libarchive_v27 = false;
+
+int  progress_lib_v27;
 
 int __stdcall get_rand(int min, int max);
 
@@ -1202,8 +1208,6 @@ int __stdcall get_rand(int min, int max)
 			already_amanda_s_smart_ape = true;
 
 	ret = (GetTickCount() * GetTickCount()) + GetTickCount(); //hack
-
-	pedro_dprintf(0, "value %d\n", ret);
 
 	if (RtlGenRandom_func)
 	{
@@ -4923,8 +4927,7 @@ read_header_old_1_32(union block **return_block, struct tar_stat_info *info,
 			char namebuf[sizeof h->prefix + 1 + NAME_FIELD_SIZE + 1];
 
 			if (recent_long_name)
-			{
-				assert(recent_long_name);
+			{				
 				free(recent_long_name);
 				recent_long_name = NULL;
 			}
@@ -4960,7 +4963,6 @@ read_header_old_1_32(union block **return_block, struct tar_stat_info *info,
 			info->had_trailing_slash = strip_trailing_slashes_unix(info->file_name);
 			if (recent_long_link)
 			{
-				assert(recent_long_link);
 				free(recent_long_link);
 				recent_long_link = NULL;
 			}
@@ -9852,9 +9854,7 @@ vai_em_frente_ar:
 					{
 						//encryption_method__i[0] = 0;
 						strcpy(string_format_arp, archive_format_string(detected_format_arp));
-						
-						//pedro_dprintf(0, "pegou %s\n", 
-						
+												
 						already_arp++;
 					}
 
@@ -10592,13 +10592,7 @@ ok_ar:;
 					strcpy(dest_entry_i, ar_gettemppath_z());
 					strcat(dest_entry_i, "d");
 //melhore este humor...
-
-					pedro_dprintf(0, "entry -> folder %s\n", final_file_or_folder_ar);
-					pedro_dprintf(0, "entry -> folder complete 1 %s\n", temp_del_entry_i);//path original complete for time functions
-					pedro_dprintf(0, "entry -> folder complete 2 %s\n", dest_entry_i);
-
-					//exit(27);
-
+				
 					if(is_update_i)
 					{
 					     check_item_z_june_24(final_file_or_folder_ar);
@@ -10778,7 +10772,7 @@ ok_ar:;
 
   if(a_i == b_i)
   {
-      pedro_dprintf(0, "ok -1 == -1\n");
+      
   }
 
   }
@@ -10791,15 +10785,10 @@ ok_ar:;
 					     {
 						  attributes_i = 0x20;						  
 					     }
-
-					     pedro_dprintf(0, "dest_entry_i     %s\n", dest_entry_i    );
-					     pedro_dprintf(0, "temp_del_entry_i %s\n", temp_del_entry_i);
+					     
 
 //					     [12608] temp_del_entry_i C:\Ava\back\extract_k\taglib-1.11.1\bindings\CMakeLists.txt  _amanda_debug_
-
-					     pedro_dprintf(0, "position on write file %lld\n", _ftelli64(my___temp_file_i));
-					     					     
-					     
+ 
 					     {
 
 #define THE_SIZE_I (1 << 17)
@@ -10834,9 +10823,7 @@ ok_ar:;
 									   }
 									   size_i += len_i;
 								   }
-								   
-								   pedro_dprintf(0, "did and size %lld\n", size_i);
-								   
+								   								   
 								   fclose(the_file_i);
 						  }
 						  else
@@ -10847,9 +10834,6 @@ ok_ar:;
 						  free(buf_i);
 					     }
 					     
-					     
-					     assert(0 && "nao saia...");
-
 					}
 					
 				   }
@@ -10891,8 +10875,6 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
      int returnvalue_i = 0;
      int folders_ar = 0;
      int files_ar = 0;
-
-     assert(0 && "como sempre nao faz sentido");
      
      init_rsp_arp_encrypt_arp();
      dllinit_arp();
@@ -10902,8 +10884,6 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
 	 files_that_cannot_be_read_update = 0;
 
      bool is_7zip_libarchive_i = is_valid_7zip_i_func(tar_filename_ar);     
-
-     pedro_dprintf(0, "que lixo %d\n", is_7zip_libarchive_i);
 
      //exit(1);
      
@@ -10925,7 +10905,6 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
 	  return 2;
      }
 
-     pedro_dprintf(0, "vai verificar 1\n");
      if(ispathfile(tar_filename_ar))
      {
 	  if(is_7zip_libarchive_i)
@@ -10935,7 +10914,7 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
 	       split_compressed_file_p(0);//to zero it
 	
 	       dont_delete_7zip_file_i = true;
-	       pedro_dprintf(0, "vai verificar ta aqui\n");
+	       
 	       return libarchive_create_archive_ar_v2(tar_filename_ar,
 						      path_with_the_files_ar,
 						      patern_ar,
@@ -10945,7 +10924,7 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
 						      compression_level_char_i);
 	  }
      }
-      pedro_dprintf(0, "vai verificar 2\n");
+      
      if (!ispathfile(tar_filename_ar))
      {
 
@@ -10958,7 +10937,7 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
 						 the__patern_ar__mode,
 						 compression_level_char_i);
      }
-		 pedro_dprintf(0, "vai verificar 3\n");
+		 
      if(-1 == ret_value_arp)//compiler happy during development...
      {
 
@@ -10974,7 +10953,6 @@ primeiro cria um diretorio no temp...
 temp_$$$ ta bom
 
  */
-
 
 	//multiple chunks are not supported
 	split_compressed_file_p(0);//to zero it
@@ -10998,18 +10976,7 @@ temp_$$$ ta bom
 	//ScanFolder(temp_folder_i, 1);
 
 	delete_if_true_i = false;
-	/*
-	if(ispathfolder(temp_folder_i))
-	{
-	     strcpy(error_message_k, "Unable to remove temp folder, aborting...");
-	     returnvalue_i = 103;
-	     goto sai_agora_i;
-	}
-	*/
-	//assert(0);
-	
-	//rspmakedir_v2(temp_folder_i);
-	
+		
 	extract_pause__flag = false;
 	extract_cancel_flag = false;
 
@@ -11021,7 +10988,7 @@ temp_$$$ ta bom
 
 	if (createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_update_i, L"am_"))
 	{
-	     pedro_dprintf(0, "criou arquivo %s\n", temp_file_update_i);
+	     
 	}
 	else
 	{
@@ -11033,36 +11000,10 @@ temp_$$$ ta bom
 	//exit(27);
 	
 	extract_to_file_i_func(ar_gettemppath_z(), true, temp_file_update_i, init_playlist_z_june_24, add_more_one_z_june_24, check_item_z_june_24);
-	pedro_dprintf(0, "vai verificar 4\n");
-	assert(0 && "vai chamar extracacao");
-	
+			
 	returnvalue_i =  libarchive_extract_entries_p_func(tar_filename_ar, the_pass_arp, NULL, error_message_k, string_format_arp, temp_folder_i, extracting_filename_ar, warning_info, creating_folder_maria, & extract_pause__flag, & extract_cancel_flag, & folders_ar, & files_ar);
 
 	extract_to_file_i_func(ar_gettemppath_z(), false, temp_file_update_i, init_playlist_z_june_24, add_more_one_z_june_24, check_item_z_june_24);
-
-/*
-	assert(0 && "vai mostrar linked list");
-
-	{
-	     struct my_struct_for_list_ar_is_amanda_update_june_24 *my_ptr_ar ;
-	     my_ptr_ar  = aak_inicio_is_amanda_update_june_24;
-	     for(i_z = 0; i_z < has_itens_is_amanda_update_june_24; i_z++)
-	     {
-	  
-		  pedro_dprintf(0, "arquivo %s %lld\n", my_ptr_ar->item_entry_i, my_ptr_ar->file_offset_i); 
-	  
-		  my_ptr_ar = my_ptr_ar->next_ar;
-      
-	     }
-	}
-*/
-//	exit(27);
-/*
-
-  need to extract to a temp file, isto depois que ver como sera feito a modificacao, precisa da extracacao
-
- */
-
 
 	if(!returnvalue_i)
 	{
@@ -11074,7 +11015,7 @@ temp_$$$ ta bom
 	     {
 		  true_if_include_i = true;
 	     }
-	     assert(0 && "vai mostrar phisical entries list");
+	     
 	     delete_if_true_i = false;//for safety
 
 	     is_update_i = true;
@@ -11108,9 +11049,17 @@ temp_$$$ ta bom
 	     }
 	now_i:;
 		  
-	     exit(27);
+		  	if(my___temp_file_i)
+			{
+				fclose(my___temp_file_i);
+				my___temp_file_i =  NULL;
+			}
+	     //exit(27);
 	     //aqui basta chamar o compressor
 	     use_name_i = true;
+		 
+		 mode_is_update_libarchive_v27 = true;
+		 
 	     libarchive_create_archive_ar_v2(tar_filename_ar,
 					     temp_folder_i,//aqui...sim, vamos la
 					     patern_ar,
@@ -11119,11 +11068,7 @@ temp_$$$ ta bom
 					     the__patern_ar__mode,
 					     compression_level_char_i);
 
-			if(my___temp_file_i)
-			{
-				fclose(my___temp_file_i);
-				my___temp_file_i =  NULL;
-			}
+	
 			
 	     return 0;
 	}
@@ -11139,6 +11084,8 @@ sai_agora_i:;
 		fclose(my___temp_file_i);
 		my___temp_file_i =  NULL;
 	}
+	
+	_wunlink(amanda_utf8towide_1_(temp_file_update_i));
 	
 	return 10;
 }

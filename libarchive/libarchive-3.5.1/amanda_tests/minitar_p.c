@@ -172,7 +172,7 @@ extern int debug_mode_i;
 char temp__file_i[1027];
 
 //0 = show debug
-#define USE_PEDRO_DPRINTF 0
+#define USE_PEDRO_DPRINTF 1
 
 #include <archive.h>
 #include <archive_entry.h>
@@ -810,10 +810,9 @@ int __stdcall libarchive_create_archive_init_p(int archive_kind_p, char *file_ut
 
 		archive_write_open_filename_w(a, amanda_utf8towide_1_(file_utf_8_p));
 
-		pedro_dprintf(-1, "ret_arp_ %d\n", ret_arp_);
-
 		if(ARCHIVE_OK != ret_arp_)
 		{
+			
 			archive_write_close(a);
 			archive_write_free(a);
 			return 3;
@@ -877,8 +876,9 @@ int __stdcall libarchive_create_archive_init_p(int archive_kind_p, char *file_ut
 		                                                  "zip:encryption=zipcrypt"))
 		      {
 		           pedro_dprintf(2, "This system does not have cryptographic library zipcrypt");
-		           assert(0 && "This system does not have cryptographic library zipcrypt");
-		           }*/
+		           
+		      }
+		*/
 
 		if (ARCHIVE_OK != archive_write_set_options(a,
 		                                            "zip:encryption=aes128"))
@@ -919,8 +919,8 @@ int __stdcall libarchive_create_archive_init_p(int archive_kind_p, char *file_ut
 		                                                  "zip:encryption=zipcrypt"))
 		      {
 		           pedro_dprintf(2, "This system does not have cryptographic library zipcrypt");
-		           assert(0 && "This system does not have cryptographic library zipcrypt");
-		           }*/
+		      }
+	     */
 
 		strcpy(our_compression_data_p, "zip:compression-level=");
 
@@ -942,7 +942,8 @@ int __stdcall libarchive_create_archive_init_p(int archive_kind_p, char *file_ut
 		   {
 		     pedro_dprintf(2, "This system does not have cryptographic library aes128");
 		     assert(0 && "This system does not have cryptographic library aes128");
-		     }*/
+		   }
+		*/
 
 		if(strlen(passphrase_p))
 		{
@@ -1450,8 +1451,6 @@ int __stdcall libarchive_close_p(void)
 
 	is_open_p = false;
 	wide_fix_p = 0;
-
-	//assert(0 && "fechou libarchive");
 	
 	if(false == fatal_error_p)
 	{
@@ -1968,9 +1967,7 @@ safety_i:;
 	       }
 
 	       pedro_dprintf(0, "veja o attribute %llx\n", attributes_i);
-	       
-	       //assert(0x20 == attributes_i);
-	       
+		   
 	       if(do_it_i)
 	       {
 		    if(use_hack_internal_i)
@@ -2192,17 +2189,13 @@ int __stdcall libarchive_extract_entries_p(char *filename_utf_8_p, char * passwo
 	  * folders_ar = 0;
 	  * files_ar   = 0;
 	  our_function_extract_p(AAKP_CLEAR);
-
-	  assert(0 && "antes de extrair");
 	  
 	  bytes_saved_i = 0;
 	  
 	  returnvalue_i = libarchive_list_entries_p(filename_utf_8_p, password_p, our_function_extract_p, error_message_p,  archive_format_p);
 
 	  pedro_dprintf(0, "bytes saved %lld\n", bytes_saved_i);
-	  
-	  assert(0 && "depois de extrair");
-	  
+	  	  
 	  extracting_filename_ar  =  NULL;
 	  warning_info            =  NULL;
 	  creating_folder_maria   =  NULL;

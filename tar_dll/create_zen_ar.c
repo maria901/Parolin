@@ -1963,9 +1963,9 @@ void dump_file_or_folder(struct tar_stat_info *st, char const *name, char * init
 		 }
 		 else
 		 {
-		      //SetCurrentDirectoryW(amanda_utf8towide_1_(initial_path_ar));
+			
 		      libarchive_process_p_func((my_VAL_data.VAL_filename), file_or_folder_to_process);
-		      //SetCurrentDirectoryW(amanda_path);
+		     
 		 }
             }
         }
@@ -2847,7 +2847,12 @@ int __stdcall startapi(__attribute__((unused)) int parameter)
 	   
      }
      else
-     return_value_ar = create_archive_internal_ar(tar_filename__ar, path_with_the_files__ar, patern__ar);
+	 {
+		 		 
+		 //exit(0);
+		 
+		return_value_ar = create_archive_internal_ar(tar_filename__ar, path_with_the_files__ar, patern__ar);
+	 }
 
      if(0 == return_value_ar)
      {
@@ -4401,6 +4406,7 @@ bool check_valid_path_i(char *data_i)
  */
 int __stdcall create_archive_internal_ar(char *tar_filename_ar, char * path_with_the_files_ar, char * patern_ar)
 {
+	static int64_t bytes_read_p_amandinha;
      FILE *    my_val_file_p;
      int64_t   file_size_p;
      paths_with_invalid_attributes_arp = 0;
@@ -4413,6 +4419,367 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char * path_with
      bool      delete_temp_folder_z = false;
      amanda_pereira_total_size = 0;
      ricrdo_bytes_read = 0;
+
+if(mode_is_update_libarchive_v27)
+{
+	FILE * temp_file_i = NULL;
+	FILE * writ_file_i = NULL;
+	
+	int64_t remaining_i;
+	int     len_i;
+	
+	char * buf_i;
+	
+	char temp_i  [1027];
+	char temp_i_f[1027];
+	mode_is_update_libarchive_v27 = false;
+		
+	while (get_list_itens(exit_data_ar))
+    {
+      ;
+    }
+	
+	dllinit_arp();
+  
+	fatal_exit_k = 0;
+ 
+   if(false == check_valid_path_i(tar_filename_ar))
+  {
+
+       if (mode_is_update_arp)
+       {
+	    clean_up_update_ARP();
+		mode_is_update_arp = false;
+       }
+
+       strcpy(error_message_k, "Invalid file to create, cannot be relative");
+       init_playlist_z_june_24();
+	   _wunlink(amanda_utf8towide_1_(temp_file_update_i));
+       return 1001;
+  }
+   
+  
+	 if (!createtempfilename_and_keep_z(ar_gettemppath_z(), archive_name_array_filename, L"GZ_"))
+        {
+
+          strcpy(error_message_k, "Cannot create temporary file");
+		  mode_is_VAL_arp = false;
+
+			if (mode_is_update_arp)
+			{
+				clean_up_update_ARP();
+				mode_is_update_arp = false;
+			}
+			
+		init_playlist_z_june_24();
+		_wunlink(amanda_utf8towide_1_(temp_file_update_i));
+          return 30003;		  
+        }
+      
+  bytes_read_p_amandinha = 0;
+  set_progress_p_func(&bytes_read_p_amandinha);
+  
+	ret_arp_ = libarchive_create_archive_init_p_func(compression_mode_p, archive_name_array_filename, the_pass_arp, compression_level_p, number_of_threads_p);
+		
+       if(1 == ret_arp_)
+       {
+	    fatal_exit_k = 200001;
+	    strcpy(error_message_k, "Invalid compression mode for a libarchive format for the moment");
+	    //clean_up_update_ARP();
+	    mode_is_VAL_arp = false;
+		
+			if (mode_is_update_arp)
+			{
+				clean_up_update_ARP();
+				mode_is_update_arp = false;
+			}
+			
+		init_playlist_z_june_24();
+		_wunlink(amanda_utf8towide_1_(temp_file_update_i));
+	    return fatal_exit_k;
+       }
+       
+       if(2 == ret_arp_)
+       {
+	    fatal_exit_k = 200002;
+	    strcpy(error_message_k, "Missing the password for the zip compressed file (cannot be empty), click 'Options' and set the password");
+	    //clean_up_update_ARP();
+	    mode_is_VAL_arp = false;
+				
+			if (mode_is_update_arp)
+			{
+				clean_up_update_ARP();
+				mode_is_update_arp = false;
+			}
+			
+		init_playlist_z_june_24();
+		_wunlink(amanda_utf8towide_1_(temp_file_update_i));
+	    return fatal_exit_k;
+		
+       }
+       
+       if(3 == ret_arp_)
+       {
+	    fatal_exit_k = 200003;
+	    strcpy(error_message_k, "Invalid compression level for this format");
+	    //clean_up_update_ARP();
+	    mode_is_VAL_arp = false;
+		
+			if (mode_is_update_arp)
+			{
+				clean_up_update_ARP();
+				mode_is_update_arp = false;
+			}
+		init_playlist_z_june_24();
+		_wunlink(amanda_utf8towide_1_(temp_file_update_i));
+	    return fatal_exit_k;
+       } 
+	   
+	   //aqui...
+	   
+	   //tem que ;lopear nos arquivos e diretorios
+	   //vejamos
+	   
+	   //libarchive_process_p_func((my_VAL_data.VAL_filename), file_or_folder_to_process);
+
+strcpy(temp_i, ar_gettemppath_z());
+strcat(temp_i, "d");
+_wunlink(amanda_utf8towide_1_(temp_i));
+
+rspmakedir_v2(temp_i);
+
+strcpy(temp_i_f, ar_gettemppath_z());
+strcat(temp_i_f, "a");
+
+		if (!SetFileAttributesW(
+				amanda_utf8towide_1_(temp_i_f),
+				FILE_ATTRIBUTE_ARCHIVE
+				))
+				{
+					;
+					
+					//exit(27);
+				}
+
+temp_file_i = _wfopen(amanda_utf8towide_1_(temp_file_update_i), L"rb");
+
+		if(NULL == temp_file_i)
+		{
+			
+			init_playlist_z_june_24();
+			fatal_exit_k = 300007;
+			strcpy(error_message_k, "Cannot open temp file");
+			goto exit_amanda;
+
+		}
+
+	   {
+		   struct my_struct_for_list_ar_is_amanda_update_june_24 *my_ptr_ar ;
+		   int i_z;
+		   
+		   my_ptr_ar  = aak_inicio_is_amanda_update_june_24;
+			for(i_z = 0; i_z < has_itens_is_amanda_update_june_24; i_z++)
+			{
+				progress_is_libarchive_v27 = true;
+				
+				progress_lib_v27 = getpor_10000(has_itens_is_amanda_update_june_24, i_z);				
+								
+				if(my_ptr_ar->in_use_i)
+				{
+						
+					sprintf(process_message_k, "Processing %s", my_ptr_ar->item_entry_i);
+					add_more_one(process_message_k);
+					
+					if(my_ptr_ar->is_dir_i)
+					{
+						void TimetToFileTime(time_t t, LPFILETIME pft);
+						//aqui amor...
+						
+						{
+						  time_t s = my_ptr_ar->mtime_i;
+
+						  if (!gmtime(&s))
+							{
+							  s = time(NULL);
+							}
+
+						  HANDLE hFile;
+						  FILETIME ftime = { 0 };
+						  FILETIME ftime_in = { 0 };
+						  TimetToFileTime(s, &ftime_in);
+						  FileTimeToLocalFileTime(
+							&ftime_in,
+							&ftime
+							);
+
+						  hFile =
+							CreateFileW(amanda_utf8towide_1_(temp_i),
+										GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+										NULL,
+										OPEN_EXISTING,
+										FILE_FLAG_BACKUP_SEMANTICS,
+										NULL);
+
+						  if (INVALID_HANDLE_VALUE != hFile)
+							{
+							  SetFileTime(hFile, &ftime_in, NULL, &ftime_in);
+							  CloseHandle(hFile);
+							}
+      
+						}
+						
+						libarchive_process_p_func(my_ptr_ar->item_entry_i, temp_i);
+					}
+					else
+					{
+						_fseeki64(
+						temp_file_i,
+						my_ptr_ar->file_offset_i,
+						SEEK_SET
+						);
+		  
+		  writ_file_i = _wfopen(amanda_utf8towide_1_(temp_i_f), L"wb");
+		  
+		  if(NULL == writ_file_i)
+		  {
+			init_playlist_z_june_24();
+			fatal_exit_k = 300008;
+			strcpy(error_message_k, "Cannot open temp file to write");
+			progress_is_libarchive_v27 = false;
+			goto exit_amanda;
+		  }
+					  {
+						  buf_i = malloc((1 << 17));
+						  remaining_i = my_ptr_ar->filesize_i;
+						  while((len_i = fread(buf_i, 1, min(remaining_i, (1 << 17)), temp_file_i)))
+						  {
+							  
+							  fwrite(buf_i, 1, len_i, writ_file_i);
+							  remaining_i -= len_i;
+							  
+						  }
+						  
+						  free(buf_i);
+						  
+						  fclose(writ_file_i);
+						  
+					  }
+				  
+		  {
+							void TimetToFileTime(time_t t, LPFILETIME pft);
+						  time_t s = my_ptr_ar->mtime_i;
+
+						  if (!gmtime(&s))
+							{
+							  s = time(NULL);
+							}
+
+						  HANDLE hFile;
+						  FILETIME ftime = { 0 };
+						  FILETIME ftime_in = { 0 };
+						  TimetToFileTime(s, &ftime_in);
+						  FileTimeToLocalFileTime(
+							&ftime_in,
+							&ftime
+							);
+
+						  hFile =
+							CreateFileW(amanda_utf8towide_1_(temp_i_f),
+										GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+										NULL,
+										OPEN_EXISTING,
+										FILE_FLAG_BACKUP_SEMANTICS,
+										NULL);
+
+						  if (INVALID_HANDLE_VALUE != hFile)
+							{
+							  SetFileTime(hFile, &ftime_in, NULL, &ftime_in);
+							  CloseHandle(hFile);
+							}
+      
+						}
+												
+				if (!SetFileAttributesW(
+				amanda_utf8towide_1_(temp_i_f),
+				my_ptr_ar->attributes_i
+				))
+				{
+					;
+					
+					//exit(27);
+				}
+
+						
+					  libarchive_process_p_func(my_ptr_ar->item_entry_i, temp_i_f);
+					  
+						if (!SetFileAttributesW(
+				amanda_utf8towide_1_(temp_i_f),
+				FILE_ATTRIBUTE_ARCHIVE
+				))
+				{
+					;
+					
+					//exit(27);
+				}
+				
+					}
+					
+				}
+				
+				my_ptr_ar = my_ptr_ar->next_ar;
+
+			}
+	   }
+	
+		ret_arp_ = libarchive_close_p_func();
+
+       if(1 == ret_arp_)
+       {
+
+	    fatal_exit_k = 200007;
+	    strcpy(error_message_k, "Fatal error in the compression function, can be a wrong combination of the number of threads and compression level, please verify");
+	    
+       }
+	   if(0 == ret_arp_)
+	   {
+		   
+			_wunlink(amanda_utf8towide_1_(tar_filename_ar));
+
+			_wrename(amanda_utf8towide_2_(archive_name_array_filename), amanda_utf8towide_1_(tar_filename_ar));
+
+	   }
+	   
+exit_amanda:;
+	   
+	mode_is_VAL_arp = false;
+		
+			if (mode_is_update_arp)
+			{
+				clean_up_update_ARP();
+				mode_is_update_arp = false;
+			}
+			
+	init_playlist_z_june_24();
+	
+	if(temp_file_i)
+	{
+		fclose(temp_file_i);
+		
+	}
+	
+	_wunlink(amanda_utf8towide_1_(temp_file_update_i));
+	
+	if(writ_file_i)
+	{
+		fclose(writ_file_i);
+		writ_file_i = NULL;
+	}
+	
+	_wunlink(amanda_utf8towide_1_(temp_i_f));
+	progress_is_libarchive_v27 = false;
+	RemoveDirectoryW(amanda_utf8towide_1_(temp_i));
+	return fatal_exit_k;
+}
 
   while (get_list_itens(exit_data_ar))
     {
@@ -5152,6 +5519,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char * path_with
        }
 
        set_progress_p_func(&bytes_read_p);
+	   	   
        ret_arp_ = libarchive_create_archive_init_p_func(compression_mode_p, archive_name_array_filename, the_pass_arp, compression_level_p, number_of_threads_p);
 
        if(1 == ret_arp_)
@@ -6774,6 +7142,13 @@ int __stdcall bytetostring(unsigned char *dest, unsigned char *src, int len)
 int __stdcall libarchive_get_progress_p(void)
 {
      int64_t arp_p;
+
+	if(progress_is_libarchive_v27)
+	{
+		
+		return progress_lib_v27;
+		
+	}
 
      if(is_7zip_maria)
      {
