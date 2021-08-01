@@ -234,7 +234,17 @@ Sorry for this limitation
 
 Changelog:
 
-What is new in version 6.0.8  build 005683 Sabado 31 Julho 2021  17:45 codename Ikonen
+What is new in version 6.4.7  build 005722 Domingo 01 Agosto 2021  19:12 codename McCaughan
+Fixed finally the update for libarchive mode, in the past the update code
+was not working as expected in systems with some anti-virus because a
+copy of exe and dlls could make the antivirus interfere with the
+code, this new version stores all data in a single file as expected, notice
+that in the case of Parolin it was already working as expected, also
+the replace of the recursive files and folders search yet don't is using
+the non recursive code but the code is already embedded on the sources, next
+release will use it, minor modifications.
+
+What is new in version 6.0.8  build 005683 Sabado  31 Julho  2021  17:45 codename Ikonen
 First release compiled with -Wextra for safety, minor modifications,
 notice that the update archive portions of the code is not complete
 yet.
