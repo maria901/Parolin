@@ -620,6 +620,16 @@ if(strlen(destination_path_utf_8_i))
 	
 	pedro_dprintf(0, "construido %s\n", valquiria_wide_to_utf8((void *) a->name));
 
+		if (!SetFileAttributesW(
+				((void *) a->name),
+				FILE_ATTRIBUTE_ARCHIVE
+				))
+				{
+					;
+					pedro_dprintf(0, "Falhou com %s\n", valquiria_wide_to_utf8((void *) a->name));
+					//exit(27);
+				}
+
 	free(wsp);
 	free(wn);
 	return (0);
@@ -1164,7 +1174,7 @@ if(use_hack_i)
 	}
 
 	ret = restore_entry(a);
-pedro_dprintf(0, "9 _archive_write_disk_header\n");
+pedro_dprintf(0, "9 _archive_write_disk_header ret %d\n", ret);
 	/*
 	 * TODO: There are rumours that some extended attributes must
 	 * be restored before file data is written.  If this is true,
@@ -1292,7 +1302,7 @@ pedro_dprintf(0, "13 _archive_write_disk_header\n");
 		archive_entry_set_size(entry, 0);
 		a->filesize = 0;
 	}
-pedro_dprintf(0, "14 final _archive_write_disk_header\n");
+pedro_dprintf(0, "14 final _archive_write_disk_header %d\n", ret);
 	return (ret);
 }
 

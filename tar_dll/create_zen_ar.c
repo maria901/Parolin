@@ -4579,8 +4579,7 @@ temp_file_i = _wfopen(amanda_utf8towide_1_(temp_file_update_i), L"rb");
 		   
 		   my_ptr_ar  = aak_inicio_is_amanda_update_june_24;
 			for(i_z = 0; i_z < has_itens_is_amanda_update_june_24; i_z++)
-			{
-				progress_is_libarchive_v27 = true;
+			{				
 				
 				progress_lib_v27 = getpor_10000(has_itens_is_amanda_update_june_24, i_z);				
 								

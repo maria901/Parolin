@@ -1944,9 +1944,9 @@ safety_i:;
 	       }
 
 	       attributes_i = -1;
-	       
+	       //assert(0 && "antes");
 	       r = archive_write_header(ext, entry);
-	       
+	       //assert(0 && "depois");
 	       if(-1 != attributes_i)
 	       {
 
@@ -1990,7 +1990,7 @@ safety_i:;
 		    pedro_dprintf(0, "arquivo erro-> %s\n", archive_error_string(a));
 		    errmsg(archive_error_string(a));
 
-		    strcpy(error_message_p, "Write archive error on file or folder '");
+		    strcpy(error_message_p, "->Write archive error on file or folder '");
 
 		    strcat(error_message_p, destination_path_final_i);
 		    strcat(error_message_p, "\\");
@@ -2170,6 +2170,9 @@ int __stdcall libarchive_extract_entries_p(char *filename_utf_8_p, char * passwo
      my_mode_i = AMANDA_PROGRESS;
 
      strcpy(destination_path_final_i, dir_to_extract_i);//to the next call
+
+	pedro_dprintf(0, "dir to extract %s\n", dir_to_extract_i);
+	//assert(0 && "See dir");
 
      pedro_dprintf(0, "antes max == %d got == %d\n", max_items, items_got);
 

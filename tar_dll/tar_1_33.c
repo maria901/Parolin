@@ -10953,7 +10953,8 @@ primeiro cria um diretorio no temp...
 temp_$$$ ta bom
 
  */
-
+	progress_is_libarchive_v27 = true;
+	progress_lib_v27 = 0;
 	//multiple chunks are not supported
 	split_compressed_file_p(0);//to zero it
 	
@@ -11086,7 +11087,7 @@ sai_agora_i:;
 	}
 	
 	_wunlink(amanda_utf8towide_1_(temp_file_update_i));
-	
+	progress_is_libarchive_v27 = false;
 	return 10;
 }
 

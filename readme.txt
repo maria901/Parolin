@@ -234,6 +234,11 @@ Sorry for this limitation
 
 Changelog:
 
+What is new in version 6.4.9  build 005724 Domingo 01 Agosto 2021  23:22 codename Normann
+Fixed a bug in the libarchive mode where a read-only file would not
+be updated generating an error, now it first removes the read-only
+attribute before writing to it, minor modifications.
+
 What is new in version 6.4.7  build 005722 Domingo 01 Agosto 2021  19:12 codename McCaughan
 Fixed finally the update for libarchive mode, in the past the update code
 was not working as expected in systems with some anti-virus because a
