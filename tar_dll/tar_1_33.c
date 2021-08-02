@@ -57,7 +57,7 @@
 
 //#define Z_DEBUG__TEMP 1
 
-#define DEBUG_MICROSOFT_AMANDA_S_SMART_APE_______LIKE_PEDRO_VALUE__ ((-1) /* as usual... */)
+#define DEBUG_MICROSOFT_AMANDA_S_SMART_APE_______LIKE_PEDRO_VALUE__ ((0) /* if -1 not working, as usual... */)
 
 //set it to one if you want to allow the extraction of VAL encrypted files with different passwords, but it is not recommended, you are warned
 #define ARP_ALLOW_MULTIPLE_PASSWORDS_ 0
@@ -10461,399 +10461,22 @@ char global_temp_folder_i[1027];
 
 #include "enum_files_and_folders_1.c"
 
-bool ScanFolder(char * lpcszFolder_ar, int first_call)//return value is irrelevant...
+bool ScanFolder(char * lpcszFolder_ar, __attribute__((unused)) int first_call, bool recurse_i)//return value is irrelevant...
 {
-	 int64_t  size_i;
-	 __attribute__((unused)) int len_i;
-     static   __time64_t s_arp_3;
-     static   VAL_data VAL_data_i;
-     WIN32_FIND_DATAW ffd;
-     char *   szDir = malloc(5000);
-     char *   lpcszFolder = malloc(5001);
-     static char temp_del_entry_i[1027];
-     static char dest_entry_i[1027];
-     __attribute__((unused)) static char dir_out_entry_i[1027];
-     __attribute__((unused)) static char dir_out_entry_2_i[1027];
-     HANDLE hFind = INVALID_HANDLE_VALUE;
-     bool recurse_on_subfolders_arp = true;
 
 #ifdef DEBUG_MICROSOFT_AMANDA_S_SMART_APE_______LIKE_PEDRO_VALUE__
 
 #if DEBUG_MICROSOFT_AMANDA_S_SMART_APE_______LIKE_PEDRO_VALUE__ > -1
-	 assert(0 && " my love ape entering...");
+	 //assert(0 && " my love ape entering...");
 	 //test_amanda_and_ricardo();
 
-	 amanda_s_smart_ape("", true);
+	 amanda_s_smart_ape(lpcszFolder_ar, recurse_i, I_MODE_IS_SCANFOLDER);
 
-	 exit(27);
+	 return true;
 #endif
 
 #endif
 
-	 strcpy(lpcszFolder, lpcszFolder_ar);
-	 trocadordebackslashtras(lpcszFolder);
-
-     if (strlen(lpcszFolder))
-	 {
-		 if ('\\' == lpcszFolder[strlen(lpcszFolder) - 1])
-		 {
-			 lpcszFolder[strlen(lpcszFolder) - 1] = 0;
-		 }
-	 }
-
-	 if (first_call)//irrelevante...ok
-	 {
-		 memset(fixo_path_ar, 0, sizeof(fixo_path_ar));
-		 strcpy(fixo_path_ar, lpcszFolder);
-
-		 if (':' == fixo_path_ar[1] && '\\' == fixo_path_ar[2])
-		 {
-			 goto ok_ar;
-		 }
-		 if ('\\' == fixo_path_ar[0] && '\\' == fixo_path_ar[1])
-		 {
-			 goto ok_ar;
-		 }
-		 fatal_exit_k = 101;
-		 strcpy(error_message_k, "Invalid path");
-		 free(szDir), free(lpcszFolder);
-		 return false;
-	 }
-
-ok_ar:;
-
-     strcpy(szDir, lpcszFolder);
-     strcat(szDir, "\\*");
-
-     hFind = FindFirstFileW(amanda_utf8towide_1_(szDir), &ffd);
-
-     if (INVALID_HANDLE_VALUE == hFind)
-     {
-	  free(szDir), free(lpcszFolder);
-	  return false;
-     }
-
-     do
-     {
-	  if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-	  {
-	       while (pause_flag_ar)
-	       {
-		    Sleep(50);
-
-			if (fatal_exit_k)
-			{
-				free(szDir), free(lpcszFolder);
-				return false;
-			}
-		   }
-	       if (fatal_exit_k)
-	       {
-		    free(szDir), free(lpcszFolder);
-		    return false;
-	       }
-	       if ('.' != valquiria_wide_to_utf8(ffd.cFileName)[0])
-	       {
-		    int skip_ar = 0;
-		    strcpy(szDir + strlen(lpcszFolder) + 1, valquiria_wide_to_utf8(ffd.cFileName));
-		    if (recurse_on_subfolders_arp)
-		    {
-			 if (258 < strlen(szDir))
-			 {
-			      static char temp_ar[1024] = { 0 };
-
-			      snprintf(temp_ar, 600, "Skipping because the path is too large for windows -> \'%s\'", szDir);
-			      skip_ar = 1;
-			      fatal_exit_k = 102;
-			      strcpy(error_message_k, temp_ar);
-			      free(szDir), free(lpcszFolder);
-			      return false;
-			 }
-			 if (0 == skip_ar)
-			 {
-			      fix_path_ar(fixo_path_ar, szDir, final_file_or_folder_ar);
-                    
-			      {
-				   
-			      
-				   strcpy(temp_del_entry_i, fixo_path_ar);
-				   strcat(temp_del_entry_i, "\\");
-				   strcat(temp_del_entry_i, final_file_or_folder_ar);
-			      
-
-				   if(false == delete_if_true_i)
-				   {
-/*
-					strcpy(dest_entry_i, global_temp_folder_i);
-					strcat(dest_entry_i, "\\");
-					strcat(dest_entry_i, "d");
-*/
-					
-					strcpy(dest_entry_i, ar_gettemppath_z());
-					strcat(dest_entry_i, "d");
-//melhore este humor...
-				
-					if(is_update_i)
-					{
-					     check_item_z_june_24(final_file_or_folder_ar);
-					     get_timestamp_arp(temp_del_entry_i, &s_arp_3, & VAL_data_i);
-
-					     add_more_one_z_june_24
-						  (
-						       atime_i                         ,
-						       mtime_i                         ,
-						       ctime_i                         ,
-						       0                               ,
-						       _ftelli64(my___temp_file_i)     ,
-						       final_file_or_folder_ar         ,
-						       true                            ,
-						       true                            ,
-						       0
-						       );
-		     
-					}
-					
-					if(check_temp_folder_passed_i(global_temp_folder_i, temp_del_entry_i))
-					{
-					     //rspmakedir_v2(dest_entry_i);
-
-					     //set_folder_time(temp_del_entry_i, dest_entry_i);
-					}
-
-					/*
-
-					  so falta fazer a funcao que exclui o diretorio temp da copia e criacao de diretorio
-					  crie uma funcao para isto com true e false
-
-
-					*/
-				   }
-			      
-			      }
-
-			      ScanFolder(szDir, 0);//trying to understand...here is the problem....convert to a jump, first need to add files and folder to a linked list...almost there, need to create samples
-
-			      if(delete_if_true_i)
-			      {
-
-				   RemoveDirectoryW(amanda_utf8towide_1_(szDir));
-				   
-			      }
-			 }
-		    }
-	       }
-	  }
-	  else
-	  {
-	       int skip_ar = 0;
-	       static char temp_2_ar[1024];
-
-	       while (pause_flag_ar)
-	       {
-		    Sleep(50);
-
-		    if (fatal_exit_k)
-		    {
-			 free(szDir), free(lpcszFolder);
-			 return false;
-		    }
-	       }
-	       if (fatal_exit_k)
-	       {
-		    free(szDir), free(lpcszFolder);
-		    return false;
-	       }
-
-	       snprintf(temp_2_ar, 600, "%s\\%s", lpcszFolder, valquiria_wide_to_utf8(ffd.cFileName));
-
-	       if (258 < strlen(temp_2_ar))
-	       {
-             
-		    static char temp_ar[1024] = { 0 };
-
-		    snprintf(temp_ar, 600, "Skipping because the path is too large for windows -> \'%s\'", temp_2_ar);
-		    skip_ar = 1;
-		    fatal_exit_k = 102;
-		    strcpy(error_message_k, temp_ar);
-		    free(szDir), free(lpcszFolder);
-		    return false;
-	      
-	       }
-
-	       if (0 == skip_ar)
-	       {
-		    fix_path_ar(fixo_path_ar, temp_2_ar, final_file_or_folder_ar);
-
-		    {
-			 static char my_copy_of_filename_ar[1024];
-			 strcpy(my_copy_of_filename_ar, valquiria_wide_to_utf8(ffd.cFileName));
-			 strtolower_ar(my_copy_of_filename_ar);
-			 {
-			      bool achei_o_match = false;
-			      const char *my_str_literal = global_patern_ar; //"* *.txt *.ini";
-			      char *token, *str, *tofree;
-			      tofree = str = strdup(my_str_literal);         // We own str's memory now.
-			      while ((token = strsep(&str, " ")))
-			      {
-				   if (strlen(token))
-				   {
-					achei_o_match = strmatch(my_copy_of_filename_ar, token,
-								 strlen(my_copy_of_filename_ar), strlen(token));
-				   }
-				   if (achei_o_match)
-				   {
-					break;
-				   }
-			      }
-			      free(tofree);
-
-			      if (false == true_if_include_i)
-			      {
-				   if (achei_o_match)
-				   {
-					achei_o_match = false;
-				   }
-				   else
-				   {
-					achei_o_match = true;
-				   }
-			      }
-
-			      if (achei_o_match)
-			      {                        
-
-				   strcpy(temp_del_entry_i, fixo_path_ar);
-				   strcat(temp_del_entry_i, "\\");
-				   strcat(temp_del_entry_i, final_file_or_folder_ar);
-			   			   
-				   if(delete_if_true_i)
-				   {
-					_wunlink(amanda_utf8towide_1_(temp_del_entry_i));
-				   }
-			   
-				   if(false == delete_if_true_i)
-				   {
-
-					strcpy(dest_entry_i, global_temp_folder_i);
-					strcat(dest_entry_i, "\\");
-					strcat(dest_entry_i, final_file_or_folder_ar);
-					if(check_temp_folder_passed_i(global_temp_folder_i, temp_del_entry_i))
-					{
-						/*
-					     stripfilenameandpath(dest_entry_i, dir_out_entry_i, NULL);
-
-					     rspmakedir_v2(dir_out_entry_i);
-				
-					     file_copy_i(temp_del_entry_i, dest_entry_i);
-				
-					     stripfilenameandpath(temp_del_entry_i, dir_out_entry_2_i, NULL);
-
-					     set_folder_time(dir_out_entry_2_i, dir_out_entry_i);
-						 */
-					}
-
-					if(is_update_i)
-					{
-					     
-					     get_timestamp_arp(temp_del_entry_i, &s_arp_3, & VAL_data_i);
-			     
-					     attributes_i  =  GetFileAttributesW(
-						  amanda_utf8towide_1_(temp_del_entry_i)
-						  );
-
-/*
-
-  I will keep this for historical reasons...
-
-  {
-
-  int64_t a_i = -1;
-  int     b_i = -1;
-
-  if(a_i == b_i)
-  {
-      
-  }
-
-  }
-*/
-					     if(INVALID_FILE_ATTRIBUTES != attributes_i)
-					     {
-						  ;
-					     }
-					     else
-					     {
-						  attributes_i = 0x20;						  
-					     }
-					     
-
-//					     [12608] temp_del_entry_i C:\Ava\back\extract_k\taglib-1.11.1\bindings\CMakeLists.txt  _amanda_debug_
- 
-					     {
-
-#define THE_SIZE_I (1 << 17)
-
-						  char * buf_i = malloc(THE_SIZE_I);
-						  __attribute__((unused)) int len_i;
-						  FILE * the_file_i;
-
-						  the_file_i = _wfopen(amanda_utf8towide_1_(temp_del_entry_i), L"rb");
-						  
-						  if(the_file_i)
-						  {
-							  check_item_z_june_24(final_file_or_folder_ar);
-							  add_more_one_z_june_24
-							  (
-								   atime_i                         ,
-								   mtime_i                         ,
-								   ctime_i                         ,
-								   getfilesize_ar(temp_del_entry_i),
-								   _ftelli64(my___temp_file_i)     ,
-								   final_file_or_folder_ar         ,
-								   false                           ,
-								   true                            ,
-								   attributes_i);
-								   size_i = 0;							   
-								   while((len_i = fread(buf_i, 1, THE_SIZE_I, the_file_i)))
-								   {
-									   ;
-									   if((fwrite(buf_i, 1, len_i, my___temp_file_i)) != (size_t)len_i)
-									   {
-										   fatal_exit_k = 12345100;
-									   }
-									   size_i += len_i;
-								   }
-								   								   
-								   fclose(the_file_i);
-						  }
-						  else
-						  {
-							  files_that_cannot_be_read_update++;//precisa melhorar isto e mostrar uma lista de arquivos que nao puderam ser lidos...
-						  }
-						  
-						  free(buf_i);
-					     }
-					     
-					}
-					
-				   }
-			      }
-			 }
-                 
-		    }
-	       }
-	  }
-     }
-     while (FindNextFileW(hFind, &ffd) != 0);
-     FindClose(hFind);
-
-     if(delete_if_true_i)
-     {
-
-	  RemoveDirectoryW(amanda_utf8towide_1_(lpcszFolder));
-				   
-     }
-     free(szDir), free(lpcszFolder);
      return true;
 }
 
@@ -11033,7 +10656,16 @@ temp_$$$ ta bom
 	     _fseeki64(my___temp_file_i, 0, SEEK_END);
 	     fatal_exit_k = 0;
 		 
-	     ScanFolder(path_with_the_files_ar, 1);
+		 if(recurse_in_subfolders_arp)
+		 {
+			 
+			ScanFolder(path_with_the_files_ar, 1, true);
+			
+		 }
+		 else
+		 {
+			ScanFolder(path_with_the_files_ar, 1, false);
+		 }
 	     
 		 if(12345100 == fatal_exit_k)
 		 {
