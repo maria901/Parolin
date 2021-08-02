@@ -43,6 +43,9 @@ int recurse_7zip_maria = 0;
 bool true_if_include_7zip_maria       = false;
 char compression_level_7zip_maria     [300  ];
 
+int amanda_s_smart_ape(__attribute__((unused)) char *initial_path_amanda_s_smart_ape,
+                       bool recurse_on_subfolders_amanda_s_smart_ape, enum amanda__mode amanda_mode);
+
 void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data * VAL_data_arp);
 
 enum libarchive_compression_modes_AR compression_mode_p = P_MODE_IS_ZIP__NO_PASSWORD;
@@ -2259,9 +2262,54 @@ __int64 ricard0_itens_processed;
  */
 bool EnumerateFolder(char * lpcszFolder_ar, int first_call, bool only_get_number_of_files_ar)
 {
-     WIN32_FIND_DATAW ffd;
-     char * szDir       = malloc(5000);
+	 char * szDir       = malloc(5000);
      char * lpcszFolder = malloc(5001);
+	 
+	 strcpy(lpcszFolder, lpcszFolder_ar);
+     trocadordebackslashtras(lpcszFolder);
+
+     if (strlen(lpcszFolder))
+     {
+	  if ('\\' == lpcszFolder[strlen(lpcszFolder) - 1])
+	  {
+	       lpcszFolder[strlen(lpcszFolder) - 1] = 0;
+	  }
+     }
+	 
+	  memset(fixo_path_ar, 0, sizeof(fixo_path_ar));
+	  strcpy(fixo_path_ar, lpcszFolder);
+
+	  if (':' == fixo_path_ar[1] && '\\' == fixo_path_ar[2])
+	  {
+	       goto ok_ar_v27;
+	  }
+	  if ('\\' == fixo_path_ar[0] && '\\' == fixo_path_ar[1])
+	  {
+	       goto ok_ar_v27;
+	  }
+	  fatal_exit_k = 101;
+	  strcpy(error_message_k, "Invalid path");
+
+	  free(szDir);
+	  free(lpcszFolder);
+      
+	  return false;
+	  
+	ok_ar_v27:;
+	
+	only_get_number_of_files_ar_v27 = only_get_number_of_files_ar;
+	
+	amanda_s_smart_ape(fixo_path_ar,
+                       recurse_on_subfolders_arp, I_MODE_IS_ENUMFOLDER_1);
+	
+	free(szDir);
+	free(lpcszFolder);
+	
+	return true;
+	
+	
+     WIN32_FIND_DATAW ffd;
+     
      HANDLE hFind = INVALID_HANDLE_VALUE;
 
      strcpy(lpcszFolder, lpcszFolder_ar);
@@ -2357,6 +2405,12 @@ ok_ar:;
 			      }
 			      else
 			      {
+					  /*
+					  pedro_dprintf(0, "final_file_or_folder_ar %s\n", final_file_or_folder_ar);
+					  pedro_dprintf(0, "fixo_path_ar %s\n",                       fixo_path_ar);
+					  exit(27);
+					  */
+					  
 				   if (false == flag_iso_arp)
 					dump_file_new_ar(NULL, final_file_or_folder_ar, fixo_path_ar);
 				   else
@@ -4668,8 +4722,8 @@ exit_amanda:;
           clean_up_update_ARP();
           return 28001;
         }
-
-      return iso_create_arp(tar_filename_ar, path_with_the_files_ar, patern_ar);
+		assert(0 && "Don't support ISO anymore, only in libarchive mode");
+        return 0;
     }
 
   if (AAKP_MODE_TAR == compression_mode_ar)

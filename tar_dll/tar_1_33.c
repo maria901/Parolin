@@ -1,59 +1,59 @@
 
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *                                                                              *
- *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
- *                                                                              *
- *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
- *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
- *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
- *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
- *                                                                              *
- *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
- *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
- *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
- *     Licensa Geral Pública para mais detalhes.                                *
- *                                                                              *
- *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
- *     Licensa Pública Menor junto com este programa                            *
- *     Se não, veja <http://www.gnu.org/licenses/>.                             *
- *                                                                              *
- *     Suporte: https://nomade.sourceforge.io/                                  *
- *                                                                              *
- *     E-mails direto dos felizes programadores:                                *
- *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
- *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
- *                                                                              *
- *     contato imediato(para uma resposta muita rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
- *                                                                              *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                                                                              *
+*        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+*                                                                              *
+*     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+*     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+*     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+*     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+*                                                                              *
+*     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+*     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+*     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+*     Licensa Geral Pública para mais detalhes.                                *
+*                                                                              *
+*     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+*     Licensa Pública Menor junto com este programa                            *
+*     Se não, veja <http://www.gnu.org/licenses/>.                             *
+*                                                                              *
+*     Suporte: https://nomade.sourceforge.io/                                  *
+*                                                                              *
+*     E-mails direto dos felizes programadores:                                *
+*     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
+*     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+*                                                                              *
+*     contato imediato(para uma resposta muita rápida) WhatsApp                *
+*     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
+*                                                                              *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
-#include /* amanda's smart ape */   <sys/utime.h>
-#include /* amanda's smart ape */     <windows.h>
-#include /* amanda's smart ape */      <stdint.h>
-#include /* amanda's smart ape */       <stdio.h>
-#include /* amanda's smart ape */      <stdlib.h>
-#include /* amanda's smart ape */      <string.h>
-#include /* amanda's smart ape */        <time.h>
-#include /* amanda's smart ape */       <errno.h>
-#include /* amanda's smart ape */       <fcntl.h>
-#include /* amanda's smart ape */       <ctype.h>
-#include /* amanda's smart ape */        <math.h>
-#include /* amanda's smart ape */      <wctype.h>
-#include /* amanda's smart ape */       <wchar.h>
-#include /* amanda's smart ape */      <stdarg.h>
-#include /* amanda's smart ape */      <stddef.h>
-#include /* amanda's smart ape */      <setjmp.h>
-#include /* amanda's smart ape */      <locale.h>
-#include /* amanda's smart ape */      <signal.h>
-#include /* amanda's smart ape */      <limits.h>
-#include /* amanda's smart ape */       <float.h>
-#include /* amanda's smart ape */      <iso646.h>
+#include /* amanda's smart ape */ <sys/utime.h>
+#include /* amanda's smart ape */ <windows.h>
+#include /* amanda's smart ape */ <stdint.h>
+#include /* amanda's smart ape */ <stdio.h>
+#include /* amanda's smart ape */ <stdlib.h>
+#include /* amanda's smart ape */ <string.h>
+#include /* amanda's smart ape */ <time.h>
+#include /* amanda's smart ape */ <errno.h>
+#include /* amanda's smart ape */ <fcntl.h>
+#include /* amanda's smart ape */ <ctype.h>
+#include /* amanda's smart ape */ <math.h>
+#include /* amanda's smart ape */ <wctype.h>
+#include /* amanda's smart ape */ <wchar.h>
+#include /* amanda's smart ape */ <stdarg.h>
+#include /* amanda's smart ape */ <stddef.h>
+#include /* amanda's smart ape */ <setjmp.h>
+#include /* amanda's smart ape */ <locale.h>
+#include /* amanda's smart ape */ <signal.h>
+#include /* amanda's smart ape */ <limits.h>
+#include /* amanda's smart ape */ <float.h>
+#include /* amanda's smart ape */ <iso646.h>
 
 #undef             NDEBUG
-#include /* amanda's smart ape */      <assert.h>
-#include /* amanda's smart ape */       <psapi.h>
-#include /* amanda's smart ape */     <process.h>
+#include /* amanda's smart ape */ <assert.h>
+#include /* amanda's smart ape */ <psapi.h>
+#include /* amanda's smart ape */ <process.h>
 
 //#define Z_DEBUG__TEMP 1
 
@@ -62,11 +62,11 @@
 //set it to one if you want to allow the extraction of VAL encrypted files with different passwords, but it is not recommended, you are warned
 #define ARP_ALLOW_MULTIPLE_PASSWORDS_ 0
 
-#include /* amanda's smart ape */     <stdbool.h>
-#include /* amanda's smart ape */      <dirent.h>
-#include /* amanda's smart ape */    <sys\stat.h>
+#include /* amanda's smart ape */ <stdbool.h>
+#include /* amanda's smart ape */ <dirent.h>
+#include /* amanda's smart ape */ <sys\stat.h>
 
-#include /* amanda's smart ape */       "win64.h" /* to make the compiler happy */
+#include /* amanda's smart ape */ "win64.h"       /* to make the compiler happy */
 
 #define INT_BITS_STRLEN_BOUND(b)                       (((b) * 146 + 484) / 485)
 
@@ -89,7 +89,7 @@ bool use_7zip_extraction_progress_i = false;
 
 bool progress_is_libarchive_v27 = false;
 
-int  progress_lib_v27;
+int progress_lib_v27;
 
 int __stdcall get_rand(int min, int max);
 
@@ -97,8 +97,10 @@ bool mode_is_libarchive_update_i = false;
 
 bool dont_delete_7zip_file_i = false;
 
+bool only_get_number_of_files_ar_v27 = false;
+
 char encryption_method__i[300] = {0};
-char compression_level_p [300];
+char compression_level_p[300];
 
 char compression_level_char_i[300] = "6";
 FILE * my___temp_file_i;
@@ -132,7 +134,7 @@ typedef int (__stdcall * tar_list_function_ar)(int clear_flag_k);
 int remove_temp_folder_i(void);
 
 char error_message_k[1024] = { 0 };
-char remote_path_i  [1024] = { 0 };;
+char remote_path_i[1024] = { 0 };;
 int feline_read_xml(char * filename_utf8_feline,
                     char * root__________feline,
                     char * node__________feline,
@@ -207,9 +209,9 @@ inittimer2(int value)
 
 void strncpy_z(char *dest_z, char *src_z, size_t len_)
 {
-	
+
 	int len = (int) len_;
-	
+
 	assert(0 <= (int) len);
 
 	len--;
@@ -515,47 +517,47 @@ typedef int ( __stdcall *  get_tar_info_p)
 	int       * Numdir_k_ar,
 	int       * Numfiles_k_ar,
 	char      * typeflag_ar_
-     );
+);
 
-typedef int ( __stdcall * libarchive_list_entries_p)       (char *filename_utf_8_p, char * password_p, tar_list_function_ar our_function_p, char * error_message_p, char * archive_format_p);
+typedef int ( __stdcall * libarchive_list_entries_p)(char *filename_utf_8_p, char * password_p, tar_list_function_ar our_function_p, char * error_message_p, char * archive_format_p);
 
-typedef int ( __stdcall * libarchive_extract_entries_p)       (char *filename_utf_8_p, char * password_p, tar_list_function_ar our_function_p, char * error_message_p, char * archive_format_p, char * dir_to_extract_i, char * extracting_filename_ar, char * warning_info,char * creating_folder_maria, bool * extract_pause__flag, bool * extract_cancel_flag, int * folders_ar, int * files_ar);
+typedef int ( __stdcall * libarchive_extract_entries_p)(char *filename_utf_8_p, char * password_p, tar_list_function_ar our_function_p, char * error_message_p, char * archive_format_p, char * dir_to_extract_i, char * extracting_filename_ar, char * warning_info,char * creating_folder_maria, bool * extract_pause__flag, bool * extract_cancel_flag, int * folders_ar, int * files_ar);
 
 typedef int ( __stdcall * libarchive_create_archive_init_p)(int archive_kind_p, char *file_utf_8_p, char * passphrase_p,
-							    char *compression_level_p, int number_of_threads_p_); 
-typedef int ( __stdcall * libarchive_process_p)            (char * new_entry_relative_p, char * new_entry_complete_p);
-typedef int ( __stdcall * libarchive_close_p)              (void);
-typedef int ( __stdcall * set_progress_p)                  (int64_t * pointer_value_p);
-typedef int ( __stdcall * progress_extract_i)              (void);
+                                                            char *compression_level_p, int number_of_threads_p_);
+typedef int ( __stdcall * libarchive_process_p)(char * new_entry_relative_p, char * new_entry_complete_p);
+typedef int ( __stdcall * libarchive_close_p)(void);
+typedef int ( __stdcall * set_progress_p)(int64_t * pointer_value_p);
+typedef int ( __stdcall * progress_extract_i)(void);
 
-typedef int  (__stdcall * init_playlist_z_june_24_i)(void);
+typedef int (__stdcall * init_playlist_z_june_24_i)(void);
 typedef void (__stdcall * add_more_one_z_june_24_i)
 (
-     time_t  atime_i           ,
-     time_t  mtime_i           ,
-     time_t  birthtime_i       ,
-     int64_t filesize_i        ,
-     int64_t file_offset_i     ,
-     char *  item_entry_i      ,
-     bool    is_dir_i          ,
-     bool    in_use_i          ,
-     int64_t attributes_i
-     );
+	time_t atime_i,
+	time_t mtime_i,
+	time_t birthtime_i,
+	int64_t filesize_i,
+	int64_t file_offset_i,
+	char *  item_entry_i,
+	bool is_dir_i,
+	bool in_use_i,
+	int64_t attributes_i
+);
 
 typedef int (__stdcall * check_item_z_june_24_i)(char * filename_utf8);
 
-typedef int ( __stdcall * extract_to_file_i)               (char * temp_path_i, bool enable_i, char * temp_file_i, init_playlist_z_june_24_i init_playlist_z_june_24_ii, add_more_one_z_june_24_i add_more_one_z_june_24_ii, check_item_z_june_24_i check_item_z_june_24_ii);
+typedef int ( __stdcall * extract_to_file_i)(char * temp_path_i, bool enable_i, char * temp_file_i, init_playlist_z_june_24_i init_playlist_z_june_24_ii, add_more_one_z_june_24_i add_more_one_z_june_24_ii, check_item_z_june_24_i check_item_z_june_24_ii);
 
-get_tar_info_p                   get_tar_info_p_func                   = NULL;
-libarchive_list_entries_p        libarchive_list_entries_p_func        = NULL;
-libarchive_extract_entries_p     libarchive_extract_entries_p_func     = NULL;
+get_tar_info_p get_tar_info_p_func                   = NULL;
+libarchive_list_entries_p libarchive_list_entries_p_func        = NULL;
+libarchive_extract_entries_p libarchive_extract_entries_p_func     = NULL;
 libarchive_create_archive_init_p libarchive_create_archive_init_p_func = NULL;
-libarchive_process_p             libarchive_process_p_func             = NULL;
-libarchive_close_p               libarchive_close_p_func               = NULL;
-set_progress_p                   set_progress_p_func                   = NULL;
-progress_extract_i               progress_extract_i_func               = NULL;
+libarchive_process_p libarchive_process_p_func             = NULL;
+libarchive_close_p libarchive_close_p_func               = NULL;
+set_progress_p set_progress_p_func                   = NULL;
+progress_extract_i progress_extract_i_func               = NULL;
 
-extract_to_file_i                extract_to_file_i_func                = NULL;
+extract_to_file_i extract_to_file_i_func                = NULL;
 
 
 HMODULE my_rsp_arp_encrypt_dll = NULL;
@@ -565,10 +567,10 @@ HMODULE my_rsp_arp_encrypt_dll = NULL;
 ////////////////////////////////////////////////////////////////////////////////
 
 char remote_path_z_i[1027];
-char user_name_z_i  [1027];
-char password_z_i   [1027];
-char host_z_i       [1027];
-char local_file_i   [1027];
+char user_name_z_i[1027];
+char password_z_i[1027];
+char host_z_i[1027];
+char local_file_i[1027];
 
 int returnvalue_i = 0;
 __INT32_OR_INT64 my_thread_handle = 0;
@@ -578,75 +580,75 @@ HANDLE hMapFile_arp_i = NULL;
 #pragma pack(push, 1)
 typedef struct _amanda_i_
 {
-     char the__path_i      [1024];
-     char key_fingerprint_i[1024];
-     int  progress_arp           ;
-     int  pause____arp           ;
-     int  cancel___arp           ;
+	char the__path_i[1024];
+	char key_fingerprint_i[1024];
+	int progress_arp;
+	int pause____arp;
+	int cancel___arp;
 } our_map_arp_i;
 #pragma pack(pop)
 
-our_map_arp_i   global_our_map_arp_i         = { 0 };
+our_map_arp_i global_our_map_arp_i         = { 0 };
 our_map_arp_i * global_ptr_our_map_arp_v27_i = NULL;
 
 unsigned __stdcall my_thread_function_v27(__attribute__((unused)) void * my_argument_z   )
 {
 #define BUF_SIZE_ARP_I (sizeof(our_map_arp_i))
 
-     char szName_arp_i[1027] = "que_dia____te_amo";
-     int rnd_z;
-     STARTUPINFO si;
-     PROCESS_INFORMATION pi;
-     DWORD exit_code_arp_i = 0;
-     char command_line_arp_i[1027];
+	char szName_arp_i[1027] = "que_dia____te_amo";
+	int rnd_z;
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
+	DWORD exit_code_arp_i = 0;
+	char command_line_arp_i[1027];
 
 #ifdef IS_TAR_DLL_I
-     char copy_arp[1024];
-#endif     
-     
-     returnvalue_i = 0;
+	char copy_arp[1024];
+#endif
 
-     rnd_z = 1000000000;
-     rnd_z = get_rand(0, rnd_z);
-     sprintf(szName_arp_i + strlen(szName_arp_i), "_%d", rnd_z);
-     
-     hMapFile_arp_i = CreateFileMapping(
-	  INVALID_HANDLE_VALUE,                                    // use paging file
-	  NULL,                                                    // default security
-	  PAGE_READWRITE,                                          // read/write access
-	  0,                                                       // maximum object size (high-order DWORD)
-	  BUF_SIZE_ARP_I,                                            // maximum object size (low-order DWORD)
-	  szName_arp_i);                                             // name of mapping object
+	returnvalue_i = 0;
 
-     if (NULL == hMapFile_arp_i)
-     {
-#ifdef IS_TAR_DLL_I	  
-	    sprintf(copy_arp, "Could not create file mapping object (%d)",
-	    (int)GetLastError());
+	rnd_z = 1000000000;
+	rnd_z = get_rand(0, rnd_z);
+	sprintf(szName_arp_i + strlen(szName_arp_i), "_%d", rnd_z);
 
-	    strcpy(error_message_k, copy_arp);
-#endif	  
-	  returnvalue_i = 28006;
-	  goto saida_i;
-     }
+	hMapFile_arp_i = CreateFileMapping(
+		INVALID_HANDLE_VALUE,                              // use paging file
+		NULL,                                              // default security
+		PAGE_READWRITE,                                    // read/write access
+		0,                                                 // maximum object size (high-order DWORD)
+		BUF_SIZE_ARP_I,                                      // maximum object size (low-order DWORD)
+		szName_arp_i);                                       // name of mapping object
 
-     global_ptr_our_map_arp_v27_i = (our_map_arp_i *)MapViewOfFile(hMapFile_arp_i,    // handle to map object
-								 FILE_MAP_ALL_ACCESS,  // read/write permission
-	                                                          0,
-	                                                          0,
-	                                                          BUF_SIZE_ARP_I);
+	if (NULL == hMapFile_arp_i)
+	{
+#ifdef IS_TAR_DLL_I
+		sprintf(copy_arp, "Could not create file mapping object (%d)",
+		        (int)GetLastError());
+
+		strcpy(error_message_k, copy_arp);
+#endif
+		returnvalue_i = 28006;
+		goto saida_i;
+	}
+
+	global_ptr_our_map_arp_v27_i = (our_map_arp_i *)MapViewOfFile(hMapFile_arp_i, // handle to map object
+	                                                              FILE_MAP_ALL_ACCESS, // read/write permission
+	                                                              0,
+	                                                              0,
+	                                                              BUF_SIZE_ARP_I);
 
 	if (NULL == global_ptr_our_map_arp_v27_i)
 	{
-#ifdef IS_TAR_DLL_I	     
-	       sprintf(copy_arp, "Could not map view of file (%d)",
-	       (int)GetLastError());
-	       strcpy(error_message_k, copy_arp);
-#endif	       
-	     
-	     CloseHandle(hMapFile_arp_i);
-	     returnvalue_i = 28007;
-	     goto saida_i;
+#ifdef IS_TAR_DLL_I
+		sprintf(copy_arp, "Could not map view of file (%d)",
+		        (int)GetLastError());
+		strcpy(error_message_k, copy_arp);
+#endif
+
+		CloseHandle(hMapFile_arp_i);
+		returnvalue_i = 28007;
+		goto saida_i;
 	}
 
 	memset(&global_our_map_arp_i, 0, sizeof(global_our_map_arp_i));
@@ -662,22 +664,22 @@ unsigned __stdcall my_thread_function_v27(__attribute__((unused)) void * my_argu
 	strcpy(command_line_arp_i, "be_psftp_64.exe ");
 #else
 	strcpy(command_line_arp_i, "be_psftp_32.exe "); // sem quebrar a compatbilidade se poss?vel...
-#endif	       
+#endif
 
 	/*
-arp_psftp_function_func(remote_path_z, user_name_z, password_z, host_z, local_file,
+	   arp_psftp_function_func(remote_path_z, user_name_z, password_z, host_z, local_file,
 	                               "to remember february 2021..."
 	                               );
 
 
-char remote_path_z_i[1027];
-char user_name_z_i  [1027];
-char password_z_i[1027];
-char host_z_i[1027];
-char local_file_i[1027];
+	   char remote_path_z_i[1027];
+	   char user_name_z_i  [1027];
+	   char password_z_i[1027];
+	   char host_z_i[1027];
+	   char local_file_i[1027];
 
 	 */
-	
+
 	strcat(command_line_arp_i, "\"");
 	strcat(command_line_arp_i, szName_arp_i);
 	strcat(command_line_arp_i, "\" \"");
@@ -691,20 +693,20 @@ char local_file_i[1027];
 	strcat(command_line_arp_i, "\" \"");
 	strcat(command_line_arp_i, local_file_i);
 	strcat(command_line_arp_i, "\"");
-	
+
 	if (!CreateProcess(NULL, command_line_arp_i, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi))
 	{
-#ifdef IS_TAR_DLL_I	     
+#ifdef IS_TAR_DLL_I
 		sprintf(copy_arp, "Could not start executable 'be_psftp_xx.exe' (%d)",
 		        (int)GetLastError());
 
-			strcpy(error_message_k, copy_arp);
-#endif	     
-	     UnmapViewOfFile(global_ptr_our_map_arp_v27_i);
-	     CloseHandle(hMapFile_arp_i);
-	     global_ptr_our_map_arp_v27_i = NULL;
-	     returnvalue_i = 28008;
-	     goto  saida_i;
+		strcpy(error_message_k, copy_arp);
+#endif
+		UnmapViewOfFile(global_ptr_our_map_arp_v27_i);
+		CloseHandle(hMapFile_arp_i);
+		global_ptr_our_map_arp_v27_i = NULL;
+		returnvalue_i = 28008;
+		goto  saida_i;
 	}
 
 	WaitForSingleObject(pi.hProcess, INFINITE);
@@ -717,20 +719,20 @@ char local_file_i[1027];
 
 	if(0 == returnvalue_i)
 	{
-	     returnvalue_i = exit_code_arp_i;
+		returnvalue_i = exit_code_arp_i;
 	}
-	
+
 saida_i:;
-	
-     sftp_already_running = false;
 
-     _endthreadex(0);
+	sftp_already_running = false;
 
-     return 27+51;
+	_endthreadex(0);
+
+	return 27+51;
 }
 
 void init_psftp_arp(void)
-{ 
+{
 	return;
 }
 /**
@@ -757,14 +759,14 @@ int __stdcall pass_sftp_data_z
 )
 {
 	/*
-	return arp_psftp_function_func(remote_path_z, user_name_z, password_z, host_z, local_file,
+	   return arp_psftp_function_func(remote_path_z, user_name_z, password_z, host_z, local_file,
 	                               "to remember february 2021..."
 	                               );
-*/
+	 */
 
 	if(sftp_already_running)
 	{
-	     return 1;
+		return 1;
 	}
 
 	remote_path_i    [0] = 0;
@@ -774,7 +776,7 @@ int __stdcall pass_sftp_data_z
 	strcpy(password_z_i,       password_z);
 	strcpy(host_z_i,               host_z);
 	strcpy(local_file_i,       local_file);
-	
+
 	sftp_already_running = true;
 	my_thread_handle = (__INT32_OR_INT64) _beginthreadex(NULL, 0, my_thread_function_v27, NULL, 0, NULL);
 
@@ -794,7 +796,7 @@ int __stdcall get_sftp_return_value_z
 	void
 )
 {
-     return returnvalue_i;
+	return returnvalue_i;
 }
 
 /**
@@ -809,47 +811,47 @@ int __stdcall get_sftp_return_value_z
 int __stdcall get_remote_directory_z(char *path_z)
 {
 
-     if(0 != remote_path_i[0])
-     {
-	  
-	  strcpy(path_z, remote_path_i);
-	  
-     }
-     else
-     {
-	  if(sftp_already_running && global_ptr_our_map_arp_v27_i      )
-	  {
-	       strcpy(path_z, global_ptr_our_map_arp_v27_i->the__path_i)   ;
+	if(0 != remote_path_i[0])
+	{
 
-	       strcpy(remote_path_i, path_z);
-	  }
-     }
+		strcpy(path_z, remote_path_i);
 
-     return 0;
-     //return get_remote_directory_pwd_func(path_z);
+	}
+	else
+	{
+		if(sftp_already_running && global_ptr_our_map_arp_v27_i      )
+		{
+			strcpy(path_z, global_ptr_our_map_arp_v27_i->the__path_i);
+
+			strcpy(remote_path_i, path_z);
+		}
+	}
+
+	return 0;
+	//return get_remote_directory_pwd_func(path_z);
 }
 
 int __stdcall get_key_fingerprint_z(char *key_z)
 {
 
-     if(0 != key_fingerprint_i[0])
-     {
-	  
-	  strcpy(key_z, key_fingerprint_i);
-	  
-     }
-     else
-     {
-	  if(sftp_already_running && global_ptr_our_map_arp_v27_i      )
-	  {
-	       strcpy(key_z, global_ptr_our_map_arp_v27_i->key_fingerprint_i);
+	if(0 != key_fingerprint_i[0])
+	{
 
-	       strcpy(key_fingerprint_i, key_z);
-	  }
-     }
+		strcpy(key_z, key_fingerprint_i);
 
-     return 0;
-     //return get_remote_directory_pwd_func(path_z);
+	}
+	else
+	{
+		if(sftp_already_running && global_ptr_our_map_arp_v27_i      )
+		{
+			strcpy(key_z, global_ptr_our_map_arp_v27_i->key_fingerprint_i);
+
+			strcpy(key_fingerprint_i, key_z);
+		}
+	}
+
+	return 0;
+	//return get_remote_directory_pwd_func(path_z);
 }
 
 /**
@@ -864,11 +866,11 @@ int __stdcall is_sftp_running_z
 	void
 )
 {
-     if(sftp_already_running)
-     {
-	  return 1;
-     }
-     return 0;
+	if(sftp_already_running)
+	{
+		return 1;
+	}
+	return 0;
 }
 /**
  * To pause the SFTP process, but then the server may close the connection after
@@ -879,11 +881,11 @@ int __stdcall is_sftp_running_z
  */
 int __stdcall pause_sftp(void)
 {
-     if(sftp_already_running && global_ptr_our_map_arp_v27_i)
-     {
-	  global_ptr_our_map_arp_v27_i->pause____arp = 1;
-     }
-     return 0;//pause_arp_func();
+	if(sftp_already_running && global_ptr_our_map_arp_v27_i)
+	{
+		global_ptr_our_map_arp_v27_i->pause____arp = 1;
+	}
+	return 0;//pause_arp_func();
 }
 /**
  * To resume the SFTP process
@@ -893,11 +895,11 @@ int __stdcall pause_sftp(void)
  */
 int __stdcall resume_sftp(void)
 {
-     if(sftp_already_running && global_ptr_our_map_arp_v27_i)
-     {
-	  global_ptr_our_map_arp_v27_i->pause____arp = 0;
-     }
-     return 0;//resume_arp_func();
+	if(sftp_already_running && global_ptr_our_map_arp_v27_i)
+	{
+		global_ptr_our_map_arp_v27_i->pause____arp = 0;
+	}
+	return 0;//resume_arp_func();
 }
 /**
  * To cancel the SFTP process, if you regreted it
@@ -907,11 +909,11 @@ int __stdcall resume_sftp(void)
  */
 int __stdcall cancel_sftp(void)
 {
-     if(sftp_already_running && global_ptr_our_map_arp_v27_i)
-     {
-	   global_ptr_our_map_arp_v27_i->cancel___arp = 1;
-     }
-     return 0;//cancel_arp_func();
+	if(sftp_already_running && global_ptr_our_map_arp_v27_i)
+	{
+		global_ptr_our_map_arp_v27_i->cancel___arp = 1;
+	}
+	return 0;//cancel_arp_func();
 }
 /**
  * To retrieve the current position of the SFTP upload process
@@ -922,11 +924,11 @@ int __stdcall cancel_sftp(void)
  */
 int __stdcall progress_sftp(void)
 {
-     if(sftp_already_running && global_ptr_our_map_arp_v27_i)
-     {		
-	  	return global_ptr_our_map_arp_v27_i->progress_arp;
-     }
-     return 0;//progress_arp_func();
+	if(sftp_already_running && global_ptr_our_map_arp_v27_i)
+	{
+		return global_ptr_our_map_arp_v27_i->progress_arp;
+	}
+	return 0;//progress_arp_func();
 }
 typedef int (*decrypt_arp_)(char * inputfile, char * outputfile, char *                                            key,
                             int64_t *the_arp_file_size, char * encryption_method_i);
@@ -954,24 +956,24 @@ internal_progress_z_arp_ internal_progress_z_arp_func = NULL;
  */
 void init_rsp_arp_encrypt_arp(void)
 {
-     
-     char copy_ar[               1024];
 
-     if (NULL == my_rsp_arp_encrypt_dll)
-     {
-	  my_rsp_arp_encrypt_dll = LoadLibraryA
-	       (
-		    "RSP_encrypt_" MACHINE_ARP_ ".DLL"
-		    );
+	char copy_ar[               1024];
 
-	  if (NULL == my_rsp_arp_encrypt_dll)
-	  {
-		     
-	       sprintf(copy_ar, "Cannot find DLL RSP_encrypt_" MACHINE_ARP_ ".DLL, it is required if"
-		       "you want to encrypt and decrypt files");
-	       mprintf___arp("%s\n", copy_ar);
-	       exit(1);
-	       return;
+	if (NULL == my_rsp_arp_encrypt_dll)
+	{
+		my_rsp_arp_encrypt_dll = LoadLibraryA
+			                 (
+			"RSP_encrypt_" MACHINE_ARP_ ".DLL"
+		                         );
+
+		if (NULL == my_rsp_arp_encrypt_dll)
+		{
+
+			sprintf(copy_ar, "Cannot find DLL RSP_encrypt_" MACHINE_ARP_ ".DLL, it is required if"
+			        "you want to encrypt and decrypt files");
+			mprintf___arp("%s\n", copy_ar);
+			exit(1);
+			return;
 		}
 		else
 		{
@@ -1126,37 +1128,37 @@ mprintf___arp(char *format, ...)
  * @param data_z     where the data is passed...
  *
  * @return 0 if no error, or an error as you may expect
- * 
+ *
  */
 int write_xml_z(char *key_name_z, char *data_z)
 {
 	if (MODE_IS_ARP_DEBUG && ispathfile("c:\\Ava\\back\\my_c_file.c"))
 	{
 		return feline_write_xml("c:\\Ava\\back\\my_c_file.mis",
-								"ok12_settings_22_march_2021__19_06",
-								key_name_z,
-								NULL,
-								data_z);
+		                        "ok12_settings_22_march_2021__19_06",
+		                        key_name_z,
+		                        NULL,
+		                        data_z);
 	}
 	else
 	{
 		return feline_write_xml("ar_tar_process.mis",
-								"ok12_settings_22_march_2021__19_06",
-								key_name_z,
-								NULL,
-								data_z);
+		                        "ok12_settings_22_march_2021__19_06",
+		                        key_name_z,
+		                        NULL,
+		                        data_z);
 	}
 }
 
 int __stdcall write_xml_z_amanda_s_smart_ape(char * filename_amanda_s_smart_ape, char *key_name_z, char *data_z)
 {
- 	{
-	return feline_write_xml(filename_amanda_s_smart_ape,
-	                        "ok12_settings_16_february_1994",
-	                        key_name_z,
-	                        NULL,
-	                        data_z
-	                        );
+	{
+		return feline_write_xml(filename_amanda_s_smart_ape,
+		                        "ok12_settings_16_february_1994",
+		                        key_name_z,
+		                        NULL,
+		                        data_z
+		                        );
 	}
 }
 
@@ -1166,16 +1168,16 @@ int __stdcall read_xml_z_amanda_s_smart_ape(char * filename_amanda_s_smart_ape, 
 	char  * buf_z;
 	int64_t size_z;
 
-	{	
-	size_z = getfilesize_ar(filename_amanda_s_smart_ape);
-	buf_z = malloc(size_z + 1);
-	ret_arp = feline_read_xml(filename_amanda_s_smart_ape,
-							  "ok12_settings_16_february_1994",
-							  key_name_z,
-							  NULL,
-							  buf_z);
-	strncpy_z(data_z, buf_z, output_len_z);
-	free(buf_z);
+	{
+		size_z = getfilesize_ar(filename_amanda_s_smart_ape);
+		buf_z = malloc(size_z + 1);
+		ret_arp = feline_read_xml(filename_amanda_s_smart_ape,
+		                          "ok12_settings_16_february_1994",
+		                          key_name_z,
+		                          NULL,
+		                          buf_z);
+		strncpy_z(data_z, buf_z, output_len_z);
+		free(buf_z);
 	}
 	return ret_arp;
 }
@@ -1191,21 +1193,21 @@ int __stdcall get_rand(int min, int max)
 	int ret;
 	static bool already_amanda_s_smart_ape = false;
 	/*
-       BOOLEAN RtlGenRandom(
-       PVOID RandomBuffer,
-       ULONG RandomBufferLength
-       );
-     */
+	   BOOLEAN RtlGenRandom(
+	   PVOID RandomBuffer,
+	   ULONG RandomBufferLength
+	   );
+	 */
 
-	typedef BOOLEAN(__stdcall * RtlGenRandom)(PVOID RandomBuffer,
-											  ULONG RandomBufferLength);
+	typedef BOOLEAN (__stdcall * RtlGenRandom)(PVOID RandomBuffer,
+	                                           ULONG RandomBufferLength);
 
 	static HMODULE my_i____dll = NULL;
 	static RtlGenRandom RtlGenRandom_func = NULL;
 
 	if (false == already_amanda_s_smart_ape)
 		srand(time(0)),
-			already_amanda_s_smart_ape = true;
+		already_amanda_s_smart_ape = true;
 
 	ret = (GetTickCount() * GetTickCount()) + GetTickCount(); //hack
 
@@ -1213,72 +1215,72 @@ int __stdcall get_rand(int min, int max)
 	{
 		assert(TRUE == RtlGenRandom_func(&ret, 4));
 		goto already_i;
-	 }
+	}
 
-	 if(NULL == my_i____dll)
-     {	  
-		  
-	  my_i____dll = LoadLibraryA
-	       (
-		    "Advapi32.dll"
-		    );
+	if(NULL == my_i____dll)
+	{
 
-	  if(NULL == my_i____dll)
-	  {
-	       ;	
-	  }
-	  else
-	  {
+		my_i____dll = LoadLibraryA
+			      (
+			"Advapi32.dll"
+		              );
 
-	       RtlGenRandom_func = (void *) GetProcAddress(
-		    my_i____dll,
-		    "SystemFunction036"
-		    );
-	     
-	       if(NULL == RtlGenRandom_func)
-	       {
-		    ;
-	       }
-	       else
-	       {		    
+		if(NULL == my_i____dll)
+		{
+			;
+		}
+		else
+		{
 
-		    assert(TRUE == RtlGenRandom_func(& ret, 4));
-			    
-	       }
-		       
-	  }
+			RtlGenRandom_func = (void *) GetProcAddress(
+				my_i____dll,
+				"SystemFunction036"
+				);
 
-     }
+			if(NULL == RtlGenRandom_func)
+			{
+				;
+			}
+			else
+			{
+
+				assert(TRUE == RtlGenRandom_func(&ret, 4));
+
+			}
+
+		}
+
+	}
 
 already_i:;
 
-     if(/*1 || */ NULL == RtlGenRandom_func)
-     {
-	  pedro_dprintf(1001, "Important!!! Cannot use the function SystemFunction036\n");
-	  //Beep(1000, 1000);
-     }
+	if(/*1 || */ NULL == RtlGenRandom_func)
+	{
+		pedro_dprintf(1001, "Important!!! Cannot use the function SystemFunction036\n");
+		//Beep(1000, 1000);
+	}
 
-     //ret = -2147483648;
-     
-     ret = abs(ret);
-     ret = ret % (range + 1);
-     ret += min;
+	//ret = -2147483648;
 
-     pedro_dprintf(-1, "valor de ret antes do fix %d\n", ret);
-     
-     if(ret < min)
-     {
-	  ret = min;//fix for the abs problem
-	  
-	  pedro_dprintf(-1, "valor de ret depois do fix %d\n", ret);
-     
-     }
-     return ret;
+	ret = abs(ret);
+	ret = ret % (range + 1);
+	ret += min;
+
+	pedro_dprintf(-1, "valor de ret antes do fix %d\n", ret);
+
+	if(ret < min)
+	{
+		ret = min;//fix for the abs problem
+
+		pedro_dprintf(-1, "valor de ret depois do fix %d\n", ret);
+
+	}
+	return ret;
 }
 
 /**
  * To read a XML file, it is simple then it is amazingly fast<br>
- * 
+ *
  * @param key_name_z the subnode from where the data will be read<br>
  * if inexistent an empty string will return.
  *
@@ -1289,41 +1291,41 @@ already_i:;
  * It will not write more than output_len_z bytes (chars)
  *
  * @return 0 if no error, or an error otherwise
- * 
+ *
  */
 int read_xml_z(char *key_name_z, char *data_z, int output_len_z)
 {
 	int ret_arp;
 	char  * buf_z;
 	int64_t size_z;
-	
+
 	if (MODE_IS_ARP_DEBUG && ispathfile("c:\\Ava\\back\\my_c_file.c"))
 	{
 
-	     size_z = getfilesize_ar("c:\\Ava\\back\\my_c_file.mis");
-	     buf_z = malloc(size_z + 1);
-	     ret_arp = feline_read_xml("c:\\Ava\\back\\my_c_file.mis",
-				       "ok12_settings_22_march_2021__19_06",
-				       key_name_z,
-				       NULL,
-				       buf_z
-		  );
-	     strncpy_z(data_z, buf_z, output_len_z);
-	     free(buf_z);
-	
+		size_z = getfilesize_ar("c:\\Ava\\back\\my_c_file.mis");
+		buf_z = malloc(size_z + 1);
+		ret_arp = feline_read_xml("c:\\Ava\\back\\my_c_file.mis",
+		                          "ok12_settings_22_march_2021__19_06",
+		                          key_name_z,
+		                          NULL,
+		                          buf_z
+		                          );
+		strncpy_z(data_z, buf_z, output_len_z);
+		free(buf_z);
+
 	}
 	else
-	{	
-	size_z = getfilesize_ar("ar_tar_process.mis");
-	buf_z = malloc(size_z + 1);
-	ret_arp = feline_read_xml("ar_tar_process.mis",
-	                          "ok12_settings_22_march_2021__19_06",
-	                          key_name_z,
-	                          NULL,
-	                          buf_z
-	                          );
-	strncpy_z(data_z, buf_z, output_len_z);
-	free(buf_z);
+	{
+		size_z = getfilesize_ar("ar_tar_process.mis");
+		buf_z = malloc(size_z + 1);
+		ret_arp = feline_read_xml("ar_tar_process.mis",
+		                          "ok12_settings_22_march_2021__19_06",
+		                          key_name_z,
+		                          NULL,
+		                          buf_z
+		                          );
+		strncpy_z(data_z, buf_z, output_len_z);
+		free(buf_z);
 	}
 	return ret_arp;
 }
@@ -1410,7 +1412,7 @@ int old_ini_get(char *key_arp, char *data_arp, char * if_has_data_use_this_z, in
 
 /**
  * This will write to a standard Windows ini file.<br>
- * 
+ *
  * @param key_arp_z the key of the ini file
  *
  * @param data_arp_z the data to write
@@ -1424,11 +1426,11 @@ int old_ini_get(char *key_arp, char *data_arp, char * if_has_data_use_this_z, in
  */
 int old_ini_write(char *key_arp_z, char *data_arp_z, char * if_has_data_use_this_z)
 {
-	WCHAR exe_path_z [1027   ];
-	char exe_aath_z  [   1027];
-	char exe_fath_z  [1027   ];
-	WCHAR data_w_z   [   1027];
-	WCHAR key_arpw_z [1027   ];
+	WCHAR exe_path_z[1027   ];
+	char exe_aath_z[   1027];
+	char exe_fath_z[1027   ];
+	WCHAR data_w_z[   1027];
+	WCHAR key_arpw_z[1027   ];
 
 	GetModuleFileNameW(
 		NULL,
@@ -1489,9 +1491,9 @@ int __stdcall get__settings_arp(char *key_arp_z, char *data_arp_z, int output_le
 int __stdcall save_settings_arp(char *key_arp_z, char *data_arp_z)
 {
 
-     write_xml_z(key_arp_z, data_arp_z);
-	
-     return 0;
+	write_xml_z(key_arp_z, data_arp_z);
+
+	return 0;
 }
 struct my_struct_for_list_ar_is_amanda_update_    //for list only
 {
@@ -1943,34 +1945,34 @@ cancel_c5___aakp_c5___ar cancel_c5___aakp_c5___ar_func = NULL;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 
-char tar_filename_ar_7zip_maria       [1027 ];
-char path_with_the_files_ar_7zip_maria[1027 ];
-char patern_ar_7zip_maria             [20000];
-bool is_7zip_maria = false;
-int recurse_7zip_maria = 0;
-bool true_if_include_7zip_maria = false;
-char compression_level_7zip_maria     [300  ];
+   char tar_filename_ar_7zip_maria       [1027 ];
+   char path_with_the_files_ar_7zip_maria[1027 ];
+   char patern_ar_7zip_maria             [20000];
+   bool is_7zip_maria = false;
+   int recurse_7zip_maria = 0;
+   bool true_if_include_7zip_maria = false;
+   char compression_level_7zip_maria     [300  ];
 
 
  */
 
-typedef int (__stdcall * compress_7zip_i)(char * tar_filename_ar_7zip_i       ,
-					  char * path_with_the_files_ar_7zip_i,
-					  char * patern_ar_7zip_i             ,
-					  int    recurse_7zip_i               ,
-					  bool   true_if_include_7zip_i       ,
-					  char * compression_level_7zip_i     ,
-					  int    threads_7zip_i               ,
-					  char * error_message_k              ,     
-					  add_more_one_func my_func_7zip_i    ,
-					  bool   use_encryption_i_            ,
-					  char * password_i_                  ,
-					  bool also_encrypt_headers_i        );
+typedef int (__stdcall * compress_7zip_i)(char * tar_filename_ar_7zip_i,
+                                          char * path_with_the_files_ar_7zip_i,
+                                          char * patern_ar_7zip_i,
+                                          int recurse_7zip_i,
+                                          bool true_if_include_7zip_i,
+                                          char * compression_level_7zip_i,
+                                          int threads_7zip_i,
+                                          char * error_message_k,
+                                          add_more_one_func my_func_7zip_i,
+                                          bool use_encryption_i_,
+                                          char * password_i_,
+                                          bool also_encrypt_headers_i        );
 
 compress_7zip_i compress_7zip_i_func = NULL;
-typedef int (__stdcall * uncompress_7zip_i)  (char *filename_utf_8_p, tar_list_function_ar our_function_p, char * error_message_p, char * archive_format_p, char * password_i_);
+typedef int (__stdcall * uncompress_7zip_i)(char *filename_utf_8_p, tar_list_function_ar our_function_p, char * error_message_p, char * archive_format_p, char * password_i_);
 
-typedef int (__stdcall * uncompress_7zip_i_extraction)     (char *filename_utf_8_p, char * password_p, tar_list_function_ar our_function_p, char * error_message_p, char * archive_format_p, char * dir_to_extract_i, char * extracting_filename_ar, char * warning_info,char * creating_folder_maria, bool * extract_pause__flag, bool * extract_cancel_flag, int * folders_ar, int * files_ar);
+typedef int (__stdcall * uncompress_7zip_i_extraction)(char *filename_utf_8_p, char * password_p, tar_list_function_ar our_function_p, char * error_message_p, char * archive_format_p, char * dir_to_extract_i, char * extracting_filename_ar, char * warning_info,char * creating_folder_maria, bool * extract_pause__flag, bool * extract_cancel_flag, int * folders_ar, int * files_ar);
 
 uncompress_7zip_i uncompress_7zip_i_list_func = NULL;
 
@@ -1985,7 +1987,7 @@ resume_7zip_i resume_7zip_i_func = NULL;
 typedef int (__stdcall * cancel_7zip_i)(void);
 cancel_7zip_i cancel_7zip_i_func = NULL;
 
-get_tar_info_p                   get_tar_info_libarchive_func           = NULL;
+get_tar_info_p get_tar_info_libarchive_func           = NULL;
 
 ////////////////////////////////////26/May/2021 11:08
 typedef bool (__stdcall * is_valid_7zip_i)(char *);
@@ -2546,8 +2548,8 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 tar_list_function_ar my_func_ar_ = NULL;
 
 __int64 Size_k;
-char filename_k       [1027];
-char typeflag_ar      [300 ];
+char filename_k[1027];
+char typeflag_ar[300 ];
 int Day_k;
 int Hour_k;
 int Isdir_k;
@@ -3338,94 +3340,94 @@ BOOL GetLastWriteTime_complete_arp(HANDLE hFile,
 		atime_i = *s_arp;
 		ctime_i = *s_arp;
 		mtime_i = *s_arp;
-		
+
 		return FALSE;
 	}
 
 	VAL_data_arp->CreationTime___junior = ftCreate;
 	VAL_data_arp->LastAccessTime_junior = ftAccess;
 	VAL_data_arp->LastWriteTime__junior = ftWrite;
-	
+
 	{
-	// Convert the last-write time to local time.
-	FileTimeToSystemTime(&ftWrite, &stUTC);
-	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+		// Convert the last-write time to local time.
+		FileTimeToSystemTime(&ftWrite, &stUTC);
+		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 
-	if (lpszString_amanda)
-		// Build a string showing the date and time.
-		sprintf(lpszString_amanda,
-		        TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
-		        stLocal.wMonth, stLocal.wDay, stLocal.wYear,
-		        stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+		if (lpszString_amanda)
+			// Build a string showing the date and time.
+			sprintf(lpszString_amanda,
+			        TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+			        stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+			        stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
 
-	memset(&tm, 0, sizeof(tm));
+		memset(&tm, 0, sizeof(tm));
 
-	tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
-	tm.tm_mon = stLocal.wMonth - 1;
-	tm.tm_mday = stLocal.wDay;
+		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+		tm.tm_mon = stLocal.wMonth - 1;
+		tm.tm_mday = stLocal.wDay;
 
-	tm.tm_hour = stLocal.wHour;
-	tm.tm_min = stLocal.wMinute;
-	tm.tm_sec = stLocal.wSecond;
-	tm.tm_isdst = -1; // Edit 2: Added as per comment
+		tm.tm_hour = stLocal.wHour;
+		tm.tm_min = stLocal.wMinute;
+		tm.tm_sec = stLocal.wSecond;
+		tm.tm_isdst = -1; // Edit 2: Added as per comment
 
-	*s_arp = _mktime64(&tm);
-	mtime_i = *s_arp;
-	
+		*s_arp = _mktime64(&tm);
+		mtime_i = *s_arp;
+
 	}
-	
+
 	{
-	// Convert the last-write time to local time.
-	FileTimeToSystemTime(&ftCreate, &stUTC);
-	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+		// Convert the last-write time to local time.
+		FileTimeToSystemTime(&ftCreate, &stUTC);
+		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 
-	if (lpszString_amanda)
-		// Build a string showing the date and time.
-		sprintf(lpszString_amanda,
-		        TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
-		        stLocal.wMonth, stLocal.wDay, stLocal.wYear,
-		        stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+		if (lpszString_amanda)
+			// Build a string showing the date and time.
+			sprintf(lpszString_amanda,
+			        TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+			        stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+			        stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
 
-	memset(&tm, 0, sizeof(tm));
+		memset(&tm, 0, sizeof(tm));
 
-	tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
-	tm.tm_mon = stLocal.wMonth - 1;
-	tm.tm_mday = stLocal.wDay;
+		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+		tm.tm_mon = stLocal.wMonth - 1;
+		tm.tm_mday = stLocal.wDay;
 
-	tm.tm_hour = stLocal.wHour;
-	tm.tm_min = stLocal.wMinute;
-	tm.tm_sec = stLocal.wSecond;
-	tm.tm_isdst = -1; // Edit 2: Added as per comment
+		tm.tm_hour = stLocal.wHour;
+		tm.tm_min = stLocal.wMinute;
+		tm.tm_sec = stLocal.wSecond;
+		tm.tm_isdst = -1; // Edit 2: Added as per comment
 
-	ctime_i = _mktime64(&tm);
+		ctime_i = _mktime64(&tm);
 	}
-	
+
 	{
-	// Convert the last-write time to local time.
-	FileTimeToSystemTime(&ftAccess, &stUTC);
-	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+		// Convert the last-write time to local time.
+		FileTimeToSystemTime(&ftAccess, &stUTC);
+		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 
-	if (lpszString_amanda)
-		// Build a string showing the date and time.
-		sprintf(lpszString_amanda,
-		        TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
-		        stLocal.wMonth, stLocal.wDay, stLocal.wYear,
-		        stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+		if (lpszString_amanda)
+			// Build a string showing the date and time.
+			sprintf(lpszString_amanda,
+			        TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+			        stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+			        stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
 
-	memset(&tm, 0, sizeof(tm));
+		memset(&tm, 0, sizeof(tm));
 
-	tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
-	tm.tm_mon = stLocal.wMonth - 1;
-	tm.tm_mday = stLocal.wDay;
+		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+		tm.tm_mon = stLocal.wMonth - 1;
+		tm.tm_mday = stLocal.wDay;
 
-	tm.tm_hour = stLocal.wHour;
-	tm.tm_min = stLocal.wMinute;
-	tm.tm_sec = stLocal.wSecond;
-	tm.tm_isdst = -1; // Edit 2: Added as per comment
+		tm.tm_hour = stLocal.wHour;
+		tm.tm_min = stLocal.wMinute;
+		tm.tm_sec = stLocal.wSecond;
+		tm.tm_isdst = -1; // Edit 2: Added as per comment
 
-	atime_i = _mktime64(&tm);
+		atime_i = _mktime64(&tm);
 	}
-	
+
 	return 1;
 }
 
@@ -3439,14 +3441,14 @@ void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data * VAL_data_ar
 	char szBuf[MAX_PATH];
 
 	hFile = CreateFileW(amanda_utf8towide_1_(file_arp),
-			    /*
+	                    /*
+	                       GENERIC_READ,
+	                       FILE_SHARE_READ, NULL,
+	                       OPEN_EXISTING,
+	                       0,
+	                       NULL);
+	                     */
 	                    GENERIC_READ,
-	                    FILE_SHARE_READ, NULL,
-	                    OPEN_EXISTING,
-	                    0,
-	                    NULL);
-			    */
-			    GENERIC_READ,
 	                    FILE_SHARE_READ, NULL,
 	                    OPEN_EXISTING,
 	                    FILE_FLAG_BACKUP_SEMANTICS,
@@ -3459,7 +3461,7 @@ void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data * VAL_data_ar
 	else
 	{
 		GetLastWriteTime_complete_arp(hFile, szBuf, MAX_PATH, s_arp, VAL_data_arp);
-	
+
 		CloseHandle(hFile);
 	}
 	return;
@@ -3545,28 +3547,28 @@ bufmap_free(struct bufmap *mark)
 void
 close_archive(void)
 {
-     if (!mode_is_VAL_arp)
-     {
-	  if (access_mode == ACCESS_WRITE)
-	  {
-	       do
-		    flush_archive();
-	       while (current_block > record_start);
-	  }
-	  close(archive);
-	  archive = -1;
-	  tar_stat_destroy(&current_stat_info);
-	  bufmap_free(NULL);
-     }
-     else
-     {
-	  if(-1 != archive)
-	  {
-	       close(archive);
-	  }
-	  archive = -1;
-	  tar_stat_destroy(&current_stat_info);
-     }
+	if (!mode_is_VAL_arp)
+	{
+		if (access_mode == ACCESS_WRITE)
+		{
+			do
+				flush_archive();
+			while (current_block > record_start);
+		}
+		close(archive);
+		archive = -1;
+		tar_stat_destroy(&current_stat_info);
+		bufmap_free(NULL);
+	}
+	else
+	{
+		if(-1 != archive)
+		{
+			close(archive);
+		}
+		archive = -1;
+		tar_stat_destroy(&current_stat_info);
+	}
 }
 
 /**
@@ -4927,7 +4929,7 @@ read_header_old_1_32(union block **return_block, struct tar_stat_info *info,
 			char namebuf[sizeof h->prefix + 1 + NAME_FIELD_SIZE + 1];
 
 			if (recent_long_name)
-			{				
+			{
 				free(recent_long_name);
 				recent_long_name = NULL;
 			}
@@ -6036,9 +6038,9 @@ simple_flush_read(void)
 			records_read++;
 			return;
 		}
-		
+
 		status_i =(int) status;
-		
+
 		if (0 > status_i)
 		{
 			fatal_exit_k = 1;
@@ -6252,30 +6254,30 @@ find_next_block(void)
 }
 
 static struct zip_magic const magic[] = {
-	{ ct_none                , 0, 0 },
-	{ ct_tar                 , 0, 0 },
-	{ ct_compress            , 2, "\037\235" },
-	{ ct_gzip                , 2, "\037\213" },
-	{ ct_bzip2               , 3, "BZh" },
-	{ ct_lzip                , 4, "LZIP" },
-	{ ct_lzma                , 6, "\xFFLZMA" },    /* this don´t work as you will see, but I will keep it here...
-	                                               brotli also don´t have a pre-defined header and both are
-	                                               detected by extension at least in my code, notice that
-	                                               brotli2 have a header */
-	{ ct_lzop                , 4, "\211LZO" },
-	{ ct_xz                  , 6, "\xFD" "7zXZ" },
-	{ ct_lz4                 , 4, "\x04\x22\x4d\x18" },
-	{ ct_zstd                , 4, "\x28\xB5\x2F\xFD" },
-	{ ct_val                 , 4, "\x56\x41\x4c\x50" },
-	{ ct_gzip2a              , 4, "\x52\x53\x50\x47" },
-	{ ct_gzip2c              , 4, "\x41\x52\x5f\x5f" },
-	{ ct_gzip2c              , 4, "\x41\x52\x5f\x5E" },
-	{ ct_bzip3               , 4, "\x41\x52\x5f\x32" },
-	{ ct_bzip3               , 4, "\x41\x52\x5f\x5d" },
-	{ ct_lzop2               , 4, "\x41\x52\x5f\x53" },
-	{ ct_lz5                 , 4, "\x41\x52\x5f\x56" },
-	{ ct_brotli2             , 4, "\x41\x52\x5f\x55" },
-	{ ct_compress2           , 4, "\x41\x52\x5f\x54" },
+	{ ct_none, 0, 0 },
+	{ ct_tar, 0, 0 },
+	{ ct_compress, 2, "\037\235" },
+	{ ct_gzip, 2, "\037\213" },
+	{ ct_bzip2, 3, "BZh" },
+	{ ct_lzip, 4, "LZIP" },
+	{ ct_lzma, 6, "\xFFLZMA" },                    /* this don´t work as you will see, but I will keep it here...
+	                                                  brotli also don´t have a pre-defined header and both are
+	                                                  detected by extension at least in my code, notice that
+	                                                  brotli2 have a header */
+	{ ct_lzop, 4, "\211LZO" },
+	{ ct_xz, 6, "\xFD" "7zXZ" },
+	{ ct_lz4, 4, "\x04\x22\x4d\x18" },
+	{ ct_zstd, 4, "\x28\xB5\x2F\xFD" },
+	{ ct_val, 4, "\x56\x41\x4c\x50" },
+	{ ct_gzip2a, 4, "\x52\x53\x50\x47" },
+	{ ct_gzip2c, 4, "\x41\x52\x5f\x5f" },
+	{ ct_gzip2c, 4, "\x41\x52\x5f\x5E" },
+	{ ct_bzip3, 4, "\x41\x52\x5f\x32" },
+	{ ct_bzip3, 4, "\x41\x52\x5f\x5d" },
+	{ ct_lzop2, 4, "\x41\x52\x5f\x53" },
+	{ ct_lz5, 4, "\x41\x52\x5f\x56" },
+	{ ct_brotli2, 4, "\x41\x52\x5f\x55" },
+	{ ct_compress2, 4, "\x41\x52\x5f\x54" },
 };
 
 #define NMAGIC (sizeof(magic) / sizeof(magic[0]))
@@ -6432,134 +6434,134 @@ char copy_for_extract_ar[1024];
  */
 int __stdcall startapi_ar_2(__attribute__((unused)) int parameter)//for list process thread...
 {
-     bool is_7zip_libarchive_i = false;
-     int is_multi_volume_p;
-     char temp_tar_file_in_temp_path[1027];
-     cores_used_z = 1;
-     memset(copy_for_extract_ar, 0, sizeof(copy_for_extract_ar));
-     modo_e_duplo_ar = false;
-     return_value_from_list = 0;
+	bool is_7zip_libarchive_i = false;
+	int is_multi_volume_p;
+	char temp_tar_file_in_temp_path[1027];
+	cores_used_z = 1;
+	memset(copy_for_extract_ar, 0, sizeof(copy_for_extract_ar));
+	modo_e_duplo_ar = false;
+	return_value_from_list = 0;
 
-     init_rsp_arp_encrypt_arp();
-     
-     is_multi_volume_p = detect_multi_volume_p(tar_file_ar_real, temp_tar_file_in_temp_path);
+	init_rsp_arp_encrypt_arp();
 
-     if(0 == is_multi_volume_p)
-     {
-	  if(!mode_is_libarchive_list_p)
-	  return_value_from_list = process_tar(0, tar_file_ar_real, list_function_ar_ok);       
-	  else
-	  {
-	       dllinit_arp();
+	is_multi_volume_p = detect_multi_volume_p(tar_file_ar_real, temp_tar_file_in_temp_path);
 
-	       is_7zip_libarchive_i = is_valid_7zip_i_func(tar_file_ar_real);
+	if(0 == is_multi_volume_p)
+	{
+		if(!mode_is_libarchive_list_p)
+			return_value_from_list = process_tar(0, tar_file_ar_real, list_function_ar_ok);
+		else
+		{
+			dllinit_arp();
 
-	       if(is_7zip_libarchive_i)
-	       {
-		    get_tar_info_libarchive_func
-			 (
-			      & Isdir_k,
-			      & Second_k,
-			      & Minute_k,
-			      & Hour_k,
-			      & Year_k,
-			      & Month_k,
-			      & Day_k,
-			      & Size_k,
-			      filename_k,
-			      & Numdir_k,
-			      & Numfiles_k,
-			      typeflag_ar
-			      );
-		    
-		    return_value_from_list = uncompress_7zip_i_list_func(tar_file_ar_real, list_function_ar_ok, error_message_k, string_format_arp, the_pass_arp_utf8_i);
-		    
-	       }
-	       else
-	       {
+			is_7zip_libarchive_i = is_valid_7zip_i_func(tar_file_ar_real);
 
-		    get_tar_info_p_func
-			 (
-			      & Isdir_k,
-			      & Second_k,
-			      & Minute_k,
-			      & Hour_k,
-			      & Year_k,
-			      & Month_k,
-			      & Day_k,
-			      & Size_k,
-			      filename_k,
-			      & Numdir_k,
-			      & Numfiles_k,
-			      typeflag_ar
-			      );
-	       
-		    return_value_from_list = libarchive_list_entries_p_func(tar_file_ar_real, the_pass_arp, list_function_ar_ok, error_message_k, string_format_arp);
-	       }
-	  }
-     }
-     else if(1 == is_multi_volume_p)
-     {
-	  if(!mode_is_libarchive_list_p)
-	  return_value_from_list = process_tar(0, temp_tar_file_in_temp_path, list_function_ar_ok);
-	  else
-	  {
-	       dllinit_arp();
-	       is_7zip_libarchive_i = is_valid_7zip_i_func(temp_tar_file_in_temp_path);
+			if(is_7zip_libarchive_i)
+			{
+				get_tar_info_libarchive_func
+				(
+					&Isdir_k,
+					&Second_k,
+					&Minute_k,
+					&Hour_k,
+					&Year_k,
+					&Month_k,
+					&Day_k,
+					&Size_k,
+					filename_k,
+					&Numdir_k,
+					&Numfiles_k,
+					typeflag_ar
+				);
 
-	       if(is_7zip_libarchive_i)
-	       {
-		    get_tar_info_libarchive_func
-			 (
-			      & Isdir_k,
-			      & Second_k,
-			      & Minute_k,
-			      & Hour_k,
-			      & Year_k,
-			      & Month_k,
-			      & Day_k,
-			      & Size_k,
-			      filename_k,
-			      & Numdir_k,
-			      & Numfiles_k,
-			      typeflag_ar
-			      );
-		    
-		    return_value_from_list = uncompress_7zip_i_list_func(temp_tar_file_in_temp_path, list_function_ar_ok, error_message_k, string_format_arp, the_pass_arp_utf8_i);
-		    
-	       }
-	       else
-	       {
-		    get_tar_info_p_func
-			 (
-			      & Isdir_k,
-			      & Second_k,
-			      & Minute_k,
-			      & Hour_k,
-			      & Year_k,
-			      & Month_k,
-			      & Day_k,
-			      & Size_k,
-			      filename_k,
-			      & Numdir_k,
-			      & Numfiles_k,
-			      typeflag_ar
-			      );
-	       
-		    return_value_from_list = libarchive_list_entries_p_func(temp_tar_file_in_temp_path, the_pass_arp, list_function_ar_ok, error_message_k, string_format_arp);
-	       }
-	  }
-	  _wunlink(amanda_utf8towide_1_(temp_tar_file_in_temp_path));
-     }
-     else
-     {
-	  return_value_from_list = is_multi_volume_p;
-     }
-     pedro_dprintf(-1, "is multi volume2 %d\n", (int) is_multi_volume_p);
-     
-     running_2_ar = 0;
-     mode_is_libarchive_list_p = false;
-     return 0;
+				return_value_from_list = uncompress_7zip_i_list_func(tar_file_ar_real, list_function_ar_ok, error_message_k, string_format_arp, the_pass_arp_utf8_i);
+
+			}
+			else
+			{
+
+				get_tar_info_p_func
+				(
+					&Isdir_k,
+					&Second_k,
+					&Minute_k,
+					&Hour_k,
+					&Year_k,
+					&Month_k,
+					&Day_k,
+					&Size_k,
+					filename_k,
+					&Numdir_k,
+					&Numfiles_k,
+					typeflag_ar
+				);
+
+				return_value_from_list = libarchive_list_entries_p_func(tar_file_ar_real, the_pass_arp, list_function_ar_ok, error_message_k, string_format_arp);
+			}
+		}
+	}
+	else if(1 == is_multi_volume_p)
+	{
+		if(!mode_is_libarchive_list_p)
+			return_value_from_list = process_tar(0, temp_tar_file_in_temp_path, list_function_ar_ok);
+		else
+		{
+			dllinit_arp();
+			is_7zip_libarchive_i = is_valid_7zip_i_func(temp_tar_file_in_temp_path);
+
+			if(is_7zip_libarchive_i)
+			{
+				get_tar_info_libarchive_func
+				(
+					&Isdir_k,
+					&Second_k,
+					&Minute_k,
+					&Hour_k,
+					&Year_k,
+					&Month_k,
+					&Day_k,
+					&Size_k,
+					filename_k,
+					&Numdir_k,
+					&Numfiles_k,
+					typeflag_ar
+				);
+
+				return_value_from_list = uncompress_7zip_i_list_func(temp_tar_file_in_temp_path, list_function_ar_ok, error_message_k, string_format_arp, the_pass_arp_utf8_i);
+
+			}
+			else
+			{
+				get_tar_info_p_func
+				(
+					&Isdir_k,
+					&Second_k,
+					&Minute_k,
+					&Hour_k,
+					&Year_k,
+					&Month_k,
+					&Day_k,
+					&Size_k,
+					filename_k,
+					&Numdir_k,
+					&Numfiles_k,
+					typeflag_ar
+				);
+
+				return_value_from_list = libarchive_list_entries_p_func(temp_tar_file_in_temp_path, the_pass_arp, list_function_ar_ok, error_message_k, string_format_arp);
+			}
+		}
+		_wunlink(amanda_utf8towide_1_(temp_tar_file_in_temp_path));
+	}
+	else
+	{
+		return_value_from_list = is_multi_volume_p;
+	}
+	pedro_dprintf(-1, "is multi volume2 %d\n", (int) is_multi_volume_p);
+
+	running_2_ar = 0;
+	mode_is_libarchive_list_p = false;
+	return 0;
 }
 /**
  * This function is called when a thread is initialized, for an extraction process
@@ -6567,78 +6569,78 @@ int __stdcall startapi_ar_2(__attribute__((unused)) int parameter)//for list pro
  */
 int __stdcall startapi_ar_3(__attribute__((unused)) int parameter)//extract call function...
 {
-     bool is_7zip_libarchive_i = false;
-     int is_multi_volume_p;
-     char temp_tar_file_in_temp_path[1027];
-     cores_used_z = 1;
-     modo_e_duplo_ar = true;
-     memset(copy_for_extract_ar, 0, sizeof(copy_for_extract_ar));
-     return_value_from_list = 0;
-     
-     init_rsp_arp_encrypt_arp();
-     
-     is_multi_volume_p = detect_multi_volume_p(tar_file_ar_real, temp_tar_file_in_temp_path);
+	bool is_7zip_libarchive_i = false;
+	int is_multi_volume_p;
+	char temp_tar_file_in_temp_path[1027];
+	cores_used_z = 1;
+	modo_e_duplo_ar = true;
+	memset(copy_for_extract_ar, 0, sizeof(copy_for_extract_ar));
+	return_value_from_list = 0;
 
-     if(0 == is_multi_volume_p)
-     {
-	  if(!mode_is_libarchive_extract_p)
-	       return_value_from_list = process_tar(1, tar_file_ar_real, extract_function_ar_ok);
-	  else
-	  {
-	       dllinit_arp();
-	       
-	       is_7zip_libarchive_i = is_valid_7zip_i_func(tar_file_ar_real);
+	init_rsp_arp_encrypt_arp();
 
-	       if(is_7zip_libarchive_i)
-	       {
-		    use_7zip_extraction_progress_i = true;
-		    return_value_from_list =  uncompress_7zip_i_extraction_func(tar_file_ar_real, the_pass_arp_utf8_i, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria, & extract_pause__flag, & extract_cancel_flag, & folders_ar, & files_ar);
+	is_multi_volume_p = detect_multi_volume_p(tar_file_ar_real, temp_tar_file_in_temp_path);
 
-		    use_7zip_extraction_progress_i = false;
-	       }
-	       else
-	       {
-		    return_value_from_list =  libarchive_extract_entries_p_func(tar_file_ar_real, the_pass_arp, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria, & extract_pause__flag, & extract_cancel_flag, & folders_ar, & files_ar);
-	       }
-	  }
-     }
-     else if(1 == is_multi_volume_p)
-     {
-	  if(!mode_is_libarchive_extract_p)
-	       return_value_from_list = process_tar(1, temp_tar_file_in_temp_path, extract_function_ar_ok);
-	  else
-	  {
-	       dllinit_arp();
+	if(0 == is_multi_volume_p)
+	{
+		if(!mode_is_libarchive_extract_p)
+			return_value_from_list = process_tar(1, tar_file_ar_real, extract_function_ar_ok);
+		else
+		{
+			dllinit_arp();
 
-	       is_7zip_libarchive_i = is_valid_7zip_i_func(temp_tar_file_in_temp_path);
+			is_7zip_libarchive_i = is_valid_7zip_i_func(tar_file_ar_real);
 
-	       if(is_7zip_libarchive_i)
-	       {
-		    use_7zip_extraction_progress_i = true;
-		    
-		    return_value_from_list =  uncompress_7zip_i_extraction_func(temp_tar_file_in_temp_path, the_pass_arp_utf8_i, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria,& extract_pause__flag, & extract_cancel_flag, & folders_ar, & files_ar);
+			if(is_7zip_libarchive_i)
+			{
+				use_7zip_extraction_progress_i = true;
+				return_value_from_list =  uncompress_7zip_i_extraction_func(tar_file_ar_real, the_pass_arp_utf8_i, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria, &extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
 
-		    use_7zip_extraction_progress_i = false;
+				use_7zip_extraction_progress_i = false;
+			}
+			else
+			{
+				return_value_from_list =  libarchive_extract_entries_p_func(tar_file_ar_real, the_pass_arp, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria, &extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
+			}
+		}
+	}
+	else if(1 == is_multi_volume_p)
+	{
+		if(!mode_is_libarchive_extract_p)
+			return_value_from_list = process_tar(1, temp_tar_file_in_temp_path, extract_function_ar_ok);
+		else
+		{
+			dllinit_arp();
 
-	       }
-	       else
-	       {
-		    return_value_from_list =  libarchive_extract_entries_p_func(temp_tar_file_in_temp_path, the_pass_arp, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria,& extract_pause__flag, & extract_cancel_flag, & folders_ar, & files_ar);
-		    
-	       }
-	  }
+			is_7zip_libarchive_i = is_valid_7zip_i_func(temp_tar_file_in_temp_path);
 
-	  _wunlink(amanda_utf8towide_1_(temp_tar_file_in_temp_path));
-     }
-     else
-     {
-	  return_value_from_list = is_multi_volume_p;
-     }
-	
-     running_2_ar = 0;
-     modo_e_duplo_ar = false;
-     mode_is_libarchive_extract_p = false;
-     return 0;
+			if(is_7zip_libarchive_i)
+			{
+				use_7zip_extraction_progress_i = true;
+
+				return_value_from_list =  uncompress_7zip_i_extraction_func(temp_tar_file_in_temp_path, the_pass_arp_utf8_i, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria,&extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
+
+				use_7zip_extraction_progress_i = false;
+
+			}
+			else
+			{
+				return_value_from_list =  libarchive_extract_entries_p_func(temp_tar_file_in_temp_path, the_pass_arp, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria,&extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
+
+			}
+		}
+
+		_wunlink(amanda_utf8towide_1_(temp_tar_file_in_temp_path));
+	}
+	else
+	{
+		return_value_from_list = is_multi_volume_p;
+	}
+
+	running_2_ar = 0;
+	modo_e_duplo_ar = false;
+	mode_is_libarchive_extract_p = false;
+	return 0;
 }
 
 /**
@@ -6660,11 +6662,11 @@ int __stdcall startapi_ar_3(__attribute__((unused)) int parameter)//extract call
  */
 int __stdcall libarchive_list_tar_file_ar
 (
-     char * tar_file_ar
-     )
+	char * tar_file_ar
+)
 {
-     mode_is_libarchive_list_p     = true;
-     return list_tar_file_ar(tar_file_ar);
+	mode_is_libarchive_list_p     = true;
+	return list_tar_file_ar(tar_file_ar);
 }
 
 /**
@@ -6673,20 +6675,20 @@ int __stdcall libarchive_list_tar_file_ar
  */
 int __stdcall list_tar_file_ar(char * tar_file_ar)
 {
-     if (1023 < strlen(tar_file_ar))
-     {
-	  mode_is_libarchive_list_p = false;
-	  return 2;
-     }
-     if (running_2_ar)
-     {
-	  mode_is_libarchive_list_p = false;
-	  return 1;
-     }
-     if(false == check_valid_path_i(tar_file_ar))
-     {
-	  return 3;
-     }
+	if (1023 < strlen(tar_file_ar))
+	{
+		mode_is_libarchive_list_p = false;
+		return 2;
+	}
+	if (running_2_ar)
+	{
+		mode_is_libarchive_list_p = false;
+		return 1;
+	}
+	if(false == check_valid_path_i(tar_file_ar))
+	{
+		return 3;
+	}
 
 	extract_pause__flag = false;
 	extract_cancel_flag = false;
@@ -6846,26 +6848,26 @@ int __stdcall ExtractCancel_ar(void)
  */
 int __stdcall extract_tar_file_ar(char * tar_file_ar, char * destination_folder_ar)
 {
-     if (MAX_PATH < strlen(tar_file_ar))
-     {
-	  mode_is_libarchive_extract_p = false;
-	  return 2;
-     }
-     if (MAX_PATH < strlen(destination_folder_ar))
-     {
-	  mode_is_libarchive_extract_p = false;
-	  return 2;
-     }
-     if (running_2_ar)
-     {
-	  mode_is_libarchive_extract_p = false;
-	  return 1;
-     }
-     if(false == check_valid_path_i(tar_file_ar) || false == check_valid_path_i(destination_folder_ar))
-     {
-	  return 3;
-     }
-	
+	if (MAX_PATH < strlen(tar_file_ar))
+	{
+		mode_is_libarchive_extract_p = false;
+		return 2;
+	}
+	if (MAX_PATH < strlen(destination_folder_ar))
+	{
+		mode_is_libarchive_extract_p = false;
+		return 2;
+	}
+	if (running_2_ar)
+	{
+		mode_is_libarchive_extract_p = false;
+		return 1;
+	}
+	if(false == check_valid_path_i(tar_file_ar) || false == check_valid_path_i(destination_folder_ar))
+	{
+		return 3;
+	}
+
 	running_2_ar = 1;
 	last_list_error_int_arp = 0;
 	memset(last_list_error_message_arp, 0, sizeof(last_list_error_message_arp));
@@ -6906,9 +6908,9 @@ int __stdcall extract_tar_file_ar(char * tar_file_ar, char * destination_folder_
  *
  */
 int __stdcall libarchive_extract_tar_file_ar(char * tar_file_ar, char * destination_folder_ar)
-{     
-     mode_is_libarchive_extract_p = true;
-     return extract_tar_file_ar(tar_file_ar, destination_folder_ar);     
+{
+	mode_is_libarchive_extract_p = true;
+	return extract_tar_file_ar(tar_file_ar, destination_folder_ar);
 }
 
 /**
@@ -6957,37 +6959,37 @@ int __stdcall GetExtrationProgress_ar(void)
 
 	if(use_7zip_extraction_progress_i)
 	{
-	    
-	     ret_ar = get_progress_7zip_i_func();	     
-	     return ret_ar;
-	     
+
+		ret_ar = get_progress_7zip_i_func();
+		return ret_ar;
+
 	}
 	if(mode_is_libarchive_extract_p)
 	{
 
-	     if(progress_extract_i_func)
-	     {
-		  
-		  ret_ar =  progress_extract_i_func();
-		  
-		  return ret_ar;
-	     }
-	     return 10000;
+		if(progress_extract_i_func)
+		{
+
+			ret_ar =  progress_extract_i_func();
+
+			return ret_ar;
+		}
+		return 10000;
 	}
-	
+
 	if (global_ptr_our_map_arp_v27)
 	{
 		assert(0 && "Don't handle iso files anymore in Parolin");
 		/*
-		static int old_value_arp = 0;
-		if (time_point_arp_2 < GetTickCount())
-		{
-			old_value_arp = global_ptr_our_map_arp_v27->progress_arp;
-			time_point_arp_2 = GetTickCount() + 50;
-			return old_value_arp;
-		}
-		return old_value_arp;
-		*/
+		   static int old_value_arp = 0;
+		   if (time_point_arp_2 < GetTickCount())
+		   {
+		        old_value_arp = global_ptr_our_map_arp_v27->progress_arp;
+		        time_point_arp_2 = GetTickCount() + 50;
+		        return old_value_arp;
+		   }
+		   return old_value_arp;
+		 */
 	}
 	ret_ar = getpor_10000(numero_de_itens, processed_itens_ar);
 	if (0 > ret_ar)
@@ -7312,11 +7314,11 @@ int __stdcall process_iso(int true_if_it_is_extract_ar, char * tar_file_ar)
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
 	assert(4 == sizeof(DWORD));
-	char copy_arp            [1024];
-	char list_file__S2_arp   [1024] = { 0 };
+	char copy_arp[1024];
+	char list_file__S2_arp[1024] = { 0 };
 	char extract_file__S2_arp[1024] = { 0 };
-	char get_data_arp        [1024];
-	char my_command_call_arp [1024];
+	char get_data_arp[1024];
+	char my_command_call_arp[1024];
 	int pos_arp;
 	char *token, *str, *tofree;
 	int copy_itens_arp;
@@ -7337,10 +7339,10 @@ int __stdcall process_iso(int true_if_it_is_extract_ar, char * tar_file_ar)
 		;
 	}
 //modified April/10/2021
-	
+
 	strcpy(error_message_k, "iso9660 was disable so the mkisofs executables and cygwin DLL is not required anymore, use libarchive instead");
 	return 27999;
-	
+
 	assert(0 == has_itens_is_amanda_update_);
 	assert(0 == has_itens_copy_is_amanda_update_);
 #define BUF_SIZE_ARP sizeof(our_map_arp)
@@ -7747,23 +7749,23 @@ char * __amandacall cpu_speed_z(void)
  */
 int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_list_function_ar my_func__)
 {
-     int64_t        size_got_p                              = 0;
-     static int64_t temp_long_long                             ;
-     int64_t        temp_unused_var_long_long_int           = 0;
-     already_arp                                            = 0;
-     enum           read_header status = HEADER_STILL_UNREAD   ;
-     enum           read_header prev_status;
-     int            ret_k;
-     encryption_detected_z = -1;
-     flag_to_delete_temp_ar = false;
-     file_is_VAL_arp = false;
-     is_mislaine_encrypted_ = false;
-     decoder_file_z = NULL;
-     strcpy(string_format_arp, "unknown");
-     is_encrypted_by_extension = is_compressed_z(tar_file_ar);
+	int64_t size_got_p                              = 0;
+	static int64_t temp_long_long;
+	int64_t temp_unused_var_long_long_int           = 0;
+	already_arp                                            = 0;
+	enum           read_header status = HEADER_STILL_UNREAD;
+	enum           read_header prev_status;
+	int ret_k;
+	encryption_detected_z = -1;
+	flag_to_delete_temp_ar = false;
+	file_is_VAL_arp = false;
+	is_mislaine_encrypted_ = false;
+	decoder_file_z = NULL;
+	strcpy(string_format_arp, "unknown");
+	is_encrypted_by_extension = is_compressed_z(tar_file_ar);
 
-     real_VAL_filesize = -1;
-      
+	real_VAL_filesize = -1;
+
 	if
 	(
 		check_iso_file_aakp(tar_file_ar)
@@ -7772,15 +7774,15 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 		my_func_ar_ = my_func__;
 		return process_iso(true_if_it_is_extract_ar, tar_file_ar);
 	}
-      
+
 	if (0 == true_if_it_is_extract_ar)
 	{
 		file_size_total_int64 = getfilesize_ar(tar_file_ar);
 		file_total__read_int64 = 0;
 	}
-	
+
 	keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
-	
+
 	if (true_if_it_is_extract_ar)
 	{
 		while (clean_list_itens_is_list_())
@@ -7790,7 +7792,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 		numero_de_itens = 0;
 		processed_itens_ar = 0;
 		keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
-				
+
 		if (keep_temp_file_flag_z)
 		{
 			if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_for_encrypted, L"AM_"))
@@ -7808,7 +7810,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 			}
 			update_progress_arp(&temp_long_long);
 			ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int, encryption_method__i);
-				
+
 			strcpy(file_to_keep_z, temp_file_for_encrypted_v2);
 			strcpy(tar_file_ar, temp_file_for_encrypted_v2);
 			if (0 == ret_arp_)
@@ -7828,8 +7830,8 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char * tar_file_ar, tar_
 				fatal_exit_k = 40005;
 				goto saida_o_k;
 			}
-				
-			
+
+
 		}
 		ret_k = process_tar(0, tar_file_ar, list_function_ar_ok);
 		if (2004 == ret_k)
@@ -9854,7 +9856,7 @@ vai_em_frente_ar:
 					{
 						//encryption_method__i[0] = 0;
 						strcpy(string_format_arp, archive_format_string(detected_format_arp));
-												
+
 						already_arp++;
 					}
 
@@ -9949,15 +9951,15 @@ exit_now_k:             ;
 		else
 		{
 
-		     size_got_p = getfilesize_ar(archive_name_array_filename);
-		     
-		     decoder_file_z = _wfopen(amanda_utf8towide_1_(archive_name_array_filename), L"rb");
-		     if (NULL == decoder_file_z)
-		     {
-			  strcpy(error_message_k, "Cannot open VAL file for read");
-			  fatal_exit_k = 40005;
-			  goto exit_now_k_VAL;
-		     }
+			size_got_p = getfilesize_ar(archive_name_array_filename);
+
+			decoder_file_z = _wfopen(amanda_utf8towide_1_(archive_name_array_filename), L"rb");
+			if (NULL == decoder_file_z)
+			{
+				strcpy(error_message_k, "Cannot open VAL file for read");
+				fatal_exit_k = 40005;
+				goto exit_now_k_VAL;
+			}
 
 			init_decoder_z = 1;
 			//encryption_method__i[0] = 0;
@@ -10028,22 +10030,22 @@ exit_now_k_VAL: ;
 
 		if(-1 != real_VAL_filesize)
 		{
-		     if(size_got_p < real_VAL_filesize)
-		     {
-			  strcpy(error_message_k, "Unexpected end of file found");
-			  fatal_exit_k = 5131;			  
-		     }
-		     if(size_got_p > real_VAL_filesize)
-		     {
-			  strcpy(error_message_k, "Size of the VAL file don´t match the header");
-			  fatal_exit_k = 5132;	
-		     }
+			if(size_got_p < real_VAL_filesize)
+			{
+				strcpy(error_message_k, "Unexpected end of file found");
+				fatal_exit_k = 5131;
+			}
+			if(size_got_p > real_VAL_filesize)
+			{
+				strcpy(error_message_k, "Size of the VAL file don´t match the header");
+				fatal_exit_k = 5132;
+			}
 		}
 		else
 		{
-		     pedro_dprintf(-1, "arquivo VAL antigo ou tar file\n");
+			pedro_dprintf(-1, "arquivo VAL antigo ou tar file\n");
 		}
-		
+
 	}
 
 saida_o_k:;
@@ -10097,9 +10099,9 @@ final_jump_arp:
 
 	if (true_if_it_is_extract_ar)
 	{
-		
+
 		//so aqui...
-		
+
 		strcat(string_format_arp, encryption_method__i);
 		encryption_method__i[0] = 0;
 		if (last_list_error_int_arp)
@@ -10138,9 +10140,9 @@ int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
 
 int __stdcall startapi_ar_6(int parameter);
 
-char tar_filename_ar___                     [1024 ] = { 0, };
-char path_with_the_files_ar___              [1024 ] = { 0, };
-char patern_ar___                           [20000] = { 0, };
+char tar_filename_ar___[1024 ] = { 0, };
+char path_with_the_files_ar___[1024 ] = { 0, };
+char patern_ar___[20000] = { 0, };
 int compression_mode_external_ar___;
 int recurse_in_subfolders_arp___;
 enum mode_is_include_or_exclude the__patern_ar__mode___;
@@ -10165,28 +10167,28 @@ int __stdcall update_archive_ar_v2(char *tar_filename_ar,
                                    int recurse_in_subfolders_arp,
                                    enum mode_is_include_or_exclude the__patern_ar__mode)
 {
-     if (MAX_PATH < strlen(tar_filename_ar))
-     {
-	  mode_is_libarchive_update_i = false;
-	  return 2;
-     }
-     if (MAX_PATH < strlen(path_with_the_files_ar))
-     {
-	  mode_is_libarchive_update_i = false;
-	  return 2;
-     }
-     if (19999 < strlen(patern_ar))
-     {
-	  mode_is_libarchive_update_i = false;
-	  return 2;
-     }
+	if (MAX_PATH < strlen(tar_filename_ar))
+	{
+		mode_is_libarchive_update_i = false;
+		return 2;
+	}
+	if (MAX_PATH < strlen(path_with_the_files_ar))
+	{
+		mode_is_libarchive_update_i = false;
+		return 2;
+	}
+	if (19999 < strlen(patern_ar))
+	{
+		mode_is_libarchive_update_i = false;
+		return 2;
+	}
 
-     if(running_update || running_2_ar || running_ar)
-     {
-	  mode_is_libarchive_update_i = false;
-	  return 4;
-     }
-     
+	if(running_update || running_2_ar || running_ar)
+	{
+		mode_is_libarchive_update_i = false;
+		return 4;
+	}
+
 	HANDLE myhandle;
 	MYCAST ThreadId;
 	MYCAST parameter = 1;
@@ -10261,196 +10263,196 @@ int __stdcall update_archive_ar_v2(char *tar_filename_ar,
  *
  */
 int __stdcall libarchive_update_archive_ar_v2(char *tar_filename_ar,
-					      char * path_with_the_files_ar,
-					      char * patern_ar,
-					      int compression_mode_external_ar,
-					      int recurse_in_subfolders_arp,
-					      enum mode_is_include_or_exclude the__patern_ar__mode,
-					      char * compression_level_char_i_)
+                                              char * path_with_the_files_ar,
+                                              char * patern_ar,
+                                              int compression_mode_external_ar,
+                                              int recurse_in_subfolders_arp,
+                                              enum mode_is_include_or_exclude the__patern_ar__mode,
+                                              char * compression_level_char_i_)
 {
 
-     mode_is_libarchive_update_i = true;
-     strcpy(compression_level_char_i, compression_level_char_i_);
-     return update_archive_ar_v2(tar_filename_ar,
-				 path_with_the_files_ar,
-				 patern_ar,
-				 compression_mode_external_ar,
-				 recurse_in_subfolders_arp,
-				 the__patern_ar__mode);
-         
+	mode_is_libarchive_update_i = true;
+	strcpy(compression_level_char_i, compression_level_char_i_);
+	return update_archive_ar_v2(tar_filename_ar,
+	                            path_with_the_files_ar,
+	                            patern_ar,
+	                            compression_mode_external_ar,
+	                            recurse_in_subfolders_arp,
+	                            the__patern_ar__mode);
+
 }
 
 int set_folder_time(char * in_folder_i, char *out_folder_i)
 {
-     HANDLE hFile;
-     FILETIME lpCreationTime___jumior;
-     FILETIME lpLastAccessTime_junior;
-     FILETIME lpLastWriteTime__junior;
-				  
-     hFile =
-	  CreateFileW(amanda_utf8towide_1_(in_folder_i),
-		      /*
-		      GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-		      NULL,
-		      OPEN_EXISTING,
-		      FILE_FLAG_BACKUP_SEMANTICS,
-		      NULL);
-		      */
-		      /*
-		      GENERIC_READ,
-	                    FILE_SHARE_READ, NULL,
-	                    OPEN_EXISTING,
-	                    0,
-	                    NULL);
-		      */
-		      GENERIC_READ,
-	                    FILE_SHARE_READ, NULL,
-	                    OPEN_EXISTING,
-	                    FILE_FLAG_BACKUP_SEMANTICS,
-	                    NULL);
-     
-     if (INVALID_HANDLE_VALUE != hFile)
-     {
-	  if (GetFileTime
-	      (
-		   hFile,
-		   &lpCreationTime___jumior,
-		   &lpLastAccessTime_junior,
-		   &lpLastWriteTime__junior
-		   )
-	       )
-	  {
-	       {
-					
-		    {
+	HANDLE hFile;
+	FILETIME lpCreationTime___jumior;
+	FILETIME lpLastAccessTime_junior;
+	FILETIME lpLastWriteTime__junior;
 
-			 HANDLE hFile2;
-      
-			 {
-				
-			      hFile2 =
-				   CreateFileW(amanda_utf8towide_1_(out_folder_i),
-					       GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-					       NULL,
-					       OPEN_EXISTING,
-					       FILE_FLAG_BACKUP_SEMANTICS,
-					       NULL);
+	hFile =
+		CreateFileW(amanda_utf8towide_1_(in_folder_i),
+		            /*
+		               GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+		               NULL,
+		               OPEN_EXISTING,
+		               FILE_FLAG_BACKUP_SEMANTICS,
+		               NULL);
+		             */
+		            /*
+		               GENERIC_READ,
+		                  FILE_SHARE_READ, NULL,
+		                  OPEN_EXISTING,
+		                  0,
+		                  NULL);
+		             */
+		            GENERIC_READ,
+		            FILE_SHARE_READ, NULL,
+		            OPEN_EXISTING,
+		            FILE_FLAG_BACKUP_SEMANTICS,
+		            NULL);
 
-			      if (INVALID_HANDLE_VALUE != hFile2)
-			      {								 
-				   SetFileTime(hFile2,
-					       &lpCreationTime___jumior,
-					       &lpLastAccessTime_junior,
-					       &lpLastWriteTime__junior);
-				   CloseHandle(hFile2);
-			      }
-			      else
-			      {
-				   pedro_dprintf(2, "Cannot set filetime on folder\n");
-			      }
-			 }
-     
-		    }
-					  
-	       }
-	  }
-	  else
-	  {
-	       pedro_dprintf(2, "Cannot access timestamp\n");
-	  }
+	if (INVALID_HANDLE_VALUE != hFile)
+	{
+		if (GetFileTime
+		    (
+			    hFile,
+			    &lpCreationTime___jumior,
+			    &lpLastAccessTime_junior,
+			    &lpLastWriteTime__junior
+		    )
+		    )
+		{
+			{
 
-	  CloseHandle(hFile);
-     }
-     else
-     {
-	  //pedro_dprintf(2, "Cannot get filetime on folder\n");
+				{
 
-	  pedro_dprintf(2, "Cannot get filetime on file or folder %s\n", in_folder_i);
-	  
-     }//
+					HANDLE hFile2;
 
-     return 0;
+					{
+
+						hFile2 =
+							CreateFileW(amanda_utf8towide_1_(out_folder_i),
+							            GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+							            NULL,
+							            OPEN_EXISTING,
+							            FILE_FLAG_BACKUP_SEMANTICS,
+							            NULL);
+
+						if (INVALID_HANDLE_VALUE != hFile2)
+						{
+							SetFileTime(hFile2,
+							            &lpCreationTime___jumior,
+							            &lpLastAccessTime_junior,
+							            &lpLastWriteTime__junior);
+							CloseHandle(hFile2);
+						}
+						else
+						{
+							pedro_dprintf(2, "Cannot set filetime on folder\n");
+						}
+					}
+
+				}
+
+			}
+		}
+		else
+		{
+			pedro_dprintf(2, "Cannot access timestamp\n");
+		}
+
+		CloseHandle(hFile);
+	}
+	else
+	{
+		//pedro_dprintf(2, "Cannot get filetime on folder\n");
+
+		pedro_dprintf(2, "Cannot get filetime on file or folder %s\n", in_folder_i);
+
+	}//
+
+	return 0;
 }
 
 int  file_copy_i(char * input_i, char *out_put_i)
 {
 
 #define AMANDA_SIZE___            (1 << 17)
-     int len_i  ;
-     int len_2_i;
-     int returnvalue_i = 2;
-     char * buf_i = malloc(AMANDA_SIZE___);
-     FILE * out_i;
-     FILE * in_i = _wfopen(amanda_utf8towide_1_(input_i), L"rb");
+	int len_i;
+	int len_2_i;
+	int returnvalue_i = 2;
+	char * buf_i = malloc(AMANDA_SIZE___);
+	FILE * out_i;
+	FILE * in_i = _wfopen(amanda_utf8towide_1_(input_i), L"rb");
 
-     if(in_i)
-     {
+	if(in_i)
+	{
 
-	  out_i = _wfopen(amanda_utf8towide_1_(out_put_i), L"wb");
+		out_i = _wfopen(amanda_utf8towide_1_(out_put_i), L"wb");
 
-	  if(out_i)
-	  {
-	       while((len_i = fread(buf_i, 1, AMANDA_SIZE___, in_i)))
-	       {
-		    len_2_i =  fwrite(buf_i, 1, len_i, out_i);
-		    if(len_2_i != len_i)
-		    {
-			 returnvalue_i = 1;
-		    }
-	       }
-	       if(2 == returnvalue_i)
-	       {
-		    returnvalue_i = 0;
-	       }
-	       fclose (out_i);
-	  }
-	  fclose(in_i);
-	  
-     }
-     free(buf_i);
+		if(out_i)
+		{
+			while((len_i = fread(buf_i, 1, AMANDA_SIZE___, in_i)))
+			{
+				len_2_i =  fwrite(buf_i, 1, len_i, out_i);
+				if(len_2_i != len_i)
+				{
+					returnvalue_i = 1;
+				}
+			}
+			if(2 == returnvalue_i)
+			{
+				returnvalue_i = 0;
+			}
+			fclose (out_i);
+		}
+		fclose(in_i);
 
-     if(0 == returnvalue_i)
-     {
-	  set_folder_time(input_i, out_put_i);
-	  //don`t need two calls anymore...set_folder_time(input_i, out_put_i);
-     }
-     return returnvalue_i;
+	}
+	free(buf_i);
+
+	if(0 == returnvalue_i)
+	{
+		set_folder_time(input_i, out_put_i);
+		//don`t need two calls anymore...set_folder_time(input_i, out_put_i);
+	}
+	return returnvalue_i;
 }
 
 bool check_temp_folder_passed_i(char * temp_folder_i, char * new_entry_i)
 {
 
-     char copy_amanda_pereira  [1027] = {0};
-     char copy_amanda_pereira_2[1027] = {0};
-     
+	char copy_amanda_pereira[1027] = {0};
+	char copy_amanda_pereira_2[1027] = {0};
 
-     if(strlen(temp_folder_i) == strlen(new_entry_i))
-     {
-	  if(0 == strcmp(temp_folder_i, new_entry_i))
-	  {
-	       
-	       return false;
-	  }
-     }
 
-     if(strlen(new_entry_i) >= strlen(temp_folder_i)+ 1)
-     {
+	if(strlen(temp_folder_i) == strlen(new_entry_i))
+	{
+		if(0 == strcmp(temp_folder_i, new_entry_i))
+		{
 
-	  strcpy(copy_amanda_pereira, temp_folder_i);
-	  strcat(copy_amanda_pereira, "\\");
+			return false;
+		}
+	}
+
+	if(strlen(new_entry_i) >= strlen(temp_folder_i)+ 1)
+	{
+
+		strcpy(copy_amanda_pereira, temp_folder_i);
+		strcat(copy_amanda_pereira, "\\");
 //ready...
-	  memcpy(copy_amanda_pereira_2, new_entry_i, strlen(copy_amanda_pereira));
+		memcpy(copy_amanda_pereira_2, new_entry_i, strlen(copy_amanda_pereira));
 
-	  assert(strlen(copy_amanda_pereira_2) == strlen(copy_amanda_pereira));
+		assert(strlen(copy_amanda_pereira_2) == strlen(copy_amanda_pereira));
 
-	  if(0 == strcmp(copy_amanda_pereira, copy_amanda_pereira_2))
-	  {	       
-	       return false;
-	  }
-     }
-     
-     return true;
-     
+		if(0 == strcmp(copy_amanda_pereira, copy_amanda_pereira_2))
+		{
+			return false;
+		}
+	}
+
+	return true;
+
 }
 
 bool true_if_include_i = false;
@@ -10467,17 +10469,17 @@ bool ScanFolder(char * lpcszFolder_ar, __attribute__((unused)) int first_call, b
 #ifdef DEBUG_MICROSOFT_AMANDA_S_SMART_APE_______LIKE_PEDRO_VALUE__
 
 #if DEBUG_MICROSOFT_AMANDA_S_SMART_APE_______LIKE_PEDRO_VALUE__ > -1
-	 //assert(0 && " my love ape entering...");
-	 //test_amanda_and_ricardo();
+	//assert(0 && " my love ape entering...");
+	//test_amanda_and_ricardo();
 
-	 amanda_s_smart_ape(lpcszFolder_ar, recurse_i, I_MODE_IS_SCANFOLDER);
+	amanda_s_smart_ape(lpcszFolder_ar, recurse_i, I_MODE_IS_SCANFOLDER);
 
-	 return true;
+	return true;
 #endif
 
 #endif
 
-     return true;
+	return true;
 }
 
 /**
@@ -10485,102 +10487,102 @@ bool ScanFolder(char * lpcszFolder_ar, __attribute__((unused)) int first_call, b
  *
  */
 int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
-                                            char * path_with_the_files_ar,
-                                            char * patern_ar,
-                                            int compression_mode_external_ar,
-                                            int recurse_in_subfolders_arp,
-                                            enum mode_is_include_or_exclude the__patern_ar__mode)
+                                                       char * path_with_the_files_ar,
+                                                       char * patern_ar,
+                                                       int compression_mode_external_ar,
+                                                       int recurse_in_subfolders_arp,
+                                                       enum mode_is_include_or_exclude the__patern_ar__mode)
 {
-     	       
-     char temp_folder_i[1027] = {0,};
-     int i_z;
-     int ret_value_arp = 0;
-     int returnvalue_i = 0;
-     int folders_ar = 0;
-     int files_ar = 0;
-     
-     init_rsp_arp_encrypt_arp();
-     dllinit_arp();
 
-	 my___temp_file_i = NULL;
+	char temp_folder_i[1027] = {0,};
+	int i_z;
+	int ret_value_arp = 0;
+	int returnvalue_i = 0;
+	int folders_ar = 0;
+	int files_ar = 0;
 
-	 files_that_cannot_be_read_update = 0;
+	init_rsp_arp_encrypt_arp();
+	dllinit_arp();
 
-     bool is_7zip_libarchive_i = is_valid_7zip_i_func(tar_filename_ar);     
+	my___temp_file_i = NULL;
 
-     //exit(1);
-     
-     mode_is_libarchive_update_i = false;
-	
-     if (1023 < strlen(tar_filename_ar))
-     {
-	  running_update = 0;
-	  return 2;
-     }
-     if (1023 < strlen(path_with_the_files_ar))
-     {
-	  running_update = 0;
-	  return 2;
-     }
-     if (19999 < strlen(patern_ar))
-     {
-	  running_update = 0;
-	  return 2;
-     }
+	files_that_cannot_be_read_update = 0;
 
-     if(ispathfile(tar_filename_ar))
-     {
-	  if(is_7zip_libarchive_i)
-	  {
-	       
-	       //multiple chunks are not supported when updating
-	       split_compressed_file_p(0);//to zero it
-	
-	       dont_delete_7zip_file_i = true;
-	       
-	       return libarchive_create_archive_ar_v2(tar_filename_ar,
-						      path_with_the_files_ar,
-						      patern_ar,
-						      compression_mode_external_ar,
-						      recurse_in_subfolders_arp,
-						      the__patern_ar__mode,
-						      compression_level_char_i);
-	  }
-     }
-      
-     if (!ispathfile(tar_filename_ar))
-     {
+	bool is_7zip_libarchive_i = is_valid_7zip_i_func(tar_filename_ar);
 
-	  //running_ar = 1;
-	  return libarchive_create_archive_ar_v2(tar_filename_ar,
-						 path_with_the_files_ar,
-						 patern_ar,
-						 compression_mode_external_ar,
-						 recurse_in_subfolders_arp,
-						 the__patern_ar__mode,
-						 compression_level_char_i);
-     }
-		 
-     if(-1 == ret_value_arp)//compiler happy during development...
-     {
+	//exit(1);
 
-	  return 27;
-	     
-     }
-     //aqui?..., sim
+	mode_is_libarchive_update_i = false;
+
+	if (1023 < strlen(tar_filename_ar))
+	{
+		running_update = 0;
+		return 2;
+	}
+	if (1023 < strlen(path_with_the_files_ar))
+	{
+		running_update = 0;
+		return 2;
+	}
+	if (19999 < strlen(patern_ar))
+	{
+		running_update = 0;
+		return 2;
+	}
+
+	if(ispathfile(tar_filename_ar))
+	{
+		if(is_7zip_libarchive_i)
+		{
+
+			//multiple chunks are not supported when updating
+			split_compressed_file_p(0);//to zero it
+
+			dont_delete_7zip_file_i = true;
+
+			return libarchive_create_archive_ar_v2(tar_filename_ar,
+			                                       path_with_the_files_ar,
+			                                       patern_ar,
+			                                       compression_mode_external_ar,
+			                                       recurse_in_subfolders_arp,
+			                                       the__patern_ar__mode,
+			                                       compression_level_char_i);
+		}
+	}
+
+	if (!ispathfile(tar_filename_ar))
+	{
+
+		//running_ar = 1;
+		return libarchive_create_archive_ar_v2(tar_filename_ar,
+		                                       path_with_the_files_ar,
+		                                       patern_ar,
+		                                       compression_mode_external_ar,
+		                                       recurse_in_subfolders_arp,
+		                                       the__patern_ar__mode,
+		                                       compression_level_char_i);
+	}
+
+	if(-1 == ret_value_arp)//compiler happy during development...
+	{
+
+		return 27;
+
+	}
+	//aqui?..., sim
 
 /*
 
-primeiro cria um diretorio no temp...
+   primeiro cria um diretorio no temp...
 
-temp_$$$ ta bom
+   temp_$$$ ta bom
 
  */
 	progress_is_libarchive_v27 = true;
 	progress_lib_v27 = 0;
 	//multiple chunks are not supported
 	split_compressed_file_p(0);//to zero it
-	
+
 	strcpy(error_message_k, "My Error 11");
 
 	strcpy(temp_folder_i, ar_gettemppath_z());
@@ -10590,124 +10592,124 @@ temp_$$$ ta bom
 //tem que criar o diretorio e copiar
 
 //criar o código
-	
+
 	strcpy(global_patern_ar, "*");
 	true_if_include_i      = true;
 	delete_if_true_i       = true;
 
 	strcpy(global_temp_folder_i, temp_folder_i);
-	
+
 	//ScanFolder(temp_folder_i, 1);
 
 	delete_if_true_i = false;
-		
+
 	extract_pause__flag = false;
 	extract_cancel_flag = false;
 
 	dllinit_arp();
 
 	/*
-	  aqui tem que iniciar a adicao de código
-	*/
+	   aqui tem que iniciar a adicao de código
+	 */
 
 	if (createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_update_i, L"am_"))
 	{
-	     
+
 	}
 	else
 	{
-	     strcpy(error_message_k, "Error creating temporary file, aborting...");
-	     returnvalue_i = 105;
-	     goto sai_agora_i;
+		strcpy(error_message_k, "Error creating temporary file, aborting...");
+		returnvalue_i = 105;
+		goto sai_agora_i;
 	}
 
 	//exit(27);
-	
+
 	extract_to_file_i_func(ar_gettemppath_z(), true, temp_file_update_i, init_playlist_z_june_24, add_more_one_z_june_24, check_item_z_june_24);
-			
-	returnvalue_i =  libarchive_extract_entries_p_func(tar_filename_ar, the_pass_arp, NULL, error_message_k, string_format_arp, temp_folder_i, extracting_filename_ar, warning_info, creating_folder_maria, & extract_pause__flag, & extract_cancel_flag, & folders_ar, & files_ar);
+
+	returnvalue_i =  libarchive_extract_entries_p_func(tar_filename_ar, the_pass_arp, NULL, error_message_k, string_format_arp, temp_folder_i, extracting_filename_ar, warning_info, creating_folder_maria, &extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
 
 	extract_to_file_i_func(ar_gettemppath_z(), false, temp_file_update_i, init_playlist_z_june_24, add_more_one_z_june_24, check_item_z_june_24);
 
 	if(!returnvalue_i)
 	{
-	     //copy the files
-	     strcpy(global_patern_ar, patern_ar);
+		//copy the files
+		strcpy(global_patern_ar, patern_ar);
 
-	     true_if_include_i = false;
-	     if(ARP_INCLUDE_FILES == the__patern_ar__mode)
-	     {
-		  true_if_include_i = true;
-	     }
-	     
-	     delete_if_true_i = false;//for safety
+		true_if_include_i = false;
+		if(ARP_INCLUDE_FILES == the__patern_ar__mode)
+		{
+			true_if_include_i = true;
+		}
 
-	     is_update_i = true;
+		delete_if_true_i = false;//for safety
 
-	     my___temp_file_i = _wfopen(amanda_utf8towide_1_(temp_file_update_i), L"rb+");
+		is_update_i = true;
 
-	     if(NULL == my___temp_file_i)
-	     {
-		  strcpy(error_message_k, "Error openning temporary file, aborting...");
-		  returnvalue_i = 106;
-		  goto sai_agora_i;
-	     }
+		my___temp_file_i = _wfopen(amanda_utf8towide_1_(temp_file_update_i), L"rb+");
 
-	     _fseeki64(my___temp_file_i, 0, SEEK_END);
-	     fatal_exit_k = 0;
-		 
-		 if(recurse_in_subfolders_arp)
-		 {
-			 
+		if(NULL == my___temp_file_i)
+		{
+			strcpy(error_message_k, "Error openning temporary file, aborting...");
+			returnvalue_i = 106;
+			goto sai_agora_i;
+		}
+
+		_fseeki64(my___temp_file_i, 0, SEEK_END);
+		fatal_exit_k = 0;
+
+		if(recurse_in_subfolders_arp)
+		{
+
 			ScanFolder(path_with_the_files_ar, 1, true);
-			
-		 }
-		 else
-		 {
+
+		}
+		else
+		{
 			ScanFolder(path_with_the_files_ar, 1, false);
-		 }
-	     
-		 if(12345100 == fatal_exit_k)
-		 {
+		}
+
+		if(12345100 == fatal_exit_k)
+		{
 			strcpy(error_message_k, "Cannot write to temporary file, aborting...");
 			returnvalue_i = 107;
 			goto sai_agora_i;
-		 }
-		 
-	     is_update_i = false;
-	     
-	     if(i_z) //to make the compiler happy...
-	     {
-		  goto now_i;
-	     }
-	now_i:;
-		  
-		  	if(my___temp_file_i)
-			{
-				fclose(my___temp_file_i);
-				my___temp_file_i =  NULL;
-			}
-	     //exit(27);
-	     //aqui basta chamar o compressor
-	     use_name_i = true;
-		 
-		 mode_is_update_libarchive_v27 = true;
-		 
-	     libarchive_create_archive_ar_v2(tar_filename_ar,
-					     temp_folder_i,//aqui...sim, vamos la
-					     patern_ar,
-					     compression_mode_external_ar,
-					     recurse_in_subfolders_arp,
-					     the__patern_ar__mode,
-					     compression_level_char_i);
+		}
 
-	
-			
-	     return 0;
+		is_update_i = false;
+
+		if(i_z) //to make the compiler happy...
+		{
+			goto now_i;
+		}
+now_i:          ;
+
+		if(my___temp_file_i)
+		{
+			fclose(my___temp_file_i);
+			my___temp_file_i =  NULL;
+		}
+		//exit(27);
+		//aqui basta chamar o compressor
+		use_name_i = true;
+
+		mode_is_update_libarchive_v27 = true;
+
+		libarchive_create_archive_ar_v2(tar_filename_ar,
+		                                temp_folder_i,//aqui...sim, vamos la
+		                                patern_ar,
+		                                compression_mode_external_ar,
+		                                recurse_in_subfolders_arp,
+		                                the__patern_ar__mode,
+		                                compression_level_char_i);
+
+
+
+		return 0;
 	}
 
 sai_agora_i:;
-	
+
 	return_value_ar = returnvalue_i;
 
 	running_update = 0;
@@ -10717,7 +10719,7 @@ sai_agora_i:;
 		fclose(my___temp_file_i);
 		my___temp_file_i =  NULL;
 	}
-	
+
 	_wunlink(amanda_utf8towide_1_(temp_file_update_i));
 	progress_is_libarchive_v27 = false;
 	return 10;
@@ -10763,14 +10765,14 @@ int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
 
 	if(mode_is_libarchive_update_i)
 	{
-	     return libarchive_update_archive_ar_v2_internal(tar_filename_ar,
-							     path_with_the_files_ar,
-							     patern_ar,
-							     compression_mode_external_ar,
-							     recurse_in_subfolders_arp,
-							     the__patern_ar__mode);
+		return libarchive_update_archive_ar_v2_internal(tar_filename_ar,
+		                                                path_with_the_files_ar,
+		                                                patern_ar,
+		                                                compression_mode_external_ar,
+		                                                recurse_in_subfolders_arp,
+		                                                the__patern_ar__mode);
 	}
-	
+
 	if (1023 < strlen(tar_filename_ar))
 	{
 		running_update = 0;
@@ -10790,7 +10792,7 @@ int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
 	if (!ispathfile(tar_filename_ar))
 	{
 
-	     //running_ar = 1;
+		//running_ar = 1;
 		return create_archive_ar_v2(tar_filename_ar,
 		                            path_with_the_files_ar,
 		                            patern_ar,
@@ -10871,7 +10873,7 @@ int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
 
 		//basta zerar a flag...
 		split_compressed_file_p(0);
-		
+
 		ret_value_arp = create_archive_ar_v2(tar_filename_ar,
 		                                     path_with_the_files_ar,
 		                                     patern_ar,
@@ -10989,14 +10991,14 @@ int __amandacall decompression_cores_used__z(void)
 int fixed_abs(int value_to_fix)
 {
 
-     value_to_fix = abs(value_to_fix);
+	value_to_fix = abs(value_to_fix);
 
-     if(-2147483648 == value_to_fix)
-     {	 
-	  value_to_fix = 2147483647;
-     }
-     return value_to_fix;
-     
+	if(-2147483648 == value_to_fix)
+	{
+		value_to_fix = 2147483647;
+	}
+	return value_to_fix;
+
 }
 
 /**
@@ -11008,21 +11010,21 @@ int fixed_abs(int value_to_fix)
  */
 int __amandacall memory_usage__z(char *data_z)
 {
-     //#pragma message "amanda & MathMan compiling Tar DLL at " __TIME__ "..."
+	//#pragma message "amanda & MathMan compiling Tar DLL at " __TIME__ "..."
 
-     /*
-      *                                                                                                       ¯\_(^^)_/¯
-      */
+	/*
+	 *                                                                                                       ¯\_(^^)_/¯
+	 */
 
-     double val_z;
-     PROCESS_MEMORY_COUNTERS_EX memory;
-     /* Mr Do. */ GetProcessMemoryInfo(GetCurrentProcess(), (void *)&memory, sizeof(memory));
-     val_z = memory.WorkingSetSize;
-     val_z = val_z / 1024.0;
-     val_z = val_z / 1024.0;
-     sprintf(data_z, "%.3f MB", val_z);
-     
-     return 0;
+	double val_z;
+	PROCESS_MEMORY_COUNTERS_EX memory;
+	/* Mr Do. */ GetProcessMemoryInfo(GetCurrentProcess(), (void *)&memory, sizeof(memory));
+	val_z = memory.WorkingSetSize;
+	val_z = val_z / 1024.0;
+	val_z = val_z / 1024.0;
+	sprintf(data_z, "%.3f MB", val_z);
+
+	return 0;
 }
 
 #include "cpu_fixed_z.c"

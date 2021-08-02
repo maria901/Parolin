@@ -234,6 +234,11 @@ Sorry for this limitation
 
 Changelog:
 
+What is new in version 6.7.8  build 005753 Segunda 02 Agosto 2021  11:24 codename Lööf
+Fixed the files and folders search function, now it is not recursive anymore,
+so, no matter how many files and folders you search it will not consume the
+stack anymore, minor modifications.
+
 What is new in version 6.4.9  build 005724 Domingo 01 Agosto 2021  23:22 codename Normann
 Fixed a bug in the libarchive mode where a read-only file would not
 be updated generating an error, now it first removes the read-only
