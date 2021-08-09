@@ -637,6 +637,7 @@ loop_again_amanda_s_smart_ape:;
 										break;
 									}
 								}
+								
 								free(tofree);
 
 								if (ARP_EXCLUDE_FILES == mode_is_include_or_exclude__)
@@ -673,6 +674,7 @@ loop_again_amanda_s_smart_ape:;
 							break;
 						}
 					}
+					
 					if (fatal_exit_k)
 					{
 						cancel_me_amanda_smart_ape = true;
