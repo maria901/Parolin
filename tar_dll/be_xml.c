@@ -1,5 +1,5 @@
 
-//not complete...works only for simple read and write XML process, more code need to
+//not complete... works only for simple read and write XML process, more code need to
 //be added when possible
 
  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
