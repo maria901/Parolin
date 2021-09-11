@@ -513,11 +513,13 @@ Bool uncompressStream ( FILE *zStream, FILE *stream )
       }
       goto closeok;
    }
-  
+        #pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough="
+			
    errhandler:
    BZ2_bzReadClose ( &bzerr_dummy, bzf );
    switch (bzerr) {
-      case BZ_CONFIG_ERROR:
+     case BZ_CONFIG_ERROR:
          configError(); break;
       case BZ_IO_ERROR:
          errhandler_io:
@@ -546,6 +548,9 @@ Bool uncompressStream ( FILE *zStream, FILE *stream )
 
    panic ( "decompress:end" );
    return True; /*notreached*/
+   
+#pragma GCC diagnostic pop
+
 }
 
 
@@ -600,13 +605,15 @@ Bool testStream ( FILE *zStream )
 
    if (verbosity >= 2) fprintf ( stderr, "\n    " );
    return True;
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough="
+			
    errhandler:
    BZ2_bzReadClose ( &bzerr_dummy, bzf );
    if (verbosity == 0) 
       fprintf ( stderr, "%s: %s: ", progName, inName );
    switch (bzerr) {
-      case BZ_CONFIG_ERROR:
+ case BZ_CONFIG_ERROR:
          configError(); break;
       case BZ_IO_ERROR:
          errhandler_io:
@@ -637,6 +644,7 @@ Bool testStream ( FILE *zStream )
          panic ( "test:unexpected error" );
    }
 
+#pragma GCC diagnostic pop
    panic ( "test:end" );
    return True; /*notreached*/
 }
@@ -802,7 +810,7 @@ void ioError ( void )
 
 /*---------------------------------------------*/
 static 
-void mySignalCatcher ( IntNative n )
+void mySignalCatcher (__attribute__((unused)) IntNative n)
 {
    fprintf ( stderr,
              "\n%s: Control-C or similar caught, quitting.\n",
@@ -813,7 +821,7 @@ void mySignalCatcher ( IntNative n )
 
 /*---------------------------------------------*/
 static 
-void mySIGSEGVorSIGBUScatcher ( IntNative n )
+void mySIGSEGVorSIGBUScatcher (__attribute__((unused)) IntNative n)
 {
    if (opMode == OM_Z)
       fprintf ( 
@@ -1035,7 +1043,7 @@ struct MY_STAT fileMetaInfo;
 #endif
 
 static 
-void saveInputFileMetaInfo ( Char *srcName )
+void saveInputFileMetaInfo (__attribute__((unused)) Char *srcName)
 {
 #  if BZ_UNIX
    IntNative retVal;
@@ -1045,9 +1053,8 @@ void saveInputFileMetaInfo ( Char *srcName )
 #  endif
 }
 
-
 static 
-void applySavedTimeInfoToOutputFile ( Char *dstName )
+void applySavedTimeInfoToOutputFile (__attribute__((unused)) Char *dstName)
 {
 #  if BZ_UNIX
    IntNative      retVal;
@@ -1062,7 +1069,7 @@ void applySavedTimeInfoToOutputFile ( Char *dstName )
 }
 
 static 
-void applySavedFileAttrToOutputFile ( IntNative fd )
+void applySavedFileAttrToOutputFile (__attribute__((unused)) IntNative fd)
 {
 #  if BZ_UNIX
    IntNative retVal;
@@ -1076,7 +1083,6 @@ void applySavedFileAttrToOutputFile ( IntNative fd )
    */
 #  endif
 }
-
 
 /*---------------------------------------------*/
 static 
@@ -1096,7 +1102,6 @@ Bool containsDubiousChars ( Char* name )
    return False;
 #  endif /* BZ_UNIX */
 }
-
 
 /*---------------------------------------------*/
 #define BZ_N_SUFFIX_PAIRS 4

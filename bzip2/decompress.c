@@ -191,8 +191,11 @@ Int32 BZ2_decompress ( DState* s )
    gPerm       = s->save_gPerm;
 
    retVal = BZ_OK;
-
-   switch (s->state) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough="
+		
+   switch (s->state)
+   {
 
       GET_UCHAR(BZ_X_MAGIC_1, uc);
       if (uc != BZ_HDR_B) RETURN(BZ_DATA_ERROR_MAGIC);
@@ -644,3 +647,5 @@ Int32 BZ2_decompress ( DState* s )
 /*-------------------------------------------------------------*/
 /*--- end                                      decompress.c ---*/
 /*-------------------------------------------------------------*/
+
+#pragma GCC diagnostic pop

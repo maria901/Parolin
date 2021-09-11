@@ -92,10 +92,12 @@ clean_7zip   :
 ## section Brotli
 
 brotli_32:
-	(cd /tar/brotli/brotli-1.0.9/ && make_amanda_kp amanda_32  -f 'makefile')
+
+	x86_64-w64-mingw32-gcc.exe -v
+	(cd /tar/brotli/brotli-1.0.9/ && pwd && make_amanda_kp amanda_32  -f 'makefile')
 		
 brotli_64:
-	(cd /tar/brotli/brotli-1.0.9/ && make_amanda_kp ricardo_64 -f 'makefile')
+	(cd /tar/brotli/brotli-1.0.9/ && pwd && make_amanda_kp ricardo_64 -f 'makefile')
 	
 #########################################################################################################################################
 ## section Brotli2

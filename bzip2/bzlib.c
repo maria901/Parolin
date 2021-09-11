@@ -92,7 +92,6 @@ void BZ2_bz__AssertH__fail ( int errcode )
 }
 #endif
 
-
 /*---------------------------------------------------*/
 static
 int bz_config_ok ( void )
@@ -103,21 +102,19 @@ int bz_config_ok ( void )
 	return 1;
 }
 
-
 /*---------------------------------------------------*/
 static
-void* default_bzalloc ( void* opaque, Int32 items, Int32 size )
+void* default_bzalloc (__attribute__((unused)) void* opaque, Int32 items, Int32 size)
 {
 	void* v = malloc ( items * size );
 	return v;
 }
 
 static
-void default_bzfree ( void* opaque, void* addr )
+void default_bzfree (__attribute__((unused)) void* opaque, void* addr)
 {
 	if (addr != NULL) free ( addr );
 }
-
 
 /*---------------------------------------------------*/
 static
@@ -1526,7 +1523,7 @@ int BZ_API(BZ2_bzwrite) (BZFILE* b, void* buf, int len )
 
 
 /*---------------------------------------------------*/
-int BZ_API(BZ2_bzflush) (BZFILE *b)
+int BZ_API(BZ2_bzflush) (__attribute__((unused)) BZFILE *b)
 {
 	/* do nothing now... */
 	return 0;

@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,4,8,160
- PRODUCTVERSION 3,4,8,160
+ FILEVERSION 3,5,0,162
+ PRODUCTVERSION 3,5,0,162
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -49,14 +49,14 @@ BEGIN
             VALUE "Comments", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "CompanyName", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "FileDescription", "BW 7zip DLL \0"
-            VALUE "FileVersion", "3, 4, 8, 160 \0"
+            VALUE "FileVersion", "3, 5, 0, 162 \0"
             VALUE "InternalName", "BE_7zip_r_64.DLL \0"
             VALUE "LegalCopyright", "CopyLeft © 2021 BW \0"
             VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
             VALUE "OriginalFilename", "BE_7zip_r_64.DLL \0"
-            VALUE "PrivateBuild", "160 \0"
-            VALUE "ProductName", "BW 7zip DLL 3, 4, 8, 160 63.5 bits ;-) \0"
-            VALUE "ProductVersion", "3, 4, 8, 160 \0"
+            VALUE "PrivateBuild", "162 \0"
+            VALUE "ProductName", "BW 7zip DLL 3, 5, 0, 162 63.5 bits ;-) \0"
+            VALUE "ProductVersion", "3, 5, 0, 162 \0"
             VALUE "SpecialBuild", "amandaricardo_koci_e_pereira\0"
         END
     END

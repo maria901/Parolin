@@ -1,5 +1,5 @@
 #2021 amanda & MathMan, updated 06/march/2021
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function -I c/include
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function -I c/include
 
 amanda_32: /bw_tmp/brotli/amandaricardo_koci_dprintf_32arp.o /bw_tmp/brotli/arp_dll_32arp.o /bw_tmp/brotli/backward_references_32arp.o /bw_tmp/brotli/backward_references_hq_32arp.o /bw_tmp/brotli/bit_cost_32arp.o /bw_tmp/brotli/bit_reader_32arp.o /bw_tmp/brotli/block_splitter_32arp.o /bw_tmp/brotli/brotli_32arp.o /bw_tmp/brotli/brotli_bit_stream_32arp.o /bw_tmp/brotli/cluster_32arp.o /bw_tmp/brotli/command_32arp.o /bw_tmp/brotli/compress_fragment_32arp.o 	/bw_tmp/brotli/compress_fragment_two_pass_32arp.o /bw_tmp/brotli/constants_32arp.o /bw_tmp/brotli/context_32arp.o /bw_tmp/brotli/decode_32arp.o /bw_tmp/brotli/dictionary_32arp.o /bw_tmp/brotli/dictionary_hash_32arp.o /bw_tmp/brotli/encode_32arp.o /bw_tmp/brotli/encoder_dict_32arp.o /bw_tmp/brotli/entropy_encode_32arp.o /bw_tmp/brotli/fast_log_32arp.o /bw_tmp/brotli/histogram_32arp.o /bw_tmp/brotli/huffman_32arp.o /bw_tmp/brotli/literal_cost_32arp.o /bw_tmp/brotli/memory_32arp.o /bw_tmp/brotli/metablock_32arp.o /bw_tmp/brotli/platform_32arp.o /bw_tmp/brotli/state_32arp.o /bw_tmp/brotli/static_dict_32arp.o /bw_tmp/brotli/transform_32arp.o /bw_tmp/brotli/utf8_util_32arp.o 
 

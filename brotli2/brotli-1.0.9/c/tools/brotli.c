@@ -1,4 +1,4 @@
-/* Copyright 2014 Google Inc. All Rights Reserved, modified by MathMan from BinaryWork
+/* Copyright 2014 Google Inc. All Rights Reserved, modified by MathMan (or Smart Ape) from BinaryWork
 
    Distributed under MIT license.
    See file LICENSE for detail or copy at https://opensource.org/licenses/MIT
@@ -50,8 +50,8 @@ extern __int64 getfilesize_aakp_plus_rspk (char *infile_utf8_valquiria);
 extern __int64 tamanho____aakp;
 extern __int64 processado_rspk;
 
-extern int intpause___aakp ;
-extern int intcancel__rspk ;
+extern int intpause___aakp;
+extern int intcancel__rspk;
 extern int return_value_arp;
 /* Mute strerror/strcpy warnings. */
 #if !defined(_CRT_SECURE_NO_WARNINGS)
@@ -758,7 +758,9 @@ static const char* PrintablePath(const char* path)
 	return path ? path : "con";
 }
 
-static BROTLI_BOOL OpenInputFile(const char* input_path, FILE** f, my_thread_struct_z * amanda)
+static BROTLI_BOOL OpenInputFile(__attribute__((unused)) const char* input_path,
+                                 __attribute__((unused)) FILE** f,
+                                 __attribute__((unused)) my_thread_struct_z * amanda)
 {
 #if 0
 	*f = NULL;
@@ -778,8 +780,10 @@ static BROTLI_BOOL OpenInputFile(const char* input_path, FILE** f, my_thread_str
 	return BROTLI_TRUE;
 }
 
-static BROTLI_BOOL OpenOutputFile(const char* output_path, FILE** f,
-                                  BROTLI_BOOL force, my_thread_struct_z * amanda)
+static BROTLI_BOOL OpenOutputFile(__attribute__((unused)) const char* output_path,
+                                  __attribute__((unused)) FILE** f,
+                                  __attribute__((unused)) BROTLI_BOOL force,
+                                  __attribute__((unused)) my_thread_struct_z * amanda)
 {
 #if 0
 	int fd;
@@ -790,7 +794,7 @@ static BROTLI_BOOL OpenOutputFile(const char* output_path, FILE** f,
 		return BROTLI_TRUE;
 	}
 	fd = _wopen(utf8towide(output_path), O_BINARY | O_CREAT | (force ? 0 : O_EXCL) | O_WRONLY | O_TRUNC,
-	          S_IRUSR | S_IWUSR);
+	            S_IRUSR | S_IWUSR);
 	if (fd < 0)
 	{
 		fprintf(stderr, "failed to open output file [%s]: %s\n",
@@ -954,7 +958,7 @@ static BROTLI_BOOL NextFile(Context* context, my_thread_struct_z * amanda)
 static BROTLI_BOOL OpenFiles(Context* context, my_thread_struct_z * amanda)
 {
 	BROTLI_BOOL is_ok = OpenInputFile(context->current_input_path, &context->fin, amanda);
-	
+
 	if(BROTLI_TRUE != is_ok)
 	{
 		return_value_arp = 1001;//Cannot open input file
@@ -966,7 +970,7 @@ static BROTLI_BOOL OpenFiles(Context* context, my_thread_struct_z * amanda)
 	{
 		is_ok = OpenOutputFile(
 			context->current_output_path, &context->fout, context->force_overwrite, amanda);
-			
+
 		if(BROTLI_TRUE != is_ok)
 		{
 			return_value_arp = 1002;//Cannot open output file
@@ -1024,7 +1028,7 @@ static BROTLI_BOOL CloseFiles(Context* context, BROTLI_BOOL success)
 	return is_ok;
 }
 
-static const size_t kFileBufferSize = (32768 * 2 * 2); // 4096;//1 << 19;
+static const size_t kFileBufferSize = (32768 * 2 * 2); // 4096;//1 << 19;, modified by SmartApe
 
 static void InitializeBuffers(Context* context)
 {
@@ -1038,17 +1042,17 @@ static void InitializeBuffers(Context* context)
 
 /* This method might give the false-negative result.
    However, after an empty / incomplete read it should tell the truth. */
-static BROTLI_BOOL HasMoreInput(Context* context, my_thread_struct_z * amanda)
+static BROTLI_BOOL HasMoreInput(__attribute__((unused)) Context* context, my_thread_struct_z * amanda)
 {
 	pedro_dprintf(-1, "amanda->size_of_input_file_copy_z %lld\n", amanda->size_of_input_file_copy_z);
 	assert(0 <= amanda->size_of_input_file_copy_z);
-	
+
 	if(0 == amanda->size_of_input_file_copy_z     )
 	{
-		return BROTLI_FALSE                       ;
+		return BROTLI_FALSE;
 	}
-	return BROTLI_TRUE                            ;
-	
+	return BROTLI_TRUE;
+
 #if 0
 	return feof(context->fin) ? BROTLI_FALSE : BROTLI_TRUE;
 #endif
@@ -1058,51 +1062,51 @@ static BROTLI_BOOL HasMoreInput(Context* context, my_thread_struct_z * amanda)
 static BROTLI_BOOL ProvideInput(Context* context, my_thread_struct_z * amanda)
 {
 
-	context->available_in =	fread(context->input, 
-									1,
-									min(kFileBufferSize, amanda->size_of_input_file_copy_z),
-									amanda->input_file);
-	
+	context->available_in = fread(context->input,
+	                              1,
+	                              min(kFileBufferSize, amanda->size_of_input_file_copy_z),
+	                              amanda->input_file);
+
 	*((*amanda).bytes_read_z)         += context->available_in;
-		
+
 	amanda->size_of_input_file_copy_z -= context->available_in;
-	
+
 	pedro_dprintf(-1, "amanda->size_of_input_file_copy_z == %lld\n", amanda->size_of_input_file_copy_z);
-	
+
 	assert(0 <= amanda->size_of_input_file_copy_z);
-	
+
 	processado_rspk += context->available_in;
 #ifdef ARP_DEBUG__
 	percent = lgetpor(tamanho____aakp, processado_rspk);
-	
+
 	pedro_dprintf(-1, "percent %0.2f %d\n", (double)((double)percent / 100.0), kFileBufferSize);
 #endif
 	while(*((*amanda).intpause))
-		{
-			Sleep(50);
-			if(*((*amanda).intcancel))
-			{
-				amanda->internal_error_arp = 119;
-				return BROTLI_FALSE;
-			}
-		}
-		
+	{
+		Sleep(50);
 		if(*((*amanda).intcancel))
 		{
 			amanda->internal_error_arp = 119;
 			return BROTLI_FALSE;
 		}
-		
+	}
+
+	if(*((*amanda).intcancel))
+	{
+		amanda->internal_error_arp = 119;
+		return BROTLI_FALSE;
+	}
+
 	context->total_in += context->available_in;
 	context->next_in = context->input;
 	/*
-	if (ferror(context->fin))
-	{
-		pedro_dprintf(-1, "failed to read input [%s]: %s\n",
-		        PrintablePath(context->current_input_path), strerror(errno));
-		return BROTLI_FALSE;
-	}
-	*/
+	   if (ferror(context->fin))
+	   {
+	        pedro_dprintf(-1, "failed to read input [%s]: %s\n",
+	                PrintablePath(context->current_input_path), strerror(errno));
+	        return BROTLI_FALSE;
+	   }
+	 */
 	return BROTLI_TRUE;
 }
 
@@ -1126,23 +1130,23 @@ static BROTLI_BOOL WriteOutput(Context* context, my_thread_struct_z * amanda)
 			ret_val = fwrite_z(context->output, 1, out_size, amanda->dest);
 		}
 		else
-		ret_val = fwrite(context->output, 1, out_size, amanda->dest_original);
+			ret_val = fwrite(context->output, 1, out_size, amanda->dest_original);
 	}
 	else
 	{
 		pedro_dprintf(2, "Invalid value for amanda->our_mode_z\n"            );
 		exit(27);
 	}
-	
+
 	amanda->size_of_destination_file_z += ret_val;
-	
+
 	if (ret_val != out_size)
 	{
 		pedro_dprintf(-1, "failed to write output [%s]: %s\n",
-		        PrintablePath(context->current_output_path), strerror(errno));
-				
-				amanda->internal_error_arp = 6;
-				
+		              PrintablePath(context->current_output_path), strerror(errno));
+
+		amanda->internal_error_arp = 6;
+
 		return BROTLI_FALSE;
 	}
 	return BROTLI_TRUE;
@@ -1203,7 +1207,7 @@ static BROTLI_BOOL DecompressFile(Context* context, BrotliDecoderState* s, my_th
 			if (!HasMoreInput(context, amanda))
 			{
 				pedro_dprintf(2, "corrupt input 1 [%s]\n",
-				        PrintablePath(context->current_input_path));
+				              PrintablePath(context->current_input_path));
 				return BROTLI_FALSE;
 			}
 			pedro_dprintf(-1, "passou 1\n");
@@ -1222,7 +1226,7 @@ static BROTLI_BOOL DecompressFile(Context* context, BrotliDecoderState* s, my_th
 			int has_more_input =
 				(context->available_in != 0);// || (fgetc(context->fin) != EOF);
 			if (has_more_input)
-			{				
+			{
 				pedro_dprintf(2, "corrupt input 2 [%s]\n", PrintablePath(context->current_input_path));
 				return BROTLI_FALSE;
 			}
@@ -1268,15 +1272,15 @@ static BROTLI_BOOL DecompressFiles(Context* context, my_thread_struct_z * amanda
 			fprintf(stderr, "Use -h help. Use -f to force input from a terminal.\n");
 			is_ok = BROTLI_FALSE;
 		}
-		if (is_ok) 
+		if (is_ok)
 		{
 			is_ok = DecompressFile(context, s, amanda);
-		
+
 			if(BROTLI_TRUE != is_ok)
 			{
 				return_value_arp = 7;//Invalid compressed file
 			}
-		
+
 		}
 		BrotliDecoderDestroyInstance(s);
 		//if (!CloseFiles(context, is_ok)) is_ok = BROTLI_FALSE;
@@ -1304,7 +1308,7 @@ static BROTLI_BOOL CompressFile(Context* context, BrotliEncoderState* s, my_thre
 		{
 			/* Should detect OOM? */
 			pedro_dprintf(2, "failed to compress data [%s]\n",
-			        PrintablePath(context->current_input_path));
+			              PrintablePath(context->current_input_path));
 			return BROTLI_FALSE;
 		}
 
@@ -1384,14 +1388,14 @@ static BROTLI_BOOL CompressFiles(Context* context, my_thread_struct_z * amanda)
 		if (is_ok)
 		{
 			is_ok = CompressFile(context, s, amanda);
-					
+
 			if(BROTLI_TRUE != is_ok)
 			{
 				return_value_arp = 8; // Error during compression
 			}
 
 		}
-		
+
 		BrotliEncoderDestroyInstance(s);
 		//if (!CloseFiles(context, is_ok)) is_ok = BROTLI_FALSE;
 		if (!is_ok) return BROTLI_FALSE;
@@ -1506,29 +1510,31 @@ int main_z(int argc, char** argv, my_thread_struct_z * amanda)
 }
 
 compressResult_t
-compress_file(FILE* f_in, FILE_z* f_out, my_thread_struct_z * amanda)
+compress_file(__attribute__((unused)) FILE* f_in,
+              __attribute__((unused)) FILE_z* f_out,
+              my_thread_struct_z * amanda)
 {
 	int returnvalue_z = 0;
 	compressResult_t result_z = {1, 0, 0};
-		
+
 	char *my_main_args[6];
-	
-	my_main_args[0] = "test_arp.exe"           ;
-	my_main_args[1] = "-f"                     ;
-	my_main_args[2] = "-9"                     ;
-	my_main_args[3] = "file1.txt"              ;
+
+	my_main_args[0] = "test_arp.exe";
+	my_main_args[1] = "-f";
+	my_main_args[2] = "-9";
+	my_main_args[3] = "file1.txt";
 	my_main_args[4] = "-o";
-	my_main_args[5] = "file2.txt"              ;
+	my_main_args[5] = "file2.txt";
 
 	//now we define the mode...
-	
-	amanda->our_mode_z = Z_MODE_IS_COMPRESSION ;
+
+	amanda->our_mode_z = Z_MODE_IS_COMPRESSION;
 
 	returnvalue_z = main_z(6, (char **) my_main_args, amanda);
-	
+
 	pedro_dprintf(-1, "ok 1 \n");
 	//exit(27);
-	
+
 	if(returnvalue_z)
 	{
 		return result_z;
@@ -1541,7 +1547,7 @@ compress_file(FILE* f_in, FILE_z* f_out, my_thread_struct_z * amanda)
 int decompress_file(FILE* f_in, FILE* f_out, my_thread_struct_z * amanda)
 {
 	int retvalue_z = 0;
-	
+
 	char *my_main_args[6];
 
 	my_main_args[0] = "test_arp.exe";
@@ -1554,16 +1560,16 @@ int decompress_file(FILE* f_in, FILE* f_out, my_thread_struct_z * amanda)
 	amanda->input_file    =                    f_in;
 	amanda->dest_original =                   f_out;
 	amanda->our_mode_z    = Z_MODE_IN_DECOMPRESSION;
-	
+
 	retvalue_z = main_z(6, (/* for your pleasure */ char **) my_main_args, amanda);
-	
+
 	if(retvalue_z)
 	{
 		retvalue_z = 1;
 	}
-	
+
 	pedro_dprintf(-1, "ok 2 retvalue_z == %d\n", retvalue_z);
 	//exit(27);
-	
+
 	return retvalue_z;
 }

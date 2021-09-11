@@ -20,9 +20,7 @@
  *     Licensa Pública Menor junto com este programa                            *
  *     Se não, veja <http://www.gnu.org/licenses/>.                             *
  *                                                                              *
- *     Suporte: https://arsoftware.net.br/binarywork_____________________       *
-
- *              http: //nomade.sourceforge.net/binarywork_______________/       *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
  *     E-mails direto dos felizes programadores:                                *
  *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
@@ -617,7 +615,7 @@ inicio:
 int feline_read_xml(char * filename_utf8_feline,
 		    char * root__________feline,
 		    char * node__________feline,
-		    char * attribute_____feline,
+			__attribute__((unused)) char * attribute_____feline,
 		    char * out_data______feline
 		    )
 {
@@ -803,7 +801,7 @@ int feline_read_xml(char * filename_utf8_feline,
 int feline_write_xml(char * filename_utf8_feline,
 		     char * root__________feline,
 		     char * node__________feline,
-		     char * attribute_____feline,
+		     __attribute__((unused)) char * attribute_____feline,
 		     char * in_data_______feline_
 		     )
 {

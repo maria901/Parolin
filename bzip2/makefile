@@ -1,5 +1,5 @@
 #by amanda & MathMan, march 2021...
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function -D_NET_
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function -D_NET_
 
 amanda_32: /bw_tmp/bzip2/pedro_32.o /bw_tmp/bzip2/blocksort_32.o /bw_tmp/bzip2/bzip2_32.o /bw_tmp/bzip2/bzip2dll_32.o /bw_tmp/bzip2/bzlib_32.o /bw_tmp/bzip2/compress_32.o /bw_tmp/bzip2/cpu_fixed_k_32.o /bw_tmp/bzip2/crctable_32.o /bw_tmp/bzip2/decompress_32.o /bw_tmp/bzip2/folder_i_32.o /bw_tmp/bzip2/huffman_32.o /bw_tmp/bzip2/longfile_32.o /bw_tmp/bzip2/randtable_32.o /bw_tmp/bzip2/sha512_k_32.o
 

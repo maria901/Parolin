@@ -1,4 +1,4 @@
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function
 
 amanda_32: /bw_tmp/bzip3/pedro_32.o /bw_tmp/bzip3/blocksort_32.o /bw_tmp/bzip3/bzip2_32.o /bw_tmp/bzip3/bzip2dll_32.o /bw_tmp/bzip3/bzip3_32.o /bw_tmp/bzip3/bzip3_multi_32.o /bw_tmp/bzip3/bzlib_32.o /bw_tmp/bzip3/compress_32.o /bw_tmp/bzip3/cpu_fixed_k_32.o /bw_tmp/bzip3/crctable_32.o /bw_tmp/bzip3/decompress_32.o /bw_tmp/bzip3/folder_i_32.o /bw_tmp/bzip3/huffman_32.o /bw_tmp/bzip3/longfile_32.o /bw_tmp/bzip3/md5_32.o /bw_tmp/bzip3/randtable_32.o /bw_tmp/bzip3/sha512_k_32.o /bw_tmp/bzip3/stdio_v2_32.o 
 

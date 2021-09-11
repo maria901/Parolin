@@ -1892,35 +1892,34 @@ int ispathreadonly (char *path)
 
        }
 
-     if (tolower (x[1]) != ':')
+       if (tolower(x[1]) != ':')
        {
-	    return -1;
+         return -1;
        }
 
    UNC:
 
-     ret = GetFileAttributes (x);
-     if (0xffffffff != ret)
+     ret = GetFileAttributes(x);
+     if ((int)0xffffffff != (int)ret)
+     {
+
+       if (FILE_ATTRIBUTE_DIRECTORY & ret)
        {
 
-	    if (FILE_ATTRIBUTE_DIRECTORY & ret)
-	      {
-
-		   if (createtestfilename (x))
-		     {
-			  return 0;
-		     }
-		   else
-		     {
-			  return 1;
-		     }
-	      }
-	    else
-	      {
-		   return -1;
-	      }
-
+         if (createtestfilename(x))
+         {
+           return 0;
+         }
+         else
+         {
+           return 1;
+         }
        }
+       else
+       {
+         return -1;
+       }
+     }
      else
        {
 
@@ -1989,7 +1988,7 @@ int ispathfolder (char *path)
 
      ret = GetFileAttributes (x);
 
-     if (0xffffffff != ret)
+     if ((int) 0xffffffff != (int) ret)
        {
 
 	    if (ret & (FILE_ATTRIBUTE_DIRECTORY))
@@ -2063,7 +2062,7 @@ int ispathfile (char *path)
      ret = GetFileAttributes (x);
 
 
-     if (0xffffffff != ret)
+     if ((int) 0xffffffff != (int) ret)
        {
 
 	    if (ret & (FILE_ATTRIBUTE_DIRECTORY))

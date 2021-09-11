@@ -834,5 +834,42 @@ exit
 
 fi
 
+#############################################################################################################################################
+# clean all my love
+
+if [ "clean_all_my_love" == "$1" ] 
+then
+
+	cd /bw_tmp/7zip_x64    && rm *.o *.a
+	cd /bw_tmp/7zip_x86    && rm *.o *.a
+	cd /bw_tmp/brotli      && rm *.o *.a
+	cd /bw_tmp/brotli2     && rm *.o *.a
+	cd /bw_tmp/bzip2       && rm *.o *.a
+	cd /bw_tmp/bzip3       && rm *.o *.a
+	cd /bw_tmp/compress    && rm *.o *.a
+	cd /bw_tmp/compress2   && rm *.o *.a
+	cd /bw_tmp/gzip        && rm *.o *.a
+	cd /bw_tmp/gzip2       && rm *.o *.a
+#   cd /bw_tmp/interface2  && rm *.o *.a
+	cd /bw_tmp/libarchive  && rm *.o *.a
+	cd /bw_tmp/lz4         && rm *.o *.a
+	cd /bw_tmp/lz5         && rm *.o *.a
+	cd /bw_tmp/lzip        && rm *.o *.a
+	cd /bw_tmp/lzma        && rm *.o *.a
+	cd /bw_tmp/lzop        && rm *.o *.a
+	cd /bw_tmp/lzop_b      && rm *.o *.a
+	cd /bw_tmp/lzop2       && rm *.o *.a
+	cd /bw_tmp/parolin     && rm *.o *.a
+	cd /bw_tmp/psftp       && rm *.o *.a
+	cd /bw_tmp/rsp_encrypt && rm *.o *.a
+	cd /bw_tmp/xz          && rm *.o *.a
+	cd /bw_tmp/xz_b        && rm *.o *.a
+	cd /bw_tmp/Zstandard   && rm *.o *.a
+	
+exit
+
+fi
+
+#############################################################################################################################################
 
 echo "Erro amor..."

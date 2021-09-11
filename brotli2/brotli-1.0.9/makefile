@@ -1,5 +1,5 @@
 #2021 amanda & MathMan, updated 06/march/2021 18:06 PM
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function -I c/include
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function -I c/include
 
 amanda_32: /bw_tmp/brotli2/pedro_32arp.o /bw_tmp/brotli2/arp_dll_32arp.o /bw_tmp/brotli2/backward_references_32arp.o /bw_tmp/brotli2/backward_references_hq_32arp.o /bw_tmp/brotli2/bit_cost_32arp.o /bw_tmp/brotli2/bit_reader_32arp.o /bw_tmp/brotli2/block_splitter_32arp.o /bw_tmp/brotli2/brotli_32arp.o /bw_tmp/brotli2/brotli2_32arp.o /bw_tmp/brotli2/brotli2dll_32arp.o /bw_tmp/brotli2/brotli2_multi_32.o /bw_tmp/brotli2/brotli_bit_stream_32arp.o /bw_tmp/brotli2/cluster_32arp.o /bw_tmp/brotli2/command_32arp.o /bw_tmp/brotli2/compress_fragment_32arp.o /bw_tmp/brotli2/compress_fragment_two_pass_32arp.o /bw_tmp/brotli2/constants_32arp.o /bw_tmp/brotli2/context_32arp.o /bw_tmp/brotli2/decode_32arp.o /bw_tmp/brotli2/dictionary_32arp.o /bw_tmp/brotli2/dictionary_hash_32arp.o /bw_tmp/brotli2/encode_32arp.o /bw_tmp/brotli2/encoder_dict_32arp.o /bw_tmp/brotli2/entropy_encode_32arp.o /bw_tmp/brotli2/fast_log_32arp.o /bw_tmp/brotli2/histogram_32arp.o /bw_tmp/brotli2/huffman_32arp.o /bw_tmp/brotli2/literal_cost_32arp.o /bw_tmp/brotli2/longfile_32arp.o /bw_tmp/brotli2/memory_32arp.o /bw_tmp/brotli2/metablock_32arp.o /bw_tmp/brotli2/platform_32arp.o /bw_tmp/brotli2/state_32arp.o /bw_tmp/brotli2/stdio_v2_32arp.o /bw_tmp/brotli2/static_dict_32arp.o /bw_tmp/brotli2/transform_32arp.o /bw_tmp/brotli2/utf8_util_32arp.o
 
@@ -110,6 +110,7 @@ amanda_32: /bw_tmp/brotli2/pedro_32arp.o /bw_tmp/brotli2/arp_dll_32arp.o /bw_tmp
 	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/brotli2/utf8_util_32arp.o c/enc/utf8_util.c $(AMANDA_FLAGS__)
 
 /bw_tmp/brotli2/brotli_32arp.o : c/tools/brotli.c c/tools/stdio_v3.h
+	echo removed uncrustify call to brotli.c by SmartApe
 	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/brotli2/brotli_32arp.o c/tools/brotli.c $(AMANDA_FLAGS__)
 
 /bw_tmp/brotli2/brotli2_32arp.o : c/tools/brotli2.c
