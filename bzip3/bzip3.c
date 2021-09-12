@@ -1823,7 +1823,7 @@ saida:
 
 	if( 0 == is_sha512_file_k)
 	{
-		if ((0 == retvalue) && (totalbytes > sizeof (rsp)))
+		if ((0 == retvalue) && (totalbytes > (long long) sizeof (rsp)))
 		{
 			memset (md5sum, 0, 16);
 
@@ -1846,7 +1846,7 @@ saida:
 			}
 		}
 
-		if (totalbytes > sizeof (rsp))
+		if (totalbytes > (long long) sizeof (rsp))
 		{
 
 #ifdef NPRINTF
@@ -2075,7 +2075,7 @@ volta:
 
 saida:
 
-	if ((0 == retvalue) && (totalbytes > sizeof (ar)))
+	if ((0 == retvalue) && (totalbytes > (int64_t) sizeof (ar)))
 	{
 
 		unsigned char out_temp_digest[SHA512_DIGEST_LENGTH];
@@ -2092,7 +2092,7 @@ saida:
 
 	}
 
-	if (totalbytes > sizeof (ar))
+	if (totalbytes > (int64_t) sizeof (ar))
 	{
 
 #ifdef NPRINTF
@@ -2377,7 +2377,7 @@ volta:
 
 saida:
 
-	if ((0 == retvalue) && (totalbytes > sizeof (ar)))
+	if ((0 == retvalue) && (totalbytes > (int64_t) sizeof (ar)))
 	{
 
 		unsigned char out_temp_digest[SHA512_DIGEST_LENGTH];
@@ -2394,7 +2394,7 @@ saida:
 
 	}
 
-	if (totalbytes > sizeof (ar))
+	if (totalbytes > (int64_t) sizeof (ar))
 	{
 
 #ifdef NPRINTF

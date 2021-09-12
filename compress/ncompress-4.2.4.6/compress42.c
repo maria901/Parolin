@@ -1516,7 +1516,7 @@ int fdout;
 				i = rsize-rlop;
 
 				if ((code_int)i > extcode-free_ent) i = (int)(extcode-free_ent);
-				if (i > ((sizeof(outbuf) - 32)*8 - outbits)/n_bits)
+				if (i > (int) ((sizeof(outbuf) - 32)*8 - outbits)/n_bits)
 					i = ((sizeof(outbuf) - 32)*8 - outbits)/n_bits;
 
 				if (!stcode && (long)i > checkpoint-bytes_in)
@@ -1732,7 +1732,7 @@ resetbuf:       ;
 			posbits = 0;
 		}
 
-		if (insize < sizeof(inbuf)-IBUFSIZ)
+		if ((int) insize < (int) (sizeof(inbuf)-IBUFSIZ))
 		{
 			if ((rsize = read(fdin, inbuf+insize, IBUFSIZ)) < 0)
 				return 5;
@@ -2015,7 +2015,9 @@ Authors version 4.0 (World release in 1985):\n\
 
  */
 
-int __stdcall compress_co___rspk_ar(char * Input_amanda_file_utf_8, char * OutPut_ricardo_File_utf_8, int Compression_juliete_Level_unused___)
+int __stdcall compress_co___rspk_ar(char *Input_amanda_file_utf_8,
+									char *OutPut_ricardo_File_utf_8,
+									__attribute__((unused)) int Compression_juliete_Level_unused___)
 {
 	//
 
@@ -2178,12 +2180,14 @@ int __stdcall get_progress_co___ar (void)
 	 return 0;
  }
 
-BOOL WINAPI DllMain (HINSTANCE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
-{
-	switch (ul_reason_for_call)
-	{
-	case DLL_PROCESS_ATTACH:
-		OutputDebugString ("BE Compress DLL DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__ ") _amanda_debug_\n");
+ BOOL WINAPI DllMain(__attribute__((unused)) HINSTANCE hModule,
+					 __attribute__((unused)) DWORD ul_reason_for_call,
+					 __attribute__((unused)) LPVOID lpReserved)
+ {
+	 switch (ul_reason_for_call)
+	 {
+	 case DLL_PROCESS_ATTACH:
+		 OutputDebugString("BE Compress DLL DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__ ") _amanda_debug_\n");
 
 #ifdef NPRINTF
 		MessageBox (0, "Alladin debugging code", "BinaryWork Corp.", MB_OK | MB_TOPMOST);

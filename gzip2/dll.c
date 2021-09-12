@@ -1,30 +1,32 @@
-/*
-    Copyright (C) <2021>  <BinaryWork Corp.>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU GENERAL PUBLIC LICENSE
-        and GNU LESSER GENERAL PUBLIC LICENSE along with this program.
-        If not, see <http://www.gnu.org/licenses/>.
-
-    support: https://arsoftware.net.br/binarywork _____________
-    mirror :  http://nomade.sourceforge.net/?AR=true&ar_debug=1
-
-        direct programmers e-mails:
-        Ricardo: arsoftware25@gmail.com  ricardo@arsoftware.net.br
-         Amanda: arsoftware10@gmail.com  amanda@arsoftware.net. br
-
-        immediate contact(for a very fast answer) WhatsApp
-        (+55)41 9627 1708 - it is always on
- */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails direto dos felizes programadores:                                *
+ *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
+ *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *                                                                              *
+ *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
 // definicao de uint e uchar, but why?...
 #ifndef uchar
@@ -72,23 +74,20 @@
 #define MYCAST int
 #endif
 
-void
-pedro_dprintf
-(
+void pedro_dprintf(
 	int amanda_level,
-	char *format, ...
-);
+	char *format, ...);
 
-int *cores_used_z                        = NULL;
+int *cores_used_z = NULL;
 
 #define __amandacall __stdcall
 
-char temp_path_z            [1024];
+char temp_path_z[1024];
 
 uint32_t
-tuklib_cpucores_z           (void);
+tuklib_cpucores_z(void);
 
-int n_threads_z                = 1; 
+int n_threads_z = 1;
 
 int __stdcall GetReturnValue(void);
 
@@ -108,25 +107,25 @@ int isgzip2 = 0;
 
 extern int zlibpercent;
 
-__int64 lffilesize (const char *szFileName);
+__int64 lffilesize(const char *szFileName);
 
-uint __stdcall rspcompress (char *inputfile, char *outfile);
-int zcompress_sha512_k (char *input, char *output, int levelin);
-uint __stdcall rspuncompress (uchar * outfile, uchar * outfile2);
+uint __stdcall rspcompress(char *inputfile, char *outfile);
+int zcompress_sha512_k(char *input, char *output, int levelin);
+uint __stdcall rspuncompress(uchar *outfile, uchar *outfile2);
 
-int    zuncompress (char *input, char *output);
-int    zcompress (char *input, char *output, int level);
+int zuncompress(char *input, char *output);
+int zcompress(char *input, char *output, int level);
 
-int utf8towide (const char *pUTF8, WCHAR * pUSC2, int nUSC2);
+int utf8towide(const char *pUTF8, WCHAR *pUSC2, int nUSC2);
 
-WCHAR* utf8towide_v2 (const char *pUTF8)
+WCHAR *utf8towide_v2(const char *pUTF8)
 {
 	static WCHAR pUSC2[300];
-	MultiByteToWideChar (CP_UTF8, 0, (LPCSTR) pUTF8, -1, pUSC2, 300);
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, pUSC2, 300);
 	return pUSC2;
 }
 
-static float inittimer (uint comando)
+static float inittimer(uint comando)
 {
 
 	static uint clock1;
@@ -134,40 +133,37 @@ static float inittimer (uint comando)
 
 	if (comando == 0)
 	{
-		clock1 = clock ();
+		clock1 = clock();
 		return 0;
-
 	}
 	else
 	{
 
-		clock2 = clock ();
+		clock2 = clock();
 
-		return ((float) clock2 - (float) clock1) / 1000;
-
+		return ((float)clock2 - (float)clock1) / 1000;
 	}
-
 };
 
 typedef void *myfile;
 
-int    gzclose (myfile file);
+int gzclose(myfile file);
 
-myfile gzopen (char *path_now_as_utf8, char *mode);
+myfile gzopen(char *path_now_as_utf8, char *mode);
 
-int    gzread (myfile file, char *buf, uint len);
+int gzread(myfile file, char *buf, uint len);
 
-char  *gzerror (myfile file, int *errnum);
+char *gzerror(myfile file, int *errnum);
 
-int    gzwrite (myfile file, const char *buf, uint len);
+int gzwrite(myfile file, const char *buf, uint len);
 
-float  inittimer (uint comando);
+float inittimer(uint comando);
 
-void   dprintf (char *format, ...);
+void dprintf(char *format, ...);
 
-uint __stdcall rspvalidatefile (uchar * outfile2);
+uint __stdcall rspvalidatefile(uchar *outfile2);
 
-int __stdcall startapi (int parameter);
+int __stdcall startapi(int parameter);
 
 uchar intoutfile[255];
 uchar intinputfile[255];
@@ -181,19 +177,18 @@ int64_t fileread;
 uint intret;
 uint finished;
 
-uint getval (int max, uint por)
+uint getval(int max, uint por)
 {
 
 	double maxa;
 	double porr;
 
-	maxa = (double) max;
-	porr = (double) por;
+	maxa = (double)max;
+	porr = (double)por;
 
 	maxa = (maxa / 100) * porr;
 
-	return (uint) maxa;
-
+	return (uint)maxa;
 }
 
 /*
@@ -205,24 +200,23 @@ uint getval (int max, uint por)
    fatia = 5000
    result = 50
  */
-static int getpor (int64_t max, int64_t fatia)
+static int getpor(int64_t max, int64_t fatia)
 {
 
 	double maxa;
 	double fatiaa;
 
-	maxa = (double) max;
-	fatiaa = (double) fatia;
+	maxa = (double)max;
+	fatiaa = (double)fatia;
 
 	if (max == 0)
 	{
 		return 0;
 	}
 
-	maxa = ((double) 10000 / maxa * fatiaa);
+	maxa = ((double)10000 / maxa * fatiaa);
 
-	return (int) maxa;
-
+	return (int)maxa;
 }
 
 /*
@@ -236,59 +230,58 @@ static int getpor (int64_t max, int64_t fatia)
    basicamente é para saber o maximo a partir da fatia e da porcentagem
    sera pouco utilizada esta funcao
  */
-uint
-getmax (int por, uint fatia)
+uint getmax(int por, uint fatia)
 {
 
 	float a;
 	float b;
 
-	a = (float) por;
-	b = (float) fatia;
+	a = (float)por;
+	b = (float)fatia;
 
 	if (por == 0)
 	{
 		return 0;
 	}
 
-	a = (b / a) * (float) 100;
+	a = (b / a) * (float)100;
 
-	return (uint) a;
-
+	return (uint)a;
 }
 
-BOOL WINAPI DllMain (HINSTANCE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+BOOL WINAPI DllMain(__attribute__((unused)) HINSTANCE hModule,
+					__attribute__((unused)) DWORD ul_reason_for_call,
+					__attribute__((unused)) LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
 	{
-	case DLL_PROCESS_ATTACH://Valor de returnvalue 0  _amanda_debug_
+	case DLL_PROCESS_ATTACH: //Valor de returnvalue 0  _amanda_debug_
 
-		OutputDebugString ("BW Gzip2 DLL DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__ ") _amanda_debug_\n");
-
+		OutputDebugString("BW Gzip2 DLL DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__ ") _amanda_debug_\n");
 
 #ifdef NPRINTF
-		MessageBox (0, "Bhond debugging code", "BW", MB_OK | MB_TOPMOST);
+		MessageBox(0, "Bhond debugging code", "BW", MB_OK | MB_TOPMOST);
 #endif
 		break;
 	case DLL_THREAD_ATTACH:
-		
+
 		break;
 	case DLL_THREAD_DETACH:
-		
+
 		break;
 	case DLL_PROCESS_DETACH:
-		
+
 		break;
 	}
 	return TRUE;
 }
 
-uint __stdcall getporcentagem ()
+uint __stdcall getporcentagem()
 {
 
 	uint ret = 0;
 
-	if(is_multi_thread_z)
+	if (is_multi_thread_z)
 	{
 		ret = get_multithread_progress();
 		pedro_dprintf(-1, "multi-thread progress %d\n", ret);
@@ -305,11 +298,15 @@ uint __stdcall getporcentagem ()
 			{
 
 				return 0;
-
 			}
 
-			ret = getpor (filesize, fileread);
+			ret = getpor(filesize, fileread);
 		}
+	}
+
+	if ((int)ret < 0)
+	{
+		ret = 0;
 	}
 
 	if (ret > 10000)
@@ -317,16 +314,10 @@ uint __stdcall getporcentagem ()
 		ret = 10000;
 	}
 
-	if (ret < 0)
-	{
-		ret = 0;
-	}
-
 	return ret;
-
 }
 
-uint __stdcall tcompress (char *inputfile, char *outfile)
+uint __stdcall tcompress(char *inputfile, char *outfile)
 {
 
 	HANDLE myhandle;
@@ -335,19 +326,18 @@ uint __stdcall tcompress (char *inputfile, char *outfile)
 
 	comando = 0;
 	intret = 0;
-	strcpy ((char *) intoutfile, outfile);
+	strcpy((char *)intoutfile, outfile);
 
-	strcpy ((char *) intinputfile, inputfile);
+	strcpy((char *)intinputfile, inputfile);
 
-	myhandle = CreateThread ((LPSECURITY_ATTRIBUTES) 0, (SIZE_T)0, (LPTHREAD_START_ROUTINE) startapi, (LPVOID) parameter, (DWORD) 0, (LPDWORD) &ThreadId);
+	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0, (SIZE_T)0, (void *)startapi, (LPVOID)parameter, (DWORD)0, (LPDWORD)&ThreadId);
 
-	CloseHandle (myhandle);
+	CloseHandle(myhandle);
 
 	return 0;
-
 }
 
-uint __stdcall tuncompress (uchar * outfile, uchar * outfile2)
+uint __stdcall tuncompress(uchar *outfile, uchar *outfile2)
 {
 
 	HANDLE myhandle;
@@ -357,47 +347,46 @@ uint __stdcall tuncompress (uchar * outfile, uchar * outfile2)
 
 	intret = 0;
 
-	strcpy ((char *) intoutfile, (char *) outfile2);
+	strcpy((char *)intoutfile, (char *)outfile2);
 
-	strcpy ((char *) intinputfile, (char *) outfile);
+	strcpy((char *)intinputfile, (char *)outfile);
 
-	myhandle = CreateThread ((LPSECURITY_ATTRIBUTES) 0, 0, (LPTHREAD_START_ROUTINE) startapi, (LPVOID) parameter, (DWORD) 0, (LPDWORD) &ThreadId);
+	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0, 0, (void *)startapi, (LPVOID)parameter, (DWORD)0, (LPDWORD)&ThreadId);
 
-	CloseHandle (myhandle);
+	CloseHandle(myhandle);
 
 	return 0;
-
 }
 
-uint __stdcall tcompressgzip2 (char *inputfile, char *outfile)
+uint __stdcall tcompressgzip2(char *inputfile, char *outfile)
 {
 	HANDLE myhandle;
 	MYCAST ThreadId;
 	MYCAST parameter = 1;
 	comando = 2;
 	intret = 0;
-	strcpy ((char *) intoutfile, outfile);
-	strcpy ((char *) intinputfile, inputfile);
-	myhandle = CreateThread ((LPSECURITY_ATTRIBUTES) 0, 0, (LPTHREAD_START_ROUTINE) startapi, (LPVOID) parameter, (DWORD) 0, (LPDWORD) &ThreadId);
-	CloseHandle (myhandle);
+	strcpy((char *)intoutfile, outfile);
+	strcpy((char *)intinputfile, inputfile);
+	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0, 0, (void *)startapi, (LPVOID)parameter, (DWORD)0, (LPDWORD)&ThreadId);
+	CloseHandle(myhandle);
 	return 0;
 }
 
-uint __stdcall tcompressgzip2_sha512_k (char *inputfile, char *outfile)
+uint __stdcall tcompressgzip2_sha512_k(char *inputfile, char *outfile)
 {
 	HANDLE myhandle;
 	MYCAST ThreadId;
 	MYCAST parameter = 1;
 	comando = 10002;
 	intret = 0;
-	strcpy ((char *) intoutfile, outfile);
-	strcpy ((char *) intinputfile, inputfile);
-	myhandle = CreateThread ((LPSECURITY_ATTRIBUTES) 0, 0, (LPTHREAD_START_ROUTINE) startapi, (LPVOID) parameter, (DWORD) 0, (LPDWORD) &ThreadId);
-	CloseHandle (myhandle);
+	strcpy((char *)intoutfile, outfile);
+	strcpy((char *)intinputfile, inputfile);
+	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0, 0, (void *)startapi, (LPVOID)parameter, (DWORD)0, (LPDWORD)&ThreadId);
+	CloseHandle(myhandle);
 	return 0;
 }
 
-uint __stdcall tuncompressgzip2 (uchar * outfile, uchar * outfile2)
+uint __stdcall tuncompressgzip2(uchar *outfile, uchar *outfile2)
 {
 
 	HANDLE myhandle;
@@ -405,28 +394,28 @@ uint __stdcall tuncompressgzip2 (uchar * outfile, uchar * outfile2)
 	MYCAST parameter = 1;
 	comando = 3;
 	intret = 0;
-	strcpy ((char *) intoutfile  , (char *) outfile2);
-	strcpy ((char *) intinputfile, (char *) outfile );
-	myhandle = CreateThread ((LPSECURITY_ATTRIBUTES) 0, 0, (LPTHREAD_START_ROUTINE) startapi, (LPVOID) parameter, (DWORD) 0, (LPDWORD) &ThreadId);
-	CloseHandle (myhandle);
+	strcpy((char *)intoutfile, (char *)outfile2);
+	strcpy((char *)intinputfile, (char *)outfile);
+	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0, 0, (void *)startapi, (LPVOID)parameter, (DWORD)0, (LPDWORD)&ThreadId);
+	CloseHandle(myhandle);
 	return 0;
 }
 
-uint __stdcall tcompressgzip2_utf8_k (char *inputfile, char *outfile)
+uint __stdcall tcompressgzip2_utf8_k(char *inputfile, char *outfile)
 {
 	HANDLE myhandle;
 	MYCAST ThreadId;
 	MYCAST parameter = 1;
 	comando = 10000;
 	intret = 0;
-	strcpy ((char *) intoutfile, outfile);
-	strcpy ((char *) intinputfile, inputfile);
-	myhandle = CreateThread ((LPSECURITY_ATTRIBUTES) 0, 0, (LPTHREAD_START_ROUTINE) startapi, (LPVOID) parameter, (DWORD) 0, (LPDWORD) &ThreadId);
-	CloseHandle (myhandle);
+	strcpy((char *)intoutfile, outfile);
+	strcpy((char *)intinputfile, inputfile);
+	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0, 0, (void *)startapi, (LPVOID)parameter, (DWORD)0, (LPDWORD)&ThreadId);
+	CloseHandle(myhandle);
 	return 0;
 }
 
-uint __stdcall tuncompressgzip2_utf8_k (uchar * outfile, uchar * outfile2)
+uint __stdcall tuncompressgzip2_utf8_k(uchar *outfile, uchar *outfile2)
 {
 
 	HANDLE myhandle;
@@ -434,266 +423,246 @@ uint __stdcall tuncompressgzip2_utf8_k (uchar * outfile, uchar * outfile2)
 	MYCAST parameter = 1;
 	comando = 10001;
 	intret = 0;
-	strcpy ((char *) intoutfile  , (char *) outfile2);
-	strcpy ((char *) intinputfile, (char *) outfile );
-	myhandle = CreateThread ((LPSECURITY_ATTRIBUTES) 0, 0, (LPTHREAD_START_ROUTINE) startapi, (LPVOID) parameter, (DWORD) 0, (LPDWORD) &ThreadId);
-	CloseHandle (myhandle);
+	strcpy((char *)intoutfile, (char *)outfile2);
+	strcpy((char *)intinputfile, (char *)outfile);
+	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0, 0, (void *)startapi, (LPVOID)parameter, (DWORD)0, (LPDWORD)&ThreadId);
+	CloseHandle(myhandle);
 	return 0;
 }
 
-int __stdcall startapi (int parameter)
-{	
+int __stdcall startapi(__attribute__((unused)) int parameter)
+{
 
 	if (0 == comando)
 	{
 		unicodemode = 0;
-		intret = 0;//rspcompress ((char *) intinputfile, (char *) intoutfile);
-
+		intret = 0; //rspcompress ((char *) intinputfile, (char *) intoutfile);
 	}
 
 	if (1 == comando)
 	{
 		unicodemode = 0;
-		intret = 0;//rspuncompress (intinputfile, intoutfile);
+		intret = 0; //rspuncompress (intinputfile, intoutfile);
 	}
 
 	if (2 == comando)
 	{
 
-		intret = 0;//zcompress ((char *) intinputfile, (char *) intoutfile, compressionlevel);
-
+		intret = 0; //zcompress ((char *) intinputfile, (char *) intoutfile, compressionlevel);
 	}
 
 	if (3 == comando)
 	{
 
-		intret = zuncompress ((char *) intinputfile, (char *) intoutfile);
-
+		intret = zuncompress((char *)intinputfile, (char *)intoutfile);
 	}
 
 	if (10000 == comando)
 	{
 		unicodemode = 1;
-		intret = 0;//rspcompress ((char *) intinputfile, (char *) intoutfile);
-
+		intret = 0; //rspcompress ((char *) intinputfile, (char *) intoutfile);
 	}
 
 	if (10001 == comando)
 	{
 		unicodemode = 1;
-		intret = 0;//rspuncompress ((uchar *) intinputfile, (uchar *) intoutfile);
+		intret = 0; //rspuncompress ((uchar *) intinputfile, (uchar *) intoutfile);
 	}
 
 	if (10002 == comando)
 	{
 		unicodemode = 1;
-		intret = zcompress_sha512_k ((char *) intinputfile, (char *) intoutfile, compressionlevel);
+		intret = zcompress_sha512_k((char *)intinputfile, (char *)intoutfile, compressionlevel);
 	}
 
 	intstatus = 0;
 	return intret;
-
 }
 
-int __stdcall getintret ()
+int __stdcall getintret()
 {
 
 	return intret;
-
 }
 
-int __stdcall getfinished ()
+int __stdcall getfinished()
 {
 
 	return finished;
-
 }
 
-int __stdcall setfinished (uint newvalue)
+int __stdcall setfinished(uint newvalue)
 {
 	finished = newvalue;
 	return 0;
 }
 
 #ifdef WIN64
-int __stdcall interface1 (__int64 argumento1, __int64 argumento2, __int64 argumento3, __int64 argumento4)
+int __stdcall interface1(__int64 argumento1, __int64 argumento2, __int64 argumento3, __attribute__((unused)) __int64 argumento4)
 {
 #else
-int __stdcall interface1 (int argumento1, int argumento2, int argumento3, int argumento4)
+int __stdcall interface1(int argumento1, int argumento2, int argumento3, __attribute__((unused)) int argumento4)
 {
 #endif
-	static char inputfile[255*6]; //for Unicode sake, (utf-8)
-	static char inputfile2[255*6];
-	static char outputfile[255*6];
-	static char key[255*6];
-			
-	if (!strcmp ((char *) argumento1, "compress"))
+	static char inputfile[255 * 6]; //for Unicode sake, (utf-8)
+	static char inputfile2[255 * 6];
+	static char outputfile[255 * 6];
+	static char key[255 * 6];
+
+	if (!strcmp((char *)argumento1, "compress"))
 	{
-		memset (inputfile, 0, 255);
-		memset (outputfile, 0, 255);
-		memset (key, 0, 256);
+		memset(inputfile, 0, 255);
+		memset(outputfile, 0, 255);
+		memset(key, 0, 256);
 
 		isgzip2 = 0;
 		intstatus = 1;
 
 		;
 
-		strcpy (inputfile, (char *) argumento2);
+		strcpy(inputfile, (char *)argumento2);
 
-		strcpy (inputfile2, (char *) argumento3);
+		strcpy(inputfile2, (char *)argumento3);
 
-		return tcompress (inputfile, inputfile2);
-
+		return tcompress(inputfile, inputfile2);
 	}
 
-	if (!strcmp ((char *) argumento1, "compressgzip2"))
+	if (!strcmp((char *)argumento1, "compressgzip2"))
 	{
-		memset (inputfile, 0, 255);
-		memset (outputfile, 0, 255);
-		memset (key, 0, 256);
+		memset(inputfile, 0, 255);
+		memset(outputfile, 0, 255);
+		memset(key, 0, 256);
 
 		isgzip2 = 1;
 		intstatus = 1;
 
 		;
 
-		strcpy (inputfile, (char *) argumento2);
+		strcpy(inputfile, (char *)argumento2);
 
-		strcpy (inputfile2, (char *) argumento3);
+		strcpy(inputfile2, (char *)argumento3);
 
-		return tcompressgzip2 (inputfile, inputfile2);
-
+		return tcompressgzip2(inputfile, inputfile2);
 	}
 
-	if (!strcmp ((char *) argumento1, "compressgzip2_sha512_k"))
+	if (!strcmp((char *)argumento1, "compressgzip2_sha512_k"))
 	{
-		memset (inputfile, 0, 255);
-		memset (outputfile, 0, 255);
-		memset (key, 0, 256);
+		memset(inputfile, 0, 255);
+		memset(outputfile, 0, 255);
+		memset(key, 0, 256);
 
 		isgzip2 = 1;
 		intstatus = 1;
 
 		;
 
-		strcpy (inputfile, (char *) argumento2);
+		strcpy(inputfile, (char *)argumento2);
 
-		strcpy (inputfile2, (char *) argumento3);
+		strcpy(inputfile2, (char *)argumento3);
 
 		return tcompressgzip2_sha512_k(inputfile, inputfile2);
-
 	}
 
-	if (!strcmp ((char *) argumento1, "compressgzip2_utf8_k"))
+	if (!strcmp((char *)argumento1, "compressgzip2_utf8_k"))
 	{
-		memset (inputfile, 0, 255);
-		memset (outputfile, 0, 255);
-		memset (key, 0, 256);
-		
+		memset(inputfile, 0, 255);
+		memset(outputfile, 0, 255);
+		memset(key, 0, 256);
+
 		isgzip2 = 0;
 		intstatus = 1;
 
 		;
 
-		strcpy (inputfile, (char *) argumento2);
+		strcpy(inputfile, (char *)argumento2);
 
-		strcpy (inputfile2, (char *) argumento3);
+		strcpy(inputfile2, (char *)argumento3);
 
-		return tcompressgzip2_utf8_k (inputfile, inputfile2);
+		return tcompressgzip2_utf8_k(inputfile, inputfile2);
 	}
 
-	if (!strcmp ((char *) argumento1, "uncompress"))
+	if (!strcmp((char *)argumento1, "uncompress"))
 	{
-		memset (inputfile, 0, 255);
-		memset (outputfile, 0, 255);
+		memset(inputfile, 0, 255);
+		memset(outputfile, 0, 255);
 
 		;
 
-		strcpy (inputfile, (char *) argumento2);
+		strcpy(inputfile, (char *)argumento2);
 
-		strcpy (inputfile2, (char *) argumento3);
+		strcpy(inputfile2, (char *)argumento3);
 		intstatus = 1;
 		isgzip2 = 0;
-		
-		return tuncompress ((uchar *) inputfile, (uchar *) inputfile2);
 
+		return tuncompress((uchar *)inputfile, (uchar *)inputfile2);
 	}
 
-	if (!strcmp ((char *) argumento1, "uncompressgzip2"))
+	if (!strcmp((char *)argumento1, "uncompressgzip2"))
 	{
-		memset (inputfile, 0, 255);
-		memset (outputfile, 0, 255);
+		memset(inputfile, 0, 255);
+		memset(outputfile, 0, 255);
 
 		;
 
-		strcpy (inputfile, (char *) argumento2);
+		strcpy(inputfile, (char *)argumento2);
 
-		strcpy (inputfile2, (char *) argumento3);
+		strcpy(inputfile2, (char *)argumento3);
 		intstatus = 1;
 		isgzip2 = 1;
-	
-		return tuncompressgzip2 ((uchar *) inputfile, (uchar *) inputfile2);
 
+		return tuncompressgzip2((uchar *)inputfile, (uchar *)inputfile2);
 	}
 
-	if (!strcmp ((char *) argumento1, "uncompressgzip2_utf8_k"))
+	if (!strcmp((char *)argumento1, "uncompressgzip2_utf8_k"))
 	{
-		memset (inputfile, 0, 255);
-		memset (outputfile, 0, 255);
+		memset(inputfile, 0, 255);
+		memset(outputfile, 0, 255);
 
-		strcpy (inputfile, (char *) argumento2);
+		strcpy(inputfile, (char *)argumento2);
 
-		strcpy (inputfile2, (char *) argumento3);
+		strcpy(inputfile2, (char *)argumento3);
 		intstatus = 1;
 		isgzip2 = 0;
-		return tuncompressgzip2_utf8_k ((uchar *) inputfile, (uchar *) inputfile2);
+		return tuncompressgzip2_utf8_k((uchar *)inputfile, (uchar *)inputfile2);
 	}
 
-	if (!strcmp ((char *) argumento1, "setfinished"))
+	if (!strcmp((char *)argumento1, "setfinished"))
 	{
 
-		setfinished (argumento2);
+		setfinished(argumento2);
 
 		return 0;
-
 	}
 
-	if (!strcmp ((char *) argumento1, "getfinished"))
+	if (!strcmp((char *)argumento1, "getfinished"))
 	{
 
-		return getfinished ();
-
+		return getfinished();
 	}
 
-
-	if (!strcmp ((char *) argumento1, "getporcentagem"))
+	if (!strcmp((char *)argumento1, "getporcentagem"))
 	{
 
-		return getporcentagem ();
-
+		return getporcentagem();
 	}
 
-
-	if (!strcmp ((char *) argumento1, "pause"))
+	if (!strcmp((char *)argumento1, "pause"))
 	{
 
 		pauseflag = 1;
 
 		return 0;
-
 	}
 
-	if (!strcmp ((char *) argumento1, "resume"))
+	if (!strcmp((char *)argumento1, "resume"))
 	{
 
 		pauseflag = 0;
 
 		return 0;
-
 	}
 
-
-	if (!strcmp ((char *) argumento1, "cancel"))
+	if (!strcmp((char *)argumento1, "cancel"))
 	{
 
 		pauseflag = 1;
@@ -702,24 +671,21 @@ int __stdcall interface1 (int argumento1, int argumento2, int argumento3, int ar
 		while (intstatus)
 		{
 #ifdef NPRINTF
-			dprintf ("Loopeando no cancel \n");
+			dprintf("Loopeando no cancel \n");
 #endif
-			Sleep (50);
-
+			Sleep(50);
 		}
 
 		return 0;
-
 	}
 
-	if (!strcmp ((char *) argumento1, "getintret"))
+	if (!strcmp((char *)argumento1, "getintret"))
 	{
 
-		return getintret ();
-
+		return getintret();
 	}
 
-	if (!strcmp ((char *) argumento1, "compressionlevel"))
+	if (!strcmp((char *)argumento1, "compressionlevel"))
 	{
 
 		switch (argumento2)
@@ -750,37 +716,33 @@ int __stdcall interface1 (int argumento1, int argumento2, int argumento3, int ar
 		default:
 
 			return 1;
-
 		}
 
 		compressionlevel = argumento2;
 
 		return 0;
-
 	}
 
-	if (!strcmp ((char *) argumento1, "status"))
+	if (!strcmp((char *)argumento1, "status"))
 	{
 
 		return intstatus;
-
 	}
 
 	assert(0);
 	return 0;
-
 }
 
-int unicodemode=0;
+int unicodemode = 0;
 
-void mprintf2 (char *format, ...)
+void mprintf2(char *format, ...)
 {
 	{
 		va_list args;
 		static char buffer[500000];
-		va_start (args, format);
-		vsprintf (buffer, format, args);
-		MessageBox (0, buffer, "BW", MB_OK | MB_TOPMOST);
+		va_start(args, format);
+		vsprintf(buffer, format, args);
+		MessageBox(0, buffer, "BW", MB_OK | MB_TOPMOST);
 		/*
 			if (val != IDOK)
 			{
@@ -790,27 +752,27 @@ void mprintf2 (char *format, ...)
 	}
 }
 
-int __stdcall ControlName (char *data)
+int __stdcall ControlName(char *data)
 {
-	strcpy (data, "BW Gzip DLL " AMARIC__VERSION
-	 #ifdef WIN64
-	        " 64 bits"
-	 #else
-	        " 32 bits"
-	 #endif
-	        );
+	strcpy(data, "BW Gzip DLL " AMARIC__VERSION
+#ifdef WIN64
+				 " 64 bits"
+#else
+				 " 32 bits"
+#endif
+	);
 	return 0;
 }
 
-int __stdcall About ()
+int __stdcall About()
 {
-	mprintf2 ("Brazilian Win32 and Win64 DLL to compress or uncompress gzip and gzip2 files, now with SHA512 support...");
+	mprintf2("Brazilian Win32 and Win64 DLL to compress or uncompress gzip and gzip2 files, now with SHA512 support...");
 	return 0;
 }
 
 int wait = 0;
 
-int __stdcall WaitExecution (int val)
+int __stdcall WaitExecution(int val)
 {
 	wait = val;
 	return 0;
@@ -832,68 +794,67 @@ void __stdcall CancelExecution()
 	while (intstatus)
 	{
 #ifdef NPRINTF
-		dprintf ("Loopeando no cancel \n");
+		dprintf("Loopeando no cancel \n");
 #endif
-		Sleep (50);
+		Sleep(50);
 	}
 }
 
-int __stdcall Compress (char *Inputfile, char *OutPutFile, int CompressionLevel)
+int __stdcall Compress(char *Inputfile, char *OutPutFile, int CompressionLevel)
 {
 
-	if (0 != interface1 ((MYCAST) "status", 0, 0, 0))
+	if (0 != interface1((MYCAST) "status", 0, 0, 0))
 	{
 		return 13;
 	}
 
-	if (0 != interface1 ((MYCAST) "compressionlevel", (MYCAST) CompressionLevel, 0, 0))
+	if (0 != interface1((MYCAST) "compressionlevel", (MYCAST)CompressionLevel, 0, 0))
 	{
 
 		return 12;
 	}
 
-	interface1 ((MYCAST) "setfinished", 0, 0, 0);
+	interface1((MYCAST) "setfinished", 0, 0, 0);
 
-	interface1 ((MYCAST) "compress", (MYCAST) Inputfile, (MYCAST) OutPutFile, (MYCAST) "file3");
+	interface1((MYCAST) "compress", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST) "file3");
 
 volta:
 
 	if (wait)
 	{
-		Sleep (50);
-		if (0 == interface1 ((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
+		Sleep(50);
+		if (0 == interface1((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
 		{
 
 			goto volta;
 		}
-
 	}
 	return 0;
 }
 
-int __stdcall CompressGzip2(char* Inputfile, char* OutPutFile, int CompressionLevel )
+int __stdcall CompressGzip2(char *Inputfile, char *OutPutFile, int CompressionLevel)
 {
-	unicodemode=1;
-	if(0!=interface1((MYCAST)"status", 0, 0, 0))
+	unicodemode = 1;
+	if (0 != interface1((MYCAST) "status", 0, 0, 0))
 	{
 		return 13;
 	}
 
-	if(0!=interface1((MYCAST)"compressionlevel", (MYCAST)CompressionLevel, 0, 0))
+	if (0 != interface1((MYCAST) "compressionlevel", (MYCAST)CompressionLevel, 0, 0))
 	{
 		return 12;
 	}
 
 	interface1((MYCAST) "setfinished", 0, 0, 0);
 
-	interface1((MYCAST) "compressgzip2", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST)"file3");
+	interface1((MYCAST) "compressgzip2", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST) "file3");
 
 volta:
 
 	if (wait)
 	{
-		Sleep (50);
-		if (0 == interface1 ((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
+		Sleep(50);
+		if (0 == interface1((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
 		{
 			goto volta;
 		}
@@ -902,29 +863,29 @@ volta:
 	return 0;
 }
 
-int __stdcall CompressGzip2_SHA512_k(char* Inputfile, char* OutPutFile, int CompressionLevel )
+int __stdcall CompressGzip2_SHA512_k(char *Inputfile, char *OutPutFile, int CompressionLevel)
 {
-	unicodemode=1;
-	if(0!=interface1((MYCAST)"status", 0, 0, 0))
+	unicodemode = 1;
+	if (0 != interface1((MYCAST) "status", 0, 0, 0))
 	{
 		return 13;
 	}
 
-	if(0!=interface1((MYCAST)"compressionlevel", (MYCAST)CompressionLevel, 0, 0))
+	if (0 != interface1((MYCAST) "compressionlevel", (MYCAST)CompressionLevel, 0, 0))
 	{
 		return 12;
 	}
 
 	interface1((MYCAST) "setfinished", 0, 0, 0);
 
-	interface1((MYCAST) "compressgzip2_sha512_k", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST)"file3");
+	interface1((MYCAST) "compressgzip2_sha512_k", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST) "file3");
 
 volta:
 
 	if (1)
 	{
-		Sleep (50);
-		if (0 == interface1 ((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
+		Sleep(50);
+		if (0 == interface1((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
 		{
 
 			goto volta;
@@ -933,15 +894,15 @@ volta:
 
 	return GetReturnValue();
 }
-int __stdcall CompressGzip_utf8_k(char* Inputfile, char* OutPutFile, int CompressionLevel )
+int __stdcall CompressGzip_utf8_k(char *Inputfile, char *OutPutFile, int CompressionLevel)
 {
 
-	if(0!=interface1((MYCAST)"status", 0, 0, 0))
+	if (0 != interface1((MYCAST) "status", 0, 0, 0))
 	{
 		return 13;
 	}
 
-	if(0!=interface1((MYCAST)"compressionlevel", (MYCAST)CompressionLevel, 0, 0))
+	if (0 != interface1((MYCAST) "compressionlevel", (MYCAST)CompressionLevel, 0, 0))
 	{
 		return 12;
 	}
@@ -950,14 +911,14 @@ int __stdcall CompressGzip_utf8_k(char* Inputfile, char* OutPutFile, int Compres
 
 	interface1((MYCAST) "setfinished", 0, 0, 0);
 
-	interface1((MYCAST) "compressgzip2_utf8_k", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST)"file3");
+	interface1((MYCAST) "compressgzip2_utf8_k", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST) "file3");
 
 volta:
 
 	if (wait)
 	{
-		Sleep (50);
-		if (0 == interface1 ((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
+		Sleep(50);
+		if (0 == interface1((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
 		{
 
 			goto volta;
@@ -968,39 +929,39 @@ volta:
 }
 int __stdcall GetFinished()
 {
-	return interface1((MYCAST)"getfinished",(MYCAST) " ", (MYCAST)" ", (MYCAST)" ");
+	return interface1((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " ");
 }
 
 int __stdcall GetReturnValue(void)
 {
-	return interface1((MYCAST)"getintret", (MYCAST)" ", (MYCAST)" ", (MYCAST)" ");
+	return interface1((MYCAST) "getintret", (MYCAST) " ", (MYCAST) " ", (MYCAST) " ");
 }
 
 int __stdcall GetProgress()
 {
 
-	return interface1((MYCAST)"getporcentagem", (MYCAST)" ", (MYCAST)" ", (MYCAST)" ");
+	return interface1((MYCAST) "getporcentagem", (MYCAST) " ", (MYCAST) " ", (MYCAST) " ");
 	return 0;
 }
 
-int __stdcall Uncompress(char* Inputfile, char* OutPutFile)
+int __stdcall Uncompress(char *Inputfile, char *OutPutFile)
 {
 
-	if(0!=interface1((MYCAST)"status", 0, 0, 0) )
+	if (0 != interface1((MYCAST) "status", 0, 0, 0))
 	{
 		return 13;
 	}
 
 	interface1((MYCAST) "setfinished", 0, 0, 0);
 
-	interface1((MYCAST) "uncompress", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST)"file3");
+	interface1((MYCAST) "uncompress", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST) "file3");
 
 volta:
 
 	if (wait)
 	{
-		Sleep (50);
-		if (0 == interface1 ((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
+		Sleep(50);
+		if (0 == interface1((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
 		{
 
 			goto volta;
@@ -1008,29 +969,27 @@ volta:
 	}
 
 	return 0;
-
 }
 
-int __stdcall UncompressGzip2(char* Inputfile, char* OutPutFile )
+int __stdcall UncompressGzip2(char *Inputfile, char *OutPutFile)
 {
 
-	unicodemode=1;
-	if(interface1((MYCAST)"status", 0, 0, 0) )
+	unicodemode = 1;
+	if (interface1((MYCAST) "status", 0, 0, 0))
 	{
 
 		return 13;
-
 	}
 
 	interface1((MYCAST) "setfinished", 0, 0, 0);
-	interface1((MYCAST) "uncompressgzip2", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST)"file3");
+	interface1((MYCAST) "uncompressgzip2", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST) "file3");
 
 volta:
 
 	if (1)
 	{
-		Sleep (50);
-		if (0 == interface1 ((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
+		Sleep(50);
+		if (0 == interface1((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
 		{
 
 			goto volta;
@@ -1040,26 +999,25 @@ volta:
 	return GetReturnValue();
 }
 
-int __stdcall UncompressGzip_utf8_k(char* Inputfile, char* OutPutFile )
+int __stdcall UncompressGzip_utf8_k(char *Inputfile, char *OutPutFile)
 {
 
-	unicodemode=1;
-	if(interface1((MYCAST)"status", 0, 0, 0) )
+	unicodemode = 1;
+	if (interface1((MYCAST) "status", 0, 0, 0))
 	{
 
 		return 13;
-
 	}
 
 	interface1((MYCAST) "setfinished", 0, 0, 0);
-	interface1((MYCAST) "uncompressgzip2_utf8_k", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST)"file3");
+	interface1((MYCAST) "uncompressgzip2_utf8_k", (MYCAST)Inputfile, (MYCAST)OutPutFile, (MYCAST) "file3");
 
 volta:
 
 	if (wait)
 	{
-		Sleep (50);
-		if (0 == interface1 ((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
+		Sleep(50);
+		if (0 == interface1((MYCAST) "getfinished", (MYCAST) " ", (MYCAST) " ", (MYCAST) " "))
 		{
 
 			goto volta;
@@ -1069,7 +1027,7 @@ volta:
 	return 0;
 }
 
-int __stdcall stringtobyte (unsigned char *dest, unsigned char *src, int len)
+int __stdcall stringtobyte(unsigned char *dest, unsigned char *src, int len)
 {
 	int i;
 	for (i = 0; i < len; i++)
@@ -1078,9 +1036,15 @@ int __stdcall stringtobyte (unsigned char *dest, unsigned char *src, int len)
 	}
 	return 0;
 }
-int __stdcall bytetostring (unsigned char *dest, unsigned char *src, int len)
+int __stdcall bytetostring(unsigned char *dest, unsigned char *src, int len)
 {
-	int i;	for (i = 0; i < len; i++)	{dest[i] = src[i];	}dest[i] = 0;return 0;
+	int i;
+	for (i = 0; i < len; i++)
+	{
+		dest[i] = src[i];
+	}
+	dest[i] = 0;
+	return 0;
 }
 //for your pleasure...
 /**
@@ -1093,11 +1057,11 @@ int __stdcall bytetostring (unsigned char *dest, unsigned char *src, int len)
 *
 *
 */
-int __stdcall compress_g2___rspk_ar(char * Input_amanda_file, char * OutPut_ricardo_File, int Compression_juliete_Level, int n_threads_z__, char *temp_path_z__)
+int __stdcall compress_g2___rspk_ar(char *Input_amanda_file, char *OutPut_ricardo_File, int Compression_juliete_Level, int n_threads_z__, char *temp_path_z__)
 {
-	is_multi_thread_z = false         ;
-	n_threads_z = n_threads_z__       ;
-	strcpy(temp_path_z, temp_path_z__);	
+	is_multi_thread_z = false;
+	n_threads_z = n_threads_z__;
+	strcpy(temp_path_z, temp_path_z__);
 	return CompressGzip2_SHA512_k(Input_amanda_file, OutPut_ricardo_File, Compression_juliete_Level);
 }
 /**
@@ -1116,10 +1080,10 @@ int __stdcall compress_g2___rspk_ar(char * Input_amanda_file, char * OutPut_rica
 *
 *
 */
-int __stdcall uncompress_g2___rspk_ar(char * Inputfile_arp, char * OutPutFile_arp,  int n_threads_z__ /* number of threads to use */, char *temp_path_z_S2__, int * cores_used_z__)
+int __stdcall uncompress_g2___rspk_ar(char *Inputfile_arp, char *OutPutFile_arp, int n_threads_z__ /* number of threads to use */, char *temp_path_z_S2__, int *cores_used_z__)
 {
-	n_threads_z = n_threads_z__          ;
-	cores_used_z         = cores_used_z__;
+	n_threads_z = n_threads_z__;
+	cores_used_z = cores_used_z__;
 	assert(cores_used_z);
 	strcpy(temp_path_z, temp_path_z_S2__);
 	is_multi_thread_z = false;
@@ -1134,7 +1098,7 @@ int __stdcall get_progress_g2___ar(void)
 int __stdcall pause_g2___aakp_g2___ar(void)
 {
 	PauseExecution();
-	return 0; 
+	return 0;
 }
 
 int __stdcall resume_g2___aakp_g2___ar(void)

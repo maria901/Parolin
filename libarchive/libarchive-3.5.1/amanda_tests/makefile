@@ -1,6 +1,6 @@
 #2021 amanda & MathMan April 23
 
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function -I ../libarchive
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function -I ../libarchive
 
 /bw_tmp/libarchive/pedro_32arp.o : pedro.c
 	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/libarchive/pedro_32arp.o pedro.c $(AMANDA_FLAGS__)

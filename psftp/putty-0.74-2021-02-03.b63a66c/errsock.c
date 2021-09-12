@@ -9,7 +9,8 @@
 #include "putty.h"
 #include "network.h"
 
-typedef struct {
+typedef struct
+{
     char *error;
     Plug *plug;
 
@@ -39,7 +40,7 @@ static const char *sk_error_socket_error(Socket *s)
     return es->error;
 }
 
-static SocketPeerInfo *sk_error_peer_info(Socket *s)
+static SocketPeerInfo *sk_error_peer_info(__attribute__((unused)) Socket *s)
 {
     return NULL;
 }

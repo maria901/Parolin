@@ -1,30 +1,32 @@
-/*
-    Copyright (C) <2021>  <BinaryWork Corp.>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU GENERAL PUBLIC LICENSE
-        and GNU LESSER GENERAL PUBLIC LICENSE along with this program.
-        If not, see <http://www.gnu.org/licenses/>.
-
-    support: https://arsoftware.net.br/binarywork _____________
-    mirror :  http://nomade.sourceforge.net/?AR=true&ar_debug=1
-
-        direct programmers e-mails:
-        MathMan: arsoftware25@gmail.com  ricardo@arsoftware.net.br
-         Amanda: arsoftware10@gmail.com  amanda@arsoftware.net. br
-
-        immediate contact(for a very fast answer) WhatsApp
-        (+55)41 9627 1708 - it is always on
- */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails direto dos felizes programadores:                                *
+ *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
+ *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *                                                                              *
+ *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 /*
     <main dll interface>
     Copyright (C) BW
@@ -59,14 +61,14 @@
 
 //bool is_multi_thread_z = false;
 
-#define __amandacall                   __stdcall
+#define __amandacall __stdcall
 
-int *cores_used_z                        = NULL;
+int *cores_used_z = NULL;
 int __amandacall get_multithread_progress(void);
 
-extern bool is_multi_thread_z                  ;
-char temp_path_z                         [1024];
-int n_threads_z                             = 1; 
+extern bool is_multi_thread_z;
+char temp_path_z[1024];
+int n_threads_z = 1;
 
 //#include "bzlib.h"
 
@@ -78,23 +80,20 @@ int n_threads_z                             = 1;
 #define __INT32_OR_INT64 int
 #endif
 
-void
-pedro_dprintf
-(
+void pedro_dprintf(
 	int amanda_level,
-	char *format, ...
-);
+	char *format, ...);
 
-int utf8towide (const char *pUTF8, WCHAR * pUSC2, int nUSC2);
-int __stdcall IsAMD64 (void);
-int    lz5uncompress (char *input, char *output);
-int    lz5compress (char *input, char *output, int levelin);
-int    lz5compress_k (char *input, char *output, int levelin);
+int utf8towide(const char *pUTF8, WCHAR *pUSC2, int nUSC2);
+int __stdcall IsAMD64(void);
+int lz5uncompress(char *input, char *output);
+int lz5compress(char *input, char *output, int levelin);
+int lz5compress_k(char *input, char *output, int levelin);
 
-void   removedordeespaconoinicio (char *path);
-void   removedordeespaconofinal (char *path);
-char  *getcpuname_k (void);
-char  *getprocessorbrandstring_k (void);
+void removedordeespaconoinicio(char *path);
+void removedordeespaconofinal(char *path);
+char *getcpuname_k(void);
+char *getprocessorbrandstring_k(void);
 char myinfile[255];
 char myoutfile[255];
 int comando;
@@ -113,67 +112,69 @@ int levelok = 6;
 
 extern int lzop2percent;
 
-int unicodemode=0;
+int unicodemode = 0;
 
-void   dprintf (char *format, ...);
+void dprintf(char *format, ...);
 
-int __stdcall pause ()
+int __stdcall pause()
 {
 	intpause = 1;
 	return 0;
 }
 
-int __stdcall cancel ()
+int __stdcall cancel()
 {
 	intcancel = 1;
 	return 0;
 }
-int __stdcall bresume ()
+int __stdcall bresume()
 {
 	intpause = 0;
 	return 0;
 }
 
-int __stdcall startapi (int parameter)
+int __stdcall startapi(__attribute__((unused)) int parameter)
 {
 	if (comando == 0)
 	{
 		intreturn = 0;
-		assert(0);//intreturn = bzip2compress (myinfile, myoutfile, mylevel);
+		assert(0); //intreturn = bzip2compress (myinfile, myoutfile, mylevel);
 	}
 	if (1 == comando)
 	{
 		intreturn = 0;
-		assert(0);//intreturn = bzip2decompress (myinfile, myoutfile);
+		assert(0); //intreturn = bzip2decompress (myinfile, myoutfile);
 	}
 	if (2 == comando)
 	{
 		intreturn = 0;
-		assert(0);//intreturn = lzop2compress (myinfile, myoutfile, levelok);
+		assert(0); //intreturn = lzop2compress (myinfile, myoutfile, levelok);
 	}
 	if (3 == comando)
 	{
 		intreturn = 0;
-		intreturn = lz5uncompress (myinfile, myoutfile);
+		intreturn = lz5uncompress(myinfile, myoutfile);
 	}
 	if (4 == comando)
 	{
 		intreturn = 0;
-		intreturn = lz5compress_k (myinfile, myoutfile, levelok);
+		intreturn = lz5compress_k(myinfile, myoutfile, levelok);
 	}
 	intstatus = 0;
 	return 0;
 }
 
-BOOL WINAPI DllMain (HINSTANCE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+BOOL WINAPI DllMain(__attribute__((unused)) HINSTANCE hModule,
+					__attribute__((unused)) DWORD ul_reason_for_call,
+					__attribute__((unused)) LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		OutputDebugString ("BW LZ5 DLL DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__ ") _amanda_debug_ \n");
+		OutputDebugString("BW LZ5 DLL DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__ ") _amanda_debug_ \n");
 
 #ifdef NPRINTF
-		MessageBox (0, "Alladin debugging code", "BinaryWork Corp.", MB_OK | MB_TOPMOST);
+		MessageBox(0, "Alladin debugging code", "BinaryWork Corp.", MB_OK | MB_TOPMOST);
 #endif
 		break;
 	case DLL_THREAD_ATTACH:
@@ -189,41 +190,41 @@ BOOL WINAPI DllMain (HINSTANCE hModule, DWORD ul_reason_for_call, LPVOID lpReser
 	return TRUE;
 }
 
-int __stdcall execute (char *infile, char *outfile, char *level, int comando1)
+int __stdcall execute(char *infile, char *outfile, char *level, int comando1)
 {
 	HANDLE myhandle;
 	__INT32_OR_INT64 ThreadId;
 	__INT32_OR_INT64 parameter = 1;
-	strcpy (myinfile, infile);
-	strcpy (myoutfile, outfile);
-	strcpy (mylevel, level);
+	strcpy(myinfile, infile);
+	strcpy(myoutfile, outfile);
+	strcpy(mylevel, level);
 	comando = comando1;
-	myhandle = CreateThread ((LPSECURITY_ATTRIBUTES) 0, (DWORD) 0, (LPTHREAD_START_ROUTINE) startapi, (LPVOID) parameter, (DWORD) 0, (LPDWORD) &ThreadId);
-	CloseHandle (myhandle);
+	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0, (DWORD)0, (void *)startapi, (LPVOID)parameter, (DWORD)0, (LPDWORD)&ThreadId);
+	CloseHandle(myhandle);
 	return 2;
 }
-static int getpor (int max, int fatia)
+static int getpor(int max, int fatia)
 {
 	float a;
-	a = (float) max;
-	
+	a = (float)max;
+
 	if (max == 0)
 	{
 		return 0;
 	}
-	a = ((float) 100 / max) * fatia;
-	return (int) a;
+	a = ((float)100 / max) * fatia;
+	return (int)a;
 }
-int __stdcall getprogress ()
+int __stdcall getprogress()
 {
 	int ret;
-	
-	if(1)//hack
-	{		
+
+	if (1) //hack
+	{
 		ret = get_multithread_progress();
 		pedro_dprintf(-1, "progress multithread %d\n", ret);
 	}
-	
+
 	if (ret > 10000)
 	{
 		ret = 10000;
@@ -234,18 +235,16 @@ int __stdcall getprogress ()
 	}
 	if (intstatus == 1)
 	{
-
 		if (ret > 9800)
 		{
 			ret = 9900;
 		}
-
 	}
 
 	return ret;
 }
 
-int __stdcall status (int newvalue)
+int __stdcall status(int newvalue)
 {
 	if (newvalue == 1)
 	{
@@ -255,157 +254,157 @@ int __stdcall status (int newvalue)
 	return intstatus;
 }
 
-int __stdcall interface1 (__INT32_OR_INT64 argumento1, __INT32_OR_INT64 argumento2, __INT32_OR_INT64 argumento3, __INT32_OR_INT64 argumento4)
+int __stdcall interface1(__INT32_OR_INT64 argumento1, __INT32_OR_INT64 argumento2, __INT32_OR_INT64 argumento3, __INT32_OR_INT64 argumento4)
 {
 	static char inputfile[255];
 	static char outputfile[255];
-	if (!strcmp ((char *) argumento1, "compress"))
+	if (!strcmp((char *)argumento1, "compress"))
 	{
 		modo = 0;
-		strcpy (inputfile, (char *) argumento2);
-		strcpy (outputfile, (char *) argumento3);
-		execute (inputfile, outputfile, (char *) argumento4, 0);  //0 compress 1 decompress
+		strcpy(inputfile, (char *)argumento2);
+		strcpy(outputfile, (char *)argumento3);
+		execute(inputfile, outputfile, (char *)argumento4, 0); //0 compress 1 decompress
 		return 1;
 	}
-	if (!strcmp ((char *) argumento1, "compressbzip3"))
+	if (!strcmp((char *)argumento1, "compressbzip3"))
 	{
 		modo = 1;
-		strcpy (inputfile, (char *) argumento2);
-		strcpy (outputfile, (char *) argumento3);
-		execute (inputfile, outputfile, (char *) argumento4, 2);  //0 compress 1 decompress
+		strcpy(inputfile, (char *)argumento2);
+		strcpy(outputfile, (char *)argumento3);
+		execute(inputfile, outputfile, (char *)argumento4, 2); //0 compress 1 decompress
 		return 1;
 	}
 
-	if (!strcmp ((char *) argumento1, "compressbzip3_k"))
+	if (!strcmp((char *)argumento1, "compressbzip3_k"))
 	{
 		modo = 1;
-		strcpy (inputfile, (char *) argumento2);
-		strcpy (outputfile, (char *) argumento3);
-		execute (inputfile, outputfile, (char *) argumento4, 4);  //0 compress 1 decompress
+		strcpy(inputfile, (char *)argumento2);
+		strcpy(outputfile, (char *)argumento3);
+		execute(inputfile, outputfile, (char *)argumento4, 4); //0 compress 1 decompress
 		return 1;
 	}
 
-	if (!strcmp ((char *) argumento1, "decompress"))
+	if (!strcmp((char *)argumento1, "decompress"))
 	{
 		modo = 0;
-		strcpy (inputfile, (char *) argumento2);
-		strcpy (outputfile, (char *) argumento3);
-		execute (inputfile, outputfile, (char *) argumento4, 1);  //0 compress 1 decompress
+		strcpy(inputfile, (char *)argumento2);
+		strcpy(outputfile, (char *)argumento3);
+		execute(inputfile, outputfile, (char *)argumento4, 1); //0 compress 1 decompress
 		return 1;
 	}
-	if (!strcmp ((char *) argumento1, "decompressbzip3"))
+	if (!strcmp((char *)argumento1, "decompressbzip3"))
 	{
 		modo = 1;
-		strcpy (inputfile, (char *) argumento2);
-		strcpy (outputfile, (char *) argumento3);
-		execute (inputfile, outputfile, (char *) argumento4, 3);  //0 compress 1 decompress
+		strcpy(inputfile, (char *)argumento2);
+		strcpy(outputfile, (char *)argumento3);
+		execute(inputfile, outputfile, (char *)argumento4, 3); //0 compress 1 decompress
 		return 1;
 	}
 
-	if (!strcmp ((char *) argumento1, "status"))
+	if (!strcmp((char *)argumento1, "status"))
 	{
-		return (status (argumento2));
+		return (status(argumento2));
 	}
 
-	if (!strcmp ((char *) argumento1, "getprogress"))
+	if (!strcmp((char *)argumento1, "getprogress"))
 	{
-		return (getprogress ());
+		return (getprogress());
 	}
-	if (!strcmp ((char *) argumento1, "bresume"))
+	if (!strcmp((char *)argumento1, "bresume"))
 	{
-		return (bresume ());
+		return (bresume());
 	}
-	if (!strcmp ((char *) argumento1, "pause"))
+	if (!strcmp((char *)argumento1, "pause"))
 	{
-		return (pause ());
+		return (pause());
 	}
-	if (!strcmp ((char *) argumento1, "cancel"))
+	if (!strcmp((char *)argumento1, "cancel"))
 	{
 		while (intstatus)
 		{
 #ifdef NPRINTF
-			dprintf (" loopenado no cancel\n");
+			dprintf(" loopenado no cancel\n");
 #endif
-			cancel ();
-			Sleep (50);
+			cancel();
+			Sleep(50);
 		};
-		return (cancel ());
+		return (cancel());
 	}
-	if (!strcmp ((char *) argumento1, "selectlibrary"))
+	if (!strcmp((char *)argumento1, "selectlibrary"))
 	{
-		strcpy (library, (char *) argumento2);
+		strcpy(library, (char *)argumento2);
 		return (3);
 	}
 
-	if (!strcmp ((char *) argumento1, "thestatus"))
+	if (!strcmp((char *)argumento1, "thestatus"))
 	{
 		return intstatus;
 	}
 
-	if (!strcmp ((char *) argumento1, "intreturn"))
+	if (!strcmp((char *)argumento1, "intreturn"))
 	{
 		return (intreturn);
 	}
 
-	if (!strcmp ((char *) argumento1, "setlevel"))
+	if (!strcmp((char *)argumento1, "setlevel"))
 	{
 		levelok = argumento2;
 #ifdef NPRINTF
-		dprintf ("compression level %d \n", levelok);
+		dprintf("compression level %d \n", levelok);
 #endif
 		return 0;
 	}
 
-	if (!strcmp ((char *) argumento1, "getcpuname"))
+	if (!strcmp((char *)argumento1, "getcpuname"))
 	{
-		strcpy ((char *) argumento2, getcpuname_k ());
+		strcpy((char *)argumento2, getcpuname_k());
 		return (0);
 	}
-	if (!strcmp ((char *) argumento1, "getbrandstring"))
+	if (!strcmp((char *)argumento1, "getbrandstring"))
 	{
-		strcpy((char *) argumento2, getprocessorbrandstring_k ());
+		strcpy((char *)argumento2, getprocessorbrandstring_k());
 		return (0);
 	}
 	return 15;
 }
 
 double _time;
-int __stdcall ControlName(char*data)
+int __stdcall ControlName(char *data)
 {
-	strcpy(data,"BW Bzip2 DLL " AMARIC__VERSION
+	strcpy(data, "BW Bzip2 DLL " AMARIC__VERSION
 #ifdef _WIN64
-	       " 64 bits ;-)"
+				 " 64 bits ;-)"
 #else
-	       " 32 bits ;-)"
+				 " 32 bits ;-)"
 #endif
-	       );
+	);
 	return 0;
 }
-int __stdcall GetCPUVendor(char*data)
+int __stdcall GetCPUVendor(char *data)
 {
-	interface1((__INT32_OR_INT64)"getcpuname", (__INT32_OR_INT64)data, 0, 0);
+	interface1((__INT32_OR_INT64) "getcpuname", (__INT32_OR_INT64)data, 0, 0);
 	return 0;
 }
 
-int __stdcall GetCPUBrandString(char*data)
+int __stdcall GetCPUBrandString(char *data)
 {
-	interface1((__INT32_OR_INT64)"getbrandstring", (__INT32_OR_INT64)data, 0, 0);
+	interface1((__INT32_OR_INT64) "getbrandstring", (__INT32_OR_INT64)data, 0, 0);
 	return 0;
 }
 
-void mprintf2 (char *format, ...)
+void mprintf2(char *format, ...)
 {
 	int val;
 	va_list args;
 	static char buffer[50000];
-	va_start (args, format);
-	vsprintf (buffer, format, args);
-	val = MessageBox (0, buffer, "BW", MB_OK | MB_TOPMOST);
+	va_start(args, format);
+	vsprintf(buffer, format, args);
+	val = MessageBox(0, buffer, "BW", MB_OK | MB_TOPMOST);
 
-	if (val != IDOK)//if amanda need to use it in a near future...
+	if (val != IDOK) //if amanda need to use it in a near future...
 	{
 		;
-	}	
+	}
 }
 
 int __stdcall About()
@@ -414,66 +413,66 @@ int __stdcall About()
 	return 0;
 }
 
-int __stdcall Compress(char*Inputfile,char*OutPutFile,int CompressionLevel)
+int __stdcall Compress(char *Inputfile, char *OutPutFile, int CompressionLevel)
 {
 	char level[300];
 	int ret;
-	unicodemode=0;
-	ret = interface1((__INT32_OR_INT64)"status", 0, 0, 0);
-	if (1==ret)
+	unicodemode = 0;
+	ret = interface1((__INT32_OR_INT64) "status", 0, 0, 0);
+	if (1 == ret)
 	{
 		return 7;
 	}
 
-	_time=(double)GetTickCount();
+	_time = (double)GetTickCount();
 
-	if( (CompressionLevel > 9) || (CompressionLevel < 0) )
+	if ((CompressionLevel > 9) || (CompressionLevel < 0))
 	{
 		return 1;
 	}
 
-	sprintf(level,"w%d",CompressionLevel);
+	sprintf(level, "w%d", CompressionLevel);
 
-	ret = interface1((__INT32_OR_INT64)"status", 1, 0, 0);
+	ret = interface1((__INT32_OR_INT64) "status", 1, 0, 0);
 
-	ret = interface1((__INT32_OR_INT64)"compress",(__INT32_OR_INT64)Inputfile, (__INT32_OR_INT64)OutPutFile, (__INT32_OR_INT64)level);
+	ret = interface1((__INT32_OR_INT64) "compress", (__INT32_OR_INT64)Inputfile, (__INT32_OR_INT64)OutPutFile, (__INT32_OR_INT64)level);
 
 	return 0;
 }
 
 int __stdcall GetStatus()
 {
-	return interface1((__INT32_OR_INT64)"status", 0, 0, 0);
+	return interface1((__INT32_OR_INT64) "status", 0, 0, 0);
 }
 
 int __stdcall GetReturnValue()
 {
-	return interface1((__INT32_OR_INT64)"intreturn", 0, 0, 0);
+	return interface1((__INT32_OR_INT64) "intreturn", 0, 0, 0);
 }
 
 double
-dgetval (double maxa, double porr)
+dgetval(double maxa, double porr)
 {
 	maxa = (maxa / 100) * porr;
 	return maxa;
 }
 
-double                          // pegar o maximo a partir da porcentagem
-dgetmax (double por, double fatia)
+double // pegar o maximo a partir da porcentagem
+dgetmax(double por, double fatia)
 {
 	double a;
 	double b;
-	a = (double) por;
-	b = (double) fatia;
+	a = (double)por;
+	b = (double)fatia;
 	if (por == 0.0)
 	{
 		return 0.0;
 	}
-	a = (b / a) * (float) 100.0;
-	return (double) a;
+	a = (b / a) * (float)100.0;
+	return (double)a;
 }
 
-double dgetpor (double maxa, double fatiaa)
+double dgetpor(double maxa, double fatiaa)
 {
 
 	if (maxa == 0)
@@ -481,98 +480,97 @@ double dgetpor (double maxa, double fatiaa)
 		return 0;
 	}
 
-	maxa = ((double) 100.0 / maxa * fatiaa);
+	maxa = ((double)100.0 / maxa * fatiaa);
 
-	return (double) maxa;
-
+	return (double)maxa;
 }
 
-int
-secondtostring (double value,char*data)
+int secondtostring(double value, char *data)
 {
-//[closed?]
+	//[closed?]
 	unsigned int frame;
 	unsigned int ret;
 	unsigned int seg;
 	unsigned int min;
 	unsigned int hour;
-	ret = (unsigned int) value;
+	ret = (unsigned int)value;
 	frame = ret % 1000;
 	ret = ret / 1000;
 	seg = ret % 60;
-	ret = ret / 60;         // minutos
+	ret = ret / 60; // minutos
 	min = ret % 60;
-	ret = ret / 60;         // horas
+	ret = ret / 60; // horas
 	hour = ret % 100;
-	sprintf (data, "%02d:%02d:%02d:%03d", hour, min, seg, frame);
+	sprintf(data, "%02d:%02d:%02d:%03d", hour, min, seg, frame);
 	return 0;
 }
 
 int __stdcall GetProgress();
-int __stdcall GetTimeToFinish(char*data)
+int __stdcall GetTimeToFinish(char *data)
 {
-	void dprintf3 (char *format, ...);
+	void dprintf3(char *format, ...);
 	double dret;
 	double dporcentagem;
 
 	double desloca = (double)GetTickCount();
 
-	dporcentagem=(double) GetProgress();
+	dporcentagem = (double)GetProgress();
 
-	dret=dgetmax(dporcentagem,desloca-_time);
+	dret = dgetmax(dporcentagem, desloca - _time);
 #ifdef NPRINTF
-	dprintf("valor %f\n",dret);
+	dprintf("valor %f\n", dret);
 #endif
-	dret=dret-(desloca-_time);
+	dret = dret - (desloca - _time);
 
-	secondtostring(dret,data);
+	secondtostring(dret, data);
 #ifdef NPRINTF
-	dprintf("valor2 %s\n",data);
+	dprintf("valor2 %s\n", data);
 #endif
 	return 0;
 }
 
 int __stdcall GetProgress()
 {
-	return interface1((__INT32_OR_INT64)"getprogress", 0, 0, 0);
+	return interface1((__INT32_OR_INT64) "getprogress", 0, 0, 0);
 }
 
-int __stdcall Compresslz5(char*Inputfile,char*OutPutFile,int CompressionLevel)
+int __stdcall Compresslz5(char *Inputfile, char *OutPutFile, int CompressionLevel)
 {
 	char level[300];
 	int ret;
-	unicodemode=1;
-	ret = interface1((__INT32_OR_INT64)"status", 0, 0, 0);
+	unicodemode = 1;
+	ret = interface1((__INT32_OR_INT64) "status", 0, 0, 0);
 
-	if (1==ret) {
+	if (1 == ret)
+	{
 
 		return 7;
 	}
 
-	_time=(double)GetTickCount();
+	_time = (double)GetTickCount();
 
-	if( (CompressionLevel > 9) || (CompressionLevel < 0) )
+	if ((CompressionLevel > 9) || (CompressionLevel < 0))
 	{
 		return 1;
 	}
 
-	sprintf(level,"w%d",CompressionLevel);
+	sprintf(level, "w%d", CompressionLevel);
 
-	interface1((__INT32_OR_INT64)"setlevel", CompressionLevel, CompressionLevel, CompressionLevel);
+	interface1((__INT32_OR_INT64) "setlevel", CompressionLevel, CompressionLevel, CompressionLevel);
 
-	ret = interface1((__INT32_OR_INT64)"status", 1, 0, 0);
+	ret = interface1((__INT32_OR_INT64) "status", 1, 0, 0);
 
-	ret = interface1((__INT32_OR_INT64)"compressbzip3",(__INT32_OR_INT64)Inputfile, (__INT32_OR_INT64)OutPutFile, (__INT32_OR_INT64)level);
+	ret = interface1((__INT32_OR_INT64) "compressbzip3", (__INT32_OR_INT64)Inputfile, (__INT32_OR_INT64)OutPutFile, (__INT32_OR_INT64)level);
 
 	return 0;
 }
 
-int __stdcall CompressLz5_k(char*Inputfile,char*OutPutFile,int CompressionLevel)
+int __stdcall CompressLz5_k(char *Inputfile, char *OutPutFile, int CompressionLevel)
 {
 	char level[300];
 	int ret;
-	unicodemode=1;
-	ret = interface1((__INT32_OR_INT64)"status", 0, 0, 0);
+	unicodemode = 1;
+	ret = interface1((__INT32_OR_INT64) "status", 0, 0, 0);
 
 	if (1 == ret)
 	{
@@ -581,70 +579,71 @@ int __stdcall CompressLz5_k(char*Inputfile,char*OutPutFile,int CompressionLevel)
 	/*
 		_time=(double)GetTickCount();
 	*/
-	if( (CompressionLevel > 9) || (CompressionLevel < 0) )
+	if ((CompressionLevel > 9) || (CompressionLevel < 0))
 	{
 		return 100;
 	}
 
-	sprintf(level,"w%d",CompressionLevel);
+	sprintf(level, "w%d", CompressionLevel);
 
-	interface1((__INT32_OR_INT64)"setlevel", CompressionLevel, CompressionLevel, CompressionLevel);
+	interface1((__INT32_OR_INT64) "setlevel", CompressionLevel, CompressionLevel, CompressionLevel);
 
-	ret = interface1((__INT32_OR_INT64)"status", 1, 0, 0);
+	ret = interface1((__INT32_OR_INT64) "status", 1, 0, 0);
 
-	ret = interface1((__INT32_OR_INT64)"compressbzip3_k",(__INT32_OR_INT64)Inputfile, (__INT32_OR_INT64)OutPutFile, (__INT32_OR_INT64)level);
-
+	ret = interface1((__INT32_OR_INT64) "compressbzip3_k", (__INT32_OR_INT64)Inputfile, (__INT32_OR_INT64)OutPutFile, (__INT32_OR_INT64)level);
 
 volta_arp:;
 
-	ret = interface1((__INT32_OR_INT64)"status", 0, 0, 0);
+	ret = interface1((__INT32_OR_INT64) "status", 0, 0, 0);
 
-		if (1 == ret) {
+	if (1 == ret)
+	{
 
-			Sleep(50);
-			goto volta_arp;
-		}
+		Sleep(50);
+		goto volta_arp;
+	}
 
 	return GetReturnValue();
-
 }
 
 int __stdcall PauseCompress()
 {
-	return interface1((__INT32_OR_INT64)"pause", 0, 0, 0);
+	return interface1((__INT32_OR_INT64) "pause", 0, 0, 0);
 }
 int __stdcall ResumeCompress()
 {
-	return interface1((__INT32_OR_INT64)"bresume", 0, 0, 0);
+	return interface1((__INT32_OR_INT64) "bresume", 0, 0, 0);
 }
 int __stdcall CancelCompress()
 {
-	return interface1((__INT32_OR_INT64)"cancel", 0, 0, 0);
+	return interface1((__INT32_OR_INT64) "cancel", 0, 0, 0);
 }
 
-int __stdcall Decompress(char*Inputfile,char*OutPutFile)
+int __stdcall Decompress(char *Inputfile, char *OutPutFile)
 {
 	int ret;
-	unicodemode=0;
-	ret = interface1((__INT32_OR_INT64)"status", 0, 0, 0);
+	unicodemode = 0;
+	ret = interface1((__INT32_OR_INT64) "status", 0, 0, 0);
 
-	if (1==ret) {
+	if (1 == ret)
+	{
 
 		return 7;
 	}
-	_time=(double)GetTickCount();
-	ret = interface1((__INT32_OR_INT64)"status", 1, 0, 0);
-	ret = interface1((__INT32_OR_INT64)"decompress",(__INT32_OR_INT64)Inputfile, (__INT32_OR_INT64)OutPutFile, (__INT32_OR_INT64)"w9");
+	_time = (double)GetTickCount();
+	ret = interface1((__INT32_OR_INT64) "status", 1, 0, 0);
+	ret = interface1((__INT32_OR_INT64) "decompress", (__INT32_OR_INT64)Inputfile, (__INT32_OR_INT64)OutPutFile, (__INT32_OR_INT64) "w9");
 	return 0;
 }
 
-int __stdcall DecompressLz5(char*Inputfile,char*OutPutFile)
+int __stdcall DecompressLz5(char *Inputfile, char *OutPutFile)
 {
 	int ret;
 	unicodemode = 1;
-	ret = interface1((__INT32_OR_INT64)"status", 0, 0, 0);
+	ret = interface1((__INT32_OR_INT64) "status", 0, 0, 0);
 
-	if (1==ret) {
+	if (1 == ret)
+	{
 
 		return 77;
 	}
@@ -653,26 +652,25 @@ int __stdcall DecompressLz5(char*Inputfile,char*OutPutFile)
 		_time=(double)GetTickCount();
 	
 	*/
-	ret = interface1((__INT32_OR_INT64)"status", 1, 0, 0);
+	ret = interface1((__INT32_OR_INT64) "status", 1, 0, 0);
 
-	ret = interface1((__INT32_OR_INT64)"decompressbzip3",(__INT32_OR_INT64)Inputfile, (__INT32_OR_INT64)OutPutFile, (__INT32_OR_INT64)"w9");
-
+	ret = interface1((__INT32_OR_INT64) "decompressbzip3", (__INT32_OR_INT64)Inputfile, (__INT32_OR_INT64)OutPutFile, (__INT32_OR_INT64) "w9");
 
 volta_arp:;
 
-ret = interface1((__INT32_OR_INT64)"status", 0, 0, 0);
+	ret = interface1((__INT32_OR_INT64) "status", 0, 0, 0);
 
-	if (1 == ret) {
+	if (1 == ret)
+	{
 
 		Sleep(50);
 		goto volta_arp;
 	}
 
-return GetReturnValue();
-
+	return GetReturnValue();
 }
 
-int __stdcall stringtobyte (unsigned char *dest, unsigned char *src, int len)
+int __stdcall stringtobyte(unsigned char *dest, unsigned char *src, int len)
 {
 	int i;
 	for (i = 0; i < len; i++)
@@ -681,7 +679,7 @@ int __stdcall stringtobyte (unsigned char *dest, unsigned char *src, int len)
 	}
 	return 0;
 }
-int __stdcall bytetostring (unsigned char *dest, unsigned char *src, int len)
+int __stdcall bytetostring(unsigned char *dest, unsigned char *src, int len)
 {
 	int i;
 	for (i = 0; i < len; i++)
@@ -703,11 +701,11 @@ int __stdcall bytetostring (unsigned char *dest, unsigned char *src, int len)
 *
 *
 */
-int __stdcall compress_l5___rspk_ar(char * Input_amanda_file, char * OutPut_ricardo_File, int Compression_juliete_Level, int n_threads_z__, char *temp_path_z__)
+int __stdcall compress_l5___rspk_ar(char *Input_amanda_file, char *OutPut_ricardo_File, int Compression_juliete_Level, int n_threads_z__, char *temp_path_z__)
 {
 	pedro_dprintf(-1, "dentro\n");
-	is_multi_thread_z = false         ;
-	n_threads_z = n_threads_z__       ;	
+	is_multi_thread_z = false;
+	n_threads_z = n_threads_z__;
 	strcpy(temp_path_z, temp_path_z__);
 	return CompressLz5_k(Input_amanda_file, OutPut_ricardo_File, Compression_juliete_Level);
 }
@@ -731,10 +729,10 @@ int __stdcall compress_l5___rspk_ar(char * Input_amanda_file, char * OutPut_rica
 *
 *
 */
-int __stdcall uncompress_l5___rspk_ar(char * Inputfile_arp, char * OutPutFile_arp, int n_threads_z__ /* number of threads to use */, char *temp_path_z_S2__, int * cores_used_z__)
+int __stdcall uncompress_l5___rspk_ar(char *Inputfile_arp, char *OutPutFile_arp, int n_threads_z__ /* number of threads to use */, char *temp_path_z_S2__, int *cores_used_z__)
 {
-	n_threads_z = n_threads_z__          ;
-	cores_used_z         = cores_used_z__;
+	n_threads_z = n_threads_z__;
+	cores_used_z = cores_used_z__;
 	assert(cores_used_z);
 	strcpy(temp_path_z, temp_path_z_S2__);
 	is_multi_thread_z = false;
@@ -749,7 +747,7 @@ int __stdcall get_progress_l5___ar(void)
 int __stdcall pause_l5___aakp_l5___ar(void)
 {
 	PauseCompress();
-	return 0; 
+	return 0;
 }
 
 int __stdcall resume_l5___aakp_l5___ar(void)

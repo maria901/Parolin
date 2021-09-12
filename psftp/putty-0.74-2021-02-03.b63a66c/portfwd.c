@@ -14,17 +14,19 @@
  * Enumeration of values that live in the 'socks_state' field of
  * struct PortForwarding.
  */
-typedef enum {
-    SOCKS_NONE, /* direct connection (no SOCKS, or SOCKS already done) */
-    SOCKS_INITIAL,       /* don't know if we're SOCKS 4 or 5 yet */
-    SOCKS_4,             /* expect a SOCKS 4 (or 4A) connection message */
-    SOCKS_5_INITIAL,     /* expect a SOCKS 5 preliminary message */
-    SOCKS_5_CONNECT      /* expect a SOCKS 5 connection message */
+typedef enum
+{
+    SOCKS_NONE,      /* direct connection (no SOCKS, or SOCKS already done) */
+    SOCKS_INITIAL,   /* don't know if we're SOCKS 4 or 5 yet */
+    SOCKS_4,         /* expect a SOCKS 4 (or 4A) connection message */
+    SOCKS_5_INITIAL, /* expect a SOCKS 5 preliminary message */
+    SOCKS_5_CONNECT  /* expect a SOCKS 5 connection message */
 } SocksState;
 
-typedef struct PortForwarding {
-    SshChannel *c;         /* channel structure held by SSH connection layer */
-    ConnectionLayer *cl;   /* the connection layer itself */
+typedef struct PortForwarding
+{
+    SshChannel *c;       /* channel structure held by SSH connection layer */
+    ConnectionLayer *cl; /* the connection layer itself */
     /* Note that ssh need not be filled in if c is non-NULL */
     Socket *s;
     bool input_wanted;
@@ -48,7 +50,8 @@ typedef struct PortForwarding {
     Channel chan;
 } PortForwarding;
 
-struct PortListener {
+struct PortListener
+{
     ConnectionLayer *cl;
     Socket *s;
     bool is_dynamic;
@@ -115,13 +118,17 @@ static void pfd_closing(Plug *plug, const char *error_msg, int error_code,
     struct PortForwarding *pf =
         container_of(plug, struct PortForwarding, plug);
 
-    if (error_msg) {
+    if (error_msg)
+    {
         /*
          * Socket error. Slam the connection instantly shut.
          */
-        if (pf->c) {
+        if (pf->c)
+        {
             sshfwd_initiate_close(pf->c, error_msg);
-        } else {
+        }
+        else
+        {
             /*
              * We might not have an SSH channel, if a socket error
              * occurred during SOCKS negotiation. If not, we must
@@ -130,7 +137,9 @@ static void pfd_closing(Plug *plug, const char *error_msg, int error_code,
              */
             pfd_close(pf);
         }
-    } else {
+    }
+    else
+    {
         /*
          * Ordinary EOF received on socket. Send an EOF on the SSH
          * channel.
@@ -145,7 +154,7 @@ static void pfl_terminate(struct PortListener *pl);
 static void pfl_closing(Plug *plug, const char *error_msg, int error_code,
                         bool calling_back)
 {
-    struct PortListener *pl = (struct PortListener *) plug;
+    struct PortListener *pl = (struct PortListener *)plug;
     pfl_terminate(pl);
 }
 
@@ -158,9 +167,12 @@ static SshChannel *wrap_lportfwd_open(
     SshChannel *toret;
 
     pi = sk_peer_info(s);
-    if (pi && pi->log_text) {
+    if (pi && pi->log_text)
+    {
         description = dupprintf("forwarding from %s", pi->log_text);
-    } else {
+    }
+    else
+    {
         description = dupstr("forwarding");
     }
     toret = ssh_lportfwd_open(cl, hostname, port, description, pi, chan);
@@ -174,7 +186,7 @@ static char *ipv4_to_string(unsigned ipv4)
 {
     return dupprintf("%u.%u.%u.%u",
                      (ipv4 >> 24) & 0xFF, (ipv4 >> 16) & 0xFF,
-                     (ipv4 >>  8) & 0xFF, (ipv4      ) & 0xFF);
+                     (ipv4 >> 8) & 0xFF, (ipv4)&0xFF);
 }
 
 static char *ipv6_to_string(ptrlen ipv6)
@@ -200,7 +212,8 @@ static void pfd_receive(Plug *plug, int urgent, const char *data, size_t len)
     if (len == 0)
         return;
 
-    if (pf->socks_state != SOCKS_NONE) {
+    if (pf->socks_state != SOCKS_NONE)
+    {
         BinarySource src[1];
 
         /*
@@ -213,19 +226,21 @@ static void pfd_receive(Plug *plug, int urgent, const char *data, size_t len)
          * complete message in the SOCKS exchange.
          */
 
-        if (pf->socks_state == SOCKS_INITIAL) {
+        if (pf->socks_state == SOCKS_INITIAL)
+        {
             /* Preliminary: check the first byte of the data (which we
              * _must_ have by now) to find out which SOCKS major
              * version we're speaking. */
-            switch (pf->socksbuf->u[0]) {
-              case 4:
+            switch (pf->socksbuf->u[0])
+            {
+            case 4:
                 pf->socks_state = SOCKS_4;
                 break;
-              case 5:
+            case 5:
                 pf->socks_state = SOCKS_5_INITIAL;
                 break;
-              default:
-                pfd_close(pf);         /* unrecognised version */
+            default:
+                pfd_close(pf); /* unrecognised version */
                 return;
             }
         }
@@ -233,32 +248,36 @@ static void pfd_receive(Plug *plug, int urgent, const char *data, size_t len)
         BinarySource_BARE_INIT(src, pf->socksbuf->u, pf->socksbuf->len);
         get_data(src, pf->socksbuf_consumed);
 
-        while (pf->socks_state != SOCKS_NONE) {
+        while (pf->socks_state != SOCKS_NONE)
+        {
             unsigned socks_version, message_type, reserved_byte;
             unsigned reply_code, port, ipv4, method;
             ptrlen methods;
             const char *socks4_hostname;
             strbuf *output;
 
-            switch (pf->socks_state) {
-              case SOCKS_INITIAL:
-              case SOCKS_NONE:
+            switch (pf->socks_state)
+            {
+            case SOCKS_INITIAL:
+            case SOCKS_NONE:
                 unreachable("These case values cannot appear");
 
-              case SOCKS_4:
+            case SOCKS_4:
                 /* SOCKS 4/4A connect message */
                 socks_version = get_byte(src);
                 message_type = get_byte(src);
 
                 if (get_err(src) == BSE_OUT_OF_DATA)
                     return;
-                if (socks_version == 4 && message_type == 1) {
+                if (socks_version == 4 && message_type == 1)
+                {
                     /* CONNECT message */
                     bool name_based = false;
 
                     port = get_uint16(src);
                     ipv4 = get_uint32(src);
-                    if (ipv4 > 0x00000000 && ipv4 < 0x00000100) {
+                    if (ipv4 > 0x00000000 && ipv4 < 0x00000100)
+                    {
                         /*
                          * Addresses in this range indicate the SOCKS 4A
                          * extension to specify a hostname, which comes
@@ -266,7 +285,7 @@ static void pfd_receive(Plug *plug, int urgent, const char *data, size_t len)
                          */
                         name_based = true;
                     }
-                    get_asciz(src);        /* skip username */
+                    get_asciz(src); /* skip username */
                     socks4_hostname = name_based ? get_asciz(src) : NULL;
 
                     if (get_err(src) == BSE_OUT_OF_DATA)
@@ -275,17 +294,20 @@ static void pfd_receive(Plug *plug, int urgent, const char *data, size_t len)
                         goto socks4_reject;
 
                     pf->port = port;
-                    if (name_based) {
+                    if (name_based)
+                    {
                         pf->hostname = dupstr(socks4_hostname);
-                    } else {
+                    }
+                    else
+                    {
                         pf->hostname = ipv4_to_string(ipv4);
                     }
 
                     output = strbuf_new();
-                    put_byte(output, 0);       /* reply version */
-                    put_byte(output, 90);      /* SOCKS 4 'request granted' */
-                    put_uint16(output, 0);     /* null port field */
-                    put_uint32(output, 0);     /* null address field */
+                    put_byte(output, 0);   /* reply version */
+                    put_byte(output, 90);  /* SOCKS 4 'request granted' */
+                    put_uint16(output, 0); /* null port field */
+                    put_uint32(output, 0); /* null address field */
                     sk_write(pf->s, output->u, output->len);
                     strbuf_free(output);
 
@@ -294,28 +316,30 @@ static void pfd_receive(Plug *plug, int urgent, const char *data, size_t len)
                     break;
                 }
 
-              socks4_reject:
+            socks4_reject:
                 output = strbuf_new();
-                put_byte(output, 0);       /* reply version */
-                put_byte(output, 91);      /* SOCKS 4 'request rejected' */
-                put_uint16(output, 0);     /* null port field */
-                put_uint32(output, 0);     /* null address field */
+                put_byte(output, 0);   /* reply version */
+                put_byte(output, 91);  /* SOCKS 4 'request rejected' */
+                put_uint16(output, 0); /* null port field */
+                put_uint32(output, 0); /* null address field */
                 sk_write(pf->s, output->u, output->len);
                 strbuf_free(output);
                 pfd_close(pf);
                 return;
 
-              case SOCKS_5_INITIAL:
+            case SOCKS_5_INITIAL:
                 /* SOCKS 5 initial method list */
                 socks_version = get_byte(src);
                 methods = get_pstring(src);
 
-                method = 0xFF;         /* means 'no usable method found' */
+                method = 0xFF; /* means 'no usable method found' */
                 {
                     int i;
-                    for (i = 0; i < methods.len; i++) {
-                        if (((const unsigned char *)methods.ptr)[i] == 0 ) {
-                            method = 0;        /* no auth */
+                    for (i = 0; i < methods.len; i++)
+                    {
+                        if (((const unsigned char *)methods.ptr)[i] == 0)
+                        {
+                            method = 0; /* no auth */
                             break;
                         }
                     }
@@ -327,12 +351,13 @@ static void pfd_receive(Plug *plug, int urgent, const char *data, size_t len)
                     method = 0xFF;
 
                 output = strbuf_new();
-                put_byte(output, 5);       /* SOCKS version */
-                put_byte(output, method);  /* selected auth method */
+                put_byte(output, 5);      /* SOCKS version */
+                put_byte(output, method); /* selected auth method */
                 sk_write(pf->s, output->u, output->len);
                 strbuf_free(output);
 
-                if (method == 0xFF) {
+                if (method == 0xFF)
+                {
                     pfd_close(pf);
                     return;
                 }
@@ -341,54 +366,59 @@ static void pfd_receive(Plug *plug, int urgent, const char *data, size_t len)
                 pf->socksbuf_consumed = src->pos;
                 break;
 
-              case SOCKS_5_CONNECT:
+            case SOCKS_5_CONNECT:
                 /* SOCKS 5 connect message */
                 socks_version = get_byte(src);
                 message_type = get_byte(src);
                 reserved_byte = get_byte(src);
 
                 if (socks_version == 5 && message_type == 1 &&
-                    reserved_byte == 0) {
+                    reserved_byte == 0)
+                {
 
-                    reply_code = 0;        /* success */
+                    reply_code = 0; /* success */
 
-                    switch (get_byte(src)) {
-                      case 1:              /* IPv4 */
+                    switch (get_byte(src))
+                    {
+                    case 1: /* IPv4 */
                         pf->hostname = ipv4_to_string(get_uint32(src));
                         break;
-                      case 4:              /* IPv6 */
+                    case 4: /* IPv6 */
                         pf->hostname = ipv6_to_string(get_data(src, 16));
                         break;
-                      case 3:              /* unresolved domain name */
+                    case 3: /* unresolved domain name */
                         pf->hostname = mkstr(get_pstring(src));
                         break;
-                      default:
+                    default:
                         pf->hostname = NULL;
-                        reply_code = 8;    /* address type not supported */
+                        reply_code = 8; /* address type not supported */
                         break;
                     }
 
                     pf->port = get_uint16(src);
-                } else {
-                    reply_code = 7;        /* command not supported */
+                }
+                else
+                {
+                    reply_code = 7; /* command not supported */
                 }
 
                 if (get_err(src) == BSE_OUT_OF_DATA)
                     return;
                 if (get_err(src))
-                    reply_code = 1;        /* general server failure */
+                    reply_code = 1; /* general server failure */
 
                 output = strbuf_new();
-                put_byte(output, 5);       /* SOCKS version */
+                put_byte(output, 5); /* SOCKS version */
                 put_byte(output, reply_code);
-                put_byte(output, 0);       /* reserved */
-                put_byte(output, 1);       /* IPv4 address follows */
-                put_uint32(output, 0);     /* bound IPv4 address (unused) */
-                put_uint16(output, 0);     /* bound port number (unused) */
+                put_byte(output, 0);   /* reserved */
+                put_byte(output, 1);   /* IPv4 address follows */
+                put_uint32(output, 0); /* bound IPv4 address (unused) */
+                put_uint16(output, 0); /* bound port number (unused) */
                 sk_write(pf->s, output->u, output->len);
                 strbuf_free(output);
 
-                if (reply_code != 0) {
+                if (reply_code != 0)
+                {
                     pfd_close(pf);
                     return;
                 }
@@ -524,21 +554,25 @@ static int pfl_accepting(Plug *p, accept_fn_t constructor, accept_ctx_t ctx)
 
     chan = portfwd_raw_new(pl->cl, &plug, false);
     s = constructor(ctx, plug);
-    if ((err = sk_socket_error(s)) != NULL) {
+    if ((err = sk_socket_error(s)) != NULL)
+    {
         portfwd_raw_free(chan);
         return 1;
     }
 
     pf = container_of(chan, struct PortForwarding, chan);
 
-    if (pl->is_dynamic) {
+    if (pl->is_dynamic)
+    {
         pf->s = s;
         pf->socks_state = SOCKS_INITIAL;
         pf->socksbuf = strbuf_new();
         pf->socksbuf_consumed = 0;
-        pf->port = 0;                  /* "hostname" buffer is so far empty */
-        sk_set_frozen(s, false);       /* we want to receive SOCKS _now_! */
-    } else {
+        pf->port = 0;            /* "hostname" buffer is so far empty */
+        sk_set_frozen(s, false); /* we want to receive SOCKS _now_! */
+    }
+    else
+    {
         pf->hostname = dupstr(pl->hostname);
         pf->port = pl->port;
         portfwd_raw_setup(
@@ -576,18 +610,21 @@ static char *pfl_listen(const char *desthost, int destport,
      */
     pl = *pl_ret = new_portlistener_state();
     pl->plug.vt = &PortListener_plugvt;
-    if (desthost) {
+    if (desthost)
+    {
         pl->hostname = dupstr(desthost);
         pl->port = destport;
         pl->is_dynamic = false;
-    } else
+    }
+    else
         pl->is_dynamic = true;
     pl->cl = cl;
 
     pl->s = new_listener(srcaddr, port, &pl->plug,
                          !conf_get_bool(conf, CONF_lport_acceptall),
                          conf, address_family);
-    if ((err = sk_socket_error(pl->s)) != NULL) {
+    if ((err = sk_socket_error(pl->s)) != NULL)
+    {
         char *err_ret = dupstr(err);
         sk_close(pl->s);
         free_portlistener_state(pl);
@@ -665,7 +702,8 @@ static void pfd_open_confirmation(Channel *chan)
     pf->ready = true;
     sk_set_frozen(pf->s, false);
     sk_write(pf->s, NULL, 0);
-    if (pf->socksbuf) {
+    if (pf->socksbuf)
+    {
         sshfwd_write(pf->c, pf->socksbuf->u + pf->socksbuf_consumed,
                      pf->socksbuf->len - pf->socksbuf_consumed);
         strbuf_free(pf->socksbuf);
@@ -688,8 +726,14 @@ static void pfd_open_failure(Channel *chan, const char *errtext)
  * forwardings, and update it from Conf.
  */
 
-struct PortFwdRecord {
-    enum { DESTROY, KEEP, CREATE } status;
+struct PortFwdRecord
+{
+    enum
+    {
+        DESTROY,
+        KEEP,
+        CREATE
+    } status;
     int type;
     unsigned sport, dport;
     char *saddr, *daddr;
@@ -701,8 +745,8 @@ struct PortFwdRecord {
 
 static int pfr_cmp(void *av, void *bv)
 {
-    PortFwdRecord *a = (PortFwdRecord *) av;
-    PortFwdRecord *b = (PortFwdRecord *) bv;
+    PortFwdRecord *a = (PortFwdRecord *)av;
+    PortFwdRecord *b = (PortFwdRecord *)bv;
     int i;
     if (a->type > b->type)
         return +1;
@@ -712,14 +756,15 @@ static int pfr_cmp(void *av, void *bv)
         return +1;
     if (a->addressfamily < b->addressfamily)
         return -1;
-    if ( (i = nullstrcmp(a->saddr, b->saddr)) != 0)
+    if ((i = nullstrcmp(a->saddr, b->saddr)) != 0)
         return i < 0 ? -1 : +1;
     if (a->sport > b->sport)
         return +1;
     if (a->sport < b->sport)
         return -1;
-    if (a->type != 'D') {
-        if ( (i = nullstrcmp(a->daddr, b->daddr)) != 0)
+    if (a->type != 'D')
+    {
+        if ((i = nullstrcmp(a->daddr, b->daddr)) != 0)
             return i < 0 ? -1 : +1;
         if (a->dport > b->dport)
             return +1;
@@ -742,7 +787,8 @@ static void pfr_free(PortFwdRecord *pfr)
     sfree(pfr);
 }
 
-struct PortFwdManager {
+struct PortFwdManager
+{
     ConnectionLayer *cl;
     Conf *conf;
     tree234 *forwardings;
@@ -805,7 +851,8 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
 
     for (val = conf_get_str_strs(conf, CONF_portfwd, NULL, &key);
          val != NULL;
-         val = conf_get_str_strs(conf, CONF_portfwd, key, &key)) {
+         val = conf_get_str_strs(conf, CONF_portfwd, key, &key))
+    {
         char *kp, *kp2, *vp, *vp2;
         char address_family, type;
         int sport, dport, sserv, dserv;
@@ -820,7 +867,8 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
         if (*kp == 'L' || *kp == 'R')
             type = *kp++;
 
-        if ((kp2 = host_strchr(kp, ':')) != NULL) {
+        if ((kp2 = host_strchr(kp, ':')) != NULL)
+        {
             /*
              * There's a colon in the middle of the source port
              * string, which means that the part before it is
@@ -829,30 +877,38 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
             char *saddr_tmp = dupprintf("%.*s", (int)(kp2 - kp), kp);
             saddr = host_strduptrim(saddr_tmp);
             sfree(saddr_tmp);
-            sports = kp2+1;
-        } else {
+            sports = kp2 + 1;
+        }
+        else
+        {
             saddr = NULL;
             sports = kp;
         }
         sport = atoi(sports);
         sserv = 0;
-        if (sport == 0) {
+        if (sport == 0)
+        {
             sserv = 1;
             sport = net_service_lookup(sports);
-            if (!sport) {
+            if (!sport)
+            {
                 logeventf(mgr->cl->logctx, "Service lookup failed for source"
-                          " port \"%s\"", sports);
+                                           " port \"%s\"",
+                          sports);
             }
         }
 
-        if (type == 'L' && !strcmp(val, "D")) {
+        if (type == 'L' && !strcmp(val, "D"))
+        {
             /* dynamic forwarding */
             host = NULL;
             dports = NULL;
             dport = -1;
             dserv = 0;
             type = 'D';
-        } else {
+        }
+        else
+        {
             /* ordinary forwarding */
             vp = val;
             vp2 = vp + host_strcspn(vp, ":");
@@ -862,18 +918,22 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
             dports = vp2;
             dport = atoi(dports);
             dserv = 0;
-            if (dport == 0) {
+            if (dport == 0)
+            {
                 dserv = 1;
                 dport = net_service_lookup(dports);
-                if (!dport) {
+                if (!dport)
+                {
                     logeventf(mgr->cl->logctx,
                               "Service lookup failed for destination"
-                              " port \"%s\"", dports);
+                              " port \"%s\"",
+                              dports);
                 }
             }
         }
 
-        if (sport && dport) {
+        if (sport && dport)
+        {
             /* Set up a description of the source port. */
             pfr = snew(PortFwdRecord);
             pfr->type = type;
@@ -885,13 +945,14 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
             pfr->dport = dport;
             pfr->local = NULL;
             pfr->remote = NULL;
-            pfr->addressfamily = (address_family == '4' ? ADDRTYPE_IPV4 :
-                                  address_family == '6' ? ADDRTYPE_IPV6 :
-                                  ADDRTYPE_UNSPEC);
+            pfr->addressfamily = (address_family == '4' ? ADDRTYPE_IPV4 : address_family == '6' ? ADDRTYPE_IPV6
+                                                                                                : ADDRTYPE_UNSPEC);
 
             PortFwdRecord *existing = add234(mgr->forwardings, pfr);
-            if (existing != pfr) {
-                if (existing->status == DESTROY) {
+            if (existing != pfr)
+            {
+                if (existing->status == DESTROY)
+                {
                     /*
                      * We already have a port forwarding up and running
                      * with precisely these parameters. Hence, no need
@@ -905,10 +966,14 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
                  * in our input, which we'll silently ignore.
                  */
                 pfr_free(pfr);
-            } else {
+            }
+            else
+            {
                 pfr->status = CREATE;
             }
-        } else {
+        }
+        else
+        {
             sfree(saddr);
             sfree(host);
         }
@@ -918,18 +983,21 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
      * Now go through and destroy any port forwardings which were
      * not re-enabled.
      */
-    for (i = 0; (pfr = index234(mgr->forwardings, i)) != NULL; i++) {
-        if (pfr->status == DESTROY) {
+    for (i = 0; (pfr = index234(mgr->forwardings, i)) != NULL; i++)
+    {
+        if (pfr->status == DESTROY)
+        {
             char *message;
 
             message = dupprintf("%s port forwarding from %s%s%d",
-                                pfr->type == 'L' ? "local" :
-                                pfr->type == 'R' ? "remote" : "dynamic",
+                                pfr->type == 'L' ? "local" : pfr->type == 'R' ? "remote"
+                                                                              : "dynamic",
                                 pfr->saddr ? pfr->saddr : "",
                                 pfr->saddr ? ":" : "",
                                 pfr->sport);
 
-            if (pfr->type != 'D') {
+            if (pfr->type != 'D')
+            {
                 char *msg2 = dupprintf("%s to %s:%d", message,
                                        pfr->daddr, pfr->dport);
                 sfree(message);
@@ -941,7 +1009,8 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
 
             /* pfr->remote or pfr->local may be NULL if setting up a
              * forwarding failed. */
-            if (pfr->remote) {
+            if (pfr->remote)
+            {
                 /*
                  * Cancel the port forwarding at the server
                  * end.
@@ -957,22 +1026,26 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
                  */
                 ssh_rportfwd_remove(mgr->cl, pfr->remote);
                 pfr->remote = NULL;
-            } else if (pfr->local) {
+            }
+            else if (pfr->local)
+            {
                 pfl_terminate(pfr->local);
                 pfr->local = NULL;
             }
 
             delpos234(mgr->forwardings, i);
             pfr_free(pfr);
-            i--;                       /* so we don't skip one in the list */
+            i--; /* so we don't skip one in the list */
         }
     }
 
     /*
      * And finally, set up any new port forwardings (status==CREATE).
      */
-    for (i = 0; (pfr = index234(mgr->forwardings, i)) != NULL; i++) {
-        if (pfr->status == CREATE) {
+    for (i = 0; (pfr = index234(mgr->forwardings, i)) != NULL; i++)
+    {
+        if (pfr->status == CREATE)
+        {
             char *sportdesc, *dportdesc;
             sportdesc = dupprintf("%s%s%s%s%d%s",
                                   pfr->saddr ? pfr->saddr : "",
@@ -981,9 +1054,12 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
                                   pfr->sserv ? "(" : "",
                                   pfr->sport,
                                   pfr->sserv ? ")" : "");
-            if (pfr->type == 'D') {
+            if (pfr->type == 'D')
+            {
                 dportdesc = NULL;
-            } else {
+            }
+            else
+            {
                 dportdesc = dupprintf("%s:%s%s%d%s",
                                       pfr->daddr,
                                       pfr->dserv ? pfr->dserv : "",
@@ -992,7 +1068,8 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
                                       pfr->dserv ? ")" : "");
             }
 
-            if (pfr->type == 'L') {
+            if (pfr->type == 'L')
+            {
                 char *err = pfl_listen(pfr->daddr, pfr->dport,
                                        pfr->saddr, pfr->sport,
                                        mgr->cl, conf, &pfr->local,
@@ -1000,34 +1077,43 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
 
                 logeventf(mgr->cl->logctx,
                           "Local %sport %s forwarding to %s%s%s",
-                          pfr->addressfamily == ADDRTYPE_IPV4 ? "IPv4 " :
-                          pfr->addressfamily == ADDRTYPE_IPV6 ? "IPv6 " : "",
+                          pfr->addressfamily == ADDRTYPE_IPV4 ? "IPv4 " : pfr->addressfamily == ADDRTYPE_IPV6 ? "IPv6 "
+                                                                                                              : "",
                           sportdesc, dportdesc,
                           err ? " failed: " : "", err ? err : "");
                 if (err)
                     sfree(err);
-            } else if (pfr->type == 'D') {
+            }
+            else if (pfr->type == 'D')
+            {
                 char *err = pfl_listen(NULL, -1, pfr->saddr, pfr->sport,
                                        mgr->cl, conf, &pfr->local,
                                        pfr->addressfamily);
 
                 logeventf(mgr->cl->logctx,
                           "Local %sport %s SOCKS dynamic forwarding%s%s",
-                          pfr->addressfamily == ADDRTYPE_IPV4 ? "IPv4 " :
-                          pfr->addressfamily == ADDRTYPE_IPV6 ? "IPv6 " : "",
+                          pfr->addressfamily == ADDRTYPE_IPV4 ? "IPv4 " : pfr->addressfamily == ADDRTYPE_IPV6 ? "IPv6 "
+                                                                                                              : "",
                           sportdesc,
                           err ? " failed: " : "", err ? err : "");
 
                 if (err)
                     sfree(err);
-            } else {
+            }
+            else
+            {
                 const char *shost;
 
-                if (pfr->saddr) {
+                if (pfr->saddr)
+                {
                     shost = pfr->saddr;
-                } else if (conf_get_bool(conf, CONF_rport_acceptall)) {
+                }
+                else if (conf_get_bool(conf, CONF_rport_acceptall))
+                {
                     shost = "";
-                } else {
+                }
+                else
+                {
                     shost = "localhost";
                 }
 
@@ -1035,14 +1121,18 @@ void portfwdmgr_config(PortFwdManager *mgr, Conf *conf)
                     mgr->cl, shost, pfr->sport, pfr->daddr, pfr->dport,
                     pfr->addressfamily, sportdesc, pfr, NULL);
 
-                if (!pfr->remote) {
+                if (!pfr->remote)
+                {
                     logeventf(mgr->cl->logctx,
                               "Duplicate remote port forwarding to %s:%d",
                               pfr->daddr, pfr->dport);
                     pfr_free(pfr);
-                } else {
+                }
+                else
+                {
                     logeventf(mgr->cl->logctx, "Requesting remote port %s"
-                              " forward to %s", sportdesc, dportdesc);
+                                               " forward to %s",
+                              sportdesc, dportdesc);
                 }
             }
             sfree(sportdesc);
@@ -1068,7 +1158,8 @@ bool portfwdmgr_listen(PortFwdManager *mgr, const char *host, int port,
     pfr->addressfamily = ADDRTYPE_UNSPEC;
 
     PortFwdRecord *existing = add234(mgr->forwardings, pfr);
-    if (existing != pfr) {
+    if (existing != pfr)
+    {
         /*
          * We had this record already. Return failure.
          */
@@ -1082,7 +1173,8 @@ bool portfwdmgr_listen(PortFwdManager *mgr, const char *host, int port,
               "%s on port %s:%d to forward to client%s%s",
               err ? "Failed to listen" : "Listening", host, port,
               err ? ": " : "", err ? err : "");
-    if (err) {
+    if (err)
+    {
         sfree(err);
         del234(mgr->forwardings, pfr);
         pfr_free(pfr);
@@ -1138,7 +1230,8 @@ char *portfwdmgr_connect(PortFwdManager *mgr, Channel **chan_ret,
      */
     addr = name_lookup(hostname, port, &dummy_realhost, mgr->conf,
                        addressfamily, NULL, NULL);
-    if ((err = sk_addr_error(addr)) != NULL) {
+    if ((err = sk_addr_error(addr)) != NULL)
+    {
         char *err_ret = dupstr(err);
         sk_addr_free(addr);
         sfree(dummy_realhost);
@@ -1162,7 +1255,8 @@ char *portfwdmgr_connect(PortFwdManager *mgr, Channel **chan_ret,
     pf->s = new_connection(addr, dummy_realhost, port,
                            false, true, false, false, &pf->plug, mgr->conf);
     sfree(dummy_realhost);
-    if ((err = sk_socket_error(pf->s)) != NULL) {
+    if ((err = sk_socket_error(pf->s)) != NULL)
+    {
         char *err_ret = dupstr(err);
         sk_close(pf->s);
         free_portfwd_state(pf);

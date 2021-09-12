@@ -1,5 +1,5 @@
-#2021 amanda & MathMan, updated 08/march/2021 14:08 PM
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function -Wno-unused-but-set-variable
+#2021 amanda & MathMan, updated 12/September/2021 09:12
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function -Wno-unused-but-set-variable
 
 amanda_32: /bw_tmp/compress2/pedro_32arp.o /bw_tmp/compress2/arp_dll_32arp.o /bw_tmp/compress2/compress2_z_32.o /bw_tmp/compress2/compress2_2_z_32.o /bw_tmp/compress2/compress2dll_32.o /bw_tmp/compress2/longfile_32arp.o /bw_tmp/compress2/compress42_thread_1_32.o /bw_tmp/compress2/compress42_thread_2_32.o /bw_tmp/compress2/compress42_thread_3_32.o /bw_tmp/compress2/compress42_thread_4_32.o /bw_tmp/compress2/compress42_thread_5_32.o /bw_tmp/compress2/compress42_thread_6_32.o /bw_tmp/compress2/compress42_thread_7_32.o /bw_tmp/compress2/stdio_v2_32arp.o /bw_tmp/compress2/compress42_32.o
 

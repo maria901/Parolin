@@ -1,5 +1,5 @@
 #2021 amanda & MathMan
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function
 
 amanda_32: /bw_tmp/gzip/ricardo_zlib32.a /bw_tmp/gzip/dll_32.o /bw_tmp/gzip/zlib_32.o /bw_tmp/gzip/longfile_32.o /bw_tmp/gzip/md5_32.o /bw_tmp/gzip/folder_i_32.o /bw_tmp/gzip/pedro_32.o /bw_tmp/gzip/sha512_k_32.o
 

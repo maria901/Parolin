@@ -955,7 +955,7 @@ my_thread_struct_z * amanda;
 				i = rsize-rlop;
 
 				if ((code_int)i > extcode-free_ent) i = (int)(extcode-free_ent);
-				if (i > ((sizeof(outbuf) - 32)*8 - outbits)/n_bits)
+				if (i > (int)((sizeof(outbuf) - 32) * 8 - outbits) / n_bits)
 					i = ((sizeof(outbuf) - 32)*8 - outbits)/n_bits;
 
 				if (!stcode && (long)i > checkpoint-bytes_in)
@@ -1065,7 +1065,7 @@ endlop:                 if (fcode.e.ent >= FIRST && rpos < rsize)
 	if (bytes_in > 0)
 		output(outbuf,outbits,fcode.e.ent,n_bits);
 
-	if (fwrite_z(outbuf, 1, (outbits+7)>>3, fdout) != (outbits+7)>>3)
+	if (fwrite_z(outbuf, 1, (outbits + 7) >> 3, fdout) != (size_t)(outbits + 7) >> 3)
 	{
 		amanda->internal_error_arp = 6;
 		return 6; //

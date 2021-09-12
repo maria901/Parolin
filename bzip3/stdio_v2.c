@@ -1,30 +1,33 @@
-//2021 amanda & ricardo
-/*
-    Copyright (C) <2022>  <BinaryWork Corp.>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails direto dos felizes programadores:                                *
+ *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
+ *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *                                                                              *
+ *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU GENERAL PUBLIC LICENSE
-        and GNU LESSER GENERAL PUBLIC LICENSE along with this program.
-        If not, see <http://www.gnu.org/licenses/>.
-
-    support: https://arsoftware.net.br/binarywork _____________
-
-        direct programmers e-mails:
-        Ricardo: arsoftware25@gmail.com  ricardo@arsoftware.net.br
-         Amanda: arsoftware10@gmail.com  amanda@arsoftware.net. br
-
-        immediate contact(for a very fast answer) WhatsApp
-        (+55)41 9627 1708 - it is always on
- */
 #include "stdio_v2.h"
 
 #include "win64.h"
@@ -75,7 +78,7 @@ size_t fwrite_z(
 
 		assert(stream_z->memory_z);
 
-		if((count_z + stream_z->current_file_position_z) < stream_z->max_memory_size)
+		if((int64_t)(count_z + stream_z->current_file_position_z) < (int64_t) stream_z->max_memory_size)
 		{
 			pedro_dprintf(-1, "file in memory\n");
 			memcpy(stream_z->memory_z + stream_z->current_file_position_z, buffer_z, count_z);
@@ -106,7 +109,7 @@ size_t fwrite_z(
 
 							ret_arp = fwrite(buffer_z, 1, count_z, stream_z->internal_file_z);
 
-							if(ret_arp != count_z)
+							if((int)ret_arp != (int) count_z)
 							{
 								return -1;
 							}
@@ -133,7 +136,7 @@ size_t fwrite_z(
 
 							ret_arp = fwrite(buffer_z, 1, count_z, stream_z->internal_file_z);
 
-							if(ret_arp != count_z)
+							if((int)ret_arp != (int) count_z)
 							{
 								return -1;
 							}
@@ -168,7 +171,7 @@ size_t fwrite_z(
 
 							ret_arp = fwrite(buffer_z, 1, count_z, stream_z->internal_file_z);
 
-							if(ret_arp != count_z)
+							if((int) ret_arp != (int) count_z)
 							{
 								return -1;
 							}
@@ -195,7 +198,7 @@ size_t fwrite_z(
 
 							ret_arp = fwrite(buffer_z, 1, count_z, stream_z->internal_file_z);
 
-							if(ret_arp != count_z)
+							if((int) ret_arp != (int) count_z)
 							{
 								return -1;
 							}
@@ -223,7 +226,7 @@ size_t fwrite_z(
 
 				ret_arp = fwrite(buffer_z, 1, count_z, stream_z->internal_file_z);
 
-				if(ret_arp != count_z)
+				if((int) ret_arp != (int) count_z)
 				{
 					return -1;
 				}
@@ -237,7 +240,7 @@ size_t fwrite_z(
 	else
 	{
 		ret_arp = fwrite(buffer_z, 1, count_z, stream_z->internal_file_z);
-		if(ret_arp != count_z)
+		if((int) ret_arp != (int) count_z)
 		{
 			return -1;
 		}
@@ -248,7 +251,7 @@ size_t fwrite_z(
 }
 
 int fclose_z(
-	FILE_z *stream_z
+	__attribute__((unused)) FILE_z *stream_z
 	)
 {
 	return 0;

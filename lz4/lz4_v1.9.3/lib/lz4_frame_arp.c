@@ -484,8 +484,9 @@ int main(int argc, const char **argv) {
     return 0;
 }
 
-
-int __stdcall compress_l4___rspk_ar(char * Input_amanda_file_utf_8, char * OutPut_ricardo_File_utf_8, int Compression_juliete_Level_unused___)
+int __stdcall compress_l4___rspk_ar(char *Input_amanda_file_utf_8,
+                                    char *OutPut_ricardo_File_utf_8,
+                                    __attribute__((unused)) int Compression_juliete_Level_unused___)
 {
 	//
 
@@ -677,12 +678,14 @@ int __stdcall get_progress_l4___ar (void)
 	 return 0;
  }
 
-BOOL WINAPI DllMain (HINSTANCE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
-{
-	switch (ul_reason_for_call)
-	{
-	case DLL_PROCESS_ATTACH:
-		OutputDebugString ("RSP LZ4 Compress DLL DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__ ") _amanda_debug_\n");
+ BOOL WINAPI DllMain(__attribute__((unused)) HINSTANCE hModule,
+                     __attribute__((unused)) DWORD ul_reason_for_call,
+                     __attribute__((unused)) LPVOID lpReserved)
+ {
+     switch (ul_reason_for_call)
+     {
+     case DLL_PROCESS_ATTACH:
+         OutputDebugString("RSP LZ4 Compress DLL DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__ ") _amanda_debug_\n");
 
 #ifdef NPRINTF
 		MessageBox (0, "Alladin debugging code", "BinaryWork Corp.", MB_OK | MB_TOPMOST);

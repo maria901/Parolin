@@ -1,5 +1,5 @@
 #2021 amanda & MathMan, updated 08/march/2021 14:08 PM
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wextra -Wno-unused-function -Wno-unused-but-set-variable
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wextra -Wno-unused-function -Wno-unused-but-set-variable
 
 amanda_32: /bw_tmp/lzop2/pedro_32arp.o /bw_tmp/lzop2/arp_dll_32arp.o /bw_tmp/lzop2/compress2_z_32.o /bw_tmp/lzop2/compress2_2_z_32.o /bw_tmp/lzop2/compress2dll_32.o /bw_tmp/lzop2/longfile_32arp.o /bw_tmp/lzop2/stdio_v2_32arp.o /bw_tmp/lzop2/z_32.o /bw_tmp/lzop2/minilzo_32.o
 

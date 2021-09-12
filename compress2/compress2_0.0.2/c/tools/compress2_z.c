@@ -1,4 +1,4 @@
-/* Copyright 2014 Google Inc. All Rights Reserved, modified by MathMan from BinaryWork
+/* Copyright 2014 Google Inc. All Rights Reserved, modified in 2021 by MathMan (SmartApe) from BinaryWork
 
    Distributed under MIT license.
    See file LICENSE for detail or copy at https://opensource.org/licenses/MIT
@@ -144,7 +144,9 @@ extern int intcancel__rspk ;
 extern int return_value_arp;
 
 compressResult_t
-compress_file(FILE* f_in, FILE_z* f_out, my_thread_struct_z * amanda)
+compress_file(__attribute__((unused)) FILE *f_in,
+			  __attribute__((unused)) FILE_z *f_out,
+			  my_thread_struct_z *amanda)
 {
 	int returnvalue_z = 0;
 		

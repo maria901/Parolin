@@ -2,7 +2,7 @@
 
 #version of the compilers, for win64 11.1.0 and for win32 also 11.1.0
 
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function
+AMANDA_FLAGS__=-Wextra -O3 -Wall -Wfatal-errors -Werror -Wno-unused-function
 
 amanda_win32: /bw_tmp/gzip/adler32_32.o /bw_tmp/gzip/compress_32.o /bw_tmp/gzip/crc32_32.o /bw_tmp/gzip/deflate_32.o /bw_tmp/gzip/gzclose_32.o /bw_tmp/gzip/gzlib_32.o /bw_tmp/gzip/gzread_32.o /bw_tmp/gzip/gzwrite_32.o /bw_tmp/gzip/infback_32.o /bw_tmp/gzip/inffast_32.o /bw_tmp/gzip/inflate_32.o /bw_tmp/gzip/inftrees_32.o /bw_tmp/gzip/trees_32.o /bw_tmp/gzip/uncompr_32.o /bw_tmp/gzip/zutil_32.o
 

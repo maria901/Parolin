@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 6,3,7,347
- PRODUCTVERSION 6,3,7,347
+ FILEVERSION 6,3,9,349
+ PRODUCTVERSION 6,3,9,349
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -46,17 +46,17 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
-            VALUE "CompanyName", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
+            VALUE "Comments", "BinaryWork Corp. https://nomade.sourceforge.io/ \0"
+            VALUE "CompanyName", "BinaryWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "FileDescription", "Bucaneiro Engineering Gzip2 DLL \0"
-            VALUE "FileVersion", "6, 3, 7, 347 \0"
+            VALUE "FileVersion", "6, 3, 9, 349 \0"
             VALUE "InternalName", "rsp_gzip2_64.DLL \0"
             VALUE "LegalCopyright", "CopyLeft © 2021 BW \0"
             VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
             VALUE "OriginalFilename", "rsp_gzip2_64.DLL \0"
-            VALUE "PrivateBuild", "347 \0"
-            VALUE "ProductName", "Bucaneiro Engineering Gzip2 DLL 6, 3, 7, 347 64 bits \0"
-            VALUE "ProductVersion", "6, 3, 7, 347 \0"
+            VALUE "PrivateBuild", "349 \0"
+            VALUE "ProductName", "Bucaneiro Engineering Gzip2 DLL 6, 3, 9, 349 64 bits \0"
+            VALUE "ProductVersion", "6, 3, 9, 349 \0"
             VALUE "SpecialBuild", "amandaricardo_koci\0"
         END
     END

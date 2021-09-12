@@ -1,32 +1,17 @@
 /*
 
-codigo travado em read only altamente debugado e testado
-garantindo assim a sua funcionalidade e estabilidade
-15/1/2004 13:12
-futuramente , arquivos como este deverao ficar em maquinas a distancia , copiados somente
-na hora da utilizacao do programa para fins especificos
-
 */
 
 /*
-daqui para frente todo o desenvolvimento deve seguir estas posicoes
-pois aqui esta toda a definicao de itens que deve ser
-efetuado em sequencia
-sempre utilize dois arquivos para debugar alguma coisa
-assim evita atropelos na finalizacao de algum codigo especifico
 
 */
-
-//#define dprintf printf
-
-//#define rsptest 1
 
 #ifndef INCLUDEUCHAR
 #ifndef uchar
 #define uchar unsigned char
 #define uint unsigned int
 #define ulong unsigned long
-#define ushort  unsigned short
+#define ushort unsigned short
 #endif
 #endif
 
@@ -46,298 +31,271 @@ assim evita atropelos na finalizacao de algum codigo especifico
 
 /*somente definicoes de funcoes*/
 
-int    validatefoldertocreate (char *path);
+int validatefoldertocreate(char *path);
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-void mprintf (char *format, ...)
+void mprintf(char *format, ...)
 {
-// para imprimir messagebox quando necessario
-//#pragma comment (lib,"user32.lib")
-	int    val;
-	va_list args;
-	static char buffer[500000];
-	va_start (args, format);
-	vsprintf (buffer, format, args);
-	val = MessageBox (0, buffer, "Debug", MB_OKCANCEL | MB_TOPMOST);
+  // para imprimir messagebox quando necessario
+  //#pragma comment (lib,"user32.lib")
+  int val;
+  va_list args;
+  static char buffer[500000];
+  va_start(args, format);
+  vsprintf(buffer, format, args);
+  val = MessageBox(0, buffer, "Debug", MB_OKCANCEL | MB_TOPMOST);
 
-	if (val != IDOK)
-	{
-	 exit (1);
-
-	}
+  if (val != IDOK)
+  {
+    exit(1);
+  }
 }
 
-
-
-int octaltoint (char *p)
+int octaltoint(char *p)
 {
 
-     /*
+  /*
         it will convert a string with a octal number to a int
       */
-     int    result = 0;
-     char   c;
+  int result = 0;
+  char c;
 
-     int    ret;
+  int ret;
 
-     ret = strlen (p);
+  ret = strlen(p);
 
+  if (!ret)
+  {
+    return 0;
+  }
 
-     if (!ret)
-       {
-	    return 0;
-       }
-
-     while (ret--)
-       {
-	    c = *p++;
-	    if (c == ' ')
-		 continue;
-	    if (c == 0)
-		 break;
-	    result = result * 8 + (c - '0');
-       }
-     return result;
+  while (ret--)
+  {
+    c = *p++;
+    if (c == ' ')
+      continue;
+    if (c == 0)
+      break;
+    result = result * 8 + (c - '0');
+  }
+  return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-char  *inttooctal (uint value, int numberofitens)
+char *inttooctal(uint value, int numberofitens)
 {
-/*
+  /*
 	it will convert a int value to a octal string
 	with the number of 0 as definied in numberofitens
 */
-     static char fixo[255];
-     static char fixo2[255];
-     static char final[255];
+  static char fixo[255];
+  static char fixo2[255];
+  static char final[255];
 
-     int    ret;
+  int ret;
 
+  memset(fixo2, 0, 254);
+  memset(final, 0, 254);
+  memset(fixo, 0, 254);
 
-     memset (fixo2, 0, 254);
-     memset (final, 0, 254);
-     memset (fixo, 0, 254);
+  // int sprintf(char *s, const char *format, ...);
+  sprintf(fixo, "%o", value);
 
-     // int sprintf(char *s, const char *format, ...);
-     sprintf (fixo, "%o", value);
+  ret = strlen(fixo);
 
-     ret = strlen (fixo);
+retorno:
 
-   retorno:
+  if (ret < numberofitens)
+  {
 
-     if (ret < numberofitens)
-       {
+    strcat(fixo2, "0");
 
-	    strcat (fixo2, "0");
+    ret = ret + 1;
+    goto retorno;
+  }
 
-	    ret = ret + 1;
-	    goto retorno;
-       }
+  strcpy(final, fixo2);
+  strcat(final, fixo);
 
-     strcpy (final, fixo2);
-     strcat (final, fixo);
-
-     return final;
-
+  return final;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-int getbits (uint value, uint bit)
+int getbits(uint value, uint bit)
 {
-/*pega o valor do bit na posicao definida em bit*/
-     int    ret;
-     int    mask;
+  /*pega o valor do bit na posicao definida em bit*/
+  int ret;
+  int mask;
 
-     if (bit > 31)
-       {
-	    return 0;
-       }
+  if (bit > 31)
+  {
+    return 0;
+  }
 
-     mask = 1 << bit;
-     ret = mask & value;
+  mask = 1 << bit;
+  ret = mask & value;
 
-     if (ret)
-       {
-	    return 1;
-       }
+  if (ret)
+  {
+    return 1;
+  }
 
-     return 0;
-
+  return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-int setbits (uint value, uint bit, uint bitvalue)
+int setbits(uint value, uint bit, uint bitvalue)
 {
-/*seta o bit na posicao definida em bit
+  /*seta o bit na posicao definida em bit
 limitado a 32 bits
 */
-     int    mask;
+  int mask;
 
-     if (bit > 31)
-       {
-	    return value;
-       }
+  if (bit > 31)
+  {
+    return value;
+  }
 
-     mask = 1 << bit;
+  mask = 1 << bit;
 
-     if (bitvalue == 0)
-       {
+  if (bitvalue == 0)
+  {
 
-	    if (getbits (value, bit) == 1)
-	      {
+    if (getbits(value, bit) == 1)
+    {
 
-		   value = ~value;
+      value = ~value;
 
-		   value = value | mask;
+      value = value | mask;
 
-		   value = ~value;
+      value = ~value;
 
-		   return value;
-	      }
+      return value;
+    }
 
-	    return value;
+    return value;
+  }
+  else
+  {
 
-       }
-     else
-       {
-
-	    return value | mask;
-       }
-
+    return value | mask;
+  }
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-uint binarioparadecimal (char *binval)
+uint binarioparadecimal(char *binval)
 {
-/*
+  /*
 	converte string binaria para decimal
 */
-     uint   ret;
-     uint   fatia;
-     uint   intvalue;
+  uint ret;
+  uint fatia;
+  uint intvalue;
 
-     uint   i = 0;
-     intvalue = 0;
+  uint i = 0;
+  intvalue = 0;
 
-     ret = strlen (binval);
+  ret = strlen(binval);
 
-     for (; ret > 0; ret--)
-       {
-	    fatia = binval[ret - 1] - 48;
+  for (; ret > 0; ret--)
+  {
+    fatia = binval[ret - 1] - 48;
 
-	    if (fatia != 0 && fatia != 1)
-	      {
-		   return 0;
-	      }
+    if (fatia != 0 && fatia != 1)
+    {
+      return 0;
+    }
 
-	    intvalue = intvalue + (fatia * (1 << i));
-	    i++;
-       }
+    intvalue = intvalue + (fatia * (1 << i));
+    i++;
+  }
 
-     return intvalue;
-
+  return intvalue;
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
-char  *decimalparabinarioprintf (uint value)
+char *decimalparabinarioprintf(uint value)
 {
 
-/*converte decimal para uma string
+  /*converte decimal para uma string
 binaria mas formata para impressao*/
-     int    i;
-     uint   mask;
+  int i;
+  uint mask;
 
-     static char fixo[255];
+  static char fixo[255];
 
-     memset (fixo, 0, 254);
+  memset(fixo, 0, 254);
 
-     for (i = 31; i > -1; i--)
-       {
+  for (i = 31; i > -1; i--)
+  {
 
-	    mask = (1 << i);
+    mask = (1 << i);
 
-	    if (mask & value)
-	      {
-		   strcat (fixo, "1");
+    if (mask & value)
+    {
+      strcat(fixo, "1");
 
-		   if ((i % 4 == 0) && i != 0)
-		     {
-			  strcat (fixo, "-");
-		     }
+      if ((i % 4 == 0) && i != 0)
+      {
+        strcat(fixo, "-");
+      }
+    }
+    else
+    {
+      strcat(fixo, "0");
+      if ((i % 4 == 0) && i != 0)
+      {
+        strcat(fixo, "-");
+      }
+    }
+  }
 
-	      }
-	    else
-	      {
-		   strcat (fixo, "0");
-		   if ((i % 4 == 0) && i != 0)
-		     {
-			  strcat (fixo, "-");
-		     }
-	      }
-
-
-       }
-
-     return fixo;
-
+  return fixo;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-char  *decimalparabinario (uint value)
+char *decimalparabinario(uint value)
 {
 
-/*
+  /*
 	converte um valor decimal para um string static em binario
 */
-     int    i;
-     uint   mask;
+  int i;
+  uint mask;
 
-     static char fixo[255];
+  static char fixo[255];
 
-     memset (fixo, 0, 254);
+  memset(fixo, 0, 254);
 
-     for (i = 31; i > -1; i--)
-       {
+  for (i = 31; i > -1; i--)
+  {
 
-	    mask = (1 << i);
+    mask = (1 << i);
 
-	    if (mask & value)
-	      {
-		   strcat (fixo, "1");
-	      }
-	    else
-	      {
-		   strcat (fixo, "0");
-	      }
+    if (mask & value)
+    {
+      strcat(fixo, "1");
+    }
+    else
+    {
+      strcat(fixo, "0");
+    }
+  }
 
-
-       }
-
-     return fixo;
-
+  return fixo;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -345,19 +303,18 @@ char  *decimalparabinario (uint value)
 
 /*funcao pegaultimocaracter*/
 
-char pegaultimocaracter (char *path)
+char pegaultimocaracter(char *path)
 {
-     /*pega o ultimo caracter da string */
-     int    ret;
+  /*pega o ultimo caracter da string */
+  int ret;
 
-     ret = strlen (path);
-     if (ret)
-       {
-	    return path[ret - 1];
-       }
+  ret = strlen(path);
+  if (ret)
+  {
+    return path[ret - 1];
+  }
 
-     return 0;
-
+  return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -365,10 +322,10 @@ char pegaultimocaracter (char *path)
 
 /*funcao de timer para debug*/
 
-float inittimer (uint comando)
+float inittimer(uint comando)
 {
 
-/*
+  /*
 
 #include <timer.h>
 	inittimer(0);
@@ -378,35 +335,31 @@ float inittimer (uint comando)
 	dprintf("Clock %f \n ", inittimer(1));
 	*/
 
-     static uint clock1;
-     static uint clock2;
+  static uint clock1;
+  static uint clock2;
 
-     if (comando == 0)
-       {
-	    clock1 = clock ();
-       }
-     else
-       {
+  if (comando == 0)
+  {
+    clock1 = clock();
+  }
+  else
+  {
 
-	    clock2 = clock ();
+    clock2 = clock();
 
-	    return ((float) clock2 - (float) clock1);
+    return ((float)clock2 - (float)clock1);
+  }
 
-       }
-
-     return 0;
-
+  return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-int rspgetdrivetype (char *path1)
+int rspgetdrivetype(char *path1)
 {
 
-     /*
+  /*
         pega o drive pelo tipo
 
         DRIVE_UNKNOWN The drive type cannot be determined.
@@ -419,171 +372,149 @@ int rspgetdrivetype (char *path1)
 
       */
 
+  static char path[255];
 
+  if (!strlen(path1))
+  {
+    return -1;
+  }
 
+  strcpy(path, path1);
 
-     static char path[255];
+  if (strlen(path) < 3)
+  {
 
-     if (!strlen (path1))
-       {
-	    return -1;
-       }
+    return -1;
+  }
 
+  path[3] = 0;
 
-     strcpy (path, path1);
+  if (tolower(path[0]) < 'a')
+  {
+    return -1;
+  }
 
+  if (tolower(path[0]) > 'z')
+  {
+    return -1;
+  }
 
-     if (strlen (path) < 3)
-       {
+  if (path[1] != ':')
+  {
+    return -1;
+  }
 
+  if (path[2] != '\\')
+  {
+    return -1;
+  }
 
-	    return -1;
-       }
-
-     path[3] = 0;
-
-     if (tolower (path[0]) < 'a')
-       {
-	    return -1;
-       }
-
-     if (tolower (path[0]) > 'z')
-       {
-	    return -1;
-       }
-
-     if (path[1] != ':')
-       {
-	    return -1;
-       }
-
-     if (path[2] != '\\')
-       {
-	    return -1;
-       }
-
-     return GetDriveType (path);
-
+  return GetDriveType(path);
 }
 
-
-
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-char  *rspgetcomputername ()
+char *rspgetcomputername()
 {
-     static int rico = 255;
-     static char temp[255];
-     memset (temp, 0, 254);
-     GetComputerName ((LPTSTR) temp, (LPDWORD) & rico);
-     return temp;
-
+  static int rico = 255;
+  static char temp[255];
+  memset(temp, 0, 254);
+  GetComputerName((LPTSTR)temp, (LPDWORD)&rico);
+  return temp;
 }
 
 //punned
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-int rspsetcurrentdirectory (char *path)
+int rspsetcurrentdirectory(char *path)
 {
-/*
+  /*
 seta o diretorio corrente
 retorna 0 se der certo
 retorna 1 se der errado
 
 */
 
-     int    ret;
-//If the function succeeds, the return value is nonzero.
-     ret = SetCurrentDirectory (path);
+  int ret;
+  //If the function succeeds, the return value is nonzero.
+  ret = SetCurrentDirectory(path);
 
-     if (ret)
-       {
-	    return 0;
-       }
+  if (ret)
+  {
+    return 0;
+  }
 
-     return 1;
-
-
+  return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-char  *rspgetcurrentdirectory ()
+char *rspgetcurrentdirectory()
 {
-     /*
+  /*
         use o e ao inves de k
       */
-/*pega o diretorio corente*/
-     static char temp[255];
-     memset (temp, 0, 254);
-     GetCurrentDirectory (255, temp);
-     return temp;
+  /*pega o diretorio corente*/
+  static char temp[255];
+  memset(temp, 0, 254);
+  GetCurrentDirectory(255, temp);
+  return temp;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-char  *rspgetsystemdirectory ()
+char *rspgetsystemdirectory()
 {
 
-     static char temp[255];
-     memset (temp, 0, 254);
-     GetSystemDirectory (temp, 255);
-     return temp;
-
+  static char temp[255];
+  memset(temp, 0, 254);
+  GetSystemDirectory(temp, 255);
+  return temp;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-char  *rspgetwindowsdirectory ()
+char *rspgetwindowsdirectory()
 {
 
-     static char temp[255];
+  static char temp[255];
 
-     memset (temp, 0, 254);
-     GetWindowsDirectory (temp, 255);
+  memset(temp, 0, 254);
+  GetWindowsDirectory(temp, 255);
 
-     return temp;
-
+  return temp;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-char  *rspgettemppath ()
+char *rspgettemppath()
 {
-     /*
+  /*
         pega o diretorio temp
       */
 
-     static char temp[255];
+  static char temp[255];
 
-     memset (temp, 0, 254);
-     GetTempPath (255, temp);
+  memset(temp, 0, 254);
+  GetTempPath(255, temp);
 
-     return temp;
-
+  return temp;
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef rsptest
 
-int main ()
+int main()
 {
-/*
+  /*
 
 DWORD GetFullPathName(
   LPCTSTR lpFileName,  // pointer to name of file to find path for
@@ -595,60 +526,54 @@ DWORD GetFullPathName(
 
 */
 
-     char   path[255];
-     char  *ifile;
+  char path[255];
+  char *ifile;
 
-     GetFullPathName ("c:\\back2", 255, path, &ifile);
+  GetFullPathName("c:\\back2", 255, path, &ifile);
 #ifdef NPRINTF
-     printf ("path e file %s %s \n", path, ifile);
-     printf ("Linha %d %s %s \n", __LINE__, __TIME__, __FILE__);
+  printf("path e file %s %s \n", path, ifile);
+  printf("Linha %d %s %s \n", __LINE__, __TIME__, __FILE__);
 #endif
 }
 
-
 #endif
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 /*funcao de pegar tamanho de arquivo*/
 
-int getfilesize (char *infile)
+int getfilesize(char *infile)
 {
 
-     uint   ret;
+  uint ret;
 
-     FILE  *myfile;
+  FILE *myfile;
 
-     if ((myfile = fopen (infile, "rb")) == NULL)
-       {
-	    //dprintf ("The file 'data' was not opened\n");
-	    return 0;
-       }
-     else
-       {
-	    //dprintf ("The file 'data' was opened\n");
-       }
+  if ((myfile = fopen(infile, "rb")) == NULL)
+  {
+    //dprintf ("The file 'data' was not opened\n");
+    return 0;
+  }
+  else
+  {
+    //dprintf ("The file 'data' was opened\n");
+  }
 
-     ret = fseek (myfile, 0, SEEK_END);
+  ret = fseek(myfile, 0, SEEK_END);
 
-     ret = ftell (myfile);
+  ret = ftell(myfile);
 
-     // dprintf ("tamanho do arquivo %d\n ", ret);
+  // dprintf ("tamanho do arquivo %d\n ", ret);
 
-     fclose (myfile);
+  fclose(myfile);
 
-     // printf ("Tamanho do arquivo %s  %d \n", infile, ret);
+  // printf ("Tamanho do arquivo %s  %d \n", infile, ret);
 
-     return ret;
-
-
+  return ret;
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
-
 
 /*funcao de porcentagem*/
 
@@ -661,186 +586,160 @@ max = 10000
 fatia = 5000
 
 */
-uint getpor (int max, uint fatia)
+uint getpor(int max, uint fatia)
 {
 
+  double maxa;
+  double fatiaa;
 
-     double maxa;
-     double fatiaa;
+  maxa = (double)max;
+  fatiaa = (double)fatia;
 
-     maxa = (double) max;
-     fatiaa = (double) fatia;
+  if (max == 0)
+  {
+    return 0;
+  }
 
-     if (max == 0)
-       {
-	    return 0;
-       }
+  maxa = ((double)100 / maxa * fatiaa);
 
-     maxa = ((double) 100 / maxa * fatiaa);
-
-
-
-
-     return (uint) maxa;
-
+  return (uint)maxa;
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-int contastringinsensitive (char *comando, char *string)
+int contastringinsensitive(char *comando, char *string)
 {
-/*
+  /*
 * retorna a contagem de strings achada 15/1/2004 12:52
 */
 
+  char intcomando[1000];
+  int ret;
+  int sizeret;
+  int i;
+  int b;
+  int d;
 
-     char   intcomando[1000];
-     int    ret;
-     int    sizeret;
-     int    i;
-     int    b;
-     int    d;
+  // //////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////
 
-// //////////////////////////////////////////////////////////////////////////////////////
-// //////////////////////////////////////////////////////////////////////////////////////
+  d = 0;
 
-     d = 0;
+  strcpy(intcomando, comando);
 
-     strcpy (intcomando, comando);
+  ret = strlen(intcomando);
 
-     ret = strlen (intcomando);
+  sizeret = strlen(string);
 
-     sizeret = strlen (string);
+  if (sizeret > ret)
+  {
+    return 0;
+  }
 
-
-     if (sizeret > ret)
-       {
-	    return 0;
-       }
-
-
-     if (ret && sizeret)
-       {
-/*
+  if (ret && sizeret)
+  {
+    /*
 * aqui vai o codigo
 */
-	    for (i = 0; i < ret; i++)
-	      {
-		   if (tolower (intcomando[i]) == tolower (string[0]))
-		     {
-// dprintf ("Ta escaneando 1 \n");
+    for (i = 0; i < ret; i++)
+    {
+      if (tolower(intcomando[i]) == tolower(string[0]))
+      {
+        // dprintf ("Ta escaneando 1 \n");
 
-			  for (b = 0; b < sizeret; b++)
-			    {
-// dprintf ("Ta escaneando 2 \n");
-				 if ((tolower (intcomando[i + b]) != tolower (string[b])))
-				   {
-					goto continua;
-				   }
+        for (b = 0; b < sizeret; b++)
+        {
+          // dprintf ("Ta escaneando 2 \n");
+          if ((tolower(intcomando[i + b]) != tolower(string[b])))
+          {
+            goto continua;
+          }
+        }
+        d++;
+      };
+    continua:;
+    }
 
-			    }
-			  d++;
+    return d;
+  }
+  else
+  {
+    return d;
+  };
 
-		     }
-		   ;
-		 continua:
-		   ;
+  return d;
+  ;
 
-	      }
-
-	    return d;
-
-       }
-     else
-       {
-	    return d;
-       }
-     ;
-
-     return d;
-     ;
-
-     ;
-     return d;
+  ;
+  return d;
 }
 
-int contastringsensitive (char *comando, char *string)
+int contastringsensitive(char *comando, char *string)
 {
 
-/*
+  /*
 * * retorna a contagem de strings achada 15/1/2004 12:52
 */
 
+  char intcomando[1000];
+  int ret;
+  int sizeret;
+  int i;
+  int b;
+  int d;
 
-     char   intcomando[1000];
-     int    ret;
-     int    sizeret;
-     int    i;
-     int    b;
-     int    d;
+  // //////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////
 
-// //////////////////////////////////////////////////////////////////////////////////////
-// //////////////////////////////////////////////////////////////////////////////////////
+  d = 0;
 
-     d = 0;
+  strcpy(intcomando, comando);
 
-     strcpy (intcomando, comando);
+  ret = strlen(intcomando);
 
-     ret = strlen (intcomando);
+  sizeret = strlen(string);
 
-     sizeret = strlen (string);
-
-     if (sizeret > ret)
-       {
-	    return 0;
-       }
-     if (ret && sizeret)
-       {
-/*
+  if (sizeret > ret)
+  {
+    return 0;
+  }
+  if (ret && sizeret)
+  {
+    /*
 * aqui vai o codigo
 */
-	    for (i = 0; i < ret; i++)
-	      {
-             if ((intcomando[i]) == (string[0]))
-		     {
-// dprintf ("Ta escaneando 1 \n");
+    for (i = 0; i < ret; i++)
+    {
+      if ((intcomando[i]) == (string[0]))
+      {
+        // dprintf ("Ta escaneando 1 \n");
 
-			  for (b = 0; b < sizeret; b++)
-			    {
-// dprintf ("Ta escaneando 2 \n");
-				 if (((intcomando[i + b]) != (string[b])))
-				   {
-					goto continua;
-				   }
+        for (b = 0; b < sizeret; b++)
+        {
+          // dprintf ("Ta escaneando 2 \n");
+          if (((intcomando[i + b]) != (string[b])))
+          {
+            goto continua;
+          }
+        }
+        d++;
+      };
+    continua:;
+    }
 
-			    }
-			  d++;
-		     }
-		   ;
-		 continua:
-		   ;
+    return d;
+  }
+  else
+  {
+    return d;
+  };
 
-	      }
+  return d;
+  ;
 
-	    return d;
-
-       }
-     else
-       {
-	    return d;
-       }
-     ;
-
-     return d;
-     ;
-
-     ;
-     return d;
-
-
-
+  ;
+  return d;
 }
 
 /******************************************************************************************
@@ -858,299 +757,259 @@ int contastringsensitive (char *comando, char *string)
 *******************************************************************************************
 ******************************************************************************************/
 
-
-int pegaposicaoinsensitive (char *comando, char *string)
+int pegaposicaoinsensitive(char *comando, char *string)
 {
-/*
+  /*
 * retorna a posicao em que achar o item ou 0 se nao achar
 */
 
+  char intcomando[1000];
+  int ret;
+  int sizeret;
+  int i;
+  int b;
+  int c;
 
-     char   intcomando[1000];
-     int    ret;
-     int    sizeret;
-     int    i;
-     int    b;
-     int    c;
+  // //////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////
 
-// //////////////////////////////////////////////////////////////////////////////////////
-// //////////////////////////////////////////////////////////////////////////////////////
+  c = 0;
 
-     c = 0;
+  strcpy(intcomando, comando);
 
-     strcpy (intcomando, comando);
+  ret = strlen(intcomando);
 
-     ret = strlen (intcomando);
+  sizeret = strlen(string);
 
-     sizeret = strlen (string);
-
-     if (sizeret > ret)
-       {
-	    return 0;
-       }
-     if (ret && sizeret)
-       {
-/*
+  if (sizeret > ret)
+  {
+    return 0;
+  }
+  if (ret && sizeret)
+  {
+    /*
 * aqui vai o codigo
 */
-	    for (i = 0; i < ret; i++)
-	      {
-		   c = i;
-		   if (tolower (intcomando[i]) == tolower (string[0]))
-		     {
-// dprintf ("Ta escaneando 1 \n");
+    for (i = 0; i < ret; i++)
+    {
+      c = i;
+      if (tolower(intcomando[i]) == tolower(string[0]))
+      {
+        // dprintf ("Ta escaneando 1 \n");
 
-			  for (b = 0; b < sizeret; b++)
-			    {
-// dprintf ("Ta escaneando 2 \n");
-				 if ((tolower (intcomando[i + b]) != tolower (string[b])))
-				   {
-					goto continua;
-				   }
+        for (b = 0; b < sizeret; b++)
+        {
+          // dprintf ("Ta escaneando 2 \n");
+          if ((tolower(intcomando[i + b]) != tolower(string[b])))
+          {
+            goto continua;
+          }
+        }
+        goto achou;
+      };
+    continua:;
+    }
 
-			    }
-			  goto achou;
-		     }
-		   ;
-		 continua:
-		   ;
+    return 0;
+  }
+  else
+  {
+    return 0;
+  };
 
-	      }
-
-	    return 0;
-
-       }
-     else
-       {
-	    return 0;
-       }
-     ;
-
-     return 0;
-     ;
-   achou:
-     ;
-     return c + 1;
+  return 0;
+  ;
+achou:;
+  return c + 1;
 }
 
-int pegaposicaosensitive (char *comando, char *string)
+int pegaposicaosensitive(char *comando, char *string)
 {
 
-/*
+  /*
 * retorna a posicao que achou ou 0 se nao achar 15/1/2004 12:51
 */
 
+  char intcomando[1000];
+  int ret;
+  int sizeret;
+  int i;
+  int b;
+  int c;
+  // //////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////
 
-     char   intcomando[1000];
-     int    ret;
-     int    sizeret;
-     int    i;
-     int    b;
-     int    c;
-// //////////////////////////////////////////////////////////////////////////////////////
-// //////////////////////////////////////////////////////////////////////////////////////
+  c = 0;
+  strcpy(intcomando, comando);
 
+  ret = strlen(intcomando);
 
-     c = 0;
-     strcpy (intcomando, comando);
+  sizeret = strlen(string);
 
-     ret = strlen (intcomando);
+  if (sizeret > ret)
+  {
+    return 0;
+  }
 
-     sizeret = strlen (string);
-
-     if (sizeret > ret)
-       {
-	    return 0;
-       }
-
-     if (ret && sizeret)
-       {
-/*
+  if (ret && sizeret)
+  {
+    /*
 * aqui vai o codigo
 */
-	    for (i = 0; i < ret; i++)
-	      {
-		   c = i;
-		   if ((intcomando[i]) == (string[0]))
-		     {
-// dprintf ("Ta escaneando 1 \n");
+    for (i = 0; i < ret; i++)
+    {
+      c = i;
+      if ((intcomando[i]) == (string[0]))
+      {
+        // dprintf ("Ta escaneando 1 \n");
 
-			  for (b = 0; b < sizeret; b++)
-			    {
-// dprintf ("Ta escaneando 2 \n");
-				 if (((intcomando[i + b]) != (string[b])))
-				   {
-					goto continua;
-				   }
+        for (b = 0; b < sizeret; b++)
+        {
+          // dprintf ("Ta escaneando 2 \n");
+          if (((intcomando[i + b]) != (string[b])))
+          {
+            goto continua;
+          }
+        }
+        goto achou;
+      };
+    continua:;
+    }
 
-			    }
-			  goto achou;
-		     }
-		   ;
-		 continua:
-		   ;
+    return 0;
+  }
+  else
+  {
+    return 0;
+  };
 
-	      }
-
-	    return 0;
-
-       }
-     else
-       {
-	    return 0;
-       }
-     ;
-
-     return 0;
-     ;
-   achou:
-     ;
-     return c + 1;
-
-
-
+  return 0;
+  ;
+achou:;
+  return c + 1;
 }
 
-int procuradordestringsensitive (char *comando, char *string)
+int procuradordestringsensitive(char *comando, char *string)
 {
 
-/*procura a string , retorna 1 se achar ou 0 se nao*/
+  /*procura a string , retorna 1 se achar ou 0 se nao*/
 
-     char   intcomando[1000];
-     int    ret;
-     int    sizeret;
-     int    i;
-     int    b;
+  char intcomando[1000];
+  int ret;
+  int sizeret;
+  int i;
+  int b;
 
-// //////////////////////////////////////////////////////////////////////////////////////
-// //////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////
 
-     strcpy (intcomando, comando);
+  strcpy(intcomando, comando);
 
-     ret = strlen (intcomando);
+  ret = strlen(intcomando);
 
-     sizeret = strlen (string);
+  sizeret = strlen(string);
 
-     if (sizeret > ret)
-       {
-	    return 0;
-       }
-     if (ret && sizeret)
-       {
-/*
+  if (sizeret > ret)
+  {
+    return 0;
+  }
+  if (ret && sizeret)
+  {
+    /*
 * aqui vai o codigo
 */
-	    for (i = 0; i < ret; i++)
-	      {
+    for (i = 0; i < ret; i++)
+    {
 
-		   if ((intcomando[i]) == (string[0]))
-		     {
-// dprintf ("Ta escaneando 1 \n");
+      if ((intcomando[i]) == (string[0]))
+      {
+        // dprintf ("Ta escaneando 1 \n");
 
-			  for (b = 0; b < sizeret; b++)
-			    {
-// dprintf ("Ta escaneando 2 \n");
-				 if (((intcomando[i + b]) != (string[b])))
-				   {
-					goto continua;
-				   }
+        for (b = 0; b < sizeret; b++)
+        {
+          // dprintf ("Ta escaneando 2 \n");
+          if (((intcomando[i + b]) != (string[b])))
+          {
+            goto continua;
+          }
+        }
+        goto achou;
+      };
+    continua:;
+    }
 
-			    }
-			  goto achou;
-		     }
-		   ;
-		 continua:
-		   ;
+    return 0;
+  }
+  else
+  {
+    return 0;
+  };
 
-	      }
-
-	    return 0;
-
-       }
-     else
-       {
-	    return 0;
-       }
-     ;
-
-     return 0;
-     ;
-   achou:
-     ;
-     return 1;
-
-
+  return 0;
+  ;
+achou:;
+  return 1;
 }
 
-int procuradordestringinsensitive (char *comando, char *string)
+int procuradordestringinsensitive(char *comando, char *string)
 {
 
-/*procura a string , retorna 1 se achar ou 0 se nao*/
+  /*procura a string , retorna 1 se achar ou 0 se nao*/
 
-     char   intcomando[1000];
-     int    ret;
-     int    sizeret;
-     int    i;
-     int    b;
+  char intcomando[1000];
+  int ret;
+  int sizeret;
+  int i;
+  int b;
 
-// //////////////////////////////////////////////////////////////////////////////////////
-// //////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////
 
-     strcpy (intcomando, comando);
+  strcpy(intcomando, comando);
 
-     ret = strlen (intcomando);
+  ret = strlen(intcomando);
 
-     sizeret = strlen (string);
-     if (sizeret > ret)
-       {
-	    return 0;
-       }
+  sizeret = strlen(string);
+  if (sizeret > ret)
+  {
+    return 0;
+  }
 
-     if (ret && sizeret)
-       {
-/*
+  if (ret && sizeret)
+  {
+    /*
 * aqui vai o codigo
 */
-	    for (i = 0; i < ret; i++)
-	      {
+    for (i = 0; i < ret; i++)
+    {
 
-		   if (tolower (intcomando[i]) == tolower (string[0]))
-		     {
+      if (tolower(intcomando[i]) == tolower(string[0]))
+      {
 
+        for (b = 0; b < sizeret; b++)
+        {
 
-			  for (b = 0; b < sizeret; b++)
-			    {
+          if ((tolower(intcomando[i + b]) != tolower(string[b])))
+          {
+            goto continua;
+          }
+        }
+        goto achou;
+      };
+    continua:;
+    }
 
-				 if ((tolower (intcomando[i + b]) != tolower (string[b])))
-				   {
-					goto continua;
-				   }
+    return 0;
+  }
+  else
+  {
+    return 0;
+  };
 
-			    }
-			  goto achou;
-		     }
-		   ;
-		 continua:
-		   ;
-
-	      }
-
-	    return 0;
-
-       }
-     else
-       {
-	    return 0;
-       }
-     ;
-
-     return 0;
-     ;
-   achou:
-     ;
-     return 1;
-
-
+  return 0;
+  ;
+achou:;
+  return 1;
 }
 
 /******************************************************************************************
@@ -1167,85 +1026,61 @@ int procuradordestringinsensitive (char *comando, char *string)
 *******************************************************************************************
 *******************************************************************************************
 ******************************************************************************************/
-
 
 /*
 * checa o tamanho maximo da string
 */
-int checkmaxsize (char *comando)
+int checkmaxsize(char *comando)
 {
 
-     if (strlen (comando) > 490)
-       {
-	    return 1;
-
-       }
-     else
-       {
-	    return 0;
-       }
-
+  if (strlen(comando) > 490)
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
 }
 
-
-void stripspace (char *intcomando)
+void stripspace(char *intcomando)
 {
 
-/*remover de qualquer espao na string*/
+  /*remover de qualquer espao na string*/
 
+  int ret;
 
-     int    ret;
+  int i;
 
-     int    i;
+  char saida[1000];
+  int deslocador = 0;
 
-     char   saida[1000];
-     int    deslocador = 0;
+  // //////////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////////////
 
-// //////////////////////////////////////////////////////////////////////////////////////
-// //////////////////////////////////////////////////////////////////////////////////////
+  memset(saida, 0, 999);
 
+  ret = strlen(intcomando);
 
-     memset (saida, 0, 999);
-
-     ret = strlen (intcomando);
-
-
-
-     if (ret)
-       {
-/*
+  if (ret)
+  {
+    /*
 * aqui vai o codigo
 */
-	    for (i = 0; i < ret; i++)
-	      {
+    for (i = 0; i < ret; i++)
+    {
 
-		   if (intcomando[i] != ' ')
-		     {
+      if (intcomando[i] != ' ')
+      {
 
-			  saida[deslocador] = intcomando[i];
-			  deslocador++;
-		     }
+        saida[deslocador] = intcomando[i];
+        deslocador++;
+      }
+    }
+  }
 
-	      }
-
-
-
-
-
-       }
-
-     strcpy (intcomando, saida);
-
-
+  strcpy(intcomando, saida);
 }
-
-
-
-
-
-
-
-
 
 /******************************************************************************************
 *******************************************************************************************
@@ -1262,316 +1097,276 @@ void stripspace (char *intcomando)
 *******************************************************************************************
 ******************************************************************************************/
 
-
-
-void trocadordebackslashtras (char *path)
+void trocadordebackslashtras(char *path)
 {
-/*
+  /*
 * troca o backslash de / para \
 *
 */
-     int    ret;
+  int ret;
 
-     char   aqui;
+  char aqui;
 
-     int    i;
+  int i;
 
-     ret = strlen (path);
+  ret = strlen(path);
 
-     if (ret)
-       {
+  if (ret)
+  {
 
+    for (i = 0; i < ret; i++)
+    {
 
-	    for (i = 0; i < ret; i++)
-	      {
-
-		   aqui = path[i];
-		   if (aqui == '/')
-		     {
-			  path[i] = '\\';
-		     }
-
-	      }
-
-       }
-
+      aqui = path[i];
+      if (aqui == '/')
+      {
+        path[i] = '\\';
+      }
+    }
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-void trocadordebackslashfrente (char *path)
+void trocadordebackslashfrente(char *path)
 {
-/*
+  /*
 * troca o backslash de \ para /
 *
 */
-     int    ret;
+  int ret;
 
-     char   aqui;
+  char aqui;
 
-     int    i;
+  int i;
 
-     ret = strlen (path);
+  ret = strlen(path);
 
-     if (ret)
-       {
-/*
+  if (ret)
+  {
+    /*
 * executa
 */
 
-	    for (i = 0; i < ret; i++)
-	      {
+    for (i = 0; i < ret; i++)
+    {
 
-		   aqui = path[i];
-		   if (aqui == '\\')
-		     {
-			  path[i] = '/';
-		     }
-
-	      }
-
-       }
-
+      aqui = path[i];
+      if (aqui == '\\')
+      {
+        path[i] = '/';
+      }
+    }
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-void adicionadordebackslashtras (char *path)
+void adicionadordebackslashtras(char *path)
 {
-/*
+  /*
 * adiciona o character \ no final da string
 */
-     int    ret;
+  int ret;
 
-     ret = strlen (path);
+  ret = strlen(path);
 
-     if (ret)
-       {
+  if (ret)
+  {
 
-	    if (path[(ret - 1)] != '\\')
-	      {
-		   path[ret] = '\\';
-		   path[ret + 1] = 0;
-	      }
-
-       }
-
+    if (path[(ret - 1)] != '\\')
+    {
+      path[ret] = '\\';
+      path[ret + 1] = 0;
+    }
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-void adicionadordebackslashfrente (char *path)
+void adicionadordebackslashfrente(char *path)
 {
-/*
+  /*
 * adiciona o character / no final da string
 */
-     int    ret;
-     ret = strlen (path);
+  int ret;
+  ret = strlen(path);
 
+  if (ret)
+  {
 
-     if (ret)
-       {
-
-	    if (path[(ret - 1)] != '/')
-	      {
-		   path[ret] = '/';
-		   path[ret + 1] = 0;
-	      }
-
-       }
-
-
+    if (path[(ret - 1)] != '/')
+    {
+      path[ret] = '/';
+      path[ret + 1] = 0;
+    }
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-void removedordeespaconofinal (char *path)
+void removedordeespaconofinal(char *path)
 {
-/*
+  /*
 * vai remover os itens no final que sao ' ' e quantos mais tiver
 */
 
-     int    ret;
+  int ret;
 
-   inicio:
+inicio:
 
-     ret = strlen (path);
+  ret = strlen(path);
 
-     if (ret)
-       {
+  if (ret)
+  {
 
-	    if (path[(ret - 1)] == ' ')
-	      {
+    if (path[(ret - 1)] == ' ')
+    {
 
-		   path[(ret - 1)] = 0;
-		   goto inicio;
-
-	      }
-       }
-
-
+      path[(ret - 1)] = 0;
+      goto inicio;
+    }
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-void removedordecaracternofinal (char *path, char caracter)
+void removedordecaracternofinal(char *path, char caracter)
 {
-/*
+  /*
 * vai remover os itens no final que sao o caracter
 mas vai retirar um unico item
 
 */
 
-     int    ret;
+  int ret;
 
+  ret = strlen(path);
 
+  if (ret)
+  {
 
-     ret = strlen (path);
+    if (path[(ret - 1)] == caracter)
+    {
 
-     if (ret)
-       {
-
-	    if (path[(ret - 1)] == caracter)
-	      {
-
-		   path[(ret - 1)] = 0;
-// goto inicio;
-
-	      }
-       }
-
-
+      path[(ret - 1)] = 0;
+      // goto inicio;
+    }
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-
-void removedordecaracternoinicio (char *path, char caracter)
+void removedordecaracternoinicio(char *path, char caracter)
 {
 
-/*vai remover no inicio os caracters que sao o caracter
+  /*vai remover no inicio os caracters que sao o caracter
 mas tira somente um unico item*/
-     int    ret;
-     char  *ptr;
+  int ret;
+  char *ptr;
 
-     char  *ptrdesloca;
+  char *ptrdesloca;
 
-     ptrdesloca = path;
-     ret = strlen (path);
+  ptrdesloca = path;
+  ret = strlen(path);
 
-     if (ret)
-       {
-	    ptr = malloc (ret + 1);
+  if (ret)
+  {
+    ptr = malloc(ret + 1);
 
-	    memset (ptr, 0, ret + 1);
+    memset(ptr, 0, ret + 1);
 
-	    if (*ptrdesloca == caracter)
-	      {
-// assim vai tirar um unico item
-		   ptrdesloca++;
-	      }
+    if (*ptrdesloca == caracter)
+    {
+      // assim vai tirar um unico item
+      ptrdesloca++;
+    }
 
+    strcpy(ptr, ptrdesloca);
+    memset(path, 0, ret);
+    strcpy(path, ptr);
 
-	    strcpy (ptr, ptrdesloca);
-	    memset (path, 0, ret);
-	    strcpy (path, ptr);
-
-	    free (ptr);
-       }
+    free(ptr);
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-void removedordeespaconoinicio (char *path)
+void removedordeespaconoinicio(char *path)
 {
 
-/*retira o caracter ' ' no inicio , e quantos mais tiver em sequencia*/
+  /*retira o caracter ' ' no inicio , e quantos mais tiver em sequencia*/
 
-     int    ret;
-     char  *ptr;
+  int ret;
+  char *ptr;
 
-     char  *ptrdesloca;
+  char *ptrdesloca;
 
-     ptrdesloca = path;
-     ret = strlen (path);
+  ptrdesloca = path;
+  ret = strlen(path);
 
-     if (ret)
-       {
-	    ptr = malloc (ret + 1);
+  if (ret)
+  {
+    ptr = malloc(ret + 1);
 
-	    memset (ptr, 0, ret + 1);
+    memset(ptr, 0, ret + 1);
 
-	    while (*ptrdesloca == ' ')
-	      {
+    while (*ptrdesloca == ' ')
+    {
 
-		   ptrdesloca++;
-	      }
+      ptrdesloca++;
+    }
 
+    strcpy(ptr, ptrdesloca);
+    memset(path, 0, ret);
+    strcpy(path, ptr);
 
-	    strcpy (ptr, ptrdesloca);
-	    memset (path, 0, ret);
-	    strcpy (path, ptr);
-
-	    free (ptr);
-       }
+    free(ptr);
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-void changecharacter (char *path, char itemtosearch, char finalcharacter)
+void changecharacter(char *path, char itemtosearch, char finalcharacter)
 {
-/*
+  /*
 * changecharacter , funcao para trocar caracteres numa string
 * itemtosearch , caracter para ser procurado e trocado finalcharacter
 * , character final a ser usado
 */
 
+  int ret;
 
+  ret = strlen(path);
 
-     int    ret;
+  if (ret)
+  {
+    int i;
+    for (i = 0; i < ret; i++)
+    {
 
-     ret = strlen (path);
-
-     if (ret)
-       {
-	    int    i;
-	    for (i = 0; i < ret; i++)
-	      {
-
-		   if (path[i] == itemtosearch)
-		     {
-			  path[i] = finalcharacter;
-		     }
-
-	      }
-
-       }
-
+      if (path[i] == itemtosearch)
+      {
+        path[i] = finalcharacter;
+      }
+    }
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-int countitens (char *comand, char item)
+int countitens(char *comand, char item)
 {
-/*
+  /*
 
 contador de itens , deve ser usada a funcao
 contastringsensitive ou
@@ -1579,116 +1374,98 @@ contastringinsensitive , porque sao mais novas
 
 */
 
-     int    ret;
-     int    i;
-     int    counter;
+  int ret;
+  int i;
+  int counter;
 
-     counter = 0;
+  counter = 0;
 
-     ret = strlen (comand);
+  ret = strlen(comand);
 
-     if (!ret)
-       {
-	    return 1;
+  if (!ret)
+  {
+    return 1;
+  }
 
-       }
+  for (i = 0; i < ret; i++)
+  {
+    if (comand[i] == item)
+    {
+      counter++;
+    }
+  }
 
-     for (i = 0; i < ret; i++)
-       {
-	    if (comand[i] == item)
-	      {
-		   counter++;
-	      }
-
-       }
-
-     return counter;
-
+  return counter;
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-void strtolower (char *path)
+void strtolower(char *path)
 {
-/*
+  /*
 * funcao para passar um tolower na string inteira
 */
-     int    ret;
-     int    i;
+  int ret;
+  int i;
 
-     ret = strlen (path);
+  ret = strlen(path);
 
-     if (ret)
-       {
-	    for (i = 0; i < ret; i++)
-	      {
+  if (ret)
+  {
+    for (i = 0; i < ret; i++)
+    {
 
-		   path[i] = tolower (path[i]);
+      path[i] = tolower(path[i]);
+    }
 
-
-	      }
-
-	    return;
-
-       }
-
-
+    return;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-void strtoupper (char *path)
+void strtoupper(char *path)
 {
-/*
+  /*
 * funcao para passar um toupper na string inteira
 */
-     int    ret;
-     int    i;
+  int ret;
+  int i;
 
-     ret = strlen (path);
+  ret = strlen(path);
 
-     if (ret)
-       {
-	    for (i = 0; i < ret; i++)
-	      {
+  if (ret)
+  {
+    for (i = 0; i < ret; i++)
+    {
 
-		   path[i] = toupper (path[i]);
+      path[i] = toupper(path[i]);
+    }
 
-
-	      }
-
-	    return;
-
-       }
-
-
+    return;
+  }
 }
-
-
 
 // /////////////////////
 
 // #define dprintf printf
 
-
 /*
 * declaracoes
  */
 
-void   removedordeespaconofinal (char *path);
+void removedordeespaconofinal(char *path);
 
-int    contastringinsensitive (char *comando, char *string);
+int contastringinsensitive(char *comando, char *string);
 
 /*
 * aprovado para uso interno
 */
-int testdirectory (char *path)
+int testdirectory(char *path)
 {
-/*
+  /*
 
 	Esta funcao nao deve ser usada , ja que a funcao pathexist e ispathfolder
 	usam uma diferente implementacao desta funcao
@@ -1700,79 +1477,71 @@ int testdirectory (char *path)
 
 */
 
-     static char fixo[255];
-     int    ret2 = 0;
+  static char fixo[255];
+  int ret2 = 0;
 
-     GetCurrentDirectory (255, fixo);
+  GetCurrentDirectory(255, fixo);
 
-     ret2 = SetCurrentDirectory (path);
+  ret2 = SetCurrentDirectory(path);
 
-     SetCurrentDirectory (fixo);
+  SetCurrentDirectory(fixo);
 
-     if (ret2)
-       {
-	    return 1;
-       }
-     else
-       {
-	    return 0;
-       }
-
+  if (ret2)
+  {
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
 /*
 * aprovado , para uso interno
 */
-int createtestfilename (char *path1)
+int createtestfilename(char *path1)
 {
-/*
+  /*
 *
 * retorna 1 se der para criar , retorna 0 se nao der
 o arquivo é deletado na finalizacao
 
 *
 */
-     int    ret;
-     static char fixo[255];
+  int ret;
+  static char fixo[255];
 
-     static char path[255];
+  static char path[255];
 
+  strcpy(path, path1);
 
-     strcpy (path, path1);
+  removedordeespaconofinal(path);
 
+  ret = strlen(path);
 
+  if (path[ret - 1] != '\\')
+  {
 
-     removedordeespaconofinal (path);
+    path[ret] = '\\';
+    path[ret + 1] = 0;
+  }
 
-     ret = strlen (path);
+  memset(fixo, 0, 254);
+  ret = GetTempFileName(path, "rsp", 0, fixo);
+  if (ret == 0)
+  {
 
-     if (path[ret - 1] != '\\')
-       {
+    return 0;
+  }
 
-	    path[ret] = '\\';
-	    path[ret + 1] = 0;
-
-       }
-
-     memset (fixo, 0, 254);
-     ret = GetTempFileName (path, "rsp", 0, fixo);
-     if (ret == 0)
-       {
-
-	    return 0;
-       }
-
-     else
-       {
-	    DeleteFile (fixo);
-	    return 1;
-       }
-
-
+  else
+  {
+    DeleteFile(fixo);
+    return 1;
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
@@ -1781,9 +1550,9 @@ o arquivo é deletado na finalizacao
 /*
 * aprovado
 */
-int pathexists (char *path)
+int pathexists(char *path)
 {
-/*
+  /*
 *
 * retorna 1 se existir um diretorio ou arquivo no destino retorna 0 se
 * der erro ou o path ou arquivo nao existir
@@ -1791,321 +1560,282 @@ int pathexists (char *path)
 *
 */
 
-     char   x[300];
-     int    ret;
+  char x[300];
+  int ret;
 
-     strcpy (x, path);
+  strcpy(x, path);
 
-     ret = strlen (x);
+  ret = strlen(x);
 
+  if (!ret)
+  {
+    return 0;
+  }
 
-     if (!ret)
-       {
-	    return 0;
-       }
+  if (ret < 2)
+  {
+    return 0;
+  }
 
-     if (ret < 2)
-       {
-	    return 0;
-       }
+  if (x[0] == '\\' && x[1] == '\\')
+  {
 
+    goto UNC;
+  }
 
-     if (x[0] == '\\' && x[1] == '\\')
-       {
+  if (tolower(x[0]) < 'a')
+  {
+    return 0;
+  }
 
-	    goto UNC;
-       }
+  if (tolower(x[0]) > 'z')
+  {
+    return 0;
+  }
 
+  if (tolower(x[1]) != ':')
+  {
+    return 0;
+  }
 
+UNC:
 
-     if (tolower (x[0]) < 'a')
-       {
-	    return 0;
+  if ((int) 0xffffffff != (int) GetFileAttributes(x))
+  {
 
-       }
-
-     if (tolower (x[0]) > 'z')
-       {
-	    return 0;
-
-       }
-
-     if (tolower (x[1]) != ':')
-       {
-	    return 0;
-       }
-
-
-
-
-
-
-
-
-
-   UNC:
-
-     if (0xffffffff != GetFileAttributes (x))
-       {
-
-	    return 1;
-       }
-     else
-       {
-	    return 0;
-       }
-
+    return 1;
+  }
+  else
+  {
+    return 0;
+  }
 }
 
-
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-int ispathreadonly (char *path)
+int ispathreadonly(char *path)
 {
-/*
+  /*
 * retorna -1 se o path for invalido e der erro retorna 1 se for read
 * only retorna 0 se nao for
 15/1/2004 13:04
 */
 
-     char   x[300];
-     int    ret;
+  char x[300];
+  int ret;
 
-     strcpy (x, path);
+  strcpy(x, path);
 
-     ret = strlen (x);
+  ret = strlen(x);
 
-     if (!ret)
-       {
-	    return -1;
-       }
+  if (!ret)
+  {
+    return -1;
+  }
 
-     if (ret < 2)
-       {
-	    return -1;
-       }
+  if (ret < 2)
+  {
+    return -1;
+  }
 
-     if (x[0] == '\\' && x[1] == '\\')
-       {
+  if (x[0] == '\\' && x[1] == '\\')
+  {
 
-	    goto UNC;
-       }
+    goto UNC;
+  }
 
+  if (tolower(x[0]) < 'a')
+  {
+    return -1;
+  }
 
+  if (tolower(x[0]) > 'z')
+  {
+    return -1;
+  }
 
-     if (tolower (x[0]) < 'a')
-       {
-	    return -1;
+  if (tolower(x[1]) != ':')
+  {
+    return -1;
+  }
 
-       }
+UNC:
 
-     if (tolower (x[0]) > 'z')
-       {
-	    return -1;
+  ret = GetFileAttributes(x);
+  if ((int)0xffffffff != (int)ret)
+  {
 
-       }
+    if (FILE_ATTRIBUTE_DIRECTORY & ret)
+    {
 
-     if (tolower (x[1]) != ':')
-       {
-	    return -1;
-       }
+      if (createtestfilename(x))
+      {
+        return 0;
+      }
+      else
+      {
+        return 1;
+      }
+    }
+    else
+    {
+      return -1;
+    }
+  }
+  else
+  {
 
-   UNC:
-
-     ret = GetFileAttributes (x);
-     if (0xffffffff != ret)
-       {
-
-	    if (FILE_ATTRIBUTE_DIRECTORY & ret)
-	      {
-
-		   if (createtestfilename (x))
-		     {
-			  return 0;
-		     }
-		   else
-		     {
-			  return 1;
-		     }
-	      }
-	    else
-	      {
-		   return -1;
-	      }
-
-       }
-     else
-       {
-
-
-	    return -1;
-       }
-
-
-
+    return -1;
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
-
 
 /*
 * aprovado
 */
-int ispathfolder (char *path)
+int ispathfolder(char *path)
 {
-/*
+  /*
 * retorna 1 se o path existir e for diretorio , 0 se for arquivo ou invalido path
 */
-/*15/1/2004 13:05*/
+  /*15/1/2004 13:05*/
 
-     char   x[300];
-     int    ret;
-     strcpy (x, path);
-     ret = strlen (x);
+  char x[300];
+  int ret;
+  strcpy(x, path);
+  ret = strlen(x);
 
-     if (!ret)
-       {
-	    return 0;
-       }
+  if (!ret)
+  {
+    return 0;
+  }
 
-     if (ret < 2)
-       {
-	    return 0;
-       }
+  if (ret < 2)
+  {
+    return 0;
+  }
 
-     if (x[0] == '\\' && x[1] == '\\')
-       {
+  if (x[0] == '\\' && x[1] == '\\')
+  {
 
-	    goto UNC;
-       }
+    goto UNC;
+  }
 
-     if (tolower (x[0]) < 'a')
-       {
-	    return 0;
+  if (tolower(x[0]) < 'a')
+  {
+    return 0;
+  }
 
-       }
+  if (tolower(x[0]) > 'z')
+  {
+    return 0;
+  }
 
-     if (tolower (x[0]) > 'z')
-       {
-	    return 0;
+  if (tolower(x[1]) != ':')
+  {
+    return 0;
+  }
 
-       }
+UNC:
 
-     if (tolower (x[1]) != ':')
-       {
-	    return 0;
-       }
+  ret = GetFileAttributes(x);
 
+  if ((int)0xffffffff != (int)ret)
+  {
 
-   UNC:
+    if (ret & (FILE_ATTRIBUTE_DIRECTORY))
+    {
 
-     ret = GetFileAttributes (x);
-
-     if (0xffffffff != ret)
-       {
-
-	    if (ret & (FILE_ATTRIBUTE_DIRECTORY))
-	      {
-
-		   return 1;
-	      }
-	    else
-	      {
-		   return 0;
-	      }
-
-       }
-     else
-       {
-	    return 0;
-       }
-
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  else
+  {
+    return 0;
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-int ispathfile (char *path)
+int ispathfile(char *path)
 {
-/*
+  /*
 * retorna 1 se for arquivo e 0 se der erro ou for path ou for invalido
 */
 
-     char   x[300];
-     int    ret;
-     strcpy (x, path);
-     ret = strlen (x);
+  char x[300];
+  int ret;
+  strcpy(x, path);
+  ret = strlen(x);
 
-     if (!ret)
-       {
-	    return 0;
-       }
+  if (!ret)
+  {
+    return 0;
+  }
 
-     if (ret < 2)
-       {
-	    return 0;
-       }
+  if (ret < 2)
+  {
+    return 0;
+  }
 
-     if (x[0] == '\\' && x[1] == '\\')
-       {
+  if (x[0] == '\\' && x[1] == '\\')
+  {
 
-	    goto UNC;
-       }
+    goto UNC;
+  }
 
-     if (tolower (x[0]) < 'a')
-       {
-	    return 0;
+  if (tolower(x[0]) < 'a')
+  {
+    return 0;
+  }
 
-       }
+  if (tolower(x[0]) > 'z')
+  {
+    return 0;
+  }
 
-     if (tolower (x[0]) > 'z')
-       {
-	    return 0;
+  if (tolower(x[1]) != ':')
+  {
+    return 0;
+  }
 
-       }
+UNC:
 
-     if (tolower (x[1]) != ':')
-       {
-	    return 0;
-       }
+  ret = GetFileAttributes(x);
 
-   UNC:
+  if ((int) 0xffffffff != (int) ret)
+  {
 
-     ret = GetFileAttributes (x);
+    if (ret & (FILE_ATTRIBUTE_DIRECTORY))
+    {
 
-
-     if (0xffffffff != ret)
-       {
-
-	    if (ret & (FILE_ATTRIBUTE_DIRECTORY))
-	      {
-
-		   return 0;
-	      }
-	    else
-	      {
-		   return 1;
-	      }
-
-       }
-     else
-       {
-	    return 0;
-       }
-
-
+      return 0;
+    }
+    else
+    {
+      return 1;
+    }
+  }
+  else
+  {
+    return 0;
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-void geterrorstringrspmakedir (int errorcode, char *path)
+void geterrorstringrspmakedir(int errorcode, char *path)
 {
-/*
+  /*
 
 esta funcao pega uma string referente a utilizacao da
 funcao rsomakedir
@@ -2116,80 +1846,75 @@ impossibilitou a cracao do diretorio
 
 
 */
-     switch (errorcode)
-       {
-       case 0:
-	    strcpy (path, "No error\0");
-	    return;
-       case 1:
-	    strcpy (path, "Path is empty");
-	    return;
-       case 2:
-	    strcpy (path, "Path has invalid characters");
-	    return;
-       case 3:
-	    strcpy (path, "The path is a file , thus it cannot be created in the destination as a path");
-	    return;
-       case 4:
-	    strcpy (path, "Unable to create the destination directory , possible drive invalid or read only ");
-	    return;
-       case 5:
-	    strcpy (path, "The UNC path is a file , thus it cannot be created in the destination as a path");
-	    return;
-       case 6:
-	    strcpy (path, "Unable to create the destination directory , possible UNC path invalid or disconnected or read only ");
-	    return;
+  switch (errorcode)
+  {
+  case 0:
+    strcpy(path, "No error\0");
+    return;
+  case 1:
+    strcpy(path, "Path is empty");
+    return;
+  case 2:
+    strcpy(path, "Path has invalid characters");
+    return;
+  case 3:
+    strcpy(path, "The path is a file , thus it cannot be created in the destination as a path");
+    return;
+  case 4:
+    strcpy(path, "Unable to create the destination directory , possible drive invalid or read only ");
+    return;
+  case 5:
+    strcpy(path, "The UNC path is a file , thus it cannot be created in the destination as a path");
+    return;
+  case 6:
+    strcpy(path, "Unable to create the destination directory , possible UNC path invalid or disconnected or read only ");
+    return;
 
-       case 7:
-	    strcpy (path, "You need at least two characters to a path like this a: ");
-	    return;
-// ///
+  case 7:
+    strcpy(path, "You need at least two characters to a path like this a: ");
+    return;
+    // ///
 
-       case 8:
-	    strcpy (path, "Too many characters : on the path ");
-	    return;
-       case 9:
-	    strcpy (path, "Invalid character ? on the path ");
-	    return;
-       case 10:
-	    strcpy (path, "Invalid character * on the path ");
-	    return;
-       case 11:
-	    strcpy (path, "Invalid character < on the path ");
-	    return;
-       case 12:
-	    strcpy (path, "Invalid character > on the path ");
-	    return;
-       case 13:
-	    strcpy (path, "Invalid character / on the path ");
-	    return;
-       case 14:
-	    strcpy (path, "Invalid character \" on the path ");
-	    return;
-       case 15:
-	    strcpy (path, "Path is read only ");
-	    return;
-       case 16:
-	    strcpy (path, "Invalid character | on the path ");
-	    return;
-//aqui vai ais um
-       default:
-	    strcpy (path, "Unexpected return value to the function to create directories");
-	    return;
-       }
-
-
-
+  case 8:
+    strcpy(path, "Too many characters : on the path ");
+    return;
+  case 9:
+    strcpy(path, "Invalid character ? on the path ");
+    return;
+  case 10:
+    strcpy(path, "Invalid character * on the path ");
+    return;
+  case 11:
+    strcpy(path, "Invalid character < on the path ");
+    return;
+  case 12:
+    strcpy(path, "Invalid character > on the path ");
+    return;
+  case 13:
+    strcpy(path, "Invalid character / on the path ");
+    return;
+  case 14:
+    strcpy(path, "Invalid character \" on the path ");
+    return;
+  case 15:
+    strcpy(path, "Path is read only ");
+    return;
+  case 16:
+    strcpy(path, "Invalid character | on the path ");
+    return;
+    //aqui vai ais um
+  default:
+    strcpy(path, "Unexpected return value to the function to create directories");
+    return;
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-
-
-int rspmakedir (char *path)
+int rspmakedir(char *path)
 {
-/*
+  /*
 
 funcao que cria diretorios
 
@@ -2205,219 +1930,198 @@ com a descricao do erro ocorrido
 
 15/1/2004 13:09
 */
-     int    ret2;
-     int    ret;
-     int    i;
-     char   temp[500];
-     strcpy (temp, path);
+  int ret2;
+  int ret;
+  int i;
+  char temp[500];
+  strcpy(temp, path);
 
-     ret = strlen (temp);
-     if (!ret)
-       {
-	    return 1;
-       }
+  ret = strlen(temp);
+  if (!ret)
+  {
+    return 1;
+  }
 
-     if (ret < 2)
-       {
-	    return 7;
-       }
-// aqui verifica isto
+  if (ret < 2)
+  {
+    return 7;
+  }
+  // aqui verifica isto
 
-     ret2 = validatefoldertocreate (temp);
+  ret2 = validatefoldertocreate(temp);
 
+  if (ret2)
+  {
+    // aqui efetua a mapeacao
 
-     if (ret2)
-       {
-// aqui efetua a mapeacao
+    switch (ret2)
+    {
+    case 1:
+      return 8;
+    case 2:
+      return 13;
+    case 3:
+      return 10;
+    case 4:
+      return 9;
+    case 5:
+      return 11;
+    case 6:
+      return 12;
+    case 7:
+      return 14;
+    case 8:
+      return 16;
+    }
 
-	    switch (ret2)
-	      {
-	      case 1:
-		   return 8;
-	      case 2:
-		   return 13;
-	      case 3:
-		   return 10;
-	      case 4:
-		   return 9;
-	      case 5:
-		   return 11;
-	      case 6:
-		   return 12;
-	      case 7:
-		   return 14;
-	      case 8:
-		   return 16;
-	      }
-
-/*por isto que tem que debugar estas coisas bem , um erro
+    /*por isto que tem que debugar estas coisas bem , um erro
 invalida tudo e complica o meio de campo*/
+  }
+  //
 
-       }
-//
+  if (ret != 3)
+  {
+    if (temp[ret - 1] == '\\')
+    {
+      temp[ret - 1] = 0;
+    }
+  }
 
-     if (ret != 3)
-       {
+  ret = strlen(temp);
+  if (temp[0] == '\\' && temp[1] == '\\')
+  {
+    goto unc;
+  }
 
-	    if (temp[ret - 1] == '\\')
-	      {
+  if (tolower(temp[0]) < 'a' || tolower(temp[0]) > 'z' || temp[1] != ':')
+  {
+    return 2; // path has invalid characters
+  }
 
-		   temp[ret - 1] = 0;
-	      }
+  if (ret)
+  {
 
-       }
+    for (i = 0; i < ret; i++)
+    {
 
+      if (temp[i] == '\\')
+      {
+        char temp1;
+        temp1 = temp[i + 1];
+        temp[i + 1] = 0;
+        // dprintf ("Criando diretorio -%s- \n", temp);
+        CreateDirectory(temp, NULL);
+        temp[i + 1] = temp1;
+      }
+    }
 
-     ret = strlen (temp);
-     if (temp[0] == '\\' && temp[1] == '\\')
-       {
-	    goto unc;
-       }
+    // dprintf ("Criando diretorio final -%s- \n", temp);
+    CreateDirectory(temp, NULL);
+  }
+  //dprintf ("1Qual o path que vai checar ? -%s- \n", path);
+  //dprintf ("2Qual o path que vai checar ? -%s- \n", temp);
+  if (ispathfolder(temp))
+  {
 
-     if (tolower (temp[0]) < 'a' || tolower (temp[0]) > 'z' || temp[1] != ':')
-       {
-	    return 2;		// path has invalid characters
-       }
+    if (!ispathreadonly(temp))
+    {
+      return 0; // ok , nao é read only
+    }
+    else
+    {
+      return 15; // path is read only or unavailable
+    }
+  }
+  else
+  {
+    // dprintf ("Qual o path que vai checar ? -%s- \n", path);
+    if (ispathfile(temp))
+    {
+      return 3;
+    }
+    else
+    {
+      return 4;
+    }
+  }
 
+  return 0;
+unc:
 
+  if (ret)
+  {
 
-     if (ret)
-       {
+    for (i = 0; i < ret; i++)
+    {
 
-	    for (i = 0; i < ret; i++)
-	      {
+      if (i == 0)
+      {
+        i = 2;
+      }
 
-		   if (temp[i] == '\\')
-		     {
-			  char   temp1;
-			  temp1 = temp[i + 1];
-			  temp[i + 1] = 0;
-// dprintf ("Criando diretorio -%s- \n", temp);
-			  CreateDirectory (temp, NULL);
-			  temp[i + 1] = temp1;
-		     }
+      if (temp[i] == '\\')
+      {
+        char temp1;
+        temp1 = temp[i + 1];
+        temp[i + 1] = 0;
 
+        // dprintf ("Criando diretorio UNC -%s- \n", temp);
 
-	      }
+        CreateDirectory(temp, NULL);
 
-// dprintf ("Criando diretorio final -%s- \n", temp);
-	    CreateDirectory (temp, NULL);
+        temp[i + 1] = temp1;
+      }
+    }
+    // dprintf ("Criando diretorio UNC final -%s- \n", temp);
+    CreateDirectory(temp, NULL);
+  }
+  // dprintf ("Qual o path que vai checar ? -%s- \n", path);
+  if (ispathfolder(temp))
+  {
 
+    if (!ispathreadonly(temp))
+    {
+      return 0; // ok , nao é read only
+    }
+    else
+    {
+      return 15; // path is read only or unavailable
+    }
 
-       }
-     //dprintf ("1Qual o path que vai checar ? -%s- \n", path);
-     //dprintf ("2Qual o path que vai checar ? -%s- \n", temp);
-     if (ispathfolder (temp))
-       {
+    return 0;
+  }
+  else
+  {
+    // dprintf ("Qual o path que vai checar ? -%s- \n", path);
+    if (ispathfile(temp))
+    {
+      return 5;
+    }
+    else
+    {
+      return 6;
+    }
+  }
 
-	    if (!ispathreadonly (temp))
-	      {
-		   return 0;	// ok , nao é read only
-	      }
-	    else
-	      {
-		   return 15;	// path is read only or unavailable
-	      }
-
-
-       }
-     else
-       {
-// dprintf ("Qual o path que vai checar ? -%s- \n", path);
-	    if (ispathfile (temp))
-	      {
-		   return 3;
-	      }
-	    else
-	      {
-		   return 4;
-	      }
-
-       }
-
-     return 0;
-   unc:
-
-     if (ret)
-       {
-
-	    for (i = 0; i < ret; i++)
-	      {
-
-		   if (i == 0)
-		     {
-			  i = 2;
-		     }
-
-		   if (temp[i] == '\\')
-		     {
-			  char   temp1;
-			  temp1 = temp[i + 1];
-			  temp[i + 1] = 0;
-
-// dprintf ("Criando diretorio UNC -%s- \n", temp);
-
-			  CreateDirectory (temp, NULL);
-
-			  temp[i + 1] = temp1;
-		     }
-
-
-	      }
-// dprintf ("Criando diretorio UNC final -%s- \n", temp);
-	    CreateDirectory (temp, NULL);
-
-       }
-// dprintf ("Qual o path que vai checar ? -%s- \n", path);
-     if (ispathfolder (temp))
-       {
-
-	    if (!ispathreadonly (temp))
-	      {
-		   return 0;	// ok , nao é read only
-	      }
-	    else
-	      {
-		   return 15;	// path is read only or unavailable
-	      }
-
-	    return 0;
-       }
-     else
-       {
-// dprintf ("Qual o path que vai checar ? -%s- \n", path);
-	    if (ispathfile (temp))
-	      {
-		   return 5;
-	      }
-	    else
-	      {
-		   return 6;
-	      }
-
-       }
-
-     return 0;
+  return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-char  *validanomedearquivoerrorstring ()
+char *validanomedearquivoerrorstring()
 {
-     static char errorstring[] = "the file name has invalid characters | \\ \" > < ? * / or : ";
-     return errorstring;
+  static char errorstring[] = "the file name has invalid characters | \\ \" > < ? * / or : ";
+  return errorstring;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-int validanomedearquivo (char *path)
+int validanomedearquivo(char *path)
 {
 
-
-/*
+  /*
 esta funcao verifica se um path passado
 tem caracteres validos para um path
 se tiver algum item que nao e valido para arquivo
@@ -2425,84 +2129,79 @@ retorna o valor de erro , se der tudo certo , retorna 0
 15/1/2004 13:11
 */
 
+  if ((contastringinsensitive(path, ":")))
+  {
 
-     if ((contastringinsensitive (path, ":")))
-       {
+    return 1;
+  }
 
-	    return 1;
-       }
+  if ((contastringinsensitive(path, "/")))
+  {
 
-     if ((contastringinsensitive (path, "/")))
-       {
+    return 2;
+  }
 
-	    return 2;
-       }
+  if ((contastringinsensitive(path, "*")))
+  {
 
-     if ((contastringinsensitive (path, "*")))
-       {
+    return 3;
+  }
 
-	    return 3;
-       }
+  if ((contastringinsensitive(path, "?")))
+  {
 
-     if ((contastringinsensitive (path, "?")))
-       {
+    return 4;
+  }
 
-	    return 4;
-       }
+  if ((contastringinsensitive(path, "<")))
+  {
 
-     if ((contastringinsensitive (path, "<")))
-       {
+    return 5;
+  }
 
-	    return 5;
-       }
+  if ((contastringinsensitive(path, ">")))
+  {
 
-     if ((contastringinsensitive (path, ">")))
-       {
+    return 6;
+  }
 
-	    return 6;
-       }
+  if ((contastringinsensitive(path, "\"")))
+  {
 
-     if ((contastringinsensitive (path, "\"")))
-       {
+    return 7;
+  }
 
-	    return 7;
-       }
+  if ((contastringinsensitive(path, "\\")))
+  {
 
-     if ((contastringinsensitive (path, "\\")))
-       {
+    return 8;
+  }
 
-	    return 8;
-       }
+  if ((contastringinsensitive(path, "|")))
+  {
 
-     if ((contastringinsensitive (path, "|")))
-       {
+    return 9;
+  }
 
-	    return 9;
-       }
-
-
-     return 0;
-
+  return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-
-char  *validatefoldertocreateerrorstring ()
+char *validatefoldertocreateerrorstring()
 {
-     static char errorstring[] = "the path has invalid characters | \" > < ?	* / or :: ";
-     return errorstring;
+  static char errorstring[] = "the path has invalid characters | \" > < ?	* / or :: ";
+  return errorstring;
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 
-int validatefoldertocreate (char *path)
+int validatefoldertocreate(char *path)
 {
 
-
-/*
+  /*
 esta funcao verifica se um path passado
 tem caracteres validos para um path
 se tiver algum item que nao e valido para arquivo
@@ -2510,57 +2209,55 @@ retorna o valor de erro , se der tudo certo , retorna 0
 15/1/2004 13:11
 */
 
+  if ((contastringinsensitive(path, ":") > 1))
+  {
 
-     if ((contastringinsensitive (path, ":") > 1))
-       {
+    return 1;
+  }
 
-	    return 1;
-       }
+  if ((contastringinsensitive(path, "/")))
+  {
 
-     if ((contastringinsensitive (path, "/")))
-       {
+    return 2;
+  }
 
-	    return 2;
-       }
+  if ((contastringinsensitive(path, "*")))
+  {
 
-     if ((contastringinsensitive (path, "*")))
-       {
+    return 3;
+  }
 
-	    return 3;
-       }
+  if ((contastringinsensitive(path, "?")))
+  {
 
-     if ((contastringinsensitive (path, "?")))
-       {
+    return 4;
+  }
 
-	    return 4;
-       }
+  if ((contastringinsensitive(path, "<")))
+  {
 
-     if ((contastringinsensitive (path, "<")))
-       {
+    return 5;
+  }
 
-	    return 5;
-       }
+  if ((contastringinsensitive(path, ">")))
+  {
 
-     if ((contastringinsensitive (path, ">")))
-       {
+    return 6;
+  }
 
-	    return 6;
-       }
+  if ((contastringinsensitive(path, "\"")))
+  {
 
-     if ((contastringinsensitive (path, "\"")))
-       {
+    return 7;
+  }
 
-	    return 7;
-       }
+  if ((contastringinsensitive(path, "|")))
+  {
 
-     if ((contastringinsensitive (path, "|")))
-       {
+    return 8;
+  }
 
-	    return 8;
-       }
-
-     return 0;
-
+  return 0;
 }
 
 /*
@@ -2879,13 +2576,11 @@ retorna o valor de erro , se der tudo certo , retorna 0
 * return 0; }
 */
 
-
 // //////////////////////////////////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////
 /*fim do arquivo 15/1/2004 13:11*/
 
 //
-
 
 //
 ///* FSEEK.C: This program opens the file FSEEK.OUT and

@@ -12,14 +12,21 @@
 #include "putty.h"
 
 /* log session to file stuff ... */
-struct LogContext {
+struct LogContext
+{
     FILE *lgfp;
-    enum { L_CLOSED, L_OPENING, L_OPEN, L_ERROR } state;
+    enum
+    {
+        L_CLOSED,
+        L_OPENING,
+        L_OPEN,
+        L_ERROR
+    } state;
     bufchain queue;
     Filename *currlogfilename;
     LogPolicy *lp;
     Conf *conf;
-    int logtype;                       /* cached out of conf */
+    int logtype; /* cached out of conf */
 };
 
 static Filename *xlatlognam(Filename *s, char *hostname, int port,
@@ -41,17 +48,21 @@ static void logwrite(LogContext *ctx, ptrlen data)
     if (ctx->state == L_CLOSED)
         logfopen(ctx);
 
-    if (ctx->state == L_OPENING) {
+    if (ctx->state == L_OPENING)
+    {
         bufchain_add(&ctx->queue, data.ptr, data.len);
-    } else if (ctx->state == L_OPEN) {
+    }
+    else if (ctx->state == L_OPEN)
+    {
         assert(ctx->lgfp);
-        if (fwrite(data.ptr, 1, data.len, ctx->lgfp) < data.len) {
+        if (fwrite(data.ptr, 1, data.len, ctx->lgfp) < data.len)
+        {
             logfclose(ctx);
             ctx->state = L_ERROR;
             lp_eventlog(ctx->lp, "Disabled writing session log "
-                        "due to error while writing");
+                                 "due to error while writing");
         }
-    }                                  /* else L_ERROR, so ignore the write */
+    } /* else L_ERROR, so ignore the write */
 }
 
 /*
@@ -89,39 +100,45 @@ static void logfopen_callback(void *vctx, int mode)
     const char *fmode;
     bool shout = false;
 
-    if (mode == 0) {
-        ctx->state = L_ERROR;          /* disable logging */
-    } else {
+    if (mode == 0)
+    {
+        ctx->state = L_ERROR; /* disable logging */
+    }
+    else
+    {
         fmode = (mode == 1 ? "ab" : "wb");
         ctx->lgfp = f_open(ctx->currlogfilename, fmode, false);
-        if (ctx->lgfp) {
+        if (ctx->lgfp)
+        {
             ctx->state = L_OPEN;
-        } else {
+        }
+        else
+        {
             ctx->state = L_ERROR;
             shout = true;
         }
     }
 
-    if (ctx->state == L_OPEN && conf_get_bool(ctx->conf, CONF_logheader)) {
+    if (ctx->state == L_OPEN && conf_get_bool(ctx->conf, CONF_logheader))
+    {
         /* Write header line into log file. */
         tm = ltime();
         strftime(buf, 24, "%Y.%m.%d %H:%M:%S", &tm);
         logprintf(ctx, "=~=~=~=~=~=~=~=~=~=~=~= PuTTY log %s"
-                  " =~=~=~=~=~=~=~=~=~=~=~=\r\n", buf);
+                       " =~=~=~=~=~=~=~=~=~=~=~=\r\n",
+                  buf);
     }
 
     event = dupprintf("%s session log (%s mode) to file: %s",
-                      ctx->state == L_ERROR ?
-                      (mode == 0 ? "Disabled writing" : "Error writing") :
-                      (mode == 1 ? "Appending" : "Writing new"),
-                      (ctx->logtype == LGTYP_ASCII ? "ASCII" :
-                       ctx->logtype == LGTYP_DEBUG ? "raw" :
-                       ctx->logtype == LGTYP_PACKETS ? "SSH packets" :
-                       ctx->logtype == LGTYP_SSHRAW ? "SSH raw data" :
-                       "unknown"),
+                      ctx->state == L_ERROR ? (mode == 0 ? "Disabled writing" : "Error writing") : (mode == 1 ? "Appending" : "Writing new"),
+                      (ctx->logtype == LGTYP_ASCII ? "ASCII" : ctx->logtype == LGTYP_DEBUG ? "raw"
+                                                           : ctx->logtype == LGTYP_PACKETS ? "SSH packets"
+                                                           : ctx->logtype == LGTYP_SSHRAW  ? "SSH raw data"
+                                                                                           : "unknown"),
                       filename_to_str(ctx->currlogfilename));
     lp_eventlog(ctx->lp, event);
-    if (shout) {
+    if (shout)
+    {
         /*
          * If we failed to open the log file due to filesystem error
          * (as opposed to user action such as clicking Cancel in the
@@ -135,8 +152,9 @@ static void logfopen_callback(void *vctx, int mode)
      * Having either succeeded or failed in opening the log file,
      * we should write any queued data out.
      */
-    assert(ctx->state != L_OPENING);   /* make _sure_ it won't be requeued */
-    while (bufchain_size(&ctx->queue)) {
+    assert(ctx->state != L_OPENING); /* make _sure_ it won't be requeued */
+    while (bufchain_size(&ctx->queue))
+    {
         ptrlen data = bufchain_prefix(&ctx->queue);
         logwrite(ctx, data);
         bufchain_consume(&ctx->queue, data.len);
@@ -171,25 +189,30 @@ void logfopen(LogContext *ctx)
                    conf_get_str(ctx->conf, CONF_host),
                    conf_get_int(ctx->conf, CONF_port), &tm);
 
-    if (open_for_write_would_lose_data(ctx->currlogfilename)) {
+    if (open_for_write_would_lose_data(ctx->currlogfilename))
+    {
         int logxfovr = conf_get_int(ctx->conf, CONF_logxfovr);
-        if (logxfovr != LGXF_ASK) {
+        if (logxfovr != LGXF_ASK)
+        {
             mode = ((logxfovr == LGXF_OVR) ? 2 : 1);
-        } else
+        }
+        else
             mode = lp_askappend(ctx->lp, ctx->currlogfilename,
                                 logfopen_callback, ctx);
-    } else
-        mode = 2;                      /* create == overwrite */
+    }
+    else
+        mode = 2; /* create == overwrite */
 
     if (mode < 0)
         ctx->state = L_OPENING;
     else
-        logfopen_callback(ctx, mode);  /* open the file */
+        logfopen_callback(ctx, mode); /* open the file */
 }
 
 void logfclose(LogContext *ctx)
 {
-    if (ctx->lgfp) {
+    if (ctx->lgfp)
+    {
         fclose(ctx->lgfp);
         ctx->lgfp = NULL;
     }
@@ -201,7 +224,8 @@ void logfclose(LogContext *ctx)
  */
 void logtraffic(LogContext *ctx, unsigned char c, int logmode)
 {
-    if (ctx->logtype > 0) {
+    if (ctx->logtype > 0)
+    {
         if (ctx->logtype == logmode)
             logwrite(ctx, make_ptrlen(&c, 1));
     }
@@ -209,7 +233,8 @@ void logtraffic(LogContext *ctx, unsigned char c, int logmode)
 
 static void logevent_internal(LogContext *ctx, const char *event)
 {
-    if (ctx->logtype == LGTYP_PACKETS || ctx->logtype == LGTYP_SSHRAW) {
+    if (ctx->logtype == LGTYP_PACKETS || ctx->logtype == LGTYP_SSHRAW)
+    {
         logprintf(ctx, "Event Log: %s\r\n", event);
         logflush(ctx);
     }
@@ -227,23 +252,31 @@ void logevent(LogContext *ctx, const char *event)
      * dialog box; newlines are sometimes appropriate in the latter,
      * but never in the former.)
      */
-    if (strchr(event, '\n') || strchr(event, '\r')) {
+    if (strchr(event, '\n') || strchr(event, '\r'))
+    {
         char *dup = dupstr(event);
         char *p = dup, *q = dup;
-        while (*p) {
-            if (*p == '\r' || *p == '\n') {
-                do {
+        while (*p)
+        {
+            if (*p == '\r' || *p == '\n')
+            {
+                do
+                {
                     p++;
                 } while (*p == '\r' || *p == '\n');
                 *q++ = ' ';
-            } else {
+            }
+            else
+            {
                 *q++ = *p++;
             }
         }
         *q = '\0';
         logevent_internal(ctx, dup);
         sfree(dup);
-    } else {
+    }
+    else
+    {
         logevent_internal(ctx, event);
     }
 }
@@ -288,7 +321,8 @@ void log_packet(LogContext *ctx, int direction, int type,
         return;
 
     /* Packet header. */
-    if (texttype) {
+    if (texttype)
+    {
         logprintf(ctx, "%s packet ",
                   direction == PKT_INCOMING ? "Incoming" : "Outgoing");
 
@@ -297,14 +331,17 @@ void log_packet(LogContext *ctx, int direction, int type,
 
         logprintf(ctx, "type %d / 0x%02x (%s)", type, type, texttype);
 
-        if (downstream_id) {
+        if (downstream_id)
+        {
             logprintf(ctx, " on behalf of downstream #%u", downstream_id);
             if (additional_log_text)
                 logprintf(ctx, " (%s)", additional_log_text);
         }
 
         logprintf(ctx, "\r\n");
-    } else {
+    }
+    else
+    {
         /*
          * Raw data is logged with a timestamp, so that it's possible
          * to determine whether a mysterious delay occurred at the
@@ -326,78 +363,87 @@ void log_packet(LogContext *ctx, int direction, int type,
      * Output a hex/ASCII dump of the packet body, blanking/omitting
      * parts as specified.
      */
-    while (p < len) {
+    while (p < len)
+    {
         int blktype;
 
         /* Move to a current entry in the blanking array. */
-        while ((b < n_blanks) &&
-               (p >= blanks[b].offset + blanks[b].len))
+        while (((int64_t)b < (int64_t)n_blanks) &&
+               ((int64_t)p >= (int64_t)(blanks[b].offset + blanks[b].len)))
             b++;
         /* Work out what type of blanking to apply to
          * this byte. */
         blktype = PKTLOG_EMIT; /* default */
-        if ((b < n_blanks) &&
-            (p >= blanks[b].offset) &&
-            (p < blanks[b].offset + blanks[b].len))
+        if (((int64_t)b < (int64_t)n_blanks) &&
+            ((int64_t)p >= (int64_t)blanks[b].offset) &&
+            ((int64_t)p < (int64_t)(blanks[b].offset + blanks[b].len)))
             blktype = blanks[b].type;
 
         /* If we're about to stop omitting, it's time to say how
          * much we omitted. */
-        if ((blktype != PKTLOG_OMIT) && omitted) {
+        if ((blktype != PKTLOG_OMIT) && omitted)
+        {
             logprintf(ctx, "  (%u byte%s omitted)\r\n",
-                      (int)omitted, (omitted==1?"":"s"));
+                      (int)omitted, (omitted == 1 ? "" : "s"));
             omitted = 0;
         }
 
         /* (Re-)initialise dumpdata as necessary
          * (start of row, or if we've just stopped omitting) */
         if (!output_pos && !omitted)
-            sprintf(dumpdata, "  %08" 
-			
-#ifdef WIN64			
-			"llx" 
+            sprintf(dumpdata, "  %08"
+
+#ifdef WIN64
+                              "llx"
 #else
-			"x"
+                              "x"
 #endif
-			
-			"%*s\r\n",
-                    p-(p%16), 1+3*16+2+16, "");
+
+                              "%*s\r\n",
+                    p - (p % 16), 1 + 3 * 16 + 2 + 16, "");
 
         /* Deal with the current byte. */
-        if (blktype == PKTLOG_OMIT) {
+        if (blktype == PKTLOG_OMIT)
+        {
             omitted++;
-        } else {
+        }
+        else
+        {
             int c;
-            if (blktype == PKTLOG_BLANK) {
+            if (blktype == PKTLOG_BLANK)
+            {
                 c = 'X';
                 sprintf(smalldata, "XX");
-            } else {  /* PKTLOG_EMIT */
+            }
+            else
+            { /* PKTLOG_EMIT */
                 c = ((const unsigned char *)data)[p];
                 sprintf(smalldata, "%02x", c);
             }
-            dumpdata[10+2+3*(p%16)] = smalldata[0];
-            dumpdata[10+2+3*(p%16)+1] = smalldata[1];
-            dumpdata[10+1+3*16+2+(p%16)] = (c >= 0x20 && c < 0x7F ? c : '.');
-            output_pos = (p%16) + 1;
+            dumpdata[10 + 2 + 3 * (p % 16)] = smalldata[0];
+            dumpdata[10 + 2 + 3 * (p % 16) + 1] = smalldata[1];
+            dumpdata[10 + 1 + 3 * 16 + 2 + (p % 16)] = (c >= 0x20 && c < 0x7F ? c : '.');
+            output_pos = (p % 16) + 1;
         }
 
         p++;
 
         /* Flush row if necessary */
-        if (((p % 16) == 0) || (p == len) || omitted) {
-            if (output_pos) {
-                strcpy(dumpdata + 10+1+3*16+2+output_pos, "\r\n");
+        if (((p % 16) == 0) || (p == len) || omitted)
+        {
+            if (output_pos)
+            {
+                strcpy(dumpdata + 10 + 1 + 3 * 16 + 2 + output_pos, "\r\n");
                 logwrite(ctx, ptrlen_from_asciz(dumpdata));
                 output_pos = 0;
             }
         }
-
     }
 
     /* Tidy up */
     if (omitted)
         logprintf(ctx, "  (%u byte%s omitted)\r\n",
-                  (int)omitted, (omitted==1?"":"s"));
+                  (int)omitted, (omitted == 1 ? "" : "s"));
     logflush(ctx);
 }
 
@@ -431,7 +477,7 @@ void log_reconfig(LogContext *ctx, Conf *conf)
     if (!filename_equal(conf_get_filename(ctx->conf, CONF_logfilename),
                         conf_get_filename(conf, CONF_logfilename)) ||
         conf_get_int(ctx->conf, CONF_logtype) !=
-        conf_get_int(conf, CONF_logtype))
+            conf_get_int(conf, CONF_logtype))
         reset_logging = true;
     else
         reset_logging = false;
@@ -466,51 +512,58 @@ static Filename *xlatlognam(Filename *src, char *hostname, int port,
     buffer = strbuf_new();
     s = filename_to_str(src);
 
-    while (*s) {
+    while (*s)
+    {
         bool sanitise = false;
         /* Let (bufp, len) be the string to append. */
-        bufp = buf;                    /* don't usually override this */
-        if (*s == '&') {
+        bufp = buf; /* don't usually override this */
+        if (*s == '&')
+        {
             char c;
             s++;
             size = 0;
-            if (*s) switch (c = *s++, tolower((unsigned char)c)) {
-              case 'y':
-                size = strftime(buf, sizeof(buf), "%Y", tm);
-                break;
-              case 'm':
-                size = strftime(buf, sizeof(buf), "%m", tm);
-                break;
-              case 'd':
-                size = strftime(buf, sizeof(buf), "%d", tm);
-                break;
-              case 't':
-                size = strftime(buf, sizeof(buf), "%H%M%S", tm);
-                break;
-              case 'h':
-                bufp = hostname;
-                size = strlen(bufp);
-                break;
-              case 'p':
-                size = sprintf(buf, "%d", port);
-                break;
-              default:
-                buf[0] = '&';
-                size = 1;
-                if (c != '&')
-                    buf[size++] = c;
-            }
+            if (*s)
+                switch (c = *s++, tolower((unsigned char)c))
+                {
+                case 'y':
+                    size = strftime(buf, sizeof(buf), "%Y", tm);
+                    break;
+                case 'm':
+                    size = strftime(buf, sizeof(buf), "%m", tm);
+                    break;
+                case 'd':
+                    size = strftime(buf, sizeof(buf), "%d", tm);
+                    break;
+                case 't':
+                    size = strftime(buf, sizeof(buf), "%H%M%S", tm);
+                    break;
+                case 'h':
+                    bufp = hostname;
+                    size = strlen(bufp);
+                    break;
+                case 'p':
+                    size = sprintf(buf, "%d", port);
+                    break;
+                default:
+                    buf[0] = '&';
+                    size = 1;
+                    if (c != '&')
+                        buf[size++] = c;
+                }
             /* Never allow path separators - or any other illegal
              * filename character - to come out of any of these
              * auto-format directives. E.g. 'hostname' can contain
              * colons, if it's an IPv6 address, and colons aren't
              * legal in filenames on Windows. */
             sanitise = true;
-        } else {
+        }
+        else
+        {
             buf[0] = *s++;
             size = 1;
         }
-        while (size-- > 0) {
+        while (size-- > 0)
+        {
             char c = *bufp++;
             if (sanitise)
                 c = filename_char_sanitise(c);

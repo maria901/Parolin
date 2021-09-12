@@ -18,9 +18,7 @@
    in the file LICENSE.
    ------------------------------------------------------------------ */
 
-
 #include "bzlib_private.h"
-
 
 /*---------------------------------------------------*/
 static
@@ -191,7 +189,9 @@ Int32 BZ2_decompress ( DState* s )
    gPerm       = s->save_gPerm;
 
    retVal = BZ_OK;
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough="
+			
    switch (s->state) {
 
       GET_UCHAR(BZ_X_MAGIC_1, uc);
@@ -640,6 +640,7 @@ Int32 BZ2_decompress ( DState* s )
    return retVal;   
 }
 
+#pragma GCC diagnostic pop
 
 /*-------------------------------------------------------------*/
 /*--- end                                      decompress.c ---*/

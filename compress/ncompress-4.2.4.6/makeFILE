@@ -1,6 +1,6 @@
 #december 2020 amanda & ricardo
 
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function
 
 amanda_32: /bw_tmp/compress/compress_32aakp.o /bw_tmp/compress/pedro_32aakp.o
 

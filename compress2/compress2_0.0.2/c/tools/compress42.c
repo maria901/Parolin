@@ -1,5 +1,5 @@
-#define HAS_UNCOMPRESS_Z  /*if defined the decompress function is also available */
-#define THE_COMPRESSOR_FUNCION_NAME_Z  compress  /* the name of the compressor function */
+#define HAS_UNCOMPRESS_Z					   /*if defined the decompress function is also available */
+#define THE_COMPRESSOR_FUNCION_NAME_Z compress /* the name of the compressor function */
 #define THE_DECOMPRESSOR_FUNCION_NAME_Z decompress
 /* (N)compress42.c - File compression ala IEEE Computer, Mar 1992.
  *
@@ -166,79 +166,80 @@
 //#include "helper_utilities_by_amanda_and_ricardo.c"
 
 #ifdef _MSC_VER
-#       define  WINDOWS
+#define WINDOWS
 #endif
 
 #ifdef __MINGW32__
-#       define  DIRENT
-#       define  MINGW
+#define DIRENT
+#define MINGW
 #endif
 
-#include        <stdint.h>
-#include        <stdio.h>
-#include        <stdlib.h>
-#include        <string.h>
-#include        <fcntl.h>
-#include        <ctype.h>
-#include        <signal.h>
-#include        <sys/types.h>
-#include        <sys/stat.h>
-#include        <errno.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 #if !defined(DOS) && !defined(WINDOWS)
-#       include <unistd.h>
+#include <unistd.h>
 #endif
 
 #ifdef DIRENT
-#       include <dirent.h>
-#       define  RECURSIVE               1
-#       undef   SYSDIR
+#include <dirent.h>
+#define RECURSIVE 1
+#undef SYSDIR
 #endif
 #ifdef SYSDIR
-#       include <sys/dir.h>
-#       define  RECURSIVE               1
+#include <sys/dir.h>
+#define RECURSIVE 1
 #endif
 #ifdef UTIME_H
-#       include <utime.h>
+#include <utime.h>
 #else
-struct utimbuf {
+struct utimbuf
+{
 	time_t actime;
 	time_t modtime;
 };
 #endif
 
-#ifdef  __STDC__
-#       define  ARGS(a)                         a
+#ifdef __STDC__
+#define ARGS(a) a
 #else
-#       define  ARGS(a)                         ()
+#define ARGS(a) ()
 #endif
 
 #ifndef SIG_TYPE
-#       define  SIG_TYPE        void (*)()
+#define SIG_TYPE void (*)()
 #endif
 
 #if defined(AMIGA) || defined(DOS) || defined(MINGW) || defined(WINDOWS)
-#       define  chmod(pathname, mode) 0
-#       define  chown(pathname, owner, group) 0
-#       define  utime(pathname, times) 0
+#define chmod(pathname, mode) 0
+#define chown(pathname, owner, group) 0
+#define utime(pathname, times) 0
 #endif
 
 #if defined(WINDOWS)
-#       define isatty(fd) 0
-#       define open _open
-#       define close _close
-#       define read _read
-#       define strdup _strdup
-#       define unlink _unlink
-#       define write _write
+#define isatty(fd) 0
+#define open _open
+#define close _close
+#define read _read
+#define strdup _strdup
+#define unlink _unlink
+#define write _write
 #endif
 
 #ifndef LSTAT
-#       define  lstat   stat
+#define lstat stat
 #endif
 
 #if defined(DOS) || defined(WINDOWS)
-#       define  F_OK    0
+#define F_OK 0
 static inline access(const char *pathname, int mode)
 {
 	struct stat st;
@@ -246,45 +247,45 @@ static inline access(const char *pathname, int mode)
 }
 #endif
 
-#ifdef  DEF_ERRNO
+#ifdef DEF_ERRNO
 extern int errno;
 #endif
 
 #include "patchlevel.h"
 
-#undef  min
-#define min(a,b)        ((a>b) ? b : a)
+#undef min
+#define min(a, b) ((a > b) ? b : a)
 
 #ifndef IBUFSIZ
-#       define  IBUFSIZ BUFSIZ  /* Defailt input buffer size							*/
+#define IBUFSIZ BUFSIZ /* Defailt input buffer size							*/
 #endif
 #ifndef OBUFSIZ
-#       define  OBUFSIZ BUFSIZ  /* Default output buffer size							*/
+#define OBUFSIZ BUFSIZ /* Default output buffer size							*/
 #endif
 
 /* Defines for third byte of header 					*/
-#define MAGIC_1         (char_type)'\037'/* First byte of compressed file				*/
-#define MAGIC_2         (char_type)'\235'/* Second byte of compressed file				*/
-#define BIT_MASK        0x1f                    /* Mask for 'number of compresssion bits'		*/
+#define MAGIC_1 (char_type)'\037' /* First byte of compressed file				*/
+#define MAGIC_2 (char_type)'\235' /* Second byte of compressed file				*/
+#define BIT_MASK 0x1f			  /* Mask for 'number of compresssion bits'		*/
 /* Masks 0x20 and 0x40 are free.  				*/
 /* I think 0x20 should mean that there is		*/
 /* a fourth header byte (for expansion).    	*/
-#define BLOCK_MODE      0x80                    /* Block compresssion if table is full and		*/
+#define BLOCK_MODE 0x80 /* Block compresssion if table is full and		*/
 /* compression rate is dropping flush tables	*/
 
 /* the next two codes should not be changed lightly, as they must not	*/
 /* lie within the contiguous general code space.						*/
-#define FIRST   257                                     /* first free entry 							*/
-#define CLEAR   256                                     /* table clear output code 						*/
+#define FIRST 257 /* first free entry 							*/
+#define CLEAR 256 /* table clear output code 						*/
 
-#define INIT_BITS 9                     /* initial number of bits/code */
+#define INIT_BITS 9 /* initial number of bits/code */
 
 #ifndef SACREDMEM
 /*
  * SACREDMEM is the amount of physical memory saved for others; compress
  * will hog the rest.
  */
-#       define SACREDMEM        0
+#define SACREDMEM 0
 #endif
 
 #ifndef USERMEM
@@ -293,107 +294,107 @@ extern int errno;
  * in bytes.  USERMEM is used to determine the maximum BITS that can be used
  * for compression.
  */
-#       define USERMEM  450000  /* default user memory */
+#define USERMEM 450000 /* default user memory */
 #endif
 
 #ifndef BYTEORDER
-#       define  BYTEORDER       0000
+#define BYTEORDER 0000
 #endif
 
 #ifndef NOALLIGN
-#       define  NOALLIGN        0
+#define NOALLIGN 0
 #endif
 
 /*
  * machine variants which require cc -Dmachine:  pdp11, z8000, DOS
  */
 
-#ifdef interdata        /* Perkin-Elmer													*/
-#       define SIGNED_COMPARE_SLOW      /* signed compare is slower than unsigned 			*/
+#ifdef interdata			/* Perkin-Elmer													*/
+#define SIGNED_COMPARE_SLOW /* signed compare is slower than unsigned 			*/
 #endif
 
-#ifdef pdp11            /* PDP11: don't forget to compile with -i 						*/
-#       define  BITS            12      /* max bits/code for 16-bit machine 					*/
-#       define  NO_UCHAR                /* also if "unsigned char" functions as signed char 	*/
-#endif /* pdp11 */
+#ifdef pdp11	 /* PDP11: don't forget to compile with -i 						*/
+#define BITS 12	 /* max bits/code for 16-bit machine 					*/
+#define NO_UCHAR /* also if "unsigned char" functions as signed char 	*/
+#endif			 /* pdp11 */
 
-#ifdef z8000            /* Z8000: 														*/
-#       define  BITS    12      /* 16-bits processor max 12 bits							*/
-#       undef   vax                     /* weird preprocessor 										*/
-#endif /* z8000 */
+#ifdef z8000	/* Z8000: 														*/
+#define BITS 12 /* 16-bits processor max 12 bits							*/
+#undef vax		/* weird preprocessor 										*/
+#endif			/* z8000 */
 
-#ifdef  DOS                     /* PC/XT/AT (8088) processor									*/
-#       define  BITS   16       /* 16-bits processor max 12 bits							*/
-#       if BITS == 16
-#               define  MAXSEG_64K
-#       endif
-#       undef   BYTEORDER
-#       define  BYTEORDER       4321
-#       undef   NOALLIGN
-#       define  NOALLIGN        1
+#ifdef DOS		/* PC/XT/AT (8088) processor									*/
+#define BITS 16 /* 16-bits processor max 12 bits							*/
+#if BITS == 16
+#define MAXSEG_64K
+#endif
+#undef BYTEORDER
+#define BYTEORDER 4321
+#undef NOALLIGN
+#define NOALLIGN 1
 #endif /* DOS */
 
 #ifndef O_BINARY
-#       define  O_BINARY        0       /* System has no binary mode							*/
+#define O_BINARY 0 /* System has no binary mode							*/
 #endif
 
-#ifdef M_XENIX                  /* Stupid compiler can't handle arrays with */
-#       if BITS == 16           /* more than 65535 bytes - so we fake it */
-#               define MAXSEG_64K
-#       else
-#       if BITS > 13                    /* Code only handles BITS = 12, 13, or 16 */
-#               define BITS     13
-#       endif
-#       endif
+#ifdef M_XENIX /* Stupid compiler can't handle arrays with */
+#if BITS == 16 /* more than 65535 bytes - so we fake it */
+#define MAXSEG_64K
+#else
+#if BITS > 13 /* Code only handles BITS = 12, 13, or 16 */
+#define BITS 13
+#endif
+#endif
 #endif
 
-#ifndef BITS            /* General processor calculate BITS								*/
-#       if USERMEM >= (800000+SACREDMEM)
-#               define FAST
-#       else
-#       if USERMEM >= (433484+SACREDMEM)
-#               define BITS     16
-#       else
-#       if USERMEM >= (229600+SACREDMEM)
-#               define BITS     15
-#       else
-#       if USERMEM >= (127536+SACREDMEM)
-#               define BITS     14
-#   else
-#       if USERMEM >= (73464+SACREDMEM)
-#               define BITS     13
-#       else
-#               define BITS     12
-#       endif
-#       endif
-#   endif
-#       endif
-#       endif
+#ifndef BITS /* General processor calculate BITS								*/
+#if USERMEM >= (800000 + SACREDMEM)
+#define FAST
+#else
+#if USERMEM >= (433484 + SACREDMEM)
+#define BITS 16
+#else
+#if USERMEM >= (229600 + SACREDMEM)
+#define BITS 15
+#else
+#if USERMEM >= (127536 + SACREDMEM)
+#define BITS 14
+#else
+#if USERMEM >= (73464 + SACREDMEM)
+#define BITS 13
+#else
+#define BITS 12
+#endif
+#endif
+#endif
+#endif
+#endif
 #endif /* BITS */
 
 #ifdef FAST
-#       define  HBITS           17                      /* 50% occupancy */
-#       define  HSIZE      (1<<HBITS)
-#       define  HMASK      (HSIZE-1)
-#       define  HPRIME           9941
-#       define  BITS               16
-#       undef   MAXSEG_64K
+#define HBITS 17 /* 50% occupancy */
+#define HSIZE (1 << HBITS)
+#define HMASK (HSIZE - 1)
+#define HPRIME 9941
+#define BITS 16
+#undef MAXSEG_64K
 #else
-#       if BITS == 16
-#               define HSIZE    69001           /* 95% occupancy */
-#       endif
-#       if BITS == 15
-#               define HSIZE    35023           /* 94% occupancy */
-#       endif
-#       if BITS == 14
-#               define HSIZE    18013           /* 91% occupancy */
-#       endif
-#       if BITS == 13
-#               define HSIZE    9001            /* 91% occupancy */
-#       endif
-#       if BITS <= 12
-#               define HSIZE    5003            /* 80% occupancy */
-#       endif
+#if BITS == 16
+#define HSIZE 69001 /* 95% occupancy */
+#endif
+#if BITS == 15
+#define HSIZE 35023 /* 94% occupancy */
+#endif
+#if BITS == 14
+#define HSIZE 18013 /* 91% occupancy */
+#endif
+#if BITS == 13
+#define HSIZE 9001 /* 91% occupancy */
+#endif
+#if BITS <= 12
+#define HSIZE 5003 /* 80% occupancy */
+#endif
 #endif
 
 #define CHECK_GAP 10000
@@ -403,7 +404,7 @@ typedef long int code_int;
 #ifdef SIGNED_COMPARE_SLOW
 typedef unsigned long int count_int;
 typedef unsigned short int count_short;
-typedef unsigned long int cmp_code_int;                 /* Cast to make compare faster	*/
+typedef unsigned long int cmp_code_int; /* Cast to make compare faster	*/
 #else
 typedef long int count_int;
 typedef long int cmp_code_int;
@@ -413,10 +414,10 @@ typedef unsigned char char_type;
 
 #define ARGVAL() (*++(*argv) || (--argc && *++argv))
 
-#define MAXCODE(n)      (1L << (n))
+#define MAXCODE(n) (1L << (n))
 
 #ifndef REGISTERS
-#       define  REGISTERS       2
+#define REGISTERS 2
 #endif
 #define REG1
 #define REG2
@@ -435,72 +436,71 @@ typedef unsigned char char_type;
 #define REG15
 #define REG16
 #if REGISTERS >= 1
-#       undef   REG1
-#       define  REG1    register
+#undef REG1
+#define REG1 register
 #endif
 #if REGISTERS >= 2
-#       undef   REG2
-#       define  REG2    register
+#undef REG2
+#define REG2 register
 #endif
 #if REGISTERS >= 3
-#       undef   REG3
-#       define  REG3    register
+#undef REG3
+#define REG3 register
 #endif
 #if REGISTERS >= 4
-#       undef   REG4
-#       define  REG4    register
+#undef REG4
+#define REG4 register
 #endif
 #if REGISTERS >= 5
-#       undef   REG5
-#       define  REG5    register
+#undef REG5
+#define REG5 register
 #endif
 #if REGISTERS >= 6
-#       undef   REG6
-#       define  REG6    register
+#undef REG6
+#define REG6 register
 #endif
 #if REGISTERS >= 7
-#       undef   REG7
-#       define  REG7    register
+#undef REG7
+#define REG7 register
 #endif
 #if REGISTERS >= 8
-#       undef   REG8
-#       define  REG8    register
+#undef REG8
+#define REG8 register
 #endif
 #if REGISTERS >= 9
-#       undef   REG9
-#       define  REG9    register
+#undef REG9
+#define REG9 register
 #endif
 #if REGISTERS >= 10
-#       undef   REG10
-#       define  REG10   register
+#undef REG10
+#define REG10 register
 #endif
 #if REGISTERS >= 11
-#       undef   REG11
-#       define  REG11   register
+#undef REG11
+#define REG11 register
 #endif
 #if REGISTERS >= 12
-#       undef   REG12
-#       define  REG12   register
+#undef REG12
+#define REG12 register
 #endif
 #if REGISTERS >= 13
-#       undef   REG13
-#       define  REG13   register
+#undef REG13
+#define REG13 register
 #endif
 #if REGISTERS >= 14
-#       undef   REG14
-#       define  REG14   register
+#undef REG14
+#define REG14 register
 #endif
 #if REGISTERS >= 15
-#       undef   REG15
-#       define  REG15   register
+#undef REG15
+#define REG15 register
 #endif
 #if REGISTERS >= 16
-#       undef   REG16
-#       define  REG16   register
+#undef REG16
+#define REG16 register
 #endif
 
-
-union   bytes
+union bytes
 {
 	long word;
 	struct
@@ -517,74 +517,84 @@ union   bytes
 		char_type b2;
 		char_type b1;
 #else
-#       undef   BYTEORDER
+#undef BYTEORDER
 		int dummy;
 #endif
 #endif
 	} bytes;
 };
 #if BYTEORDER == 4321 && NOALLIGN == 1
-#define output(b,o,c,n) {                                                                                                       \
-		*(long *)&((b)[(o)>>3]) |= ((long)(c))<<((o)&0x7); \
-		(o) += (n);                                                                             \
-}
+#define output(b, o, c, n)                                     \
+	{                                                          \
+		*(long *)&((b)[(o) >> 3]) |= ((long)(c)) << ((o)&0x7); \
+		(o) += (n);                                            \
+	}
 #else
 #ifdef BYTEORDER
-#define output(b,o,c,n) {       REG1 char_type  *p = &(b)[(o)>>3];                              \
-		                union bytes i;                                                                  \
-		                i.word = ((long)(c))<<((o)&0x7);                                \
-		                p[0] |= i.bytes.b1;                                                             \
-		                p[1] |= i.bytes.b2;                                                             \
-		                p[2] |= i.bytes.b3;                                                             \
-		                (o) += (n);                                                                             \
-}
+#define output(b, o, c, n)                  \
+	{                                       \
+		REG1 char_type *p = &(b)[(o) >> 3]; \
+		union bytes i;                      \
+		i.word = ((long)(c)) << ((o)&0x7);  \
+		p[0] |= i.bytes.b1;                 \
+		p[1] |= i.bytes.b2;                 \
+		p[2] |= i.bytes.b3;                 \
+		(o) += (n);                         \
+	}
 #else
-#define output(b,o,c,n) {       REG1 char_type  *p = &(b)[(o)>>3];                              \
-		                REG2 long i = ((long)(c))<<((o)&0x7);    \
-		                p[0] |= (char_type)(i);                                                 \
-		                p[1] |= (char_type)(i>>8);                                              \
-		                p[2] |= (char_type)(i>>16);                                             \
-		                (o) += (n);                                                                             \
-}
+#define output(b, o, c, n)                      \
+	{                                           \
+		REG1 char_type *p = &(b)[(o) >> 3];     \
+		REG2 long i = ((long)(c)) << ((o)&0x7); \
+		p[0] |= (char_type)(i);                 \
+		p[1] |= (char_type)(i >> 8);            \
+		p[2] |= (char_type)(i >> 16);           \
+		(o) += (n);                             \
+	}
 #endif
 #endif
 #if BYTEORDER == 4321 && NOALLIGN == 1
-#define input(b,o,c,n,m){                                                                                                       \
-		(c) = (*(long *)(&(b)[(o)>>3])>>((o)&0x7))&(m); \
-		(o) += (n);                                                                             \
-}
+#define input(b, o, c, n, m)                                  \
+	{                                                         \
+		(c) = (*(long *)(&(b)[(o) >> 3]) >> ((o)&0x7)) & (m); \
+		(o) += (n);                                           \
+	}
 #else
-#define input(b,o,c,n,m){       REG1 char_type          *p = &(b)[(o)>>3];                      \
-		                (c) = ((((long)(p[0]))|((long)(p[1])<<8)|               \
-		                        ((long)(p[2])<<16))>>((o)&0x7))&(m);   \
-		                (o) += (n);                                                                             \
-}
+#define input(b, o, c, n, m)                           \
+	{                                                  \
+		REG1 char_type *p = &(b)[(o) >> 3];            \
+		(c) = ((((long)(p[0])) | ((long)(p[1]) << 8) | \
+				((long)(p[2]) << 16)) >>               \
+			   ((o)&0x7)) &                            \
+			  (m);                                     \
+		(o) += (n);                                    \
+	}
 #endif
 
-static char                    *progname;    /* Program name									*/
+static char *progname; /* Program name									*/
 //static int silent = 0;                     /* don't tell me about errors					*/
 //static int quiet = 1;                      /* don't tell me about compression 				*/
 //static int do_decomp = 0;                  /* Decompress mode								*/
 //static int force = 0;                      /* Force overwrite of files and links			*/
 //static int nomagic = 0;                    /* Use a 3-byte magic number header,			*/
 /* unless old file 							 */
-static int block_mode = BLOCK_MODE;          /* Block compress mode -C compatible with 2.0*/
-static int maxbits = BITS;                   /* user settable max # bits/code 				*/
+static int block_mode = BLOCK_MODE; /* Block compress mode -C compatible with 2.0*/
+static int maxbits = BITS;			/* user settable max # bits/code 				*/
 //static int zcat_flg = 0;                   /* Write output on stdout, suppress messages 	*/
 //static int recursive = 0;                  /* compress directories 						*/
-static int exit_code = -1;                   /* Exitcode of compress (-1 no file compressed)	*/
+static int exit_code = -1; /* Exitcode of compress (-1 no file compressed)	*/
 
-static char_type inbuf [IBUFSIZ+64  ];       /* Input buffer									*/
-static char_type outbuf[OBUFSIZ+2048];       /* Output buffer								*/
+static char_type inbuf[IBUFSIZ + 64];	 /* Input buffer									*/
+static char_type outbuf[OBUFSIZ + 2048]; /* Output buffer								*/
 
 //static struct stat infstat;                /* Input file status							*/
-static char                    *ifname;      /* Input filename								*/
-static int remove_ofname = 0;                /* Remove output file on a error				*/
-static char                 *ofname = NULL;  /* Output filename								*/
+static char *ifname;		  /* Input filename								*/
+static int remove_ofname = 0; /* Remove output file on a error				*/
+static char *ofname = NULL;	  /* Output filename								*/
 //static int fgnd_flag = 0;                  /* Running in background (SIGINT=SIGIGN)		*/
 
-static long bytes_in;                        /* Total number of byte from input				*/
-static long bytes_out;                       /* Total number of byte to output				*/
+static long bytes_in;  /* Total number of byte from input				*/
+static long bytes_out; /* Total number of byte to output				*/
 
 /*
  * 8086 & 80286 Has a problem with array bigger than 64K so fake the array
@@ -607,22 +617,22 @@ static count_int htab4[8192];
 static count_int htab5[8192];
 static count_int htab6[8192];
 static count_int htab7[8192];
-static count_int htab8[HSIZE-65536];
-static count_int * htab[9] = {htab0,htab1,htab2,htab3,htab4,htab5,htab6,htab7,htab8};
+static count_int htab8[HSIZE - 65536];
+static count_int *htab[9] = {htab0, htab1, htab2, htab3, htab4, htab5, htab6, htab7, htab8};
 
 static unsigned short code0tab[16384];
 static unsigned short code1tab[16384];
 static unsigned short code2tab[16384];
 static unsigned short code3tab[16384];
 static unsigned short code4tab[16384];
-static unsigned short * codetab[5] = {code0tab,code1tab,code2tab,code3tab,code4tab};
+static unsigned short *codetab[5] = {code0tab, code1tab, code2tab, code3tab, code4tab};
 
-#       define  htabof(i)                       (htab[(i) >> 13][(i) & 0x1fff])
-#       define  codetabof(i)            (codetab[(i) >> 14][(i) & 0x3fff])
-#       define  tab_prefixof(i)         codetabof(i)
-#       define  tab_suffixof(i)         ((char_type *)htab[(i)>>15])[(i) & 0x7fff]
-#       define  de_stack                        ((char_type *)(&htab2[8191]))
-void    clear_htab()
+#define htabof(i) (htab[(i) >> 13][(i)&0x1fff])
+#define codetabof(i) (codetab[(i) >> 14][(i)&0x3fff])
+#define tab_prefixof(i) codetabof(i)
+#define tab_suffixof(i) ((char_type *)htab[(i) >> 15])[(i)&0x7fff]
+#define de_stack ((char_type *)(&htab2[8191]))
+void clear_htab()
 {
 	memset(htab0, -1, sizeof(htab0));
 	memset(htab1, -1, sizeof(htab1));
@@ -634,72 +644,71 @@ void    clear_htab()
 	memset(htab7, -1, sizeof(htab7));
 	memset(htab8, -1, sizeof(htab8));
 }
-#       define  clear_tab_prefixof()    memset(code0tab, 0, 256);
-#else   /* Normal machine */
+#define clear_tab_prefixof() memset(code0tab, 0, 256);
+#else /* Normal machine */
 static count_int htab[HSIZE];
 static unsigned short codetab[HSIZE];
 
-#       define  htabof(i)                               htab[i]
-#       define  codetabof(i)                    codetab[i]
-#       define  tab_prefixof(i)                 codetabof(i)
-#       define  tab_suffixof(i)                 ((char_type *)(htab))[i]
-#       define  de_stack                                ((char_type *)&(htab[HSIZE-1]))
-#       define  clear_htab()                    memset(htab, -1, sizeof(htab))
-#       define  clear_tab_prefixof()    memset(codetab, 0, 256);
-#endif  /* MAXSEG_64K */
+#define htabof(i) htab[i]
+#define codetabof(i) codetab[i]
+#define tab_prefixof(i) codetabof(i)
+#define tab_suffixof(i) ((char_type *)(htab))[i]
+#define de_stack ((char_type *)&(htab[HSIZE - 1]))
+#define clear_htab() memset(htab, -1, sizeof(htab))
+#define clear_tab_prefixof() memset(codetab, 0, 256);
+#endif /* MAXSEG_64K */
 
 #ifdef FAST
-static int primetab[256] =                     /* Special secudary hash table.		*/
-{
-	1013, -1061, 1109, -1181, 1231, -1291, 1361, -1429,
-	1481, -1531, 1583, -1627, 1699, -1759, 1831, -1889,
-	1973, -2017, 2083, -2137, 2213, -2273, 2339, -2383,
-	2441, -2531, 2593, -2663, 2707, -2753, 2819, -2887,
-	2957, -3023, 3089, -3181, 3251, -3313, 3361, -3449,
-	3511, -3557, 3617, -3677, 3739, -3821, 3881, -3931,
-	4013, -4079, 4139, -4219, 4271, -4349, 4423, -4493,
-	4561, -4639, 4691, -4783, 4831, -4931, 4973, -5023,
-	5101, -5179, 5261, -5333, 5413, -5471, 5521, -5591,
-	5659, -5737, 5807, -5857, 5923, -6029, 6089, -6151,
-	6221, -6287, 6343, -6397, 6491, -6571, 6659, -6709,
-	6791, -6857, 6917, -6983, 7043, -7129, 7213, -7297,
-	7369, -7477, 7529, -7577, 7643, -7703, 7789, -7873,
-	7933, -8017, 8093, -8171, 8237, -8297, 8387, -8461,
-	8543, -8627, 8689, -8741, 8819, -8867, 8963, -9029,
-	9109, -9181, 9241, -9323, 9397, -9439, 9511, -9613,
-	9677, -9743, 9811, -9871, 9941,-10061,10111,-10177,
-	10259,-10321,10399,-10477,10567,-10639,10711,-10789,
-	10867,-10949,11047,-11113,11173,-11261,11329,-11423,
-	11491,-11587,11681,-11777,11827,-11903,11959,-12041,
-	12109,-12197,12263,-12343,12413,-12487,12541,-12611,
-	12671,-12757,12829,-12917,12979,-13043,13127,-13187,
-	13291,-13367,13451,-13523,13619,-13691,13751,-13829,
-	13901,-13967,14057,-14153,14249,-14341,14419,-14489,
-	14557,-14633,14717,-14767,14831,-14897,14983,-15083,
-	15149,-15233,15289,-15359,15427,-15497,15583,-15649,
-	15733,-15791,15881,-15937,16057,-16097,16189,-16267,
-	16363,-16447,16529,-16619,16691,-16763,16879,-16937,
-	17021,-17093,17183,-17257,17341,-17401,17477,-17551,
-	17623,-17713,17791,-17891,17957,-18041,18097,-18169,
-	18233,-18307,18379,-18451,18523,-18637,18731,-18803,
-	18919,-19031,19121,-19211,19273,-19381,19429,-19477
-};
+static int primetab[256] = /* Special secudary hash table.		*/
+	{
+		1013, -1061, 1109, -1181, 1231, -1291, 1361, -1429,
+		1481, -1531, 1583, -1627, 1699, -1759, 1831, -1889,
+		1973, -2017, 2083, -2137, 2213, -2273, 2339, -2383,
+		2441, -2531, 2593, -2663, 2707, -2753, 2819, -2887,
+		2957, -3023, 3089, -3181, 3251, -3313, 3361, -3449,
+		3511, -3557, 3617, -3677, 3739, -3821, 3881, -3931,
+		4013, -4079, 4139, -4219, 4271, -4349, 4423, -4493,
+		4561, -4639, 4691, -4783, 4831, -4931, 4973, -5023,
+		5101, -5179, 5261, -5333, 5413, -5471, 5521, -5591,
+		5659, -5737, 5807, -5857, 5923, -6029, 6089, -6151,
+		6221, -6287, 6343, -6397, 6491, -6571, 6659, -6709,
+		6791, -6857, 6917, -6983, 7043, -7129, 7213, -7297,
+		7369, -7477, 7529, -7577, 7643, -7703, 7789, -7873,
+		7933, -8017, 8093, -8171, 8237, -8297, 8387, -8461,
+		8543, -8627, 8689, -8741, 8819, -8867, 8963, -9029,
+		9109, -9181, 9241, -9323, 9397, -9439, 9511, -9613,
+		9677, -9743, 9811, -9871, 9941, -10061, 10111, -10177,
+		10259, -10321, 10399, -10477, 10567, -10639, 10711, -10789,
+		10867, -10949, 11047, -11113, 11173, -11261, 11329, -11423,
+		11491, -11587, 11681, -11777, 11827, -11903, 11959, -12041,
+		12109, -12197, 12263, -12343, 12413, -12487, 12541, -12611,
+		12671, -12757, 12829, -12917, 12979, -13043, 13127, -13187,
+		13291, -13367, 13451, -13523, 13619, -13691, 13751, -13829,
+		13901, -13967, 14057, -14153, 14249, -14341, 14419, -14489,
+		14557, -14633, 14717, -14767, 14831, -14897, 14983, -15083,
+		15149, -15233, 15289, -15359, 15427, -15497, 15583, -15649,
+		15733, -15791, 15881, -15937, 16057, -16097, 16189, -16267,
+		16363, -16447, 16529, -16619, 16691, -16763, 16879, -16937,
+		17021, -17093, 17183, -17257, 17341, -17401, 17477, -17551,
+		17623, -17713, 17791, -17891, 17957, -18041, 18097, -18169,
+		18233, -18307, 18379, -18451, 18523, -18637, 18731, -18803,
+		18919, -19031, 19121, -19211, 19273, -19381, 19429, -19477};
 #endif
 
 //int  	main			ARGS((int,char **));
-static void Usage                   ARGS((int));
-static void comprexx                ARGS((const char *));
-static void compdir                 ARGS((char *));
-int THE_COMPRESSOR_FUNCION_NAME_Z   ARGS((FILE *, FILE_z *, my_thread_struct_z *));
+static void Usage ARGS((int));
+static void comprexx ARGS((const char *));
+static void compdir ARGS((char *));
+int THE_COMPRESSOR_FUNCION_NAME_Z ARGS((FILE *, FILE_z *, my_thread_struct_z *));
 
 #ifdef HAS_UNCOMPRESS_Z
-int THE_DECOMPRESSOR_FUNCION_NAME_Z ARGS((FILE *, FILE *, my_thread_struct_z   *));
+int THE_DECOMPRESSOR_FUNCION_NAME_Z ARGS((FILE *, FILE *, my_thread_struct_z *));
 #endif
-static void read_error              ARGS((void));
-static void write_error             ARGS((void));
-static void abort_compress          ARGS((void));
-static void prratio                 ARGS((FILE *,long,long));
-static void about                   ARGS((void));
+static void read_error ARGS((void));
+static void write_error ARGS((void));
+static void abort_compress ARGS((void));
+static void prratio ARGS((FILE *, long, long));
+static void about ARGS((void));
 
 /*****************************************************************
  * TAG( main )
@@ -742,14 +751,14 @@ static void about                   ARGS((void));
  *   procedure needs no input table, but tracks the way the table was built.
  */
 
-void
-Usage(int status)
+void Usage(int status)
 {
 	fprintf(status ? stderr : stdout, "\
 Usage: %s [-dfhvcVr] [-b maxbits] [--] [file ...]\n\
        -d   If given, decompression is done instead.\n\
        -c   Write output on stdout, don't remove original.\n\
-       -b   Parameter limits the max number of bits/code.\n", progname);
+       -b   Parameter limits the max number of bits/code.\n",
+			progname);
 	fprintf(status ? stderr : stdout, "\
        -f   Forces output file to be generated, even if one already.\n\
             exists, and even if no space is saved by compressing.\n\
@@ -764,7 +773,7 @@ Usage: %s [-dfhvcVr] [-b maxbits] [--] [file ...]\n\
 	exit(status);
 }
 
-#ifdef  RECURSIVE
+#ifdef RECURSIVE
 
 #endif
 /*
@@ -783,10 +792,10 @@ Usage: %s [-dfhvcVr] [-b maxbits] [--] [file ...]\n\
  * questions about this implementation to ames!jaw.
  */
 int
-THE_COMPRESSOR_FUNCION_NAME_Z(fdin, fdout, amanda)
-FILE * fdin;
-FILE_z * fdout;
-my_thread_struct_z * amanda;
+	THE_COMPRESSOR_FUNCION_NAME_Z(fdin, fdout, amanda)
+		FILE *fdin;
+FILE_z *fdout;
+my_thread_struct_z *amanda;
 {
 	REG2 long hp;
 	REG3 int rpos;
@@ -815,23 +824,24 @@ my_thread_struct_z * amanda;
 
 	ratio = 0;
 	checkpoint = CHECK_GAP;
-	extcode = MAXCODE(n_bits = INIT_BITS)+1;
+	extcode = MAXCODE(n_bits = INIT_BITS) + 1;
 	stcode = 1;
 	free_ent = FIRST;
 
 	memset(outbuf, 0, sizeof(outbuf));
-	bytes_out = 0; bytes_in = 0;
+	bytes_out = 0;
+	bytes_in = 0;
 	outbuf[0] = MAGIC_1;
 	outbuf[1] = MAGIC_2;
 	outbuf[2] = (char)(maxbits | block_mode);
-	boff = outbits = (3<<3);
+	boff = outbits = (3 << 3);
 	fcode.code = 0;
 
 	clear_htab();
 
 	while ((rsize = fread(inbuf, 1, min(IBUFSIZ, amanda->size_of_input_file_copy_z), fdin)) > 0)
 	{
-		*((*amanda).bytes_read_z)         += rsize;
+		*((*amanda).bytes_read_z) += rsize;
 		amanda->size_of_input_file_copy_z -= rsize;
 		/*
 		processado_rspk += rsize;
@@ -851,23 +861,23 @@ my_thread_struct_z * amanda;
 			return 119;
 		}
 		*/
-		
-		while(*((*amanda).intpause))
+
+		while (*((*amanda).intpause))
 		{
 			Sleep(50);
-			if(*((*amanda).intcancel))
+			if (*((*amanda).intcancel))
 			{
 				amanda->internal_error_arp = 119;
 				return 1;
 			}
 		}
-		
-		if(*((*amanda).intcancel))
+
+		if (*((*amanda).intcancel))
 		{
 			amanda->internal_error_arp = 119;
 			return 1;
 		}
-		
+
 		if (bytes_in == 0)
 		{
 			fcode.e.ent = inbuf[0];
@@ -884,16 +894,16 @@ my_thread_struct_z * amanda;
 			{
 				if (n_bits < maxbits)
 				{
-					boff = outbits = (outbits-1)+((n_bits<<3)-
-					                              ((outbits-boff-1+(n_bits<<3))%(n_bits<<3)));
+					boff = outbits = (outbits - 1) + ((n_bits << 3) -
+													  ((outbits - boff - 1 + (n_bits << 3)) % (n_bits << 3)));
 					if (++n_bits < maxbits)
-						extcode = MAXCODE(n_bits)+1;
+						extcode = MAXCODE(n_bits) + 1;
 					else
 						extcode = MAXCODE(n_bits);
 				}
 				else
 				{
-					extcode = MAXCODE(16)+OBUFSIZ;
+					extcode = MAXCODE(16) + OBUFSIZ;
 					stcode = 0;
 				}
 			}
@@ -905,32 +915,32 @@ my_thread_struct_z * amanda;
 				checkpoint = bytes_in + CHECK_GAP;
 
 				if (bytes_in > 0x007fffff)
-				{                                                               /* shift will overflow */
-					rat = (bytes_out+(outbits>>3)) >> 8;
+				{ /* shift will overflow */
+					rat = (bytes_out + (outbits >> 3)) >> 8;
 
-					if (rat == 0)                                   /* Don't divide by zero */
+					if (rat == 0) /* Don't divide by zero */
 						rat = 0x7fffffff;
 					else
 						rat = bytes_in / rat;
 				}
 				else
-					rat = (bytes_in << 8) / (bytes_out+(outbits>>3));               /* 8 fractional bits */
+					rat = (bytes_in << 8) / (bytes_out + (outbits >> 3)); /* 8 fractional bits */
 				if (rat >= ratio)
 					ratio = (int)rat;
 				else
 				{
 					ratio = 0;
 					clear_htab();
-					output(outbuf,outbits,CLEAR,n_bits);
-					boff = outbits = (outbits-1)+((n_bits<<3)-
-					                              ((outbits-boff-1+(n_bits<<3))%(n_bits<<3)));
-					extcode = MAXCODE(n_bits = INIT_BITS)+1;
+					output(outbuf, outbits, CLEAR, n_bits);
+					boff = outbits = (outbits - 1) + ((n_bits << 3) -
+													  ((outbits - boff - 1 + (n_bits << 3)) % (n_bits << 3)));
+					extcode = MAXCODE(n_bits = INIT_BITS) + 1;
 					free_ent = FIRST;
 					stcode = 1;
 				}
 			}
 
-			if (outbits >= (OBUFSIZ<<3))
+			if (outbits >= (OBUFSIZ << 3))
 			{
 				if (fwrite_z(outbuf, 1, OBUFSIZ, fdout) != OBUFSIZ)
 				{
@@ -938,47 +948,51 @@ my_thread_struct_z * amanda;
 					//write_error();
 					return 1;
 				}
-				
+
 				amanda->size_of_destination_file_z += OBUFSIZ;
-				
-				outbits -= (OBUFSIZ<<3);
-				boff = -(((OBUFSIZ<<3)-boff)%(n_bits<<3));
+
+				outbits -= (OBUFSIZ << 3);
+				boff = -(((OBUFSIZ << 3) - boff) % (n_bits << 3));
 				bytes_out += OBUFSIZ;
 
-				memcpy(outbuf, outbuf+OBUFSIZ, (outbits>>3)+1);
-				memset(outbuf+(outbits>>3)+1, '\0', OBUFSIZ);
+				memcpy(outbuf, outbuf + OBUFSIZ, (outbits >> 3) + 1);
+				memset(outbuf + (outbits >> 3) + 1, '\0', OBUFSIZ);
 			}
 
 			{
 				REG1 int i;
 
-				i = rsize-rlop;
+				i = rsize - rlop;
 
-				if ((code_int)i > extcode-free_ent) i = (int)(extcode-free_ent);
-				if (i > ((sizeof(outbuf) - 32)*8 - outbits)/n_bits)
-					i = ((sizeof(outbuf) - 32)*8 - outbits)/n_bits;
+				if ((code_int)i > extcode - free_ent)
+					i = (int)(extcode - free_ent);
+				if (i > (int)((sizeof(outbuf) - 32) * 8 - outbits) / n_bits)
+					i = ((sizeof(outbuf) - 32) * 8 - outbits) / n_bits;
 
-				if (!stcode && (long)i > checkpoint-bytes_in)
-					i = (int)(checkpoint-bytes_in);
+				if (!stcode && (long)i > checkpoint - bytes_in)
+					i = (int)(checkpoint - bytes_in);
 
 				rlop += i;
 				bytes_in += i;
 			}
 
 			goto next;
-hfound:                 fcode.e.ent = codetabof(hp);
-next:                   if (rpos >= rlop)
+		hfound:
+			fcode.e.ent = codetabof(hp);
+		next:
+			if (rpos >= rlop)
 				goto endlop;
-next2:                  fcode.e.c = inbuf[rpos++];
+		next2:
+			fcode.e.c = inbuf[rpos++];
 #ifndef FAST
 			{
 				REG1 code_int i;
 #if REGISTERS >= 5
 				fc = fcode.code;
 #else
-#       define                  fc fcode.code
+#define fc fcode.code
 #endif
-				hp = (((long)(fcode.e.c)) << (BITS-8)) ^ (long)(fcode.e.ent);
+				hp = (((long)(fcode.e.c)) << (BITS - 8)) ^ (long)(fcode.e.ent);
 
 				if ((i = htabof(hp)) == fc)
 					goto hfound;
@@ -987,16 +1001,16 @@ next2:                  fcode.e.c = inbuf[rpos++];
 				{
 					REG4 long disp;
 
-					disp = (HSIZE - hp)-1;          /* secondary hash (after G. Knott) */
+					disp = (HSIZE - hp) - 1; /* secondary hash (after G. Knott) */
 
 					do
 					{
-						if ((hp -= disp) < 0) hp += HSIZE;
+						if ((hp -= disp) < 0)
+							hp += HSIZE;
 
 						if ((i = htabof(hp)) == fc)
 							goto hfound;
-					}
-					while (i != -1);
+					} while (i != -1);
 				}
 			}
 #else
@@ -1006,37 +1020,45 @@ next2:                  fcode.e.c = inbuf[rpos++];
 #if REGISTERS >= 5
 				fc = fcode.code;
 #else
-#       define                  fc fcode.code
+#define fc fcode.code
 #endif
-				hp = ((((long)(fcode.e.c)) << (HBITS-8)) ^ (long)(fcode.e.ent));
+				hp = ((((long)(fcode.e.c)) << (HBITS - 8)) ^ (long)(fcode.e.ent));
 
-				if ((i = htabof(hp)) == fc) goto hfound;
-				if (i == -1) goto out;
+				if ((i = htabof(hp)) == fc)
+					goto hfound;
+				if (i == -1)
+					goto out;
 
 				p = primetab[fcode.e.c];
-lookup:                         hp = (hp+p)&HMASK;
-				if ((i = htabof(hp)) == fc) goto hfound;
-				if (i == -1) goto out;
-				hp = (hp+p)&HMASK;
-				if ((i = htabof(hp)) == fc) goto hfound;
-				if (i == -1) goto out;
-				hp = (hp+p)&HMASK;
-				if ((i = htabof(hp)) == fc) goto hfound;
-				if (i == -1) goto out;
+			lookup:
+				hp = (hp + p) & HMASK;
+				if ((i = htabof(hp)) == fc)
+					goto hfound;
+				if (i == -1)
+					goto out;
+				hp = (hp + p) & HMASK;
+				if ((i = htabof(hp)) == fc)
+					goto hfound;
+				if (i == -1)
+					goto out;
+				hp = (hp + p) & HMASK;
+				if ((i = htabof(hp)) == fc)
+					goto hfound;
+				if (i == -1)
+					goto out;
 				goto lookup;
 			}
-out:                    ;
+		out:;
 #endif
-			output(outbuf,outbits,fcode.e.ent,n_bits);
+			output(outbuf, outbits, fcode.e.ent, n_bits);
 
 			{
 #if REGISTERS < 5
-#       undef   fc
+#undef fc
 				REG1 long fc;
 				fc = fcode.code;
 #endif
 				fcode.e.ent = fcode.e.c;
-
 
 				if (stcode)
 				{
@@ -1047,31 +1069,31 @@ out:                    ;
 
 			goto next;
 
-endlop:                 if (fcode.e.ent >= FIRST && rpos < rsize)
+		endlop:
+			if (fcode.e.ent >= FIRST && rpos < rsize)
 				goto next2;
 
 			if (rpos > rlop)
 			{
-				bytes_in += rpos-rlop;
+				bytes_in += rpos - rlop;
 				rlop = rpos;
 			}
-		}
-		while (rlop < rsize);
+		} while (rlop < rsize);
 	}
 
 	if (rsize < 0)
 		return 5;
 
 	if (bytes_in > 0)
-		output(outbuf,outbits,fcode.e.ent,n_bits);
+		output(outbuf, outbits, fcode.e.ent, n_bits);
 
-	if (fwrite_z(outbuf, 1, (outbits+7)>>3, fdout) != (outbits+7)>>3)
+	if (fwrite_z(outbuf, 1, (outbits + 7) >> 3, fdout) != (size_t)(outbits + 7) >> 3)
 	{
 		amanda->internal_error_arp = 6;
 		return 6; //
 	}
-	amanda->size_of_destination_file_z += (outbits+7)>>3;
-	bytes_out += (outbits+7)>>3;
+	amanda->size_of_destination_file_z += (outbits + 7) >> 3;
+	bytes_out += (outbits + 7) >> 3;
 
 	return 0;
 }
@@ -1087,24 +1109,21 @@ endlop:                 if (fcode.e.ent >= FIRST && rpos < rsize)
 
 #endif
 
-void
-read_error()
+void read_error()
 {
 	fprintf(stderr, "\nread error on");
 	perror((ifname[0] != '\0') ? ifname : "stdin");
 	abort_compress();
 }
 
-void
-write_error()
+void write_error()
 {
 	fprintf(stderr, "\nwrite error on");
 	perror(ofname ? ofname : "stdout");
 	abort_compress();
 }
 
-void
-abort_compress()
+void abort_compress()
 {
 	if (remove_ofname)
 		unlink(ofname);
@@ -1113,19 +1132,19 @@ abort_compress()
 }
 
 void
-prratio(stream, num, den)
-FILE            *stream;
+	prratio(stream, num, den)
+		FILE *stream;
 long int num;
 long int den;
 {
-	REG1 int q;                             /* Doesn't need to be long */
+	REG1 int q; /* Doesn't need to be long */
 
 	if (den > 0)
 	{
 		if (num > 214748L)
-			q = (int)(num/(den/10000L));            /* 2147483647/10000 */
+			q = (int)(num / (den / 10000L)); /* 2147483647/10000 */
 		else
-			q = (int)(10000L*num/den);                      /* Long calculations, though */
+			q = (int)(10000L * num / den); /* Long calculations, though */
 	}
 	else
 		q = 10000;
@@ -1139,8 +1158,7 @@ long int den;
 	fprintf(stream, "%d.%02d%%", q / 100, q % 100);
 }
 
-void
-about()
+void about()
 {
 	printf("Compress version: %s\n", version_id);
 	printf("Compile options:\n        ");
@@ -1178,7 +1196,7 @@ about()
 	printf("LSTAT, ");
 #endif
 	printf("\n        REGISTERS=%d IBUFSIZ=%d, OBUFSIZ=%d, BITS=%d\n",
-	       REGISTERS, IBUFSIZ, OBUFSIZ, BITS);
+		   REGISTERS, IBUFSIZ, OBUFSIZ, BITS);
 
 	printf("\n\
 Author version 4.2.4.x (Maintenance):\n\
@@ -1196,4 +1214,3 @@ Authors version 4.0 (World release in 1985):\n\
 
 	exit(0);
 }
-

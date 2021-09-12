@@ -1,4 +1,4 @@
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function -I ./
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function -I ./
 
 amanda_32: /bw_tmp/lz5/pedro_32.o /bw_tmp/lz5/cpu_fixed_k_32.o /bw_tmp/lz5/folder_i_32.o /bw_tmp/lz5/longfile_32.o /bw_tmp/lz5/lz4_32arp.o /bw_tmp/lz5/lz4_frame_arp_32arp.o /bw_tmp/lz5/lz4frame_32arp.o /bw_tmp/lz5/lz4hc_32arp.o /bw_tmp/lz5/lz5dll_32.o /bw_tmp/lz5/lz5_32.o /bw_tmp/lz5/lz5_multi_32.o /bw_tmp/lz5/stdio_v2_32.o /bw_tmp/lz5/xxhash_32arp.o
 

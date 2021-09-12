@@ -11,7 +11,8 @@
 #include "pageant.h"
 #include "sshchan.h"
 
-typedef struct agentf {
+typedef struct agentf
+{
     SshChannel *c;
     bufchain inbuffer;
     agent_pending_query *pending;
@@ -25,7 +26,8 @@ static void agentf_got_response(agentf *af, void *reply, int replylen)
 {
     af->pending = NULL;
 
-    if (!reply) {
+    if (!reply)
+    {
         /* The real agent didn't send any kind of reply at all for
          * some reason, so fake an SSH_AGENT_FAILURE. */
         reply = "\0\0\0\1\5";
@@ -63,18 +65,20 @@ static void agentf_try_forward(agentf *af)
     if (!af->input_wanted)
         return;
 
-    while (1) {
+    while (1)
+    {
         /*
          * Try to extract a complete message from the input buffer.
          */
         datalen = bufchain_size(&af->inbuffer);
         if (datalen < 4)
-            break;         /* not even a length field available yet */
+            break; /* not even a length field available yet */
 
         bufchain_fetch(&af->inbuffer, msglen, 4);
         length = GET_32BIT_MSB_FIRST(msglen);
 
-        if (length > AGENT_MAX_MSGLEN-4) {
+        if (length > AGENT_MAX_MSGLEN - 4)
+        {
             /*
              * If the remote has sent a message that's just _too_
              * long, we should reject it in advance of seeing the rest
@@ -89,7 +93,7 @@ static void agentf_try_forward(agentf *af)
         }
 
         if (length > datalen - 4)
-            break;          /* a whole message is not yet available */
+            break; /* a whole message is not yet available */
 
         bufchain_consume(&af->inbuffer, 4);
 
@@ -101,7 +105,7 @@ static void agentf_try_forward(agentf *af)
         strbuf_free(message);
 
         if (af->pending)
-            return;   /* agent_query promised to reply in due course */
+            return; /* agent_query promised to reply in due course */
 
         /*
          * If the agent gave us an answer immediately, pass it
@@ -196,7 +200,8 @@ static void agentf_free(Channel *chan)
     sfree(af);
 }
 
-static size_t agentf_send(Channel *chan, bool is_stderr,
+static size_t agentf_send(Channel *chan,
+                          __attribute__((unused)) bool is_stderr,
                           const void *data, size_t length)
 {
     assert(chan->vt == &agentf_channelvt);
@@ -228,7 +233,7 @@ static void agentf_send_eof(Channel *chan)
     agentf_try_forward(af);
 }
 
-static char *agentf_log_close_msg(Channel *chan)
+static char *agentf_log_close_msg(__attribute__((unused)) Channel *chan)
 {
     return dupstr("Agent-forwarding connection closed");
 }

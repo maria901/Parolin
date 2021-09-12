@@ -24,10 +24,10 @@ static void hmacmd5_chap(const unsigned char *challenge, int challen,
 
 void proxy_socks5_offerencryptedauth(BinarySink *bs)
 {
-    put_byte(bs, 0x03);              /* CHAP */
+    put_byte(bs, 0x03); /* CHAP */
 }
 
-int proxy_socks5_handlechap (ProxySocket *p)
+int proxy_socks5_handlechap(ProxySocket *p)
 {
 
     /* CHAP authentication reply format:
@@ -41,10 +41,12 @@ int proxy_socks5_handlechap (ProxySocket *p)
     unsigned char data[260];
     unsigned char outbuf[20];
 
-    while(p->chap_num_attributes == 0 ||
-          p->chap_num_attributes_processed < p->chap_num_attributes) {
+    while (p->chap_num_attributes == 0 ||
+           p->chap_num_attributes_processed < p->chap_num_attributes)
+    {
         if (p->chap_num_attributes == 0 ||
-            p->chap_current_attribute == -1) {
+            p->chap_current_attribute == -1)
+        {
             /* CHAP normally reads in two bytes, either at the
              * beginning or for each attribute/value pair.  But if
              * we're waiting for the value's data, we might not want
@@ -52,33 +54,39 @@ int proxy_socks5_handlechap (ProxySocket *p)
              */
 
             if (bufchain_size(&p->pending_input_data) < 2)
-                return 1;              /* not got anything yet */
+                return 1; /* not got anything yet */
 
             /* get the response */
             bufchain_fetch(&p->pending_input_data, data, 2);
             bufchain_consume(&p->pending_input_data, 2);
         }
 
-        if (p->chap_num_attributes == 0) {
+        if (p->chap_num_attributes == 0)
+        {
             /* If there are no attributes, this is our first msg
              * with the server, where we negotiate version and
              * number of attributes
              */
-            if (data[0] != 0x01) {
+            if (data[0] != 0x01)
+            {
                 plug_closing(p->plug, "Proxy error: SOCKS proxy wants"
-                             " a different CHAP version",
+                                      " a different CHAP version",
                              PROXY_ERROR_GENERAL, 0);
                 return 1;
             }
-            if (data[1] == 0x00) {
+            if (data[1] == 0x00)
+            {
                 plug_closing(p->plug, "Proxy error: SOCKS proxy won't"
-                             " negotiate CHAP with us",
+                                      " negotiate CHAP with us",
                              PROXY_ERROR_GENERAL, 0);
                 return 1;
             }
             p->chap_num_attributes = data[1];
-        } else {
-            if (p->chap_current_attribute == -1) {
+        }
+        else
+        {
+            if (p->chap_current_attribute == -1)
+            {
                 /* We have to read in each attribute/value pair -
                  * those we don't understand can be ignored, but
                  * there are a few we'll need to handle.
@@ -86,9 +94,9 @@ int proxy_socks5_handlechap (ProxySocket *p)
                 p->chap_current_attribute = data[0];
                 p->chap_current_datalen = data[1];
             }
-            if (bufchain_size(&p->pending_input_data) <
-                p->chap_current_datalen)
-                return 1;              /* not got everything yet */
+            if ((int64_t)bufchain_size(&p->pending_input_data) <
+                (int64_t)p->chap_current_datalen)
+                return 1; /* not got everything yet */
 
             /* get the response */
             bufchain_fetch(&p->pending_input_data, data,
@@ -97,19 +105,21 @@ int proxy_socks5_handlechap (ProxySocket *p)
             bufchain_consume(&p->pending_input_data,
                              p->chap_current_datalen);
 
-            switch (p->chap_current_attribute) {
-              case 0x00:
+            switch (p->chap_current_attribute)
+            {
+            case 0x00:
                 /* Successful authentication */
                 if (data[0] == 0x00)
                     p->state = 2;
-                else {
+                else
+                {
                     plug_closing(p->plug, "Proxy error: SOCKS proxy"
-                                 " refused CHAP authentication",
+                                          " refused CHAP authentication",
                                  PROXY_ERROR_GENERAL, 0);
                     return 1;
                 }
-              break;
-              case 0x03:
+                break;
+            case 0x03:
                 outbuf[0] = 0x01; /* Version */
                 outbuf[1] = 0x01; /* One attribute */
                 outbuf[2] = 0x04; /* Response */
@@ -118,23 +128,25 @@ int proxy_socks5_handlechap (ProxySocket *p)
                              conf_get_str(p->conf, CONF_proxy_password),
                              &outbuf[4]);
                 sk_write(p->sub_socket, outbuf, 20);
-              break;
-              case 0x11:
+                break;
+            case 0x11:
                 /* Chose a protocol */
-                if (data[0] != 0x85) {
+                if (data[0] != 0x85)
+                {
                     plug_closing(p->plug, "Proxy error: Server chose "
-                                 "CHAP of other than HMAC-MD5 but we "
-                                 "didn't offer it!",
+                                          "CHAP of other than HMAC-MD5 but we "
+                                          "didn't offer it!",
                                  PROXY_ERROR_GENERAL, 0);
                     return 1;
                 }
-              break;
+                break;
             }
             p->chap_current_attribute = -1;
             p->chap_num_attributes_processed++;
         }
         if (p->state == 8 &&
-            p->chap_num_attributes_processed >= p->chap_num_attributes) {
+            p->chap_num_attributes_processed >= p->chap_num_attributes)
+        {
             p->chap_num_attributes = 0;
             p->chap_num_attributes_processed = 0;
             p->chap_current_datalen = 0;
@@ -147,7 +159,8 @@ int proxy_socks5_selectchap(ProxySocket *p)
 {
     char *username = conf_get_str(p->conf, CONF_proxy_username);
     char *password = conf_get_str(p->conf, CONF_proxy_password);
-    if (username[0] || password[0]) {
+    if (username[0] || password[0])
+    {
         char chapbuf[514];
         int ulen;
         chapbuf[0] = '\x01'; /* Version */
@@ -158,11 +171,13 @@ int proxy_socks5_selectchap(ProxySocket *p)
         chapbuf[5] = '\x02'; /* Second attribute - username */
 
         ulen = strlen(username);
-        if (ulen > 255) ulen = 255;
-        if (ulen < 1) ulen = 1;
+        if (ulen > 255)
+            ulen = 255;
+        if (ulen < 1)
+            ulen = 1;
 
         chapbuf[6] = ulen;
-        memcpy(chapbuf+7, username, ulen);
+        memcpy(chapbuf + 7, username, ulen);
 
         sk_write(p->sub_socket, chapbuf, ulen + 7);
         p->chap_num_attributes = 0;
@@ -171,9 +186,10 @@ int proxy_socks5_selectchap(ProxySocket *p)
         p->chap_current_datalen = 0;
 
         p->state = 8;
-    } else
+    }
+    else
         plug_closing(p->plug, "Proxy error: Server chose "
-                     "CHAP authentication but we didn't offer it!",
-                 PROXY_ERROR_GENERAL, 0);
+                              "CHAP authentication but we didn't offer it!",
+                     PROXY_ERROR_GENERAL, 0);
     return 1;
 }

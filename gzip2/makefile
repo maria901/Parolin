@@ -1,6 +1,6 @@
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function
 
-amanda_32: /bw_tmp/gzip2/pedro_32.o /bw_tmp/gzip2/dll_32.o /bw_tmp/gzip2/folder_i_32.o /bw_tmp/gzip2/longfile_32.o /bw_tmp/gzip2/gzip2__multi_32.o /bw_tmp/gzip2/sha512_k_32.o /bw_tmp/gzip2/stdio_v2_32.o /bw_tmp/gzip2/zlib_32.o /bw_tmp/gzip2/miniz_32.o
+amanda_32: /bw_tmp/gzip2/pedro_32.o /bw_tmp/gzip2/dll_32.o /bw_tmp/gzip2/amanda_folder_[C_utilities]_i_32.o /bw_tmp/gzip2/longfile_32.o /bw_tmp/gzip2/gzip2__multi_32.o /bw_tmp/gzip2/sha512_k_32.o /bw_tmp/gzip2/stdio_v2_32.o /bw_tmp/gzip2/zlib_32.o /bw_tmp/gzip2/miniz_32.o
 
 #	-rm *.DLL *.dll *.ric *~ *.exe *.EXE *.o *.a
 
@@ -8,7 +8,7 @@ amanda_32: /bw_tmp/gzip2/pedro_32.o /bw_tmp/gzip2/dll_32.o /bw_tmp/gzip2/folder_
 
 	@i686-w64-mingw32-windres.exe -o /bw_tmp/gzip2/amanda_ver32.o -O coff version_ricardo_mislaine_final_2_.rc
 
-	@i686-w64-mingw32-gcc.exe -mdll def_k.def -o /bin/tar/x86/rsp_gzip2_32.DLL /bw_tmp/gzip2/amanda_ver32.o /bw_tmp/gzip2/pedro_32.o /bw_tmp/gzip2/dll_32.o /bw_tmp/gzip2/folder_i_32.o /bw_tmp/gzip2/longfile_32.o /bw_tmp/gzip2/gzip2__multi_32.o /bw_tmp/gzip2/sha512_k_32.o /bw_tmp/gzip2/stdio_v2_32.o /bw_tmp/gzip2/zlib_32.o /bw_tmp/gzip2/miniz_32.o -Wl,-enable-stdcall-fixup
+	@i686-w64-mingw32-gcc.exe -mdll def_k.def -o /bin/tar/x86/rsp_gzip2_32.DLL /bw_tmp/gzip2/amanda_ver32.o /bw_tmp/gzip2/pedro_32.o /bw_tmp/gzip2/dll_32.o /bw_tmp/gzip2/amanda_folder_[C_utilities]_i_32.o /bw_tmp/gzip2/longfile_32.o /bw_tmp/gzip2/gzip2__multi_32.o /bw_tmp/gzip2/sha512_k_32.o /bw_tmp/gzip2/stdio_v2_32.o /bw_tmp/gzip2/zlib_32.o /bw_tmp/gzip2/miniz_32.o -Wl,-enable-stdcall-fixup
 
 /bw_tmp/gzip2/miniz_32.o: miniz.c
 	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/gzip2/miniz_32.o miniz.c $(AMANDA_FLAGS__)
@@ -31,19 +31,19 @@ amanda_32: /bw_tmp/gzip2/pedro_32.o /bw_tmp/gzip2/dll_32.o /bw_tmp/gzip2/folder_
 /bw_tmp/gzip2/longfile_32.o: longfile.c
 	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/gzip2/longfile_32.o longfile.c $(AMANDA_FLAGS__)
 
-/bw_tmp/gzip2/folder_i_32.o: folder.c
-	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/gzip2/folder_i_32.o folder.c $(AMANDA_FLAGS__)
+/bw_tmp/gzip2/amanda_folder_[C_utilities]_i_32.o: amanda_folder_[C_utilities].c
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/gzip2/amanda_folder_[C_utilities]_i_32.o amanda_folder_[C_utilities].c $(AMANDA_FLAGS__)
 
 /bw_tmp/gzip2/sha512_k_32.o: sha512_k.c
 	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/gzip2/sha512_k_32.o sha512_k.c $(AMANDA_FLAGS__)
 
-ricardo_64: /bw_tmp/gzip2/pedro_64.o /bw_tmp/gzip2/dll_64.o /bw_tmp/gzip2/folder_i_64.o /bw_tmp/gzip2/longfile_64.o /bw_tmp/gzip2/gzip2__multi_64.o /bw_tmp/gzip2/sha512_k_64.o /bw_tmp/gzip2/stdio_v2_64.o /bw_tmp/gzip2/zlib_64.o /bw_tmp/gzip2/miniz_64.o
+ricardo_64: /bw_tmp/gzip2/pedro_64.o /bw_tmp/gzip2/dll_64.o /bw_tmp/gzip2/amanda_folder_[C_utilities]_i_64.o /bw_tmp/gzip2/longfile_64.o /bw_tmp/gzip2/gzip2__multi_64.o /bw_tmp/gzip2/sha512_k_64.o /bw_tmp/gzip2/stdio_v2_64.o /bw_tmp/gzip2/zlib_64.o /bw_tmp/gzip2/miniz_64.o
 
 	@/bw_tmp/amandaricardo_mvbuild26_33.exe amanda_file_counter_32.ini versio_n.ama.rc version_ricardo_mislaine_final_2_.rc aline_definitive_header_2_.h "64 bits" rsp_gzip2_64.DLL increase
 
 	@x86_64-w64-mingw32-windres.exe -o /bw_tmp/gzip2/amanda_ver64.o	-O coff version_ricardo_mislaine_final_2_.rc
 
-	x86_64-w64-mingw32-gcc.exe -DNPRINTF_NO -mdll def_k.def -o /bin/tar/x64/rsp_gzip2_64.DLL /bw_tmp/gzip2/amanda_ver64.o /bw_tmp/gzip2/pedro_64.o /bw_tmp/gzip2/dll_64.o /bw_tmp/gzip2/folder_i_64.o /bw_tmp/gzip2/longfile_64.o /bw_tmp/gzip2/gzip2__multi_64.o /bw_tmp/gzip2/sha512_k_64.o /bw_tmp/gzip2/stdio_v2_64.o /bw_tmp/gzip2/zlib_64.o /bw_tmp/gzip2/miniz_64.o -Wl,-enable-stdcall-fixup
+	x86_64-w64-mingw32-gcc.exe -DNPRINTF_NO -mdll def_k.def -o /bin/tar/x64/rsp_gzip2_64.DLL /bw_tmp/gzip2/amanda_ver64.o /bw_tmp/gzip2/pedro_64.o /bw_tmp/gzip2/dll_64.o /bw_tmp/gzip2/amanda_folder_[C_utilities]_i_64.o /bw_tmp/gzip2/longfile_64.o /bw_tmp/gzip2/gzip2__multi_64.o /bw_tmp/gzip2/sha512_k_64.o /bw_tmp/gzip2/stdio_v2_64.o /bw_tmp/gzip2/zlib_64.o /bw_tmp/gzip2/miniz_64.o -Wl,-enable-stdcall-fixup
 
 /bw_tmp/gzip2/miniz_64.o: miniz.c
 	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/gzip2/miniz_64.o miniz.c $(AMANDA_FLAGS__)
@@ -66,8 +66,8 @@ ricardo_64: /bw_tmp/gzip2/pedro_64.o /bw_tmp/gzip2/dll_64.o /bw_tmp/gzip2/folder
 /bw_tmp/gzip2/longfile_64.o: longfile.c
 	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/gzip2/longfile_64.o longfile.c $(AMANDA_FLAGS__)
 
-/bw_tmp/gzip2/folder_i_64.o: folder.c
-	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/gzip2/folder_i_64.o folder.c $(AMANDA_FLAGS__)
+/bw_tmp/gzip2/amanda_folder_[C_utilities]_i_64.o: amanda_folder_[C_utilities].c
+	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/gzip2/amanda_folder_[C_utilities]_i_64.o amanda_folder_[C_utilities].c $(AMANDA_FLAGS__)
 
 /bw_tmp/gzip2/sha512_k_64.o: sha512_k.c
 	x86_64-w64-mingw32-gcc.exe -c -o /bw_tmp/gzip2/sha512_k_64.o sha512_k.c $(AMANDA_FLAGS__)

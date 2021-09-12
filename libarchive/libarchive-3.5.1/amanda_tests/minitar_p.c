@@ -1,4 +1,3 @@
-//2021 amanda & MathMan  April 24
 
  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
@@ -2086,7 +2085,7 @@ exit_now_aqui_i:;
      return returnvalue_i;
 }
 
-static int __stdcall extract_function_ar_ok(int clear_flag_k)
+static int __stdcall extract_function_ar_ok(__attribute__((unused)) int clear_flag_k)
 {
 
      return 0;

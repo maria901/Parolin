@@ -1,6 +1,6 @@
 #May 2021 amanda & MathMan
 
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wextra -Wno-unused-function -I ./include
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wextra -Wno-unused-function -I ./include
 
 amanda_32: /bw_tmp/lzop_b/c_ansic_32aakp_rspk.o /bw_tmp/lzop_b/c_ansim_32aakp_rspk.o /bw_tmp/lzop_b/c_init_32aakp_rspk.o /bw_tmp/lzop_b/c_none_32aakp_rspk.o /bw_tmp/lzop_b/c_screen_32aakp_rspk.o /bw_tmp/lzop_b/compress_32aakp_rspk.o /bw_tmp/lzop_b/djgpp2_32aakp_rspk.o /bw_tmp/lzop_b/filter_32aakp_rspk.o /bw_tmp/lzop_b/frames_32aakp_rspk.o /bw_tmp/lzop_b/help_32aakp_rspk.o /bw_tmp/lzop_b/lzop_32aakp_rspk.o /bw_tmp/lzop_b/mblock_32aakp_rspk.o /bw_tmp/lzop_b/p_lzo_32aakp_rspk.o /bw_tmp/lzop_b/s_curses_32aakp_rspk.o /bw_tmp/lzop_b/s_djgpp2_32aakp_rspk.o /bw_tmp/lzop_b/s_object_32aakp_rspk.o /bw_tmp/lzop_b/s_vcsa_32aakp_rspk.o /bw_tmp/lzop_b/util_32aakp_rspk.o /bw_tmp/lzop_b/pedro_32aakp_rspk.o
 

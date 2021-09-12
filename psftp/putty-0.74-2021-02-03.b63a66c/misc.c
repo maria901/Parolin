@@ -32,7 +32,7 @@ void seat_connection_fatal(Seat *seat, const char *fmt, ...)
     va_end(ap);
 
     seat->vt->connection_fatal(seat, msg);
-    sfree(msg);                        /* if we return */
+    sfree(msg); /* if we return */
 }
 
 prompts_t *new_prompts(void)
@@ -71,7 +71,8 @@ char *prompt_get_result(prompt_t *pr)
 void free_prompts(prompts_t *p)
 {
     size_t i;
-    for (i=0; i < p->n_prompts; i++) {
+    for (i = 0; i < p->n_prompts; i++)
+    {
         prompt_t *pr = p->prompts[i];
         strbuf_free(pr->result);
         sfree(pr->prompt);
@@ -120,17 +121,20 @@ bool validate_manual_hostkey(char *key)
      * in one of the formats we like.
      */
     p = key;
-    while ((p += strspn(p, " \t"))[0]) {
+    while ((p += strspn(p, " \t"))[0])
+    {
         q = p;
         p += strcspn(p, " \t");
-        if (*p) *p++ = '\0';
+        if (*p)
+            *p++ = '\0';
 
         /*
          * Now q is our word.
          */
 
-        if (strlen(q) == 16*3 - 1 &&
-            q[strspn(q, "0123456789abcdefABCDEF:")] == 0) {
+        if (strlen(q) == 16 * 3 - 1 &&
+            q[strspn(q, "0123456789abcdefABCDEF:")] == 0)
+        {
             /*
              * Might be a key fingerprint. Check the colons are in the
              * right places, and if so, return the same fingerprint
@@ -138,17 +142,17 @@ bool validate_manual_hostkey(char *key)
              */
             int i;
             for (i = 0; i < 16; i++)
-                if (q[3*i] == ':' || q[3*i+1] == ':')
+                if (q[3 * i] == ':' || q[3 * i + 1] == ':')
                     goto not_fingerprint; /* sorry */
             for (i = 0; i < 15; i++)
-                if (q[3*i+2] != ':')
+                if (q[3 * i + 2] != ':')
                     goto not_fingerprint; /* sorry */
-            for (i = 0; i < 16*3 - 1; i++)
+            for (i = 0; i < 16 * 3 - 1; i++)
                 key[i] = tolower(q[i]);
-            key[16*3 - 1] = '\0';
+            key[16 * 3 - 1] = '\0';
             return true;
         }
-      not_fingerprint:;
+    not_fingerprint:;
 
         /*
          * Before we check for a public-key blob, trim newlines out of
@@ -160,9 +164,10 @@ bool validate_manual_hostkey(char *key)
                 *s++ = *r;
         *s = '\0';
 
-        if (strlen(q) % 4 == 0 && strlen(q) > 2*4 &&
+        if (strlen(q) % 4 == 0 && strlen(q) > 2 * 4 &&
             q[strspn(q, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                     "abcdefghijklmnopqrstuvwxyz+/=")] == 0) {
+                        "abcdefghijklmnopqrstuvwxyz+/=")] == 0)
+        {
             /*
              * Might be a base64-encoded SSH-2 public key blob. Check
              * that it starts with a sensible algorithm string. No
@@ -176,25 +181,25 @@ bool validate_manual_hostkey(char *key)
             int minlen;
             int len = 0;
 
-            len += base64_decode_atom(q, decoded+len);
+            len += base64_decode_atom(q, decoded + len);
             if (len < 3)
-                goto not_ssh2_blob;    /* sorry */
-            len += base64_decode_atom(q+4, decoded+len);
+                goto not_ssh2_blob; /* sorry */
+            len += base64_decode_atom(q + 4, decoded + len);
             if (len < 4)
-                goto not_ssh2_blob;    /* sorry */
+                goto not_ssh2_blob; /* sorry */
 
             alglen = GET_32BIT_MSB_FIRST(decoded);
             if (alglen > 64)
-                goto not_ssh2_blob;    /* sorry */
+                goto not_ssh2_blob; /* sorry */
 
             minlen = ((alglen + 4) + 2) / 3;
-            if (strlen(q) < minlen)
-                goto not_ssh2_blob;    /* sorry */
+            if ((int64_t)strlen(q) < (int64_t)minlen)
+                goto not_ssh2_blob; /* sorry */
 
             strcpy(key, q);
             return true;
         }
-      not_ssh2_blob:;
+    not_ssh2_blob:;
     }
 
     return false;
@@ -284,7 +289,8 @@ char *buildinfo(const char *newline)
 #ifdef BUILDINFO_GTK
     {
         char *gtk_buildinfo = buildinfo_gtk_version();
-        if (gtk_buildinfo) {
+        if (gtk_buildinfo)
+        {
             strbuf_catf(buf, "%sCompiled against GTK version %s",
                         newline, gtk_buildinfo);
             sfree(gtk_buildinfo);
@@ -333,49 +339,75 @@ char *buildinfo(const char *newline)
     return strbuf_to_str(buf);
 }
 
-size_t nullseat_output(
-    Seat *seat, bool is_stderr, const void *data, size_t len) { return 0; }
-bool nullseat_eof(Seat *seat) { return true; }
-int nullseat_get_userpass_input(
-    Seat *seat, prompts_t *p, bufchain *input) { return 0; }
-void nullseat_notify_remote_exit(Seat *seat) {}
-void nullseat_connection_fatal(Seat *seat, const char *message) {}
-void nullseat_update_specials_menu(Seat *seat) {}
-char *nullseat_get_ttymode(Seat *seat, const char *mode) { return NULL; }
-void nullseat_set_busy_status(Seat *seat, BusyStatus status) {}
-int nullseat_verify_ssh_host_key(
-    Seat *seat, const char *host, int port,
-    const char *keytype, char *keystr, char *key_fingerprint,
-    void (*callback)(void *ctx, int result), void *ctx) { return 0; }
-int nullseat_confirm_weak_crypto_primitive(
-    Seat *seat, const char *algtype, const char *algname,
-    void (*callback)(void *ctx, int result), void *ctx) { return 0; }
-int nullseat_confirm_weak_cached_hostkey(
-    Seat *seat, const char *algname, const char *betteralgs,
-    void (*callback)(void *ctx, int result), void *ctx) { return 0; }
-bool nullseat_is_never_utf8(Seat *seat) { return false; }
-bool nullseat_is_always_utf8(Seat *seat) { return true; }
-void nullseat_echoedit_update(Seat *seat, bool echoing, bool editing) {}
-const char *nullseat_get_x_display(Seat *seat) { return NULL; }
-bool nullseat_get_windowid(Seat *seat, long *id_out) { return false; }
-bool nullseat_get_window_pixel_size(
-    Seat *seat, int *width, int *height) { return false; }
-StripCtrlChars *nullseat_stripctrl_new(
-    Seat *seat, BinarySink *bs_out, SeatInteractionContext sic) {return NULL;}
-bool nullseat_set_trust_status(Seat *seat, bool tr) { return false; }
-bool nullseat_set_trust_status_vacuously(Seat *seat, bool tr) { return true; }
-bool nullseat_verbose_no(Seat *seat) { return false; }
-bool nullseat_verbose_yes(Seat *seat) { return true; }
-bool nullseat_interactive_no(Seat *seat) { return false; }
-bool nullseat_interactive_yes(Seat *seat) { return true; }
-bool nullseat_get_cursor_position(Seat *seat, int *x, int *y) { return false; }
+size_t nullseat_output(__attribute__((unused)) Seat *seat,
+                       __attribute__((unused)) bool is_stderr,
+                       __attribute__((unused)) const void *data,
+                       __attribute__((unused)) size_t len) { return 0; }
+bool nullseat_eof(__attribute__((unused)) Seat *seat) { return true; }
+int nullseat_get_userpass_input(__attribute__((unused)) Seat *seat,
+                                __attribute__((unused)) prompts_t *p,
+                                __attribute__((unused)) bufchain *input) { return 0; }
+void nullseat_notify_remote_exit(__attribute__((unused)) Seat *seat) {}
+void nullseat_connection_fatal(__attribute__((unused)) Seat *seat,
+                               __attribute__((unused)) const char *message) {}
+void nullseat_update_specials_menu(__attribute__((unused)) Seat *seat) {}
+char *nullseat_get_ttymode(__attribute__((unused)) Seat *seat,
+                           __attribute__((unused)) const char *mode) { return NULL; }
+void nullseat_set_busy_status(__attribute__((unused)) Seat *seat,
+                              __attribute__((unused)) BusyStatus status) {}
+int nullseat_verify_ssh_host_key(__attribute__((unused)) Seat *seat,
+                                 __attribute__((unused)) const char *host,
+                                 __attribute__((unused)) int port,
+                                 __attribute__((unused)) const char *keytype,
+                                 __attribute__((unused)) char *keystr,
+                                 __attribute__((unused)) char *key_fingerprint,
+                                 __attribute__((unused)) void (*callback)(__attribute__((unused)) void *ctx, __attribute__((unused)) int result),
+                                 __attribute__((unused)) void *ctx) { return 0; }
+int nullseat_confirm_weak_crypto_primitive(__attribute__((unused)) Seat *seat,
+                                           __attribute__((unused)) const char *algtype,
+                                           __attribute__((unused)) const char *algname,
+                                           __attribute__((unused)) void (*callback)(__attribute__((unused)) void *ctx,
+                                                                                    __attribute__((unused)) int result),
+                                           __attribute__((unused)) void *ctx) { return 0; }
+int nullseat_confirm_weak_cached_hostkey(__attribute__((unused)) Seat *seat,
+                                         __attribute__((unused)) const char *algname,
+                                         __attribute__((unused)) const char *betteralgs,
+                                         __attribute__((unused)) void (*callback)(__attribute__((unused)) void *ctx,
+                                                                                  __attribute__((unused)) int result),
+                                         __attribute__((unused)) void *ctx) { return 0; }
+bool nullseat_is_never_utf8(__attribute__((unused)) Seat *seat) { return false; }
+bool nullseat_is_always_utf8(__attribute__((unused)) Seat *seat) { return true; }
+void nullseat_echoedit_update(__attribute__((unused)) Seat *seat,
+                              __attribute__((unused)) bool echoing,
+                              __attribute__((unused)) bool editing) {}
+const char *nullseat_get_x_display(__attribute__((unused)) Seat *seat) { return NULL; }
+bool nullseat_get_windowid(__attribute__((unused)) Seat *seat,
+                           __attribute__((unused)) long *id_out) { return false; }
+bool nullseat_get_window_pixel_size(__attribute__((unused)) Seat *seat,
+                                    __attribute__((unused)) int *width,
+                                    __attribute__((unused)) int *height) { return false; }
+StripCtrlChars *nullseat_stripctrl_new(__attribute__((unused)) Seat *seat,
+                                       __attribute__((unused)) BinarySink *bs_out,
+                                       __attribute__((unused)) SeatInteractionContext sic) { return NULL; }
+bool nullseat_set_trust_status(__attribute__((unused)) Seat *seat,
+                               __attribute__((unused)) bool tr) { return false; }
+bool nullseat_set_trust_status_vacuously(__attribute__((unused)) Seat *seat,
+                                         __attribute__((unused)) bool tr) { return true; }
+bool nullseat_verbose_no(__attribute__((unused)) Seat *seat) { return false; }
+bool nullseat_verbose_yes(__attribute__((unused)) Seat *seat) { return true; }
+bool nullseat_interactive_no(__attribute__((unused)) Seat *seat) { return false; }
+bool nullseat_interactive_yes(__attribute__((unused)) Seat *seat) { return true; }
+bool nullseat_get_cursor_position(__attribute__((unused)) Seat *seat,
+                                  __attribute__((unused)) int *x,
+                                  __attribute__((unused)) int *y) { return false; }
 
-bool null_lp_verbose_no(LogPolicy *lp) { return false; }
-bool null_lp_verbose_yes(LogPolicy *lp) { return true; }
+bool null_lp_verbose_no(__attribute__((unused)) LogPolicy *lp) { return false; }
+bool null_lp_verbose_yes(__attribute__((unused)) LogPolicy *lp) { return true; }
 
 void sk_free_peer_info(SocketPeerInfo *pi)
 {
-    if (pi) {
+    if (pi)
+    {
         sfree((char *)pi->addr_text);
         sfree((char *)pi->log_text);
         sfree(pi);

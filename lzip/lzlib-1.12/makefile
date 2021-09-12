@@ -1,6 +1,6 @@
 #2021 amanda & SmartApe, updated May/15, also July/27
 
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-unused-function
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function
 
 amanda_32: /bw_tmp/lzip/pedro_32.o /bw_tmp/lzip/carg_parser_aakp_rspk_32.o /bw_tmp/lzip/lzlib_aakp_rspk_32.o /bw_tmp/lzip/main_aakp_32.o 
 

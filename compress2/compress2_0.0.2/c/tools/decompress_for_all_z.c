@@ -1,4 +1,32 @@
-//amanda & MathMan 2021
+
+ /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails direto dos felizes programadores:                                *
+ *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
+ *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *                                                                              *
+ *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
 int
 THE_DECOMPRESSOR_FUNCION_NAME_Z(fdin, fdout, amanda)
@@ -113,7 +141,7 @@ resetbuf:       ;
 			posbits = 0;
 		}
 
-		if (insize < sizeof(inbuf)-IBUFSIZ)
+		if (insize < (int) (sizeof(inbuf)-IBUFSIZ))
 		{
 			if ((rsize = fread(inbuf+insize, 1, min(IBUFSIZ, amanda->size_of_input_file_copy_z), fdin)) < 0)
 				return 5;
@@ -256,7 +284,7 @@ resetbuf:       ;
 						{
 							if(amanda->dest_is_FILE_z)
 							{
-								if (fwrite_z(outbuf, 1, outpos, amanda->dest) != outpos)
+								if ((int)fwrite_z(outbuf, 1, outpos, amanda->dest) != (int) outpos)
 								{
 									
 									amanda->internal_error_arp = 6;
@@ -267,7 +295,7 @@ resetbuf:       ;
 							}
 							else
 							{
-								if (fwrite(outbuf, 1, outpos, fdout) != outpos)
+								if ((int)fwrite(outbuf, 1, outpos, fdout) != (int)outpos)
 								{
 									
 									amanda->internal_error_arp = 6;
@@ -306,7 +334,7 @@ resetbuf:       ;
 
 	if(amanda->dest_is_FILE_z)
 	{
-		if (outpos > 0 && fwrite_z(outbuf, 1, outpos, amanda->dest) != outpos)
+		if (outpos > 0 && (int)fwrite_z(outbuf, 1, outpos, amanda->dest) != (int)outpos)
 		{
 			amanda->internal_error_arp = 6;
 			return 6; //cannot write to output file
@@ -314,7 +342,7 @@ resetbuf:       ;
 	}
 	else
 	{
-		if (outpos > 0 && fwrite(outbuf, 1, outpos, fdout) != outpos)
+		if (outpos > 0 && (int)fwrite(outbuf, 1, outpos, fdout) != (int)outpos)
 		{
 			amanda->internal_error_arp = 6;
 			return 6; //cannot write to output file

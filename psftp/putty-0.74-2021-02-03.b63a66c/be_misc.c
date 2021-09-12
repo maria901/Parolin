@@ -8,31 +8,41 @@
 #include "putty.h"
 #include "network.h"
 
-void backend_socket_log(Seat *seat, LogContext *logctx,
-                        PlugLogType type, SockAddr *addr, int port,
-                        const char *error_msg, int error_code, Conf *conf,
+void backend_socket_log(Seat *seat,
+                        LogContext *logctx,
+                        PlugLogType type,
+                        SockAddr *addr,
+                        int port,
+                        const char *error_msg,
+                        __attribute__((unused)) int error_code,
+                        Conf *conf,
                         bool session_started)
 {
     char addrbuf[256], *msg;
 
-    switch (type) {
-      case PLUGLOG_CONNECT_TRYING:
+    switch (type)
+    {
+    case PLUGLOG_CONNECT_TRYING:
         sk_getaddr(addr, addrbuf, lenof(addrbuf));
-        if (sk_addr_needs_port(addr)) {
+        if (sk_addr_needs_port(addr))
+        {
             msg = dupprintf("Connecting to %s port %d", addrbuf, port);
-        } else {
+        }
+        else
+        {
             msg = dupprintf("Connecting to %s", addrbuf);
         }
         break;
-      case PLUGLOG_CONNECT_FAILED:
+    case PLUGLOG_CONNECT_FAILED:
         sk_getaddr(addr, addrbuf, lenof(addrbuf));
         msg = dupprintf("Failed to connect to %s: %s", addrbuf, error_msg);
         break;
-      case PLUGLOG_CONNECT_SUCCESS:
+    case PLUGLOG_CONNECT_SUCCESS:
         sk_getaddr(addr, addrbuf, lenof(addrbuf));
         msg = dupprintf("Connected to %s", addrbuf);
         break;
-      case PLUGLOG_PROXY_MSG: {
+    case PLUGLOG_PROXY_MSG:
+    {
         /* Proxy-related log messages have their own identifying
          * prefix already, put on by our caller. */
         int len, log_to_term;
@@ -48,15 +58,16 @@ void backend_socket_log(Seat *seat, LogContext *logctx,
         if (log_to_term == FORCE_ON)
             seat_stderr(seat, msg, len);
 
-        msg[len-2] = '\0';         /* remove the \r\n again */
+        msg[len - 2] = '\0'; /* remove the \r\n again */
         break;
-      }
-      default:
-        msg = NULL;  /* shouldn't happen, but placate optimiser */
+    }
+    default:
+        msg = NULL; /* shouldn't happen, but placate optimiser */
         break;
     }
 
-    if (msg) {
+    if (msg)
+    {
         logevent(logctx, msg);
         sfree(msg);
     }
@@ -86,7 +97,8 @@ void log_proxy_stderr(Plug *plug, ProxyStderrBuf *psb,
      * somewhere to collect any not-yet-output partial line.
      */
 
-    while (len > 0) {
+    while (len > 0)
+    {
         /*
          * Copy as much data into psb->buf as will fit.
          */
@@ -103,7 +115,8 @@ void log_proxy_stderr(Plug *plug, ProxyStderrBuf *psb,
          * Output any full lines in psb->buf.
          */
         size_t pos = 0;
-        while (pos < psb->size) {
+        while (pos < psb->size)
+        {
             char *nlpos = memchr(psb->buf + pos, '\n', psb->size - pos);
             if (!nlpos)
                 break;
@@ -112,8 +125,8 @@ void log_proxy_stderr(Plug *plug, ProxyStderrBuf *psb,
              * Found a newline in the buffer, so we can output a line.
              */
             size_t endpos = nlpos - psb->buf;
-            while (endpos > pos && (psb->buf[endpos-1] == '\n' ||
-                                    psb->buf[endpos-1] == '\r'))
+            while (endpos > pos && (psb->buf[endpos - 1] == '\n' ||
+                                    psb->buf[endpos - 1] == '\r'))
                 endpos--;
             char *msg = dupprintf(
                 "proxy: %.*s", (int)(endpos - pos), psb->buf + pos);
@@ -129,7 +142,8 @@ void log_proxy_stderr(Plug *plug, ProxyStderrBuf *psb,
          * anything, then output the whole thing, flagging it as a
          * truncated line.
          */
-        if (pos == 0 && psb->size == lenof(psb->buf)) {
+        if (pos == 0 && psb->size == lenof(psb->buf))
+        {
             char *msg = dupprintf(
                 "proxy (partial line): %.*s", (int)psb->size, psb->buf);
             plug_log(plug, PLUGLOG_PROXY_MSG, NULL, 0, msg, 0);
