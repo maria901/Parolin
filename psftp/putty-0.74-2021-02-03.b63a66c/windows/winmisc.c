@@ -17,7 +17,8 @@ WINBOOL WINAPI SetDefaultDllDirectories (DWORD DirectoryFlags);
 
 DWORD osMajorVersion, osMinorVersion, osPlatformId;
 
-char *platform_get_x_display(void) {
+char *platform_get_x_display(void)
+{
     /* We may as well check for DISPLAY in case it's useful. */
     return dupstr(getenv("DISPLAY"));
 }
@@ -81,7 +82,8 @@ char *get_username(void)
 
     {
         static bool tried_usernameex = false;
-        if (!tried_usernameex) {
+        if (!tried_usernameex)
+        {
             /* Not available on Win9x, so load dynamically */
             HMODULE secur32 = load_system32_dll("secur32.dll");
             /* If MIT Kerberos is installed, the following call to
@@ -90,12 +92,20 @@ char *get_username(void)
                load it properly before */
             HMODULE sspicli = load_system32_dll("sspicli.dll");
             (void)sspicli; /* squash compiler warning about unused variable */
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
+
             GET_WINDOWS_FUNCTION(secur32, GetUserNameExA);
+
+#pragma GCC diagnostic pop
+
             tried_usernameex = true;
         }
     }
 
-    if (p_GetUserNameExA) {
+    if (p_GetUserNameExA)
+    {
         /*
          * If available, use the principal -- this avoids the problem
          * that the local username is case-insensitive but Kerberos
@@ -104,22 +114,28 @@ char *get_username(void)
 
         /* Get the length */
         namelen = 0;
-        (void) p_GetUserNameExA(NameUserPrincipal, NULL, &namelen);
+        (void)p_GetUserNameExA(NameUserPrincipal, NULL, &namelen);
 
         user = snewn(namelen, char);
         got_username = p_GetUserNameExA(NameUserPrincipal, user, &namelen);
-        if (got_username) {
+        if (got_username)
+        {
             char *p = strchr(user, '@');
-            if (p) *p = 0;
-        } else {
+            if (p)
+                *p = 0;
+        }
+        else
+        {
             sfree(user);
         }
     }
 
-    if (!got_username) {
+    if (!got_username)
+    {
         /* Fall back to local user name */
         namelen = 0;
-        if (!GetUserName(NULL, &namelen)) {
+        if (!GetUserName(NULL, &namelen))
+        {
             /*
              * Apparently this doesn't work at least on Windows XP SP2.
              * Thus assume a maximum of 256. It will fail again if it
@@ -130,7 +146,8 @@ char *get_username(void)
 
         user = snewn(namelen, char);
         got_username = GetUserName(user, &namelen);
-        if (!got_username) {
+        if (!got_username)
+        {
             sfree(user);
         }
     }
@@ -159,8 +176,13 @@ void dll_hijacking_protection(void)
     static HMODULE kernel32_module;
     DECL_WINDOWS_FUNCTION(static, BOOL, SetDefaultDllDirectories, (DWORD));
 
-    if (!kernel32_module) {
+    if (!kernel32_module)
+    {
         kernel32_module = load_system32_dll("kernel32.dll");
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
+
 #if (defined _MSC_VER && _MSC_VER < 1900) || defined COVERITY
         /* For older Visual Studio, and also for the system I
          * currently use for Coveritying the Windows code, this
@@ -171,9 +193,13 @@ void dll_hijacking_protection(void)
 #else
         GET_WINDOWS_FUNCTION(kernel32_module, SetDefaultDllDirectories);
 #endif
+
+#pragma GCC diagnostic pop
+
     }
 
-    if (p_SetDefaultDllDirectories) {
+    if (p_SetDefaultDllDirectories)
+    {
         /* LOAD_LIBRARY_SEARCH_SYSTEM32 and explicitly specified
          * directories only */
         p_SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_SYSTEM32 |
@@ -186,8 +212,12 @@ void init_winver(void)
     OSVERSIONINFO osVersion;
     static HMODULE kernel32_module;
     DECL_WINDOWS_FUNCTION(static, BOOL, GetVersionExA, (LPOSVERSIONINFO));
+    
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
 
-    if (!kernel32_module) {
+    if (!kernel32_module)
+    {
         kernel32_module = load_system32_dll("kernel32.dll");
         /* Deliberately don't type-check this function, because that
          * would involve using its declaration in a header file which
@@ -196,13 +226,18 @@ void init_winver(void)
         GET_WINDOWS_FUNCTION_NO_TYPECHECK(kernel32_module, GetVersionExA);
     }
 
+#pragma GCC diagnostic pop
+
     ZeroMemory(&osVersion, sizeof(osVersion));
-    osVersion.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
-    if (p_GetVersionExA && p_GetVersionExA(&osVersion)) {
+    osVersion.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    if (p_GetVersionExA && p_GetVersionExA(&osVersion))
+    {
         osMajorVersion = osVersion.dwMajorVersion;
         osMinorVersion = osVersion.dwMinorVersion;
         osPlatformId = osVersion.dwPlatformId;
-    } else {
+    }
+    else
+    {
         /*
          * GetVersionEx is deprecated, so allow for it perhaps going
          * away in future API versions. If it's not there, simply
@@ -214,7 +249,7 @@ void init_winver(void)
          * specific function if possible in any case.
          */
         osMajorVersion = osMinorVersion = UINT_MAX; /* a very high number */
-        osPlatformId = VER_PLATFORM_WIN32_NT; /* not Win32s or Win95-like */
+        osPlatformId = VER_PLATFORM_WIN32_NT;       /* not Win32s or Win95-like */
     }
 }
 
@@ -231,7 +266,8 @@ HMODULE load_system32_dll(const char *libname)
     char *fullpath;
     HMODULE ret;
 
-    if (!sysdir) {
+    if (!sysdir)
+    {
         size_t len;
         while ((len = GetSystemDirectory(sysdir, sysdirsize)) >= sysdirsize)
             sgrowarray(sysdir, sysdirsize, len);
@@ -247,7 +283,8 @@ HMODULE load_system32_dll(const char *libname)
  * A tree234 containing mappings from system error codes to strings.
  */
 
-struct errstring {
+struct errstring
+{
     int error;
     char *text;
 };
@@ -279,22 +316,27 @@ const char *win_strerror(int error)
 
     es = find234(errstrings, &error, errstring_find);
 
-    if (!es) {
+    if (!es)
+    {
         char msgtext[65536]; /* maximum size for FormatMessage is 64K */
 
         es = snew(struct errstring);
         es->error = error;
         if (!FormatMessage((FORMAT_MESSAGE_FROM_SYSTEM |
-                            FORMAT_MESSAGE_IGNORE_INSERTS), NULL, error,
+                            FORMAT_MESSAGE_IGNORE_INSERTS),
+                           NULL, error,
                            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                           msgtext, lenof(msgtext)-1, NULL)) {
+                           msgtext, lenof(msgtext) - 1, NULL))
+        {
             sprintf(msgtext,
                     "(unable to format: FormatMessage returned %u)",
                     (unsigned int)GetLastError());
-        } else {
+        }
+        else
+        {
             int len = strlen(msgtext);
-            if (len > 0 && msgtext[len-1] == '\n')
-                msgtext[len-1] = '\0';
+            if (len > 0 && msgtext[len - 1] == '\n')
+                msgtext[len - 1] = '\0';
         }
         es->text = dupprintf("Error %d: %s", error, msgtext);
         add234(errstrings, es);
@@ -340,7 +382,8 @@ FontSpec *fontspec_deserialise(BinarySource *src)
 bool open_for_write_would_lose_data(const Filename *fn)
 {
     WIN32_FILE_ATTRIBUTE_DATA attrs;
-    if (!GetFileAttributesEx(fn->path, GetFileExInfoStandard, &attrs)) {
+    if (!GetFileAttributesEx(fn->path, GetFileExInfoStandard, &attrs))
+    {
         /*
          * Generally, if we don't identify a specific reason why we
          * should return true from this function, we return false, and
@@ -350,7 +393,8 @@ bool open_for_write_would_lose_data(const Filename *fn)
         return false;
     }
     if (attrs.dwFileAttributes & (FILE_ATTRIBUTE_DEVICE |
-                                  FILE_ATTRIBUTE_DIRECTORY)) {
+                                  FILE_ATTRIBUTE_DIRECTORY))
+    {
         /*
          * File is something other than an ordinary disk file, so
          * opening it for writing will not cause truncation. (It may
@@ -358,7 +402,8 @@ bool open_for_write_would_lose_data(const Filename *fn)
          */
         return false;
     }
-    if (attrs.nFileSizeHigh == 0 && attrs.nFileSizeLow == 0) {
+    if (attrs.nFileSizeHigh == 0 && attrs.nFileSizeLow == 0)
+    {
         /*
          * File is zero-length (or may be a named pipe, which
          * dwFileAttributes can't tell apart from a regular file), so
@@ -375,14 +420,16 @@ void escape_registry_key(const char *in, strbuf *out)
     bool candot = false;
     static const char hex[16] = "0123456789ABCDEF";
 
-    while (*in) {
+    while (*in)
+    {
         if (*in == ' ' || *in == '\\' || *in == '*' || *in == '?' ||
-            *in == '%' || *in < ' ' || *in > '~' || (*in == '.'
-                                                     && !candot)) {
+            *in == '%' || *in < ' ' || *in > '~' || (*in == '.' && !candot))
+        {
             put_byte(out, '%');
-            put_byte(out, hex[((unsigned char) *in) >> 4]);
-            put_byte(out, hex[((unsigned char) *in) & 15]);
-        } else
+            put_byte(out, hex[((unsigned char)*in) >> 4]);
+            put_byte(out, hex[((unsigned char)*in) & 15]);
+        }
+        else
             put_byte(out, *in);
         in++;
         candot = true;
@@ -391,8 +438,10 @@ void escape_registry_key(const char *in, strbuf *out)
 
 void unescape_registry_key(const char *in, strbuf *out)
 {
-    while (*in) {
-        if (*in == '%' && in[1] && in[2]) {
+    while (*in)
+    {
+        if (*in == '%' && in[1] && in[2])
+        {
             int i, j;
 
             i = in[1] - '0';
@@ -402,7 +451,9 @@ void unescape_registry_key(const char *in, strbuf *out)
 
             put_byte(out, (i << 4) + j);
             in += 3;
-        } else {
+        }
+        else
+        {
             put_byte(out, *in++);
         }
     }
@@ -417,17 +468,21 @@ void dputs(const char *buf)
 {
     DWORD dw;
 
-    if (!debug_got_console) {
-        if (AllocConsole()) {
+    if (!debug_got_console)
+    {
+        if (AllocConsole())
+        {
             debug_got_console = 1;
             debug_hdl = GetStdHandle(STD_OUTPUT_HANDLE);
         }
     }
-    if (!debug_fp) {
+    if (!debug_fp)
+    {
         debug_fp = fopen("debug.log", "w");
     }
 
-    if (debug_hdl != INVALID_HANDLE_VALUE) {
+    if (debug_hdl != INVALID_HANDLE_VALUE)
+    {
         WriteFile(debug_hdl, buf, strlen(buf), &dw, NULL);
     }
     fputs(buf, debug_fp);
@@ -441,7 +496,8 @@ char *registry_get_string(HKEY root, const char *path, const char *leaf)
     bool need_close_key = false;
     char *toret = NULL, *str = NULL;
 
-    if (path) {
+    if (path)
+    {
         if (RegCreateKey(key, path, &key) != ERROR_SUCCESS)
             goto out;
         need_close_key = true;
@@ -465,7 +521,7 @@ char *registry_get_string(HKEY root, const char *path, const char *leaf)
     toret = str;
     str = NULL;
 
-  out:
+out:
     if (need_close_key)
         RegCloseKey(key);
     sfree(str);

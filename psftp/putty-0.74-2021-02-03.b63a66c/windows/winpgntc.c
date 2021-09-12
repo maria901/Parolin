@@ -14,7 +14,7 @@
 #include "wincapi.h"
 #endif
 
-#define AGENT_COPYDATA_ID 0x804e50ba   /* random goop */
+#define AGENT_COPYDATA_ID 0x804e50ba /* random goop */
 
 static bool wm_copydata_agent_exists(void)
 {
@@ -42,16 +42,17 @@ static void wm_copydata_agent_query(strbuf *query, void **out, int *outlen)
     *outlen = 0;
 
     if (query->len > AGENT_MAX_MSGLEN)
-        return;                        /* query too large */
+        return; /* query too large */
 
     hwnd = FindWindow("Pageant", "Pageant");
     if (!hwnd)
-        return;                        /* *out == NULL, so failure */
+        return; /* *out == NULL, so failure */
     mapname = dupprintf("PageantRequest%08x", (unsigned)GetCurrentThreadId());
 
     psa = NULL;
 #ifndef NO_SECURITY
-    if (got_advapi()) {
+    if (got_advapi())
+    {
         /*
          * Make the file mapping we create for communication with
          * Pageant owned by the user SID rather than the default. This
@@ -63,18 +64,22 @@ static void wm_copydata_agent_query(strbuf *query, void **out, int *outlen)
          */
         usersid = get_user_sid();
 
-        if (usersid) {
+        if (usersid)
+        {
             psd = (PSECURITY_DESCRIPTOR)
                 LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH);
-            if (psd) {
-                if (p_InitializeSecurityDescriptor
-                    (psd, SECURITY_DESCRIPTOR_REVISION) &&
-                    p_SetSecurityDescriptorOwner(psd, usersid, false)) {
+            if (psd)
+            {
+                if (p_InitializeSecurityDescriptor(psd, SECURITY_DESCRIPTOR_REVISION) &&
+                    p_SetSecurityDescriptorOwner(psd, usersid, false))
+                {
                     sa.nLength = sizeof(sa);
                     sa.bInheritHandle = true;
                     sa.lpSecurityDescriptor = psd;
                     psa = &sa;
-                } else {
+                }
+                else
+                {
                     LocalFree(psd);
                     psd = NULL;
                 }
@@ -85,9 +90,10 @@ static void wm_copydata_agent_query(strbuf *query, void **out, int *outlen)
 
     filemap = CreateFileMapping(INVALID_HANDLE_VALUE, psa, PAGE_READWRITE,
                                 0, AGENT_MAX_MSGLEN, mapname);
-    if (filemap == NULL || filemap == INVALID_HANDLE_VALUE) {
+    if (filemap == NULL || filemap == INVALID_HANDLE_VALUE)
+    {
         sfree(mapname);
-        return;                        /* *out == NULL, so failure */
+        return; /* *out == NULL, so failure */
     }
     p = MapViewOfFile(filemap, FILE_MAP_WRITE, 0, 0, 0);
     strbuf_finalise_agent_query(query);
@@ -101,16 +107,20 @@ static void wm_copydata_agent_query(strbuf *query, void **out, int *outlen)
      * query is required to be synchronous) or CreateThread failed.
      * Either way, we need a synchronous request.
      */
-    id = SendMessage(hwnd, WM_COPYDATA, (WPARAM) NULL, (LPARAM) &cds);
-    if (id > 0) {
+    id = SendMessage(hwnd, WM_COPYDATA, (WPARAM)NULL, (LPARAM)&cds);
+    if (id > 0)
+    {
         uint32_t length_field = GET_32BIT_MSB_FIRST(p);
-        if (length_field > 0 && length_field <= AGENT_MAX_MSGLEN - 4) {
+        if (length_field > 0 && length_field <= AGENT_MAX_MSGLEN - 4)
+        {
             retlen = length_field + 4;
             ret = snewn(retlen, unsigned char);
             memcpy(ret, p, retlen);
             *out = ret;
             *outlen = retlen;
-        } else {
+        }
+        else
+        {
             /*
              * If we get here, we received an out-of-range length
              * field, either without space for a message type code or
@@ -163,7 +173,8 @@ bool agent_exists(void)
     return named_pipe_agent_exists() || wm_copydata_agent_exists();
 }
 
-struct agent_pending_query {
+struct agent_pending_query
+{
     struct handle *handle;
     strbuf *response;
     void (*callback)(void *, void *, int);
@@ -174,13 +185,14 @@ static int named_pipe_agent_accumulate_response(
     strbuf *sb, const void *data, size_t len)
 {
     put_data(sb, data, len);
-    if (sb->len >= 4) {
+    if (sb->len >= 4)
+    {
         uint32_t length_field = GET_32BIT_MSB_FIRST(sb->u);
         if (length_field > AGENT_MAX_MSGLEN)
             return -1; /* badly formatted message */
 
         int overall_length = length_field + 4;
-        if (sb->len >= overall_length)
+        if ((int64_t)sb->len >= (int64_t)overall_length)
             return overall_length;
     }
 
@@ -192,16 +204,20 @@ static size_t named_pipe_agent_gotdata(
 {
     agent_pending_query *pq = handle_get_privdata(h);
 
-    if (err || len == 0) {
+    if (err || len == 0)
+    {
         pq->callback(pq->callback_ctx, NULL, 0);
         agent_cancel_query(pq);
     }
 
     int status = named_pipe_agent_accumulate_response(pq->response, data, len);
-    if (status == -1) {
+    if (status == -1)
+    {
         pq->callback(pq->callback_ctx, NULL, 0);
         agent_cancel_query(pq);
-    } else if (status > 0) {
+    }
+    else if (status > 0)
+    {
         void *response_buf = strbuf_to_str(pq->response);
         pq->response = NULL;
         pq->callback(pq->callback_ctx, response_buf, status);
@@ -226,7 +242,8 @@ static agent_pending_query *named_pipe_agent_query(
 
     strbuf_finalise_agent_query(query);
 
-    for (DWORD done = 0; done < query->len ;) {
+    for (DWORD done = 0; done < query->len;)
+    {
         DWORD nwritten;
         bool ret = WriteFile(pipehandle, query->s + done, query->len - done,
                              &nwritten, NULL);
@@ -236,11 +253,13 @@ static agent_pending_query *named_pipe_agent_query(
         done += nwritten;
     }
 
-    if (!callback) {
+    if (!callback)
+    {
         int status;
 
         sb = strbuf_new_nm();
-        do {
+        do
+        {
             char buf[1024];
             DWORD nread;
             bool ret = ReadFile(pipehandle, buf, sizeof(buf), &nread, NULL);
@@ -261,18 +280,18 @@ static agent_pending_query *named_pipe_agent_query(
 
     pq = snew(agent_pending_query);
     pq->handle = handle_input_new(pipehandle, named_pipe_agent_gotdata, pq, 0);
-    pipehandle = NULL;  /* prevent it being closed below */
+    pipehandle = NULL; /* prevent it being closed below */
     pq->response = strbuf_new_nm();
     pq->callback = callback;
     pq->callback_ctx = callback_ctx;
     goto out;
 
-  failure:
+failure:
     *out = NULL;
     *outlen = 0;
     pq = NULL;
 
-  out:
+out:
     sfree(err);
     sfree(pipename);
     if (pipehandle != INVALID_HANDLE_VALUE)

@@ -27,7 +27,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
     crBegin(s->crStateKex);
 
-    if (s->kex_alg->main_type == KEXTYPE_DH) {
+    if (s->kex_alg->main_type == KEXTYPE_DH)
+    {
         /*
          * Work out the number of bits of key we will need from the
          * key exchange. We start with the maximum key length of
@@ -42,14 +43,15 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         }
         /* The keys only have hlen-bit entropy, since they're based on
          * a hash. So cap the key size at hlen bits. */
-        if (s->nbits > s->kex_alg->hash->hlen * 8)
+        if ((int64_t)s->nbits > (int64_t)(s->kex_alg->hash->hlen * 8))
             s->nbits = s->kex_alg->hash->hlen * 8;
 
         /*
          * If we're doing Diffie-Hellman group exchange, start by
          * requesting a group.
          */
-        if (dh_is_gex(s->kex_alg)) {
+        if (dh_is_gex(s->kex_alg))
+        {
             ppl_logevent("Doing Diffie-Hellman group exchange");
             s->ppl.bpp->pls->kctx = SSH2_PKTCTX_DHGEX;
             /*
@@ -61,11 +63,14 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
                 s->pbits = DH_MIN_SIZE;
             if (s->pbits > DH_MAX_SIZE)
                 s->pbits = DH_MAX_SIZE;
-            if ((s->ppl.remote_bugs & BUG_SSH2_OLDGEX)) {
+            if ((s->ppl.remote_bugs & BUG_SSH2_OLDGEX))
+            {
                 pktout = ssh_bpp_new_pktout(
                     s->ppl.bpp, SSH2_MSG_KEX_DH_GEX_REQUEST_OLD);
                 put_uint32(pktout, s->pbits);
-            } else {
+            }
+            else
+            {
                 pktout = ssh_bpp_new_pktout(
                     s->ppl.bpp, SSH2_MSG_KEX_DH_GEX_REQUEST);
                 put_uint32(pktout, DH_MIN_SIZE);
@@ -75,9 +80,10 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
             pq_push(s->ppl.out_pq, pktout);
 
             crMaybeWaitUntilV((pktin = ssh2_transport_pop(s)) != NULL);
-            if (pktin->type != SSH2_MSG_KEX_DH_GEX_GROUP) {
+            if (pktin->type != SSH2_MSG_KEX_DH_GEX_GROUP)
+            {
                 ssh_proto_error(s->ppl.ssh, "Received unexpected packet when "
-                                "expecting Diffie-Hellman group, type %d (%s)",
+                                            "expecting Diffie-Hellman group, type %d (%s)",
                                 pktin->type,
                                 ssh2_pkt_type(s->ppl.bpp->pls->kctx,
                                               s->ppl.bpp->pls->actx,
@@ -87,7 +93,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
             }
             s->p = get_mp_ssh2(pktin);
             s->g = get_mp_ssh2(pktin);
-            if (get_err(pktin)) {
+            if (get_err(pktin))
+            {
                 ssh_proto_error(s->ppl.ssh,
                                 "Unable to parse Diffie-Hellman group packet");
                 *aborted = true;
@@ -101,7 +108,9 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
                          "modulus and hash %s with a server-supplied group",
                          dh_modulus_bit_size(s->dh_ctx),
                          ssh_hash_alg(s->exhash)->text_name);
-        } else {
+        }
+        else
+        {
             s->ppl.bpp->pls->kctx = SSH2_PKTCTX_DHGROUP;
             s->dh_ctx = dh_setup_group(s->kex_alg);
             s->kex_init_value = SSH2_MSG_KEXDH_INIT;
@@ -125,9 +134,10 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
         seat_set_busy_status(s->ppl.seat, BUSY_WAITING);
         crMaybeWaitUntilV((pktin = ssh2_transport_pop(s)) != NULL);
-        if (pktin->type != s->kex_reply_value) {
+        if (pktin->type != s->kex_reply_value)
+        {
             ssh_proto_error(s->ppl.ssh, "Received unexpected packet when "
-                            "expecting Diffie-Hellman reply, type %d (%s)",
+                                        "expecting Diffie-Hellman reply, type %d (%s)",
                             pktin->type,
                             ssh2_pkt_type(s->ppl.bpp->pls->kctx,
                                           s->ppl.bpp->pls->actx,
@@ -140,7 +150,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         s->hkey = ssh_key_new_pub(s->hostkey_alg, s->hostkeydata);
         s->f = get_mp_ssh2(pktin);
         s->sigdata = get_string(pktin);
-        if (get_err(pktin)) {
+        if (get_err(pktin))
+        {
             ssh_proto_error(s->ppl.ssh,
                             "Unable to parse Diffie-Hellman reply packet");
             *aborted = true;
@@ -149,9 +160,11 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
         {
             const char *err = dh_validate_f(s->dh_ctx, s->f);
-            if (err) {
+            if (err)
+            {
                 ssh_proto_error(s->ppl.ssh, "Diffie-Hellman reply failed "
-                                "validation: %s", err);
+                                            "validation: %s",
+                                err);
                 *aborted = true;
                 return;
             }
@@ -163,7 +176,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         seat_set_busy_status(s->ppl.seat, BUSY_NOT);
 
         put_stringpl(s->exhash, s->hostkeydata);
-        if (dh_is_gex(s->kex_alg)) {
+        if (dh_is_gex(s->kex_alg))
+        {
             if (!(s->ppl.remote_bugs & BUG_SSH2_OLDGEX))
                 put_uint32(s->exhash, DH_MIN_SIZE);
             put_uint32(s->exhash, s->pbits);
@@ -177,12 +191,18 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
         dh_cleanup(s->dh_ctx);
         s->dh_ctx = NULL;
-        mp_free(s->f); s->f = NULL;
-        if (dh_is_gex(s->kex_alg)) {
-            mp_free(s->g); s->g = NULL;
-            mp_free(s->p); s->p = NULL;
+        mp_free(s->f);
+        s->f = NULL;
+        if (dh_is_gex(s->kex_alg))
+        {
+            mp_free(s->g);
+            s->g = NULL;
+            mp_free(s->p);
+            s->p = NULL;
         }
-    } else if (s->kex_alg->main_type == KEXTYPE_ECDH) {
+    }
+    else if (s->kex_alg->main_type == KEXTYPE_ECDH)
+    {
 
         ppl_logevent("Doing ECDH key exchange with curve %s and hash %s",
                      ssh_ecdhkex_curve_textname(s->kex_alg),
@@ -190,7 +210,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         s->ppl.bpp->pls->kctx = SSH2_PKTCTX_ECDHKEX;
 
         s->ecdh_key = ssh_ecdhkex_newkey(s->kex_alg);
-        if (!s->ecdh_key) {
+        if (!s->ecdh_key)
+        {
             ssh_sw_abort(s->ppl.ssh, "Unable to generate key for ECDH");
             *aborted = true;
             return;
@@ -206,9 +227,11 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         pq_push(s->ppl.out_pq, pktout);
 
         crMaybeWaitUntilV((pktin = ssh2_transport_pop(s)) != NULL);
-        if (pktin->type != SSH2_MSG_KEX_ECDH_REPLY) {
+        if (pktin->type != SSH2_MSG_KEX_ECDH_REPLY)
+        {
             ssh_proto_error(s->ppl.ssh, "Received unexpected packet when "
-                            "expecting ECDH reply, type %d (%s)", pktin->type,
+                                        "expecting ECDH reply, type %d (%s)",
+                            pktin->type,
                             ssh2_pkt_type(s->ppl.bpp->pls->kctx,
                                           s->ppl.bpp->pls->actx,
                                           pktin->type));
@@ -231,16 +254,18 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
             ptrlen keydata = get_string(pktin);
             put_stringpl(s->exhash, keydata);
             s->K = ssh_ecdhkex_getkey(s->ecdh_key, keydata);
-            if (!get_err(pktin) && !s->K) {
+            if (!get_err(pktin) && !s->K)
+            {
                 ssh_proto_error(s->ppl.ssh, "Received invalid elliptic curve "
-                                "point in ECDH reply");
+                                            "point in ECDH reply");
                 *aborted = true;
                 return;
             }
         }
 
         s->sigdata = get_string(pktin);
-        if (get_err(pktin)) {
+        if (get_err(pktin))
+        {
             ssh_proto_error(s->ppl.ssh, "Unable to parse ECDH reply packet");
             *aborted = true;
             return;
@@ -249,7 +274,9 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         ssh_ecdhkex_freekey(s->ecdh_key);
         s->ecdh_key = NULL;
 #ifndef NO_GSSAPI
-    } else if (s->kex_alg->main_type == KEXTYPE_GSS) {
+    }
+    else if (s->kex_alg->main_type == KEXTYPE_GSS)
+    {
         ptrlen data;
 
         s->ppl.bpp->pls->kctx = SSH2_PKTCTX_GSSKEX;
@@ -275,28 +302,31 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         }
         /* The keys only have hlen-bit entropy, since they're based on
          * a hash. So cap the key size at hlen bits. */
-        if (s->nbits > s->kex_alg->hash->hlen * 8)
+        if ((int64_t)s->nbits > (int64_t)(s->kex_alg->hash->hlen * 8))
             s->nbits = s->kex_alg->hash->hlen * 8;
 
-        if (dh_is_gex(s->kex_alg)) {
+        if (dh_is_gex(s->kex_alg))
+        {
             /*
              * Work out how big a DH group we will need to allow that
              * much data.
              */
             s->pbits = 512 << ((s->nbits - 1) / 64);
             ppl_logevent("Doing GSSAPI (with Kerberos V5) Diffie-Hellman "
-                         "group exchange, with minimum %d bits", s->pbits);
+                         "group exchange, with minimum %d bits",
+                         s->pbits);
             pktout = ssh_bpp_new_pktout(s->ppl.bpp, SSH2_MSG_KEXGSS_GROUPREQ);
-            put_uint32(pktout, s->pbits); /* min */
-            put_uint32(pktout, s->pbits); /* preferred */
+            put_uint32(pktout, s->pbits);     /* min */
+            put_uint32(pktout, s->pbits);     /* preferred */
             put_uint32(pktout, s->pbits * 2); /* max */
             pq_push(s->ppl.out_pq, pktout);
 
             crMaybeWaitUntilV(
                 (pktin = ssh2_transport_pop(s)) != NULL);
-            if (pktin->type != SSH2_MSG_KEXGSS_GROUP) {
+            if (pktin->type != SSH2_MSG_KEXGSS_GROUP)
+            {
                 ssh_proto_error(s->ppl.ssh, "Received unexpected packet when "
-                                "expecting Diffie-Hellman group, type %d (%s)",
+                                            "expecting Diffie-Hellman group, type %d (%s)",
                                 pktin->type,
                                 ssh2_pkt_type(s->ppl.bpp->pls->kctx,
                                               s->ppl.bpp->pls->actx,
@@ -306,21 +336,26 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
             }
             s->p = get_mp_ssh2(pktin);
             s->g = get_mp_ssh2(pktin);
-            if (get_err(pktin)) {
+            if (get_err(pktin))
+            {
                 ssh_proto_error(s->ppl.ssh,
                                 "Unable to parse Diffie-Hellman group packet");
                 *aborted = true;
                 return;
             }
             s->dh_ctx = dh_setup_gex(s->p, s->g);
-        } else {
+        }
+        else
+        {
             s->dh_ctx = dh_setup_group(s->kex_alg);
             ppl_logevent("Using GSSAPI (with Kerberos V5) Diffie-Hellman with"
-                         " standard group \"%s\"", s->kex_alg->groupname);
+                         " standard group \"%s\"",
+                         s->kex_alg->groupname);
         }
 
         ppl_logevent("Doing GSSAPI (with Kerberos V5) Diffie-Hellman key "
-                     "exchange with hash %s", ssh_hash_alg(s->exhash)->text_name);
+                     "exchange with hash %s",
+                     ssh_hash_alg(s->exhash)->text_name);
         /* Now generate e for Diffie-Hellman. */
         seat_set_busy_status(s->ppl.seat, BUSY_CPU);
         s->e = dh_create_e(s->dh_ctx, s->nbits * 2);
@@ -334,7 +369,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         SSH_GSS_CLEAR_BUF(&s->mic);
         s->gss_stat = s->shgss->lib->acquire_cred(
             s->shgss->lib, &s->shgss->ctx, &s->gss_cred_expiry);
-        if (s->gss_stat != SSH_GSS_OK) {
+        if (s->gss_stat != SSH_GSS_OK)
+        {
             ssh_sw_abort(s->ppl.ssh,
                          "GSSAPI key exchange failed to initialise");
             *aborted = true;
@@ -343,7 +379,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
         /* now enter the loop */
         assert(s->shgss->srv_name);
-        do {
+        do
+        {
             /*
              * When acquire_cred yields no useful expiration, go with the
              * service ticket expiration.
@@ -351,22 +388,24 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
             s->gss_stat = s->shgss->lib->init_sec_context(
                 s->shgss->lib, &s->shgss->ctx, s->shgss->srv_name,
                 s->gss_delegate, &s->gss_rcvtok, &s->gss_sndtok,
-                (s->gss_cred_expiry == GSS_NO_EXPIRATION ?
-                 &s->gss_cred_expiry : NULL), NULL);
+                (s->gss_cred_expiry == GSS_NO_EXPIRATION ? &s->gss_cred_expiry : NULL), NULL);
             SSH_GSS_CLEAR_BUF(&s->gss_rcvtok);
 
             if (s->gss_stat == SSH_GSS_S_COMPLETE && s->complete_rcvd)
                 break; /* MIC is verified after the loop */
 
             if (s->gss_stat != SSH_GSS_S_COMPLETE &&
-                s->gss_stat != SSH_GSS_S_CONTINUE_NEEDED) {
+                s->gss_stat != SSH_GSS_S_CONTINUE_NEEDED)
+            {
                 if (s->shgss->lib->display_status(
                         s->shgss->lib, s->shgss->ctx,
-                        &s->gss_buf) == SSH_GSS_OK) {
+                        &s->gss_buf) == SSH_GSS_OK)
+                {
                     char *err = s->gss_buf.value;
                     ssh_sw_abort(s->ppl.ssh,
                                  "GSSAPI key exchange failed to initialise "
-                                 "context: %s", err);
+                                 "context: %s",
+                                 err);
                     sfree(err);
                     *aborted = true;
                     return;
@@ -375,13 +414,15 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
             assert(s->gss_stat == SSH_GSS_S_COMPLETE ||
                    s->gss_stat == SSH_GSS_S_CONTINUE_NEEDED);
 
-            if (!s->init_token_sent) {
+            if (!s->init_token_sent)
+            {
                 s->init_token_sent = true;
                 pktout = ssh_bpp_new_pktout(s->ppl.bpp,
                                             SSH2_MSG_KEXGSS_INIT);
-                if (s->gss_sndtok.length == 0) {
+                if (s->gss_sndtok.length == 0)
+                {
                     ssh_sw_abort(s->ppl.ssh, "GSSAPI key exchange failed: "
-                                 "no initial context token");
+                                             "no initial context token");
                     *aborted = true;
                     return;
                 }
@@ -391,7 +432,9 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
                 pq_push(s->ppl.out_pq, pktout);
                 s->shgss->lib->free_tok(s->shgss->lib, &s->gss_sndtok);
                 ppl_logevent("GSSAPI key exchange initialised");
-            } else if (s->gss_sndtok.length != 0) {
+            }
+            else if (s->gss_sndtok.length != 0)
+            {
                 pktout = ssh_bpp_new_pktout(
                     s->ppl.bpp, SSH2_MSG_KEXGSS_CONTINUE);
                 put_string(pktout,
@@ -403,32 +446,35 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
             if (s->gss_stat == SSH_GSS_S_COMPLETE && s->complete_rcvd)
                 break;
 
-          wait_for_gss_token:
+        wait_for_gss_token:
             crMaybeWaitUntilV(
                 (pktin = ssh2_transport_pop(s)) != NULL);
-            switch (pktin->type) {
-              case SSH2_MSG_KEXGSS_CONTINUE:
+            switch (pktin->type)
+            {
+            case SSH2_MSG_KEXGSS_CONTINUE:
                 data = get_string(pktin);
                 s->gss_rcvtok.value = (char *)data.ptr;
                 s->gss_rcvtok.length = data.len;
                 continue;
-              case SSH2_MSG_KEXGSS_COMPLETE:
+            case SSH2_MSG_KEXGSS_COMPLETE:
                 s->complete_rcvd = true;
                 s->f = get_mp_ssh2(pktin);
                 data = get_string(pktin);
                 s->mic.value = (char *)data.ptr;
                 s->mic.length = data.len;
                 /* If there's a final token we loop to consume it */
-                if (get_bool(pktin)) {
+                if (get_bool(pktin))
+                {
                     data = get_string(pktin);
                     s->gss_rcvtok.value = (char *)data.ptr;
                     s->gss_rcvtok.length = data.len;
                     continue;
                 }
                 break;
-              case SSH2_MSG_KEXGSS_HOSTKEY:
+            case SSH2_MSG_KEXGSS_HOSTKEY:
                 s->hostkeydata = get_string(pktin);
-                if (s->hostkey_alg) {
+                if (s->hostkey_alg)
+                {
                     s->hkey = ssh_key_new_pub(s->hostkey_alg,
                                               s->hostkeydata);
                     put_stringpl(s->exhash, s->hostkeydata);
@@ -438,7 +484,7 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
                  * init_sec_context.
                  */
                 goto wait_for_gss_token;
-              case SSH2_MSG_KEXGSS_ERROR:
+            case SSH2_MSG_KEXGSS_ERROR:
                 /*
                  * We have no use for the server's major and minor
                  * status.  The minor status is really only
@@ -453,7 +499,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
                 get_uint32(pktin); /* server's minor status */
                 data = get_string(pktin);
                 ppl_logevent("GSSAPI key exchange failed; "
-                             "server's message: %.*s", PTRLEN_PRINTF(data));
+                             "server's message: %.*s",
+                             PTRLEN_PRINTF(data));
                 /* Language tag, but we have no use for it */
                 get_string(pktin);
                 /*
@@ -463,9 +510,9 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
                  * message, per the RFC.
                  */
                 goto wait_for_gss_token;
-              default:
+            default:
                 ssh_proto_error(s->ppl.ssh, "Received unexpected packet "
-                                "during GSSAPI key exchange, type %d (%s)",
+                                            "during GSSAPI key exchange, type %d (%s)",
                                 pktin->type,
                                 ssh2_pkt_type(s->ppl.bpp->pls->kctx,
                                               s->ppl.bpp->pls->actx,
@@ -479,9 +526,11 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
         {
             const char *err = dh_validate_f(s->dh_ctx, s->f);
-            if (err) {
+            if (err)
+            {
                 ssh_proto_error(s->ppl.ssh, "GSSAPI reply failed "
-                                "validation: %s", err);
+                                            "validation: %s",
+                                err);
                 *aborted = true;
                 return;
             }
@@ -494,7 +543,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
         if (!s->hkey)
             put_stringz(s->exhash, "");
-        if (dh_is_gex(s->kex_alg)) {
+        if (dh_is_gex(s->kex_alg))
+        {
             /* min,  preferred, max */
             put_uint32(s->exhash, s->pbits);
             put_uint32(s->exhash, s->pbits);
@@ -513,13 +563,19 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
         dh_cleanup(s->dh_ctx);
         s->dh_ctx = NULL;
-        mp_free(s->f); s->f = NULL;
-        if (dh_is_gex(s->kex_alg)) {
-            mp_free(s->g); s->g = NULL;
-            mp_free(s->p); s->p = NULL;
+        mp_free(s->f);
+        s->f = NULL;
+        if (dh_is_gex(s->kex_alg))
+        {
+            mp_free(s->g);
+            s->g = NULL;
+            mp_free(s->p);
+            s->p = NULL;
         }
 #endif
-    } else {
+    }
+    else
+    {
         ptrlen rsakeydata;
 
         assert(s->kex_alg->main_type == KEXTYPE_RSA);
@@ -531,9 +587,10 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
          * from the server.
          */
         crMaybeWaitUntilV((pktin = ssh2_transport_pop(s)) != NULL);
-        if (pktin->type != SSH2_MSG_KEXRSA_PUBKEY) {
+        if (pktin->type != SSH2_MSG_KEXRSA_PUBKEY)
+        {
             ssh_proto_error(s->ppl.ssh, "Received unexpected packet when "
-                            "expecting RSA public key, type %d (%s)",
+                                        "expecting RSA public key, type %d (%s)",
                             pktin->type,
                             ssh2_pkt_type(s->ppl.bpp->pls->kctx,
                                           s->ppl.bpp->pls->actx,
@@ -549,7 +606,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         rsakeydata = get_string(pktin);
 
         s->rsa_kex_key = ssh_rsakex_newkey(rsakeydata);
-        if (!s->rsa_kex_key) {
+        if (!s->rsa_kex_key)
+        {
             ssh_proto_error(s->ppl.ssh,
                             "Unable to parse RSA public key packet");
             *aborted = true;
@@ -570,16 +628,18 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
             const struct ssh_rsa_kex_extra *extra =
                 (const struct ssh_rsa_kex_extra *)s->kex_alg->extra;
-            if (klen < extra->minklen) {
+            if (klen < extra->minklen)
+            {
                 ssh_proto_error(s->ppl.ssh, "Server sent %d-bit RSA key, "
-                                "less than the minimum size %d for %s "
-                                "key exchange", klen, extra->minklen,
+                                            "less than the minimum size %d for %s "
+                                            "key exchange",
+                                klen, extra->minklen,
                                 s->kex_alg->name);
                 *aborted = true;
                 return;
             }
 
-            int nbits = klen - (2*s->kex_alg->hash->hlen*8 + 49);
+            int nbits = klen - (2 * s->kex_alg->hash->hlen * 8 + 49);
             assert(nbits > 0);
 
             strbuf *buf, *outstr;
@@ -618,9 +678,10 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         s->rsa_kex_key_needs_freeing = false;
 
         crMaybeWaitUntilV((pktin = ssh2_transport_pop(s)) != NULL);
-        if (pktin->type != SSH2_MSG_KEXRSA_DONE) {
+        if (pktin->type != SSH2_MSG_KEXRSA_DONE)
+        {
             ssh_proto_error(s->ppl.ssh, "Received unexpected packet when "
-                            "expecting RSA kex signature, type %d (%s)",
+                                        "expecting RSA kex signature, type %d (%s)",
                             pktin->type,
                             ssh2_pkt_type(s->ppl.bpp->pls->kctx,
                                           s->ppl.bpp->pls->actx,
@@ -630,7 +691,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         }
 
         s->sigdata = get_string(pktin);
-        if (get_err(pktin)) {
+        if (get_err(pktin))
+        {
             ssh_proto_error(s->ppl.ssh, "Unable to parse RSA kex signature");
             *aborted = true;
             return;
@@ -640,7 +702,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
     ssh2transport_finalise_exhash(s);
 
 #ifndef NO_GSSAPI
-    if (s->kex_alg->main_type == KEXTYPE_GSS) {
+    if (s->kex_alg->main_type == KEXTYPE_GSS)
+    {
         Ssh_gss_buf gss_buf;
         SSH_GSS_CLEAR_BUF(&s->gss_buf);
 
@@ -648,16 +711,21 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
         gss_buf.length = s->kex_alg->hash->hlen;
         s->gss_stat = s->shgss->lib->verify_mic(
             s->shgss->lib, s->shgss->ctx, &gss_buf, &s->mic);
-        if (s->gss_stat != SSH_GSS_OK) {
+        if (s->gss_stat != SSH_GSS_OK)
+        {
             if (s->shgss->lib->display_status(
-                    s->shgss->lib, s->shgss->ctx, &s->gss_buf) == SSH_GSS_OK) {
+                    s->shgss->lib, s->shgss->ctx, &s->gss_buf) == SSH_GSS_OK)
+            {
                 char *err = s->gss_buf.value;
                 ssh_sw_abort(s->ppl.ssh, "GSSAPI key exchange MIC was "
-                             "not valid: %s", err);
+                                         "not valid: %s",
+                             err);
                 sfree(err);
-            } else {
+            }
+            else
+            {
                 ssh_sw_abort(s->ppl.ssh, "GSSAPI key exchange MIC was "
-                             "not valid");
+                                         "not valid");
             }
             *aborted = true;
             return;
@@ -678,7 +746,8 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
          * key exchange.  Any context established during key exchange for the
          * purpose of rekeying MUST NOT be used with this method.
          */
-        if (s->got_session_id) {
+        if (s->got_session_id)
+        {
             s->shgss->lib->release_cred(s->shgss->lib, &s->shgss->ctx);
         }
         ppl_logevent("GSSAPI Key Exchange complete!");
@@ -688,8 +757,10 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
     s->dh_ctx = NULL;
 
     /* In GSS keyex there's no hostkey signature to verify */
-    if (s->kex_alg->main_type != KEXTYPE_GSS) {
-        if (!s->hkey) {
+    if (s->kex_alg->main_type != KEXTYPE_GSS)
+    {
+        if (!s->hkey)
+        {
             ssh_proto_error(s->ppl.ssh, "Server's host key is invalid");
             *aborted = true;
             return;
@@ -697,10 +768,11 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
         if (!ssh_key_verify(
                 s->hkey, s->sigdata,
-                make_ptrlen(s->exchange_hash, s->kex_alg->hash->hlen))) {
+                make_ptrlen(s->exchange_hash, s->kex_alg->hash->hlen)))
+        {
 #ifndef FUZZING
             ssh_proto_error(s->ppl.ssh, "Signature from server's host key "
-                            "is invalid");
+                                        "is invalid");
             *aborted = true;
             return;
 #endif
@@ -709,25 +781,30 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
 
     s->keystr = (s->hkey ? ssh_key_cache_str(s->hkey) : NULL);
 #ifndef NO_GSSAPI
-    if (s->gss_kex_used) {
+    if (s->gss_kex_used)
+    {
         /*
          * In a GSS-based session, check the host key (if any) against
          * the transient host key cache.
          */
-        if (s->kex_alg->main_type == KEXTYPE_GSS) {
+        if (s->kex_alg->main_type == KEXTYPE_GSS)
+        {
 
             /*
              * We've just done a GSS key exchange. If it gave us a
              * host key, store it.
              */
-            if (s->hkey) {
+            if (s->hkey)
+            {
                 s->fingerprint = ssh2_fingerprint(s->hkey);
                 ppl_logevent("GSS kex provided fallback host key:");
                 ppl_logevent("%s", s->fingerprint);
                 sfree(s->fingerprint);
                 s->fingerprint = NULL;
                 ssh_transient_hostkey_cache_add(s->thc, s->hkey);
-            } else if (!ssh_transient_hostkey_cache_non_empty(s->thc)) {
+            }
+            else if (!ssh_transient_hostkey_cache_non_empty(s->thc))
+            {
                 /*
                  * But if it didn't, then we currently have no
                  * fallback host key to use in subsequent non-GSS
@@ -741,9 +818,12 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
                  * startup, and only add the key to the transient
                  * cache.
                  */
-                if (s->hostkey_alg) {
+                if (s->hostkey_alg)
+                {
                     s->need_gss_transient_hostkey = true;
-                } else {
+                }
+                else
+                {
                     /*
                      * If we negotiated the "null" host key algorithm
                      * in the key exchange, that's an indication that
@@ -763,13 +843,16 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
                      * configuration presumably accepts that as a
                      * consequence.
                      */
-                    if (!s->warned_about_no_gss_transient_hostkey) {
+                    if (!s->warned_about_no_gss_transient_hostkey)
+                    {
                         ppl_logevent("No fallback host key available");
                         s->warned_about_no_gss_transient_hostkey = true;
                     }
                 }
             }
-        } else {
+        }
+        else
+        {
             /*
              * We've just done a fallback key exchange, so make
              * sure the host key it used is in the cache of keys
@@ -778,20 +861,23 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
              * An exception is if this was the non-GSS key exchange we
              * triggered on purpose to populate the transient cache.
              */
-            assert(s->hkey);  /* only KEXTYPE_GSS lets this be null */
+            assert(s->hkey); /* only KEXTYPE_GSS lets this be null */
             s->fingerprint = ssh2_fingerprint(s->hkey);
 
-            if (s->need_gss_transient_hostkey) {
+            if (s->need_gss_transient_hostkey)
+            {
                 ppl_logevent("Post-GSS rekey provided fallback host key:");
                 ppl_logevent("%s", s->fingerprint);
                 ssh_transient_hostkey_cache_add(s->thc, s->hkey);
                 s->need_gss_transient_hostkey = false;
-            } else if (!ssh_transient_hostkey_cache_verify(s->thc, s->hkey)) {
+            }
+            else if (!ssh_transient_hostkey_cache_verify(s->thc, s->hkey))
+            {
                 ppl_logevent("Non-GSS rekey after initial GSS kex "
                              "used host key:");
                 ppl_logevent("%s", s->fingerprint);
                 ssh_sw_abort(s->ppl.ssh, "Server's host key did not match any "
-                             "used in previous GSS kex");
+                                         "used in previous GSS kex");
                 *aborted = true;
                 return;
             }
@@ -799,123 +885,139 @@ void ssh2kex_coroutine(struct ssh2_transport_state *s, bool *aborted)
             sfree(s->fingerprint);
             s->fingerprint = NULL;
         }
-    } else
+    }
+    else
 #endif /* NO_GSSAPI */
-        if (!s->got_session_id) {
-            /*
+        if (!s->got_session_id)
+    {
+        /*
              * Make a note of any other host key formats that are available.
              */
+        {
+            int i, j, nkeys = 0;
+            char *list = NULL;
+            for (i = 0; (int64_t)i < (int64_t)lenof(ssh2_hostkey_algs); i++)
             {
-                int i, j, nkeys = 0;
-                char *list = NULL;
-                for (i = 0; i < lenof(ssh2_hostkey_algs); i++) {
-                    if (ssh2_hostkey_algs[i].alg == s->hostkey_alg)
-                        continue;
+                if (ssh2_hostkey_algs[i].alg == s->hostkey_alg)
+                    continue;
 
-                    for (j = 0; j < s->n_uncert_hostkeys; j++)
-                        if (s->uncert_hostkeys[j] == i)
-                            break;
+                for (j = 0; j < s->n_uncert_hostkeys; j++)
+                    if (s->uncert_hostkeys[j] == i)
+                        break;
 
-                    if (j < s->n_uncert_hostkeys) {
-                        char *newlist;
-                        if (list)
-                            newlist = dupprintf(
-                                "%s/%s", list,
-                                ssh2_hostkey_algs[i].alg->ssh_id);
-                        else
-                            newlist = dupprintf(
-                                "%s", ssh2_hostkey_algs[i].alg->ssh_id);
-                        sfree(list);
-                        list = newlist;
-                        nkeys++;
-                    }
-                }
-                if (list) {
-                    ppl_logevent("Server also has %s host key%s, but we "
-                                 "don't know %s", list,
-                                 nkeys > 1 ? "s" : "",
-                                 nkeys > 1 ? "any of them" : "it");
+                if (j < s->n_uncert_hostkeys)
+                {
+                    char *newlist;
+                    if (list)
+                        newlist = dupprintf(
+                            "%s/%s", list,
+                            ssh2_hostkey_algs[i].alg->ssh_id);
+                    else
+                        newlist = dupprintf(
+                            "%s", ssh2_hostkey_algs[i].alg->ssh_id);
                     sfree(list);
+                    list = newlist;
+                    nkeys++;
                 }
             }
+            if (list)
+            {
+                ppl_logevent("Server also has %s host key%s, but we "
+                             "don't know %s",
+                             list,
+                             nkeys > 1 ? "s" : "",
+                             nkeys > 1 ? "any of them" : "it");
+                sfree(list);
+            }
+        }
 
-            /*
+        /*
              * Authenticate remote host: verify host key. (We've already
              * checked the signature of the exchange hash.)
              */
-            s->fingerprint = ssh2_fingerprint(s->hkey);
-            ppl_logevent("Host key fingerprint is:");
-            ppl_logevent("%s", s->fingerprint);
-            /* First check against manually configured host keys. */
-            s->dlgret = verify_ssh_manual_host_key(
-                s->conf, s->fingerprint, s->hkey);
-            if (s->dlgret == 0) {          /* did not match */
-                ssh_sw_abort(s->ppl.ssh, "Host key did not appear in manually "
-                             "configured list");
+        s->fingerprint = ssh2_fingerprint(s->hkey);
+        ppl_logevent("Host key fingerprint is:");
+        ppl_logevent("%s", s->fingerprint);
+        /* First check against manually configured host keys. */
+        s->dlgret = verify_ssh_manual_host_key(
+            s->conf, s->fingerprint, s->hkey);
+        if (s->dlgret == 0)
+        { /* did not match */
+            ssh_sw_abort(s->ppl.ssh, "Host key did not appear in manually "
+                                     "configured list");
+            *aborted = true;
+            return;
+        }
+        else if (s->dlgret < 0)
+        { /* none configured; use standard handling */
+            s->dlgret = seat_verify_ssh_host_key(
+                s->ppl.seat, s->savedhost, s->savedport,
+                ssh_key_cache_id(s->hkey), s->keystr, s->fingerprint,
+                ssh2_transport_dialog_callback, s);
+#ifdef FUZZING
+            s->dlgret = 1;
+#endif
+            crMaybeWaitUntilV(s->dlgret >= 0);
+            if (s->dlgret == 0)
+            {
+                ssh_user_close(s->ppl.ssh,
+                               "User aborted at host key verification");
                 *aborted = true;
                 return;
-            } else if (s->dlgret < 0) { /* none configured; use standard handling */
-                s->dlgret = seat_verify_ssh_host_key(
-                    s->ppl.seat, s->savedhost, s->savedport,
-                    ssh_key_cache_id(s->hkey), s->keystr, s->fingerprint,
-                    ssh2_transport_dialog_callback, s);
-#ifdef FUZZING
-                s->dlgret = 1;
-#endif
-                crMaybeWaitUntilV(s->dlgret >= 0);
-                if (s->dlgret == 0) {
-                    ssh_user_close(s->ppl.ssh,
-                                   "User aborted at host key verification");
-                    *aborted = true;
-                    return;
-                }
             }
-            sfree(s->fingerprint);
-            s->fingerprint = NULL;
-            /*
+        }
+        sfree(s->fingerprint);
+        s->fingerprint = NULL;
+        /*
              * Save this host key, to check against the one presented in
              * subsequent rekeys.
              */
-            s->hostkey_str = s->keystr;
-            s->keystr = NULL;
-        } else if (s->cross_certifying) {
-            assert(s->hkey);
-            assert(ssh_key_alg(s->hkey) == s->cross_certifying);
+        s->hostkey_str = s->keystr;
+        s->keystr = NULL;
+    }
+    else if (s->cross_certifying)
+    {
+        assert(s->hkey);
+        assert(ssh_key_alg(s->hkey) == s->cross_certifying);
 
-            s->fingerprint = ssh2_fingerprint(s->hkey);
-            ppl_logevent("Storing additional host key for this host:");
-            ppl_logevent("%s", s->fingerprint);
-            sfree(s->fingerprint);
-            s->fingerprint = NULL;
-            store_host_key(s->savedhost, s->savedport,
-                           ssh_key_cache_id(s->hkey), s->keystr);
-            /*
+        s->fingerprint = ssh2_fingerprint(s->hkey);
+        ppl_logevent("Storing additional host key for this host:");
+        ppl_logevent("%s", s->fingerprint);
+        sfree(s->fingerprint);
+        s->fingerprint = NULL;
+        store_host_key(s->savedhost, s->savedport,
+                       ssh_key_cache_id(s->hkey), s->keystr);
+        /*
              * Don't forget to store the new key as the one we'll be
              * re-checking in future normal rekeys.
              */
-            s->hostkey_str = s->keystr;
-            s->keystr = NULL;
-        } else {
-            /*
+        s->hostkey_str = s->keystr;
+        s->keystr = NULL;
+    }
+    else
+    {
+        /*
              * In a rekey, we never present an interactive host key
              * verification request to the user. Instead, we simply
              * enforce that the key we're seeing this time is identical to
              * the one we saw before.
              */
-            assert(s->keystr);         /* filled in by prior key exchange */
-            if (strcmp(s->hostkey_str, s->keystr)) {
+        assert(s->keystr); /* filled in by prior key exchange */
+        if (strcmp(s->hostkey_str, s->keystr))
+        {
 #ifndef FUZZING
-                ssh_sw_abort(s->ppl.ssh,
-                             "Host key was different in repeat key exchange");
-                *aborted = true;
-                return;
+            ssh_sw_abort(s->ppl.ssh,
+                         "Host key was different in repeat key exchange");
+            *aborted = true;
+            return;
 #endif
-            }
         }
+    }
 
     sfree(s->keystr);
     s->keystr = NULL;
-    if (s->hkey) {
+    if (s->hkey)
+    {
         ssh_key_free(s->hkey);
         s->hkey = NULL;
     }

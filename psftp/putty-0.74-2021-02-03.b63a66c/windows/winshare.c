@@ -30,10 +30,16 @@ static char *make_name(const char *prefix, const char *name)
     return retname;
 }
 
-int platform_ssh_share(const char *pi_name, Conf *conf,
-                       Plug *downplug, Plug *upplug, Socket **sock,
-                       char **logtext, char **ds_err, char **us_err,
-                       bool can_upstream, bool can_downstream)
+int platform_ssh_share(const char *pi_name,
+                       __attribute__((unused)) Conf *conf,
+                       Plug *downplug,
+                       Plug *upplug,
+                       Socket **sock,
+                       char **logtext,
+                       char **ds_err,
+                       char **us_err,
+                       bool can_upstream,
+                       bool can_downstream)
 {
     char *name, *mutexname, *pipename;
     HANDLE mutex;
@@ -49,7 +55,8 @@ int platform_ssh_share(const char *pi_name, Conf *conf,
      * names.
      */
     name = capi_obfuscate_string(pi_name);
-    if (!name) {
+    if (!name)
+    {
         *logtext = dupprintf("Unable to call CryptProtectMemory: %s",
                              win_strerror(GetLastError()));
         return SHARE_NONE;
@@ -64,7 +71,8 @@ int platform_ssh_share(const char *pi_name, Conf *conf,
 
         mutexname = make_name(CONNSHARE_MUTEX_PREFIX, name);
         if (!make_private_security_descriptor(MUTEX_ALL_ACCESS,
-                                              &psd, &acl, logtext)) {
+                                              &psd, &acl, logtext))
+        {
             sfree(mutexname);
             sfree(name);
             return SHARE_NONE;
@@ -77,7 +85,8 @@ int platform_ssh_share(const char *pi_name, Conf *conf,
 
         mutex = CreateMutex(&sa, false, mutexname);
 
-        if (!mutex) {
+        if (!mutex)
+        {
             *logtext = dupprintf("CreateMutex(\"%s\") failed: %s",
                                  mutexname, win_strerror(GetLastError()));
             sfree(mutexname);
@@ -98,9 +107,11 @@ int platform_ssh_share(const char *pi_name, Conf *conf,
 
     *logtext = NULL;
 
-    if (can_downstream) {
+    if (can_downstream)
+    {
         retsock = new_named_pipe_client(pipename, downplug);
-        if (sk_socket_error(retsock) == NULL) {
+        if (sk_socket_error(retsock) == NULL)
+        {
             sfree(*logtext);
             *logtext = pipename;
             *sock = retsock;
@@ -114,9 +125,11 @@ int platform_ssh_share(const char *pi_name, Conf *conf,
         sk_close(retsock);
     }
 
-    if (can_upstream) {
+    if (can_upstream)
+    {
         retsock = new_named_pipe_listener(pipename, upplug);
-        if (sk_socket_error(retsock) == NULL) {
+        if (sk_socket_error(retsock) == NULL)
+        {
             sfree(*logtext);
             *logtext = pipename;
             *sock = retsock;
@@ -140,7 +153,7 @@ int platform_ssh_share(const char *pi_name, Conf *conf,
     return SHARE_NONE;
 }
 
-void platform_ssh_share_cleanup(const char *name)
+void platform_ssh_share_cleanup(__attribute__((unused)) const char *name)
 {
 }
 

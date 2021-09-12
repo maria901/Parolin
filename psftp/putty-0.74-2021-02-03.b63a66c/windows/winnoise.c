@@ -18,13 +18,15 @@ DECL_WINDOWS_FUNCTION(static, BOOL, CryptGenRandom,
 DECL_WINDOWS_FUNCTION(static, BOOL, CryptReleaseContext,
                       (HCRYPTPROV, DWORD));
 static HMODULE wincrypt_module = NULL;
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
 bool win_read_random(void *buf, unsigned wanted)
 {
     bool toret = false;
     HCRYPTPROV crypt_provider;
 
-    if (!wincrypt_module) {
+    if (!wincrypt_module)
+    {
         wincrypt_module = load_system32_dll("advapi32.dll");
         GET_WINDOWS_FUNCTION(wincrypt_module, CryptAcquireContextA);
         GET_WINDOWS_FUNCTION(wincrypt_module, CryptGenRandom);
@@ -34,7 +36,8 @@ bool win_read_random(void *buf, unsigned wanted)
     if (wincrypt_module && p_CryptAcquireContextA &&
         p_CryptGenRandom && p_CryptReleaseContext &&
         p_CryptAcquireContextA(&crypt_provider, NULL, NULL, PROV_RSA_FULL,
-                               CRYPT_VERIFYCONTEXT)) {
+                               CRYPT_VERIFYCONTEXT))
+    {
         toret = p_CryptGenRandom(crypt_provider, wanted, buf);
         p_CryptReleaseContext(crypt_provider, 0);
     }
@@ -42,11 +45,13 @@ bool win_read_random(void *buf, unsigned wanted)
     return toret;
 }
 
+#pragma GCC diagnostic pop
+
 /*
  * This function is called once, at PuTTY startup.
  */
 
-void noise_get_heavy(void (*func) (void *, int))
+void noise_get_heavy(void (*func)(void *, int))
 {
     HANDLE srch;
     WIN32_FIND_DATA finddata;
@@ -57,8 +62,10 @@ void noise_get_heavy(void (*func) (void *, int))
     GetWindowsDirectory(winpath, sizeof(winpath));
     strcat(winpath, "\\*");
     srch = FindFirstFile(winpath, &finddata);
-    if (srch != INVALID_HANDLE_VALUE) {
-        do {
+    if (srch != INVALID_HANDLE_VALUE)
+    {
+        do
+        {
             func(&finddata, sizeof(finddata));
         } while (FindNextFile(srch, &finddata));
         FindClose(srch);
@@ -67,7 +74,8 @@ void noise_get_heavy(void (*func) (void *, int))
     pid = GetCurrentProcessId();
     func(&pid, sizeof(pid));
 
-    if (win_read_random(buf, sizeof(buf))) {
+    if (win_read_random(buf, sizeof(buf)))
+    {
         func(buf, sizeof(buf));
         smemclr(buf, sizeof(buf));
     }
@@ -138,5 +146,5 @@ uint64_t prng_reseed_time_ms(void)
     GetSystemTimeAsFileTime(&ft);
     uint64_t value = ft.dwHighDateTime;
     value = (value << 32) + ft.dwLowDateTime;
-    return value / 10000;              /* 1 millisecond / 100ns */
+    return value / 10000; /* 1 millisecond / 100ns */
 }

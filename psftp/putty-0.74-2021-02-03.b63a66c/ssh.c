@@ -22,14 +22,15 @@
 #ifndef NO_GSSAPI
 #include "sshgssc.h"
 #include "sshgss.h"
-#define MIN_CTXT_LIFETIME 5     /* Avoid rekey with short lifetime (seconds) */
-#define GSS_KEX_CAPABLE (1<<0)  /* Can do GSS KEX */
-#define GSS_CRED_UPDATED (1<<1) /* Cred updated since previous delegation */
-#define GSS_CTXT_EXPIRES (1<<2) /* Context expires before next timer */
-#define GSS_CTXT_MAYFAIL (1<<3) /* Context may expire during handshake */
+#define MIN_CTXT_LIFETIME 5       /* Avoid rekey with short lifetime (seconds) */
+#define GSS_KEX_CAPABLE (1 << 0)  /* Can do GSS KEX */
+#define GSS_CRED_UPDATED (1 << 1) /* Cred updated since previous delegation */
+#define GSS_CTXT_EXPIRES (1 << 2) /* Context expires before next timer */
+#define GSS_CTXT_MAYFAIL (1 << 3) /* Context may expire during handshake */
 #endif
 
-struct Ssh {
+struct Ssh
+{
     Socket *s;
     Seat *seat;
     Conf *conf;
@@ -138,9 +139,8 @@ struct Ssh {
     bool need_random_unref;
 };
 
-
 #define ssh_logevent(params) ( \
-        logevent_and_free((ssh)->logctx, dupprintf params))
+    logevent_and_free((ssh)->logctx, dupprintf params))
 
 static void ssh_shutdown(Ssh *ssh);
 static void ssh_throttle_all(Ssh *ssh, bool enable, size_t bufsize);
@@ -191,8 +191,10 @@ static void ssh_got_ssh_version(struct ssh_version_receiver *rcv,
     old_bpp = ssh->bpp;
     ssh->remote_bugs = ssh_verstring_get_bugs(old_bpp);
 
-    if (!ssh->bare_connection) {
-        if (ssh->version == 2) {
+    if (!ssh->bare_connection)
+    {
+        if (ssh->version == 2)
+        {
             PacketProtocolLayer *userauth_layer, *transport_child_layer;
 
             /*
@@ -215,19 +217,22 @@ static void ssh_got_ssh_version(struct ssh_version_receiver *rcv,
             if (!ssh->gss_state.libs)
                 ssh->gss_state.libs = ssh_gss_setup(ssh->conf);
             ssh->gss_state.lib = NULL;
-            if (ssh->gss_state.libs->nlibraries > 0) {
+            if (ssh->gss_state.libs->nlibraries > 0)
+            {
                 int i, j;
-                for (i = 0; i < ngsslibs; i++) {
+                for (i = 0; i < ngsslibs; i++)
+                {
                     int want_id = conf_get_int_int(ssh->conf,
                                                    CONF_ssh_gsslist, i);
                     for (j = 0; j < ssh->gss_state.libs->nlibraries; j++)
-                        if (ssh->gss_state.libs->libraries[j].id == want_id) {
+                        if (ssh->gss_state.libs->libraries[j].id == want_id)
+                        {
                             ssh->gss_state.lib =
                                 &ssh->gss_state.libs->libraries[j];
-                            goto got_gsslib;   /* double break */
+                            goto got_gsslib; /* double break */
                         }
                 }
-              got_gsslib:
+            got_gsslib:
                 /*
                  * We always expect to have found something in
                  * the above loop: we only came here if there
@@ -244,10 +249,13 @@ static void ssh_got_ssh_version(struct ssh_version_receiver *rcv,
                 ssh_verstring_get_remote(old_bpp), &ssh->cl);
             ssh_connect_ppl(ssh, connection_layer);
 
-            if (conf_get_bool(ssh->conf, CONF_ssh_no_userauth)) {
+            if (conf_get_bool(ssh->conf, CONF_ssh_no_userauth))
+            {
                 userauth_layer = NULL;
                 transport_child_layer = connection_layer;
-            } else {
+            }
+            else
+            {
                 char *username = get_remote_username(ssh->conf);
 
                 userauth_layer = ssh2_userauth_new(
@@ -268,7 +276,7 @@ static void ssh_got_ssh_version(struct ssh_version_receiver *rcv,
                     false,
                     NULL
 #endif
-                    );
+                );
                 ssh_connect_ppl(ssh, userauth_layer);
                 transport_child_layer = userauth_layer;
 
@@ -291,8 +299,9 @@ static void ssh_got_ssh_version(struct ssh_version_receiver *rcv,
             if (userauth_layer)
                 ssh2_userauth_set_transport_layer(userauth_layer,
                                                   ssh->base_layer);
-
-        } else {
+        }
+        else
+        {
 
             ssh->bpp = ssh1_bpp_new(ssh->logctx);
             ssh_connect_bpp(ssh);
@@ -303,10 +312,10 @@ static void ssh_got_ssh_version(struct ssh_version_receiver *rcv,
             ssh->base_layer = ssh1_login_new(
                 ssh->conf, ssh->savedhost, ssh->savedport, connection_layer);
             ssh_connect_ppl(ssh, ssh->base_layer);
-
         }
-
-    } else {
+    }
+    else
+    {
         ssh->bpp = ssh2_bare_bpp_new(ssh->logctx);
         ssh_connect_bpp(ssh);
 
@@ -343,7 +352,8 @@ void ssh_check_frozen(Ssh *ssh)
     ssh->socket_frozen = (ssh->logically_frozen ||
                           bufchain_size(&ssh->in_raw) > SSH_MAX_BACKLOG);
     sk_set_frozen(ssh->s, ssh->socket_frozen);
-    if (prev_frozen && !ssh->socket_frozen && ssh->bpp) {
+    if (prev_frozen && !ssh->socket_frozen && ssh->bpp)
+    {
         /*
          * If we've just unfrozen, process any SSH connection data
          * that was stashed in our queue while we were frozen.
@@ -364,7 +374,8 @@ static void ssh_bpp_output_raw_data_callback(void *vctx)
     if (!ssh->s)
         return;
 
-    while (bufchain_size(&ssh->out_raw) > 0) {
+    while (bufchain_size(&ssh->out_raw) > 0)
+    {
         size_t backlog;
 
         ptrlen data = bufchain_prefix(&ssh->out_raw);
@@ -376,7 +387,8 @@ static void ssh_bpp_output_raw_data_callback(void *vctx)
 
         bufchain_consume(&ssh->out_raw, data.len);
 
-        if (backlog > SSH_MAX_BACKLOG) {
+        if (backlog > SSH_MAX_BACKLOG)
+        {
             ssh_throttle_all(ssh, true, backlog);
             return;
         }
@@ -384,7 +396,8 @@ static void ssh_bpp_output_raw_data_callback(void *vctx)
 
     ssh_check_frozen(ssh);
 
-    if (ssh->pending_close) {
+    if (ssh->pending_close)
+    {
         sk_close(ssh->s);
         ssh->s = NULL;
     }
@@ -394,12 +407,14 @@ static void ssh_shutdown_internal(Ssh *ssh)
 {
     expire_timer_context(ssh);
 
-    if (ssh->connshare) {
+    if (ssh->connshare)
+    {
         sharestate_free(ssh->connshare);
         ssh->connshare = NULL;
     }
 
-    if (ssh->pinger) {
+    if (ssh->pinger)
+    {
         pinger_free(ssh->pinger);
         ssh->pinger = NULL;
     }
@@ -408,7 +423,8 @@ static void ssh_shutdown_internal(Ssh *ssh)
      * We only need to free the base PPL, which will free the others
      * (if any) transitively.
      */
-    if (ssh->base_layer) {
+    if (ssh->base_layer)
+    {
         ssh_ppl_free(ssh->base_layer);
         ssh->base_layer = NULL;
     }
@@ -420,12 +436,14 @@ static void ssh_shutdown(Ssh *ssh)
 {
     ssh_shutdown_internal(ssh);
 
-    if (ssh->bpp) {
+    if (ssh->bpp)
+    {
         ssh_bpp_free(ssh->bpp);
         ssh->bpp = NULL;
     }
 
-    if (ssh->s) {
+    if (ssh->s)
+    {
         sk_close(ssh->s);
         ssh->s = NULL;
     }
@@ -452,17 +470,18 @@ static void ssh_initiate_connection_close(Ssh *ssh)
     ssh->bpp->expect_close = true;
 }
 
-#define GET_FORMATTED_MSG                       \
-    char *msg;                                  \
-    va_list ap;                                 \
-    va_start(ap, fmt);                          \
-    msg = dupvprintf(fmt, ap);                  \
-    va_end(ap);                                 \
+#define GET_FORMATTED_MSG      \
+    char *msg;                 \
+    va_list ap;                \
+    va_start(ap, fmt);         \
+    msg = dupvprintf(fmt, ap); \
+    va_end(ap);                \
     ((void)0) /* eat trailing semicolon */
 
 void ssh_remote_error(Ssh *ssh, const char *fmt, ...)
 {
-    if (ssh->base_layer || !ssh->session_started) {
+    if (ssh->base_layer || !ssh->session_started)
+    {
         GET_FORMATTED_MSG;
 
         /* Error messages sent by the remote don't count as clean exits */
@@ -480,7 +499,8 @@ void ssh_remote_error(Ssh *ssh, const char *fmt, ...)
 
 void ssh_remote_eof(Ssh *ssh, const char *fmt, ...)
 {
-    if (ssh->base_layer || !ssh->session_started) {
+    if (ssh->base_layer || !ssh->session_started)
+    {
         GET_FORMATTED_MSG;
 
         /* EOF from the remote, if we were expecting it, does count as
@@ -494,7 +514,9 @@ void ssh_remote_eof(Ssh *ssh, const char *fmt, ...)
         logevent(ssh->logctx, msg);
         sfree(msg);
         seat_notify_remote_exit(ssh->seat);
-    } else {
+    }
+    else
+    {
         /* This is responding to EOF after we've already seen some
          * other reason for terminating the session. */
         ssh_shutdown(ssh);
@@ -503,7 +525,8 @@ void ssh_remote_eof(Ssh *ssh, const char *fmt, ...)
 
 void ssh_proto_error(Ssh *ssh, const char *fmt, ...)
 {
-    if (ssh->base_layer || !ssh->session_started) {
+    if (ssh->base_layer || !ssh->session_started)
+    {
         GET_FORMATTED_MSG;
 
         ssh->exitcode = 128;
@@ -520,7 +543,8 @@ void ssh_proto_error(Ssh *ssh, const char *fmt, ...)
 
 void ssh_sw_abort(Ssh *ssh, const char *fmt, ...)
 {
-    if (ssh->base_layer || !ssh->session_started) {
+    if (ssh->base_layer || !ssh->session_started)
+    {
         GET_FORMATTED_MSG;
 
         ssh->exitcode = 128;
@@ -537,7 +561,8 @@ void ssh_sw_abort(Ssh *ssh, const char *fmt, ...)
 
 void ssh_user_close(Ssh *ssh, const char *fmt, ...)
 {
-    if (ssh->base_layer || !ssh->session_started) {
+    if (ssh->base_layer || !ssh->session_started)
+    {
         GET_FORMATTED_MSG;
 
         /* Closing the connection due to user action, even if the
@@ -569,7 +594,8 @@ static void ssh_deferred_abort_callback(void *vctx)
 
 void ssh_sw_abort_deferred(Ssh *ssh, const char *fmt, ...)
 {
-    if (!ssh->deferred_abort_message) {
+    if (!ssh->deferred_abort_message)
+    {
         GET_FORMATTED_MSG;
         ssh->deferred_abort_message = msg;
         queue_toplevel_callback(ssh_deferred_abort_callback, ssh);
@@ -596,19 +622,27 @@ static void ssh_socket_log(Plug *plug, PlugLogType type, SockAddr *addr,
                            ssh->session_started);
 }
 
-static void ssh_closing(Plug *plug, const char *error_msg, int error_code,
-                        bool calling_back)
+static void ssh_closing(Plug *plug,
+                        const char *error_msg,
+                        __attribute__((unused)) int error_code,
+                        __attribute__((unused)) bool calling_back)
 {
     Ssh *ssh = container_of(plug, Ssh, plug);
-    if (error_msg) {
+    if (error_msg)
+    {
         ssh_remote_error(ssh, "%s", error_msg);
-    } else if (ssh->bpp) {
+    }
+    else if (ssh->bpp)
+    {
         ssh->bpp->input_eof = true;
         queue_idempotent_callback(&ssh->bpp->ic_in_raw);
     }
 }
 
-static void ssh_receive(Plug *plug, int urgent, const char *data, size_t len)
+static void ssh_receive(Plug *plug,
+                        __attribute__((unused)) int urgent,
+                        const char *data,
+                        size_t len)
 {
     Ssh *ssh = container_of(plug, Ssh, plug);
 
@@ -633,7 +667,8 @@ static void ssh_sent(Plug *plug, size_t bufsize)
      * extra call to the consumer of the BPP's output, to try to send
      * some more data off its bufchain.
      */
-    if (bufsize < SSH_MAX_BACKLOG) {
+    if (bufsize < SSH_MAX_BACKLOG)
+    {
         ssh_throttle_all(ssh, false, bufsize);
         queue_idempotent_callback(&ssh->ic_out_raw);
     }
@@ -647,12 +682,13 @@ static void ssh_hostport_setup(const char *host, int port, Conf *conf,
     if (loghost_ret)
         *loghost_ret = loghost;
 
-    if (*loghost) {
+    if (*loghost)
+    {
         char *tmphost;
         char *colon;
 
         tmphost = dupstr(loghost);
-        *savedport = 22;               /* default ssh port */
+        *savedport = 22; /* default ssh port */
 
         /*
          * A colon suffix on the hostname string also lets us affect
@@ -660,7 +696,8 @@ static void ssh_hostport_setup(const char *host, int port, Conf *conf,
          * we assume this is an unbracketed IPv6 literal.)
          */
         colon = host_strrchr(tmphost, ':');
-        if (colon && colon == host_strchr(tmphost, ':')) {
+        if (colon && colon == host_strchr(tmphost, ':'))
+        {
             *colon++ = '\0';
             if (*colon)
                 *savedport = atoi(colon);
@@ -668,10 +705,12 @@ static void ssh_hostport_setup(const char *host, int port, Conf *conf,
 
         *savedhost = host_strduptrim(tmphost);
         sfree(tmphost);
-    } else {
+    }
+    else
+    {
         *savedhost = host_strduptrim(host);
         if (port < 0)
-            port = 22;                 /* default ssh port */
+            port = 22; /* default ssh port */
         *savedport = port;
     }
 }
@@ -728,22 +767,24 @@ static char *connect_to_host(
      * downstream and need to do our connection setup differently.
      */
     ssh->connshare = NULL;
-    ssh->attempting_connshare = true;  /* affects socket logging behaviour */
+    ssh->attempting_connshare = true; /* affects socket logging behaviour */
     ssh->s = ssh_connection_sharing_init(
         ssh->savedhost, ssh->savedport, ssh->conf, ssh->logctx,
         &ssh->plug, &ssh->connshare);
     if (ssh->connshare)
         ssh_connshare_provide_connlayer(ssh->connshare, &ssh->cl_dummy);
     ssh->attempting_connshare = false;
-    if (ssh->s != NULL) {
+    if (ssh->s != NULL)
+    {
         /*
          * We are a downstream.
          */
         ssh->bare_connection = true;
         ssh->fullhostname = NULL;
-        *realhost = dupstr(host);      /* best we can do */
+        *realhost = dupstr(host); /* best we can do */
 
-        if (seat_verbose(ssh->seat) || seat_interactive(ssh->seat)) {
+        if (seat_verbose(ssh->seat) || seat_interactive(ssh->seat))
+        {
             /* In an interactive session, or in verbose mode, announce
              * in the console window that we're a sharing downstream,
              * to avoid confusing users as to why this session doesn't
@@ -752,7 +793,9 @@ static char *connect_to_host(
                 "Reusing a shared connection to this server.\r\n";
             seat_stderr_pl(ssh->seat, ptrlen_from_asciz(msg));
         }
-    } else {
+    }
+    else
+    {
         /*
          * We're not a downstream, so open a normal socket.
          */
@@ -763,16 +806,18 @@ static char *connect_to_host(
         addressfamily = conf_get_int(ssh->conf, CONF_addressfamily);
         addr = name_lookup(host, port, realhost, ssh->conf, addressfamily,
                            ssh->logctx, "SSH connection");
-        if ((err = sk_addr_error(addr)) != NULL) {
+        if ((err = sk_addr_error(addr)) != NULL)
+        {
             sk_addr_free(addr);
             return dupstr(err);
         }
-        ssh->fullhostname = dupstr(*realhost);   /* save in case of GSSAPI */
+        ssh->fullhostname = dupstr(*realhost); /* save in case of GSSAPI */
 
         ssh->s = new_connection(addr, *realhost, port,
                                 false, true, nodelay, keepalive,
                                 &ssh->plug, ssh->conf);
-        if ((err = sk_socket_error(ssh->s)) != NULL) {
+        if ((err = sk_socket_error(ssh->s)) != NULL)
+        {
             ssh->s = NULL;
             seat_notify_remote_exit(ssh->seat);
             return dupstr(err);
@@ -788,7 +833,8 @@ static char *connect_to_host(
     if (sshprot == 0)
         /* SSH-1 only */
         ssh->version = 1;
-    if (sshprot == 3 || ssh->bare_connection) {
+    if (sshprot == 3 || ssh->bare_connection)
+    {
         /* SSH-2 only */
         ssh->version = 2;
     }
@@ -809,7 +855,8 @@ static char *connect_to_host(
     /*
      * loghost, if configured, overrides realhost.
      */
-    if (*loghost) {
+    if (*loghost)
+    {
         sfree(*realhost);
         *realhost = dupstr(loghost);
     }
@@ -828,12 +875,17 @@ void ssh_throttle_conn(Ssh *ssh, int adjust)
     ssh->conn_throttle_count += adjust;
     assert(ssh->conn_throttle_count >= 0);
 
-    if (ssh->conn_throttle_count && !old_count) {
+    if (ssh->conn_throttle_count && !old_count)
+    {
         frozen = true;
-    } else if (!ssh->conn_throttle_count && old_count) {
+    }
+    else if (!ssh->conn_throttle_count && old_count)
+    {
         frozen = false;
-    } else {
-        return;                /* don't change current frozen state */
+    }
+    else
+    {
+        return; /* don't change current frozen state */
     }
 
     ssh->logically_frozen = frozen;
@@ -907,7 +959,8 @@ static char *ssh_init(const BackendVtable *vt, Seat *seat,
 
     char *conn_err = connect_to_host(
         ssh, host, port, realhost, nodelay, keepalive);
-    if (conn_err) {
+    if (conn_err)
+    {
         /* Call random_unref now instead of waiting until the caller
          * frees this useless Ssh object, in case the caller is
          * impatient and just exits without bothering, in which case
@@ -1029,7 +1082,8 @@ static void ssh_size(Backend *be, int width, int height)
         ssh_terminal_size(ssh->cl, ssh->term_width, ssh->term_height);
 }
 
-struct ssh_add_special_ctx {
+struct ssh_add_special_ctx
+{
     SessionSpecial *specials;
     size_t nspecials, specials_size;
 };
@@ -1068,7 +1122,8 @@ static const SessionSpecial *ssh_get_specials(Backend *be)
     if (ssh->base_layer)
         ssh_ppl_get_specials(ssh->base_layer, ssh_add_special, ctx);
 
-    if (ctx->specials) {
+    if (ctx->specials)
+    {
         /* If the list is non-empty, terminate it with a SS_EXITMENU. */
         ssh_add_special(ctx, NULL, SS_EXITMENU, 0);
     }

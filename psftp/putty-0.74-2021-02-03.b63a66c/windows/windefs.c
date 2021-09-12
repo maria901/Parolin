@@ -29,12 +29,14 @@ char *platform_default_s(const char *name)
     return NULL;
 }
 
-bool platform_default_b(const char *name, bool def)
+bool platform_default_b(__attribute__((unused)) const char *name,
+                        bool def)
 {
     return def;
 }
 
-int platform_default_i(const char *name, int def)
+int platform_default_i(__attribute__((unused)) const char *name,
+                       int def)
 {
     return def;
 }

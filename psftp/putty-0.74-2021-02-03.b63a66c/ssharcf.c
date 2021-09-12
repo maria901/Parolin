@@ -7,7 +7,8 @@
 #include <assert.h>
 #include "ssh.h"
 
-typedef struct {
+typedef struct
+{
     unsigned char i, j, s[256];
     ssh_cipher ciph;
 } ArcfourContext;
@@ -20,14 +21,19 @@ static void arcfour_block(void *handle, void *vblk, int len)
     unsigned char tmp, i, j, *s;
 
     s = ctx->s;
-    i = ctx->i; j = ctx->j;
-    for (k = 0; (int)k < len; k++) {
-        i  = (i + 1) & 0xff;
-        j  = (j + s[i]) & 0xff;
-        tmp = s[i]; s[i] = s[j]; s[j] = tmp;
-        blk[k] ^= s[(s[i]+s[j]) & 0xff];
+    i = ctx->i;
+    j = ctx->j;
+    for (k = 0; (int)k < len; k++)
+    {
+        i = (i + 1) & 0xff;
+        j = (j + s[i]) & 0xff;
+        tmp = s[i];
+        s[i] = s[j];
+        s[j] = tmp;
+        blk[k] ^= s[(s[i] + s[j]) & 0xff];
     }
-    ctx->i = i; ctx->j = j;
+    ctx->i = i;
+    ctx->j = j;
 }
 
 static void arcfour_setkey(ArcfourContext *ctx, unsigned char const *key,
@@ -39,14 +45,18 @@ static void arcfour_setkey(ArcfourContext *ctx, unsigned char const *key,
     s = ctx->s;
     assert(keybytes <= 256);
     ctx->i = ctx->j = 0;
-    for (i = 0; i < 256; i++) {
+    for (i = 0; i < 256; i++)
+    {
         s[i] = i;
         k[i] = key[i % keybytes];
     }
     j = 0;
-    for (i = 0; i < 256; i++) {
+    for (i = 0; i < 256; i++)
+    {
         j = (j + s[i] + k[i]) & 0xff;
-        tmp = s[i]; s[i] = s[j]; s[j] = tmp;
+        tmp = s[i];
+        s[i] = s[j];
+        s[j] = tmp;
     }
 }
 
@@ -85,7 +95,8 @@ static void arcfour_stir(ArcfourContext *ctx)
     sfree(junk);
 }
 
-static void arcfour_ssh2_setiv(ssh_cipher *cipher, const void *key)
+static void arcfour_ssh2_setiv(__attribute__((unused)) ssh_cipher *cipher,
+                               __attribute__((unused)) const void *key)
 {
     /* As a pure stream cipher, Arcfour has no IV separate from the key */
 }
@@ -138,4 +149,4 @@ static const ssh_cipheralg *const arcfour_list[] = {
     &ssh_arcfour128_ssh2,
 };
 
-const ssh2_ciphers ssh2_arcfour = { lenof(arcfour_list), arcfour_list };
+const ssh2_ciphers ssh2_arcfour = {lenof(arcfour_list), arcfour_list};

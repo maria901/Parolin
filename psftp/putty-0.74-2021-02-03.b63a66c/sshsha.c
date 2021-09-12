@@ -15,57 +15,57 @@
 #define HW_SHA1_NEON 2
 
 #ifdef _FORCE_SHA_NI
-#   define HW_SHA1 HW_SHA1_NI
+#define HW_SHA1 HW_SHA1_NI
 #elif defined(__clang__)
-#   if __has_attribute(target) && __has_include(<wmmintrin.h>) &&       \
+#if __has_attribute(target) && __has_include(<wmmintrin.h>) &&       \
     (defined(__x86_64__) || defined(__i386))
-#       define HW_SHA1 HW_SHA1_NI
-#   endif
+#define HW_SHA1 HW_SHA1_NI
+#endif
 #elif defined(__GNUC__)
-#    if (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 9)) && \
-        (defined(__x86_64__) || defined(__i386))
-#       define HW_SHA1 HW_SHA1_NI
-#    endif
-#elif defined (_MSC_VER)
-#   if (defined(_M_X64) || defined(_M_IX86)) && _MSC_FULL_VER >= 150030729
-#      define HW_SHA1 HW_SHA1_NI
-#   endif
+#if (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 9)) && \
+    (defined(__x86_64__) || defined(__i386))
+#define HW_SHA1 HW_SHA1_NI
+#endif
+#elif defined(_MSC_VER)
+#if (defined(_M_X64) || defined(_M_IX86)) && _MSC_FULL_VER >= 150030729
+#define HW_SHA1 HW_SHA1_NI
+#endif
 #endif
 
 #ifdef _FORCE_SHA_NEON
-#   define HW_SHA1 HW_SHA1_NEON
+#define HW_SHA1 HW_SHA1_NEON
 #elif defined __BYTE_ORDER__ && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-    /* Arm can potentially support both endiannesses, but this code
+/* Arm can potentially support both endiannesses, but this code
      * hasn't been tested on anything but little. If anyone wants to
      * run big-endian, they'll need to fix it first. */
 #elif defined __ARM_FEATURE_CRYPTO
-    /* If the Arm crypto extension is available already, we can
+/* If the Arm crypto extension is available already, we can
      * support NEON SHA without having to enable anything by hand */
-#   define HW_SHA1 HW_SHA1_NEON
+#define HW_SHA1 HW_SHA1_NEON
 #elif defined(__clang__)
-#   if __has_attribute(target) && __has_include(<arm_neon.h>) &&       \
+#if __has_attribute(target) && __has_include(<arm_neon.h>) &&       \
     (defined(__aarch64__))
-        /* clang can enable the crypto extension in AArch64 using
+/* clang can enable the crypto extension in AArch64 using
          * __attribute__((target)) */
-#       define HW_SHA1 HW_SHA1_NEON
-#       define USE_CLANG_ATTR_TARGET_AARCH64
-#   endif
+#define HW_SHA1 HW_SHA1_NEON
+#define USE_CLANG_ATTR_TARGET_AARCH64
+#endif
 #elif defined _MSC_VER
-    /* Visual Studio supports the crypto extension when targeting
+/* Visual Studio supports the crypto extension when targeting
      * AArch64, but as of VS2017, the AArch32 header doesn't quite
      * manage it (declaring the shae/shad intrinsics without a round
      * key operand). */
-#   if defined _M_ARM64
-#       define HW_SHA1 HW_SHA1_NEON
-#       if defined _M_ARM64
-#           define USE_ARM64_NEON_H /* unusual header name in this case */
-#       endif
-#   endif
+#if defined _M_ARM64
+#define HW_SHA1 HW_SHA1_NEON
+#if defined _M_ARM64
+#define USE_ARM64_NEON_H /* unusual header name in this case */
+#endif
+#endif
 #endif
 
 #if defined _FORCE_SOFTWARE_SHA || !defined HW_SHA1
-#   undef HW_SHA1
-#   define HW_SHA1 HW_SHA1_NONE
+#undef HW_SHA1
+#define HW_SHA1 HW_SHA1_NONE
 #endif
 
 /*
@@ -82,14 +82,15 @@ static bool sha1_hw_available_cached(void)
 {
     static bool initialised = false;
     static bool hw_available;
-    if (!initialised) {
+    if (!initialised)
+    {
         hw_available = sha1_hw_available();
         initialised = true;
     }
     return hw_available;
 }
 
-static ssh_hash *sha1_select(const ssh_hashalg *alg)
+static ssh_hash *sha1_select(__attribute__((unused)) const ssh_hashalg *alg)
 {
     const ssh_hashalg *real_alg =
         sha1_hw_available_cached() ? &ssh_sha1_hw : &ssh_sha1_sw;
@@ -109,7 +110,11 @@ const ssh_hashalg ssh_sha1 = {
  */
 
 static const uint32_t sha1_initial_state[] = {
-    0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0,
+    0x67452301,
+    0xefcdab89,
+    0x98badcfe,
+    0x10325476,
+    0xc3d2e1f0,
 };
 
 #define SHA1_ROUNDS_PER_STAGE 20
@@ -120,7 +125,8 @@ static const uint32_t sha1_initial_state[] = {
 #define SHA1_ROUNDS (4 * SHA1_ROUNDS_PER_STAGE)
 
 typedef struct sha1_block sha1_block;
-struct sha1_block {
+struct sha1_block
+{
     uint8_t block[64];
     size_t used;
     uint64_t len;
@@ -145,7 +151,8 @@ static inline bool sha1_block_write(
     blk->used += chunk;
     blk->len += chunk;
 
-    if (blk->used == sizeof(blk->block)) {
+    if (blk->used == sizeof(blk->block))
+    {
         blk->used = 0;
         return true;
     }
@@ -190,10 +197,15 @@ static inline uint32_t Par(uint32_t x, uint32_t y, uint32_t z)
     return (x ^ y ^ z);
 }
 
-static inline void sha1_sw_round(
-    unsigned round_index, const uint32_t *schedule,
-    uint32_t *a, uint32_t *b, uint32_t *c, uint32_t *d, uint32_t *e,
-    uint32_t f, uint32_t constant)
+static inline void sha1_sw_round(unsigned round_index,
+                                 const uint32_t *schedule,
+                                 uint32_t *a,
+                                 uint32_t *b,
+                                 __attribute__((unused)) uint32_t *c,
+                                 __attribute__((unused)) uint32_t *d,
+                                 __attribute__((unused)) uint32_t *e,
+                                 uint32_t f,
+                                 uint32_t constant)
 {
     *e = rol(*a, 5) + f + *e + schedule[round_index] + constant;
     *b = rol(*b, 30);
@@ -202,53 +214,65 @@ static inline void sha1_sw_round(
 static void sha1_sw_block(uint32_t *core, const uint8_t *block)
 {
     uint32_t w[SHA1_ROUNDS];
-    uint32_t a,b,c,d,e;
+    uint32_t a, b, c, d, e;
 
     for (size_t t = 0; t < 16; t++)
-        w[t] = GET_32BIT_MSB_FIRST(block + 4*t);
+        w[t] = GET_32BIT_MSB_FIRST(block + 4 * t);
 
     for (size_t t = 16; t < SHA1_ROUNDS; t++)
         w[t] = rol(w[t - 3] ^ w[t - 8] ^ w[t - 14] ^ w[t - 16], 1);
 
-    a = core[0]; b = core[1]; c = core[2]; d = core[3];
+    a = core[0];
+    b = core[1];
+    c = core[2];
+    d = core[3];
     e = core[4];
 
     size_t t = 0;
-    for (size_t u = 0; u < SHA1_ROUNDS_PER_STAGE/5; u++) {
-        sha1_sw_round(t++,w, &a,&b,&c,&d,&e, Ch(b,c,d), SHA1_STAGE0_CONSTANT);
-        sha1_sw_round(t++,w, &e,&a,&b,&c,&d, Ch(a,b,c), SHA1_STAGE0_CONSTANT);
-        sha1_sw_round(t++,w, &d,&e,&a,&b,&c, Ch(e,a,b), SHA1_STAGE0_CONSTANT);
-        sha1_sw_round(t++,w, &c,&d,&e,&a,&b, Ch(d,e,a), SHA1_STAGE0_CONSTANT);
-        sha1_sw_round(t++,w, &b,&c,&d,&e,&a, Ch(c,d,e), SHA1_STAGE0_CONSTANT);
+    for (size_t u = 0; u < SHA1_ROUNDS_PER_STAGE / 5; u++)
+    {
+        sha1_sw_round(t++, w, &a, &b, &c, &d, &e, Ch(b, c, d), SHA1_STAGE0_CONSTANT);
+        sha1_sw_round(t++, w, &e, &a, &b, &c, &d, Ch(a, b, c), SHA1_STAGE0_CONSTANT);
+        sha1_sw_round(t++, w, &d, &e, &a, &b, &c, Ch(e, a, b), SHA1_STAGE0_CONSTANT);
+        sha1_sw_round(t++, w, &c, &d, &e, &a, &b, Ch(d, e, a), SHA1_STAGE0_CONSTANT);
+        sha1_sw_round(t++, w, &b, &c, &d, &e, &a, Ch(c, d, e), SHA1_STAGE0_CONSTANT);
     }
-    for (size_t u = 0; u < SHA1_ROUNDS_PER_STAGE/5; u++) {
-        sha1_sw_round(t++,w, &a,&b,&c,&d,&e, Par(b,c,d), SHA1_STAGE1_CONSTANT);
-        sha1_sw_round(t++,w, &e,&a,&b,&c,&d, Par(a,b,c), SHA1_STAGE1_CONSTANT);
-        sha1_sw_round(t++,w, &d,&e,&a,&b,&c, Par(e,a,b), SHA1_STAGE1_CONSTANT);
-        sha1_sw_round(t++,w, &c,&d,&e,&a,&b, Par(d,e,a), SHA1_STAGE1_CONSTANT);
-        sha1_sw_round(t++,w, &b,&c,&d,&e,&a, Par(c,d,e), SHA1_STAGE1_CONSTANT);
+    for (size_t u = 0; u < SHA1_ROUNDS_PER_STAGE / 5; u++)
+    {
+        sha1_sw_round(t++, w, &a, &b, &c, &d, &e, Par(b, c, d), SHA1_STAGE1_CONSTANT);
+        sha1_sw_round(t++, w, &e, &a, &b, &c, &d, Par(a, b, c), SHA1_STAGE1_CONSTANT);
+        sha1_sw_round(t++, w, &d, &e, &a, &b, &c, Par(e, a, b), SHA1_STAGE1_CONSTANT);
+        sha1_sw_round(t++, w, &c, &d, &e, &a, &b, Par(d, e, a), SHA1_STAGE1_CONSTANT);
+        sha1_sw_round(t++, w, &b, &c, &d, &e, &a, Par(c, d, e), SHA1_STAGE1_CONSTANT);
     }
-    for (size_t u = 0; u < SHA1_ROUNDS_PER_STAGE/5; u++) {
-        sha1_sw_round(t++,w, &a,&b,&c,&d,&e, Maj(b,c,d), SHA1_STAGE2_CONSTANT);
-        sha1_sw_round(t++,w, &e,&a,&b,&c,&d, Maj(a,b,c), SHA1_STAGE2_CONSTANT);
-        sha1_sw_round(t++,w, &d,&e,&a,&b,&c, Maj(e,a,b), SHA1_STAGE2_CONSTANT);
-        sha1_sw_round(t++,w, &c,&d,&e,&a,&b, Maj(d,e,a), SHA1_STAGE2_CONSTANT);
-        sha1_sw_round(t++,w, &b,&c,&d,&e,&a, Maj(c,d,e), SHA1_STAGE2_CONSTANT);
+    for (size_t u = 0; u < SHA1_ROUNDS_PER_STAGE / 5; u++)
+    {
+        sha1_sw_round(t++, w, &a, &b, &c, &d, &e, Maj(b, c, d), SHA1_STAGE2_CONSTANT);
+        sha1_sw_round(t++, w, &e, &a, &b, &c, &d, Maj(a, b, c), SHA1_STAGE2_CONSTANT);
+        sha1_sw_round(t++, w, &d, &e, &a, &b, &c, Maj(e, a, b), SHA1_STAGE2_CONSTANT);
+        sha1_sw_round(t++, w, &c, &d, &e, &a, &b, Maj(d, e, a), SHA1_STAGE2_CONSTANT);
+        sha1_sw_round(t++, w, &b, &c, &d, &e, &a, Maj(c, d, e), SHA1_STAGE2_CONSTANT);
     }
-    for (size_t u = 0; u < SHA1_ROUNDS_PER_STAGE/5; u++) {
-        sha1_sw_round(t++,w, &a,&b,&c,&d,&e, Par(b,c,d), SHA1_STAGE3_CONSTANT);
-        sha1_sw_round(t++,w, &e,&a,&b,&c,&d, Par(a,b,c), SHA1_STAGE3_CONSTANT);
-        sha1_sw_round(t++,w, &d,&e,&a,&b,&c, Par(e,a,b), SHA1_STAGE3_CONSTANT);
-        sha1_sw_round(t++,w, &c,&d,&e,&a,&b, Par(d,e,a), SHA1_STAGE3_CONSTANT);
-        sha1_sw_round(t++,w, &b,&c,&d,&e,&a, Par(c,d,e), SHA1_STAGE3_CONSTANT);
+    for (size_t u = 0; u < SHA1_ROUNDS_PER_STAGE / 5; u++)
+    {
+        sha1_sw_round(t++, w, &a, &b, &c, &d, &e, Par(b, c, d), SHA1_STAGE3_CONSTANT);
+        sha1_sw_round(t++, w, &e, &a, &b, &c, &d, Par(a, b, c), SHA1_STAGE3_CONSTANT);
+        sha1_sw_round(t++, w, &d, &e, &a, &b, &c, Par(e, a, b), SHA1_STAGE3_CONSTANT);
+        sha1_sw_round(t++, w, &c, &d, &e, &a, &b, Par(d, e, a), SHA1_STAGE3_CONSTANT);
+        sha1_sw_round(t++, w, &b, &c, &d, &e, &a, Par(c, d, e), SHA1_STAGE3_CONSTANT);
     }
 
-    core[0] += a; core[1] += b; core[2] += c; core[3] += d; core[4] += e;
+    core[0] += a;
+    core[1] += b;
+    core[2] += c;
+    core[3] += d;
+    core[4] += e;
 
     smemclr(w, sizeof(w));
 }
 
-typedef struct sha1_sw {
+typedef struct sha1_sw
+{
     uint32_t core[5];
     sha1_block blk;
     BinarySink_IMPLEMENTATION;
@@ -308,7 +332,7 @@ static void sha1_sw_digest(ssh_hash *hash, uint8_t *digest)
 
     sha1_block_pad(&s->blk, BinarySink_UPCAST(s));
     for (size_t i = 0; i < 5; i++)
-        PUT_32BIT_MSB_FIRST(digest + 4*i, s->core[i]);
+        PUT_32BIT_MSB_FIRST(digest + 4 * i, s->core[i]);
 }
 
 const ssh_hashalg ssh_sha1_sw = {
@@ -333,13 +357,13 @@ const ssh_hashalg ssh_sha1_sw = {
  */
 
 #if defined(__clang__) || defined(__GNUC__)
-#    define FUNC_ISA __attribute__ ((target("sse4.1,sha")))
+#define FUNC_ISA __attribute__((target("sse4.1,sha")))
 #if !defined(__clang__)
-#    pragma GCC target("sha")
-#    pragma GCC target("sse4.1")
+#pragma GCC target("sha")
+#pragma GCC target("sse4.1")
 #endif
 #else
-#    define FUNC_ISA
+#define FUNC_ISA
 #endif
 
 #include <wmmintrin.h>
@@ -351,9 +375,9 @@ const ssh_hashalg ssh_sha1_sw = {
 
 #if defined(__clang__) || defined(__GNUC__)
 #include <cpuid.h>
-#define GET_CPU_ID_0(out)                               \
+#define GET_CPU_ID_0(out) \
     __cpuid(0, (out)[0], (out)[1], (out)[2], (out)[3])
-#define GET_CPU_ID_7(out)                                       \
+#define GET_CPU_ID_7(out) \
     __cpuid_count(7, 0, (out)[0], (out)[1], (out)[2], (out)[3])
 #else
 #define GET_CPU_ID_0(out) __cpuid(out, 0)
@@ -549,7 +573,8 @@ static inline void sha1_ni_block(__m128i *core, const uint8_t *p)
     core[1] = _mm_sha1nexte_epu32(E0, core[1]);
 }
 
-typedef struct sha1_ni {
+typedef struct sha1_ni
+{
     /*
      * core[0] stores the first four words of the SHA-1 state. core[1]
      * stores just the fifth word, in the vector lane at the highest
@@ -648,7 +673,7 @@ FUNC_ISA static void sha1_ni_digest(ssh_hash *hash, uint8_t *digest)
     __m128i abcd = _mm_shuffle_epi32(s->core[0], 0x1B);
 
     /* Byte-swap it into the output endianness */
-    const __m128i mask = _mm_setr_epi8(3,2,1,0,7,6,5,4,11,10,9,8,15,14,13,12);
+    const __m128i mask = _mm_setr_epi8(3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12);
     abcd = _mm_shuffle_epi8(abcd, mask);
 
     /* And store it */
@@ -690,7 +715,7 @@ const ssh_hashalg ssh_sha1_hw = {
  */
 #define __ARM_NEON 1
 #define __ARM_FEATURE_CRYPTO 1
-#define FUNC_ISA __attribute__ ((target("neon,crypto")))
+#define FUNC_ISA __attribute__((target("neon,crypto")))
 #endif /* USE_CLANG_ATTR_TARGET_AARCH64 */
 
 #ifndef FUNC_ISA
@@ -713,7 +738,8 @@ static bool sha1_hw_available(void)
 }
 
 typedef struct sha1_neon_core sha1_neon_core;
-struct sha1_neon_core {
+struct sha1_neon_core
+{
     uint32x4_t abcd;
     uint32_t e;
 };
@@ -741,15 +767,15 @@ static inline uint32x4_t sha1_neon_schedule_update(
  * but that's passed in as an operand, so we don't need a fourth
  * inline function just for that.
  */
-#define SHA1_NEON_ROUND_FN(type)                                        \
-    FUNC_ISA static inline sha1_neon_core sha1_neon_round4_##type(      \
-        sha1_neon_core old, uint32x4_t sched, uint32x4_t constant)      \
-    {                                                                   \
-        sha1_neon_core new;                                             \
-        uint32x4_t round_input = vaddq_u32(sched, constant);            \
-        new.abcd = vsha1##type##q_u32(old.abcd, old.e, round_input);    \
-        new.e = vsha1h_u32(vget_lane_u32(vget_low_u32(old.abcd), 0));   \
-        return new;                                                     \
+#define SHA1_NEON_ROUND_FN(type)                                      \
+    FUNC_ISA static inline sha1_neon_core sha1_neon_round4_##type(    \
+        sha1_neon_core old, uint32x4_t sched, uint32x4_t constant)    \
+    {                                                                 \
+        sha1_neon_core new;                                           \
+        uint32x4_t round_input = vaddq_u32(sched, constant);          \
+        new.abcd = vsha1##type##q_u32(old.abcd, old.e, round_input);  \
+        new.e = vsha1h_u32(vget_lane_u32(vget_low_u32(old.abcd), 0)); \
+        return new;                                                   \
     }
 SHA1_NEON_ROUND_FN(c)
 SHA1_NEON_ROUND_FN(p)
@@ -813,7 +839,8 @@ static inline void sha1_neon_block(sha1_neon_core *core, const uint8_t *p)
     core->e += cr.e;
 }
 
-typedef struct sha1_neon {
+typedef struct sha1_neon
+{
     sha1_neon_core core;
     sha1_block blk;
     BinarySink_IMPLEMENTATION;
@@ -912,22 +939,25 @@ static ssh_hash *sha1_stub_new(const ssh_hashalg *alg)
     return NULL;
 }
 
-#define STUB_BODY { unreachable("Should never be called"); }
+#define STUB_BODY                              \
+    {                                          \
+        unreachable("Should never be called"); \
+    }
 
 static void sha1_stub_reset(ssh_hash *hash) STUB_BODY
-static void sha1_stub_copyfrom(ssh_hash *hash, ssh_hash *orig) STUB_BODY
-static void sha1_stub_free(ssh_hash *hash) STUB_BODY
-static void sha1_stub_digest(ssh_hash *hash, uint8_t *digest) STUB_BODY
+    static void sha1_stub_copyfrom(ssh_hash *hash, ssh_hash *orig) STUB_BODY
+    static void sha1_stub_free(ssh_hash *hash) STUB_BODY
+    static void sha1_stub_digest(ssh_hash *hash, uint8_t *digest) STUB_BODY
 
-const ssh_hashalg ssh_sha1_hw = {
-    .new = sha1_stub_new,
-    .reset = sha1_stub_reset,
-    .copyfrom = sha1_stub_copyfrom,
-    .digest = sha1_stub_digest,
-    .free = sha1_stub_free,
-    .hlen = 20,
-    .blocklen = 64,
-    HASHALG_NAMES_ANNOTATED("SHA-1", "!NONEXISTENT ACCELERATED VERSION!"),
+    const ssh_hashalg ssh_sha1_hw = {
+        .new = sha1_stub_new,
+        .reset = sha1_stub_reset,
+        .copyfrom = sha1_stub_copyfrom,
+        .digest = sha1_stub_digest,
+        .free = sha1_stub_free,
+        .hlen = 20,
+        .blocklen = 64,
+        HASHALG_NAMES_ANNOTATED("SHA-1", "!NONEXISTENT ACCELERATED VERSION!"),
 };
 
 #endif /* HW_SHA1 */

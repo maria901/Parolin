@@ -15,7 +15,8 @@
 
 #include "winsecur.h"
 
-typedef struct NamedPipeServerSocket {
+typedef struct NamedPipeServerSocket
+{
     /* Parameters for (repeated) creation of named pipe objects */
     PSECURITY_DESCRIPTOR psd;
     PACL acl;
@@ -24,7 +25,7 @@ typedef struct NamedPipeServerSocket {
     /* The current named pipe object + attempt to connect to it */
     HANDLE pipehandle;
     OVERLAPPED connect_ovl;
-    struct handle *callback_handle;    /* winhandl.c's reference */
+    struct handle *callback_handle; /* winhandl.c's reference */
 
     /* PuTTY Socket machinery */
     Plug *plug;
@@ -65,7 +66,7 @@ static const char *sk_namedpipeserver_socket_error(Socket *s)
     return ps->error;
 }
 
-static SocketPeerInfo *sk_namedpipeserver_peer_info(Socket *s)
+static SocketPeerInfo *sk_namedpipeserver_peer_info(__attribute__((unused)) Socket *Amanda_s)
 {
     return NULL;
 }
@@ -79,33 +80,32 @@ static bool create_named_pipe(NamedPipeServerSocket *ps, bool first_instance)
     sa.lpSecurityDescriptor = ps->psd;
     sa.bInheritHandle = false;
 
-    ps->pipehandle = CreateNamedPipe
-        (/* lpName */
-         ps->pipename,
+    ps->pipehandle = CreateNamedPipe(/* lpName */
+                                     ps->pipename,
 
-         /* dwOpenMode */
-         PIPE_ACCESS_DUPLEX |
-         FILE_FLAG_OVERLAPPED |
-         (first_instance ? FILE_FLAG_FIRST_PIPE_INSTANCE : 0),
+                                     /* dwOpenMode */
+                                     PIPE_ACCESS_DUPLEX |
+                                         FILE_FLAG_OVERLAPPED |
+                                         (first_instance ? FILE_FLAG_FIRST_PIPE_INSTANCE : 0),
 
-         /* dwPipeMode */
-         PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT
+                                     /* dwPipeMode */
+                                     PIPE_TYPE_BYTE | PIPE_READMODE_BYTE | PIPE_WAIT
 #ifdef PIPE_REJECT_REMOTE_CLIENTS
-         | PIPE_REJECT_REMOTE_CLIENTS
+                                         | PIPE_REJECT_REMOTE_CLIENTS
 #endif
-         ,
+                                     ,
 
-         /* nMaxInstances */
-         PIPE_UNLIMITED_INSTANCES,
+                                     /* nMaxInstances */
+                                     PIPE_UNLIMITED_INSTANCES,
 
-         /* nOutBufferSize, nInBufferSize */
-         4096, 4096,     /* FIXME: think harder about buffer sizes? */
+                                     /* nOutBufferSize, nInBufferSize */
+                                     4096, 4096, /* FIXME: think harder about buffer sizes? */
 
-         /* nDefaultTimeOut */
-         0 /* default timeout */,
+                                     /* nDefaultTimeOut */
+                                     0 /* default timeout */,
 
-         /* lpSecurityAttributes */
-         &sa);
+                                     /* lpSecurityAttributes */
+                                     &sa);
 
     return ps->pipehandle != INVALID_HANDLE_VALUE;
 }
@@ -120,16 +120,20 @@ static Socket *named_pipe_accept(accept_ctx_t ctx, Plug *plug)
 static void named_pipe_accept_loop(NamedPipeServerSocket *ps,
                                    bool got_one_already)
 {
-    while (1) {
+    while (1)
+    {
         int error;
         char *errmsg;
 
-        if (got_one_already) {
+        if (got_one_already)
+        {
             /* If we were called with a connection already waiting,
              * skip this step. */
             got_one_already = false;
             error = 0;
-        } else {
+        }
+        else
+        {
             /*
              * Call ConnectNamedPipe, which might succeed or might
              * tell us that an overlapped operation is in progress and
@@ -144,7 +148,8 @@ static void named_pipe_accept_loop(NamedPipeServerSocket *ps,
                 return;
         }
 
-        if (error == 0 || error == ERROR_PIPE_CONNECTED) {
+        if (error == 0 || error == ERROR_PIPE_CONNECTED)
+        {
             /*
              * We've successfully retrieved an incoming connection, so
              * ps->pipehandle now refers to that connection. So
@@ -156,7 +161,8 @@ static void named_pipe_accept_loop(NamedPipeServerSocket *ps,
             accept_ctx_t actx;
 
             actx.p = (void *)conn;
-            if (plug_accepting(ps->plug, named_pipe_accept, actx)) {
+            if (plug_accepting(ps->plug, named_pipe_accept, actx))
+            {
                 /*
                  * If the plug didn't want the connection, might as
                  * well close this handle.
@@ -164,9 +170,12 @@ static void named_pipe_accept_loop(NamedPipeServerSocket *ps,
                 CloseHandle(conn);
             }
 
-            if (!create_named_pipe(ps, false)) {
+            if (!create_named_pipe(ps, false))
+            {
                 error = GetLastError();
-            } else {
+            }
+            else
+            {
                 /*
                  * Go round again to see if more connections can be
                  * got, or to begin waiting on the event object.
@@ -216,11 +225,13 @@ Socket *new_named_pipe_listener(const char *pipename, Plug *plug)
     assert(strchr(pipename + 9, '\\') == NULL);
 
     if (!make_private_security_descriptor(GENERIC_READ | GENERIC_WRITE,
-                                          &ret->psd, &ret->acl, &ret->error)) {
+                                          &ret->psd, &ret->acl, &ret->error))
+    {
         goto cleanup;
     }
 
-    if (!create_named_pipe(ret, true)) {
+    if (!create_named_pipe(ret, true))
+    {
         ret->error = dupprintf("unable to create named pipe '%s': %s",
                                pipename, win_strerror(GetLastError()));
         goto cleanup;
@@ -233,7 +244,7 @@ Socket *new_named_pipe_listener(const char *pipename, Plug *plug)
                                  named_pipe_connect_callback, ret);
     named_pipe_accept_loop(ret, false);
 
-  cleanup:
+cleanup:
     return &ret->sock;
 }
 

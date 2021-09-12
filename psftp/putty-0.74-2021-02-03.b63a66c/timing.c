@@ -33,7 +33,8 @@
 #include "putty.h"
 #include "tree234.h"
 
-struct timer {
+struct timer
+{
     timer_fn_t fn;
     void *ctx;
     unsigned long now;
@@ -56,7 +57,7 @@ static int compare_timers(void *av, void *bv)
     else if (at > bt)
         return +1;
 
-    /*
+        /*
      * Failing that, compare on the other two fields, just so that
      * we don't get unwanted equality.
      */
@@ -99,7 +100,8 @@ static int compare_timer_contexts(void *av, void *bv)
 
 static void init_timers(void)
 {
-    if (!timers) {
+    if (!timers)
+    {
         timers = newtree234(compare_timers);
         timer_contexts = newtree234(compare_timer_contexts);
         now = GETTICKCOUNT();
@@ -130,14 +132,18 @@ unsigned long schedule_timer(int ticks, timer_fn_t fn, void *ctx)
     t->now = when;
     t->when_set = now;
 
-    if (t != add234(timers, t)) {
-        sfree(t);                      /* identical timer already exists */
-    } else {
-        add234(timer_contexts, t->ctx);/* don't care if this fails */
+    if (t != add234(timers, t))
+    {
+        sfree(t); /* identical timer already exists */
+    }
+    else
+    {
+        add234(timer_contexts, t->ctx); /* don't care if this fails */
     }
 
     first = (struct timer *)index234(timers, 0);
-    if (first == t) {
+    if (first == t)
+    {
         /*
          * This timer is the very first on the list, so we must
          * notify the front end.
@@ -164,7 +170,8 @@ unsigned long timing_last_clock(void)
  * Returns the time (in ticks) expected until the next timer after
  * that triggers.
  */
-bool run_timers(unsigned long anow, unsigned long *next)
+bool run_timers(__attribute__((unused)) unsigned long anow,
+                unsigned long *next)
 {
     struct timer *first;
 
@@ -172,21 +179,25 @@ bool run_timers(unsigned long anow, unsigned long *next)
 
     now = GETTICKCOUNT();
 
-    while (1) {
+    while (1)
+    {
         first = (struct timer *)index234(timers, 0);
 
         if (!first)
-            return false;              /* no timers remaining */
+            return false; /* no timers remaining */
 
-        if (find234(timer_contexts, first->ctx, NULL) == NULL) {
+        if (find234(timer_contexts, first->ctx, NULL) == NULL)
+        {
             /*
              * This timer belongs to a context that has been
              * expired. Delete it without running.
              */
             delpos234(timers, 0);
             sfree(first);
-        } else if (now - (first->when_set - 10) >
-                   first->now - (first->when_set - 10)) {
+        }
+        else if (now - (first->when_set - 10) >
+                 first->now - (first->when_set - 10))
+        {
             /*
              * This timer is active and has reached its running
              * time. Run it.
@@ -194,7 +205,9 @@ bool run_timers(unsigned long anow, unsigned long *next)
             delpos234(timers, 0);
             first->fn(first->ctx, first->now);
             sfree(first);
-        } else {
+        }
+        else
+        {
             /*
              * This is the first still-active timer that is in the
              * future. Return how long it has yet to go.

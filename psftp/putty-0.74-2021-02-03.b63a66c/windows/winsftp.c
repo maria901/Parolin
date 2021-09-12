@@ -86,7 +86,9 @@ extern char key_fingerprint_i[];
 
 int position_i = 0;
 
-int filexfer_get_userpass_input(Seat *seat, prompts_t *p, bufchain *input)
+int filexfer_get_userpass_input(__attribute__((unused)) Seat *seat,
+								__attribute__((unused)) prompts_t *p,
+								__attribute__((unused)) bufchain *input)
 {
 	int ret;
 	ret = cmdline_get_passwd_input(p);
@@ -95,7 +97,8 @@ int filexfer_get_userpass_input(Seat *seat, prompts_t *p, bufchain *input)
 	return ret;
 }
 
-void platform_get_x11_auth(struct X11Display *display, Conf *conf)
+void platform_get_x11_auth(__attribute__((unused)) struct X11Display *display,
+						   __attribute__((unused)) Conf *conf)
 {
 	/* Do nothing, therefore no auth. */
 }
@@ -271,7 +274,7 @@ int read_from_file(RFile *f, void *buffer, int length)
 
 		{
 			int ret_arp_;
-			if (position_i < GetTickCount())
+			if ((int64_t)position_i < (int64_t)GetTickCount())
 			{
 				ret_arp_ = lgetpor(tamanho____aakp, processado_rspk);
 
@@ -292,7 +295,7 @@ int read_from_file(RFile *f, void *buffer, int length)
 				}
 			}
 
-			if (GetTickCount() < position_i - 600) //to avoid the 49 days problem...
+			if ((int64_t)GetTickCount() < (int64_t)position_i - 600) //to avoid the 49 days problem... or add 64 to it my love...
 			{
 
 				position_i = GetTickCount();
@@ -314,7 +317,8 @@ struct WFile
 	HANDLE h;
 };
 
-WFile *open_new_file(const char *name, long perms)
+WFile *open_new_file(const char *name,
+					 __attribute__((unused)) long perms)
 {
 	HANDLE h;
 	WFile *ret;
@@ -501,7 +505,8 @@ void close_directory(DirHandle *dir)
 	sfree(dir);
 }
 
-int test_wildcard(const char *name, bool cmdline)
+int test_wildcard(const char *name,
+				  __attribute__((unused)) bool cmdline)
 {
 	HANDLE fh;
 	WIN32_FIND_DATA fdat;
@@ -859,7 +864,7 @@ int __stdcall arp_psftp_function_internal(
 	return main_int_i(argc_arp, argv_arp);
 }
 
-int __stdcall startapi_ar_2(int parameter)
+int __stdcall startapi_ar_2(__attribute__((unused)) int parameter)
 {
 	return_value_from_list_arp = 0;
 	return_value_from_list_arp = arp_psftp_function_internal();
@@ -980,7 +985,7 @@ int __stdcall arp_psftp_function(
 	char *password_arp,
 	char *host_arp,
 	char *filename,
-	char *filename_path)
+	__attribute__((unused)) char *filename_path)
 {
 	static char user_final_arp[600];
 	static char password_arp2[600];
@@ -1027,14 +1032,15 @@ int __stdcall arp_psftp_function(
 	return arp_psftp_function_enter(ret_ar, my_main_args);
 }
 
-int main(int argc_i, char **argv_i)
+int main(__attribute__((unused)) int argc_i,
+		 char **argv_i)
 {
 
-	int cancel_i                      =    0;
+	int cancel_i = 0;
 
-	emission_error_amanda_s_smart_ape =    0;
+	emission_error_amanda_s_smart_ape = 0;
 
-	global_ptr_our_map_arp_v27_i      = NULL;
+	global_ptr_our_map_arp_v27_i = NULL;
 	hMapFile_arp_i = OpenFileMapping(
 		FILE_MAP_ALL_ACCESS, // read/write access
 		FALSE,				 // do not inherit the name

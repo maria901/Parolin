@@ -10,9 +10,10 @@
 #include "mpint.h"
 #include "misc.h"
 
-static void dss_freekey(ssh_key *key);    /* forward reference */
+static void dss_freekey(ssh_key *key); /* forward reference */
 
-static ssh_key *dss_new_pub(const ssh_keyalg *self, ptrlen data)
+static ssh_key *dss_new_pub(__attribute__((unused)) const ssh_keyalg *self,
+                            ptrlen data)
 {
     BinarySource src[1];
     struct dss_key *dss;
@@ -30,7 +31,8 @@ static ssh_key *dss_new_pub(const ssh_keyalg *self, ptrlen data)
     dss->x = NULL;
 
     if (get_err(src) ||
-        mp_eq_integer(dss->p, 0) || mp_eq_integer(dss->q, 0)) {
+        mp_eq_integer(dss->p, 0) || mp_eq_integer(dss->q, 0))
+    {
         /* Invalid key. */
         dss_freekey(&dss->sshk);
         return NULL;
@@ -72,7 +74,8 @@ static char *dss_cache_str(ssh_key *key)
     struct dss_key *dss = container_of(key, struct dss_key, sshk);
     strbuf *sb = strbuf_new();
 
-    if (!dss->p) {
+    if (!dss->p)
+    {
         strbuf_free(sb);
         return NULL;
     }
@@ -102,7 +105,8 @@ static key_components *dss_components(ssh_key *key)
     return kc;
 }
 
-static char *dss_invalid(ssh_key *key, unsigned flags)
+static char *dss_invalid(__attribute__((unused)) ssh_key *key,
+                         __attribute__((unused)) unsigned flags)
 {
     /* No validity criterion will stop us from using a DSA key at all */
     return NULL;
@@ -131,7 +135,8 @@ static bool dss_verify(ssh_key *key, ptrlen sig, ptrlen data)
      * the length: length 40 means the commercial-SSH bug, anything
      * else is assumed to be RFC-compliant.
      */
-    if (sig.len != 40) {      /* bug not present; read admin fields */
+    if (sig.len != 40)
+    { /* bug not present; read admin fields */
         ptrlen type = get_string(src);
         sig = get_string(src);
 
@@ -143,7 +148,8 @@ static bool dss_verify(ssh_key *key, ptrlen sig, ptrlen data)
     /* Now we're sitting on a 40-byte string for sure. */
     mp_int *r = mp_from_bytes_be(make_ptrlen(sig.ptr, 20));
     mp_int *s = mp_from_bytes_be(make_ptrlen((const char *)sig.ptr + 20, 20));
-    if (!r || !s) {
+    if (!r || !s)
+    {
         if (r)
             mp_free(r);
         if (s)
@@ -157,7 +163,8 @@ static bool dss_verify(ssh_key *key, ptrlen sig, ptrlen data)
     invalid |= mp_eq_integer(s, 0);
     invalid |= mp_cmp_hs(r, dss->q);
     invalid |= mp_cmp_hs(s, dss->q);
-    if (invalid) {
+    if (invalid)
+    {
         mp_free(r);
         mp_free(s);
         return false;
@@ -167,7 +174,8 @@ static bool dss_verify(ssh_key *key, ptrlen sig, ptrlen data)
      * Step 1. w <- s^-1 mod q.
      */
     mp_int *w = mp_invert(s, dss->q);
-    if (!w) {
+    if (!w)
+    {
         mp_free(r);
         mp_free(s);
         return false;
@@ -247,7 +255,8 @@ static ssh_key *dss_new_priv(const ssh_keyalg *self, ptrlen pub, ptrlen priv)
     dss = container_of(sshk, struct dss_key, sshk);
     BinarySource_BARE_INIT_PL(src, priv);
     dss->x = get_mp_ssh2(src);
-    if (get_err(src)) {
+    if (get_err(src))
+    {
         dss_freekey(&dss->sshk);
         return NULL;
     }
@@ -256,13 +265,15 @@ static ssh_key *dss_new_priv(const ssh_keyalg *self, ptrlen pub, ptrlen priv)
      * Check the obsolete hash in the old DSS key format.
      */
     hash = get_string(src);
-    if (hash.len == 20) {
+    if (hash.len == 20)
+    {
         ssh_hash *h = ssh_hash_new(&ssh_sha1);
         put_mp_ssh2(h, dss->p);
         put_mp_ssh2(h, dss->q);
         put_mp_ssh2(h, dss->g);
         ssh_hash_final(h, digest);
-        if (!smemeq(hash.ptr, digest, 20)) {
+        if (!smemeq(hash.ptr, digest, 20))
+        {
             dss_freekey(&dss->sshk);
             return NULL;
         }
@@ -272,7 +283,8 @@ static ssh_key *dss_new_priv(const ssh_keyalg *self, ptrlen pub, ptrlen priv)
      * Now ensure g^x mod p really is y.
      */
     ytest = mp_modpow(dss->g, dss->x, dss->p);
-    if (!mp_cmp_eq(ytest, dss->y)) {
+    if (!mp_cmp_eq(ytest, dss->y))
+    {
         mp_free(ytest);
         dss_freekey(&dss->sshk);
         return NULL;
@@ -282,7 +294,7 @@ static ssh_key *dss_new_priv(const ssh_keyalg *self, ptrlen pub, ptrlen priv)
     return &dss->sshk;
 }
 
-static ssh_key *dss_new_priv_openssh(const ssh_keyalg *self,
+static ssh_key *dss_new_priv_openssh(__attribute__((unused)) const ssh_keyalg *self,
                                      BinarySource *src)
 {
     struct dss_key *dss;
@@ -297,7 +309,8 @@ static ssh_key *dss_new_priv_openssh(const ssh_keyalg *self,
     dss->x = get_mp_ssh2(src);
 
     if (get_err(src) ||
-        mp_eq_integer(dss->q, 0) || mp_eq_integer(dss->p, 0)) {
+        mp_eq_integer(dss->q, 0) || mp_eq_integer(dss->p, 0))
+    {
         /* Invalid key. */
         dss_freekey(&dss->sshk);
         return NULL;
@@ -335,8 +348,8 @@ static int dss_pubkey_bits(const ssh_keyalg *self, ptrlen pub)
 }
 
 mp_int *dss_gen_k(const char *id_string, mp_int *modulus,
-                     mp_int *private_key,
-                     unsigned char *digest, int digest_len)
+                  mp_int *private_key,
+                  unsigned char *digest, int digest_len)
 {
     /*
      * The basic DSS signing algorithm is:
@@ -445,7 +458,10 @@ mp_int *dss_gen_k(const char *id_string, mp_int *modulus,
     return k;
 }
 
-static void dss_sign(ssh_key *key, ptrlen data, unsigned flags, BinarySink *bs)
+static void dss_sign(ssh_key *key,
+                     __attribute__((unused)) ptrlen data,
+                     __attribute__((unused)) unsigned flags,
+                     __attribute__((unused)) BinarySink *bs)
 {
     struct dss_key *dss = container_of(key, struct dss_key, sshk);
     unsigned char digest[20];
@@ -455,18 +471,18 @@ static void dss_sign(ssh_key *key, ptrlen data, unsigned flags, BinarySink *bs)
 
     mp_int *k = dss_gen_k("DSA deterministic k generator", dss->q, dss->x,
                           digest, sizeof(digest));
-    mp_int *kinv = mp_invert(k, dss->q);       /* k^-1 mod q */
+    mp_int *kinv = mp_invert(k, dss->q); /* k^-1 mod q */
 
     /*
      * Now we have k, so just go ahead and compute the signature.
      */
     mp_int *gkp = mp_modpow(dss->g, k, dss->p); /* g^k mod p */
-    mp_int *r = mp_mod(gkp, dss->q);        /* r = (g^k mod p) mod q */
+    mp_int *r = mp_mod(gkp, dss->q);            /* r = (g^k mod p) mod q */
     mp_free(gkp);
 
     mp_int *hash = mp_from_bytes_be(make_ptrlen(digest, 20));
     mp_int *xr = mp_mul(dss->x, r);
-    mp_int *hxr = mp_add(xr, hash);         /* hash + x*r */
+    mp_int *hxr = mp_add(xr, hash);           /* hash + x*r */
     mp_int *s = mp_modmul(kinv, hxr, dss->q); /* s = k^-1 * (hash+x*r) mod q */
     mp_free(hxr);
     mp_free(xr);

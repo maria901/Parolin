@@ -16,28 +16,28 @@
 #define HW_SHA512_NEON 1
 
 #ifdef _FORCE_SHA512_NEON
-#   define HW_SHA512 HW_SHA512_NEON
+#define HW_SHA512 HW_SHA512_NEON
 #elif defined __BYTE_ORDER__ && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-    /* Arm can potentially support both endiannesses, but this code
+/* Arm can potentially support both endiannesses, but this code
      * hasn't been tested on anything but little. If anyone wants to
      * run big-endian, they'll need to fix it first. */
 #elif defined __ARM_FEATURE_SHA512
-    /* If the Arm SHA-512 extension is available already, we can
+/* If the Arm SHA-512 extension is available already, we can
      * support NEON SHA without having to enable anything by hand */
-#   define HW_SHA512 HW_SHA512_NEON
+#define HW_SHA512 HW_SHA512_NEON
 #elif defined(__clang__)
-#   if __has_attribute(target) && __has_include(<arm_neon.h>) &&       \
+#if __has_attribute(target) && __has_include(<arm_neon.h>) &&       \
     (defined(__aarch64__))
-        /* clang can enable the crypto extension in AArch64 using
+/* clang can enable the crypto extension in AArch64 using
          * __attribute__((target)) */
-#       define HW_SHA512 HW_SHA512_NEON
-#       define USE_CLANG_ATTR_TARGET_AARCH64
-#   endif
+#define HW_SHA512 HW_SHA512_NEON
+#define USE_CLANG_ATTR_TARGET_AARCH64
+#endif
 #endif
 
 #if defined _FORCE_SOFTWARE_SHA || !defined HW_SHA512
-#   undef HW_SHA512
-#   define HW_SHA512 HW_SHA512_NONE
+#undef HW_SHA512
+#define HW_SHA512 HW_SHA512_NONE
 #endif
 
 /*
@@ -54,14 +54,16 @@ static bool sha512_hw_available_cached(void)
 {
     static bool initialised = false;
     static bool hw_available;
-    if (!initialised) {
+    if (!initialised)
+    {
         hw_available = sha512_hw_available();
         initialised = true;
     }
     return hw_available;
 }
 
-struct sha512_select_options {
+struct sha512_select_options
+{
     const ssh_hashalg *hw, *sw;
 };
 
@@ -77,10 +79,12 @@ static ssh_hash *sha512_select(const ssh_hashalg *alg)
 }
 
 const struct sha512_select_options ssh_sha512_select_options = {
-    &ssh_sha512_hw, &ssh_sha512_sw,
+    &ssh_sha512_hw,
+    &ssh_sha512_sw,
 };
 const struct sha512_select_options ssh_sha384_select_options = {
-    &ssh_sha384_hw, &ssh_sha384_sw,
+    &ssh_sha384_hw,
+    &ssh_sha384_sw,
 };
 
 const ssh_hashalg ssh_sha512 = {
@@ -126,52 +130,93 @@ static const uint64_t sha384_initial_state[] = {
 };
 
 static const uint64_t sha512_round_constants[] = {
-    0x428a2f98d728ae22ULL, 0x7137449123ef65cdULL,
-    0xb5c0fbcfec4d3b2fULL, 0xe9b5dba58189dbbcULL,
-    0x3956c25bf348b538ULL, 0x59f111f1b605d019ULL,
-    0x923f82a4af194f9bULL, 0xab1c5ed5da6d8118ULL,
-    0xd807aa98a3030242ULL, 0x12835b0145706fbeULL,
-    0x243185be4ee4b28cULL, 0x550c7dc3d5ffb4e2ULL,
-    0x72be5d74f27b896fULL, 0x80deb1fe3b1696b1ULL,
-    0x9bdc06a725c71235ULL, 0xc19bf174cf692694ULL,
-    0xe49b69c19ef14ad2ULL, 0xefbe4786384f25e3ULL,
-    0x0fc19dc68b8cd5b5ULL, 0x240ca1cc77ac9c65ULL,
-    0x2de92c6f592b0275ULL, 0x4a7484aa6ea6e483ULL,
-    0x5cb0a9dcbd41fbd4ULL, 0x76f988da831153b5ULL,
-    0x983e5152ee66dfabULL, 0xa831c66d2db43210ULL,
-    0xb00327c898fb213fULL, 0xbf597fc7beef0ee4ULL,
-    0xc6e00bf33da88fc2ULL, 0xd5a79147930aa725ULL,
-    0x06ca6351e003826fULL, 0x142929670a0e6e70ULL,
-    0x27b70a8546d22ffcULL, 0x2e1b21385c26c926ULL,
-    0x4d2c6dfc5ac42aedULL, 0x53380d139d95b3dfULL,
-    0x650a73548baf63deULL, 0x766a0abb3c77b2a8ULL,
-    0x81c2c92e47edaee6ULL, 0x92722c851482353bULL,
-    0xa2bfe8a14cf10364ULL, 0xa81a664bbc423001ULL,
-    0xc24b8b70d0f89791ULL, 0xc76c51a30654be30ULL,
-    0xd192e819d6ef5218ULL, 0xd69906245565a910ULL,
-    0xf40e35855771202aULL, 0x106aa07032bbd1b8ULL,
-    0x19a4c116b8d2d0c8ULL, 0x1e376c085141ab53ULL,
-    0x2748774cdf8eeb99ULL, 0x34b0bcb5e19b48a8ULL,
-    0x391c0cb3c5c95a63ULL, 0x4ed8aa4ae3418acbULL,
-    0x5b9cca4f7763e373ULL, 0x682e6ff3d6b2b8a3ULL,
-    0x748f82ee5defb2fcULL, 0x78a5636f43172f60ULL,
-    0x84c87814a1f0ab72ULL, 0x8cc702081a6439ecULL,
-    0x90befffa23631e28ULL, 0xa4506cebde82bde9ULL,
-    0xbef9a3f7b2c67915ULL, 0xc67178f2e372532bULL,
-    0xca273eceea26619cULL, 0xd186b8c721c0c207ULL,
-    0xeada7dd6cde0eb1eULL, 0xf57d4f7fee6ed178ULL,
-    0x06f067aa72176fbaULL, 0x0a637dc5a2c898a6ULL,
-    0x113f9804bef90daeULL, 0x1b710b35131c471bULL,
-    0x28db77f523047d84ULL, 0x32caab7b40c72493ULL,
-    0x3c9ebe0a15c9bebcULL, 0x431d67c49c100d4cULL,
-    0x4cc5d4becb3e42b6ULL, 0x597f299cfc657e2aULL,
-    0x5fcb6fab3ad6faecULL, 0x6c44198c4a475817ULL,
+    0x428a2f98d728ae22ULL,
+    0x7137449123ef65cdULL,
+    0xb5c0fbcfec4d3b2fULL,
+    0xe9b5dba58189dbbcULL,
+    0x3956c25bf348b538ULL,
+    0x59f111f1b605d019ULL,
+    0x923f82a4af194f9bULL,
+    0xab1c5ed5da6d8118ULL,
+    0xd807aa98a3030242ULL,
+    0x12835b0145706fbeULL,
+    0x243185be4ee4b28cULL,
+    0x550c7dc3d5ffb4e2ULL,
+    0x72be5d74f27b896fULL,
+    0x80deb1fe3b1696b1ULL,
+    0x9bdc06a725c71235ULL,
+    0xc19bf174cf692694ULL,
+    0xe49b69c19ef14ad2ULL,
+    0xefbe4786384f25e3ULL,
+    0x0fc19dc68b8cd5b5ULL,
+    0x240ca1cc77ac9c65ULL,
+    0x2de92c6f592b0275ULL,
+    0x4a7484aa6ea6e483ULL,
+    0x5cb0a9dcbd41fbd4ULL,
+    0x76f988da831153b5ULL,
+    0x983e5152ee66dfabULL,
+    0xa831c66d2db43210ULL,
+    0xb00327c898fb213fULL,
+    0xbf597fc7beef0ee4ULL,
+    0xc6e00bf33da88fc2ULL,
+    0xd5a79147930aa725ULL,
+    0x06ca6351e003826fULL,
+    0x142929670a0e6e70ULL,
+    0x27b70a8546d22ffcULL,
+    0x2e1b21385c26c926ULL,
+    0x4d2c6dfc5ac42aedULL,
+    0x53380d139d95b3dfULL,
+    0x650a73548baf63deULL,
+    0x766a0abb3c77b2a8ULL,
+    0x81c2c92e47edaee6ULL,
+    0x92722c851482353bULL,
+    0xa2bfe8a14cf10364ULL,
+    0xa81a664bbc423001ULL,
+    0xc24b8b70d0f89791ULL,
+    0xc76c51a30654be30ULL,
+    0xd192e819d6ef5218ULL,
+    0xd69906245565a910ULL,
+    0xf40e35855771202aULL,
+    0x106aa07032bbd1b8ULL,
+    0x19a4c116b8d2d0c8ULL,
+    0x1e376c085141ab53ULL,
+    0x2748774cdf8eeb99ULL,
+    0x34b0bcb5e19b48a8ULL,
+    0x391c0cb3c5c95a63ULL,
+    0x4ed8aa4ae3418acbULL,
+    0x5b9cca4f7763e373ULL,
+    0x682e6ff3d6b2b8a3ULL,
+    0x748f82ee5defb2fcULL,
+    0x78a5636f43172f60ULL,
+    0x84c87814a1f0ab72ULL,
+    0x8cc702081a6439ecULL,
+    0x90befffa23631e28ULL,
+    0xa4506cebde82bde9ULL,
+    0xbef9a3f7b2c67915ULL,
+    0xc67178f2e372532bULL,
+    0xca273eceea26619cULL,
+    0xd186b8c721c0c207ULL,
+    0xeada7dd6cde0eb1eULL,
+    0xf57d4f7fee6ed178ULL,
+    0x06f067aa72176fbaULL,
+    0x0a637dc5a2c898a6ULL,
+    0x113f9804bef90daeULL,
+    0x1b710b35131c471bULL,
+    0x28db77f523047d84ULL,
+    0x32caab7b40c72493ULL,
+    0x3c9ebe0a15c9bebcULL,
+    0x431d67c49c100d4cULL,
+    0x4cc5d4becb3e42b6ULL,
+    0x597f299cfc657e2aULL,
+    0x5fcb6fab3ad6faecULL,
+    0x6c44198c4a475817ULL,
 };
 
 #define SHA512_ROUNDS 80
 
 typedef struct sha512_block sha512_block;
-struct sha512_block {
+struct sha512_block
+{
     uint8_t block[128];
     size_t used;
     uint64_t lenhi, lenlo;
@@ -200,7 +245,8 @@ static inline bool sha512_block_write(
     blk->lenlo += chunkbits;
     blk->lenhi += (blk->lenlo < chunkbits);
 
-    if (blk->used == sizeof(blk->block)) {
+    if (blk->used == sizeof(blk->block))
+    {
         blk->used = 0;
         return true;
     }
@@ -243,22 +289,22 @@ static inline uint64_t Maj(uint64_t x, uint64_t y, uint64_t z)
 
 static inline uint64_t Sigma_0(uint64_t x)
 {
-    return ror(x,28) ^ ror(x,34) ^ ror(x,39);
+    return ror(x, 28) ^ ror(x, 34) ^ ror(x, 39);
 }
 
 static inline uint64_t Sigma_1(uint64_t x)
 {
-    return ror(x,14) ^ ror(x,18) ^ ror(x,41);
+    return ror(x, 14) ^ ror(x, 18) ^ ror(x, 41);
 }
 
 static inline uint64_t sigma_0(uint64_t x)
 {
-    return ror(x,1) ^ ror(x,8) ^ (x >> 7);
+    return ror(x, 1) ^ ror(x, 8) ^ (x >> 7);
 }
 
 static inline uint64_t sigma_1(uint64_t x)
 {
-    return ror(x,19) ^ ror(x,61) ^ (x >> 6);
+    return ror(x, 19) ^ ror(x, 61) ^ (x >> 6);
 }
 
 static inline void sha512_sw_round(
@@ -266,10 +312,10 @@ static inline void sha512_sw_round(
     uint64_t *a, uint64_t *b, uint64_t *c, uint64_t *d,
     uint64_t *e, uint64_t *f, uint64_t *g, uint64_t *h)
 {
-    uint64_t t1 = *h + Sigma_1(*e) + Ch(*e,*f,*g) +
-        sha512_round_constants[round_index] + schedule[round_index];
+    uint64_t t1 = *h + Sigma_1(*e) + Ch(*e, *f, *g) +
+                  sha512_round_constants[round_index] + schedule[round_index];
 
-    uint64_t t2 = Sigma_0(*a) + Maj(*a,*b,*c);
+    uint64_t t2 = Sigma_0(*a) + Maj(*a, *b, *c);
 
     *d += t1;
     *h = t1 + t2;
@@ -278,37 +324,51 @@ static inline void sha512_sw_round(
 static void sha512_sw_block(uint64_t *core, const uint8_t *block)
 {
     uint64_t w[SHA512_ROUNDS];
-    uint64_t a,b,c,d,e,f,g,h;
+    uint64_t a, b, c, d, e, f, g, h;
 
     int t;
 
     for (t = 0; t < 16; t++)
-        w[t] = GET_64BIT_MSB_FIRST(block + 8*t);
+        w[t] = GET_64BIT_MSB_FIRST(block + 8 * t);
 
     for (t = 16; t < SHA512_ROUNDS; t++)
-        w[t] = w[t-16] + w[t-7] + sigma_0(w[t-15]) + sigma_1(w[t-2]);
+        w[t] = w[t - 16] + w[t - 7] + sigma_0(w[t - 15]) + sigma_1(w[t - 2]);
 
-    a = core[0]; b = core[1]; c = core[2]; d = core[3];
-    e = core[4]; f = core[5]; g = core[6]; h = core[7];
+    a = core[0];
+    b = core[1];
+    c = core[2];
+    d = core[3];
+    e = core[4];
+    f = core[5];
+    g = core[6];
+    h = core[7];
 
-    for (t = 0; t < SHA512_ROUNDS; t+=8) {
-        sha512_sw_round(t+0, w, &a,&b,&c,&d,&e,&f,&g,&h);
-        sha512_sw_round(t+1, w, &h,&a,&b,&c,&d,&e,&f,&g);
-        sha512_sw_round(t+2, w, &g,&h,&a,&b,&c,&d,&e,&f);
-        sha512_sw_round(t+3, w, &f,&g,&h,&a,&b,&c,&d,&e);
-        sha512_sw_round(t+4, w, &e,&f,&g,&h,&a,&b,&c,&d);
-        sha512_sw_round(t+5, w, &d,&e,&f,&g,&h,&a,&b,&c);
-        sha512_sw_round(t+6, w, &c,&d,&e,&f,&g,&h,&a,&b);
-        sha512_sw_round(t+7, w, &b,&c,&d,&e,&f,&g,&h,&a);
+    for (t = 0; t < SHA512_ROUNDS; t += 8)
+    {
+        sha512_sw_round(t + 0, w, &a, &b, &c, &d, &e, &f, &g, &h);
+        sha512_sw_round(t + 1, w, &h, &a, &b, &c, &d, &e, &f, &g);
+        sha512_sw_round(t + 2, w, &g, &h, &a, &b, &c, &d, &e, &f);
+        sha512_sw_round(t + 3, w, &f, &g, &h, &a, &b, &c, &d, &e);
+        sha512_sw_round(t + 4, w, &e, &f, &g, &h, &a, &b, &c, &d);
+        sha512_sw_round(t + 5, w, &d, &e, &f, &g, &h, &a, &b, &c);
+        sha512_sw_round(t + 6, w, &c, &d, &e, &f, &g, &h, &a, &b);
+        sha512_sw_round(t + 7, w, &b, &c, &d, &e, &f, &g, &h, &a);
     }
 
-    core[0] += a; core[1] += b; core[2] += c; core[3] += d;
-    core[4] += e; core[5] += f; core[6] += g; core[7] += h;
+    core[0] += a;
+    core[1] += b;
+    core[2] += c;
+    core[3] += d;
+    core[4] += e;
+    core[5] += f;
+    core[6] += g;
+    core[7] += h;
 
     smemclr(w, sizeof(w));
 }
 
-typedef struct sha512_sw {
+typedef struct sha512_sw
+{
     uint64_t core[8];
     sha512_block blk;
     BinarySink_IMPLEMENTATION;
@@ -370,7 +430,7 @@ static void sha512_sw_digest(ssh_hash *hash, uint8_t *digest)
 
     sha512_block_pad(&s->blk, BinarySink_UPCAST(s));
     for (size_t i = 0; i < hash->vt->hlen / 8; i++)
-        PUT_64BIT_MSB_FIRST(digest + 8*i, s->core[i]);
+        PUT_64BIT_MSB_FIRST(digest + 8 * i, s->core[i]);
 }
 
 const ssh_hashalg ssh_sha512_sw = {
@@ -417,7 +477,7 @@ const ssh_hashalg ssh_sha384_sw = {
  */
 #define __ARM_NEON 1
 #define __ARM_FEATURE_CRYPTO 1
-#define FUNC_ISA __attribute__ ((target("neon,sha3")))
+#define FUNC_ISA __attribute__((target("neon,sha3")))
 #endif /* USE_CLANG_ATTR_TARGET_AARCH64 */
 
 #ifndef FUNC_ISA
@@ -454,23 +514,39 @@ static bool sha512_hw_available(void)
  * ifdef.
  */
 static inline FUNC_ISA
-uint64x2_t vsha512su0q_u64_asm(uint64x2_t x, uint64x2_t y) {
-    __asm__("sha512su0 %0.2D,%1.2D" : "+w" (x) : "w" (y));
+    uint64x2_t
+    vsha512su0q_u64_asm(uint64x2_t x, uint64x2_t y)
+{
+    __asm__("sha512su0 %0.2D,%1.2D"
+            : "+w"(x)
+            : "w"(y));
     return x;
 }
 static inline FUNC_ISA
-uint64x2_t vsha512su1q_u64_asm(uint64x2_t x, uint64x2_t y, uint64x2_t z) {
-    __asm__("sha512su1 %0.2D,%1.2D,%2.2D" : "+w" (x) : "w" (y), "w" (z));
+    uint64x2_t
+    vsha512su1q_u64_asm(uint64x2_t x, uint64x2_t y, uint64x2_t z)
+{
+    __asm__("sha512su1 %0.2D,%1.2D,%2.2D"
+            : "+w"(x)
+            : "w"(y), "w"(z));
     return x;
 }
 static inline FUNC_ISA
-uint64x2_t vsha512hq_u64_asm(uint64x2_t x, uint64x2_t y, uint64x2_t z) {
-    __asm__("sha512h %0,%1,%2.2D" : "+w" (x) : "w" (y), "w" (z));
+    uint64x2_t
+    vsha512hq_u64_asm(uint64x2_t x, uint64x2_t y, uint64x2_t z)
+{
+    __asm__("sha512h %0,%1,%2.2D"
+            : "+w"(x)
+            : "w"(y), "w"(z));
     return x;
 }
 static inline FUNC_ISA
-uint64x2_t vsha512h2q_u64_asm(uint64x2_t x, uint64x2_t y, uint64x2_t z) {
-    __asm__("sha512h2 %0,%1,%2.2D" : "+w" (x) : "w" (y), "w" (z));
+    uint64x2_t
+    vsha512h2q_u64_asm(uint64x2_t x, uint64x2_t y, uint64x2_t z)
+{
+    __asm__("sha512h2 %0,%1,%2.2D"
+            : "+w"(x)
+            : "w"(y), "w"(z));
     return x;
 }
 #undef vsha512su0q_u64
@@ -484,7 +560,8 @@ uint64x2_t vsha512h2q_u64_asm(uint64x2_t x, uint64x2_t y, uint64x2_t z) {
 #endif /* defined __clang__ */
 
 typedef struct sha512_neon_core sha512_neon_core;
-struct sha512_neon_core {
+struct sha512_neon_core
+{
     uint64x2_t ab, cd, ef, gh;
 };
 
@@ -588,21 +665,21 @@ static inline void sha512_neon_block(sha512_neon_core *core, const uint8_t *p)
 
     uint64x2_t ab = core->ab, cd = core->cd, ef = core->ef, gh = core->gh;
 
-    s0 = sha512_neon_load_input(p + 16*0);
+    s0 = sha512_neon_load_input(p + 16 * 0);
     sha512_neon_round2(0, s0, &ab, &cd, &ef, &gh);
-    s1 = sha512_neon_load_input(p + 16*1);
+    s1 = sha512_neon_load_input(p + 16 * 1);
     sha512_neon_round2(2, s1, &gh, &ab, &cd, &ef);
-    s2 = sha512_neon_load_input(p + 16*2);
+    s2 = sha512_neon_load_input(p + 16 * 2);
     sha512_neon_round2(4, s2, &ef, &gh, &ab, &cd);
-    s3 = sha512_neon_load_input(p + 16*3);
+    s3 = sha512_neon_load_input(p + 16 * 3);
     sha512_neon_round2(6, s3, &cd, &ef, &gh, &ab);
-    s4 = sha512_neon_load_input(p + 16*4);
+    s4 = sha512_neon_load_input(p + 16 * 4);
     sha512_neon_round2(8, s4, &ab, &cd, &ef, &gh);
-    s5 = sha512_neon_load_input(p + 16*5);
+    s5 = sha512_neon_load_input(p + 16 * 5);
     sha512_neon_round2(10, s5, &gh, &ab, &cd, &ef);
-    s6 = sha512_neon_load_input(p + 16*6);
+    s6 = sha512_neon_load_input(p + 16 * 6);
     sha512_neon_round2(12, s6, &ef, &gh, &ab, &cd);
-    s7 = sha512_neon_load_input(p + 16*7);
+    s7 = sha512_neon_load_input(p + 16 * 7);
     sha512_neon_round2(14, s7, &cd, &ef, &gh, &ab);
     s0 = sha512_neon_schedule_update(s0, s1, s4, s5, s7);
     sha512_neon_round2(16, s0, &ab, &cd, &ef, &gh);
@@ -675,7 +752,8 @@ static inline void sha512_neon_block(sha512_neon_core *core, const uint8_t *p)
     core->gh = vaddq_u64(core->gh, gh);
 }
 
-typedef struct sha512_neon {
+typedef struct sha512_neon
+{
     sha512_neon_core core;
     sha512_block blk;
     BinarySink_IMPLEMENTATION;
@@ -703,9 +781,9 @@ static void sha512_neon_reset(ssh_hash *hash)
     const uint64_t *iv = (const uint64_t *)hash->vt->extra;
 
     s->core.ab = vld1q_u64(iv);
-    s->core.cd = vld1q_u64(iv+2);
-    s->core.ef = vld1q_u64(iv+4);
-    s->core.gh = vld1q_u64(iv+6);
+    s->core.cd = vld1q_u64(iv + 2);
+    s->core.ef = vld1q_u64(iv + 4);
+    s->core.gh = vld1q_u64(iv + 6);
 
     sha512_block_setup(&s->blk);
 }
@@ -743,10 +821,10 @@ static void sha512_neon_digest(ssh_hash *hash, uint8_t *digest)
 
     sha512_block_pad(&s->blk, BinarySink_UPCAST(s));
 
-    vst1q_u8(digest,    vrev64q_u8(vreinterpretq_u8_u64(s->core.ab)));
-    vst1q_u8(digest+16, vrev64q_u8(vreinterpretq_u8_u64(s->core.cd)));
-    vst1q_u8(digest+32, vrev64q_u8(vreinterpretq_u8_u64(s->core.ef)));
-    vst1q_u8(digest+48, vrev64q_u8(vreinterpretq_u8_u64(s->core.gh)));
+    vst1q_u8(digest, vrev64q_u8(vreinterpretq_u8_u64(s->core.ab)));
+    vst1q_u8(digest + 16, vrev64q_u8(vreinterpretq_u8_u64(s->core.cd)));
+    vst1q_u8(digest + 32, vrev64q_u8(vreinterpretq_u8_u64(s->core.ef)));
+    vst1q_u8(digest + 48, vrev64q_u8(vreinterpretq_u8_u64(s->core.gh)));
 }
 
 static void sha384_neon_digest(ssh_hash *hash, uint8_t *digest)
@@ -755,9 +833,9 @@ static void sha384_neon_digest(ssh_hash *hash, uint8_t *digest)
 
     sha512_block_pad(&s->blk, BinarySink_UPCAST(s));
 
-    vst1q_u8(digest,    vrev64q_u8(vreinterpretq_u8_u64(s->core.ab)));
-    vst1q_u8(digest+16, vrev64q_u8(vreinterpretq_u8_u64(s->core.cd)));
-    vst1q_u8(digest+32, vrev64q_u8(vreinterpretq_u8_u64(s->core.ef)));
+    vst1q_u8(digest, vrev64q_u8(vreinterpretq_u8_u64(s->core.ab)));
+    vst1q_u8(digest + 16, vrev64q_u8(vreinterpretq_u8_u64(s->core.cd)));
+    vst1q_u8(digest + 32, vrev64q_u8(vreinterpretq_u8_u64(s->core.ef)));
 }
 
 const ssh_hashalg ssh_sha512_hw = {
@@ -799,27 +877,32 @@ static bool sha512_hw_available(void)
     return false;
 }
 
-static ssh_hash *sha512_stub_new(const ssh_hashalg *alg)
+static ssh_hash *sha512_stub_new(__attribute__((unused)) const ssh_hashalg *alg)
 {
     return NULL;
 }
 
-#define STUB_BODY { unreachable("Should never be called"); }
+#define STUB_BODY                              \
+    {                                          \
+        unreachable("Should never be called"); \
+    }
 
-static void sha512_stub_reset(ssh_hash *hash) STUB_BODY
-static void sha512_stub_copyfrom(ssh_hash *hash, ssh_hash *orig) STUB_BODY
-static void sha512_stub_free(ssh_hash *hash) STUB_BODY
-static void sha512_stub_digest(ssh_hash *hash, uint8_t *digest) STUB_BODY
+static void sha512_stub_reset(__attribute__((unused)) ssh_hash *hash) STUB_BODY
+    static void sha512_stub_copyfrom(__attribute__((unused)) ssh_hash *hash,
+                                     __attribute__((unused)) ssh_hash *orig) STUB_BODY
+    static void sha512_stub_free(__attribute__((unused)) ssh_hash *hash) STUB_BODY
+    static void sha512_stub_digest(__attribute__((unused)) ssh_hash *hash,
+                                   __attribute__((unused)) uint8_t *digest) STUB_BODY
 
-const ssh_hashalg ssh_sha512_hw = {
-    .new = sha512_stub_new,
-    .reset = sha512_stub_reset,
-    .copyfrom = sha512_stub_copyfrom,
-    .digest = sha512_stub_digest,
-    .free = sha512_stub_free,
-    .hlen = 64,
-    .blocklen = 128,
-    HASHALG_NAMES_ANNOTATED("SHA-512", "!NONEXISTENT ACCELERATED VERSION!"),
+    const ssh_hashalg ssh_sha512_hw = {
+        .new = sha512_stub_new,
+        .reset = sha512_stub_reset,
+        .copyfrom = sha512_stub_copyfrom,
+        .digest = sha512_stub_digest,
+        .free = sha512_stub_free,
+        .hlen = 64,
+        .blocklen = 128,
+        HASHALG_NAMES_ANNOTATED("SHA-512", "!NONEXISTENT ACCELERATED VERSION!"),
 };
 
 const ssh_hashalg ssh_sha384_hw = {

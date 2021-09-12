@@ -31,20 +31,26 @@ unsigned long parse_blocksize(const char *bs)
 {
     char *suf;
     unsigned long r = strtoul(bs, &suf, 10);
-    if (*suf != '\0') {
-        while (*suf && isspace((unsigned char)*suf)) suf++;
-        switch (*suf) {
-          case 'k': case 'K':
+    if (*suf != '\0')
+    {
+        while (*suf && isspace((unsigned char)*suf))
+            suf++;
+        switch (*suf)
+        {
+        case 'k':
+        case 'K':
             r *= 1024ul;
             break;
-          case 'm': case 'M':
+        case 'm':
+        case 'M':
             r *= 1024ul * 1024ul;
             break;
-          case 'g': case 'G':
+        case 'g':
+        case 'G':
             r *= 1024ul * 1024ul * 1024ul;
             break;
-          case '\0':
-          default:
+        case '\0':
+        default:
             break;
         }
     }
@@ -67,29 +73,43 @@ unsigned long parse_blocksize(const char *bs)
 char ctrlparse(char *s, char **next)
 {
     char c = 0;
-    if (*s != '^') {
+    if (*s != '^')
+    {
         *next = NULL;
-    } else {
+    }
+    else
+    {
         s++;
-        if (*s == '\0') {
+        if (*s == '\0')
+        {
             *next = NULL;
-        } else if (*s == '<') {
+        }
+        else if (*s == '<')
+        {
             s++;
             c = (char)strtol(s, next, 0);
-            if ((*next == s) || (**next != '>')) {
+            if ((*next == s) || (**next != '>'))
+            {
                 c = 0;
                 *next = NULL;
-            } else
+            }
+            else
                 (*next)++;
-        } else if (*s >= 'a' && *s <= 'z') {
+        }
+        else if (*s >= 'a' && *s <= 'z')
+        {
             c = (*s - ('a' - 1));
-            *next = s+1;
-        } else if ((*s >= '@' && *s <= '_') || *s == '?' || (*s & 0x80)) {
+            *next = s + 1;
+        }
+        else if ((*s >= '@' && *s <= '_') || *s == '?' || (*s & 0x80))
+        {
             c = ('@' ^ *s);
-            *next = s+1;
-        } else if (*s == '~') {
+            *next = s + 1;
+        }
+        else if (*s == '~')
+        {
             c = '^';
-            *next = s+1;
+            *next = s + 1;
         }
     }
     return c;
@@ -109,7 +129,8 @@ static const char *host_strchr_internal(const char *s, const char *set,
     int brackets = 0;
     const char *ret = NULL;
 
-    while (1) {
+    while (1)
+    {
         if (!*s)
             return ret;
 
@@ -118,8 +139,9 @@ static const char *host_strchr_internal(const char *s, const char *set,
         else if (*s == ']' && brackets > 0)
             brackets--;
         else if (brackets && *s == ':')
-            /* never match */ ;
-        else if (strchr(set, *s)) {
+            /* never match */;
+        else if (strchr(set, *s))
+        {
             ret = s;
             if (first)
                 return ret;
@@ -141,14 +163,14 @@ char *host_strchr(const char *s, int c)
     char set[2];
     set[0] = c;
     set[1] = '\0';
-    return (char *) host_strchr_internal(s, set, true);
+    return (char *)host_strchr_internal(s, set, true);
 }
 char *host_strrchr(const char *s, int c)
 {
     char set[2];
     set[0] = c;
     set[1] = '\0';
-    return (char *) host_strchr_internal(s, set, false);
+    return (char *)host_strchr_internal(s, set, false);
 }
 
 #ifdef TEST_HOST_STRFOO
@@ -156,30 +178,34 @@ int main(void)
 {
     int passes = 0, fails = 0;
 
-#define TEST1(func, string, arg2, suffix, result) do                    \
-    {                                                                   \
-        const char *str = string;                                       \
-        unsigned ret = func(string, arg2) suffix;                       \
-        if (ret == result) {                                            \
-            passes++;                                                   \
-        } else {                                                        \
-            printf("fail: %s(%s,%s)%s = %u, expected %u\n",             \
-                   #func, #string, #arg2, #suffix, ret,                 \
-                   (unsigned)result);                                   \
-            fails++;                                                    \
-        }                                                               \
-} while (0)
+#define TEST1(func, string, arg2, suffix, result)           \
+    do                                                      \
+    {                                                       \
+        const char *str = string;                           \
+        unsigned ret = func(string, arg2) suffix;           \
+        if (ret == result)                                  \
+        {                                                   \
+            passes++;                                       \
+        }                                                   \
+        else                                                \
+        {                                                   \
+            printf("fail: %s(%s,%s)%s = %u, expected %u\n", \
+                   #func, #string, #arg2, #suffix, ret,     \
+                   (unsigned)result);                       \
+            fails++;                                        \
+        }                                                   \
+    } while (0)
 
     TEST1(host_strchr, "[1:2:3]:4:5", ':', -str, 7);
     TEST1(host_strrchr, "[1:2:3]:4:5", ':', -str, 9);
-    TEST1(host_strcspn, "[1:2:3]:4:5", "/:",, 7);
+    TEST1(host_strcspn, "[1:2:3]:4:5", "/:", , 7);
     TEST1(host_strchr, "[1:2:3]", ':', == NULL, 1);
     TEST1(host_strrchr, "[1:2:3]", ':', == NULL, 1);
-    TEST1(host_strcspn, "[1:2:3]", "/:",, 7);
-    TEST1(host_strcspn, "[1:2/3]", "/:",, 4);
-    TEST1(host_strcspn, "[1:2:3]/", "/:",, 7);
+    TEST1(host_strcspn, "[1:2:3]", "/:", , 7);
+    TEST1(host_strcspn, "[1:2/3]", "/:", , 4);
+    TEST1(host_strcspn, "[1:2:3]/", "/:", , 7);
 
-    printf("passed %d failed %d total %d\n", passes, fails, passes+fails);
+    printf("passed %d failed %d total %d\n", passes, fails, passes + fails);
     return fails != 0 ? 1 : 0;
 }
 
@@ -206,10 +232,12 @@ void out_of_memory(void) { fatal_error("out of memory"); }
  */
 char *host_strduptrim(const char *s)
 {
-    if (s[0] == '[') {
-        const char *p = s+1;
+    if (s[0] == '[')
+    {
+        const char *p = s + 1;
         int colons = 0;
-        while (*p && *p != ']') {
+        while (*p && *p != ']')
+        {
             if (isxdigit((unsigned char)*p))
                 /* OK */;
             else if (*p == ':')
@@ -218,7 +246,8 @@ char *host_strduptrim(const char *s)
                 break;
             p++;
         }
-        if (*p == '%') {
+        if (*p == '%')
+        {
             /*
              * This delimiter character introduces an RFC 4007 scope
              * id suffix (e.g. suffixing the address literal with
@@ -228,13 +257,14 @@ char *host_strduptrim(const char *s)
              */
             p += strcspn(p, "]");
         }
-        if (*p == ']' && !p[1] && colons > 1) {
+        if (*p == ']' && !p[1] && colons > 1)
+        {
             /*
              * This looks like an IPv6 address literal (hex digits and
              * at least two colons, plus optional scope id, contained
              * in square brackets). Trim off the brackets.
              */
-            return dupprintf("%.*s", (int)(p - (s+1)), s+1);
+            return dupprintf("%.*s", (int)(p - (s + 1)), s + 1);
         }
     }
 
@@ -251,7 +281,8 @@ char *host_strduptrim(const char *s)
 char *dupstr(const char *s)
 {
     char *p = NULL;
-    if (s) {
+    if (s)
+    {
         int len = strlen(s);
         p = snewn(len + 1, char);
         strcpy(p, s);
@@ -268,7 +299,8 @@ char *dupcat_fn(const char *s1, ...)
 
     len = strlen(s1);
     va_start(ap, s1);
-    while (1) {
+    while (1)
+    {
         sn = va_arg(ap, char *);
         if (!sn)
             break;
@@ -281,7 +313,8 @@ char *dupcat_fn(const char *s1, ...)
     q = p + strlen(p);
 
     va_start(ap, s1);
-    while (1) {
+    while (1)
+    {
         sn = va_arg(ap, char *);
         if (!sn)
             break;
@@ -293,9 +326,10 @@ char *dupcat_fn(const char *s1, ...)
     return p;
 }
 
-void burnstr(char *string)             /* sfree(str), only clear it first */
+void burnstr(char *string) /* sfree(str), only clear it first */
 {
-    if (string) {
+    if (string)
+    {
         smemclr(string, strlen(string));
         sfree(string);
     }
@@ -313,15 +347,15 @@ int string_length_for_printf(size_t s)
 
 /* Work around lack of va_copy in old MSC */
 #if defined _MSC_VER && !defined va_copy
-#define va_copy(a, b) TYPECHECK(                        \
-        (va_list *)0 == &(a) && (va_list *)0 == &(b),   \
-        memcpy(&a, &b, sizeof(va_list)))
+#define va_copy(a, b) TYPECHECK(                  \
+    (va_list *)0 == &(a) && (va_list *)0 == &(b), \
+    memcpy(&a, &b, sizeof(va_list)))
 #endif
 
 /* Also lack of vsnprintf before VS2015 */
-#if defined _WINDOWS && \
+#if defined _WINDOWS &&     \
     !defined __MINGW32__ && \
-    !defined __WINE__ && \
+    !defined __WINE__ &&    \
     _MSC_VER < 1900
 #define vsnprintf _vsnprintf
 #endif
@@ -367,22 +401,28 @@ static char *dupvprintf_inner(char *buf, size_t oldlen, size_t *sizeptr,
     size_t size = *sizeptr;
     sgrowarrayn_nm(buf, size, oldlen, 512);
 
-    while (1) {
+    while (1)
+    {
         va_list aq;
         va_copy(aq, ap);
         int len = vsnprintf(buf + oldlen, size - oldlen, fmt, aq);
         va_end(aq);
 
-        if (len >= 0 && len < size) {
+        if (len >= 0 && (int64_t)len < (int64_t)size)
+        {
             /* This is the C99-specified criterion for snprintf to have
              * been completely successful. */
             *sizeptr = size;
             return buf;
-        } else if (len > 0) {
+        }
+        else if (len > 0)
+        {
             /* This is the C99 error condition: the returned length is
              * the required buffer size not counting the NUL. */
             sgrowarrayn_nm(buf, size, oldlen + 1, len);
-        } else {
+        }
+        else
+        {
             /* This is the pre-C99 glibc error condition: <0 means the
              * buffer wasn't big enough, so we enlarge it a bit and hope. */
             sgrowarray_nm(buf, size, size);
@@ -405,15 +445,16 @@ char *dupprintf(const char *fmt, ...)
     return ret;
 }
 
-struct strbuf_impl {
+struct strbuf_impl
+{
     size_t size;
     struct strbuf visible;
-    bool nm;          /* true if we insist on non-moving buffer resizes */
+    bool nm; /* true if we insist on non-moving buffer resizes */
 };
 
-#define STRBUF_SET_UPTR(buf)                                    \
+#define STRBUF_SET_UPTR(buf) \
     ((buf)->visible.u = (unsigned char *)(buf)->visible.s)
-#define STRBUF_SET_PTR(buf, ptr)                                \
+#define STRBUF_SET_PTR(buf, ptr) \
     ((buf)->visible.s = (ptr), STRBUF_SET_UPTR(buf))
 
 void *strbuf_append(strbuf *buf_o, size_t len)
@@ -445,7 +486,8 @@ void strbuf_shrink_by(strbuf *buf, size_t amount_to_remove)
 
 bool strbuf_chomp(strbuf *buf, char char_to_remove)
 {
-    if (buf->len > 0 && buf->s[buf->len-1] == char_to_remove) {
+    if (buf->len > 0 && buf->s[buf->len - 1] == char_to_remove)
+    {
         strbuf_shrink_by(buf, 1);
         return true;
     }
@@ -475,7 +517,8 @@ strbuf *strbuf_new_nm(void) { return strbuf_new_general(true); }
 void strbuf_free(strbuf *buf_o)
 {
     struct strbuf_impl *buf = container_of(buf_o, struct strbuf_impl, visible);
-    if (buf->visible.s) {
+    if (buf->visible.s)
+    {
         smemclr(buf->visible.s, buf->size);
         sfree(buf->visible.s);
     }
@@ -524,13 +567,15 @@ char *fgetline(FILE *fp)
 {
     char *ret = snewn(512, char);
     size_t size = 512, len = 0;
-    while (fgets(ret + len, size - len, fp)) {
+    while (fgets(ret + len, size - len, fp))
+    {
         len += strlen(ret + len);
-        if (len > 0 && ret[len-1] == '\n')
-            break;                     /* got a newline, we're done */
+        if (len > 0 && ret[len - 1] == '\n')
+            break; /* got a newline, we're done */
         sgrowarrayn_nm(ret, size, len, 512);
     }
-    if (len == 0) {                    /* first fgets returned NULL */
+    if (len == 0)
+    { /* first fgets returned NULL */
         sfree(ret);
         return NULL;
     }
@@ -544,7 +589,8 @@ char *fgetline(FILE *fp)
 bool read_file_into(BinarySink *bs, FILE *fp)
 {
     char buf[4096];
-    while (1) {
+    while (1)
+    {
         size_t retd = fread(buf, 1, sizeof(buf), fp);
         if (retd == 0)
             return !ferror(fp);
@@ -561,9 +607,10 @@ bool read_file_into(BinarySink *bs, FILE *fp)
  */
 char *chomp(char *str)
 {
-    if (str) {
+    if (str)
+    {
         int len = strlen(str);
-        while (len > 0 && (str[len-1] == '\r' || str[len-1] == '\n'))
+        while (len > 0 && (str[len - 1] == '\r' || str[len - 1] == '\n'))
             len--;
         str[len] = '\0';
     }
@@ -605,7 +652,8 @@ int base64_decode_atom(const char *atom, unsigned char *out)
     unsigned word;
     char c;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 4; i++)
+    {
         c = atom[i];
         if (c >= 'A' && c <= 'Z')
             v = c - 'A';
@@ -620,7 +668,7 @@ int base64_decode_atom(const char *atom, unsigned char *out)
         else if (c == '=')
             v = -1;
         else
-            return 0;                  /* invalid atom */
+            return 0; /* invalid atom */
         vals[i] = v;
     }
 
@@ -659,14 +707,15 @@ int base64_decode_atom(const char *atom, unsigned char *out)
  *  - return the current size of the buffer chain in bytes
  */
 
-#define BUFFER_MIN_GRANULE  512
+#define BUFFER_MIN_GRANULE 512
 
-struct bufchain_granule {
+struct bufchain_granule
+{
     struct bufchain_granule *next;
     char *bufpos, *bufend, *bufmax;
 };
 
-static void uninitialised_queue_idempotent_callback(IdempotentCallback *ic)
+static void uninitialised_queue_idempotent_callback(__attribute__((unused)) IdempotentCallback *ic)
 {
     unreachable("bufchain callback used while uninitialised");
 }
@@ -682,7 +731,8 @@ void bufchain_init(bufchain *ch)
 void bufchain_clear(bufchain *ch)
 {
     struct bufchain_granule *b;
-    while (ch->head) {
+    while (ch->head)
+    {
         b = ch->head;
         ch->head = ch->head->next;
         smemclr(b, sizeof(*b));
@@ -709,19 +759,23 @@ void bufchain_add(bufchain *ch, const void *data, size_t len)
 {
     const char *buf = (const char *)data;
 
-    if (len == 0) return;
+    if (len == 0)
+        return;
 
     ch->buffersize += len;
 
-    while (len > 0) {
-        if (ch->tail && ch->tail->bufend < ch->tail->bufmax) {
-            size_t copylen = min(len, ch->tail->bufmax - ch->tail->bufend);
+    while (len > 0)
+    {
+        if (ch->tail && ch->tail->bufend < ch->tail->bufmax)
+        {
+            size_t copylen = min((int64_t)len, (int64_t)(ch->tail->bufmax - ch->tail->bufend));
             memcpy(ch->tail->bufend, buf, copylen);
             buf += copylen;
             len -= copylen;
             ch->tail->bufend += copylen;
         }
-        if (len > 0) {
+        if (len > 0)
+        {
             size_t grainlen =
                 max(sizeof(struct bufchain_granule) + len, BUFFER_MIN_GRANULE);
             struct bufchain_granule *newbuf;
@@ -747,10 +801,12 @@ void bufchain_consume(bufchain *ch, size_t len)
     struct bufchain_granule *tmp;
 
     assert(ch->buffersize >= len);
-    while (len > 0) {
+    while (len > 0)
+    {
         int remlen = len;
         assert(ch->head != NULL);
-        if (remlen >= ch->head->bufend - ch->head->bufpos) {
+        if (remlen >= ch->head->bufend - ch->head->bufpos)
+        {
             remlen = ch->head->bufend - ch->head->bufpos;
             tmp = ch->head;
             ch->head = tmp->next;
@@ -758,7 +814,8 @@ void bufchain_consume(bufchain *ch, size_t len)
                 ch->tail = NULL;
             smemclr(tmp, sizeof(*tmp));
             sfree(tmp);
-        } else
+        }
+        else
             ch->head->bufpos += remlen;
         ch->buffersize -= remlen;
         len -= remlen;
@@ -778,7 +835,8 @@ void bufchain_fetch(bufchain *ch, void *data, size_t len)
     tmp = ch->head;
 
     assert(ch->buffersize >= len);
-    while (len > 0) {
+    while (len > 0)
+    {
         int remlen = len;
 
         assert(tmp != NULL);
@@ -800,10 +858,13 @@ void bufchain_fetch_consume(bufchain *ch, void *data, size_t len)
 
 bool bufchain_try_fetch_consume(bufchain *ch, void *data, size_t len)
 {
-    if (ch->buffersize >= len) {
+    if (ch->buffersize >= len)
+    {
         bufchain_fetch_consume(ch, data, len);
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -841,29 +902,33 @@ void debug_memdump(const void *buf, int len, bool L)
     int i;
     const unsigned char *p = buf;
     char foo[17];
-    if (L) {
+    if (L)
+    {
         int delta;
         debug_printf("\t%d (0x%x) bytes:\n", len, len);
         delta = 15 & (uintptr_t)p;
         p -= delta;
         len += delta;
     }
-    for (; 0 < len; p += 16, len -= 16) {
+    for (; 0 < len; p += 16, len -= 16)
+    {
         dputs("  ");
         if (L)
             debug_printf("%p: ", p);
-        strcpy(foo, "................");        /* sixteen dots */
-        for (i = 0; i < 16 && i < len; ++i) {
-            if (&p[i] < (unsigned char *) buf) {
-                dputs("   ");          /* 3 spaces */
+        strcpy(foo, "................"); /* sixteen dots */
+        for (i = 0; i < 16 && i < len; ++i)
+        {
+            if (&p[i] < (unsigned char *)buf)
+            {
+                dputs("   "); /* 3 spaces */
                 foo[i] = ' ';
-            } else {
+            }
+            else
+            {
                 debug_printf("%c%2.2x",
-                        &p[i] != (unsigned char *) buf
-                        && i % 4 ? '.' : ' ', p[i]
-                    );
+                             &p[i] != (unsigned char *)buf && i % 4 ? '.' : ' ', p[i]);
                 if (p[i] >= ' ' && p[i] <= '~')
-                    foo[i] = (char) p[i];
+                    foo[i] = (char)p[i];
             }
         }
         foo[i] = '\0';
@@ -871,7 +936,7 @@ void debug_memdump(const void *buf, int len, bool L)
     }
 }
 
-#endif                          /* def DEBUG */
+#endif /* def DEBUG */
 
 #ifndef PLATFORM_HAS_SMEMCLR
 /*
@@ -886,10 +951,12 @@ void debug_memdump(const void *buf, int len, bool L)
  * Some platforms (e.g. Windows) may provide their own version of this
  * function.
  */
-void smemclr(void *b, size_t n) {
+void smemclr(void *b, size_t n)
+{
     volatile char *vp;
 
-    if (b && n > 0) {
+    if (b && n > 0)
+    {
         /*
          * Zero out the memory.
          */
@@ -908,7 +975,8 @@ void smemclr(void *b, size_t n) {
          * This should be robust.)
          */
         vp = b;
-        while (*vp) vp++;
+        while (*vp)
+            vp++;
     }
 }
 #endif
@@ -919,7 +987,8 @@ bool smemeq(const void *av, const void *bv, size_t len)
     const unsigned char *b = (const unsigned char *)bv;
     unsigned val = 0;
 
-    while (len-- > 0) {
+    while (len-- > 0)
+    {
         val |= *a++ ^ *b++;
     }
     /* Now val is 0 iff we want to return 1, and in the range
@@ -954,19 +1023,23 @@ bool ptrlen_eq_ptrlen(ptrlen pl1, ptrlen pl2)
 int ptrlen_strcmp(ptrlen pl1, ptrlen pl2)
 {
     size_t minlen = pl1.len < pl2.len ? pl1.len : pl2.len;
-    if (minlen) {  /* tolerate plX.ptr==NULL as long as plX.len==0 */
+    if (minlen)
+    { /* tolerate plX.ptr==NULL as long as plX.len==0 */
         int cmp = memcmp(pl1.ptr, pl2.ptr, minlen);
         if (cmp)
             return cmp;
     }
-    return pl1.len < pl2.len ? -1 : pl1.len > pl2.len ? +1 : 0;
+    return pl1.len < pl2.len ? -1 : pl1.len > pl2.len ? +1
+                                                      : 0;
 }
 
 bool ptrlen_startswith(ptrlen whole, ptrlen prefix, ptrlen *tail)
 {
     if (whole.len >= prefix.len &&
-        !memcmp(whole.ptr, prefix.ptr, prefix.len)) {
-        if (tail) {
+        !memcmp(whole.ptr, prefix.ptr, prefix.len))
+    {
+        if (tail)
+        {
             tail->ptr = (const char *)whole.ptr + prefix.len;
             tail->len = whole.len - prefix.len;
         }
@@ -979,8 +1052,10 @@ bool ptrlen_endswith(ptrlen whole, ptrlen suffix, ptrlen *tail)
 {
     if (whole.len >= suffix.len &&
         !memcmp((char *)whole.ptr + (whole.len - suffix.len),
-                suffix.ptr, suffix.len)) {
-        if (tail) {
+                suffix.ptr, suffix.len))
+    {
+        if (tail)
+        {
             tail->ptr = whole.ptr;
             tail->len = whole.len - suffix.len;
         }
@@ -1032,16 +1107,23 @@ size_t encode_utf8(void *output, unsigned long ch)
 {
     unsigned char *start = (unsigned char *)output, *p = start;
 
-    if (ch < 0x80) {
+    if (ch < 0x80)
+    {
         *p++ = ch;
-    } else if (ch < 0x800) {
+    }
+    else if (ch < 0x800)
+    {
         *p++ = 0xC0 | (ch >> 6);
         *p++ = 0x80 | (ch & 0x3F);
-    } else if (ch < 0x10000) {
+    }
+    else if (ch < 0x10000)
+    {
         *p++ = 0xE0 | (ch >> 12);
         *p++ = 0x80 | ((ch >> 6) & 0x3F);
         *p++ = 0x80 | (ch & 0x3F);
-    } else {
+    }
+    else
+    {
         *p++ = 0xF0 | (ch >> 18);
         *p++ = 0x80 | ((ch >> 12) & 0x3F);
         *p++ = 0x80 | ((ch >> 6) & 0x3F);
@@ -1052,7 +1134,8 @@ size_t encode_utf8(void *output, unsigned long ch)
 
 void write_c_string_literal(FILE *fp, ptrlen str)
 {
-    for (const char *p = str.ptr; p < (const char *)str.ptr + str.len; p++) {
+    for (const char *p = str.ptr; p < (const char *)str.ptr + str.len; p++)
+    {
         char c = *p;
 
         if (c == '\n')

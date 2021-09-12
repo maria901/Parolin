@@ -16,8 +16,7 @@ static const WCHAR unitab_xterm_std[32] = {
     0x2666, 0x2592, 0x2409, 0x240c, 0x240d, 0x240a, 0x00b0, 0x00b1,
     0x2424, 0x240b, 0x2518, 0x2510, 0x250c, 0x2514, 0x253c, 0x23ba,
     0x23bb, 0x2500, 0x23bc, 0x23bd, 0x251c, 0x2524, 0x2534, 0x252c,
-    0x2502, 0x2264, 0x2265, 0x03c0, 0x2260, 0x00a3, 0x00b7, 0x0020
-};
+    0x2502, 0x2264, 0x2265, 0x03c0, 0x2260, 0x00a3, 0x00b7, 0x0020};
 
 /*
  * If the codepage is non-zero it's a window codepage, zero means use a
@@ -46,8 +45,7 @@ static const wchar_t iso_8859_1[] = {
     0x00E0, 0x00E1, 0x00E2, 0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x00E7,
     0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF,
     0x00F0, 0x00F1, 0x00F2, 0x00F3, 0x00F4, 0x00F5, 0x00F6, 0x00F7,
-    0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x00FE, 0x00FF
-};
+    0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x00FE, 0x00FF};
 
 /* ISO/IEC 8859-2:1999 (Latin-2, "Central European", "East European") */
 static const wchar_t iso_8859_2[] = {
@@ -62,8 +60,7 @@ static const wchar_t iso_8859_2[] = {
     0x0155, 0x00E1, 0x00E2, 0x0103, 0x00E4, 0x013A, 0x0107, 0x00E7,
     0x010D, 0x00E9, 0x0119, 0x00EB, 0x011B, 0x00ED, 0x00EE, 0x010F,
     0x0111, 0x0144, 0x0148, 0x00F3, 0x00F4, 0x0151, 0x00F6, 0x00F7,
-    0x0159, 0x016F, 0x00FA, 0x0171, 0x00FC, 0x00FD, 0x0163, 0x02D9
-};
+    0x0159, 0x016F, 0x00FA, 0x0171, 0x00FC, 0x00FD, 0x0163, 0x02D9};
 
 /* ISO/IEC 8859-3:1999 (Latin-3, "South European", "Maltese & Esperanto") */
 static const wchar_t iso_8859_3[] = {
@@ -78,8 +75,7 @@ static const wchar_t iso_8859_3[] = {
     0x00E0, 0x00E1, 0x00E2, 0xFFFD, 0x00E4, 0x010B, 0x0109, 0x00E7,
     0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF,
     0xFFFD, 0x00F1, 0x00F2, 0x00F3, 0x00F4, 0x0121, 0x00F6, 0x00F7,
-    0x011D, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x016D, 0x015D, 0x02D9
-};
+    0x011D, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x016D, 0x015D, 0x02D9};
 
 /* ISO/IEC 8859-4:1998 (Latin-4, "North European") */
 static const wchar_t iso_8859_4[] = {
@@ -94,8 +90,7 @@ static const wchar_t iso_8859_4[] = {
     0x0101, 0x00E1, 0x00E2, 0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x012F,
     0x010D, 0x00E9, 0x0119, 0x00EB, 0x0117, 0x00ED, 0x00EE, 0x012B,
     0x0111, 0x0146, 0x014D, 0x0137, 0x00F4, 0x00F5, 0x00F6, 0x00F7,
-    0x00F8, 0x0173, 0x00FA, 0x00FB, 0x00FC, 0x0169, 0x016B, 0x02D9
-};
+    0x00F8, 0x0173, 0x00FA, 0x00FB, 0x00FC, 0x0169, 0x016B, 0x02D9};
 
 /* ISO/IEC 8859-5:1999 (Latin/Cyrillic) */
 static const wchar_t iso_8859_5[] = {
@@ -110,8 +105,7 @@ static const wchar_t iso_8859_5[] = {
     0x0440, 0x0441, 0x0442, 0x0443, 0x0444, 0x0445, 0x0446, 0x0447,
     0x0448, 0x0449, 0x044A, 0x044B, 0x044C, 0x044D, 0x044E, 0x044F,
     0x2116, 0x0451, 0x0452, 0x0453, 0x0454, 0x0455, 0x0456, 0x0457,
-    0x0458, 0x0459, 0x045A, 0x045B, 0x045C, 0x00A7, 0x045E, 0x045F
-};
+    0x0458, 0x0459, 0x045A, 0x045B, 0x045C, 0x00A7, 0x045E, 0x045F};
 
 /* ISO/IEC 8859-6:1999 (Latin/Arabic) */
 static const wchar_t iso_8859_6[] = {
@@ -126,8 +120,7 @@ static const wchar_t iso_8859_6[] = {
     0x0640, 0x0641, 0x0642, 0x0643, 0x0644, 0x0645, 0x0646, 0x0647,
     0x0648, 0x0649, 0x064A, 0x064B, 0x064C, 0x064D, 0x064E, 0x064F,
     0x0650, 0x0651, 0x0652, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD,
-    0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD
-};
+    0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD};
 
 /* ISO 8859-7:1987 (Latin/Greek) */
 static const wchar_t iso_8859_7[] = {
@@ -142,8 +135,7 @@ static const wchar_t iso_8859_7[] = {
     0x03B0, 0x03B1, 0x03B2, 0x03B3, 0x03B4, 0x03B5, 0x03B6, 0x03B7,
     0x03B8, 0x03B9, 0x03BA, 0x03BB, 0x03BC, 0x03BD, 0x03BE, 0x03BF,
     0x03C0, 0x03C1, 0x03C2, 0x03C3, 0x03C4, 0x03C5, 0x03C6, 0x03C7,
-    0x03C8, 0x03C9, 0x03CA, 0x03CB, 0x03CC, 0x03CD, 0x03CE, 0xFFFD
-};
+    0x03C8, 0x03C9, 0x03CA, 0x03CB, 0x03CC, 0x03CD, 0x03CE, 0xFFFD};
 
 /* ISO/IEC 8859-8:1999 (Latin/Hebrew) */
 static const wchar_t iso_8859_8[] = {
@@ -158,8 +150,7 @@ static const wchar_t iso_8859_8[] = {
     0x05D0, 0x05D1, 0x05D2, 0x05D3, 0x05D4, 0x05D5, 0x05D6, 0x05D7,
     0x05D8, 0x05D9, 0x05DA, 0x05DB, 0x05DC, 0x05DD, 0x05DE, 0x05DF,
     0x05E0, 0x05E1, 0x05E2, 0x05E3, 0x05E4, 0x05E5, 0x05E6, 0x05E7,
-    0x05E8, 0x05E9, 0x05EA, 0xFFFD, 0xFFFD, 0x200E, 0x200F, 0xFFFD
-};
+    0x05E8, 0x05E9, 0x05EA, 0xFFFD, 0xFFFD, 0x200E, 0x200F, 0xFFFD};
 
 /* ISO/IEC 8859-9:1999 (Latin-5, "Turkish") */
 static const wchar_t iso_8859_9[] = {
@@ -174,8 +165,7 @@ static const wchar_t iso_8859_9[] = {
     0x00E0, 0x00E1, 0x00E2, 0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x00E7,
     0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF,
     0x011F, 0x00F1, 0x00F2, 0x00F3, 0x00F4, 0x00F5, 0x00F6, 0x00F7,
-    0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x0131, 0x015F, 0x00FF
-};
+    0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x0131, 0x015F, 0x00FF};
 
 /* ISO/IEC 8859-10:1998 (Latin-6, "Nordic" [Sami, Inuit, Icelandic]) */
 static const wchar_t iso_8859_10[] = {
@@ -190,8 +180,7 @@ static const wchar_t iso_8859_10[] = {
     0x0101, 0x00E1, 0x00E2, 0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x012F,
     0x010D, 0x00E9, 0x0119, 0x00EB, 0x0117, 0x00ED, 0x00EE, 0x00EF,
     0x00F0, 0x0146, 0x014D, 0x00F3, 0x00F4, 0x00F5, 0x00F6, 0x0169,
-    0x00F8, 0x0173, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x00FE, 0x0138
-};
+    0x00F8, 0x0173, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x00FE, 0x0138};
 
 /* ISO/IEC 8859-11:2001 ("Thai", "TIS620") */
 static const wchar_t iso_8859_11[] = {
@@ -206,8 +195,7 @@ static const wchar_t iso_8859_11[] = {
     0x0E40, 0x0E41, 0x0E42, 0x0E43, 0x0E44, 0x0E45, 0x0E46, 0x0E47,
     0x0E48, 0x0E49, 0x0E4A, 0x0E4B, 0x0E4C, 0x0E4D, 0x0E4E, 0x0E4F,
     0x0E50, 0x0E51, 0x0E52, 0x0E53, 0x0E54, 0x0E55, 0x0E56, 0x0E57,
-    0x0E58, 0x0E59, 0x0E5A, 0x0E5B, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD
-};
+    0x0E58, 0x0E59, 0x0E5A, 0x0E5B, 0xFFFD, 0xFFFD, 0xFFFD, 0xFFFD};
 
 /* ISO/IEC 8859-13:1998 (Latin-7, "Baltic Rim") */
 static const wchar_t iso_8859_13[] = {
@@ -222,8 +210,7 @@ static const wchar_t iso_8859_13[] = {
     0x0105, 0x012F, 0x0101, 0x0107, 0x00E4, 0x00E5, 0x0119, 0x0113,
     0x010D, 0x00E9, 0x017A, 0x0117, 0x0123, 0x0137, 0x012B, 0x013C,
     0x0161, 0x0144, 0x0146, 0x00F3, 0x014D, 0x00F5, 0x00F6, 0x00F7,
-    0x0173, 0x0142, 0x015B, 0x016B, 0x00FC, 0x017C, 0x017E, 0x2019
-};
+    0x0173, 0x0142, 0x015B, 0x016B, 0x00FC, 0x017C, 0x017E, 0x2019};
 
 /* ISO/IEC 8859-14:1998 (Latin-8, "Celtic", "Gaelic/Welsh") */
 static const wchar_t iso_8859_14[] = {
@@ -238,8 +225,7 @@ static const wchar_t iso_8859_14[] = {
     0x00E0, 0x00E1, 0x00E2, 0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x00E7,
     0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF,
     0x0175, 0x00F1, 0x00F2, 0x00F3, 0x00F4, 0x00F5, 0x00F6, 0x1E6B,
-    0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x0177, 0x00FF
-};
+    0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x0177, 0x00FF};
 
 /* ISO/IEC 8859-15:1999 (Latin-9 aka -0, "euro") */
 static const wchar_t iso_8859_15[] = {
@@ -254,8 +240,7 @@ static const wchar_t iso_8859_15[] = {
     0x00E0, 0x00E1, 0x00E2, 0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x00E7,
     0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF,
     0x00F0, 0x00F1, 0x00F2, 0x00F3, 0x00F4, 0x00F5, 0x00F6, 0x00F7,
-    0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x00FE, 0x00FF
-};
+    0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x00FE, 0x00FF};
 
 /* ISO/IEC 8859-16:2001 (Latin-10, "Balkan") */
 static const wchar_t iso_8859_16[] = {
@@ -270,8 +255,7 @@ static const wchar_t iso_8859_16[] = {
     0x00E0, 0x00E1, 0x00E2, 0x0103, 0x00E4, 0x0107, 0x00E6, 0x00E7,
     0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF,
     0x0111, 0x0144, 0x00F2, 0x00F3, 0x00F4, 0x0151, 0x00F6, 0x015B,
-    0x0171, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x0119, 0x021B, 0x00FF
-};
+    0x0171, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x0119, 0x021B, 0x00FF};
 
 static const wchar_t roman8[] = {
     0x00A0, 0x00C0, 0x00C2, 0x00C8, 0x00CA, 0x00CB, 0x00CE, 0x00CF,
@@ -285,8 +269,7 @@ static const wchar_t roman8[] = {
     0x00C1, 0x00C3, 0x00E3, 0x00D0, 0x00F0, 0x00CD, 0x00CC, 0x00D3,
     0x00D2, 0x00D5, 0x00F5, 0x0160, 0x0161, 0x00DA, 0x0178, 0x00FF,
     0x00DE, 0x00FE, 0x00B7, 0x00B5, 0x00B6, 0x00BE, 0x2014, 0x00BC,
-    0x00BD, 0x00AA, 0x00BA, 0x00AB, 0x25A0, 0x00BB, 0x00B1, 0xFFFD
-};
+    0x00BD, 0x00AA, 0x00BA, 0x00AB, 0x25A0, 0x00BB, 0x00B1, 0xFFFD};
 
 static const wchar_t koi8_u[] = {
     0x2500, 0x2502, 0x250C, 0x2510, 0x2514, 0x2518, 0x251C, 0x2524,
@@ -304,8 +287,7 @@ static const wchar_t koi8_u[] = {
     0x042E, 0x0410, 0x0411, 0x0426, 0x0414, 0x0415, 0x0424, 0x0413,
     0x0425, 0x0418, 0x0419, 0x041A, 0x041B, 0x041C, 0x041D, 0x041E,
     0x041F, 0x042F, 0x0420, 0x0421, 0x0422, 0x0423, 0x0416, 0x0412,
-    0x042C, 0x042B, 0x0417, 0x0428, 0x042D, 0x0429, 0x0427, 0x042A
-};
+    0x042C, 0x042B, 0x0417, 0x0428, 0x042D, 0x0429, 0x0427, 0x042A};
 
 static const wchar_t vscii[] = {
     0x0000, 0x0001, 0x1EB2, 0x0003, 0x0004, 0x1EB4, 0x1EAA, 0x0007,
@@ -339,8 +321,7 @@ static const wchar_t vscii[] = {
     0x00E0, 0x00E1, 0x00E2, 0x00E3, 0x1EA3, 0x0103, 0x1EEF, 0x1EAB,
     0x00E8, 0x00E9, 0x00EA, 0x1EBB, 0x00EC, 0x00ED, 0x0129, 0x1EC9,
     0x0111, 0x1EF1, 0x00F2, 0x00F3, 0x00F4, 0x00F5, 0x1ECF, 0x1ECD,
-    0x1EE5, 0x00F9, 0x00FA, 0x0169, 0x1EE7, 0x00FD, 0x1EE3, 0x1EEE
-};
+    0x1EE5, 0x00F9, 0x00FA, 0x0169, 0x1EE7, 0x00FD, 0x1EE3, 0x1EEE};
 
 static const wchar_t dec_mcs[] = {
     0x00A0, 0x00A1, 0x00A2, 0x00A3, 0xFFFD, 0x00A5, 0xFFFD, 0x00A7,
@@ -354,8 +335,7 @@ static const wchar_t dec_mcs[] = {
     0x00E0, 0x00E1, 0x00E2, 0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x00E7,
     0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF,
     0xFFFD, 0x00F1, 0x00F2, 0x00F3, 0x00F4, 0x00F5, 0x00F6, 0x0153,
-    0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FF, 0xFFFD, 0xFFFD
-};
+    0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FF, 0xFFFD, 0xFFFD};
 
 /* Mazovia (Polish) aka CP620
  * from "Mazowia to Unicode table", 04/24/96, Mikolaj Jedrzejak */
@@ -379,15 +359,18 @@ static const wchar_t mazovia[] = {
     0x03B1, 0x00DF, 0x0393, 0x03C0, 0x03A3, 0x03C3, 0x00B5, 0x03C4,
     0x03A6, 0x0398, 0x03A9, 0x03B4, 0x221E, 0x03C6, 0x03B5, 0x2229,
     0x2261, 0x00B1, 0x2265, 0x2264, 0x2320, 0x2321, 0x00F7, 0x2248,
-    0x00B0, 0x2219, 0x00B7, 0x221A, 0x207F, 0x00B2, 0x25A0, 0x00A0
-};
+    0x00B0, 0x2219, 0x00B7, 0x221A, 0x207F, 0x00B2, 0x25A0, 0x00A0};
 
-struct cp_list_item {
+struct cp_list_item
+{
     char *name;
     int codepage;
     int cp_size;
     const wchar_t *cp_table;
 };
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
 static const struct cp_list_item cp_list[] = {
     {"UTF-8", CP_UTF8},
@@ -432,10 +415,11 @@ static const struct cp_list_item cp_list[] = {
 
     {"Use font encoding", -1},
 
-    {0, 0}
-};
+    {0, 0}};
 
-static void link_font(WCHAR * line_tbl, WCHAR * font_tbl, WCHAR attr);
+static void link_font(WCHAR *line_tbl, WCHAR *font_tbl, WCHAR attr);
+
+#pragma GCC diagnostic pop
 
 void init_ucs(Conf *conf, struct unicode_data *ucsdata)
 {
@@ -447,26 +431,32 @@ void init_ucs(Conf *conf, struct unicode_data *ucsdata)
     ucsdata->line_codepage = decode_codepage(conf_get_str(conf,
                                                           CONF_line_codepage));
 
-    if (ucsdata->font_codepage <= 0) {
-        ucsdata->font_codepage=0;
-        ucsdata->dbcs_screenfont=false;
+    if (ucsdata->font_codepage <= 0)
+    {
+        ucsdata->font_codepage = 0;
+        ucsdata->dbcs_screenfont = false;
     }
 
     vtmode = conf_get_int(conf, CONF_vtmode);
-    if (vtmode == VT_OEMONLY) {
+    if (vtmode == VT_OEMONLY)
+    {
         ucsdata->font_codepage = 437;
         ucsdata->dbcs_screenfont = false;
         if (ucsdata->line_codepage <= 0)
             ucsdata->line_codepage = GetACP();
-    } else if (ucsdata->line_codepage <= 0)
+    }
+    else if (ucsdata->line_codepage <= 0)
         ucsdata->line_codepage = ucsdata->font_codepage;
 
     /* Collect screen font ucs table */
-    if (ucsdata->dbcs_screenfont || ucsdata->font_codepage == 0) {
+    if (ucsdata->dbcs_screenfont || ucsdata->font_codepage == 0)
+    {
         get_unitab(ucsdata->font_codepage, ucsdata->unitab_font, 2);
         for (i = 128; i < 256; i++)
-            ucsdata->unitab_font[i] = (WCHAR) (CSET_ACP + i);
-    } else {
+            ucsdata->unitab_font[i] = (WCHAR)(CSET_ACP + i);
+    }
+    else
+    {
         get_unitab(ucsdata->font_codepage, ucsdata->unitab_font, 1);
 
         /* CP437 fonts are often broken ... */
@@ -490,16 +480,19 @@ void init_ucs(Conf *conf, struct unicode_data *ucsdata)
     /* Collect line set ucs table */
     if (ucsdata->line_codepage == ucsdata->font_codepage &&
         (ucsdata->dbcs_screenfont ||
-         vtmode == VT_POORMAN || ucsdata->font_codepage==0)) {
+         vtmode == VT_POORMAN || ucsdata->font_codepage == 0))
+    {
 
         /* For DBCS and POOR fonts force direct to font */
         used_dtf = true;
         for (i = 0; i < 32; i++)
-            ucsdata->unitab_line[i] = (WCHAR) i;
+            ucsdata->unitab_line[i] = (WCHAR)i;
         for (i = 32; i < 256; i++)
-            ucsdata->unitab_line[i] = (WCHAR) (CSET_ACP + i);
-        ucsdata->unitab_line[127] = (WCHAR) 127;
-    } else {
+            ucsdata->unitab_line[i] = (WCHAR)(CSET_ACP + i);
+        ucsdata->unitab_line[127] = (WCHAR)127;
+    }
+    else
+    {
         get_unitab(ucsdata->line_codepage, ucsdata->unitab_line, 0);
     }
 
@@ -523,25 +516,30 @@ void init_ucs(Conf *conf, struct unicode_data *ucsdata)
     ucsdata->unitab_xterm['_'] = ' ';
 
     /* Generate UCS ->line page table. */
-    if (ucsdata->uni_tbl) {
+    if (ucsdata->uni_tbl)
+    {
         for (i = 0; i < 256; i++)
             if (ucsdata->uni_tbl[i])
                 sfree(ucsdata->uni_tbl[i]);
         sfree(ucsdata->uni_tbl);
         ucsdata->uni_tbl = 0;
     }
-    if (!used_dtf) {
-        for (i = 0; i < 256; i++) {
+    if (!used_dtf)
+    {
+        for (i = 0; i < 256; i++)
+        {
             if (DIRECT_CHAR(ucsdata->unitab_line[i]))
                 continue;
             if (DIRECT_FONT(ucsdata->unitab_line[i]))
                 continue;
-            if (!ucsdata->uni_tbl) {
+            if (!ucsdata->uni_tbl)
+            {
                 ucsdata->uni_tbl = snewn(256, char *);
                 memset(ucsdata->uni_tbl, 0, 256 * sizeof(char *));
             }
             j = ((ucsdata->unitab_line[i] >> 8) & 0xFF);
-            if (!ucsdata->uni_tbl[j]) {
+            if (!ucsdata->uni_tbl[j])
+            {
                 ucsdata->uni_tbl[j] = snewn(256, char);
                 memset(ucsdata->uni_tbl[j], 0, 256 * sizeof(char));
             }
@@ -551,9 +549,8 @@ void init_ucs(Conf *conf, struct unicode_data *ucsdata)
 
     /* Find the line control characters. */
     for (i = 0; i < 256; i++)
-        if (ucsdata->unitab_line[i] < ' '
-            || (ucsdata->unitab_line[i] >= 0x7F &&
-                ucsdata->unitab_line[i] < 0xA0))
+        if (ucsdata->unitab_line[i] < ' ' || (ucsdata->unitab_line[i] >= 0x7F &&
+                                              ucsdata->unitab_line[i] < 0xA0))
             ucsdata->unitab_ctrl[i] = i;
         else
             ucsdata->unitab_ctrl[i] = 0xFF;
@@ -566,13 +563,15 @@ void init_ucs(Conf *conf, struct unicode_data *ucsdata)
     link_font(ucsdata->unitab_scoacs, ucsdata->unitab_font, CSET_ACP);
     link_font(ucsdata->unitab_xterm, ucsdata->unitab_font, CSET_ACP);
 
-    if (vtmode == VT_OEMANSI || vtmode == VT_XWINDOWS) {
+    if (vtmode == VT_OEMANSI || vtmode == VT_XWINDOWS)
+    {
         link_font(ucsdata->unitab_line, ucsdata->unitab_oemcp, CSET_OEMCP);
         link_font(ucsdata->unitab_xterm, ucsdata->unitab_oemcp, CSET_OEMCP);
     }
 
     if (ucsdata->dbcs_screenfont &&
-        ucsdata->font_codepage != ucsdata->line_codepage) {
+        ucsdata->font_codepage != ucsdata->line_codepage)
+    {
         /* F***ing Microsoft fonts, Japanese and Korean codepage fonts
          * have a currency symbol at 0x5C but their unicode value is
          * still given as U+005C not the correct U+00A5. */
@@ -580,7 +579,8 @@ void init_ucs(Conf *conf, struct unicode_data *ucsdata)
     }
 
     /* Last chance, if !unicode then try poorman links. */
-    if (vtmode != VT_UNICODE) {
+    if (vtmode != VT_UNICODE)
+    {
         static const char poorman_scoacs[] =
             "CueaaaaceeeiiiAAE**ooouuyOUc$YPsaiounNao?++**!<>###||||++||++++++--|-+||++--|-+----++++++++##||#aBTPEsyt******EN=+><++-=... n2* ";
         static const char poorman_latin1[] =
@@ -590,32 +590,36 @@ void init_ucs(Conf *conf, struct unicode_data *ucsdata)
         for (i = 160; i < 256; i++)
             if (!DIRECT_FONT(ucsdata->unitab_line[i]) &&
                 ucsdata->unitab_line[i] >= 160 &&
-                ucsdata->unitab_line[i] < 256) {
+                ucsdata->unitab_line[i] < 256)
+            {
                 ucsdata->unitab_line[i] =
-                    (WCHAR) (CSET_ACP +
-                             poorman_latin1[ucsdata->unitab_line[i] - 160]);
+                    (WCHAR)(CSET_ACP +
+                            poorman_latin1[ucsdata->unitab_line[i] - 160]);
             }
         for (i = 96; i < 127; i++)
             if (!DIRECT_FONT(ucsdata->unitab_xterm[i]))
                 ucsdata->unitab_xterm[i] =
-            (WCHAR) (CSET_ACP + poorman_vt100[i - 96]);
-        for(i=128;i<256;i++)
+                    (WCHAR)(CSET_ACP + poorman_vt100[i - 96]);
+        for (i = 128; i < 256; i++)
             if (!DIRECT_FONT(ucsdata->unitab_scoacs[i]))
                 ucsdata->unitab_scoacs[i] =
-                    (WCHAR) (CSET_ACP + poorman_scoacs[i - 128]);
+                    (WCHAR)(CSET_ACP + poorman_scoacs[i - 128]);
     }
 }
 
-static void link_font(WCHAR * line_tbl, WCHAR * font_tbl, WCHAR attr)
+static void link_font(WCHAR *line_tbl, WCHAR *font_tbl, WCHAR attr)
 {
     int font_index, line_index, i;
-    for (line_index = 0; line_index < 256; line_index++) {
+    for (line_index = 0; line_index < 256; line_index++)
+    {
         if (DIRECT_FONT(line_tbl[line_index]))
             continue;
-        for(i = 0; i < 256; i++) {
+        for (i = 0; i < 256; i++)
+        {
             font_index = ((32 + i) & 0xFF);
-            if (line_tbl[line_index] == font_tbl[font_index]) {
-                line_tbl[line_index] = (WCHAR) (attr + font_index);
+            if (line_tbl[line_index] == font_tbl[font_index])
+            {
+                line_tbl[line_index] = (WCHAR)(attr + font_index);
                 break;
             }
         }
@@ -625,30 +629,30 @@ static void link_font(WCHAR * line_tbl, WCHAR * font_tbl, WCHAR attr)
 wchar_t xlat_uskbd2cyrllic(int ch)
 {
     static const wchar_t cyrtab[] = {
-            0,      1,       2,      3,      4,      5,      6,      7,
-            8,      9,      10,     11,     12,     13,     14,     15,
-            16,     17,     18,     19,     20,     21,     22,     23,
-            24,     25,     26,     27,     28,     29,     30,     31,
-            32,     33, 0x042d,     35,     36,     37,     38, 0x044d,
-            40,     41,     42, 0x0406, 0x0431, 0x0454, 0x044e, 0x002e,
-            48,     49,     50,     51,     52,     53,     54,     55,
-            56,     57, 0x0416, 0x0436, 0x0411, 0x0456, 0x042e, 0x002c,
-            64, 0x0424, 0x0418, 0x0421, 0x0412, 0x0423, 0x0410, 0x041f,
+        0, 1, 2, 3, 4, 5, 6, 7,
+        8, 9, 10, 11, 12, 13, 14, 15,
+        16, 17, 18, 19, 20, 21, 22, 23,
+        24, 25, 26, 27, 28, 29, 30, 31,
+        32, 33, 0x042d, 35, 36, 37, 38, 0x044d,
+        40, 41, 42, 0x0406, 0x0431, 0x0454, 0x044e, 0x002e,
+        48, 49, 50, 51, 52, 53, 54, 55,
+        56, 57, 0x0416, 0x0436, 0x0411, 0x0456, 0x042e, 0x002c,
+        64, 0x0424, 0x0418, 0x0421, 0x0412, 0x0423, 0x0410, 0x041f,
         0x0420, 0x0428, 0x041e, 0x041b, 0x0414, 0x042c, 0x0422, 0x0429,
         0x0417, 0x0419, 0x041a, 0x042b, 0x0415, 0x0413, 0x041c, 0x0426,
-        0x0427, 0x041d, 0x042f, 0x0445, 0x0457, 0x044a,     94, 0x0404,
-            96, 0x0444, 0x0438, 0x0441, 0x0432, 0x0443, 0x0430, 0x043f,
+        0x0427, 0x041d, 0x042f, 0x0445, 0x0457, 0x044a, 94, 0x0404,
+        96, 0x0444, 0x0438, 0x0441, 0x0432, 0x0443, 0x0430, 0x043f,
         0x0440, 0x0448, 0x043e, 0x043b, 0x0434, 0x044c, 0x0442, 0x0449,
         0x0437, 0x0439, 0x043a, 0x044b, 0x0435, 0x0433, 0x043c, 0x0446,
-        0x0447, 0x043d, 0x044f, 0x0425, 0x0407, 0x042a,    126,    127
-       };
-    return cyrtab[ch&0x7F];
+        0x0447, 0x043d, 0x044f, 0x0425, 0x0407, 0x042a, 126, 127};
+    return cyrtab[ch & 0x7F];
 }
 
 int check_compose_internal(int first, int second, int recurse)
 {
 
-    static const struct {
+    static const struct
+    {
         char first, second;
         wchar_t composed;
     } composetbl[] = {
@@ -975,17 +979,19 @@ int check_compose_internal(int first, int second, int recurse)
         {0x66, 0x69, 0xFB01},
         {0x66, 0x6C, 0xFB02},
         {0x73, 0x74, 0xFB06},
-        {0, 0, 0}
-    }, *c;
+        {0, 0, 0}},
+      *c;
 
     int nc = -1;
 
-    for (c = composetbl; c->first; c++) {
+    for (c = composetbl; c->first; c++)
+    {
         if (c->first == first && c->second == second)
             return c->composed;
     }
 
-    if (recurse == 0) {
+    if (recurse == 0)
+    {
         nc = check_compose_internal(second, first, 1);
         if (nc == -1)
             nc = check_compose_internal(toupper(first), toupper(second), 1);
@@ -1008,23 +1014,27 @@ int decode_codepage(char *cp_name)
     CPINFO cpinfo;
 
     if (!cp_name || !*cp_name)
-        return CP_UTF8;                /* default */
+        return CP_UTF8; /* default */
 
-    for (cpi = cp_list; cpi->name; cpi++) {
+    for (cpi = cp_list; cpi->name; cpi++)
+    {
         s = cp_name;
         d = cpi->name;
-        for (;;) {
+        for (;;)
+        {
             while (*s && !isalnum(*s) && *s != ':')
                 s++;
             while (*d && !isalnum(*d) && *d != ':')
                 d++;
-            if (*s == 0) {
+            if (*s == 0)
+            {
                 codepage = cpi->codepage;
                 if (codepage == CP_UTF8)
                     goto break_break;
                 if (codepage == -1)
                     return codepage;
-                if (codepage == 0) {
+                if (codepage == 0)
+                {
                     codepage = 65536 + (cpi - cp_list);
                     goto break_break;
                 }
@@ -1045,9 +1055,10 @@ int decode_codepage(char *cp_name)
         tolower((unsigned char)d[1]) == 'b' &&
         tolower((unsigned char)d[2]) == 'm')
         d += 3;
-    for (s = d; *s >= '0' && *s <= '9'; s++);
+    for (s = d; *s >= '0' && *s <= '9'; s++)
+        ;
     if (*s == 0 && s != d)
-        codepage = atoi(d);            /* CP999 or IBM999 */
+        codepage = atoi(d); /* CP999 or IBM999 */
 
     if (codepage == CP_ACP)
         codepage = GetACP();
@@ -1056,12 +1067,16 @@ int decode_codepage(char *cp_name)
     if (codepage > 65535)
         codepage = -2;
 
-  break_break:;
-    if (codepage != -1) {
-        if (codepage != CP_UTF8 && codepage < 65536) {
-            if (GetCPInfo(codepage, &cpinfo) == 0) {
+break_break:;
+    if (codepage != -1)
+    {
+        if (codepage != CP_UTF8 && codepage < 65536)
+        {
+            if (GetCPInfo(codepage, &cpinfo) == 0)
+            {
                 codepage = -2;
-            } else if (cpinfo.MaxCharSize > 1)
+            }
+            else if (cpinfo.MaxCharSize > 1)
                 codepage = -3;
         }
     }
@@ -1075,7 +1090,8 @@ const char *cp_name(int codepage)
     const struct cp_list_item *cpi, *cpno;
     static char buf[32];
 
-    if (codepage == -1) {
+    if (codepage == -1)
+    {
         sprintf(buf, "Use font encoding");
         return buf;
     }
@@ -1085,20 +1101,26 @@ const char *cp_name(int codepage)
     else
         *buf = 0;
 
-    if (codepage >= 65536) {
+    if (codepage >= 65536)
+    {
         cpno = 0;
         for (cpi = cp_list; cpi->name; cpi++)
-            if (cpi == cp_list + (codepage - 65536)) {
+            if (cpi == cp_list + (codepage - 65536))
+            {
                 cpno = cpi;
                 break;
             }
         if (cpno)
-            for (cpi = cp_list; cpi->name; cpi++) {
+            for (cpi = cp_list; cpi->name; cpi++)
+            {
                 if (cpno->cp_table == cpi->cp_table)
                     return cpi->name;
             }
-    } else {
-        for (cpi = cp_list; cpi->name; cpi++) {
+    }
+    else
+    {
+        for (cpi = cp_list; cpi->name; cpi++)
+        {
             if (codepage == cpi->codepage)
                 return cpi->name;
         }
@@ -1112,12 +1134,12 @@ const char *cp_name(int codepage)
  */
 const char *cp_enumerate(int index)
 {
-    if (index < 0 || index >= lenof(cp_list))
+    if (index < 0 || (int64_t)index >= (int64_t)lenof(cp_list))
         return NULL;
     return cp_list[index].name;
 }
 
-void get_unitab(int codepage, wchar_t * unitab, int ftype)
+void get_unitab(int codepage, wchar_t *unitab, int ftype)
 {
     char tbuf[4];
     int i, max = 256, flg = MB_ERR_INVALID_CHARS;
@@ -1127,7 +1149,8 @@ void get_unitab(int codepage, wchar_t * unitab, int ftype)
     if (ftype == 2)
         max = 128;
 
-    if (codepage == CP_UTF8) {
+    if (codepage == CP_UTF8)
+    {
         for (i = 0; i < max; i++)
             unitab[i] = i;
         return;
@@ -1138,15 +1161,18 @@ void get_unitab(int codepage, wchar_t * unitab, int ftype)
     else if (codepage == CP_OEMCP)
         codepage = GetOEMCP();
 
-    if (codepage > 0 && codepage < 65536) {
-        for (i = 0; i < max; i++) {
+    if (codepage > 0 && codepage < 65536)
+    {
+        for (i = 0; i < max; i++)
+        {
             tbuf[0] = i;
 
-            if (mb_to_wc(codepage, flg, tbuf, 1, unitab + i, 1)
-                != 1)
+            if (mb_to_wc(codepage, flg, tbuf, 1, unitab + i, 1) != 1)
                 unitab[i] = 0xFFFD;
         }
-    } else {
+    }
+    else
+    {
         int j = 256 - cp_list[codepage & 0xFFFF].cp_size;
         for (i = 0; i < max; i++)
             unitab[i] = i;
@@ -1161,21 +1187,26 @@ int wc_to_mb(int codepage, int flags, const wchar_t *wcstr, int wclen,
 {
     char *p;
     int i;
-    if (ucsdata && codepage == ucsdata->line_codepage && ucsdata->uni_tbl) {
+    if (ucsdata && codepage == ucsdata->line_codepage && ucsdata->uni_tbl)
+    {
         /* Do this by array lookup if we can. */
-        if (wclen < 0) {
-            for (wclen = 0; wcstr[wclen++] ;);   /* will include the NUL */
+        if (wclen < 0)
+        {
+            for (wclen = 0; wcstr[wclen++];)
+                ; /* will include the NUL */
         }
-        for (p = mbstr, i = 0; i < wclen; i++) {
+        for (p = mbstr, i = 0; i < wclen; i++)
+        {
             wchar_t ch = wcstr[i];
             int by;
             char *p1;
 
-            #define WRITECH(chr) do             \
-            {                                   \
-                assert(p - mbstr < mblen);      \
-                *p++ = (char)(chr);             \
-            } while (0)
+#define WRITECH(chr)               \
+    do                             \
+    {                              \
+        assert(p - mbstr < mblen); \
+        *p++ = (char)(chr);        \
+    } while (0)
 
             if (ucsdata->uni_tbl &&
                 (p1 = ucsdata->uni_tbl[(ch >> 8) & 0xFF]) != NULL &&
@@ -1191,10 +1222,12 @@ int wc_to_mb(int codepage, int flags, const wchar_t *wcstr, int wclen,
                 WRITECH('.');
 #endif
 
-            #undef WRITECH
+#undef WRITECH
         }
         return p - mbstr;
-    } else {
+    }
+    else
+    {
         int defused;
         return WideCharToMultiByte(codepage, flags, wcstr, wclen,
                                    mbstr, mblen, defchr, &defused);

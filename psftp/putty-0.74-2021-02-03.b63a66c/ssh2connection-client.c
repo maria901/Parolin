@@ -23,7 +23,8 @@ static ChanopenResult chan_open_x11(
     ppl_logevent("Received X11 connect request from %.*s:%d",
                  PTRLEN_PRINTF(peeraddr), peerport);
 
-    if (!s->X11_fwd_enabled && !s->connshare) {
+    if (!s->X11_fwd_enabled && !s->connshare)
+    {
         CHANOPEN_RETURN_FAILURE(
             SSH2_OPEN_ADMINISTRATIVELY_PROHIBITED,
             ("X11 forwarding is not enabled"));
@@ -55,13 +56,15 @@ static ChanopenResult chan_open_forwarded_tcpip(
     realpf = find234(s->rportfwds, &pf, NULL);
     sfree(pf.shost);
 
-    if (realpf == NULL) {
+    if (realpf == NULL)
+    {
         CHANOPEN_RETURN_FAILURE(
             SSH2_OPEN_ADMINISTRATIVELY_PROHIBITED,
             ("Remote port is not recognised"));
     }
 
-    if (realpf->share_ctx) {
+    if (realpf->share_ctx)
+    {
         /*
          * This port forwarding is on behalf of a connection-sharing
          * downstream.
@@ -74,7 +77,8 @@ static ChanopenResult chan_open_forwarded_tcpip(
         sc, realpf->addressfamily);
     ppl_logevent("Attempting to forward remote port to %s:%d",
                  realpf->dhost, realpf->dport);
-    if (err != NULL) {
+    if (err != NULL)
+    {
         ppl_logevent("Port open failed: %s", err);
         sfree(err);
         CHANOPEN_RETURN_FAILURE(
@@ -89,7 +93,8 @@ static ChanopenResult chan_open_forwarded_tcpip(
 static ChanopenResult chan_open_auth_agent(
     struct ssh2_connection_state *s, SshChannel *sc)
 {
-    if (!ssh_agent_forwarding_permitted(&s->cl)) {
+    if (!ssh_agent_forwarding_permitted(&s->cl))
+    {
         CHANOPEN_RETURN_FAILURE(
             SSH2_OPEN_ADMINISTRATIVELY_PROHIBITED,
             ("Agent forwarding is not enabled"));
@@ -103,10 +108,13 @@ static ChanopenResult chan_open_auth_agent(
     Channel *ch = portfwd_raw_new(&s->cl, &plug, true);
     Socket *skt = agent_connect(plug);
 
-    if (!sk_socket_error(skt)) {
+    if (!sk_socket_error(skt))
+    {
         portfwd_raw_setup(ch, skt, sc);
         CHANOPEN_RETURN_SUCCESS(ch);
-    } else {
+    }
+    else
+    {
         portfwd_raw_free(ch);
         /*
          * Otherwise, fall back to the old-fashioned system of parsing the
@@ -121,12 +129,15 @@ ChanopenResult ssh2_connection_parse_channel_open(
     struct ssh2_connection_state *s, ptrlen type,
     PktIn *pktin, SshChannel *sc)
 {
-    if (ptrlen_eq_string(type, "x11")) {
+    if (ptrlen_eq_string(type, "x11"))
+    {
         ptrlen peeraddr = get_string(pktin);
         int peerport = get_uint32(pktin);
 
         return chan_open_x11(s, sc, peeraddr, peerport);
-    } else if (ptrlen_eq_string(type, "forwarded-tcpip")) {
+    }
+    else if (ptrlen_eq_string(type, "forwarded-tcpip"))
+    {
         ptrlen fwdaddr = get_string(pktin);
         int fwdport = toint(get_uint32(pktin));
         ptrlen peeraddr = get_string(pktin);
@@ -134,17 +145,22 @@ ChanopenResult ssh2_connection_parse_channel_open(
 
         return chan_open_forwarded_tcpip(
             s, sc, fwdaddr, fwdport, peeraddr, peerport);
-    } else if (ptrlen_eq_string(type, "auth-agent@openssh.com")) {
+    }
+    else if (ptrlen_eq_string(type, "auth-agent@openssh.com"))
+    {
         return chan_open_auth_agent(s, sc);
-    } else {
+    }
+    else
+    {
         CHANOPEN_RETURN_FAILURE(
             SSH2_OPEN_UNKNOWN_CHANNEL_TYPE,
             ("Unsupported channel type requested"));
     }
 }
 
-bool ssh2_connection_parse_global_request(
-    struct ssh2_connection_state *s, ptrlen type, PktIn *pktin)
+bool ssh2_connection_parse_global_request(__attribute__((unused)) struct ssh2_connection_state *s,
+                                          __attribute__((unused)) ptrlen type,
+                                          __attribute__((unused)) PktIn *pktin)
 {
     /*
      * We don't know of any global requests that an SSH client needs
@@ -153,10 +169,12 @@ bool ssh2_connection_parse_global_request(
     return false;
 }
 
-PktOut *ssh2_portfwd_chanopen(
-    struct ssh2_connection_state *s, struct ssh2_channel *c,
-    const char *hostname, int port,
-    const char *description, const SocketPeerInfo *peerinfo)
+PktOut *ssh2_portfwd_chanopen(struct ssh2_connection_state *s,
+                              struct ssh2_channel *c,
+                              const char *hostname,
+                              int port,
+                              const char *description,
+                              __attribute__((unused)) const SocketPeerInfo *peerinfo)
 {
     PacketProtocolLayer *ppl = &s->ppl; /* for ppl_logevent */
     PktOut *pktout;
@@ -196,10 +214,10 @@ PktOut *ssh2_portfwd_chanopen(
 
 static int ssh2_rportfwd_cmp(void *av, void *bv)
 {
-    struct ssh_rportfwd *a = (struct ssh_rportfwd *) av;
-    struct ssh_rportfwd *b = (struct ssh_rportfwd *) bv;
+    struct ssh_rportfwd *a = (struct ssh_rportfwd *)av;
+    struct ssh_rportfwd *b = (struct ssh_rportfwd *)bv;
     int i;
-    if ( (i = strcmp(a->shost, b->shost)) != 0)
+    if ((i = strcmp(a->shost, b->shost)) != 0)
         return i < 0 ? -1 : +1;
     if (a->sport > b->sport)
         return +1;
@@ -214,10 +232,13 @@ static void ssh2_rportfwd_globreq_response(struct ssh2_connection_state *s,
     PacketProtocolLayer *ppl = &s->ppl; /* for ppl_logevent */
     struct ssh_rportfwd *rpf = (struct ssh_rportfwd *)ctx;
 
-    if (pktin->type == SSH2_MSG_REQUEST_SUCCESS) {
+    if (pktin->type == SSH2_MSG_REQUEST_SUCCESS)
+    {
         ppl_logevent("Remote port forwarding from %s enabled",
                      rpf->log_description);
-    } else {
+    }
+    else
+    {
         ppl_logevent("Remote port forwarding from %s refused",
                      rpf->log_description);
 
@@ -250,16 +271,18 @@ struct ssh_rportfwd *ssh2_rportfwd_alloc(
     rpf->pfr = pfr;
     rpf->share_ctx = share_ctx;
 
-    if (add234(s->rportfwds, rpf) != rpf) {
+    if (add234(s->rportfwds, rpf) != rpf)
+    {
         free_rportfwd(rpf);
         return NULL;
     }
 
-    if (!rpf->share_ctx) {
+    if (!rpf->share_ctx)
+    {
         PktOut *pktout = ssh_bpp_new_pktout(
             s->ppl.bpp, SSH2_MSG_GLOBAL_REQUEST);
         put_stringz(pktout, "tcpip-forward");
-        put_bool(pktout, true);       /* want reply */
+        put_bool(pktout, true); /* want reply */
         put_stringz(pktout, rpf->shost);
         put_uint32(pktout, rpf->sport);
         pq_push(s->ppl.out_pq, pktout);
@@ -276,18 +299,21 @@ void ssh2_rportfwd_remove(ConnectionLayer *cl, struct ssh_rportfwd *rpf)
     struct ssh2_connection_state *s =
         container_of(cl, struct ssh2_connection_state, cl);
 
-    if (rpf->share_ctx) {
+    if (rpf->share_ctx)
+    {
         /*
          * We don't manufacture a cancel-tcpip-forward message for
          * remote port forwardings being removed on behalf of a
          * downstream; we just pass through the one the downstream
          * sent to us.
          */
-    } else {
+    }
+    else
+    {
         PktOut *pktout = ssh_bpp_new_pktout(
             s->ppl.bpp, SSH2_MSG_GLOBAL_REQUEST);
         put_stringz(pktout, "cancel-tcpip-forward");
-        put_bool(pktout, false);           /* _don't_ want reply */
+        put_bool(pktout, false); /* _don't_ want reply */
         put_stringz(pktout, rpf->shost);
         put_uint32(pktout, rpf->sport);
         pq_push(s->ppl.out_pq, pktout);
@@ -320,19 +346,22 @@ SshChannel *ssh2_session_open(ConnectionLayer *cl, Channel *chan)
     return &c->sc;
 }
 
-SshChannel *ssh2_serverside_x11_open(
-    ConnectionLayer *cl, Channel *chan, const SocketPeerInfo *pi)
+SshChannel *ssh2_serverside_x11_open(__attribute__((unused)) ConnectionLayer *cl,
+                                     __attribute__((unused)) Channel *chan,
+                                     __attribute__((unused)) const SocketPeerInfo *pi)
 {
     unreachable("Should never be called in the client");
 }
 
-SshChannel *ssh2_serverside_agent_open(ConnectionLayer *cl, Channel *chan)
+SshChannel *ssh2_serverside_agent_open(__attribute__((unused)) ConnectionLayer *cl,
+                                       __attribute__((unused)) Channel *chan)
 {
     unreachable("Should never be called in the client");
 }
 
-static void ssh2_channel_response(
-    struct ssh2_channel *c, PktIn *pkt, void *ctx)
+static void ssh2_channel_response(struct ssh2_channel *c,
+                                  PktIn *pkt,
+                                  __attribute__((unused)) void *ctx)
 {
     /* If pkt==NULL (because this handler has been called in response
      * to CHANNEL_CLOSE arriving while the request was still
@@ -377,19 +406,24 @@ bool ssh2channel_start_subsystem(
     return true;
 }
 
-void ssh2channel_send_exit_status(SshChannel *sc, int status)
+void ssh2channel_send_exit_status(__attribute__((unused)) SshChannel *sc,
+                                  __attribute__((unused)) int status)
 {
     unreachable("Should never be called in the client");
 }
 
-void ssh2channel_send_exit_signal(
-    SshChannel *sc, ptrlen signame, bool core_dumped, ptrlen msg)
+void ssh2channel_send_exit_signal(__attribute__((unused)) SshChannel *sc,
+                                  __attribute__((unused)) ptrlen signame,
+                                  __attribute__((unused)) bool core_dumped,
+                                  __attribute__((unused)) ptrlen msg)
 {
     unreachable("Should never be called in the client");
 }
 
-void ssh2channel_send_exit_signal_numeric(
-    SshChannel *sc, int signum, bool core_dumped, ptrlen msg)
+void ssh2channel_send_exit_signal_numeric(__attribute__((unused)) SshChannel *sc,
+                                          __attribute__((unused)) int signum,
+                                          __attribute__((unused)) bool core_dumped,
+                                          __attribute__((unused)) ptrlen msg)
 {
     unreachable("Should never be called in the client");
 }
@@ -433,8 +467,8 @@ void ssh2channel_request_pty(
     put_stringz(pktout, conf_get_str(conf, CONF_termtype));
     put_uint32(pktout, w);
     put_uint32(pktout, h);
-    put_uint32(pktout, 0);             /* pixel width */
-    put_uint32(pktout, 0);             /* pixel height */
+    put_uint32(pktout, 0); /* pixel width */
+    put_uint32(pktout, 0); /* pixel height */
     modebuf = strbuf_new();
     write_ttymodes_to_packet(
         BinarySink_UPCAST(modebuf), 2,
@@ -493,8 +527,8 @@ void ssh2channel_send_terminal_size_change(SshChannel *sc, int w, int h)
     PktOut *pktout = ssh2_chanreq_init(c, "window-change", NULL, NULL);
     put_uint32(pktout, w);
     put_uint32(pktout, h);
-    put_uint32(pktout, 0);             /* pixel width */
-    put_uint32(pktout, 0);             /* pixel height */
+    put_uint32(pktout, 0); /* pixel width */
+    put_uint32(pktout, 0); /* pixel height */
     pq_push(s->ppl.out_pq, pktout);
 }
 

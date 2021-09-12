@@ -15,10 +15,10 @@
 
 static int ssh1_rportfwd_cmp(void *av, void *bv)
 {
-    struct ssh_rportfwd *a = (struct ssh_rportfwd *) av;
-    struct ssh_rportfwd *b = (struct ssh_rportfwd *) bv;
+    struct ssh_rportfwd *a = (struct ssh_rportfwd *)av;
+    struct ssh_rportfwd *b = (struct ssh_rportfwd *)bv;
     int i;
-    if ( (i = strcmp(a->dhost, b->dhost)) != 0)
+    if ((i = strcmp(a->dhost, b->dhost)) != 0)
         return i < 0 ? -1 : +1;
     if (a->dport > b->dport)
         return +1;
@@ -90,7 +90,9 @@ static void ssh1channel_write_eof(SshChannel *c);
 static void ssh1channel_initiate_close(SshChannel *c, const char *err);
 static void ssh1channel_unthrottle(SshChannel *c, size_t bufsize);
 static Conf *ssh1channel_get_conf(SshChannel *c);
-static void ssh1channel_window_override_removed(SshChannel *c) { /* ignore */ }
+static void ssh1channel_window_override_removed(__attribute__((unused)) SshChannel *c)
+{ /* ignore */
+}
 
 static const SshChannelVtable ssh1channel_vtable = {
     .write = ssh1channel_write,
@@ -110,8 +112,8 @@ static void ssh1_channel_check_close(struct ssh1_channel *c);
 
 static int ssh1_channelcmp(void *av, void *bv)
 {
-    const struct ssh1_channel *a = (const struct ssh1_channel *) av;
-    const struct ssh1_channel *b = (const struct ssh1_channel *) bv;
+    const struct ssh1_channel *a = (const struct ssh1_channel *)av;
+    const struct ssh1_channel *b = (const struct ssh1_channel *)bv;
     if (a->localid < b->localid)
         return -1;
     if (a->localid > b->localid)
@@ -121,8 +123,8 @@ static int ssh1_channelcmp(void *av, void *bv)
 
 static int ssh1_channelfind(void *av, void *bv)
 {
-    const unsigned *a = (const unsigned *) av;
-    const struct ssh1_channel *b = (const struct ssh1_channel *) bv;
+    const unsigned *a = (const unsigned *)av;
+    const struct ssh1_channel *b = (const struct ssh1_channel *)bv;
     if (*a < b->localid)
         return -1;
     if (*a > b->localid)
@@ -216,18 +218,20 @@ static bool ssh1_connection_filter_queue(struct ssh1_connection_state *s)
     unsigned localid;
     bool expect_halfopen;
 
-    while (1) {
+    while (1)
+    {
         if (ssh1_common_filter_queue(&s->ppl))
             return true;
         if ((pktin = pq_peek(s->ppl.in_pq)) == NULL)
             return false;
 
-        switch (pktin->type) {
-          case SSH1_MSG_CHANNEL_DATA:
-          case SSH1_MSG_CHANNEL_OPEN_CONFIRMATION:
-          case SSH1_MSG_CHANNEL_OPEN_FAILURE:
-          case SSH1_MSG_CHANNEL_CLOSE:
-          case SSH1_MSG_CHANNEL_CLOSE_CONFIRMATION:
+        switch (pktin->type)
+        {
+        case SSH1_MSG_CHANNEL_DATA:
+        case SSH1_MSG_CHANNEL_OPEN_CONFIRMATION:
+        case SSH1_MSG_CHANNEL_OPEN_FAILURE:
+        case SSH1_MSG_CHANNEL_CLOSE:
+        case SSH1_MSG_CHANNEL_CLOSE_CONFIRMATION:
             /*
              * Common preliminary code for all the messages from the
              * server that cite one of our channel ids: look up that
@@ -237,21 +241,23 @@ static bool ssh1_connection_filter_queue(struct ssh1_connection_state *s)
             localid = get_uint32(pktin);
             c = find234(s->channels, &localid, ssh1_channelfind);
 
-            expect_halfopen = (
-                pktin->type == SSH1_MSG_CHANNEL_OPEN_CONFIRMATION ||
-                pktin->type == SSH1_MSG_CHANNEL_OPEN_FAILURE);
+            expect_halfopen = (pktin->type == SSH1_MSG_CHANNEL_OPEN_CONFIRMATION ||
+                               pktin->type == SSH1_MSG_CHANNEL_OPEN_FAILURE);
 
-            if (!c || c->halfopen != expect_halfopen) {
+            if (!c || c->halfopen != expect_halfopen)
+            {
                 ssh_remote_error(
                     s->ppl.ssh, "Received %s for %s channel %u",
                     ssh1_pkt_type(pktin->type),
-                    !c ? "nonexistent" : c->halfopen ? "half-open" : "open",
+                    !c ? "nonexistent" : c->halfopen ? "half-open"
+                                                     : "open",
                     localid);
                 return true;
             }
 
-            switch (pktin->type) {
-              case SSH1_MSG_CHANNEL_OPEN_CONFIRMATION:
+            switch (pktin->type)
+            {
+            case SSH1_MSG_CHANNEL_OPEN_CONFIRMATION:
                 assert(c->halfopen);
                 c->remoteid = get_uint32(pktin);
                 c->halfopen = false;
@@ -280,7 +286,7 @@ static bool ssh1_connection_filter_queue(struct ssh1_connection_state *s)
                     ssh1_channel_try_eof(c); /* in case we had a pending EOF */
                 break;
 
-              case SSH1_MSG_CHANNEL_OPEN_FAILURE:
+            case SSH1_MSG_CHANNEL_OPEN_FAILURE:
                 assert(c->halfopen);
 
                 chan_open_failed(c->chan, NULL);
@@ -290,30 +296,35 @@ static bool ssh1_connection_filter_queue(struct ssh1_connection_state *s)
                 ssh1_channel_free(c);
                 break;
 
-              case SSH1_MSG_CHANNEL_DATA:
+            case SSH1_MSG_CHANNEL_DATA:
                 data = get_string(pktin);
-                if (!get_err(pktin)) {
+                if (!get_err(pktin))
+                {
                     int bufsize = chan_send(
                         c->chan, false, data.ptr, data.len);
 
-                    if (!c->throttling_conn && bufsize > SSH1_BUFFER_LIMIT) {
+                    if (!c->throttling_conn && bufsize > SSH1_BUFFER_LIMIT)
+                    {
                         c->throttling_conn = true;
                         ssh_throttle_conn(s->ppl.ssh, +1);
                     }
                 }
                 break;
 
-              case SSH1_MSG_CHANNEL_CLOSE:
-                if (!(c->closes & CLOSES_RCVD_CLOSE)) {
+            case SSH1_MSG_CHANNEL_CLOSE:
+                if (!(c->closes & CLOSES_RCVD_CLOSE))
+                {
                     c->closes |= CLOSES_RCVD_CLOSE;
                     chan_send_eof(c->chan);
                     ssh1_channel_check_close(c);
                 }
                 break;
 
-              case SSH1_MSG_CHANNEL_CLOSE_CONFIRMATION:
-                if (!(c->closes & CLOSES_RCVD_CLOSECONF)) {
-                    if (!(c->closes & CLOSES_SENT_CLOSE)) {
+            case SSH1_MSG_CHANNEL_CLOSE_CONFIRMATION:
+                if (!(c->closes & CLOSES_RCVD_CLOSECONF))
+                {
+                    if (!(c->closes & CLOSES_SENT_CLOSE))
+                    {
                         ssh_remote_error(
                             s->ppl.ssh,
                             "Received CHANNEL_CLOSE_CONFIRMATION for channel"
@@ -331,12 +342,15 @@ static bool ssh1_connection_filter_queue(struct ssh1_connection_state *s)
             pq_pop(s->ppl.in_pq);
             break;
 
-          default:
-            if (ssh1_handle_direction_specific_packet(s, pktin)) {
+        default:
+            if (ssh1_handle_direction_specific_packet(s, pktin))
+            {
                 pq_pop(s->ppl.in_pq);
                 if (ssh1_check_termination(s))
                     return true;
-            } else {
+            }
+            else
+            {
                 return false;
             }
         }
@@ -369,7 +383,8 @@ static void ssh1_connection_process_queue(PacketProtocolLayer *ppl)
      * might not have gone through userauth at all (if we're a
      * connection-sharing downstream).
      */
-    if (ssh1_connection_need_antispoof_prompt(s)) {
+    if (ssh1_connection_need_antispoof_prompt(s))
+    {
         s->antispoof_prompt = new_prompts();
         s->antispoof_prompt->to_server = true;
         s->antispoof_prompt->from_server = false;
@@ -379,7 +394,8 @@ static void ssh1_connection_process_queue(PacketProtocolLayer *ppl)
             dupstr("Access granted. Press Return to begin session. "), false);
         s->antispoof_ret = seat_get_userpass_input(
             s->ppl.seat, s->antispoof_prompt, NULL);
-        while (1) {
+        while (1)
+        {
             while (s->antispoof_ret < 0 &&
                    bufchain_size(s->ppl.user_input) > 0)
                 s->antispoof_ret = seat_get_userpass_input(
@@ -399,12 +415,14 @@ static void ssh1_connection_process_queue(PacketProtocolLayer *ppl)
     portfwdmgr_config(s->portfwdmgr, s->conf);
     s->portfwdmgr_configured = true;
 
-    while (!s->finished_setup) {
+    while (!s->finished_setup)
+    {
         ssh1_connection_direction_specific_setup(s);
         crReturnV;
     }
 
-    while (1) {
+    while (1)
+    {
 
         /*
          * By this point, most incoming packets are already being
@@ -412,9 +430,11 @@ static void ssh1_connection_process_queue(PacketProtocolLayer *ppl)
          * the unusual ones.
          */
 
-        if ((pktin = ssh1_connection_pop(s)) != NULL) {
+        if ((pktin = ssh1_connection_pop(s)) != NULL)
+        {
             ssh_proto_error(s->ppl.ssh, "Unexpected packet received, "
-                            "type %d (%s)", pktin->type,
+                                        "type %d (%s)",
+                            pktin->type,
                             ssh1_pkt_type(pktin->type));
             return;
         }
@@ -429,7 +449,8 @@ static void ssh1_channel_check_close(struct ssh1_channel *c)
     struct ssh1_connection_state *s = c->connlayer;
     PktOut *pktout;
 
-    if (c->halfopen) {
+    if (c->halfopen)
+    {
         /*
          * If we've sent out our own CHANNEL_OPEN but not yet seen
          * either OPEN_CONFIRMATION or OPEN_FAILURE in response, then
@@ -441,20 +462,23 @@ static void ssh1_channel_check_close(struct ssh1_channel *c)
     if ((!((CLOSES_SENT_CLOSE | CLOSES_RCVD_CLOSE) & ~c->closes) ||
          chan_want_close(c->chan, (c->closes & CLOSES_SENT_CLOSE),
                          (c->closes & CLOSES_RCVD_CLOSE))) &&
-        !(c->closes & CLOSES_SENT_CLOSECONF)) {
+        !(c->closes & CLOSES_SENT_CLOSECONF))
+    {
         /*
          * We have both sent and received CLOSE (or the channel type
          * doesn't need us to), which means the channel is in final
          * wind-up. Send CLOSE and/or CLOSE_CONFIRMATION, whichever we
          * haven't sent yet.
          */
-        if (!(c->closes & CLOSES_SENT_CLOSE)) {
+        if (!(c->closes & CLOSES_SENT_CLOSE))
+        {
             pktout = ssh_bpp_new_pktout(s->ppl.bpp, SSH1_MSG_CHANNEL_CLOSE);
             put_uint32(pktout, c->remoteid);
             pq_push(s->ppl.out_pq, pktout);
             c->closes |= CLOSES_SENT_CLOSE;
         }
-        if (c->closes & CLOSES_RCVD_CLOSE) {
+        if (c->closes & CLOSES_RCVD_CLOSE)
+        {
             pktout = ssh_bpp_new_pktout(
                 s->ppl.bpp, SSH1_MSG_CHANNEL_CLOSE_CONFIRMATION);
             put_uint32(pktout, c->remoteid);
@@ -463,7 +487,8 @@ static void ssh1_channel_check_close(struct ssh1_channel *c)
         }
     }
 
-    if (!((CLOSES_SENT_CLOSECONF | CLOSES_RCVD_CLOSECONF) & ~c->closes)) {
+    if (!((CLOSES_SENT_CLOSECONF | CLOSES_RCVD_CLOSECONF) & ~c->closes))
+    {
         /*
          * We have both sent and received CLOSE_CONFIRMATION, which
          * means we're completely done with the channel.
@@ -476,11 +501,11 @@ static void ssh1_channel_try_eof(struct ssh1_channel *c)
 {
     struct ssh1_connection_state *s = c->connlayer;
     PktOut *pktout;
-    assert(c->pending_eof);          /* precondition for calling us */
+    assert(c->pending_eof); /* precondition for calling us */
     if (c->halfopen)
-        return;                 /* can't close: not even opened yet */
+        return; /* can't close: not even opened yet */
 
-    c->pending_eof = false;            /* we're about to send it */
+    c->pending_eof = false; /* we're about to send it */
 
     pktout = ssh_bpp_new_pktout(s->ppl.bpp, SSH1_MSG_CHANNEL_CLOSE);
     put_uint32(pktout, c->remoteid);
@@ -501,7 +526,8 @@ static void ssh1_channel_close_local(struct ssh1_channel *c,
     PacketProtocolLayer *ppl = &s->ppl; /* for ppl_logevent */
     char *msg = chan_log_close_msg(c->chan);
 
-    if (msg != NULL) {
+    if (msg != NULL)
+    {
         ppl_logevent("%s%s%s", msg, reason ? " " : "", reason ? reason : "");
         sfree(msg);
     }
@@ -541,7 +567,8 @@ bool ssh1_check_termination(struct ssh1_connection_state *s)
      * returns SSH1_SMSG_EXIT_STATUS; we terminate when none of either
      * is left.
      */
-    if (s->session_terminated && count234(s->channels) == 0) {
+    if (s->session_terminated && count234(s->channels) == 0)
+    {
         PktOut *pktout = ssh_bpp_new_pktout(
             s->ppl.bpp, SSH1_CMSG_EXIT_CONFIRMATION);
         pq_push(s->ppl.out_pq, pktout);
@@ -595,7 +622,7 @@ static void ssh1channel_initiate_close(SshChannel *sc, const char *err)
     reason = err ? dupprintf("due to local error: %s", err) : NULL;
     ssh1_channel_close_local(c, reason);
     sfree(reason);
-    c->pending_eof = false;   /* this will confuse a zombie channel */
+    c->pending_eof = false; /* this will confuse a zombie channel */
 
     ssh1_channel_check_close(c);
 }
@@ -605,14 +632,17 @@ static void ssh1channel_unthrottle(SshChannel *sc, size_t bufsize)
     struct ssh1_channel *c = container_of(sc, struct ssh1_channel, sc);
     struct ssh1_connection_state *s = c->connlayer;
 
-    if (c->throttling_conn && bufsize <= SSH1_BUFFER_LIMIT) {
+    if (c->throttling_conn && bufsize <= SSH1_BUFFER_LIMIT)
+    {
         c->throttling_conn = false;
         ssh_throttle_conn(s->ppl.ssh, -1);
     }
 }
 
-static size_t ssh1channel_write(
-    SshChannel *sc, bool is_stderr, const void *buf, size_t len)
+static size_t ssh1channel_write(SshChannel *sc,
+                                __attribute__((unused)) bool is_stderr,
+                                const void *buf,
+                                size_t len)
 {
     struct ssh1_channel *c = container_of(sc, struct ssh1_channel, sc);
     struct ssh1_connection_state *s = c->connlayer;
@@ -644,9 +674,12 @@ static struct X11FakeAuth *ssh1_add_x11_display(
     return auth;
 }
 
-static SshChannel *ssh1_lportfwd_open(
-    ConnectionLayer *cl, const char *hostname, int port,
-    const char *description, const SocketPeerInfo *pi, Channel *chan)
+static SshChannel *ssh1_lportfwd_open(ConnectionLayer *cl,
+                                      const char *hostname,
+                                      int port,
+                                      const char *description,
+                                      __attribute__((unused)) const SocketPeerInfo *pi,
+                                      Channel *chan)
 {
     struct ssh1_connection_state *s =
         container_of(cl, struct ssh1_connection_state, cl);
@@ -673,7 +706,8 @@ static SshChannel *ssh1_lportfwd_open(
     return &c->sc;
 }
 
-static void ssh1_rportfwd_remove(ConnectionLayer *cl, struct ssh_rportfwd *rpf)
+static void ssh1_rportfwd_remove(__attribute__((unused)) ConnectionLayer *cl,
+                                 __attribute__((unused)) struct ssh_rportfwd *rpf)
 {
     /*
      * We cannot cancel listening ports on the server side in SSH-1!
@@ -695,13 +729,17 @@ static void ssh1_connection_special_cmd(PacketProtocolLayer *ppl,
         container_of(ppl, struct ssh1_connection_state, ppl);
     PktOut *pktout;
 
-    if (code == SS_PING || code == SS_NOP) {
-        if (!(s->ppl.remote_bugs & BUG_CHOKES_ON_SSH1_IGNORE)) {
+    if (code == SS_PING || code == SS_NOP)
+    {
+        if (!(s->ppl.remote_bugs & BUG_CHOKES_ON_SSH1_IGNORE))
+        {
             pktout = ssh_bpp_new_pktout(s->ppl.bpp, SSH1_MSG_IGNORE);
             put_stringz(pktout, "");
             pq_push(s->ppl.out_pq, pktout);
         }
-    } else if (s->mainchan) {
+    }
+    else if (s->mainchan)
+    {
         mainchan_special_cmd(s->mainchan, code, arg);
     }
 }
@@ -722,13 +760,14 @@ static void ssh1_stdout_unthrottle(ConnectionLayer *cl, size_t bufsize)
     struct ssh1_connection_state *s =
         container_of(cl, struct ssh1_connection_state, cl);
 
-    if (s->stdout_throttling && bufsize < SSH1_BUFFER_LIMIT) {
+    if (s->stdout_throttling && bufsize < SSH1_BUFFER_LIMIT)
+    {
         s->stdout_throttling = false;
         ssh_throttle_conn(s->ppl.ssh, -1);
     }
 }
 
-static size_t ssh1_stdin_backlog(ConnectionLayer *cl)
+static size_t ssh1_stdin_backlog(__attribute__((unused)) ConnectionLayer *cl)
 {
     return 0;
 }
@@ -790,7 +829,8 @@ static void ssh1_connection_got_user_input(PacketProtocolLayer *ppl)
     struct ssh1_connection_state *s =
         container_of(ppl, struct ssh1_connection_state, ppl);
 
-    while (s->mainchan && bufchain_size(s->ppl.user_input) > 0) {
+    while (s->mainchan && bufchain_size(s->ppl.user_input) > 0)
+    {
         /*
          * Add user input to the main channel's buffer.
          */

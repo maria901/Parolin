@@ -5,7 +5,8 @@
 
 #include "ssh.h"
 
-struct hmac {
+struct hmac
+{
     const ssh_hashalg *hashalg;
     ssh_hash *h_outer, *h_inner, *h_live;
     uint8_t *digest;
@@ -13,12 +14,14 @@ struct hmac {
     ssh2_mac mac;
 };
 
-struct hmac_extra {
+struct hmac_extra
+{
     const ssh_hashalg *hashalg_base;
     const char *suffix, *annotation;
 };
 
-static ssh2_mac *hmac_new(const ssh2_macalg *alg, ssh_cipher *cipher)
+static ssh2_mac *hmac_new(const ssh2_macalg *alg,
+                          __attribute__((unused)) ssh_cipher *cipher)
 {
     struct hmac *ctx = snew(struct hmac);
     const struct hmac_extra *extra = (const struct hmac_extra *)alg->extra;
@@ -44,14 +47,17 @@ static ssh2_mac *hmac_new(const ssh2_macalg *alg, ssh_cipher *cipher)
     ctx->text_name = strbuf_new();
     strbuf_catf(ctx->text_name, "HMAC-%s%s",
                 ctx->hashalg->text_basename, extra->suffix);
-    if (extra->annotation || ctx->hashalg->annotation) {
+    if (extra->annotation || ctx->hashalg->annotation)
+    {
         strbuf_catf(ctx->text_name, " (");
         const char *sep = "";
-        if (extra->annotation) {
+        if (extra->annotation)
+        {
             strbuf_catf(ctx->text_name, "%s%s", sep, extra->annotation);
             sep = ", ";
         }
-        if (ctx->hashalg->annotation) {
+        if (ctx->hashalg->annotation)
+        {
             strbuf_catf(ctx->text_name, "%s%s", sep, ctx->hashalg->annotation);
             sep = ", ";
         }
@@ -90,7 +96,8 @@ static void hmac_key(ssh2_mac *mac, ptrlen key)
     size_t klen;
     strbuf *sb = NULL;
 
-    if (key.len > ctx->hashalg->blocklen) {
+    if (key.len > ctx->hashalg->blocklen)
+    {
         /*
          * RFC 2104 section 2: if the key exceeds the block length of
          * the underlying hash, then we start by hashing the key, and
@@ -101,7 +108,9 @@ static void hmac_key(ssh2_mac *mac, ptrlen key)
         hash_simple(ctx->hashalg, key, sb->u);
         kp = sb->u;
         klen = sb->len;
-    } else {
+    }
+    else
+    {
         /*
          * A short enough key is used as is.
          */
@@ -160,7 +169,13 @@ static const char *hmac_text_name(ssh2_mac *mac)
     return ctx->text_name->s;
 }
 
-static const struct hmac_extra ssh_hmac_sha256_extra = { &ssh_sha256, "" };
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+
+static const struct hmac_extra ssh_hmac_sha256_extra = {&ssh_sha256, ""};
+
+#pragma GCC diagnostic pop
+
 const ssh2_macalg ssh_hmac_sha256 = {
     .new = hmac_new,
     .free = hmac_free,
@@ -175,7 +190,13 @@ const ssh2_macalg ssh_hmac_sha256 = {
     .extra = &ssh_hmac_sha256_extra,
 };
 
-static const struct hmac_extra ssh_hmac_md5_extra = { &ssh_md5, "" };
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+
+static const struct hmac_extra ssh_hmac_md5_extra = {&ssh_md5, ""};
+
+#pragma GCC diagnostic pop
+
 const ssh2_macalg ssh_hmac_md5 = {
     .new = hmac_new,
     .free = hmac_free,
@@ -190,7 +211,12 @@ const ssh2_macalg ssh_hmac_md5 = {
     .extra = &ssh_hmac_md5_extra,
 };
 
-static const struct hmac_extra ssh_hmac_sha1_extra = { &ssh_sha1, "" };
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+
+static const struct hmac_extra ssh_hmac_sha1_extra = {&ssh_sha1, ""};
+
+#pragma GCC diagnostic pop
 
 const ssh2_macalg ssh_hmac_sha1 = {
     .new = hmac_new,
@@ -206,8 +232,12 @@ const ssh2_macalg ssh_hmac_sha1 = {
     .extra = &ssh_hmac_sha1_extra,
 };
 
-static const struct hmac_extra ssh_hmac_sha1_96_extra = { &ssh_sha1, "-96" };
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
+static const struct hmac_extra ssh_hmac_sha1_96_extra = {&ssh_sha1, "-96"};
+
+#pragma GCC diagnostic pop
 const ssh2_macalg ssh_hmac_sha1_96 = {
     .new = hmac_new,
     .free = hmac_free,
@@ -223,8 +253,7 @@ const ssh2_macalg ssh_hmac_sha1_96 = {
 };
 
 static const struct hmac_extra ssh_hmac_sha1_buggy_extra = {
-    &ssh_sha1, "", "bug-compatible"
-};
+    &ssh_sha1, "", "bug-compatible"};
 
 const ssh2_macalg ssh_hmac_sha1_buggy = {
     .new = hmac_new,
@@ -240,8 +269,7 @@ const ssh2_macalg ssh_hmac_sha1_buggy = {
 };
 
 static const struct hmac_extra ssh_hmac_sha1_96_buggy_extra = {
-    &ssh_sha1, "-96", "bug-compatible"
-};
+    &ssh_sha1, "-96", "bug-compatible"};
 
 const ssh2_macalg ssh_hmac_sha1_96_buggy = {
     .new = hmac_new,

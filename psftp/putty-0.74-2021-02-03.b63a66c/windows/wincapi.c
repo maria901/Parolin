@@ -19,27 +19,32 @@ WINBOOL WINAPI CryptProtectMemory (LPVOID pDataIn, DWORD cbDataIn, DWORD dwFlags
 #endif
 DEF_WINDOWS_FUNCTION(CryptProtectMemory);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
 bool got_crypt(void)
 {
     static bool attempted = false;
     static bool successful;
     static HMODULE crypt;
 
-    if (!attempted) {
+    if (!attempted)
+    {
         attempted = true;
         crypt = load_system32_dll("crypt32.dll");
         successful = crypt &&
 #ifdef COVERITY
-            /* The build toolchain I use with Coverity doesn't know
+                     /* The build toolchain I use with Coverity doesn't know
              * about this function, so can't type-check it */
-            GET_WINDOWS_FUNCTION_NO_TYPECHECK(crypt, CryptProtectMemory)
+                     GET_WINDOWS_FUNCTION_NO_TYPECHECK(crypt, CryptProtectMemory)
 #else
-            GET_WINDOWS_FUNCTION(crypt, CryptProtectMemory)
+                     GET_WINDOWS_FUNCTION(crypt, CryptProtectMemory)
 #endif
             ;
     }
     return successful;
 }
+
+#pragma GCC diagnostic pop
 
 #ifdef COVERITY
 /*
@@ -107,8 +112,9 @@ char *capi_obfuscate_string(const char *realname)
     /*
      * Finally, make printable.
      */
-    for (i = 0; i < 32; i++) {
-        sprintf(retbuf + 2*i, "%02x", digest[i]);
+    for (i = 0; i < 32; i++)
+    {
+        sprintf(retbuf + 2 * i, "%02x", digest[i]);
         /* the last of those will also write the trailing NUL */
     }
 

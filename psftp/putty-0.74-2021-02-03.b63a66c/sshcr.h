@@ -25,30 +25,87 @@
  *    Database for Edit and Continue'.
  */
 
-#define crBegin(v)      do { int *crLine = &v; switch(v) { case 0:
-#define crBeginState    crBegin(s->crLine)
-#define crStateP(t, v)                          \
-    struct t *s;                                \
-    if (!(v)) { s = (v) = snew(struct t); s->crLine = 0; }      \
+#define crBegin(v)        \
+    do                    \
+    {                     \
+        int *crLine = &v; \
+        switch (v)        \
+        {                 \
+        case 0:
+#define crBeginState crBegin(s->crLine)
+#define crStateP(t, v)            \
+    struct t *s;                  \
+    if (!(v))                     \
+    {                             \
+        s = (v) = snew(struct t); \
+        s->crLine = 0;            \
+    }                             \
     s = (v);
-#define crState(t)      crStateP(t, ssh->t)
-#define crFinish(z)     } *crLine = 0; return (z); } while (0)
-#define crFinishV       } *crLine = 0; return; } while (0)
-#define crFinishFreed(z) } return (z); } while (0)
-#define crFinishFreedV   } return; } while (0)
-#define crFinishFree(z) } sfree(s); return (z); } while (0)
-#define crFinishFreeV   } sfree(s); return; } while (0)
-#define crReturn(z)     \
-        do {\
-            *crLine =__LINE__; return (z); case __LINE__:;\
-        } while (0)
-#define crReturnV       \
-        do {\
-            *crLine=__LINE__; return; case __LINE__:;\
-        } while (0)
-#define crStop(z)       do{ *crLine = 0; return (z); }while(0)
-#define crStopV         do{ *crLine = 0; return; }while(0)
+#define crState(t) crStateP(t, ssh->t)
+#define crFinish(z) \
+    }               \
+    *crLine = 0;    \
+    return (z);     \
+    }               \
+    while (0)
+#define crFinishV \
+    }             \
+    *crLine = 0;  \
+    return;       \
+    }             \
+    while (0)
+#define crFinishFreed(z) \
+    }                    \
+    return (z);          \
+    }                    \
+    while (0)
+#define crFinishFreedV \
+    }                  \
+    return;            \
+    }                  \
+    while (0)
+#define crFinishFree(z) \
+    }                   \
+    sfree(s);           \
+    return (z);         \
+    }                   \
+    while (0)
+#define crFinishFreeV \
+    }                 \
+    sfree(s);         \
+    return;           \
+    }                 \
+    while (0)
+#define crReturn(z)         \
+    do                      \
+    {                       \
+        *crLine = __LINE__; \
+        return (z);         \
+    case __LINE__:;         \
+    } while (0)
+#define crReturnV           \
+    do                      \
+    {                       \
+        *crLine = __LINE__; \
+        return;             \
+    case __LINE__:;         \
+    } while (0)
+#define crStop(z)    \
+    do               \
+    {                \
+        *crLine = 0; \
+        return (z);  \
+    } while (0)
+#define crStopV      \
+    do               \
+    {                \
+        *crLine = 0; \
+        return;      \
+    } while (0)
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wimplicit-fallthrough="
+			
 /*
  * The crMaybeWaitUntil macros could have been more easily written in
  * terms of the simple crReturn above, by writing things like
@@ -63,25 +120,41 @@
  * because we don't write into crLine between the condition evaluating
  * to false and the 'return' statement.
  */
-#define crMaybeWaitUntil(c)                     \
-    do {                                        \
-        *crLine =__LINE__;                      \
-        case __LINE__: if (!(c)) return 0;      \
+#define crMaybeWaitUntil(c) \
+    do                      \
+    {                       \
+        *crLine = __LINE__; \
+    case __LINE__:          \
+        if (!(c))           \
+            return 0;       \
     } while (0)
-#define crMaybeWaitUntilV(c)                    \
-    do {                                        \
-        *crLine =__LINE__;                      \
-        case __LINE__: if (!(c)) return;        \
+#define crMaybeWaitUntilV(c) \
+    do                       \
+    {                        \
+        *crLine = __LINE__;  \
+    case __LINE__:           \
+        if (!(c))            \
+            return;          \
     } while (0)
-#define crWaitUntil(c)                          \
-    do {                                        \
-        *crLine =__LINE__; return;              \
-        case __LINE__: if (!(c)) return 0;      \
+#define crWaitUntil(c)      \
+    do                      \
+    {                       \
+        *crLine = __LINE__; \
+        return;             \
+    case __LINE__:          \
+        if (!(c))           \
+            return 0;       \
     } while (0)
-#define crWaitUntilV(c)                         \
-    do {                                        \
-        *crLine =__LINE__; return;              \
-        case __LINE__: if (!(c)) return;        \
+#define crWaitUntilV(c)     \
+    do                      \
+    {                       \
+        *crLine = __LINE__; \
+        return;             \
+    case __LINE__:          \
+        if (!(c))           \
+            return;         \
     } while (0)
 
 #endif /* PUTTY_SSHCR_H */
+
+#pragma GCC diagnostic pop

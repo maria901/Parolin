@@ -15,7 +15,8 @@
 void ssh1_connection_direction_specific_setup(
     struct ssh1_connection_state *s)
 {
-    if (!s->mainchan) {
+    if (!s->mainchan)
+    {
         /*
          * Start up the main session, by telling mainchan.c to do it
          * all just as it would in SSH-2, and translating those
@@ -31,7 +32,8 @@ void ssh1_connection_direction_specific_setup(
 typedef void (*sf_handler_fn_t)(struct ssh1_connection_state *s,
                                 bool success, void *ctx);
 
-struct outstanding_succfail {
+struct outstanding_succfail
+{
     sf_handler_fn_t handler;
     void *ctx;
     struct outstanding_succfail *next;
@@ -100,10 +102,12 @@ bool ssh1_handle_direction_specific_packet(
     ptrlen host, data;
     int port;
 
-    switch (pktin->type) {
-      case SSH1_SMSG_SUCCESS:
-      case SSH1_SMSG_FAILURE:
-        if (!s->succfail_head) {
+    switch (pktin->type)
+    {
+    case SSH1_SMSG_SUCCESS:
+    case SSH1_SMSG_FAILURE:
+        if (!s->succfail_head)
+        {
             ssh_remote_error(s->ppl.ssh,
                              "Received %s with no outstanding request",
                              ssh1_pkt_type(pktin->type));
@@ -117,17 +121,20 @@ bool ssh1_handle_direction_specific_packet(
 
         return true;
 
-      case SSH1_SMSG_X11_OPEN:
+    case SSH1_SMSG_X11_OPEN:
         remid = get_uint32(pktin);
 
         /* Refuse if X11 forwarding is disabled. */
-        if (!s->X11_fwd_enabled) {
+        if (!s->X11_fwd_enabled)
+        {
             pktout = ssh_bpp_new_pktout(
                 s->ppl.bpp, SSH1_MSG_CHANNEL_OPEN_FAILURE);
             put_uint32(pktout, remid);
             pq_push(s->ppl.out_pq, pktout);
             ppl_logevent("Rejected X11 connect request");
-        } else {
+        }
+        else
+        {
             c = snew(struct ssh1_channel);
             c->connlayer = s;
             ssh1_channel_init(c);
@@ -147,16 +154,19 @@ bool ssh1_handle_direction_specific_packet(
 
         return true;
 
-      case SSH1_SMSG_AGENT_OPEN:
+    case SSH1_SMSG_AGENT_OPEN:
         remid = get_uint32(pktin);
 
         /* Refuse if agent forwarding is disabled. */
-        if (!ssh_agent_forwarding_permitted(&s->cl)) {
+        if (!ssh_agent_forwarding_permitted(&s->cl))
+        {
             pktout = ssh_bpp_new_pktout(
                 s->ppl.bpp, SSH1_MSG_CHANNEL_OPEN_FAILURE);
             put_uint32(pktout, remid);
             pq_push(s->ppl.out_pq, pktout);
-        } else {
+        }
+        else
+        {
             c = snew(struct ssh1_channel);
             c->connlayer = s;
             ssh1_channel_init(c);
@@ -171,10 +181,13 @@ bool ssh1_handle_direction_specific_packet(
             Plug *plug;
             Channel *ch = portfwd_raw_new(&s->cl, &plug, true);
             Socket *skt = agent_connect(plug);
-            if (!sk_socket_error(skt)) {
+            if (!sk_socket_error(skt))
+            {
                 portfwd_raw_setup(ch, skt, &c->sc);
                 c->chan = ch;
-            } else {
+            }
+            else
+            {
                 portfwd_raw_free(ch);
 
                 /*
@@ -195,7 +208,7 @@ bool ssh1_handle_direction_specific_packet(
 
         return true;
 
-      case SSH1_MSG_PORT_OPEN:
+    case SSH1_MSG_PORT_OPEN:
         remid = get_uint32(pktin);
         host = get_string(pktin);
         port = toint(get_uint32(pktin));
@@ -204,14 +217,17 @@ bool ssh1_handle_direction_specific_packet(
         pf.dport = port;
         pfp = find234(s->rportfwds, &pf, NULL);
 
-        if (!pfp) {
+        if (!pfp)
+        {
             ppl_logevent("Rejected remote port open request for %s:%d",
                          pf.dhost, port);
             pktout = ssh_bpp_new_pktout(
                 s->ppl.bpp, SSH1_MSG_CHANNEL_OPEN_FAILURE);
             put_uint32(pktout, remid);
             pq_push(s->ppl.out_pq, pktout);
-        } else {
+        }
+        else
+        {
             char *err;
 
             c = snew(struct ssh1_channel);
@@ -222,7 +238,8 @@ bool ssh1_handle_direction_specific_packet(
                 s->portfwdmgr, &c->chan, pf.dhost, port,
                 &c->sc, pfp->addressfamily);
 
-            if (err) {
+            if (err)
+            {
                 ppl_logevent("Port open failed: %s", err);
                 sfree(err);
                 ssh1_channel_free(c);
@@ -230,7 +247,9 @@ bool ssh1_handle_direction_specific_packet(
                     s->ppl.bpp, SSH1_MSG_CHANNEL_OPEN_FAILURE);
                 put_uint32(pktout, remid);
                 pq_push(s->ppl.out_pq, pktout);
-            } else {
+            }
+            else
+            {
                 ssh1_channel_init(c);
                 c->remoteid = remid;
                 c->halfopen = false;
@@ -247,14 +266,16 @@ bool ssh1_handle_direction_specific_packet(
 
         return true;
 
-      case SSH1_SMSG_STDOUT_DATA:
-      case SSH1_SMSG_STDERR_DATA:
+    case SSH1_SMSG_STDOUT_DATA:
+    case SSH1_SMSG_STDERR_DATA:
         data = get_string(pktin);
-        if (!get_err(pktin)) {
+        if (!get_err(pktin))
+        {
             int bufsize = seat_output(
                 s->ppl.seat, pktin->type == SSH1_SMSG_STDERR_DATA,
                 data.ptr, data.len);
-            if (!s->stdout_throttling && bufsize > SSH1_BUFFER_LIMIT) {
+            if (!s->stdout_throttling && bufsize > SSH1_BUFFER_LIMIT)
+            {
                 s->stdout_throttling = true;
                 ssh_throttle_conn(s->ppl.ssh, +1);
             }
@@ -262,42 +283,47 @@ bool ssh1_handle_direction_specific_packet(
 
         return true;
 
-      case SSH1_SMSG_EXIT_STATUS: {
+    case SSH1_SMSG_EXIT_STATUS:
+    {
         int exitcode = get_uint32(pktin);
         ppl_logevent("Server sent command exit status %d", exitcode);
         ssh_got_exitcode(s->ppl.ssh, exitcode);
 
         s->session_terminated = true;
         return true;
-      }
+    }
 
-      default:
+    default:
         return false;
     }
 }
 
-static void ssh1mainchan_succfail_wantreply(struct ssh1_connection_state *s,
-                                            bool success, void *ctx)
+static void ssh1mainchan_succfail_wantreply(__attribute__((unused)) struct ssh1_connection_state *s,
+                                            __attribute__((unused)) bool success,
+                                            __attribute__((unused)) void *ctx)
 {
     chan_request_response(s->mainchan_chan, success);
 }
 
-static void ssh1mainchan_succfail_nowantreply(struct ssh1_connection_state *s,
-                                              bool success, void *ctx)
+static void ssh1mainchan_succfail_nowantreply(__attribute__((unused)) struct ssh1_connection_state *s,
+                                              __attribute__((unused)) bool success,
+                                              __attribute__((unused)) void *ctx)
 {
 }
 
 static void ssh1mainchan_queue_response(struct ssh1_connection_state *s,
                                         bool want_reply, bool trivial)
 {
-    sf_handler_fn_t handler = (want_reply ? ssh1mainchan_succfail_wantreply :
-                               ssh1mainchan_succfail_nowantreply);
+    sf_handler_fn_t handler = (want_reply ? ssh1mainchan_succfail_wantreply : ssh1mainchan_succfail_nowantreply);
     ssh1_queue_succfail_handler(s, handler, NULL, trivial);
 }
 
-static void ssh1mainchan_request_x11_forwarding(
-    SshChannel *sc, bool want_reply, const char *authproto,
-    const char *authdata, int screen_number, bool oneshot)
+static void ssh1mainchan_request_x11_forwarding(SshChannel *sc,
+                                                bool want_reply,
+                                                const char *authproto,
+                                                const char *authdata,
+                                                int screen_number,
+                                                __attribute__((unused)) bool oneshot)
 {
     struct ssh1_connection_state *s =
         container_of(sc, struct ssh1_connection_state, mainchan_sc);
@@ -348,10 +374,12 @@ static void ssh1mainchan_request_pty(
     ssh1mainchan_queue_response(s, want_reply, false);
 }
 
-static bool ssh1mainchan_send_env_var(
-    SshChannel *sc, bool want_reply, const char *var, const char *value)
+static bool ssh1mainchan_send_env_var(__attribute__((unused)) SshChannel *sc,
+                                      __attribute__((unused)) bool want_reply,
+                                      __attribute__((unused)) const char *var,
+                                      __attribute__((unused)) const char *value)
 {
-    return false;              /* SSH-1 doesn't support this at all */
+    return false; /* SSH-1 doesn't support this at all */
 }
 
 static void ssh1mainchan_start_shell(SshChannel *sc, bool want_reply)
@@ -380,22 +408,25 @@ static void ssh1mainchan_start_command(
     ssh1mainchan_queue_response(s, want_reply, true);
 }
 
-static bool ssh1mainchan_start_subsystem(
-    SshChannel *sc, bool want_reply, const char *subsystem)
+static bool ssh1mainchan_start_subsystem(__attribute__((unused)) SshChannel *sc,
+                                         __attribute__((unused)) bool want_reply,
+                                         __attribute__((unused)) const char *subsystem)
 {
-    return false;              /* SSH-1 doesn't support this at all */
+    return false; /* SSH-1 doesn't support this at all */
 }
 
-static bool ssh1mainchan_send_serial_break(
-    SshChannel *sc, bool want_reply, int length)
+static bool ssh1mainchan_send_serial_break(__attribute__((unused)) SshChannel *sc,
+                                           __attribute__((unused)) bool want_reply,
+                                           __attribute__((unused)) int length)
 {
-    return false;              /* SSH-1 doesn't support this at all */
+    return false; /* SSH-1 doesn't support this at all */
 }
 
-static bool ssh1mainchan_send_signal(
-    SshChannel *sc, bool want_reply, const char *signame)
+static bool ssh1mainchan_send_signal(__attribute__((unused)) SshChannel *sc,
+                                     __attribute__((unused)) bool want_reply,
+                                     __attribute__((unused)) const char *signame)
 {
-    return false;              /* SSH-1 doesn't support this at all */
+    return false; /* SSH-1 doesn't support this at all */
 }
 
 static void ssh1mainchan_send_terminal_size_change(
@@ -413,12 +444,13 @@ static void ssh1mainchan_send_terminal_size_change(
     pq_push(s->ppl.out_pq, pktout);
 }
 
-static void ssh1mainchan_hint_channel_is_simple(SshChannel *sc)
+static void ssh1mainchan_hint_channel_is_simple(__attribute__((unused)) SshChannel *sc)
 {
 }
 
-static size_t ssh1mainchan_write(
-    SshChannel *sc, bool is_stderr, const void *data, size_t len)
+static size_t ssh1mainchan_write(__attribute__((unused)) SshChannel *sc,
+                                 __attribute__((unused)) bool is_stderr,
+                                 __attribute__((unused)) const void *data, size_t len)
 {
     struct ssh1_connection_state *s =
         container_of(sc, struct ssh1_connection_state, mainchan_sc);
@@ -481,10 +513,13 @@ static void ssh1_rportfwd_response(struct ssh1_connection_state *s,
     PacketProtocolLayer *ppl = &s->ppl; /* for ppl_logevent */
     struct ssh_rportfwd *rpf = (struct ssh_rportfwd *)ctx;
 
-    if (success) {
+    if (success)
+    {
         ppl_logevent("Remote port forwarding from %s enabled",
                      rpf->log_description);
-    } else {
+    }
+    else
+    {
         ppl_logevent("Remote port forwarding from %s refused",
                      rpf->log_description);
 
@@ -495,11 +530,15 @@ static void ssh1_rportfwd_response(struct ssh1_connection_state *s,
     }
 }
 
-struct ssh_rportfwd *ssh1_rportfwd_alloc(
-    ConnectionLayer *cl,
-    const char *shost, int sport, const char *dhost, int dport,
-    int addressfamily, const char *log_description, PortFwdRecord *pfr,
-    ssh_sharing_connstate *share_ctx)
+struct ssh_rportfwd *ssh1_rportfwd_alloc(ConnectionLayer *cl,
+                                         const char *shost,
+                                         int sport,
+                                         const char *dhost,
+                                         int dport,
+                                         int addressfamily,
+                                         const char *log_description,
+                                         PortFwdRecord *pfr,
+                                         __attribute__((unused)) ssh_sharing_connstate *share_ctx)
 {
     struct ssh1_connection_state *s =
         container_of(cl, struct ssh1_connection_state, cl);
@@ -513,7 +552,8 @@ struct ssh_rportfwd *ssh1_rportfwd_alloc(
     rpf->log_description = dupstr(log_description);
     rpf->pfr = pfr;
 
-    if (add234(s->rportfwds, rpf) != rpf) {
+    if (add234(s->rportfwds, rpf) != rpf)
+    {
         free_rportfwd(rpf);
         return NULL;
     }
@@ -530,13 +570,15 @@ struct ssh_rportfwd *ssh1_rportfwd_alloc(
     return rpf;
 }
 
-SshChannel *ssh1_serverside_x11_open(
-    ConnectionLayer *cl, Channel *chan, const SocketPeerInfo *pi)
+SshChannel *ssh1_serverside_x11_open(__attribute__((unused)) ConnectionLayer *cl,
+                                     __attribute__((unused)) Channel *chan,
+                                     __attribute__((unused)) const SocketPeerInfo *pi)
 {
     unreachable("Should never be called in the client");
 }
 
-SshChannel *ssh1_serverside_agent_open(ConnectionLayer *cl, Channel *chan)
+SshChannel *ssh1_serverside_agent_open(__attribute__((unused)) ConnectionLayer *cl,
+                                       __attribute__((unused)) Channel *chan)
 {
     unreachable("Should never be called in the client");
 }
@@ -545,3 +587,5 @@ bool ssh1_connection_need_antispoof_prompt(struct ssh1_connection_state *s)
 {
     return !seat_set_trust_status(s->ppl.seat, false);
 }
+
+//modified by SmartApe

@@ -8,7 +8,7 @@
 #include <assert.h>
 
 /* Collect environmental noise every 5 minutes */
-#define NOISE_REGULAR_INTERVAL (5*60*TICKSPERSEC)
+#define NOISE_REGULAR_INTERVAL (5 * 60 * TICKSPERSEC)
 
 int random_active = 0;
 
@@ -17,20 +17,23 @@ int random_active = 0;
 /*
  * Special dummy version of the RNG for use when fuzzing.
  */
-void random_add_noise(NoiseSourceId source, const void *noise, int length) { }
-void random_ref(void) { }
-void random_setup_custom(const ssh_hashalg *hash) { }
-void random_unref(void) { }
+void random_add_noise(NoiseSourceId source, const void *noise, int length) {}
+void random_ref(void) {}
+void random_setup_custom(const ssh_hashalg *hash) {}
+void random_unref(void) {}
 void random_read(void *out, size_t size)
 {
     memset(out, 0x45, size); /* Chosen by eight fair coin tosses */
 }
-void random_get_savedata(void **data, int *len) { }
+void random_get_savedata(void **data, int *len) {}
 
 #else /* !FUZZING */
 
 /* Dummy structure for the sake of having something to expire_timer_context */
-static struct random_timer_context { int dummy; } random_timer_ctx;
+static struct random_timer_context
+{
+    int dummy;
+} random_timer_ctx;
 
 static prng *global_prng;
 static unsigned long next_noise_collection;
@@ -43,9 +46,11 @@ void random_add_noise(NoiseSourceId source, const void *noise, int length)
     prng_add_entropy(global_prng, source, make_ptrlen(noise, length));
 }
 
-static void random_timer(void *ctx, unsigned long now)
+static void random_timer(__attribute__((unused)) void *ctx,
+                         unsigned long now)
 {
-    if (random_active > 0 && now == next_noise_collection) {
+    if (random_active > 0 && now == next_noise_collection)
+    {
         noise_regular();
         next_noise_collection =
             schedule_timer(NOISE_REGULAR_INTERVAL, random_timer,
@@ -84,7 +89,8 @@ void random_save_seed(void)
     int len;
     void *data;
 
-    if (random_active) {
+    if (random_active)
+    {
         random_get_savedata(&data, &len);
         write_random_seed(data, len);
         sfree(data);
@@ -112,7 +118,8 @@ void random_reseed(ptrlen seed)
 
 void random_clear(void)
 {
-    if (global_prng) {
+    if (global_prng)
+    {
         random_save_seed();
         expire_timer_context(&random_timer_ctx);
         prng_free(global_prng);

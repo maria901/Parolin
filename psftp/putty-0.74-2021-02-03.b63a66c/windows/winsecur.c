@@ -21,27 +21,31 @@ DEF_WINDOWS_FUNCTION(SetSecurityDescriptorOwner);
 DEF_WINDOWS_FUNCTION(GetSecurityInfo);
 DEF_WINDOWS_FUNCTION(SetSecurityInfo);
 DEF_WINDOWS_FUNCTION(SetEntriesInAclA);
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
 bool got_advapi(void)
 {
     static bool attempted = false;
     static bool successful;
     static HMODULE advapi;
 
-    if (!attempted) {
+    if (!attempted)
+    {
         attempted = true;
         advapi = load_system32_dll("advapi32.dll");
         successful = advapi &&
-            GET_WINDOWS_FUNCTION(advapi, GetSecurityInfo) &&
-            GET_WINDOWS_FUNCTION(advapi, SetSecurityInfo) &&
-            GET_WINDOWS_FUNCTION(advapi, OpenProcessToken) &&
-            GET_WINDOWS_FUNCTION(advapi, GetTokenInformation) &&
-            GET_WINDOWS_FUNCTION(advapi, InitializeSecurityDescriptor) &&
-            GET_WINDOWS_FUNCTION(advapi, SetSecurityDescriptorOwner) &&
-            GET_WINDOWS_FUNCTION(advapi, SetEntriesInAclA);
+                     GET_WINDOWS_FUNCTION(advapi, GetSecurityInfo) &&
+                     GET_WINDOWS_FUNCTION(advapi, SetSecurityInfo) &&
+                     GET_WINDOWS_FUNCTION(advapi, OpenProcessToken) &&
+                     GET_WINDOWS_FUNCTION(advapi, GetTokenInformation) &&
+                     GET_WINDOWS_FUNCTION(advapi, InitializeSecurityDescriptor) &&
+                     GET_WINDOWS_FUNCTION(advapi, SetSecurityDescriptorOwner) &&
+                     GET_WINDOWS_FUNCTION(advapi, SetEntriesInAclA);
     }
     return successful;
 }
+
+#pragma GCC diagnostic pop
 
 PSID get_user_sid(void)
 {
@@ -85,7 +89,7 @@ PSID get_user_sid(void)
     ret = usersid = sid;
     sid = NULL;
 
-  cleanup:
+cleanup:
     if (proc != NULL)
         CloseHandle(proc);
     if (tok != NULL)
@@ -114,26 +118,32 @@ static bool getsids(char **error)
 
     *error = NULL;
 
-    if (!usersid) {
-        if ((usersid = get_user_sid()) == NULL) {
+    if (!usersid)
+    {
+        if ((usersid = get_user_sid()) == NULL)
+        {
             *error = dupprintf("unable to construct SID for current user: %s",
                                win_strerror(GetLastError()));
             goto cleanup;
         }
     }
 
-    if (!worldsid) {
+    if (!worldsid)
+    {
         if (!AllocateAndInitializeSid(&world_auth, 1, SECURITY_WORLD_RID,
-                                      0, 0, 0, 0, 0, 0, 0, &worldsid)) {
+                                      0, 0, 0, 0, 0, 0, 0, &worldsid))
+        {
             *error = dupprintf("unable to construct SID for world: %s",
                                win_strerror(GetLastError()));
             goto cleanup;
         }
     }
 
-    if (!networksid) {
+    if (!networksid)
+    {
         if (!AllocateAndInitializeSid(&nt_auth, 1, SECURITY_NETWORK_RID,
-                                      0, 0, 0, 0, 0, 0, 0, &networksid)) {
+                                      0, 0, 0, 0, 0, 0, 0, &networksid))
+        {
             *error = dupprintf("unable to construct SID for "
                                "local same-user access only: %s",
                                win_strerror(GetLastError()));
@@ -143,10 +153,9 @@ static bool getsids(char **error)
 
     ret = true;
 
- cleanup:
+cleanup:
     return ret;
 }
-
 
 bool make_private_security_descriptor(DWORD permissions,
                                       PSECURITY_DESCRIPTOR *psd,
@@ -157,13 +166,12 @@ bool make_private_security_descriptor(DWORD permissions,
     int acl_err;
     bool ret = false;
 
-
     *psd = NULL;
     *acl = NULL;
     *error = NULL;
 
     if (!getsids(error))
-      goto cleanup;
+        goto cleanup;
 
     memset(ea, 0, sizeof(ea));
     ea[0].grfAccessPermissions = permissions;
@@ -183,7 +191,8 @@ bool make_private_security_descriptor(DWORD permissions,
     ea[2].Trustee.ptstrName = (LPTSTR)networksid;
 
     acl_err = p_SetEntriesInAclA(3, ea, NULL, acl);
-    if (acl_err != ERROR_SUCCESS || *acl == NULL) {
+    if (acl_err != ERROR_SUCCESS || *acl == NULL)
+    {
         *error = dupprintf("unable to construct ACL: %s",
                            win_strerror(acl_err));
         goto cleanup;
@@ -191,25 +200,29 @@ bool make_private_security_descriptor(DWORD permissions,
 
     *psd = (PSECURITY_DESCRIPTOR)
         LocalAlloc(LPTR, SECURITY_DESCRIPTOR_MIN_LENGTH);
-    if (!*psd) {
+    if (!*psd)
+    {
         *error = dupprintf("unable to allocate security descriptor: %s",
                            win_strerror(GetLastError()));
         goto cleanup;
     }
 
-    if (!InitializeSecurityDescriptor(*psd, SECURITY_DESCRIPTOR_REVISION)) {
+    if (!InitializeSecurityDescriptor(*psd, SECURITY_DESCRIPTOR_REVISION))
+    {
         *error = dupprintf("unable to initialise security descriptor: %s",
                            win_strerror(GetLastError()));
         goto cleanup;
     }
 
-    if (!SetSecurityDescriptorOwner(*psd, usersid, false)) {
+    if (!SetSecurityDescriptorOwner(*psd, usersid, false))
+    {
         *error = dupprintf("unable to set owner in security descriptor: %s",
                            win_strerror(GetLastError()));
         goto cleanup;
     }
 
-    if (!SetSecurityDescriptorDacl(*psd, true, *acl, false)) {
+    if (!SetSecurityDescriptorDacl(*psd, true, *acl, false))
+    {
         *error = dupprintf("unable to set DACL in security descriptor: %s",
                            win_strerror(GetLastError()));
         goto cleanup;
@@ -217,17 +230,22 @@ bool make_private_security_descriptor(DWORD permissions,
 
     ret = true;
 
-  cleanup:
-    if (!ret) {
-        if (*psd) {
+cleanup:
+    if (!ret)
+    {
+        if (*psd)
+        {
             LocalFree(*psd);
             *psd = NULL;
         }
-        if (*acl) {
+        if (*acl)
+        {
             LocalFree(*acl);
             *acl = NULL;
         }
-    } else {
+    }
+    else
+    {
         sfree(*error);
         *error = NULL;
     }
@@ -244,12 +262,12 @@ static bool really_restrict_process_acl(char **error)
     bool ret = false;
     PACL acl = NULL;
 
-    static const DWORD nastyace=WRITE_DAC | WRITE_OWNER |
-        PROCESS_CREATE_PROCESS | PROCESS_CREATE_THREAD |
-        PROCESS_DUP_HANDLE |
-        PROCESS_SET_QUOTA | PROCESS_SET_INFORMATION |
-        PROCESS_VM_OPERATION | PROCESS_VM_READ | PROCESS_VM_WRITE |
-        PROCESS_SUSPEND_RESUME;
+    static const DWORD nastyace = WRITE_DAC | WRITE_OWNER |
+                                  PROCESS_CREATE_PROCESS | PROCESS_CREATE_THREAD |
+                                  PROCESS_DUP_HANDLE |
+                                  PROCESS_SET_QUOTA | PROCESS_SET_INFORMATION |
+                                  PROCESS_VM_OPERATION | PROCESS_VM_READ | PROCESS_VM_WRITE |
+                                  PROCESS_SUSPEND_RESUME;
 
     if (!getsids(error))
         goto cleanup;
@@ -272,27 +290,30 @@ static bool really_restrict_process_acl(char **error)
 
     acl_err = p_SetEntriesInAclA(2, ea, NULL, &acl);
 
-    if (acl_err != ERROR_SUCCESS || acl == NULL) {
+    if (acl_err != ERROR_SUCCESS || acl == NULL)
+    {
         *error = dupprintf("unable to construct ACL: %s",
                            win_strerror(acl_err));
         goto cleanup;
     }
 
-    if (ERROR_SUCCESS != p_SetSecurityInfo
-        (GetCurrentProcess(), SE_KERNEL_OBJECT,
-         OWNER_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION,
-         usersid, NULL, acl, NULL)) {
+    if (ERROR_SUCCESS != p_SetSecurityInfo(GetCurrentProcess(), SE_KERNEL_OBJECT,
+                                           OWNER_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION,
+                                           usersid, NULL, acl, NULL))
+    {
         *error = dupprintf("Unable to set process ACL: %s",
                            win_strerror(GetLastError()));
         goto cleanup;
     }
 
     acl_restricted = true;
-    ret=true;
+    ret = true;
 
-  cleanup:
-    if (!ret) {
-        if (acl) {
+cleanup:
+    if (!ret)
+    {
+        if (acl)
+        {
             LocalFree(acl);
             acl = NULL;
         }

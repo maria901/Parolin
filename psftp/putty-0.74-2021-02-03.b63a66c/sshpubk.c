@@ -38,11 +38,11 @@
 static const ptrlen rsa1_signature =
     PTRLEN_DECL_LITERAL("SSH PRIVATE KEY FILE FORMAT 1.1\n\0");
 
-#define BASE64_TOINT(x) ( (x)-'A'<26 ? (x)-'A'+0 :\
-                          (x)-'a'<26 ? (x)-'a'+26 :\
-                          (x)-'0'<10 ? (x)-'0'+52 :\
-                          (x)=='+' ? 62 : \
-                          (x)=='/' ? 63 : 0 )
+#define BASE64_TOINT(x) ((x) - 'A' < 26 ? (x) - 'A' + 0 : (x) - 'a' < 26 ? (x) - 'a' + 26 \
+                                                      : (x) - '0' < 10   ? (x) - '0' + 52 \
+                                                      : (x) == '+'       ? 62             \
+                                                      : (x) == '/'       ? 63             \
+                                                                         : 0)
 
 LoadedFile *lf_new(size_t max_size)
 {
@@ -63,7 +63,8 @@ void lf_free(LoadedFile *lf)
 LoadFileStatus lf_load_fp(LoadedFile *lf, FILE *fp)
 {
     lf->len = 0;
-    while (lf->len < lf->max_size) {
+    while (lf->len < lf->max_size)
+    {
         size_t retd = fread(lf->data + lf->len, 1, lf->max_size - lf->len, fp);
         if (ferror(fp))
             return LF_ERROR;
@@ -76,7 +77,8 @@ LoadFileStatus lf_load_fp(LoadedFile *lf, FILE *fp)
 
     LoadFileStatus status = LF_OK;
 
-    if (lf->len == lf->max_size) {
+    if (lf->len == lf->max_size)
+    {
         /* The file might be too long to fit in our fixed-size
          * structure. Try reading one more byte, to check. */
         if (fgetc(fp) != EOF)
@@ -103,16 +105,17 @@ static inline bool lf_load_keyfile_helper(LoadFileStatus status,
                                           const char **errptr)
 {
     const char *error;
-    switch (status) {
-      case LF_OK:
+    switch (status)
+    {
+    case LF_OK:
         return true;
-      case LF_TOO_BIG:
+    case LF_TOO_BIG:
         error = "file is too large to be a key file";
         break;
-      case LF_ERROR:
+    case LF_ERROR:
         error = strerror(errno);
         break;
-      default:
+    default:
         unreachable("bad status value in lf_load_keyfile_helper");
     }
     if (errptr)
@@ -123,7 +126,8 @@ static inline bool lf_load_keyfile_helper(LoadFileStatus status,
 LoadedFile *lf_load_keyfile(const Filename *filename, const char **errptr)
 {
     LoadedFile *lf = lf_new(MAX_KEY_FILE_SIZE);
-    if (!lf_load_keyfile_helper(lf_load(lf, filename), errptr)) {
+    if (!lf_load_keyfile_helper(lf_load(lf, filename), errptr))
+    {
         lf_free(lf);
         return NULL;
     }
@@ -133,7 +137,8 @@ LoadedFile *lf_load_keyfile(const Filename *filename, const char **errptr)
 LoadedFile *lf_load_keyfile_fp(FILE *fp, const char **errptr)
 {
     LoadedFile *lf = lf_new(MAX_KEY_FILE_SIZE);
-    if (!lf_load_keyfile_helper(lf_load_fp(lf, fp), errptr)) {
+    if (!lf_load_keyfile_helper(lf_load_fp(lf, fp), errptr))
+    {
         lf_free(lf);
         return NULL;
     }
@@ -167,7 +172,7 @@ static int rsa1_load_s_internal(BinarySource *src, RSAKey *key, bool pub_only,
     if (ciphertype != 0 && ciphertype != SSH1_CIPHER_3DES)
         goto end;
     if (get_uint32(src) != 0)
-        goto end;                 /* reserved field nonzero, panic! */
+        goto end; /* reserved field nonzero, panic! */
 
     /* Now the serious stuff. An ordinary SSH-1 public key. */
     get_rsa_ssh1_pub(src, key, RSA_SSH1_MODULUS_FIRST);
@@ -179,12 +184,14 @@ static int rsa1_load_s_internal(BinarySource *src, RSAKey *key, bool pub_only,
     if (key)
         key->comment = mkstr(comment);
 
-    if (pub_only) {
+    if (pub_only)
+    {
         ret = 1;
         goto end;
     }
 
-    if (!key) {
+    if (!key)
+    {
         ret = ciphertype != 0;
         *error = NULL;
         goto end;
@@ -193,7 +200,8 @@ static int rsa1_load_s_internal(BinarySource *src, RSAKey *key, bool pub_only,
     /*
      * Decrypt remainder of buffer.
      */
-    if (ciphertype) {
+    if (ciphertype)
+    {
         size_t enclen = get_avail(src);
         if (enclen & 7)
             goto end;
@@ -204,7 +212,7 @@ static int rsa1_load_s_internal(BinarySource *src, RSAKey *key, bool pub_only,
         unsigned char keybuf[16];
         hash_simple(&ssh_md5, ptrlen_from_asciz(passphrase), keybuf);
         des3_decrypt_pubkey(keybuf, buf->u, enclen);
-        smemclr(keybuf, sizeof(keybuf));        /* burn the evidence */
+        smemclr(keybuf, sizeof(keybuf)); /* burn the evidence */
 
         BinarySource_BARE_INIT_PL(src, ptrlen_from_strbuf(buf));
     }
@@ -218,7 +226,8 @@ static int rsa1_load_s_internal(BinarySource *src, RSAKey *key, bool pub_only,
         int b1a = get_byte(src);
         int b0b = get_byte(src);
         int b1b = get_byte(src);
-        if (b0a != b0b || b1a != b1b) {
+        if (b0a != b0b || b1a != b1b)
+        {
             *error = "wrong passphrase";
             ret = -1;
             goto end;
@@ -235,16 +244,19 @@ static int rsa1_load_s_internal(BinarySource *src, RSAKey *key, bool pub_only,
     key->q = get_mp_ssh1(src);
     key->p = get_mp_ssh1(src);
 
-    if (!rsa_verify(key)) {
+    if (!rsa_verify(key))
+    {
         *error = "rsa_verify failed";
         freersakey(key);
         ret = 0;
-    } else {
+    }
+    else
+    {
         *error = NULL;
         ret = 1;
     }
 
-  end:
+end:
     if (buf)
         strbuf_free(buf);
     return ret;
@@ -306,17 +318,21 @@ int rsa1_loadpub_s(BinarySource *src, BinarySink *bs,
     bool is_privkey_file = expect_signature(src, rsa1_signature);
     BinarySource_REWIND(src);
 
-    if (is_privkey_file) {
+    if (is_privkey_file)
+    {
         /*
          * Load just the public half from an SSH-1 private key file.
          */
         memset(&key, 0, sizeof(key));
-        if (rsa1_load_s_internal(src, &key, true, commentptr, NULL, &error)) {
+        if (rsa1_load_s_internal(src, &key, true, commentptr, NULL, &error))
+        {
             rsa_ssh1_public_blob(bs, &key, RSA_SSH1_EXPONENT_FIRST);
             freersakey(&key);
             ret = 1;
         }
-    } else {
+    }
+    else
+    {
         /*
          * Try interpreting the file as an SSH-1 public key.
          */
@@ -339,19 +355,23 @@ int rsa1_loadpub_s(BinarySource *src, BinarySink *bs,
 
         modp = p;
         p += strspn(p, "0123456789");
-        if (*p) {
+        if (*p)
+        {
             if (*p != ' ')
                 goto not_public_either;
             *p++ = '\0';
             commentp = p;
-        } else {
+        }
+        else
+        {
             commentp = NULL;
         }
 
         memset(&key, 0, sizeof(key));
         key.exponent = mp_from_decimal(expp);
         key.modulus = mp_from_decimal(modp);
-        if (atoi(bitsp) != mp_get_nbits(key.modulus)) {
+        if ((int64_t)atoi(bitsp) != (int64_t)mp_get_nbits(key.modulus))
+        {
             mp_free(key.exponent);
             mp_free(key.modulus);
             sfree(line);
@@ -365,12 +385,12 @@ int rsa1_loadpub_s(BinarySource *src, BinarySink *bs,
         sfree(line);
         return 1;
 
-      not_public_either:
+    not_public_either:
         sfree(line);
         error = "not an SSH-1 RSA file";
     }
 
-  end:
+end:
     if ((ret != 1) && errorstr)
         *errorstr = error;
     return ret;
@@ -399,7 +419,7 @@ strbuf *rsa1_save_sb(RSAKey *key, const char *passphrase)
      */
     put_datapl(buf, rsa1_signature);
     put_byte(buf, passphrase ? SSH1_CIPHER_3DES : 0); /* encryption type */
-    put_uint32(buf, 0);                              /* reserved */
+    put_uint32(buf, 0);                               /* reserved */
     rsa_ssh1_public_blob(BinarySink_UPCAST(buf), key,
                          RSA_SSH1_MODULUS_FIRST);
     put_stringz(buf, NULLTOEMPTY(key->comment));
@@ -437,12 +457,13 @@ strbuf *rsa1_save_sb(RSAKey *key, const char *passphrase)
     /*
      * Now encrypt the encrypted portion.
      */
-    if (passphrase) {
+    if (passphrase)
+    {
         unsigned char keybuf[16];
 
         hash_simple(&ssh_md5, ptrlen_from_asciz(passphrase), keybuf);
         des3_encrypt_pubkey(keybuf, buf->u + estart, buf->len - estart);
-        smemclr(keybuf, sizeof(keybuf));        /* burn the evidence */
+        smemclr(keybuf, sizeof(keybuf)); /* burn the evidence */
     }
 
     return buf;
@@ -553,33 +574,38 @@ static bool read_header(BinarySource *src, char *header)
     int len = 39;
     int c;
 
-    while (1) {
+    while (1)
+    {
         c = get_byte(src);
         if (c == '\n' || c == '\r' || c == EOF)
-            return false;              /* failure */
-        if (c == ':') {
+            return false; /* failure */
+        if (c == ':')
+        {
             c = get_byte(src);
             if (c != ' ')
                 return false;
             *header = '\0';
-            return true;               /* success! */
+            return true; /* success! */
         }
         if (len == 0)
-            return false;              /* failure */
+            return false; /* failure */
         *header++ = c;
         len--;
     }
-    return false;                      /* failure */
+    return false; /* failure */
 }
 
 static char *read_body(BinarySource *src)
 {
     strbuf *buf = strbuf_new_nm();
 
-    while (1) {
+    while (1)
+    {
         int c = get_byte(src);
-        if (c == '\r' || c == '\n' || c == EOF) {
-            if (c != EOF) {
+        if (c == '\r' || c == '\n' || c == EOF)
+        {
+            if (c != EOF)
+            {
                 c = get_byte(src);
                 if (c != '\r' && c != '\n')
                     src->pos--;
@@ -601,22 +627,27 @@ static bool read_blob(BinarySource *src, int nlines, BinarySink *bs)
     assert(nlines < MAX_KEY_BLOB_LINES);
     blob = snewn(48 * nlines, unsigned char);
 
-    for (i = 0; i < nlines; i++) {
+    for (i = 0; i < nlines; i++)
+    {
         line = read_body(src);
-        if (!line) {
+        if (!line)
+        {
             sfree(blob);
             return false;
         }
         linelen = strlen(line);
-        if (linelen % 4 != 0 || linelen > 64) {
+        if (linelen % 4 != 0 || linelen > 64)
+        {
             sfree(blob);
             sfree(line);
             return false;
         }
-        for (j = 0; j < linelen; j += 4) {
+        for (j = 0; j < linelen; j += 4)
+        {
             unsigned char decoded[3];
             k = base64_decode_atom(line + j, decoded);
-            if (!k) {
+            if (!k)
+            {
                 sfree(line);
                 sfree(blob);
                 return false;
@@ -632,7 +663,7 @@ static bool read_blob(BinarySource *src, int nlines, BinarySink *bs)
 /*
  * Magic error return value for when the passphrase is wrong.
  */
-ssh2_userkey ssh2_wrong_passphrase = { NULL, NULL };
+ssh2_userkey ssh2_wrong_passphrase = {NULL, NULL};
 
 const ssh_keyalg *const all_keyalgs[] = {
     &ssh_rsa,
@@ -697,27 +728,35 @@ ssh2_userkey *ppk_load_s(BinarySource *src, const char *passphrase,
     int passlen = passphrase ? strlen(passphrase) : 0;
     const char *error = NULL;
 
-    ret = NULL;                        /* return NULL for most errors */
+    ret = NULL; /* return NULL for most errors */
     encryption = comment = mac = NULL;
     public_blob = private_blob = NULL;
 
     /* Read the first header line which contains the key type. */
-    if (!read_header(src, header)) {
+    if (!read_header(src, header))
+    {
         error = "no header line found in key file";
         goto error;
     }
-    if (0 == strcmp(header, "PuTTY-User-Key-File-2")) {
+    if (0 == strcmp(header, "PuTTY-User-Key-File-2"))
+    {
         old_fmt = false;
-    } else if (0 == strcmp(header, "PuTTY-User-Key-File-1")) {
+    }
+    else if (0 == strcmp(header, "PuTTY-User-Key-File-1"))
+    {
         /* this is an old key file; warn and then continue */
         old_keyfile_warning();
         old_fmt = true;
-    } else if (0 == strncmp(header, "PuTTY-User-Key-File-", 20)) {
+    }
+    else if (0 == strncmp(header, "PuTTY-User-Key-File-", 20))
+    {
         /* this is a key file FROM THE FUTURE; refuse it, but with a
          * more specific error message than the generic one below */
         error = "PuTTY key format too new";
         goto error;
-    } else {
+    }
+    else
+    {
         error = "not a PuTTY SSH-2 private key";
         goto error;
     }
@@ -726,7 +765,8 @@ ssh2_userkey *ppk_load_s(BinarySource *src, const char *passphrase,
         goto error;
     /* Select key algorithm structure. */
     alg = find_pubkey_alg(b);
-    if (!alg) {
+    if (!alg)
+    {
         sfree(b);
         goto error;
     }
@@ -737,13 +777,18 @@ ssh2_userkey *ppk_load_s(BinarySource *src, const char *passphrase,
         goto error;
     if ((encryption = read_body(src)) == NULL)
         goto error;
-    if (!strcmp(encryption, "aes256-cbc")) {
+    if (!strcmp(encryption, "aes256-cbc"))
+    {
         cipher = 1;
         cipherblk = 16;
-    } else if (!strcmp(encryption, "none")) {
+    }
+    else if (!strcmp(encryption, "none"))
+    {
         cipher = 0;
         cipherblk = 1;
-    } else {
+    }
+    else
+    {
         goto error;
     }
 
@@ -782,21 +827,26 @@ ssh2_userkey *ppk_load_s(BinarySource *src, const char *passphrase,
     /* Read the Private-MAC or Private-Hash header line. */
     if (!read_header(src, header))
         goto error;
-    if (0 == strcmp(header, "Private-MAC")) {
+    if (0 == strcmp(header, "Private-MAC"))
+    {
         if ((mac = read_body(src)) == NULL)
             goto error;
         is_mac = true;
-    } else if (0 == strcmp(header, "Private-Hash") && old_fmt) {
+    }
+    else if (0 == strcmp(header, "Private-Hash") && old_fmt)
+    {
         if ((mac = read_body(src)) == NULL)
             goto error;
         is_mac = false;
-    } else
+    }
+    else
         goto error;
 
     /*
      * Decrypt the private blob.
      */
-    if (cipher) {
+    if (cipher)
+    {
         unsigned char key[40];
 
         if (!passphrase)
@@ -817,11 +867,14 @@ ssh2_userkey *ppk_load_s(BinarySource *src, const char *passphrase,
         strbuf *macdata;
         bool free_macdata;
 
-        if (old_fmt) {
+        if (old_fmt)
+        {
             /* MAC (or hash) only covers the private blob. */
             macdata = private_blob;
             free_macdata = false;
-        } else {
+        }
+        else
+        {
             macdata = strbuf_new_nm();
             put_stringz(macdata, alg->ssh_id);
             put_stringz(macdata, encryption);
@@ -833,14 +886,15 @@ ssh2_userkey *ppk_load_s(BinarySource *src, const char *passphrase,
             free_macdata = true;
         }
 
-        if (is_mac) {
+        if (is_mac)
+        {
             ssh_hash *hash;
             ssh2_mac *mac;
             unsigned char mackey[20];
             char header[] = "putty-private-key-file-mac-key";
 
             hash = ssh_hash_new(&ssh_sha1);
-            put_data(hash, header, sizeof(header)-1);
+            put_data(hash, header, sizeof(header) - 1);
             if (cipher && passphrase)
                 put_data(hash, passphrase, passlen);
             ssh_hash_final(hash, mackey);
@@ -853,7 +907,9 @@ ssh2_userkey *ppk_load_s(BinarySource *src, const char *passphrase,
             ssh2_mac_free(mac);
 
             smemclr(mackey, sizeof(mackey));
-        } else {
+        }
+        else
+        {
             hash_simple(&ssh_sha1, ptrlen_from_strbuf(macdata), binary);
         }
 
@@ -863,13 +919,17 @@ ssh2_userkey *ppk_load_s(BinarySource *src, const char *passphrase,
         for (i = 0; i < 20; i++)
             sprintf(realmac + 2 * i, "%02x", binary[i]);
 
-        if (strcmp(mac, realmac)) {
+        if (strcmp(mac, realmac))
+        {
             /* An incorrect MAC is an unconditional Error if the key is
              * unencrypted. Otherwise, it means Wrong Passphrase. */
-            if (cipher) {
+            if (cipher)
+            {
                 error = "wrong passphrase";
                 ret = SSH2_WRONG_PASSPHRASE;
-            } else {
+            }
+            else
+            {
                 error = "MAC failed";
                 ret = NULL;
             }
@@ -887,7 +947,8 @@ ssh2_userkey *ppk_load_s(BinarySource *src, const char *passphrase,
     ret->key = ssh_key_new_priv(
         alg, ptrlen_from_strbuf(public_blob),
         ptrlen_from_strbuf(private_blob));
-    if (!ret->key) {
+    if (!ret->key)
+    {
         sfree(ret);
         ret = NULL;
         error = "createkey failed";
@@ -903,7 +964,7 @@ ssh2_userkey *ppk_load_s(BinarySource *src, const char *passphrase,
     /*
      * Error processing.
      */
-  error:
+error:
     if (comment)
         sfree(comment);
     if (encryption)
@@ -946,15 +1007,19 @@ static bool rfc4716_loadpub(BinarySource *src, char **algorithm,
     int alglen;
 
     line = mkstr(get_chomped_line(src));
-    if (!line || 0 != strcmp(line, "---- BEGIN SSH2 PUBLIC KEY ----")) {
+    if (!line || 0 != strcmp(line, "---- BEGIN SSH2 PUBLIC KEY ----"))
+    {
         error = "invalid begin line in SSH-2 public key file";
         goto error;
     }
-    sfree(line); line = NULL;
+    sfree(line);
+    line = NULL;
 
-    while (1) {
+    while (1)
+    {
         line = mkstr(get_chomped_line(src));
-        if (!line) {
+        if (!line)
+        {
             error = "truncated SSH-2 public key file";
             goto error;
         }
@@ -964,36 +1029,44 @@ static bool rfc4716_loadpub(BinarySource *src, char **algorithm,
         *colon = '\0';
         value = colon + 2;
 
-        if (!strcmp(line, "Comment")) {
+        if (!strcmp(line, "Comment"))
+        {
             char *p, *q;
 
             /* Remove containing double quotes, if present */
             p = value;
-            if (*p == '"' && p[strlen(p)-1] == '"') {
-                p[strlen(p)-1] = '\0';
+            if (*p == '"' && p[strlen(p) - 1] == '"')
+            {
+                p[strlen(p) - 1] = '\0';
                 p++;
             }
 
             /* Remove \-escaping, not in RFC4716 but seen in the wild
              * in practice. */
-            for (q = line; *p; p++) {
+            for (q = line; *p; p++)
+            {
                 if (*p == '\\' && p[1])
                     p++;
                 *q++ = *p;
             }
 
             *q = '\0';
-            sfree(comment);   /* *just* in case of multiple Comment headers */
+            sfree(comment); /* *just* in case of multiple Comment headers */
             comment = dupstr(line);
-        } else if (!strcmp(line, "Subject") ||
-                   !strncmp(line, "x-", 2)) {
+        }
+        else if (!strcmp(line, "Subject") ||
+                 !strncmp(line, "x-", 2))
+        {
             /* Headers we recognise and ignore. Do nothing. */
-        } else {
+        }
+        else
+        {
             error = "unrecognised header in SSH-2 public key file";
             goto error;
         }
 
-        sfree(line); line = NULL;
+        sfree(line);
+        line = NULL;
     }
 
     /*
@@ -1002,45 +1075,53 @@ static bool rfc4716_loadpub(BinarySource *src, char **algorithm,
      */
     pubblob = strbuf_new();
     base64bytes = 0;
-    while (line && line[0] != '-') {
+    while (line && line[0] != '-')
+    {
         char *p;
-        for (p = line; *p; p++) {
+        for (p = line; *p; p++)
+        {
             base64in[base64bytes++] = *p;
-            if (base64bytes == 4) {
+            if (base64bytes == 4)
+            {
                 int n = base64_decode_atom(base64in, base64out);
                 put_data(pubblob, base64out, n);
                 base64bytes = 0;
             }
         }
-        sfree(line); line = NULL;
+        sfree(line);
+        line = NULL;
         line = mkstr(get_chomped_line(src));
     }
 
     /*
      * Finally, check the END line makes sense.
      */
-    if (!line || 0 != strcmp(line, "---- END SSH2 PUBLIC KEY ----")) {
+    if (!line || 0 != strcmp(line, "---- END SSH2 PUBLIC KEY ----"))
+    {
         error = "invalid end line in SSH-2 public key file";
         goto error;
     }
-    sfree(line); line = NULL;
+    sfree(line);
+    line = NULL;
 
     /*
      * OK, we now have a public blob and optionally a comment. We must
      * return the key algorithm string too, so look for that at the
      * start of the public blob.
      */
-    if (pubblob->len < 4) {
+    if (pubblob->len < 4)
+    {
         error = "not enough data in SSH-2 public key file";
         goto error;
     }
     alglen = toint(GET_32BIT_MSB_FIRST(pubblob->u));
-    if (alglen < 0 || alglen > pubblob->len-4) {
+    if (alglen < 0 || (int64_t)alglen > (int64_t)pubblob->len - 4)
+    {
         error = "invalid algorithm prefix in SSH-2 public key file";
         goto error;
     }
     if (algorithm)
-        *algorithm = dupprintf("%.*s", alglen, pubblob->s+4);
+        *algorithm = dupprintf("%.*s", alglen, pubblob->s + 4);
     if (commentptr)
         *commentptr = comment;
     else
@@ -1049,7 +1130,7 @@ static bool rfc4716_loadpub(BinarySource *src, char **algorithm,
     strbuf_free(pubblob);
     return true;
 
-  error:
+error:
     sfree(line);
     sfree(comment);
     if (pubblob)
@@ -1073,14 +1154,16 @@ static bool openssh_loadpub(BinarySource *src, char **algorithm,
     line = mkstr(get_chomped_line(src));
 
     base64 = strchr(line, ' ');
-    if (!base64) {
+    if (!base64)
+    {
         error = "no key blob in OpenSSH public key file";
         goto error;
     }
     *base64++ = '\0';
 
     comment = strchr(base64, ' ');
-    if (comment) {
+    if (comment)
+    {
         *comment++ = '\0';
         comment = dupstr(comment);
     }
@@ -1089,12 +1172,14 @@ static bool openssh_loadpub(BinarySource *src, char **algorithm,
     pubblob = snewn(pubblobsize, unsigned char);
     pubbloblen = 0;
 
-    while (!memchr(base64, '\0', 4)) {
+    while (!memchr(base64, '\0', 4))
+    {
         assert(pubbloblen + 3 <= pubblobsize);
         pubbloblen += base64_decode_atom(base64, pubblob + pubbloblen);
         base64 += 4;
     }
-    if (*base64) {
+    if (*base64)
+    {
         error = "invalid length for base64 data in OpenSSH public key file";
         goto error;
     }
@@ -1106,8 +1191,9 @@ static bool openssh_loadpub(BinarySource *src, char **algorithm,
      */
     alglen = strlen(line);
     if (pubbloblen < alglen + 4 ||
-        GET_32BIT_MSB_FIRST(pubblob) != alglen ||
-        0 != memcmp(pubblob + 4, line, alglen)) {
+        (int64_t)GET_32BIT_MSB_FIRST(pubblob) != (int64_t)alglen ||
+        0 != memcmp(pubblob + 4, line, alglen))
+    {
         error = "key algorithms do not match in OpenSSH public key file";
         goto error;
     }
@@ -1126,7 +1212,7 @@ static bool openssh_loadpub(BinarySource *src, char **algorithm,
     sfree(pubblob);
     return true;
 
-  error:
+error:
     sfree(line);
     sfree(comment);
     sfree(pubblob);
@@ -1147,21 +1233,26 @@ bool ppk_loadpub_s(BinarySource *src, char **algorithm, BinarySink *bs,
     /* Initially, check if this is a public-only key file. Sometimes
      * we'll be asked to read a public blob from one of those. */
     type = key_type_s(src);
-    if (type == SSH_KEYTYPE_SSH2_PUBLIC_RFC4716) {
+    if (type == SSH_KEYTYPE_SSH2_PUBLIC_RFC4716)
+    {
         bool ret = rfc4716_loadpub(src, algorithm, bs, commentptr, errorstr);
         return ret;
-    } else if (type == SSH_KEYTYPE_SSH2_PUBLIC_OPENSSH) {
+    }
+    else if (type == SSH_KEYTYPE_SSH2_PUBLIC_OPENSSH)
+    {
         bool ret = openssh_loadpub(src, algorithm, bs, commentptr, errorstr);
         return ret;
-    } else if (type != SSH_KEYTYPE_SSH2) {
+    }
+    else if (type != SSH_KEYTYPE_SSH2)
+    {
         error = "not a PuTTY SSH-2 private key";
         goto error;
     }
 
     /* Read the first header line which contains the key type. */
-    if (!read_header(src, header)
-        || (0 != strcmp(header, "PuTTY-User-Key-File-2") &&
-            0 != strcmp(header, "PuTTY-User-Key-File-1"))) {
+    if (!read_header(src, header) || (0 != strcmp(header, "PuTTY-User-Key-File-2") &&
+                                      0 != strcmp(header, "PuTTY-User-Key-File-1")))
+    {
         if (0 == strncmp(header, "PuTTY-User-Key-File-", 20))
             error = "PuTTY key format too new";
         else
@@ -1174,7 +1265,8 @@ bool ppk_loadpub_s(BinarySource *src, char **algorithm, BinarySink *bs,
     /* Select key algorithm structure. */
     alg = find_pubkey_alg(b);
     sfree(b);
-    if (!alg) {
+    if (!alg)
+    {
         goto error;
     }
 
@@ -1183,7 +1275,7 @@ bool ppk_loadpub_s(BinarySource *src, char **algorithm, BinarySink *bs,
         goto error;
     if ((b = read_body(src)) == NULL)
         goto error;
-    sfree(b);                          /* we don't care */
+    sfree(b); /* we don't care */
 
     /* Read the Comment header line. */
     if (!read_header(src, header) || 0 != strcmp(header, "Comment"))
@@ -1215,10 +1307,11 @@ bool ppk_loadpub_s(BinarySource *src, char **algorithm, BinarySink *bs,
     /*
      * Error processing.
      */
-  error:
+error:
     if (errorstr)
         *errorstr = error;
-    if (comment && commentptr) {
+    if (comment && commentptr)
+    {
         sfree(comment);
         *commentptr = NULL;
     }
@@ -1246,29 +1339,34 @@ bool ppk_encrypted_s(BinarySource *src, char **commentptr)
     if (commentptr)
         *commentptr = NULL;
 
-    if (!read_header(src, header)
-        || (0 != strcmp(header, "PuTTY-User-Key-File-2") &&
-            0 != strcmp(header, "PuTTY-User-Key-File-1"))) {
+    if (!read_header(src, header) || (0 != strcmp(header, "PuTTY-User-Key-File-2") &&
+                                      0 != strcmp(header, "PuTTY-User-Key-File-1")))
+    {
         return false;
     }
-    if ((b = read_body(src)) == NULL) {
+    if ((b = read_body(src)) == NULL)
+    {
         return false;
     }
-    sfree(b);                          /* we don't care about key type here */
+    sfree(b); /* we don't care about key type here */
     /* Read the Encryption header line. */
-    if (!read_header(src, header) || 0 != strcmp(header, "Encryption")) {
+    if (!read_header(src, header) || 0 != strcmp(header, "Encryption"))
+    {
         return false;
     }
-    if ((b = read_body(src)) == NULL) {
+    if ((b = read_body(src)) == NULL)
+    {
         return false;
     }
 
     /* Read the Comment header line. */
-    if (!read_header(src, header) || 0 != strcmp(header, "Comment")) {
+    if (!read_header(src, header) || 0 != strcmp(header, "Comment"))
+    {
         sfree(b);
         return true;
     }
-    if ((comment = read_body(src)) == NULL) {
+    if ((comment = read_body(src)) == NULL)
+    {
         sfree(b);
         return true;
     }
@@ -1289,7 +1387,8 @@ bool ppk_encrypted_s(BinarySource *src, char **commentptr)
 bool ppk_encrypted_f(const Filename *filename, char **commentptr)
 {
     LoadedFile *lf = lf_load_keyfile(filename, NULL);
-    if (!lf) {
+    if (!lf)
+    {
         if (commentptr)
             *commentptr = NULL;
         return false;
@@ -1313,13 +1412,16 @@ static void base64_encode_s(BinarySink *bs, const unsigned char *data,
     char out[4];
     int n, i;
 
-    while (datalen > 0) {
+    while (datalen > 0)
+    {
         n = (datalen < 3 ? datalen : 3);
         base64_encode_atom(data, n, out);
         data += n;
         datalen -= n;
-        for (i = 0; i < 4; i++) {
-            if (linelen >= cpl) {
+        for (i = 0; i < 4; i++)
+        {
+            if (linelen >= cpl)
+            {
                 linelen = 0;
                 put_byte(bs, '\n');
             }
@@ -1358,10 +1460,13 @@ strbuf *ppk_save_sb(ssh2_userkey *key, const char *passphrase)
     /*
      * Determine encryption details, and encrypt the private blob.
      */
-    if (passphrase) {
+    if (passphrase)
+    {
         cipherstr = "aes256-cbc";
         cipherblk = 16;
-    } else {
+    }
+    else
+    {
         cipherstr = "none";
         cipherblk = 1;
     }
@@ -1391,7 +1496,7 @@ strbuf *ppk_save_sb(ssh2_userkey *key, const char *passphrase)
         put_string(macdata, priv_blob_encrypted, priv_encrypted_len);
 
         ssh_hash *h = ssh_hash_new(&ssh_sha1);
-        put_data(h, header, sizeof(header)-1);
+        put_data(h, header, sizeof(header) - 1);
         if (passphrase)
             put_data(h, passphrase, strlen(passphrase));
         ssh_hash_final(h, mackey);
@@ -1401,7 +1506,8 @@ strbuf *ppk_save_sb(ssh2_userkey *key, const char *passphrase)
         smemclr(mackey, sizeof(mackey));
     }
 
-    if (passphrase) {
+    if (passphrase)
+    {
         unsigned char key[40];
 
         ssh2_ppk_derivekey(ptrlen_from_asciz(passphrase), key);
@@ -1484,7 +1590,8 @@ static char *ssh2_pubkey_openssh_str_internal(const char *comment,
         BinarySource src[1];
         BinarySource_BARE_INIT(src, ssh2blob, pub_len);
         alg = get_string(src);
-        if (get_err(src)) {
+        if (get_err(src))
+        {
             const char *replacement_str = "INVALID-ALGORITHM";
             alg.ptr = replacement_str;
             alg.len = strlen(replacement_str);
@@ -1492,20 +1599,24 @@ static char *ssh2_pubkey_openssh_str_internal(const char *comment,
     }
 
     buffer = snewn(alg.len +
-                   4 * ((pub_len+2) / 3) +
-                   (comment ? strlen(comment) : 0) + 3, char);
+                       4 * ((pub_len + 2) / 3) +
+                       (comment ? strlen(comment) : 0) + 3,
+                   char);
     p = buffer + sprintf(buffer, "%.*s ", PTRLEN_PRINTF(alg));
     i = 0;
-    while (i < pub_len) {
+    while (i < pub_len)
+    {
         int n = (pub_len - i < 3 ? pub_len - i : 3);
         base64_encode_atom(ssh2blob + i, n, p);
         i += n;
         p += 4;
     }
-    if (comment) {
+    if (comment)
+    {
         *p++ = ' ';
         strcpy(p, comment);
-    } else
+    }
+    else
         *p++ = '\0';
 
     return buffer;
@@ -1531,15 +1642,18 @@ void ssh2_write_pubkey(FILE *fp, const char *comment,
 {
     unsigned char *pub_blob = (unsigned char *)v_pub_blob;
 
-    if (keytype == SSH_KEYTYPE_SSH2_PUBLIC_RFC4716) {
+    if (keytype == SSH_KEYTYPE_SSH2_PUBLIC_RFC4716)
+    {
         const char *p;
         int i, column;
 
         fprintf(fp, "---- BEGIN SSH2 PUBLIC KEY ----\n");
 
-        if (comment) {
+        if (comment)
+        {
             fprintf(fp, "Comment: \"");
-            for (p = comment; *p; p++) {
+            for (p = comment; *p; p++)
+            {
                 if (*p == '\\' || *p == '\"')
                     fputc('\\', fp);
                 fputc(*p, fp);
@@ -1549,14 +1663,16 @@ void ssh2_write_pubkey(FILE *fp, const char *comment,
 
         i = 0;
         column = 0;
-        while (i < pub_len) {
+        while (i < pub_len)
+        {
             char buf[5];
             int n = (pub_len - i < 3 ? pub_len - i : 3);
             base64_encode_atom(pub_blob + i, n, buf);
             i += n;
             buf[4] = '\0';
             fputs(buf, fp);
-            if (++column >= 16) {
+            if (++column >= 16)
+            {
                 fputc('\n', fp);
                 column = 0;
             }
@@ -1565,12 +1681,16 @@ void ssh2_write_pubkey(FILE *fp, const char *comment,
             fputc('\n', fp);
 
         fprintf(fp, "---- END SSH2 PUBLIC KEY ----\n");
-    } else if (keytype == SSH_KEYTYPE_SSH2_PUBLIC_OPENSSH) {
+    }
+    else if (keytype == SSH_KEYTYPE_SSH2_PUBLIC_OPENSSH)
+    {
         char *buffer = ssh2_pubkey_openssh_str_internal(comment,
                                                         v_pub_blob, pub_len);
         fprintf(fp, "%s\n", buffer);
         sfree(buffer);
-    } else {
+    }
+    else
+    {
         unreachable("Bad key type in ssh2_write_pubkey");
     }
 }
@@ -1581,7 +1701,7 @@ void ssh2_write_pubkey(FILE *fp, const char *comment,
 char *ssh2_fingerprint_blob(ptrlen blob)
 {
     unsigned char digest[16];
-    char fingerprint_str[16*3];
+    char fingerprint_str[16 * 3];
     ptrlen algname;
     const ssh_keyalg *alg;
     int i;
@@ -1592,24 +1712,30 @@ char *ssh2_fingerprint_blob(ptrlen blob)
      */
     hash_simple(&ssh_md5, blob, digest);
     for (i = 0; i < 16; i++)
-        sprintf(fingerprint_str + i*3, "%02x%s", digest[i], i==15 ? "" : ":");
+        sprintf(fingerprint_str + i * 3, "%02x%s", digest[i], i == 15 ? "" : ":");
 
     /*
      * Identify the key algorithm, if possible.
      */
     BinarySource_BARE_INIT_PL(src, blob);
     algname = get_string(src);
-    if (!get_err(src)) {
+    if (!get_err(src))
+    {
         alg = find_pubkey_alg_len(algname);
-        if (alg) {
+        if (alg)
+        {
             int bits = ssh_key_public_bits(alg, blob);
             return dupprintf("%.*s %d %s", PTRLEN_PRINTF(algname),
                              bits, fingerprint_str);
-        } else {
+        }
+        else
+        {
             return dupprintf("%.*s %s", PTRLEN_PRINTF(algname),
                              fingerprint_str);
         }
-    } else {
+    }
+    else
+    {
         /*
          * No algorithm available (which means a seriously confused
          * key blob, but there we go). Return only the hash.
@@ -1664,14 +1790,22 @@ static int key_type_s_internal(BinarySource *src)
         return SSH_KEYTYPE_SSH1_PUBLIC;
 
     BinarySource_REWIND(src);
+
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wextra"
+
     if (find_pubkey_alg_len(get_nonchars(src, " \n")) > 0 &&
         get_chars(src, " ").len == 1 &&
         get_chars(src, "0123456789ABCDEFGHIJKLMNOPQRSTUV"
-                   "WXYZabcdefghijklmnopqrstuvwxyz+/=").len > 0 &&
+                       "WXYZabcdefghijklmnopqrstuvwxyz+/=")
+                .len > 0 &&
         get_nonchars(src, " \n").len == 0)
         return SSH_KEYTYPE_SSH2_PUBLIC_OPENSSH;
 
-    return SSH_KEYTYPE_UNKNOWN;        /* unrecognised or EOF */
+#pragma GCC diagnostic pop
+
+    return SSH_KEYTYPE_UNKNOWN; /* unrecognised or EOF */
 }
 
 int key_type_s(BinarySource *src)
@@ -1684,7 +1818,8 @@ int key_type_s(BinarySource *src)
 int key_type(const Filename *filename)
 {
     LoadedFile *lf = lf_new(1024);
-    if (lf_load(lf, filename) == LF_ERROR) {
+    if (lf_load(lf, filename) == LF_ERROR)
+    {
         lf_free(lf);
         return SSH_KEYTYPE_UNOPENABLE;
     }
@@ -1700,26 +1835,27 @@ int key_type(const Filename *filename)
  */
 const char *key_type_to_str(int type)
 {
-    switch (type) {
-      case SSH_KEYTYPE_UNOPENABLE:
+    switch (type)
+    {
+    case SSH_KEYTYPE_UNOPENABLE:
         return "unable to open file";
-      case SSH_KEYTYPE_UNKNOWN:
+    case SSH_KEYTYPE_UNKNOWN:
         return "not a recognised key file format";
-      case SSH_KEYTYPE_SSH1_PUBLIC:
+    case SSH_KEYTYPE_SSH1_PUBLIC:
         return "SSH-1 public key";
-      case SSH_KEYTYPE_SSH2_PUBLIC_RFC4716:
+    case SSH_KEYTYPE_SSH2_PUBLIC_RFC4716:
         return "SSH-2 public key (RFC 4716 format)";
-      case SSH_KEYTYPE_SSH2_PUBLIC_OPENSSH:
+    case SSH_KEYTYPE_SSH2_PUBLIC_OPENSSH:
         return "SSH-2 public key (OpenSSH format)";
-      case SSH_KEYTYPE_SSH1:
+    case SSH_KEYTYPE_SSH1:
         return "SSH-1 private key";
-      case SSH_KEYTYPE_SSH2:
+    case SSH_KEYTYPE_SSH2:
         return "PuTTY SSH-2 private key";
-      case SSH_KEYTYPE_OPENSSH_PEM:
+    case SSH_KEYTYPE_OPENSSH_PEM:
         return "OpenSSH SSH-2 private key (old PEM format)";
-      case SSH_KEYTYPE_OPENSSH_NEW:
+    case SSH_KEYTYPE_OPENSSH_NEW:
         return "OpenSSH SSH-2 private key (new format)";
-      case SSH_KEYTYPE_SSHCOM:
+    case SSH_KEYTYPE_SSHCOM:
         return "ssh.com SSH-2 private key";
 
         /*
@@ -1728,9 +1864,9 @@ const char *key_type_to_str(int type)
          * OPENSSH_AUTO should never get here, and is much an INTERNAL
          * ERROR as a code we don't even understand.
          */
-      case SSH_KEYTYPE_OPENSSH_AUTO:
+    case SSH_KEYTYPE_OPENSSH_AUTO:
         unreachable("OPENSSH_AUTO should never reach key_type_to_str");
-      default:
+    default:
         unreachable("bad key type in key_type_to_str");
     }
 }
@@ -1766,11 +1902,15 @@ void key_components_add_mp(key_components *kc,
 
 void key_components_free(key_components *kc)
 {
-    for (size_t i = 0; i < kc->ncomponents; i++) {
+    for (size_t i = 0; i < kc->ncomponents; i++)
+    {
         sfree(kc->components[i].name);
-        if (kc->components[i].is_mp_int) {
+        if (kc->components[i].is_mp_int)
+        {
             mp_free(kc->components[i].mp);
-        } else {
+        }
+        else
+        {
             smemclr(kc->components[i].text, strlen(kc->components[i].text));
             sfree(kc->components[i].text);
         }

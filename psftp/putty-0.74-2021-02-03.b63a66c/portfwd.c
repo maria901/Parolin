@@ -98,22 +98,32 @@ static void free_portlistener_state(struct PortListener *pl)
     sfree(pl);
 }
 
-static void pfd_log(Plug *plug, PlugLogType type, SockAddr *addr, int port,
-                    const char *error_msg, int error_code)
+static void pfd_log(__attribute__((unused)) Plug *plug,
+                    __attribute__((unused)) PlugLogType type,
+                    __attribute__((unused)) SockAddr *addr,
+                    __attribute__((unused)) int port,
+                    __attribute__((unused)) const char *error_msg,
+                    __attribute__((unused)) int error_code)
 {
     /* we have to dump these since we have no interface to logging.c */
 }
 
-static void pfl_log(Plug *plug, PlugLogType type, SockAddr *addr, int port,
-                    const char *error_msg, int error_code)
+static void pfl_log(__attribute__((unused)) Plug *plug,
+                    __attribute__((unused)) PlugLogType type,
+                    __attribute__((unused)) SockAddr *addr,
+                    __attribute__((unused)) int port,
+                    __attribute__((unused)) const char *error_msg,
+                    __attribute__((unused)) int error_code)
 {
     /* we have to dump these since we have no interface to logging.c */
 }
 
 static void pfd_close(struct PortForwarding *pf);
 
-static void pfd_closing(Plug *plug, const char *error_msg, int error_code,
-                        bool calling_back)
+static void pfd_closing(__attribute__((unused)) Plug *plug,
+                        __attribute__((unused)) const char *error_msg,
+                        __attribute__((unused)) int error_code,
+                        __attribute__((unused)) bool calling_back)
 {
     struct PortForwarding *pf =
         container_of(plug, struct PortForwarding, plug);
@@ -151,8 +161,10 @@ static void pfd_closing(Plug *plug, const char *error_msg, int error_code,
 
 static void pfl_terminate(struct PortListener *pl);
 
-static void pfl_closing(Plug *plug, const char *error_msg, int error_code,
-                        bool calling_back)
+static void pfl_closing(__attribute__((unused)) Plug *plug,
+                        __attribute__((unused)) const char *error_msg,
+                        __attribute__((unused)) int error_code,
+                        __attribute__((unused)) bool calling_back)
 {
     struct PortListener *pl = (struct PortListener *)plug;
     pfl_terminate(pl);
@@ -204,7 +216,10 @@ static char *ipv6_to_string(ptrlen ipv6)
                      (unsigned)GET_16BIT_MSB_FIRST(addr + 14));
 }
 
-static void pfd_receive(Plug *plug, int urgent, const char *data, size_t len)
+static void pfd_receive(__attribute__((unused)) Plug *plug,
+                        __attribute__((unused)) int urgent,
+                        __attribute__((unused)) const char *data,
+                        __attribute__((unused)) size_t len)
 {
     struct PortForwarding *pf =
         container_of(plug, struct PortForwarding, plug);
@@ -335,7 +350,7 @@ static void pfd_receive(Plug *plug, int urgent, const char *data, size_t len)
                 method = 0xFF; /* means 'no usable method found' */
                 {
                     int i;
-                    for (i = 0; i < methods.len; i++)
+                    for (i = 0; (int64_t)i < (int64_t)methods.len; i++)
                     {
                         if (((const unsigned char *)methods.ptr)[i] == 0)
                         {
@@ -635,7 +650,7 @@ static char *pfl_listen(const char *desthost, int destport,
     return NULL;
 }
 
-static char *pfd_log_close_msg(Channel *chan)
+static char *pfd_log_close_msg(__attribute__((unused)) Channel *chan)
 {
     return dupstr("Forwarded port closed");
 }
@@ -679,8 +694,9 @@ static void pfd_chan_free(Channel *chan)
 /*
  * Called to send data down the raw connection.
  */
-static size_t pfd_send(
-    Channel *chan, bool is_stderr, const void *data, size_t len)
+static size_t pfd_send(Channel *chan,
+                       __attribute__((unused)) bool is_stderr,
+                       const void *data, size_t len)
 {
     assert(chan->vt == &PortForwarding_channelvt);
     PortForwarding *pf = container_of(chan, PortForwarding, chan);

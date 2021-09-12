@@ -39,7 +39,8 @@
 /* ChaCha20 implementation, only supporting 256-bit keys */
 
 /* State for each ChaCha20 instance */
-struct chacha20 {
+struct chacha20
+{
     /* Current context, usually with the count incremented
      * 0-3 are the static constant
      * 4-11 are the key
@@ -64,20 +65,21 @@ static INLINE void chacha20_round(struct chacha20 *ctx)
 #define rotl(x, shift) x = ((x << shift) | (x >> (32 - shift)))
 
     /* What to do for each quarter round operation */
-#define qrop(a, b, c, d)                        \
-    copy[a] += copy[b];                         \
-    copy[c] ^= copy[a];                         \
+#define qrop(a, b, c, d) \
+    copy[a] += copy[b];  \
+    copy[c] ^= copy[a];  \
     rotl(copy[c], d)
 
     /* A quarter round */
-#define quarter(a, b, c, d)                     \
-    qrop(a, b, d, 16);                          \
-    qrop(c, d, b, 12);                          \
-    qrop(a, b, d, 8);                           \
+#define quarter(a, b, c, d) \
+    qrop(a, b, d, 16);      \
+    qrop(c, d, b, 12);      \
+    qrop(a, b, d, 8);       \
     qrop(c, d, b, 7)
 
     /* Do 20 rounds, in pairs because every other is different */
-    for (i = 0; i < 20; i += 2) {
+    for (i = 0; i < 20; i += 2)
+    {
         /* A round */
         quarter(0, 4, 8, 12);
         quarter(1, 5, 9, 13);
@@ -96,12 +98,14 @@ static INLINE void chacha20_round(struct chacha20 *ctx)
 #undef quarter
 
     /* Add the initial state */
-    for (i = 0; i < 16; ++i) {
+    for (i = 0; i < 16; ++i)
+    {
         copy[i] += ctx->state[i];
     }
 
     /* Update the content of the xor buffer */
-    for (i = 0; i < 16; ++i) {
+    for (i = 0; i < 16; ++i)
+    {
         ctx->current[i * 4 + 0] = copy[i] >> 0;
         ctx->current[i * 4 + 1] = copy[i] >> 8;
         ctx->current[i * 4 + 2] = copy[i] >> 16;
@@ -114,7 +118,8 @@ static INLINE void chacha20_round(struct chacha20 *ctx)
     /* Increment round counter */
     ++ctx->state[12];
     /* Check for overflow, not done in one line so the 32 bits are chopped by the type */
-    if (!(uint32_t)(ctx->state[12])) {
+    if (!(uint32_t)(ctx->state[12]))
+    {
         ++ctx->state[13];
     }
 }
@@ -131,12 +136,12 @@ static void chacha20_key(struct chacha20 *ctx, const unsigned char *key)
     ctx->state[3] = GET_32BIT_LSB_FIRST(constant + 12);
 
     /* Add the key */
-    ctx->state[4]  = GET_32BIT_LSB_FIRST(key + 0);
-    ctx->state[5]  = GET_32BIT_LSB_FIRST(key + 4);
-    ctx->state[6]  = GET_32BIT_LSB_FIRST(key + 8);
-    ctx->state[7]  = GET_32BIT_LSB_FIRST(key + 12);
-    ctx->state[8]  = GET_32BIT_LSB_FIRST(key + 16);
-    ctx->state[9]  = GET_32BIT_LSB_FIRST(key + 20);
+    ctx->state[4] = GET_32BIT_LSB_FIRST(key + 0);
+    ctx->state[5] = GET_32BIT_LSB_FIRST(key + 4);
+    ctx->state[6] = GET_32BIT_LSB_FIRST(key + 8);
+    ctx->state[7] = GET_32BIT_LSB_FIRST(key + 12);
+    ctx->state[8] = GET_32BIT_LSB_FIRST(key + 16);
+    ctx->state[9] = GET_32BIT_LSB_FIRST(key + 20);
     ctx->state[10] = GET_32BIT_LSB_FIRST(key + 24);
     ctx->state[11] = GET_32BIT_LSB_FIRST(key + 28);
 
@@ -157,14 +162,17 @@ static void chacha20_iv(struct chacha20 *ctx, const unsigned char *iv)
 
 static void chacha20_encrypt(struct chacha20 *ctx, unsigned char *blk, int len)
 {
-    while (len) {
+    while (len)
+    {
         /* If we don't have any state left, then cycle to the next */
-        if (ctx->currentIndex >= 64) {
+        if (ctx->currentIndex >= 64)
+        {
             chacha20_round(ctx);
         }
 
         /* Do the xor while there's some state left and some plaintext left */
-        while (ctx->currentIndex < 64 && len) {
+        while (ctx->currentIndex < 64 && len)
+        {
             *blk++ ^= ctx->current[ctx->currentIndex++];
             --len;
         }
@@ -180,8 +188,9 @@ static INLINE void chacha20_decrypt(struct chacha20 *ctx,
 
 /* Poly1305 implementation (no AES, nonce is not encrypted) */
 
-#define NWORDS ((130 + BIGNUM_INT_BITS-1) / BIGNUM_INT_BITS)
-typedef struct bigval {
+#define NWORDS ((130 + BIGNUM_INT_BITS - 1) / BIGNUM_INT_BITS)
+typedef struct bigval
+{
     BignumInt w[NWORDS];
 } bigval;
 
@@ -387,7 +396,7 @@ static void bigval_mul_mod_p(bigval *r, const bigval *a, const bigval *b)
     BignumMULADD2(v175, v174, v8, v15, v158, v173);
     BignumMULADD2(v177, v176, v8, v16, v160, v175);
     v178 = v8 * v17 + v161 + v177;
-    v180 = (v162) & ((((BignumInt)1) << 2)-1);
+    v180 = (v162) & ((((BignumInt)1) << 2) - 1);
     v181 = ((v162) >> 2) | ((v164) << 14);
     v182 = ((v164) >> 2) | ((v166) << 14);
     v183 = ((v166) >> 2) | ((v168) << 14);
@@ -397,7 +406,7 @@ static void bigval_mul_mod_p(bigval *r, const bigval *a, const bigval *b)
     v187 = ((v174) >> 2) | ((v176) << 14);
     v188 = ((v176) >> 2) | ((v178) << 14);
     v189 = (v178) >> 2;
-    v190 = (v189) & ((((BignumInt)1) << 2)-1);
+    v190 = (v189) & ((((BignumInt)1) << 2) - 1);
     v191 = (v178) >> 4;
     BignumMUL(v193, v192, 5, v181);
     BignumMULADD(v195, v194, 5, v182, v193);
@@ -456,7 +465,7 @@ static void bigval_final_reduce(bigval *n)
     v7 = n->w[7];
     v8 = n->w[8];
     v9 = (v8) >> 2;
-    v10 = (v8) & ((((BignumInt)1) << 2)-1);
+    v10 = (v8) & ((((BignumInt)1) << 2) - 1);
     v11 = 5 * v9;
     BignumADC(v13, carry, v0, v11, 0);
     BignumADC(v14, carry, v1, 0, carry);
@@ -495,7 +504,7 @@ static void bigval_final_reduce(bigval *n)
     BignumADC(v40, carry, v19, 0, carry);
     BignumADC(v41, carry, v20, 0, carry);
     v42 = v21 + 0 + carry;
-    v43 = (v42) & ((((BignumInt)1) << 2)-1);
+    v43 = (v42) & ((((BignumInt)1) << 2) - 1);
     n->w[0] = v34;
     n->w[1] = v35;
     n->w[2] = v36;
@@ -582,13 +591,13 @@ static void bigval_mul_mod_p(bigval *r, const bigval *a, const bigval *b)
     BignumMULADD2(v55, v54, v4, v7, v46, v53);
     BignumMULADD2(v57, v56, v4, v8, v48, v55);
     v58 = v4 * v9 + v49 + v57;
-    v60 = (v50) & ((((BignumInt)1) << 2)-1);
+    v60 = (v50) & ((((BignumInt)1) << 2) - 1);
     v61 = ((v50) >> 2) | ((v52) << 30);
     v62 = ((v52) >> 2) | ((v54) << 30);
     v63 = ((v54) >> 2) | ((v56) << 30);
     v64 = ((v56) >> 2) | ((v58) << 30);
     v65 = (v58) >> 2;
-    v66 = (v65) & ((((BignumInt)1) << 2)-1);
+    v66 = (v65) & ((((BignumInt)1) << 2) - 1);
     v67 = (v58) >> 4;
     BignumMUL(v69, v68, 5, v61);
     BignumMULADD(v71, v70, 5, v62, v69);
@@ -625,7 +634,7 @@ static void bigval_final_reduce(bigval *n)
     v3 = n->w[3];
     v4 = n->w[4];
     v5 = (v4) >> 2;
-    v6 = (v4) & ((((BignumInt)1) << 2)-1);
+    v6 = (v4) & ((((BignumInt)1) << 2) - 1);
     v7 = 5 * v5;
     BignumADC(v9, carry, v0, v7, 0);
     BignumADC(v10, carry, v1, 0, carry);
@@ -648,7 +657,7 @@ static void bigval_final_reduce(bigval *n)
     BignumADC(v24, carry, v11, 0, carry);
     BignumADC(v25, carry, v12, 0, carry);
     v26 = v13 + 0 + carry;
-    v27 = (v26) & ((((BignumInt)1) << 2)-1);
+    v27 = (v26) & ((((BignumInt)1) << 2) - 1);
     n->w[0] = v22;
     n->w[1] = v23;
     n->w[2] = v24;
@@ -699,11 +708,11 @@ static void bigval_mul_mod_p(bigval *r, const bigval *a, const bigval *b)
     BignumMULADD(v19, v18, v2, v3, v14);
     BignumMULADD2(v21, v20, v2, v4, v16, v19);
     v22 = v2 * v5 + v17 + v21;
-    v24 = (v18) & ((((BignumInt)1) << 2)-1);
+    v24 = (v18) & ((((BignumInt)1) << 2) - 1);
     v25 = ((v18) >> 2) | ((v20) << 62);
     v26 = ((v20) >> 2) | ((v22) << 62);
     v27 = (v22) >> 2;
-    v28 = (v27) & ((((BignumInt)1) << 2)-1);
+    v28 = (v27) & ((((BignumInt)1) << 2) - 1);
     v29 = (v22) >> 4;
     BignumMUL(v31, v30, 5, v25);
     BignumMULADD(v33, v32, 5, v26, v31);
@@ -730,7 +739,7 @@ static void bigval_final_reduce(bigval *n)
     v1 = n->w[1];
     v2 = n->w[2];
     v3 = (v2) >> 2;
-    v4 = (v2) & ((((BignumInt)1) << 2)-1);
+    v4 = (v2) & ((((BignumInt)1) << 2) - 1);
     v5 = 5 * v3;
     BignumADC(v7, carry, v0, v5, 0);
     BignumADC(v8, carry, v1, 0, carry);
@@ -745,7 +754,7 @@ static void bigval_final_reduce(bigval *n)
     BignumADC(v16, carry, v7, v14, 0);
     BignumADC(v17, carry, v8, 0, carry);
     v18 = v9 + 0 + carry;
-    v19 = (v18) & ((((BignumInt)1) << 2)-1);
+    v19 = (v18) & ((((BignumInt)1) << 2) - 1);
     n->w[0] = v16;
     n->w[1] = v17;
     n->w[2] = v19;
@@ -755,7 +764,8 @@ static void bigval_final_reduce(bigval *n)
 #error Add another bit count to contrib/make1305.py and rerun it
 #endif
 
-struct poly1305 {
+struct poly1305
+{
     unsigned char nonce[16];
     bigval r;
     bigval h;
@@ -774,7 +784,7 @@ static void poly1305_init(struct poly1305 *ctx)
 
 static void poly1305_key(struct poly1305 *ctx, ptrlen key)
 {
-    assert(key.len == 32);             /* Takes a 256 bit key */
+    assert(key.len == 32); /* Takes a 256 bit key */
 
     unsigned char key_copy[16];
     memcpy(key_copy, key.ptr, 16);
@@ -812,27 +822,32 @@ static void poly1305_feed(struct poly1305 *ctx,
                           const unsigned char *buf, int len)
 {
     /* Check for stuff left in the buffer from last time */
-    if (ctx->bufferIndex) {
+    if (ctx->bufferIndex)
+    {
         /* Try to fill up to 16 */
-        while (ctx->bufferIndex < 16 && len) {
+        while (ctx->bufferIndex < 16 && len)
+        {
             ctx->buffer[ctx->bufferIndex++] = *buf++;
             --len;
         }
-        if (ctx->bufferIndex == 16) {
+        if (ctx->bufferIndex == 16)
+        {
             poly1305_feed_chunk(ctx, ctx->buffer, 16);
             ctx->bufferIndex = 0;
         }
     }
 
     /* Process 16 byte whole chunks */
-    while (len >= 16) {
+    while (len >= 16)
+    {
         poly1305_feed_chunk(ctx, buf, 16);
         len -= 16;
         buf += 16;
     }
 
     /* Cache stuff that's left over */
-    if (len) {
+    if (len)
+    {
         memcpy(ctx->buffer, buf, len);
         ctx->bufferIndex = len;
     }
@@ -843,7 +858,8 @@ static void poly1305_finalise(struct poly1305 *ctx, unsigned char *mac)
 {
     bigval tmp;
 
-    if (ctx->bufferIndex) {
+    if (ctx->bufferIndex)
+    {
         poly1305_feed_chunk(ctx, ctx->buffer, ctx->bufferIndex);
     }
 
@@ -855,7 +871,8 @@ static void poly1305_finalise(struct poly1305 *ctx, unsigned char *mac)
 
 /* SSH-2 wrapper */
 
-struct ccp_context {
+struct ccp_context
+{
     struct chacha20 a_cipher; /* Used for length */
     struct chacha20 b_cipher; /* Used for content */
 
@@ -880,12 +897,13 @@ static ssh2_mac *poly_ssh2_new(
     return &ctx->mac_if;
 }
 
-static void poly_ssh2_free(ssh2_mac *mac)
+static void poly_ssh2_free(__attribute__((unused)) ssh2_mac *mac)
 {
     /* Not allocated, just forwarded, no need to free */
 }
 
-static void poly_setkey(ssh2_mac *mac, ptrlen key)
+static void poly_setkey(__attribute__((unused)) ssh2_mac *mac,
+                        __attribute__((unused)) ptrlen key)
 {
     /* Uses the same context as ChaCha20, so ignore */
 }
@@ -905,16 +923,18 @@ static void poly_BinarySink_write(BinarySink *bs, const void *blkv, size_t len)
     const unsigned char *blk = (const unsigned char *)blkv;
 
     /* First 4 bytes are the IV */
-    while (ctx->mac_initialised < 4 && len) {
+    while (ctx->mac_initialised < 4 && len)
+    {
         ctx->mac_iv[7 - ctx->mac_initialised] = *blk++;
         ++ctx->mac_initialised;
         --len;
     }
 
     /* Initialise the IV if needed */
-    if (ctx->mac_initialised == 4) {
+    if (ctx->mac_initialised == 4)
+    {
         chacha20_iv(&ctx->b_cipher, ctx->mac_iv);
-        ++ctx->mac_initialised;  /* Don't do it again */
+        ++ctx->mac_initialised; /* Don't do it again */
 
         /* Do first rotation */
         chacha20_round(&ctx->b_cipher);
@@ -927,7 +947,8 @@ static void poly_BinarySink_write(BinarySink *bs, const void *blkv, size_t len)
     }
 
     /* Update the MAC with anything left */
-    if (len) {
+    if (len)
+    {
         poly1305_feed(&ctx->mac, blk, len);
     }
 }
@@ -938,7 +959,7 @@ static void poly_genresult(ssh2_mac *mac, unsigned char *blk)
     poly1305_finalise(&ctx->mac, blk);
 }
 
-static const char *poly_text_name(ssh2_mac *mac)
+static const char *poly_text_name(__attribute__((unused)) ssh2_mac *mac)
 {
     return "Poly1305";
 }
@@ -975,7 +996,8 @@ static void ccp_free(ssh_cipher *cipher)
     sfree(ctx);
 }
 
-static void ccp_iv(ssh_cipher *cipher, const void *iv)
+static void ccp_iv(__attribute__((unused)) ssh_cipher *cipher,
+                   __attribute__((unused)) const void *iv)
 {
     /* struct ccp_context *ctx =
            container_of(cipher, struct ccp_context, ciph); */
@@ -1004,8 +1026,10 @@ static void ccp_decrypt(ssh_cipher *cipher, void *blk, int len)
     chacha20_decrypt(&ctx->b_cipher, blk, len);
 }
 
-static void ccp_length_op(struct ccp_context *ctx, void *blk, int len,
-                          unsigned long seq)
+static void ccp_length_op(struct ccp_context *ctx,
+                          __attribute__((unused)) void *blk,
+                          __attribute__((unused)) int len,
+                          __attribute__((unused)) unsigned long seq)
 {
     unsigned char iv[8];
     /*
@@ -1056,7 +1080,6 @@ const ssh_cipheralg ssh2_chacha20_poly1305 = {
 };
 
 static const ssh_cipheralg *const ccp_list[] = {
-    &ssh2_chacha20_poly1305
-};
+    &ssh2_chacha20_poly1305};
 
-const ssh2_ciphers ssh2_ccp = { lenof(ccp_list), ccp_list };
+const ssh2_ciphers ssh2_ccp = {lenof(ccp_list), ccp_list};

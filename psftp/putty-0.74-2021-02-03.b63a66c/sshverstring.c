@@ -13,7 +13,8 @@
 
 #define PREFIX_MAXLEN 64
 
-struct ssh_verstring_state {
+struct ssh_verstring_state
+{
     int crState;
 
     Conf *conf;
@@ -43,7 +44,7 @@ static void ssh_verstring_handle_input(BinaryPacketProtocol *bpp);
 static void ssh_verstring_handle_output(BinaryPacketProtocol *bpp);
 static PktOut *ssh_verstring_new_pktout(int type);
 static void ssh_verstring_queue_disconnect(BinaryPacketProtocol *bpp,
-                                          const char *msg, int category);
+                                           const char *msg, int category);
 
 static const BinaryPacketProtocolVtable ssh_verstring_vtable = {
     .free = ssh_verstring_free,
@@ -67,9 +68,12 @@ BinaryPacketProtocol *ssh_verstring_new(
 
     memset(s, 0, sizeof(struct ssh_verstring_state));
 
-    if (!bare_connection_mode) {
+    if (!bare_connection_mode)
+    {
         s->prefix_wanted = PTRLEN_LITERAL("SSH-");
-    } else {
+    }
+    else
+    {
         /*
          * Ordinary SSH begins with the banner "SSH-x.y-...". Here,
          * we're going to be speaking just the ssh-connection
@@ -169,7 +173,8 @@ static void ssh_verstring_send(struct ssh_verstring_state *s)
 
     /* Convert minus signs and spaces in the software version string
      * into underscores. */
-    for (p = s->our_vstring + sv_pos; *p; p++) {
+    for (p = s->our_vstring + sv_pos; *p; p++)
+    {
         if (*p == '-' || *p == ' ')
             *p = '_';
     }
@@ -205,14 +210,15 @@ static void ssh_verstring_send(struct ssh_verstring_state *s)
     bpp_logevent("We claim version: %s", s->our_vstring);
 }
 
-#define BPP_WAITFOR(minlen) do                          \
-    {                                                                   \
-        bool success;                                                   \
-        crMaybeWaitUntilV(                                              \
-            (success = (bufchain_size(s->bpp.in_raw) >= (minlen))) ||   \
-            s->bpp.input_eof);                                          \
-        if (!success)                                                   \
-            goto eof;                                                   \
+#define BPP_WAITFOR(minlen)                                           \
+    do                                                                \
+    {                                                                 \
+        bool success;                                                 \
+        crMaybeWaitUntilV(                                            \
+            (success = (bufchain_size(s->bpp.in_raw) >= (minlen))) || \
+            s->bpp.input_eof);                                        \
+        if (!success)                                                 \
+            goto eof;                                                 \
     } while (0)
 
 void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
@@ -234,14 +240,16 @@ void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
      * the input.
      */
     s->i = 0;
-    while (1) {
+    while (1)
+    {
         /*
          * Every time round this loop, we're at the start of a new
          * line, so look for the prefix.
          */
         BPP_WAITFOR(s->prefix_wanted.len);
         bufchain_fetch(s->bpp.in_raw, s->prefix, s->prefix_wanted.len);
-        if (!memcmp(s->prefix, s->prefix_wanted.ptr, s->prefix_wanted.len)) {
+        if (!memcmp(s->prefix, s->prefix_wanted.ptr, s->prefix_wanted.len))
+        {
             bufchain_consume(s->bpp.in_raw, s->prefix_wanted.len);
             ssh_check_frozen(s->bpp.ssh);
             break;
@@ -250,7 +258,8 @@ void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
         /*
          * If we didn't find it, consume data until we see a newline.
          */
-        while (1) {
+        while (1)
+        {
             ptrlen data;
             char *nl;
 
@@ -258,11 +267,14 @@ void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
              * than that if it's there. */
             BPP_WAITFOR(1);
             data = bufchain_prefix(s->bpp.in_raw);
-            if ((nl = memchr(data.ptr, '\012', data.len)) != NULL) {
+            if ((nl = memchr(data.ptr, '\012', data.len)) != NULL)
+            {
                 bufchain_consume(s->bpp.in_raw, nl - (char *)data.ptr + 1);
                 ssh_check_frozen(s->bpp.ssh);
                 break;
-            } else {
+            }
+            else
+            {
                 bufchain_consume(s->bpp.in_raw, data.len);
                 ssh_check_frozen(s->bpp.ssh);
             }
@@ -280,13 +292,15 @@ void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
      * Now read the rest of the greeting line.
      */
     s->i = 0;
-    do {
+    do
+    {
         ptrlen data;
         char *nl;
 
         BPP_WAITFOR(1);
         data = bufchain_prefix(s->bpp.in_raw);
-        if ((nl = memchr(data.ptr, '\012', data.len)) != NULL) {
+        if ((nl = memchr(data.ptr, '\012', data.len)) != NULL)
+        {
             data.len = nl - (char *)data.ptr + 1;
         }
 
@@ -294,15 +308,15 @@ void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
         bufchain_consume(s->bpp.in_raw, data.len);
         ssh_check_frozen(s->bpp.ssh);
 
-    } while (s->vstring->s[s->vstring->len-1] != '\012');
+    } while (s->vstring->s[s->vstring->len - 1] != '\012');
 
     /*
      * Trim \r and \n from the version string, and replace them with
      * a NUL terminator.
      */
     while (s->vstring->len > 0 &&
-           (s->vstring->s[s->vstring->len-1] == '\r' ||
-            s->vstring->s[s->vstring->len-1] == '\n'))
+           (s->vstring->s[s->vstring->len - 1] == '\r' ||
+            s->vstring->s[s->vstring->len - 1] == '\n'))
         strbuf_shrink_by(s->vstring, 1);
 
     bpp_logevent("Remote version: %s", s->vstring->s);
@@ -318,7 +332,8 @@ void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
         int pv_len = strcspn(pv_start, "-");
         s->protoversion = dupprintf("%.*s", pv_len, pv_start);
         s->softwareversion = pv_start + pv_len;
-        if (*s->softwareversion) {
+        if (*s->softwareversion)
+        {
             assert(*s->softwareversion == '-');
             s->softwareversion++;
         }
@@ -330,13 +345,16 @@ void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
      * Figure out what actual SSH protocol version we're speaking.
      */
     if (ssh_version_includes_v2(s->our_protoversion) &&
-        ssh_version_includes_v2(s->protoversion)) {
+        ssh_version_includes_v2(s->protoversion))
+    {
         /*
          * We're doing SSH-2.
          */
         s->major_protoversion = 2;
-    } else if (ssh_version_includes_v1(s->our_protoversion) &&
-               ssh_version_includes_v1(s->protoversion)) {
+    }
+    else if (ssh_version_includes_v1(s->our_protoversion) &&
+             ssh_version_includes_v1(s->protoversion))
+    {
         /*
          * We're doing SSH-1.
          */
@@ -350,19 +368,25 @@ void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
          * the other side.
          */
         if (!s->send_early &&
-            ssh_versioncmp(s->our_protoversion, s->protoversion) > 0) {
+            ssh_versioncmp(s->our_protoversion, s->protoversion) > 0)
+        {
             sfree(s->our_protoversion);
             s->our_protoversion = dupstr(s->protoversion);
         }
-    } else {
+    }
+    else
+    {
         /*
          * Unable to agree on a major protocol version at all.
          */
-        if (!ssh_version_includes_v2(s->our_protoversion)) {
+        if (!ssh_version_includes_v2(s->our_protoversion))
+        {
             ssh_sw_abort(s->bpp.ssh,
                          "SSH protocol version 1 required by our "
                          "configuration but not provided by remote");
-        } else {
+        }
+        else
+        {
             ssh_sw_abort(s->bpp.ssh,
                          "SSH protocol version 2 required by our "
                          "configuration but remote only provides "
@@ -373,7 +397,8 @@ void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
 
     bpp_logevent("Using SSH protocol version %d", s->major_protoversion);
 
-    if (!s->send_early) {
+    if (!s->send_early)
+    {
         /*
          * If we didn't send our version string early, construct and
          * send it now, because now we know what it is.
@@ -390,15 +415,15 @@ void ssh_verstring_handle_input(BinaryPacketProtocol *bpp)
     s->receiver->got_ssh_version(s->receiver, s->major_protoversion);
     return;
 
-  eof:
+eof:
     ssh_remote_error(s->bpp.ssh,
                      "Remote side unexpectedly closed network connection");
-    return;  /* avoid touching s now it's been freed */
+    return; /* avoid touching s now it's been freed */
 
     crFinishV;
 }
 
-static PktOut *ssh_verstring_new_pktout(int type)
+static PktOut *ssh_verstring_new_pktout(__attribute__((unused)) int type)
 {
     unreachable("Should never try to send packets during SSH version "
                 "string exchange");
@@ -406,7 +431,8 @@ static PktOut *ssh_verstring_new_pktout(int type)
 
 static void ssh_verstring_handle_output(BinaryPacketProtocol *bpp)
 {
-    if (pq_peek(&bpp->out_pq)) {
+    if (pq_peek(&bpp->out_pq))
+    {
         unreachable("Should never try to send packets during SSH version "
                     "string exchange");
     }
@@ -435,7 +461,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
          (!strcmp(imp, "1.2.18") || !strcmp(imp, "1.2.19") ||
           !strcmp(imp, "1.2.20") || !strcmp(imp, "1.2.21") ||
           !strcmp(imp, "1.2.22") || !strcmp(imp, "Cisco-1.25") ||
-          !strcmp(imp, "OSU_1.4alpha3") || !strcmp(imp, "OSU_1.5alpha4")))) {
+          !strcmp(imp, "OSU_1.4alpha3") || !strcmp(imp, "OSU_1.5alpha4"))))
+    {
         /*
          * These versions don't support SSH1_MSG_IGNORE, so we have
          * to use a different defence against password length
@@ -447,7 +474,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
 
     if (conf_get_int(s->conf, CONF_sshbug_plainpw1) == FORCE_ON ||
         (conf_get_int(s->conf, CONF_sshbug_plainpw1) == AUTO &&
-         (!strcmp(imp, "Cisco-1.25") || !strcmp(imp, "OSU_1.4alpha3")))) {
+         (!strcmp(imp, "Cisco-1.25") || !strcmp(imp, "OSU_1.4alpha3"))))
+    {
         /*
          * These versions need a plain password sent; they can't
          * handle having a null and a random length of data after
@@ -460,7 +488,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
 
     if (conf_get_int(s->conf, CONF_sshbug_rsa1) == FORCE_ON ||
         (conf_get_int(s->conf, CONF_sshbug_rsa1) == AUTO &&
-         (!strcmp(imp, "Cisco-1.25")))) {
+         (!strcmp(imp, "Cisco-1.25"))))
+    {
         /*
          * These versions apparently have no clue whatever about
          * RSA authentication and will panic and die if they see
@@ -476,7 +505,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
          !wc_match("* VShell", imp) &&
          (wc_match("2.1.0*", imp) || wc_match("2.0.*", imp) ||
           wc_match("2.2.0*", imp) || wc_match("2.3.0*", imp) ||
-          wc_match("2.1 *", imp)))) {
+          wc_match("2.1 *", imp))))
+    {
         /*
          * These versions have the HMAC bug.
          */
@@ -487,7 +517,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
     if (conf_get_int(s->conf, CONF_sshbug_derivekey2) == FORCE_ON ||
         (conf_get_int(s->conf, CONF_sshbug_derivekey2) == AUTO &&
          !wc_match("* VShell", imp) &&
-         (wc_match("2.0.0*", imp) || wc_match("2.0.10*", imp) ))) {
+         (wc_match("2.0.0*", imp) || wc_match("2.0.10*", imp))))
+    {
         /*
          * These versions have the key-derivation bug (failing to
          * include the literal shared secret in the hashes that
@@ -503,7 +534,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
          (wc_match("OpenSSH_2.[5-9]*", imp) ||
           wc_match("OpenSSH_3.[0-2]*", imp) ||
           wc_match("mod_sftp/0.[0-8]*", imp) ||
-          wc_match("mod_sftp/0.9.[0-8]", imp)))) {
+          wc_match("mod_sftp/0.9.[0-8]", imp))))
+    {
         /*
          * These versions have the SSH-2 RSA padding bug.
          */
@@ -513,7 +545,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
 
     if (conf_get_int(s->conf, CONF_sshbug_pksessid2) == FORCE_ON ||
         (conf_get_int(s->conf, CONF_sshbug_pksessid2) == AUTO &&
-         wc_match("OpenSSH_2.[0-2]*", imp))) {
+         wc_match("OpenSSH_2.[0-2]*", imp)))
+    {
         /*
          * These versions have the SSH-2 session-ID bug in
          * public-key authentication.
@@ -531,7 +564,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
           wc_match("Sun_SSH_1.0", imp) ||
           wc_match("Sun_SSH_1.0.1", imp) ||
           /* All versions <= 1.2.6 (they changed their format in 1.2.7) */
-          wc_match("WeOnlyDo-*", imp)))) {
+          wc_match("WeOnlyDo-*", imp))))
+    {
         /*
          * These versions have the SSH-2 rekey bug.
          */
@@ -542,7 +576,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
     if (conf_get_int(s->conf, CONF_sshbug_maxpkt2) == FORCE_ON ||
         (conf_get_int(s->conf, CONF_sshbug_maxpkt2) == AUTO &&
          (wc_match("1.36_sshlib GlobalSCAPE", imp) ||
-          wc_match("1.36 sshlib: GlobalScape", imp)))) {
+          wc_match("1.36 sshlib: GlobalScape", imp))))
+    {
         /*
          * This version ignores our makpkt and needs to be throttled.
          */
@@ -551,7 +586,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
                      "maximum packet size");
     }
 
-    if (conf_get_int(s->conf, CONF_sshbug_ignore2) == FORCE_ON) {
+    if (conf_get_int(s->conf, CONF_sshbug_ignore2) == FORCE_ON)
+    {
         /*
          * Servers that don't support SSH2_MSG_IGNORE. Currently,
          * none detected automatically.
@@ -562,7 +598,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
 
     if (conf_get_int(s->conf, CONF_sshbug_oldgex2) == FORCE_ON ||
         (conf_get_int(s->conf, CONF_sshbug_oldgex2) == AUTO &&
-         (wc_match("OpenSSH_2.[235]*", imp)))) {
+         (wc_match("OpenSSH_2.[235]*", imp))))
+    {
         /*
          * These versions only support the original (pre-RFC4419)
          * SSH-2 GEX request, and disconnect with a protocol error if
@@ -572,7 +609,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
         bpp_logevent("We believe remote version has outdated SSH-2 GEX");
     }
 
-    if (conf_get_int(s->conf, CONF_sshbug_winadj) == FORCE_ON) {
+    if (conf_get_int(s->conf, CONF_sshbug_winadj) == FORCE_ON)
+    {
         /*
          * Servers that don't support our winadj request for one
          * reason or another. Currently, none detected automatically.
@@ -586,7 +624,8 @@ static void ssh_detect_bugs(struct ssh_verstring_state *s)
          (wc_match("OpenSSH_[2-5].*", imp) ||
           wc_match("OpenSSH_6.[0-6]*", imp) ||
           wc_match("dropbear_0.[2-4][0-9]*", imp) ||
-          wc_match("dropbear_0.5[01]*", imp)))) {
+          wc_match("dropbear_0.5[01]*", imp))))
+    {
         /*
          * These versions have the SSH-2 channel request bug.
          * OpenSSH 6.7 and above do not:
@@ -621,8 +660,9 @@ int ssh_verstring_get_bugs(BinaryPacketProtocol *bpp)
     return s->remote_bugs;
 }
 
-static void ssh_verstring_queue_disconnect(BinaryPacketProtocol *bpp,
-                                           const char *msg, int category)
+static void ssh_verstring_queue_disconnect(__attribute__((unused)) BinaryPacketProtocol *bpp,
+                                           __attribute__((unused)) const char *msg,
+                                           __attribute__((unused)) int category)
 {
     /* No way to send disconnect messages at this stage of the protocol! */
 }

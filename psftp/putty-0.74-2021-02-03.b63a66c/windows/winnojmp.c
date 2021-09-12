@@ -3,6 +3,6 @@
  * don't update the jump list.
  */
 
-void add_session_to_jumplist(const char * const sessionname) {}
-void remove_session_from_jumplist(const char * const sessionname) {}
-void clear_jumplist(void) {}
+void add_session_to_jumplist(__attribute__((unused)) const char *const sessionname) {}
+void remove_session_from_jumplist(__attribute__((unused)) const char *const sessionname) {}
+void clear_jumplist(__attribute__((unused)) void) {}

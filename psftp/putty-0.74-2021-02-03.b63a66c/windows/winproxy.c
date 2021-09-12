@@ -12,10 +12,15 @@
 #include "network.h"
 #include "proxy.h"
 
-Socket *platform_new_connection(SockAddr *addr, const char *hostname,
-                                int port, bool privport,
-                                bool oobinline, bool nodelay, bool keepalive,
-                                Plug *plug, Conf *conf)
+Socket *platform_new_connection(SockAddr *addr,
+                                __attribute__((unused)) const char *hostname,
+                                __attribute__((unused)) int port,
+                                __attribute__((unused)) bool privport,
+                                __attribute__((unused)) bool oobinline,
+                                __attribute__((unused)) bool nodelay,
+                                __attribute__((unused)) bool keepalive,
+                                __attribute__((unused)) Plug *plug,
+                                __attribute__((unused)) Conf *conf)
 {
     char *cmd;
     HANDLE us_to_cmd, cmd_from_us;
@@ -44,16 +49,18 @@ Socket *platform_new_connection(SockAddr *addr, const char *hostname,
      * command process.
      */
     sa.nLength = sizeof(sa);
-    sa.lpSecurityDescriptor = NULL;    /* default */
+    sa.lpSecurityDescriptor = NULL; /* default */
     sa.bInheritHandle = true;
-    if (!CreatePipe(&us_from_cmd, &cmd_to_us, &sa, 0)) {
+    if (!CreatePipe(&us_from_cmd, &cmd_to_us, &sa, 0))
+    {
         sfree(cmd);
         return new_error_socket_fmt(
             plug, "Unable to create pipes for proxy command: %s",
             win_strerror(GetLastError()));
     }
 
-    if (!CreatePipe(&cmd_from_us, &us_to_cmd, &sa, 0)) {
+    if (!CreatePipe(&cmd_from_us, &us_to_cmd, &sa, 0))
+    {
         sfree(cmd);
         CloseHandle(us_from_cmd);
         CloseHandle(cmd_to_us);
@@ -62,7 +69,8 @@ Socket *platform_new_connection(SockAddr *addr, const char *hostname,
             win_strerror(GetLastError()));
     }
 
-    if (!CreatePipe(&us_from_cmd_err, &cmd_err_to_us, &sa, 0)) {
+    if (!CreatePipe(&us_from_cmd_err, &cmd_err_to_us, &sa, 0))
+    {
         sfree(cmd);
         CloseHandle(us_from_cmd);
         CloseHandle(cmd_to_us);

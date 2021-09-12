@@ -11,7 +11,8 @@
 #include "putty.h"
 #include "network.h"
 
-typedef struct HandleSocket {
+typedef struct HandleSocket
+{
     HANDLE send_H, recv_H, stderr_H;
     struct handle *send_h, *recv_h, *stderr_h;
 
@@ -24,11 +25,12 @@ typedef struct HandleSocket {
      * receive one more load of data before we manage to get
      * winhandl.c to stop reading.
      */
-    enum {
-        UNFROZEN,  /* reading as normal */
-        FREEZING,  /* have been set to frozen but winhandl is still reading */
-        FROZEN,    /* really frozen - winhandl has been throttled */
-        THAWING    /* we're gradually releasing our remaining data */
+    enum
+    {
+        UNFROZEN, /* reading as normal */
+        FREEZING, /* have been set to frozen but winhandl is still reading */
+        FROZEN,   /* really frozen - winhandl has been throttled */
+        THAWING   /* we're gradually releasing our remaining data */
     } frozen;
     /* We buffer data here if we receive it from winhandl while frozen. */
     bufchain inputdata;
@@ -36,7 +38,7 @@ typedef struct HandleSocket {
     /* Handle logging proxy error messages from stderr_H, if we have one. */
     ProxyStderrBuf psb;
 
-    bool defer_close, deferred_close;   /* in case of re-entrance */
+    bool defer_close, deferred_close; /* in case of re-entrance */
 
     char *error;
 
@@ -50,15 +52,21 @@ static size_t handle_gotdata(
 {
     HandleSocket *hs = (HandleSocket *)handle_get_privdata(h);
 
-    if (err) {
+    if (err)
+    {
         plug_closing(hs->plug, "Read error from handle", 0, 0);
         return 0;
-    } else if (len == 0) {
+    }
+    else if (len == 0)
+    {
         plug_closing(hs->plug, NULL, 0, 0);
         return 0;
-    } else {
+    }
+    else
+    {
         assert(hs->frozen != FROZEN && hs->frozen != THAWING);
-        if (hs->frozen == FREEZING) {
+        if (hs->frozen == FREEZING)
+        {
             /*
              * If we've received data while this socket is supposed to
              * be frozen (because the read winhandl.c started before
@@ -73,7 +81,9 @@ static size_t handle_gotdata(
              * data arriving from winhandl until we unfreeze.
              */
             return INT_MAX;
-        } else {
+        }
+        else
+        {
             plug_receive(hs->plug, 0, data, len);
             return 0;
         }
@@ -95,7 +105,8 @@ static void handle_sentdata(struct handle *h, size_t new_backlog, int err)
 {
     HandleSocket *hs = (HandleSocket *)handle_get_privdata(h);
 
-    if (err) {
+    if (err)
+    {
         plug_closing(hs->plug, win_strerror(err), err, 0);
         return;
     }
@@ -116,7 +127,8 @@ static void sk_handle_close(Socket *s)
 {
     HandleSocket *hs = container_of(s, HandleSocket, sock);
 
-    if (hs->defer_close) {
+    if (hs->defer_close)
+    {
         hs->deferred_close = true;
         return;
     }
@@ -181,18 +193,22 @@ static void handle_socket_unfreeze(void *hsv)
     plug_receive(hs->plug, 0, data.ptr, data.len);
     bufchain_consume(&hs->inputdata, data.len);
     hs->defer_close = false;
-    if (hs->deferred_close) {
+    if (hs->deferred_close)
+    {
         sk_handle_close(&hs->sock);
         return;
     }
 
-    if (bufchain_size(&hs->inputdata) > 0) {
+    if (bufchain_size(&hs->inputdata) > 0)
+    {
         /*
          * If there's still data in our buffer, stay in THAWING state,
          * and reschedule ourself.
          */
         queue_toplevel_callback(handle_socket_unfreeze, hs);
-    } else {
+    }
+    else
+    {
         /*
          * Otherwise, we've successfully thawed!
          */
@@ -205,13 +221,15 @@ static void sk_handle_set_frozen(Socket *s, bool is_frozen)
 {
     HandleSocket *hs = container_of(s, HandleSocket, sock);
 
-    if (is_frozen) {
-        switch (hs->frozen) {
-          case FREEZING:
-          case FROZEN:
-            return;                    /* nothing to do */
+    if (is_frozen)
+    {
+        switch (hs->frozen)
+        {
+        case FREEZING:
+        case FROZEN:
+            return; /* nothing to do */
 
-          case THAWING:
+        case THAWING:
             /*
              * We were in the middle of emptying our bufchain, and got
              * frozen again. In that case, winhandl.c is already
@@ -221,7 +239,7 @@ static void sk_handle_set_frozen(Socket *s, bool is_frozen)
             hs->frozen = FROZEN;
             break;
 
-          case UNFROZEN:
+        case UNFROZEN:
             /*
              * The normal case. Go to FREEZING, and expect one more
              * load of data from winhandl if we're unlucky.
@@ -229,13 +247,16 @@ static void sk_handle_set_frozen(Socket *s, bool is_frozen)
             hs->frozen = FREEZING;
             break;
         }
-    } else {
-        switch (hs->frozen) {
-          case UNFROZEN:
-          case THAWING:
-            return;                    /* nothing to do */
+    }
+    else
+    {
+        switch (hs->frozen)
+        {
+        case UNFROZEN:
+        case THAWING:
+            return; /* nothing to do */
 
-          case FREEZING:
+        case FREEZING:
             /*
              * If winhandl didn't send us any data throughout the time
              * we were frozen, then we'll still be in this state and
@@ -245,7 +266,7 @@ static void sk_handle_set_frozen(Socket *s, bool is_frozen)
             hs->frozen = UNFROZEN;
             break;
 
-          case FROZEN:
+        case FROZEN:
             /*
              * If we have buffered data, go to THAWING and start
              * releasing it in top-level callbacks.
@@ -270,19 +291,30 @@ static SocketPeerInfo *sk_handle_peer_info(Socket *s)
     DECL_WINDOWS_FUNCTION(static, BOOL, GetNamedPipeClientProcessId,
                           (HANDLE, PULONG));
 
-    if (!kernel32_module) {
+    if (!kernel32_module)
+    {
         kernel32_module = load_system32_dll("kernel32.dll");
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
+
 #if (defined _MSC_VER && _MSC_VER < 1900) || defined __MINGW32__ || defined COVERITY
         /* For older Visual Studio, and MinGW too (at least as of
          * Ubuntu 16.04), this function isn't available in the header
          * files to type-check. Ditto the toolchain I use for
          * Coveritying the Windows code. */
+
+
+
         GET_WINDOWS_FUNCTION_NO_TYPECHECK(
             kernel32_module, GetNamedPipeClientProcessId);
 #else
         GET_WINDOWS_FUNCTION(
             kernel32_module, GetNamedPipeClientProcessId);
 #endif
+
+#pragma GCC diagnostic pop
+
     }
 
     /*
@@ -291,7 +323,8 @@ static SocketPeerInfo *sk_handle_peer_info(Socket *s)
      * to log what we can find out about the client end.
      */
     if (p_GetNamedPipeClientProcessId &&
-        p_GetNamedPipeClientProcessId(hs->send_H, &pid)) {
+        p_GetNamedPipeClientProcessId(hs->send_H, &pid))
+    {
         SocketPeerInfo *pi = snew(SocketPeerInfo);
         pi->addressfamily = ADDRTYPE_LOCAL;
         pi->addr_text = NULL;

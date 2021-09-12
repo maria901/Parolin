@@ -19,10 +19,13 @@
 
 static void pq_ensure_unlinked(PacketQueueNode *node)
 {
-    if (node->on_free_queue) {
+    if (node->on_free_queue)
+    {
         node->next->prev = node->prev;
         node->prev->next = node->next;
-    } else {
+    }
+    else
+    {
         assert(!node->next);
         assert(!node->prev);
     }
@@ -53,14 +56,18 @@ void pq_base_push_front(PacketQueueBase *pqb, PacketQueueNode *node)
     if (pqb->ic)
         queue_idempotent_callback(pqb->ic);
 }
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
 static PacketQueueNode pktin_freeq_head = {
-    &pktin_freeq_head, &pktin_freeq_head, true
-};
+    &pktin_freeq_head, &pktin_freeq_head, true};
 
-static void pktin_free_queue_callback(void *vctx)
+#pragma GCC diagnostic pop
+
+static void pktin_free_queue_callback(__attribute__((unused)) void *vctx)
 {
-    while (pktin_freeq_head.next != &pktin_freeq_head) {
+    while (pktin_freeq_head.next != &pktin_freeq_head)
+    {
         PacketQueueNode *node = pktin_freeq_head.next;
         PktIn *pktin = container_of(node, PktIn, qnode);
         pktin_freeq_head.next = node->next;
@@ -71,8 +78,7 @@ static void pktin_free_queue_callback(void *vctx)
 }
 
 static IdempotentCallback ic_pktin_free = {
-    pktin_free_queue_callback, NULL, false
-};
+    pktin_free_queue_callback, NULL, false};
 
 static inline void pq_unlink_common(PacketQueueBase *pqb,
                                     PacketQueueNode *node)
@@ -98,7 +104,8 @@ static PktIn *pq_in_after(PacketQueueBase *pqb,
     if (node == &pqb->end)
         return NULL;
 
-    if (pop) {
+    if (pop)
+    {
         pq_unlink_common(pqb, node);
 
         node->prev = pktin_freeq_head.prev;
@@ -120,7 +127,8 @@ static PktOut *pq_out_after(PacketQueueBase *pqb,
     if (node == &pqb->end)
         return NULL;
 
-    if (pop) {
+    if (pop)
+    {
         pq_unlink_common(pqb, node);
 
         node->prev = node->next = NULL;
@@ -149,7 +157,8 @@ void pq_in_clear(PktInQueue *pq)
 {
     PktIn *pkt;
     pq->pqb.ic = NULL;
-    while ((pkt = pq_pop(pq)) != NULL) {
+    while ((pkt = pq_pop(pq)) != NULL)
+    {
         /* No need to actually free these packets: pq_pop on a
          * PktInQueue will automatically move them to the free
          * queue. */
@@ -218,9 +227,12 @@ void pq_base_concatenate(PacketQueueBase *qdest,
      * dest.
      */
 
-    if (!head1) {
+    if (!head1)
+    {
         assert(!tail2);
-    } else {
+    }
+    else
+    {
         assert(tail2);
         qdest->end.next = head1;
         qdest->end.prev = tail2;
@@ -288,7 +300,7 @@ static void zombiechan_set_input_wanted(Channel *chan, bool wanted);
 static void zombiechan_do_nothing(Channel *chan);
 static void zombiechan_open_failure(Channel *chan, const char *);
 static bool zombiechan_want_close(Channel *chan, bool sent_eof, bool rcvd_eof);
-static char *zombiechan_log_close_msg(Channel *chan) { return NULL; }
+static char *zombiechan_log_close_msg(__attribute__((unused)) Channel *chan) { return NULL; }
 
 static const ChannelVtable zombiechan_channelvt = {
     .free = zombiechan_free,
@@ -334,24 +346,30 @@ static void zombiechan_do_nothing(Channel *chan)
     assert(chan->vt == &zombiechan_channelvt);
 }
 
-static void zombiechan_open_failure(Channel *chan, const char *errtext)
+static void zombiechan_open_failure(Channel *chan,
+                                    __attribute__((unused)) const char *errtext)
 {
     assert(chan->vt == &zombiechan_channelvt);
 }
 
-static size_t zombiechan_send(Channel *chan, bool is_stderr,
-                              const void *data, size_t length)
+static size_t zombiechan_send(Channel *chan,
+                              __attribute__((unused)) bool is_stderr,
+                              __attribute__((unused)) const void *data,
+                              __attribute__((unused)) size_t length)
 {
     assert(chan->vt == &zombiechan_channelvt);
     return 0;
 }
 
-static void zombiechan_set_input_wanted(Channel *chan, bool enable)
+static void zombiechan_set_input_wanted(Channel *chan,
+                                        __attribute__((unused)) bool enable)
 {
     assert(chan->vt == &zombiechan_channelvt);
 }
 
-static bool zombiechan_want_close(Channel *chan, bool sent_eof, bool rcvd_eof)
+static bool zombiechan_want_close(__attribute__((unused)) Channel *chan,
+                                  __attribute__((unused)) bool sent_eof,
+                                  __attribute__((unused)) bool rcvd_eof)
 {
     return true;
 }
@@ -362,34 +380,40 @@ static bool zombiechan_want_close(Channel *chan, bool sent_eof, bool rcvd_eof)
 
 static unsigned real_ttymode_opcode(unsigned our_opcode, int ssh_version)
 {
-    switch (our_opcode) {
-      case TTYMODE_ISPEED:
+    switch (our_opcode)
+    {
+    case TTYMODE_ISPEED:
         return ssh_version == 1 ? TTYMODE_ISPEED_SSH1 : TTYMODE_ISPEED_SSH2;
-      case TTYMODE_OSPEED:
+    case TTYMODE_OSPEED:
         return ssh_version == 1 ? TTYMODE_OSPEED_SSH1 : TTYMODE_OSPEED_SSH2;
-      default:
+    default:
         return our_opcode;
     }
 }
 
 static unsigned our_ttymode_opcode(unsigned real_opcode, int ssh_version)
 {
-    if (ssh_version == 1) {
-        switch (real_opcode) {
-          case TTYMODE_ISPEED_SSH1:
+    if (ssh_version == 1)
+    {
+        switch (real_opcode)
+        {
+        case TTYMODE_ISPEED_SSH1:
             return TTYMODE_ISPEED;
-          case TTYMODE_OSPEED_SSH1:
+        case TTYMODE_OSPEED_SSH1:
             return TTYMODE_OSPEED;
-          default:
+        default:
             return real_opcode;
         }
-    } else {
-        switch (real_opcode) {
-          case TTYMODE_ISPEED_SSH2:
+    }
+    else
+    {
+        switch (real_opcode)
+        {
+        case TTYMODE_ISPEED_SSH2:
             return TTYMODE_ISPEED;
-          case TTYMODE_OSPEED_SSH2:
+        case TTYMODE_OSPEED_SSH2:
             return TTYMODE_OSPEED;
-          default:
+        default:
             return real_opcode;
         }
     }
@@ -400,27 +424,33 @@ struct ssh_ttymodes get_ttymodes_from_conf(Seat *seat, Conf *conf)
     struct ssh_ttymodes modes;
     size_t i;
 
-    static const struct mode_name_type {
+    static const struct mode_name_type
+    {
         const char *mode;
         int opcode;
-        enum { TYPE_CHAR, TYPE_BOOL } type;
+        enum
+        {
+            TYPE_CHAR,
+            TYPE_BOOL
+        } type;
     } modes_names_types[] = {
-        #define TTYMODE_CHAR(name, val, index) { #name, val, TYPE_CHAR },
-        #define TTYMODE_FLAG(name, val, field, mask) { #name, val, TYPE_BOOL },
-        #include "sshttymodes.h"
-        #undef TTYMODE_CHAR
-        #undef TTYMODE_FLAG
+#define TTYMODE_CHAR(name, val, index) {#name, val, TYPE_CHAR},
+#define TTYMODE_FLAG(name, val, field, mask) {#name, val, TYPE_BOOL},
+#include "sshttymodes.h"
+#undef TTYMODE_CHAR
+#undef TTYMODE_FLAG
     };
 
     memset(&modes, 0, sizeof(modes));
 
-    for (i = 0; i < lenof(modes_names_types); i++) {
+    for (i = 0; i < lenof(modes_names_types); i++)
+    {
         const struct mode_name_type *mode = &modes_names_types[i];
         const char *sval = conf_get_str_str(conf, CONF_ttymodes, mode->mode);
         char *to_free = NULL;
 
         if (!sval)
-            sval = "N";                /* just in case */
+            sval = "N"; /* just in case */
 
         /*
          * sval[0] can be
@@ -430,50 +460,60 @@ struct ssh_ttymodes get_ttymodes_from_conf(Seat *seat, Conf *conf)
          *  - 'N', indicating that we should explicitly not send this
          *    mode.
          */
-        if (sval[0] == 'A') {
+        if (sval[0] == 'A')
+        {
             sval = to_free = seat_get_ttymode(seat, mode->mode);
-        } else if (sval[0] == 'V') {
-            sval++;                    /* skip the 'V' */
-        } else {
+        }
+        else if (sval[0] == 'V')
+        {
+            sval++; /* skip the 'V' */
+        }
+        else
+        {
             /* else 'N', or something from the future we don't understand */
             continue;
         }
 
-        if (sval) {
+        if (sval)
+        {
             /*
              * Parse the string representation of the tty mode
              * into the integer value it will take on the wire.
              */
             unsigned ival = 0;
 
-            switch (mode->type) {
-              case TYPE_CHAR:
-                if (*sval) {
+            switch (mode->type)
+            {
+            case TYPE_CHAR:
+                if (*sval)
+                {
                     char *next = NULL;
                     /* We know ctrlparse won't write to the string, so
                      * casting away const is ugly but allowable. */
                     ival = ctrlparse((char *)sval, &next);
                     if (!next)
                         ival = sval[0];
-                } else {
+                }
+                else
+                {
                     ival = 255; /* special value meaning "don't set" */
                 }
                 break;
-              case TYPE_BOOL:
+            case TYPE_BOOL:
                 if (stricmp(sval, "yes") == 0 ||
                     stricmp(sval, "on") == 0 ||
                     stricmp(sval, "true") == 0 ||
                     stricmp(sval, "+") == 0)
-                    ival = 1;      /* true */
+                    ival = 1; /* true */
                 else if (stricmp(sval, "no") == 0 ||
                          stricmp(sval, "off") == 0 ||
                          stricmp(sval, "false") == 0 ||
                          stricmp(sval, "-") == 0)
-                    ival = 0;      /* false */
+                    ival = 0; /* false */
                 else
                     ival = (atoi(sval) != 0);
                 break;
-              default:
+            default:
                 unreachable("Bad mode->type");
             }
 
@@ -488,7 +528,7 @@ struct ssh_ttymodes get_ttymodes_from_conf(Seat *seat, Conf *conf)
         unsigned ospeed, ispeed;
 
         /* Unpick the terminal-speed config string. */
-        ospeed = ispeed = 38400;           /* last-resort defaults */
+        ospeed = ispeed = 38400; /* last-resort defaults */
         sscanf(conf_get_str(conf, CONF_termspeed), "%u,%u", &ospeed, &ispeed);
         /* Currently we unconditionally set these */
         modes.have_mode[TTYMODE_ISPEED] = true;
@@ -506,13 +546,15 @@ struct ssh_ttymodes read_ttymodes_from_packet(
     struct ssh_ttymodes modes;
     memset(&modes, 0, sizeof(modes));
 
-    while (1) {
+    while (1)
+    {
         unsigned real_opcode, our_opcode;
 
         real_opcode = get_byte(bs);
         if (real_opcode == TTYMODE_END_OF_LIST)
             break;
-        if (real_opcode >= 160) {
+        if (real_opcode >= 160)
+        {
             /*
              * RFC 4254 (and the SSH 1.5 spec): "Opcodes 160 to 255
              * are not yet defined, and cause parsing to stop (they
@@ -548,8 +590,10 @@ void write_ttymodes_to_packet(BinarySink *bs, int ssh_version,
 {
     unsigned i;
 
-    for (i = 0; i < TTYMODE_LIMIT; i++) {
-        if (modes.have_mode[i]) {
+    for (i = 0; i < TTYMODE_LIMIT; i++)
+    {
+        if (modes.have_mode[i])
+        {
             unsigned val = modes.mode_val[i];
             unsigned opcode = real_ttymode_opcode(i, ssh_version);
 
@@ -585,7 +629,8 @@ unsigned alloc_channel_id_general(tree234 *channels, size_t localid_offset)
      * tree.
      */
     search234_start(&ss, channels);
-    while (ss.element) {
+    while (ss.element)
+    {
         unsigned localid = *(unsigned *)((char *)ss.element + localid_offset);
         if (localid == ss.index + CHANNEL_NUMBER_OFFSET)
             search234_step(&ss, +1);
@@ -623,7 +668,8 @@ bool get_commasep_word(ptrlen *list, ptrlen *word)
      * introduces a mild tolerance of badly formatted data in lists we
      * receive, but I think that's acceptable.)
      */
-    while (list->len > 0 && *(const char *)list->ptr == ',') {
+    while (list->len > 0 && *(const char *)list->ptr == ',')
+    {
         list->ptr = (const char *)list->ptr + 1;
         list->len--;
     }
@@ -632,10 +678,13 @@ bool get_commasep_word(ptrlen *list, ptrlen *word)
         return false;
 
     comma = memchr(list->ptr, ',', list->len);
-    if (!comma) {
+    if (!comma)
+    {
         *word = *list;
         list->len = 0;
-    } else {
+    }
+    else
+    {
         size_t wordlen = comma - (const char *)list->ptr;
         word->ptr = list->ptr;
         word->len = wordlen;
@@ -650,12 +699,15 @@ bool get_commasep_word(ptrlen *list, ptrlen *word)
  * string names.
  */
 
-#define TRANSLATE_UNIVERSAL(y, name, value)      \
-    if (type == value) return #name;
+#define TRANSLATE_UNIVERSAL(y, name, value) \
+    if (type == value)                      \
+        return #name;
 #define TRANSLATE_KEX(y, name, value, ctx) \
-    if (type == value && pkt_kctx == ctx) return #name;
+    if (type == value && pkt_kctx == ctx)  \
+        return #name;
 #define TRANSLATE_AUTH(y, name, value, ctx) \
-    if (type == value && pkt_actx == ctx) return #name;
+    if (type == value && pkt_actx == ctx)   \
+        return #name;
 
 const char *ssh1_pkt_type(int type)
 {
@@ -745,7 +797,7 @@ size_t ssh_ppl_default_queued_data_size(PacketProtocolLayer *ppl)
 static void ssh_bpp_input_raw_data_callback(void *context)
 {
     BinaryPacketProtocol *bpp = (BinaryPacketProtocol *)context;
-    Ssh *ssh = bpp->ssh;               /* in case bpp is about to get freed */
+    Ssh *ssh = bpp->ssh; /* in case bpp is about to get freed */
     ssh_bpp_handle_input(bpp);
     /* If we've now cleared enough backlog on the input connection, we
      * may need to unfreeze it. */
@@ -782,17 +834,17 @@ void ssh2_bpp_queue_disconnect(BinaryPacketProtocol *bpp,
     PktOut *pkt = ssh_bpp_new_pktout(bpp, SSH2_MSG_DISCONNECT);
     put_uint32(pkt, category);
     put_stringz(pkt, msg);
-    put_stringz(pkt, "en");            /* language tag */
+    put_stringz(pkt, "en"); /* language tag */
     pq_push(&bpp->out_pq, pkt);
 }
 
-#define BITMAP_UNIVERSAL(y, name, value)         \
-    | (value >= y && value < y+32 ? 1UL << (value-y) : 0)
+#define BITMAP_UNIVERSAL(y, name, value) \
+    | (value >= y && value < y + 32 ? 1UL << (value - y) : 0)
 #define BITMAP_CONDITIONAL(y, name, value, ctx) \
     BITMAP_UNIVERSAL(y, name, value)
-#define SSH2_BITMAP_WORD(y) \
+#define SSH2_BITMAP_WORD(y)                                     \
     (0 SSH2_MESSAGE_TYPES(BITMAP_UNIVERSAL, BITMAP_CONDITIONAL, \
-                          BITMAP_CONDITIONAL, (32*y)))
+                          BITMAP_CONDITIONAL, (32 * y)))
 
 bool ssh2_bpp_check_unimplemented(BinaryPacketProtocol *bpp, PktIn *pktin)
 {
@@ -808,7 +860,8 @@ bool ssh2_bpp_check_unimplemented(BinaryPacketProtocol *bpp, PktIn *pktin)
     };
 
     if (pktin->type < 0x100 &&
-        !((valid_bitmap[pktin->type >> 5] >> (pktin->type & 0x1F)) & 1)) {
+        !((valid_bitmap[pktin->type >> 5] >> (pktin->type & 0x1F)) & 1))
+    {
         PktOut *pkt = ssh_bpp_new_pktout(bpp, SSH2_MSG_UNIMPLEMENTED);
         put_uint32(pkt, pktin->sequence);
         pq_push(&bpp->out_pq, pkt);
@@ -830,9 +883,10 @@ int verify_ssh_manual_host_key(
     Conf *conf, const char *fingerprint, ssh_key *key)
 {
     if (!conf_get_str_nthstrkey(conf, CONF_ssh_manual_hostkeys, 0))
-        return -1;                     /* no manual keys configured */
+        return -1; /* no manual keys configured */
 
-    if (fingerprint) {
+    if (fingerprint)
+    {
         /*
          * The fingerprint string we've been given will have things
          * like 'ssh-rsa 2048' at the front of it. Strip those off and
@@ -840,17 +894,18 @@ int verify_ssh_manual_host_key(
          * end of the string.
          */
         const char *p = strrchr(fingerprint, ' ');
-        fingerprint = p ? p+1 : fingerprint;
+        fingerprint = p ? p + 1 : fingerprint;
         /* Quick sanity checks, including making sure it's in lowercase */
-        assert(strlen(fingerprint) == 16*3 - 1);
+        assert(strlen(fingerprint) == 16 * 3 - 1);
         assert(fingerprint[2] == ':');
         assert(fingerprint[strspn(fingerprint, "0123456789abcdef:")] == 0);
 
         if (conf_get_str_str_opt(conf, CONF_ssh_manual_hostkeys, fingerprint))
-            return 1;                  /* success */
+            return 1; /* success */
     }
 
-    if (key) {
+    if (key)
+    {
         /*
          * Construct the base64-encoded public key blob and see if
          * that's listed.
@@ -863,13 +918,14 @@ int verify_ssh_manual_host_key(
         atoms = (binblob->len + 2) / 3;
         base64blob = snewn(atoms * 4 + 1, char);
         for (i = 0; i < atoms; i++)
-            base64_encode_atom(binblob->u + 3*i,
-                               binblob->len - 3*i, base64blob + 4*i);
+            base64_encode_atom(binblob->u + 3 * i,
+                               binblob->len - 3 * i, base64blob + 4 * i);
         base64blob[atoms * 4] = '\0';
         strbuf_free(binblob);
-        if (conf_get_str_str_opt(conf, CONF_ssh_manual_hostkeys, base64blob)) {
+        if (conf_get_str_str_opt(conf, CONF_ssh_manual_hostkeys, base64blob))
+        {
             sfree(base64blob);
-            return 1;                  /* success */
+            return 1; /* success */
         }
         sfree(base64blob);
     }
@@ -889,7 +945,8 @@ bool ssh1_common_get_specials(
      * won't cope with it, since we wouldn't bother sending it if
      * asked anyway.
      */
-    if (!(ppl->remote_bugs & BUG_CHOKES_ON_SSH1_IGNORE)) {
+    if (!(ppl->remote_bugs & BUG_CHOKES_ON_SSH1_IGNORE))
+    {
         add_special(ctx, "IGNORE message", SS_NOP, 0);
         return true;
     }
@@ -902,28 +959,30 @@ bool ssh1_common_filter_queue(PacketProtocolLayer *ppl)
     PktIn *pktin;
     ptrlen msg;
 
-    while ((pktin = pq_peek(ppl->in_pq)) != NULL) {
-        switch (pktin->type) {
-          case SSH1_MSG_DISCONNECT:
+    while ((pktin = pq_peek(ppl->in_pq)) != NULL)
+    {
+        switch (pktin->type)
+        {
+        case SSH1_MSG_DISCONNECT:
             msg = get_string(pktin);
             ssh_remote_error(ppl->ssh,
                              "Remote side sent disconnect message:\n\"%.*s\"",
                              PTRLEN_PRINTF(msg));
             /* don't try to pop the queue, because we've been freed! */
-            return true;               /* indicate that we've been freed */
+            return true; /* indicate that we've been freed */
 
-          case SSH1_MSG_DEBUG:
+        case SSH1_MSG_DEBUG:
             msg = get_string(pktin);
             ppl_logevent("Remote debug message: %.*s", PTRLEN_PRINTF(msg));
             pq_pop(ppl->in_pq);
             break;
 
-          case SSH1_MSG_IGNORE:
+        case SSH1_MSG_IGNORE:
             /* Do nothing, because we're ignoring it! Duhh. */
             pq_pop(ppl->in_pq);
             break;
 
-          default:
+        default:
             return false;
         }
     }
@@ -937,9 +996,9 @@ void ssh1_compute_session_id(
 {
     ssh_hash *hash = ssh_hash_new(&ssh_md5);
 
-    for (size_t i = (mp_get_nbits(hostkey->modulus) + 7) / 8; i-- ;)
+    for (size_t i = (mp_get_nbits(hostkey->modulus) + 7) / 8; i--;)
         put_byte(hash, mp_get_byte(hostkey->modulus, i));
-    for (size_t i = (mp_get_nbits(servkey->modulus) + 7) / 8; i-- ;)
+    for (size_t i = (mp_get_nbits(servkey->modulus) + 7) / 8; i--;)
         put_byte(hash, mp_get_byte(servkey->modulus, i));
     put_data(hash, cookie, 8);
     ssh_hash_final(hash, session_id);

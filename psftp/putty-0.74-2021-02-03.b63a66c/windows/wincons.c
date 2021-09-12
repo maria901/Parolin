@@ -12,11 +12,9 @@
 #include "ssh.h"
 
 extern void
-pedro_dprintf
-(
+pedro_dprintf(
 	int amanda_level,
-	char *format, ...
-);
+	char *format, ...);
 
 char key_fingerprint_i[1027];
 
@@ -83,20 +81,25 @@ void nonfatal(const char *fmt, ...)
 	va_end(ap);
 }
 
-void console_connection_fatal(Seat *seat, const char *msg)
+void console_connection_fatal(__attribute__((unused)) Seat *seat,
+							  const char *msg)
 {
 	console_print_error_msg("FATAL ERROR", msg);
 	cleanup_exit(16);
 }
 
-void timer_change_notify(unsigned long next)
+void timer_change_notify(__attribute__((unused)) unsigned long next)
 {
 }
 
-int console_verify_ssh_host_key(
-	Seat *seat, const char *host, int port,
-	const char *keytype, char *keystr, char *fingerprint,
-	void (*callback)(void *ctx, int result), void *ctx)
+int console_verify_ssh_host_key(__attribute__((unused)) Seat *seat,
+								const char *host,
+								int port,
+								const char *keytype,
+								char *keystr,
+								char *fingerprint,
+								__attribute__((unused)) void (*callback)(void *ctx, int result),
+								__attribute__((unused)) void *ctx)
 {
 	int ret;
 	HANDLE hin;
@@ -163,10 +166,10 @@ int console_verify_ssh_host_key(
 
 	strcpy(key_fingerprint_i, fingerprint);
 
-	if (ret == 0)                  /* success - key matched OK */
+	if (ret == 0) /* success - key matched OK */
 		return 1;
 
-	if (ret == 2)                  /* key was different */
+	if (ret == 2) /* key was different */
 	{
 
 		store_host_key(host, port, keytype, keystr);
@@ -180,7 +183,7 @@ int console_verify_ssh_host_key(
 		fprintf(stderr, wrongmsg, keytype, fingerprint);
 		fflush(stderr);
 	}
-	if (ret == 1)                  /* key was absent */
+	if (ret == 1) /* key was absent */
 	{
 
 		store_host_key(host, port, keytype, keystr);
@@ -195,12 +198,12 @@ int console_verify_ssh_host_key(
 		fflush(stderr);
 	}
 
-	line[0] = '\0';     /* fail safe if ReadFile returns no data */
+	line[0] = '\0'; /* fail safe if ReadFile returns no data */
 	exit(1);
 	hin = GetStdHandle(STD_INPUT_HANDLE);
 	GetConsoleMode(hin, &savemode);
 	SetConsoleMode(hin, (savemode | ENABLE_ECHO_INPUT |
-	                     ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT));
+						 ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT));
 	ReadFile(hin, line, sizeof(line) - 1, &i, NULL);
 	SetConsoleMode(hin, savemode);
 
@@ -217,9 +220,11 @@ int console_verify_ssh_host_key(
 	}
 }
 
-int console_confirm_weak_crypto_primitive(
-	Seat *seat, const char *algtype, const char *algname,
-	void (*callback)(void *ctx, int result), void *ctx)
+int console_confirm_weak_crypto_primitive(__attribute__((unused)) Seat *seat,
+										  const char *algtype,
+										  const char *algname,
+										  __attribute__((unused)) void (*callback)(void *ctx, int result),
+										  __attribute__((unused)) void *ctx)
 {
 	HANDLE hin;
 	DWORD savemode, i;
@@ -248,7 +253,7 @@ int console_confirm_weak_crypto_primitive(
 	hin = GetStdHandle(STD_INPUT_HANDLE);
 	GetConsoleMode(hin, &savemode);
 	SetConsoleMode(hin, (savemode | ENABLE_ECHO_INPUT |
-	                     ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT));
+						 ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT));
 	ReadFile(hin, line, sizeof(line) - 1, &i, NULL);
 	SetConsoleMode(hin, savemode);
 
@@ -263,9 +268,11 @@ int console_confirm_weak_crypto_primitive(
 	}
 }
 
-int console_confirm_weak_cached_hostkey(
-	Seat *seat, const char *algname, const char *betteralgs,
-	void (*callback)(void *ctx, int result), void *ctx)
+int console_confirm_weak_cached_hostkey(__attribute__((unused)) Seat *seat,
+										const char *algname,
+										const char *betteralgs,
+										__attribute__((unused)) void (*callback)(void *ctx, int result),
+										__attribute__((unused)) void *ctx)
 {
 	HANDLE hin;
 	DWORD savemode, i;
@@ -300,7 +307,7 @@ int console_confirm_weak_cached_hostkey(
 	hin = GetStdHandle(STD_INPUT_HANDLE);
 	GetConsoleMode(hin, &savemode);
 	SetConsoleMode(hin, (savemode | ENABLE_ECHO_INPUT |
-	                     ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT));
+						 ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT));
 	ReadFile(hin, line, sizeof(line) - 1, &i, NULL);
 	SetConsoleMode(hin, savemode);
 
@@ -321,7 +328,8 @@ bool is_interactive(void)
 }
 
 bool console_antispoof_prompt = true;
-bool console_set_trust_status(Seat *seat, bool trusted)
+bool console_set_trust_status(__attribute__((unused)) Seat *seat,
+							  __attribute__((unused)) bool trusted)
 {
 	if (console_batch_mode || !is_interactive() || !console_antispoof_prompt)
 	{
@@ -348,8 +356,10 @@ bool console_set_trust_status(Seat *seat, bool trusted)
  * Ask whether to wipe a session log file before writing to it.
  * Returns 2 for wipe, 1 for append, 0 for cancel (don't log).
  */
-int console_askappend(LogPolicy *lp, Filename *filename,
-                      void (*callback)(void *ctx, int result), void *ctx)
+int console_askappend(__attribute__((unused)) LogPolicy *lp,
+					  Filename *filename,
+					  __attribute__((unused)) void (*callback)(void *ctx, int result),
+					  __attribute__((unused)) void *ctx)
 {
 	HANDLE hin;
 	DWORD savemode, i;
@@ -381,7 +391,7 @@ int console_askappend(LogPolicy *lp, Filename *filename,
 	hin = GetStdHandle(STD_INPUT_HANDLE);
 	GetConsoleMode(hin, &savemode);
 	SetConsoleMode(hin, (savemode | ENABLE_ECHO_INPUT |
-	                     ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT));
+						 ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT));
 	ReadFile(hin, line, sizeof(line) - 1, &i, NULL);
 	SetConsoleMode(hin, savemode);
 
@@ -425,19 +435,21 @@ void old_keyfile_warning(void)
 void pgp_fingerprints(void)
 {
 	fputs("These are the fingerprints of the PuTTY PGP Master Keys. They can\n"
-	      "be used to establish a trust path from this executable to another\n"
-	      "one. See the manual for more information.\n"
-	      "(Note: these fingerprints have nothing to do with SSH!)\n"
-	      "\n"
-	      "PuTTY Master Key as of " PGP_MASTER_KEY_YEAR
-	      " (" PGP_MASTER_KEY_DETAILS "):\n"
-	      "  " PGP_MASTER_KEY_FP "\n\n"
-	      "Previous Master Key (" PGP_PREV_MASTER_KEY_YEAR
-	      ", " PGP_PREV_MASTER_KEY_DETAILS "):\n"
-	      "  " PGP_PREV_MASTER_KEY_FP "\n", stdout);
+		  "be used to establish a trust path from this executable to another\n"
+		  "one. See the manual for more information.\n"
+		  "(Note: these fingerprints have nothing to do with SSH!)\n"
+		  "\n"
+		  "PuTTY Master Key as of " PGP_MASTER_KEY_YEAR
+		  " (" PGP_MASTER_KEY_DETAILS "):\n"
+		  "  " PGP_MASTER_KEY_FP "\n\n"
+		  "Previous Master Key (" PGP_PREV_MASTER_KEY_YEAR
+		  ", " PGP_PREV_MASTER_KEY_DETAILS "):\n"
+		  "  " PGP_PREV_MASTER_KEY_FP "\n",
+		  stdout);
 }
 
-void console_logging_error(LogPolicy *lp, const char *string)
+void console_logging_error(__attribute__((unused)) LogPolicy *lp,
+						   const char *string)
 {
 	/* Ordinary Event Log entries are displayed in the same way as
 	 * logging errors, but only in verbose mode */
@@ -453,8 +465,9 @@ void console_eventlog(LogPolicy *lp, const char *string)
 		console_logging_error(lp, string);
 }
 
-StripCtrlChars *console_stripctrl_new(
-	Seat *seat, BinarySink *bs_out, SeatInteractionContext sic)
+StripCtrlChars *console_stripctrl_new(__attribute__((unused)) Seat *seat,
+									  BinarySink *bs_out,
+									  __attribute__((unused)) SeatInteractionContext sic)
 {
 	return stripctrl_new(bs_out, false, 0);
 }
@@ -591,7 +604,7 @@ int console_get_userpass_input(prompts_t *p)
 
 		if (failed)
 		{
-			return 0;              /* failure due to read error */
+			return 0; /* failure due to read error */
 		}
 	}
 

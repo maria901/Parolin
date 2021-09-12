@@ -8,11 +8,13 @@
 #include "misc.h"
 #include "mpint.h"
 
-struct dh_ctx {
+struct dh_ctx
+{
     mp_int *x, *e, *p, *q, *g;
 };
 
-struct dh_extra {
+struct dh_extra
+{
     bool gex;
     void (*construct)(dh_ctx *ctx);
 };
@@ -30,61 +32,78 @@ static void dh_group14_construct(dh_ctx *ctx)
 }
 
 static const struct dh_extra extra_group1 = {
-    false, dh_group1_construct,
+    false,
+    dh_group1_construct,
 };
 
 static const ssh_kex ssh_diffiehellman_group1_sha1 = {
-    "diffie-hellman-group1-sha1", "group1",
-    KEXTYPE_DH, &ssh_sha1, &extra_group1,
+    "diffie-hellman-group1-sha1",
+    "group1",
+    KEXTYPE_DH,
+    &ssh_sha1,
+    &extra_group1,
 };
 
 static const ssh_kex *const group1_list[] = {
-    &ssh_diffiehellman_group1_sha1
-};
+    &ssh_diffiehellman_group1_sha1};
 
-const ssh_kexes ssh_diffiehellman_group1 = { lenof(group1_list), group1_list };
+const ssh_kexes ssh_diffiehellman_group1 = {lenof(group1_list), group1_list};
 
 static const struct dh_extra extra_group14 = {
-    false, dh_group14_construct,
+    false,
+    dh_group14_construct,
 };
 
 static const ssh_kex ssh_diffiehellman_group14_sha256 = {
-    "diffie-hellman-group14-sha256", "group14",
-    KEXTYPE_DH, &ssh_sha256, &extra_group14,
+    "diffie-hellman-group14-sha256",
+    "group14",
+    KEXTYPE_DH,
+    &ssh_sha256,
+    &extra_group14,
 };
 
 static const ssh_kex ssh_diffiehellman_group14_sha1 = {
-    "diffie-hellman-group14-sha1", "group14",
-    KEXTYPE_DH, &ssh_sha1, &extra_group14,
+    "diffie-hellman-group14-sha1",
+    "group14",
+    KEXTYPE_DH,
+    &ssh_sha1,
+    &extra_group14,
 };
 
 static const ssh_kex *const group14_list[] = {
     &ssh_diffiehellman_group14_sha256,
-    &ssh_diffiehellman_group14_sha1
-};
+    &ssh_diffiehellman_group14_sha1};
 
 const ssh_kexes ssh_diffiehellman_group14 = {
-    lenof(group14_list), group14_list
-};
+    lenof(group14_list), group14_list};
 
-static const struct dh_extra extra_gex = { true };
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
+static const struct dh_extra extra_gex = {true};
+
+#pragma GCC diagnostic pop
 static const ssh_kex ssh_diffiehellman_gex_sha256 = {
-    "diffie-hellman-group-exchange-sha256", NULL,
-    KEXTYPE_DH, &ssh_sha256, &extra_gex,
+    "diffie-hellman-group-exchange-sha256",
+    NULL,
+    KEXTYPE_DH,
+    &ssh_sha256,
+    &extra_gex,
 };
 
 static const ssh_kex ssh_diffiehellman_gex_sha1 = {
-    "diffie-hellman-group-exchange-sha1", NULL,
-    KEXTYPE_DH, &ssh_sha1, &extra_gex,
+    "diffie-hellman-group-exchange-sha1",
+    NULL,
+    KEXTYPE_DH,
+    &ssh_sha1,
+    &extra_gex,
 };
 
 static const ssh_kex *const gex_list[] = {
     &ssh_diffiehellman_gex_sha256,
-    &ssh_diffiehellman_gex_sha1
-};
+    &ssh_diffiehellman_gex_sha1};
 
-const ssh_kexes ssh_diffiehellman_gex = { lenof(gex_list), gex_list };
+const ssh_kexes ssh_diffiehellman_gex = {lenof(gex_list), gex_list};
 
 /*
  * Suffix on GSSAPI SSH protocol identifiers that indicates Kerberos 5
@@ -101,29 +120,36 @@ const ssh_kexes ssh_diffiehellman_gex = { lenof(gex_list), gex_list };
 #define GSS_KRB5_OID_HASH "toWM5Slw5Ew8Mqkay+al2g=="
 
 static const ssh_kex ssh_gssk5_diffiehellman_gex_sha1 = {
-    "gss-gex-sha1-" GSS_KRB5_OID_HASH, NULL,
-    KEXTYPE_GSS, &ssh_sha1, &extra_gex,
+    "gss-gex-sha1-" GSS_KRB5_OID_HASH,
+    NULL,
+    KEXTYPE_GSS,
+    &ssh_sha1,
+    &extra_gex,
 };
 
 static const ssh_kex ssh_gssk5_diffiehellman_group14_sha1 = {
-    "gss-group14-sha1-" GSS_KRB5_OID_HASH, "group14",
-    KEXTYPE_GSS, &ssh_sha1, &extra_group14,
+    "gss-group14-sha1-" GSS_KRB5_OID_HASH,
+    "group14",
+    KEXTYPE_GSS,
+    &ssh_sha1,
+    &extra_group14,
 };
 
 static const ssh_kex ssh_gssk5_diffiehellman_group1_sha1 = {
-    "gss-group1-sha1-" GSS_KRB5_OID_HASH, "group1",
-    KEXTYPE_GSS, &ssh_sha1, &extra_group1,
+    "gss-group1-sha1-" GSS_KRB5_OID_HASH,
+    "group1",
+    KEXTYPE_GSS,
+    &ssh_sha1,
+    &extra_group1,
 };
 
 static const ssh_kex *const gssk5_sha1_kex_list[] = {
     &ssh_gssk5_diffiehellman_gex_sha1,
     &ssh_gssk5_diffiehellman_group14_sha1,
-    &ssh_gssk5_diffiehellman_group1_sha1
-};
+    &ssh_gssk5_diffiehellman_group1_sha1};
 
 const ssh_kexes ssh_gssk5_sha1_kex = {
-    lenof(gssk5_sha1_kex_list), gssk5_sha1_kex_list
-};
+    lenof(gssk5_sha1_kex_list), gssk5_sha1_kex_list};
 
 /*
  * Common DH initialisation.
@@ -218,8 +244,9 @@ mp_int *dh_create_e(dh_ctx *ctx, int nbits)
      */
     mp_int *hi = mp_copy(ctx->q);
     mp_sub_integer_into(hi, hi, 1);
-    if (nbits) {
-        mp_int *pow2 = mp_power_2(nbits+1);
+    if (nbits)
+    {
+        mp_int *pow2 = mp_power_2(nbits + 1);
         mp_min_into(pow2, pow2, hi);
         mp_free(hi);
         hi = pow2;
@@ -250,9 +277,12 @@ mp_int *dh_create_e(dh_ctx *ctx, int nbits)
  */
 const char *dh_validate_f(dh_ctx *ctx, mp_int *f)
 {
-    if (!mp_hs_integer(f, 2)) {
+    if (!mp_hs_integer(f, 2))
+    {
         return "f value received is too small";
-    } else {
+    }
+    else
+    {
         mp_int *pm1 = mp_copy(ctx->p);
         mp_sub_integer_into(pm1, pm1, 1);
         unsigned cmp = mp_cmp_hs(f, pm1);

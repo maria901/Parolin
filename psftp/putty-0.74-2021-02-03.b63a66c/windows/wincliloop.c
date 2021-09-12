@@ -7,7 +7,8 @@ void cli_main_loop(cliloop_pre_t pre, cliloop_post_t post, void *ctx)
     unsigned long now, next, then;
     now = GETTICKCOUNT();
 
-    while (true) {
+    while (true)
+    {
         int nhandles;
         HANDLE *handles;
         DWORD n;
@@ -18,17 +19,22 @@ void cli_main_loop(cliloop_pre_t pre, cliloop_post_t post, void *ctx)
         if (!pre(ctx, &extra_handles, &n_extra_handles))
             break;
 
-        if (toplevel_callback_pending()) {
+        if (toplevel_callback_pending())
+        {
             ticks = 0;
             next = now;
-        } else if (run_timers(now, &next)) {
+        }
+        else if (run_timers(now, &next))
+        {
             then = now;
             now = GETTICKCOUNT();
             if (now - then > next - then)
                 ticks = 0;
             else
                 ticks = next - now;
-        } else {
+        }
+        else
+        {
             ticks = INFINITE;
             /* no need to initialise next here because we can never
              * get WAIT_TIMEOUT */
@@ -37,7 +43,8 @@ void cli_main_loop(cliloop_pre_t pre, cliloop_post_t post, void *ctx)
         handles = handle_get_events(&nhandles);
         size_t winselcli_index = -(size_t)1;
         size_t extra_base = nhandles;
-        if (winselcli_event != INVALID_HANDLE_VALUE) {
+        if (winselcli_event != INVALID_HANDLE_VALUE)
+        {
             winselcli_index = extra_base++;
             handles = sresize(handles, extra_base, HANDLE);
             handles[winselcli_index] = winselcli_event;
@@ -51,10 +58,13 @@ void cli_main_loop(cliloop_pre_t pre, cliloop_post_t post, void *ctx)
 
         size_t extra_handle_index = n_extra_handles;
 
-        if ((unsigned)(n - WAIT_OBJECT_0) < (unsigned)nhandles) {
+        if ((unsigned)(n - WAIT_OBJECT_0) < (unsigned)nhandles)
+        {
             handle_got_event(handles[n - WAIT_OBJECT_0]);
-        } else if (winselcli_event != INVALID_HANDLE_VALUE &&
-                   n == WAIT_OBJECT_0 + winselcli_index) {
+        }
+        else if (winselcli_event != INVALID_HANDLE_VALUE &&
+                 n == WAIT_OBJECT_0 + winselcli_index)
+        {
             WSANETWORKEVENTS things;
             SOCKET socket;
             int i, socketstate;
@@ -69,7 +79,8 @@ void cli_main_loop(cliloop_pre_t pre, cliloop_post_t post, void *ctx)
             i = 0;
             for (socket = first_socket(&socketstate);
                  socket != INVALID_SOCKET;
-                 socket = next_socket(&socketstate)) i++;
+                 socket = next_socket(&socketstate))
+                i++;
 
             /* Expand the buffer if necessary. */
             sgrowarray(sklist, sksize, i);
@@ -78,17 +89,23 @@ void cli_main_loop(cliloop_pre_t pre, cliloop_post_t post, void *ctx)
             skcount = 0;
             for (socket = first_socket(&socketstate);
                  socket != INVALID_SOCKET;
-                 socket = next_socket(&socketstate)) {
+                 socket = next_socket(&socketstate))
+            {
                 sklist[skcount++] = socket;
             }
 
             /* Now we're done enumerating; go through the list. */
-            for (i = 0; i < skcount; i++) {
+            for (i = 0; (int64_t)i < (int64_t)skcount; i++)
+            {
                 WPARAM wp;
                 socket = sklist[i];
-                wp = (WPARAM) socket;
-                if (!p_WSAEnumNetworkEvents(socket, NULL, &things)) {
-                    static const struct { int bit, mask; } eventtypes[] = {
+                wp = (WPARAM)socket;
+                if (!p_WSAEnumNetworkEvents(socket, NULL, &things))
+                {
+                    static const struct
+                    {
+                        int bit, mask;
+                    } eventtypes[] = {
                         {FD_CONNECT_BIT, FD_CONNECT},
                         {FD_READ_BIT, FD_READ},
                         {FD_CLOSE_BIT, FD_CLOSE},
@@ -100,8 +117,9 @@ void cli_main_loop(cliloop_pre_t pre, cliloop_post_t post, void *ctx)
 
                     noise_ultralight(NOISE_SOURCE_IOID, socket);
 
-                    for (e = 0; e < lenof(eventtypes); e++)
-                        if (things.lNetworkEvents & eventtypes[e].mask) {
+                    for (e = 0; (int64_t)e < (int64_t)lenof(eventtypes); e++)
+                        if (things.lNetworkEvents & eventtypes[e].mask)
+                        {
                             LPARAM lp;
                             int err = things.iErrorCode[eventtypes[e].bit];
                             lp = WSAMAKESELECTREPLY(eventtypes[e].mask, err);
@@ -109,16 +127,21 @@ void cli_main_loop(cliloop_pre_t pre, cliloop_post_t post, void *ctx)
                         }
                 }
             }
-        } else if (n >= WAIT_OBJECT_0 + extra_base &&
-                   n < WAIT_OBJECT_0 + extra_base + n_extra_handles) {
+        }
+        else if (n >= WAIT_OBJECT_0 + extra_base &&
+                 n < WAIT_OBJECT_0 + extra_base + n_extra_handles)
+        {
             extra_handle_index = n - (WAIT_OBJECT_0 + extra_base);
         }
 
         run_toplevel_callbacks();
 
-        if (n == WAIT_TIMEOUT) {
+        if (n == WAIT_TIMEOUT)
+        {
             now = next;
-        } else {
+        }
+        else
+        {
             now = GETTICKCOUNT();
         }
 
@@ -129,6 +152,11 @@ void cli_main_loop(cliloop_pre_t pre, cliloop_post_t post, void *ctx)
     }
 }
 
-bool cliloop_null_pre(void *vctx, const HANDLE **eh, size_t *neh)
-{ return true; }
-bool cliloop_null_post(void *vctx, size_t ehi) { return true; }
+bool cliloop_null_pre(__attribute__((unused)) void *vctx,
+                      __attribute__((unused)) const HANDLE **eh,
+                      __attribute__((unused)) size_t *neh)
+{
+    return true;
+}
+bool cliloop_null_post(__attribute__((unused)) void *vctx,
+                       __attribute__((unused)) size_t ehi) { return true; }

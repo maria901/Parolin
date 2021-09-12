@@ -12,7 +12,7 @@ bool ssh2_mac_verresult(ssh2_mac *mac, const void *candidate)
     unsigned char correct[64]; /* at least as big as all known MACs */
     bool toret;
 
-    assert(mac->vt->len <= sizeof(correct));
+    assert((int64_t)mac->vt->len <= (int64_t)sizeof(correct));
     ssh2_mac_genresult(mac, correct);
     toret = smemeq(correct, candidate, mac->vt->len);
 
