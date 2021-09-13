@@ -1,6 +1,6 @@
 #2021 amanda & MathMan
 
-AMANDA_FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wextra -Wno-unused-function -Wno-stringop-truncation -DALE__
+AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wextra -Wno-unused-function -Wno-stringop-truncation -DALE__
 
 amanda_32: /bw_tmp/rsp_encrypt/adlercheck_32.o /bw_tmp/rsp_encrypt/aes_32.o /bw_tmp/rsp_encrypt/pedro_32.o /bw_tmp/rsp_encrypt/cpu_32.o /bw_tmp/rsp_encrypt/crc32_32.o /bw_tmp/rsp_encrypt/dll_32.o /bw_tmp/rsp_encrypt/folder_i_32.o /bw_tmp/rsp_encrypt/hexa_32.o /bw_tmp/rsp_encrypt/longfile_32.o /bw_tmp/rsp_encrypt/rc4_32.o /bw_tmp/rsp_encrypt/sha512_k_32.o /bw_tmp/rsp_encrypt/serpent_32.o /bw_tmp/rsp_encrypt/mars_32.o /bw_tmp/rsp_encrypt/rc6_32.o /bw_tmp/rsp_encrypt/twofish_32.o /bw_tmp/rsp_encrypt/dprintf_32.o
 

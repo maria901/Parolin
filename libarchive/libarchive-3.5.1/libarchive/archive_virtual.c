@@ -62,9 +62,55 @@ archive_free(struct archive *a)
 	return ((a->vtable->archive_free)(a));
 }
 
+extern int debug_mode_i;
+
+static void
+pedro_dprintf
+(
+	int amanda_level,
+	char *format, ...
+)
+{
+	if(debug_mode_i)
+	{
+		return;
+	}
+	//return;
+     if(-1 < amanda_level)
+     {
+	  va_list  amanda;
+	  char *   buffer_kp = malloc(20000);
+	  char *   ptr_z;
+	  va_start (amanda, format);
+	  vsprintf (buffer_kp, format, amanda);
+	  if(strlen(buffer_kp))
+	  {
+	       ptr_z = buffer_kp;
+
+	       while(* ptr_z)
+	       {
+		    if('\n' == *ptr_z || '\r' == *ptr_z)
+		    {
+
+			 *ptr_z = ' ';
+			 
+		    }
+		    ptr_z++;
+	       }
+	  }
+	  strcat(buffer_kp," _amanda_debug_");
+	  OutputDebugString (buffer_kp);
+	  free(buffer_kp);
+	  va_end(amanda);
+	  //fixed...my love
+     }
+	return;
+}
+
 int
 archive_write_close(struct archive *a)
 {
+	pedro_dprintf(0, "archive_write_close %s %d\n", __FILE__, __LINE__);
 	return ((a->vtable->archive_close)(a));
 }
 

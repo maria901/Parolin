@@ -92,6 +92,10 @@
 
 #include  <process.h>
 
+#define AMANDA__SIZE (32767 * 6)
+
+#define AMANDA__SIZE (32767 * 6)
+
 #ifndef uchar
 #define uchar unsigned char
 #endif
@@ -195,9 +199,9 @@ __la_win_permissive_name(const char *name)
  */
 static WCHAR * amanda_utf8towide_1_(char *pUTF8)
 {
-	static WCHAR ricardo_k[1024];
+	static WCHAR ricardo_k[AMANDA__SIZE];
 
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, 1024);
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE);
 	return ricardo_k;
 }
 extern int debug_mode_i;
@@ -255,9 +259,9 @@ pedro_dprintf
  */
 static char * valquiria_wide_to_utf8(WCHAR * pUSC2_maria)
 {
-	static char saida_utf8[1024];
+	static char saida_utf8[AMANDA__SIZE];
 
-	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, 1024, 0, 0);
+	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
 	return saida_utf8;
 }
 
@@ -282,7 +286,7 @@ __la_win_permissive_name_w(const wchar_t *wname)
       * have to add three to the size to allocate a sufficient buffer
       * size for the full-pathname of the file name. */
      l += 3;
-     wnp = malloc(300 * sizeof(wchar_t));
+     wnp = malloc(AMANDA__SIZE * 2);
      if (wnp == NULL)
 	  return (NULL);
      len = GetFullPathNameW(wname, l, wnp, NULL);
@@ -305,7 +309,7 @@ pedro_dprintf(0, "2original converted %s\n", valquiria_wide_to_utf8(wnp));
 
 {
      bool do_it_i = true;
-     char copy_i[1027] ={ 0 , };
+     static char copy_i[AMANDA__SIZE] ={ 0 , };
      strcpy(copy_i, valquiria_wide_to_utf8(wname));
 
      if(':' == copy_i[1])
@@ -334,7 +338,9 @@ jump_now_i:;
 	       assert(0 && "real_input_utf_8_i_2 eh 0");
 	       exit(27);
 	       */
-	       WCHAR temp_i[300];
+	       static WCHAR temp_i[AMANDA__SIZE];
+		   
+		   memset(temp_i, 0, sizeof(temp_i));
 	       assert(strlen(real_input_utf_8_i_extract_2));
 	       
 	       wcscpy(temp_i, amanda_utf8towide_1_(real_input_utf_8_i_extract_2));

@@ -75,11 +75,13 @@ int wide_fix_p = 0;
 
 int disable_utf_8_p = 0;
 
+#define AMANDA__SIZE (32767 * 6)
+
 char * valquiria_wide_to_utf8(WCHAR * pUSC2_maria)
 {
-	static char saida_utf8[1024];
+	static char saida_utf8[AMANDA__SIZE];
 
-	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, 1024, 0, 0);
+	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
 	return saida_utf8;
 }
 

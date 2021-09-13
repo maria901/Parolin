@@ -2458,6 +2458,8 @@ _archive_write_disk_close(struct archive *_a)
 	struct fixup_entry *next, *p;
 	int fd, ret;
 
+pedro_dprintf(0, "_archive_write_disk_close %s %d\n", __FILE__, __LINE__);
+
 	archive_check_magic(&a->archive, ARCHIVE_WRITE_DISK_MAGIC,
 	    ARCHIVE_STATE_HEADER | ARCHIVE_STATE_DATA,
 	    "archive_write_disk_close");

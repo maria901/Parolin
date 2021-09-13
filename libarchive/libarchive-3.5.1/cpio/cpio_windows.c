@@ -50,7 +50,7 @@
 
 static void cpio_dosmaperr(unsigned long);
 
-
+#define AMANDA__SIZE (32767 * 6)
 /**
  * To convert an utf-8 encoded filename to a wide string (WCHAR *), we
  * provide two functions that are exactly the same because someone may
@@ -63,9 +63,9 @@ static void cpio_dosmaperr(unsigned long);
  */
 static WCHAR * amanda_utf8towide_1_(char *pUTF8)
 {
-	static WCHAR ricardo_k[1024];
+	static WCHAR ricardo_k[AMANDA__SIZE];
 
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, 1024);
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE);
 	return ricardo_k;
 }
 
@@ -125,9 +125,9 @@ pedro_dprintf
  */
 static char * valquiria_wide_to_utf8(WCHAR * pUSC2_maria)
 {
-	static char saida_utf8[1024];
+	static char saida_utf8[AMANDA__SIZE];
 
-	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, 1024, 0, 0);
+	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
 	return saida_utf8;
 }
 

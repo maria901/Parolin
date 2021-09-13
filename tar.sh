@@ -28,9 +28,17 @@ fi
 if [ "updatec#" == "$1" ] 
 then
 
-cd '/tar/c#_x86/tar_sample_ar/tar_sample_ar/'
+(cd '/tar/c#_x86/tar_sample_ar/tar_sample_ar/' && cp --preserve=timestamps *.cs *.resx '/tar/c#_x64/tar_sample_ar_x64/tar_sample_ar')
 
-cp --preserve=timestamps *.cs *.resx '/tar/c#_x64/tar_sample_ar_x64/tar_sample_ar'
+exit
+
+fi
+
+
+if [ "updatec#tox86" == "$1" ] 
+then
+
+(cd '/tar/c#_x64/tar_sample_ar_x64/tar_sample_ar/' && cp --preserve=timestamps *.cs *.resx '/tar/c#_x86/tar_sample_ar/tar_sample_ar')
 
 exit
 
@@ -719,7 +727,6 @@ then
 exit
 
 fi
-
 
 
 if [ "rsp_encrypt32" == "$1" ] 
