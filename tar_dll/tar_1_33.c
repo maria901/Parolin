@@ -1,21 +1,21 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *                                                                              *
-*        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+*        Licensa de Cï¿½pia (C) <2021>  <Corporaï¿½ï¿½o do Trabalho Binï¿½rio>         *
 *                                                                              *
-*     Este  programa  é software livre: você pode redistribuir isto e/ou       *
-*     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
-*     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
-*     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+*     Este  programa  ï¿½ software livre: vocï¿½ pode redistribuir isto e/ou       *
+*     modificar  isto sobre os termos do  GNU Licensa Geral Pï¿½blica como       8
+*     publicado  pela Fundaï¿½ï¿½o  de Software  Livre, tanto a versï¿½o 3  da       *
+*     Licensa, ou (dependendo da sua opï¿½ï¿½o) qualquer versï¿½o posterior.         *
 *                                                                              *
-*     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
-*     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
-*     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
-*     Licensa Geral Pública para mais detalhes.                                *
+*     Este  programa ï¿½ distribuï¿½do na  esperanï¿½a que isto vai  ser ï¿½til,       *
+*     mas SEM  QUALQUER GARANTIA; sem  atï¿½ mesmo a implicada garantia de       *
+*     COMERCIALIZAï¿½ï¿½O ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+*     Licensa Geral Pï¿½blica para mais detalhes.                                *
 *                                                                              *
-*     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
-*     Licensa Pública Menor junto com este programa                            *
-*     Se não, veja <http://www.gnu.org/licenses/>.                             *
+*     Vocï¿½ deve ter recebido uma  cï¿½pia da LICENSA GERAL PUBLICA e a GNU       *
+*     Licensa Pï¿½blica Menor junto com este programa                            *
+*     Se nï¿½o, veja <http://www.gnu.org/licenses/>.                             *
 *                                                                              *
 *     Suporte: https://nomade.sourceforge.io/                                  *
 *                                                                              *
@@ -23,8 +23,8 @@
 *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
 *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
 *                                                                              *
-*     contato imediato(para uma resposta muita rápida) WhatsApp                *
-*     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
+*     contato imediato(para uma resposta muita rï¿½pida) WhatsApp                *
+*     (+55)41 9627 1708 - isto estï¿½ sempre ligado (eu acho...)                 *
 *                                                                              *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
@@ -136,8 +136,18 @@ typedef int(__stdcall *tar_list_function_ar)(int clear_flag_k);
 
 int remove_temp_folder_i(void);
 
-char error_message_k[1024] = {0};
-char remote_path_i[1024] = {0};
+/**
+ * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
+ */
+#define AMANDA__SIZE (32767 * 6)
+/**
+ * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
+ * 
+ */
+#define AMANDA__SIZE_w (32767)
+
+char error_message_k[AMANDA__SIZE] = {0};
+char remote_path_i[AMANDA__SIZE] = {0};
 ;
 int feline_read_xml(char *filename_utf8_feline,
 					char *root__________feline,
@@ -163,9 +173,6 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p);
 int __stdcall split_compressed_file_p(int64_t slice_in_bytes_p_);
 
 int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_filename_in_temp_p);
-
-#define AMANDA__SIZE (32767 * 6)
-#define AMANDA__SIZE_w (32767)
 
 extern void
 pedro_dprintf(
@@ -881,7 +888,7 @@ int __stdcall get_sftp_return_value_z(
 
 /**
  * It will return the current remote path, just to know whether the
- * correct path was set, as an example if the remote path don´t exist
+ * correct path was set, as an example if the remote path donï¿½t exist
  * you may think that it was set correctly
  *
  * @param path_z the variable that will receive the remote path
@@ -1025,7 +1032,7 @@ update_progress_arp_ update_progress_arp_func = NULL;
 internal_progress_z_arp_ internal_progress_z_arp_func = NULL;
 
 /**
- * To init the encrypt DLL, if you for some unknown reason need to hide
+ * To init the encrypt DLL, if you for some unknown reason need to hide 
  * information on your PC, like me
  *
  * @return void...
@@ -1834,7 +1841,7 @@ typedef int(__stdcall *cancel_xz___aakp_xz___ar)(void);
 cancel_xz___aakp_xz___ar cancel_xz___aakp_xz___ar_func = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//pra voce não esquecer nunca...
+//pra voce nï¿½o esquecer nunca...
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef int(__stdcall *compress_co___rspk_ar)(char *Input_amanda_file, char *OutPut_ricardo_File, int Compression_juliete_Level);
@@ -6189,8 +6196,8 @@ static struct zip_magic const magic[] = {
 	{ct_gzip, 2, "\037\213"},
 	{ct_bzip2, 3, "BZh"},
 	{ct_lzip, 4, "LZIP"},
-	{ct_lzma, 6, "\xFFLZMA"}, /* this don´t work as you will see, but I will keep it here...
-	                                                  brotli also don´t have a pre-defined header and both are
+	{ct_lzma, 6, "\xFFLZMA"}, /* this donï¿½t work as you will see, but I will keep it here...
+	                                                  brotli also donï¿½t have a pre-defined header and both are
 	                                                  detected by extension at least in my code, notice that
 	                                                  brotli2 have a header */
 	{ct_lzop, 4, "\211LZO"},
@@ -9941,7 +9948,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
 			}
 			if (size_got_p > real_VAL_filesize)
 			{
-				strcpy(error_message_k, "Size of the VAL file don´t match the header");
+				strcpy(error_message_k, "Size of the VAL file donï¿½t match the header");
 				fatal_exit_k = 5132;
 			}
 		}
@@ -10024,7 +10031,7 @@ final_jump_arp:;
 	}
 	if (fatal_exit_k)
 		last_list_error_int_arp = fatal_exit_k,
-		strcpy(last_list_error_message_arp, error_message_k); //que que é isto cara?...
+		strcpy(last_list_error_message_arp, error_message_k); //que que ï¿½ isto cara?...
 
 	//encryption_method__i[0] = 0;
 
@@ -10491,7 +10498,7 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
 
 	//tem que criar o diretorio e copiar
 
-	//criar o código
+	//criar o cï¿½digo
 
 	strcpy(global_patern_ar, "*");
 	true_if_include_i = true;
@@ -10509,7 +10516,7 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
 	dllinit_arp();
 
 	/*
-	   aqui tem que iniciar a adicao de código
+	   aqui tem que iniciar a adicao de cï¿½digo
 	 */
 
 	if (createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_update_i, L"am_"))
@@ -10909,7 +10916,7 @@ int __amandacall memory_usage__z(char *data_z)
 	//#pragma message "amanda & MathMan compiling Tar DLL at " __TIME__ "..."
 
 	/*
-	 *                                                                                                       ¯\_(^^)_/¯
+	 *                                                                                                       ï¿½\_(^^)_/ï¿½
 	 */
 
 	double val_z;
