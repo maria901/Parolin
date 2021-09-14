@@ -1,5 +1,5 @@
 
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -27,7 +27,7 @@
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
- 
+
 #include <windows.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -60,46 +60,46 @@
  */
 enum progress_decompression_modes_KP
 {
-	AAKP_MODE_GZIP,       /**< standard gzip  method, limited to 2GB */
-	AAKP_MODE_BZ2,        /**< standard bzip2 method */
-	AAKP_MODE_LZIP,       /**< lzip method */
-	AAKP_MODE_LZMA,       /**< standard lzma  method */
-	AAKP_MODE_XZ,         /**< XZ method */
-	AAKP_MODE_COMPRESS,   /**< old standard Unix compress method */
-	AAKP_MODE_LZOP,       /**< lzop method */
-	AAKP_MODE_LZ4,        /**< lz4 method */
-	AAKP_MODE_ZSTANDARD,  /**< Zstandard method */
-	AAKP_MODE_BROTLI,     /**< brotli method */
-	AAKP_MODE_GZIP2,      /**< gzip2       method, gzip with steroids     */
-	AAKP_MODE_BZIP3,      /**< bzip3       method, bzip2 with steroids    */
-	AAKP_MODE_LZOP2,      /**< lzop2       method, lzop with steroids     */
-	AAKP_MODE_LZ5,        /**< lz5         method, lz4  with steroids     */
-	AAKP_MODE_BROTLI2,    /**< brotli2     method, brotli with steroids   */
-	AAKP_MODE_COMPRESS2,  /**< compress2   method, compress with steroids */
+	AAKP_MODE_GZIP,		 /**< standard gzip  method, limited to 2GB */
+	AAKP_MODE_BZ2,		 /**< standard bzip2 method */
+	AAKP_MODE_LZIP,		 /**< lzip method */
+	AAKP_MODE_LZMA,		 /**< standard lzma  method */
+	AAKP_MODE_XZ,		 /**< XZ method */
+	AAKP_MODE_COMPRESS,	 /**< old standard Unix compress method */
+	AAKP_MODE_LZOP,		 /**< lzop method */
+	AAKP_MODE_LZ4,		 /**< lz4 method */
+	AAKP_MODE_ZSTANDARD, /**< Zstandard method */
+	AAKP_MODE_BROTLI,	 /**< brotli method */
+	AAKP_MODE_GZIP2,	 /**< gzip2       method, gzip with steroids     */
+	AAKP_MODE_BZIP3,	 /**< bzip3       method, bzip2 with steroids    */
+	AAKP_MODE_LZOP2,	 /**< lzop2       method, lzop with steroids     */
+	AAKP_MODE_LZ5,		 /**< lz5         method, lz4  with steroids     */
+	AAKP_MODE_BROTLI2,	 /**< brotli2     method, brotli with steroids   */
+	AAKP_MODE_COMPRESS2, /**< compress2   method, compress with steroids */
 };
 
 enum libarchive_compression_modes_AR
 {
-     P_MODE_IS_ZIP__NO_PASSWORD,
-     P_MODE_IS_ZIP__ZIPCRYPTO  ,
-     P_MODE_IS_ZIP__AES_128    ,
-     P_MODE_IS_ZIP__AES_256    ,
-     P_MODE_IS_7ZIP            ,
-     P_MODE_IS_ISO9660         ,
-     P_MODE_IS_TAR             ,
-     P_MODE_IS_GNUTAR          ,
-     P_MODE_IS_V7TAR           ,
-     P_MODE_IS_TAR_GZIP        ,
-     P_MODE_IS_TAR_BZIP2       ,
-     P_MODE_IS_TAR_XZ          ,
-     P_MODE_IS_GNUTAR_GZIP     ,
-     P_MODE_IS_GNUTAR_BZIP2    ,
-     P_MODE_IS_GNUTAR_XZ       ,
-     P_MODE_IS_V7TAR_GZIP      ,
-     P_MODE_IS_V7TAR_BZIP2     ,
-     P_MODE_IS_V7TAR_XZ        ,
-     P_MODE_IS_7ZIP_ENCRYPTED  ,
-     P_MODE_IS_7ZIP_ENCRYPTED_ALSO_HEADERS,
+	P_MODE_IS_ZIP__NO_PASSWORD,
+	P_MODE_IS_ZIP__ZIPCRYPTO,
+	P_MODE_IS_ZIP__AES_128,
+	P_MODE_IS_ZIP__AES_256,
+	P_MODE_IS_7ZIP,
+	P_MODE_IS_ISO9660,
+	P_MODE_IS_TAR,
+	P_MODE_IS_GNUTAR,
+	P_MODE_IS_V7TAR,
+	P_MODE_IS_TAR_GZIP,
+	P_MODE_IS_TAR_BZIP2,
+	P_MODE_IS_TAR_XZ,
+	P_MODE_IS_GNUTAR_GZIP,
+	P_MODE_IS_GNUTAR_BZIP2,
+	P_MODE_IS_GNUTAR_XZ,
+	P_MODE_IS_V7TAR_GZIP,
+	P_MODE_IS_V7TAR_BZIP2,
+	P_MODE_IS_V7TAR_XZ,
+	P_MODE_IS_7ZIP_ENCRYPTED,
+	P_MODE_IS_7ZIP_ENCRYPTED_ALSO_HEADERS,
 };
 
 enum compression_modes_AR
@@ -147,27 +147,28 @@ enum compression_modes_AR
 
 typedef struct arp_
 {
-	__time64_t   VAL_timestamp64        ;
-	bool         Val_is_using_filetime  ;
-	char         VAL_filename[AMANDA__SIZE];
-	DWORD        VAL_attributes         ;
-	FILETIME     CreationTime___junior  ;
-	FILETIME     LastAccessTime_junior  ;
-	FILETIME     LastWriteTime__junior  ;
-	int          VAL_encryption_method  ;
-	int          VAL_is_dir             ;
-	int          VAL_is_encrypted       ;
-	int64_t      VAL_file_position      ;
-	int64_t      VAL_file_size          ;
-	time_t       VAL_timestamp          ;
+	__time64_t VAL_timestamp64;
+	bool Val_is_using_filetime;
+	char VAL_filename[AMANDA__SIZE];
+	char VAL_filename_v27_v51[AMANDA__SIZE];
+	DWORD VAL_attributes;
+	FILETIME CreationTime___junior;
+	FILETIME LastAccessTime_junior;
+	FILETIME LastWriteTime__junior;
+	int VAL_encryption_method;
+	int VAL_is_dir;
+	int VAL_is_encrypted;
+	int64_t VAL_file_position;
+	int64_t VAL_file_size;
+	time_t VAL_timestamp;
 } VAL_data;
 
-int decode_VAL_arp(VAL_data * my_VAL_data);
+int decode_VAL_arp(VAL_data *my_VAL_data);
 
 enum VAL_decode_status
 {
 	ARP_DECODED,
-	ARP_NOMORE ,
+	ARP_NOMORE,
 };
 
 enum iso_mode_arp
@@ -181,23 +182,23 @@ enum iso_mode_arp
 
 enum encryption_mode_arp
 {
-	ARP_AES,             /**< The Advanced Encryption Standard (AES), also known by its original name Rijndael is a specification for the encryption of electronic data established by the U.S. National Institute of Standards and Technology (NIST) in 2001.*/
-	
-	ARP_RC4,             /**< In cryptography, RC4 (Rivest Cipher 4 also known as ARC4 or ARCFOUR meaning Alleged RC4) is a stream cipher. While it is remarkable for its simplicity and speed in software, multiple vulnerabilities have been discovered in RC4, rendering it insecure. */
-	
-	ARP_SERPENT,         /**< Serpent is a symmetric key block cipher that was a finalist in the Advanced Encryption Standard (AES) contest, where it was ranked second to Rijndael. Serpent was designed by Ross Anderson, Eli Biham, and Lars Knudsen. */
-	
-	ARP_MARS,            /**< MARS is a block cipher that was IBM's submission to the Advanced Encryption Standard process. MARS was selected as an AES finalist in August 1999, after the AES2 conference in March 1999, where it was voted as the fifth and last finalist algorithm. */
-	
-	ARP_RC6,             /**< In cryptography, RC6 (Rivest cipher 6) is a symmetric key block cipher derived from RC5. It was designed by Ron Rivest, Matt Robshaw, Ray Sidney, and Yiqun Lisa Yin to meet the requirements of the Advanced Encryption Standard (AES) competition. The algorithm was one of the five finalists, and also was submitted to the NESSIE and CRYPTREC projects. It was a proprietary algorithm, patented by RSA Security. */
-	
-	ARP_TWOFISH          /**< In cryptography, Twofish is a symmetric key block cipher with a block size of 128 bits and key sizes up to 256 bits. It was one of the five finalists of the Advanced Encryption Standard contest, but it was not selected for standardization. Twofish is related to the earlier block cipher Blowfish. */
+	ARP_AES, /**< The Advanced Encryption Standard (AES), also known by its original name Rijndael is a specification for the encryption of electronic data established by the U.S. National Institute of Standards and Technology (NIST) in 2001.*/
+
+	ARP_RC4, /**< In cryptography, RC4 (Rivest Cipher 4 also known as ARC4 or ARCFOUR meaning Alleged RC4) is a stream cipher. While it is remarkable for its simplicity and speed in software, multiple vulnerabilities have been discovered in RC4, rendering it insecure. */
+
+	ARP_SERPENT, /**< Serpent is a symmetric key block cipher that was a finalist in the Advanced Encryption Standard (AES) contest, where it was ranked second to Rijndael. Serpent was designed by Ross Anderson, Eli Biham, and Lars Knudsen. */
+
+	ARP_MARS, /**< MARS is a block cipher that was IBM's submission to the Advanced Encryption Standard process. MARS was selected as an AES finalist in August 1999, after the AES2 conference in March 1999, where it was voted as the fifth and last finalist algorithm. */
+
+	ARP_RC6, /**< In cryptography, RC6 (Rivest cipher 6) is a symmetric key block cipher derived from RC5. It was designed by Ron Rivest, Matt Robshaw, Ray Sidney, and Yiqun Lisa Yin to meet the requirements of the Advanced Encryption Standard (AES) competition. The algorithm was one of the five finalists, and also was submitted to the NESSIE and CRYPTREC projects. It was a proprietary algorithm, patented by RSA Security. */
+
+	ARP_TWOFISH /**< In cryptography, Twofish is a symmetric key block cipher with a block size of 128 bits and key sizes up to 256 bits. It was one of the five finalists of the Advanced Encryption Standard contest, but it was not selected for standardization. Twofish is related to the earlier block cipher Blowfish. */
 };
 
 enum z_encryption_method
 {
-	Z_OLD_MODE,          /**< If this method is selected the compressor will encrypt the data before the compression what will result in a uncompressible file, not recommended, only here for people that have already encrypted files this way */
-	Z_NEW_MODE,          /**< If this method is selected the compressor will only encrypt the data after the compression, this means that the output size will be just slightly higher than the original compressed data, this is the recommended mode */
+	Z_OLD_MODE, /**< If this method is selected the compressor will encrypt the data before the compression what will result in a uncompressible file, not recommended, only here for people that have already encrypted files this way */
+	Z_NEW_MODE, /**< If this method is selected the compressor will only encrypt the data after the compression, this means that the output size will be just slightly higher than the original compressed data, this is the recommended mode */
 };
 
 /*

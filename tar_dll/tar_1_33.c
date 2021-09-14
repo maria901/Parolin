@@ -69,12 +69,22 @@ bool dont_delete_7zip_file_i = false;
 
 bool only_get_number_of_files_ar_v27 = false;
 
+/**
+ * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
+ */
+#define AMANDA__SIZE ((32767 * 6) + 2)
+/**
+ * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
+ * 
+ */
+#define AMANDA__SIZE_w (32767)
+
 char encryption_method__i[300] = {0};
 char compression_level_p[300];
 
 char compression_level_char_i[300] = "6";
 FILE *my___temp_file_i;
-char temp_file_update_i[1027] = {
+char temp_file_update_i[AMANDA__SIZE] = {
 	0,
 };
 
@@ -106,16 +116,6 @@ char my_error_as_a_programmer_z[1024] = {0};
 typedef int(__stdcall *tar_list_function_ar)(int clear_flag_k);
 
 int remove_temp_folder_i(void);
-
-/**
- * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
- */
-#define AMANDA__SIZE ((32767 * 6) + 2)
-/**
- * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
- * 
- */
-#define AMANDA__SIZE_w (32767)
 
 char error_message_k[AMANDA__SIZE] = {0};
 char remote_path_i[AMANDA__SIZE] = {0};
@@ -573,8 +573,8 @@ FILE *our_update_file_fopen_arp = NULL;
 int our_update_file_open__arp = -1;
 int bytes_written_to_update_file_arp;
 int64_t bytes_left_in_the_update_file_arp;
-char update_filename_arp[1024] = {0};
-char update_temp_dir_arp[1024] = {0};
+char update_filename_arp[AMANDA__SIZE];
+char update_temp_dir_arp[AMANDA__SIZE];
 
 bool recurse_on_subfolders_arp = true;
 
@@ -2684,7 +2684,7 @@ int __stdcall list_function_ar_ok(int clear_flag_k)
 		int Month_k_ar;
 		int Day_k_ar;
 		__int64 Size_k_ar;
-		static char filename_k_ar[1024];
+		static char filename_k_ar[AMANDA__SIZE];
 		int Numdir_k_ar;
 		int Numfiles_k_ar;
 		static char typeflag_ar_[1024];
@@ -2728,7 +2728,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
 tar_list_function_ar my_func_ar_ = NULL;
 
 __int64 Size_k;
-char filename_k[1027];
+char filename_k[AMANDA__SIZE];
 char typeflag_ar[300];
 int Day_k;
 int Hour_k;
@@ -2993,7 +2993,7 @@ static bool hit_eof;
 
 static bool read_full_records = false;
 
-char archive_name_array_filename[1024];
+char archive_name_array_filename[AMANDA__SIZE];
 
 int fatal_exit_k = 0;
 
@@ -3592,7 +3592,7 @@ void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data *VAL_data_arp
 	HANDLE hFile;
 	char szBuf[MAX_PATH];
 
-	hFile = CreateFileW(amanda_utf8towide_1_(file_arp),
+	hFile = CreateFileW(permissive_name_m_(amanda_utf8towide_1_(file_arp)),
 						/*
 	                       GENERIC_READ,
 	                       FILE_SHARE_READ, NULL,
@@ -4177,7 +4177,13 @@ void simple_print_header_VAL(void)
 			}
 		}
 	}
-	strncpy_z(filename_k, my_VAL_data_arp.VAL_filename, 1023);
+	if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
+	{
+		strcpy(filename_k, my_VAL_data_arp.VAL_filename_v27_v51);
+	}
+	else
+		strcpy(filename_k, my_VAL_data_arp.VAL_filename);
+
 	my_func_ar_(AAKP_LIST_PROCESS);
 }
 /**
@@ -10004,7 +10010,8 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
 			while (1)
 			{
 				int ret_arp;
-				memset(my_VAL_data_arp.VAL_filename, 0, 1024);
+				memset(my_VAL_data_arp.VAL_filename, 0, sizeof(my_VAL_data_arp.VAL_filename));
+				memset(my_VAL_data_arp.VAL_filename_v27_v51, 0, sizeof(my_VAL_data_arp.VAL_filename_v27_v51));
 				ret_arp = decode_VAL_arp(&my_VAL_data_arp);
 				if (ARP_NOMORE == ret_arp)
 				{
@@ -10017,11 +10024,25 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
 						processed_itens_ar++;
 						if (my_VAL_data_arp.VAL_is_dir)
 						{
-							extract_dir_VAL(my_VAL_data_arp.VAL_filename);
+							if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
+							{
+								extract_dir_VAL(my_VAL_data_arp.VAL_filename_v27_v51);
+							}
+							else
+							{
+								extract_dir_VAL(my_VAL_data_arp.VAL_filename);
+							}
 						}
 						else
 						{
-							extract_file_VAL(my_VAL_data_arp.VAL_filename);
+							if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
+							{
+								extract_file_VAL(my_VAL_data_arp.VAL_filename_v27_v51);
+							}
+							else
+							{
+								extract_file_VAL(my_VAL_data_arp.VAL_filename);
+							}
 						}
 					}
 					else

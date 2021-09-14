@@ -1,22 +1,21 @@
-//2021 by amanda & SmartApe, updated 02/August 09:45
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
- *        Licensa de CÃ³pia (C) <2021>  <CorporaÃ§Ã£o do Trabalho BinÃ¡rio>         *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
- *     Este  programa  Ã© software livre: vocÃª pode redistribuir isto e/ou       *
- *     modificar  isto sobre os termos do  GNU Licensa Geral PÃºblica como       8
- *     publicado  pela FundaÃ§Ã£o  de Software  Livre, tanto a versÃ£o 3  da       *
- *     Licensa, ou (dependendo da sua opÃ§Ã£o) qualquer versÃ£o posterior.         *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
  *                                                                              *
- *     Este  programa Ã© distribuÃ­do na  esperanÃ§a que isto vai  ser Ãºtil,       *
- *     mas SEM  QUALQUER GARANTIA; sem  atÃ© mesmo a implicada garantia de       *
- *     COMERCIALIZAÃ‡ÃƒO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
- *     Licensa Geral PÃºblica para mais detalhes.                                *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
  *                                                                              *
- *     VocÃª deve ter recebido uma  cÃ³pia da LICENSA GERAL PUBLICA e a GNU       *
- *     Licensa PÃºblica Menor junto com este programa                            *
- *     Se nÃ£o, veja <http://www.gnu.org/licenses/>.                             *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
@@ -24,8 +23,8 @@
  *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
  *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
  *                                                                              *
- *     contato imediato(para uma resposta muita rÃ¡pida) WhatsApp                *
- *     (+55)41 9627 1708 - isto estÃ¡ sempre ligado (eu acho...)                 *      
+ *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
@@ -55,7 +54,7 @@ enum libarchive_compression_modes_AR compression_mode_p = P_MODE_IS_ZIP__NO_PASS
 
 int64_t bytes_read_p = 0;
 
-wchar_t amanda_path[300] = {
+wchar_t amanda_path[AMANDA__SIZE_w + 1] = {
     0,
 };
 
@@ -275,7 +274,7 @@ int has_itens = 0;
 int has_itens_copy = 0;
 
 /**
- * Function to add an item to the linked list (internal use)
+ * Function to add an item to the linked list (internal use), fixed for large paths Ricardo...
  *
  * @param data_ar the data entering
  *
@@ -291,8 +290,8 @@ void add_more_one(char *data_ar)
         aak_ = calloc(1, sizeof(struct my_struct_for_list_ar));
         aak_inicio_ = aak_;
         aak_pointer_ = aak_;
-        aak_->filename_ar = malloc(1027);
-        strncpy_z(aak_->filename_ar, data_ar, 1026);
+        aak_->filename_ar = malloc(strlen(data_ar) + 1);
+        strcpy(aak_->filename_ar, data_ar);
         aak_->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar));
         has_itens = 1;
         has_itens_copy = has_itens;
@@ -305,8 +304,8 @@ void add_more_one(char *data_ar)
         assert(aak_ptr);
         assert(8 < sizeof(struct my_struct_for_list_ar));
         aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar));
-        aak_ptr->filename_ar = malloc(1027);
-        strncpy_z(aak_ptr->filename_ar, data_ar, 1026);
+        aak_ptr->filename_ar = malloc(strlen(data_ar) + 1);
+        strcpy(aak_ptr->filename_ar, data_ar);
         aak_ = aak_ptr->next_ar;
         has_itens++;
         has_itens_copy = has_itens;
@@ -318,7 +317,7 @@ int clean_list__ar(void);
 /**
  * Function to get an item from the linked list (internal), 
  * notice that after 13/September/2021 support to paths above MAX_PATH 
- * was added
+ * was added, long paths already checked Ric...
  *
  * @param data_out_ar the string with the information
  * on exit
@@ -390,7 +389,7 @@ inicio_ar:;
     return 1;
 }
 
-char warning_message_k[1051];
+char warning_message_k[AMANDA__SIZE];
 
 /**
  * Function to retrieve the warning information, see
@@ -405,7 +404,7 @@ void __stdcall get_create_warning_ar(char *message_ar)
     return;
 }
 
-char process_message_k[1024];
+char process_message_k[AMANDA__SIZE];
 
 /**
  * Function to retrieve the create message, see
@@ -1476,12 +1475,12 @@ dump_regular_file(int fd, struct tar_stat_info *st)
  *
  * @param initial_path_ar the path where the files are located
  *
- * @param name the entry name (a folder or a file)
- *
- * @param initial_path_ar the path where the entry is located
+ * @param girlfriend_name the entry name (a folder or a file), also Amanda
  *
  */
-void dump_file_or_folder(struct tar_stat_info *st, char const *name, char *initial_path_ar)
+void dump_file_or_folder(struct tar_stat_info *st,
+                         char const *girlfriend_name,
+                         char *initial_path_ar)
 {
     static VAL_data my_VAL_data;
     static VAL_data my_VAL_data_copy_i;
@@ -1519,10 +1518,10 @@ void dump_file_or_folder(struct tar_stat_info *st, char const *name, char *initi
         assert(0 && "path cannot be empty");
     }
 
-    strcat(file_or_folder_to_process, name);
+    strcat(file_or_folder_to_process, girlfriend_name);
 
     pedro_dprintf(-1, "***************************\n");
-    pedro_dprintf(-1, " folder e name %s %s\n", initial_path_ar, name);
+    pedro_dprintf(-1, " folder e name %s %s\n", initial_path_ar, girlfriend_name);
     pedro_dprintf(-1, " total %s\n", file_or_folder_to_process);
 
     strcpy(file_or_folder_to_process_copy, file_or_folder_to_process);
@@ -1532,16 +1531,16 @@ void dump_file_or_folder(struct tar_stat_info *st, char const *name, char *initi
     strtolower_ar(tar_file_copy);
     if (0 == strcmp(tar_file_copy, file_or_folder_to_process_copy))
     {
-        strcpy(warning_message_k, "Cannot add himself to the tar file, skipping...");
+        strcpy(warning_message_k, "Cannot add himself to the tar(VAL) file, skipping...");
         add_more_one(warning_message_k);
         return;
     }
 
-    strcpy(my_VAL_data.VAL_filename, name);
-    trocadordebackslashfrente((char *)name);
-    assign_string(&st->orig_file_name, name);
-    assign_string(&st->file_name, name);
-    attributes = GetFileAttributesW(amanda_utf8towide_1_(file_or_folder_to_process));
+    strcpy(my_VAL_data.VAL_filename, girlfriend_name);
+    trocadordebackslashfrente((char *)girlfriend_name);
+    assign_string(&st->orig_file_name, girlfriend_name);
+    assign_string(&st->file_name, girlfriend_name);
+    attributes = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process)));
 
     if (INVALID_FILE_ATTRIBUTES == attributes)
     {
@@ -1587,7 +1586,7 @@ void dump_file_or_folder(struct tar_stat_info *st, char const *name, char *initi
 
         if ('/' != st->file_name[strlen(st->file_name) - 1])
         {
-            char temp_ar[1024 + 1];
+            static char temp_ar[AMANDA__SIZE];
             strcpy(temp_ar, st->file_name);
             strcat(temp_ar, "/");
             assign_string(&st->file_name, temp_ar);
@@ -1599,7 +1598,7 @@ void dump_file_or_folder(struct tar_stat_info *st, char const *name, char *initi
         FILETIME lpLastWriteTime__junior;
 
         hFile =
-            CreateFileW(amanda_utf8towide_1_(file_or_folder_to_process),
+            CreateFileW(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process)),
                         /*
                     GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
                     NULL,
@@ -1631,7 +1630,7 @@ void dump_file_or_folder(struct tar_stat_info *st, char const *name, char *initi
                     //ret_ar = 0;
                     {
                         __time64_t s_arp_3;
-                        get_timestamp_arp(file_or_folder_to_process, &s_arp_3, &my_VAL_data_copy_i);
+                        get_timestamp_arp(/* already have permissive_name_m_ call */ file_or_folder_to_process, &s_arp_3, &my_VAL_data_copy_i);
 
                         t.tv_sec = s_arp_3;
                         my_VAL_data.VAL_timestamp = s_arp_3;
@@ -1660,7 +1659,7 @@ void dump_file_or_folder(struct tar_stat_info *st, char const *name, char *initi
         {
             if (!mode_is_VAL_arp)
             {
-                dump_directory(st); //ok
+                dump_directory(st); //Later we extend the Tar format to long paths...
             }
             else
             {
@@ -2030,7 +2029,7 @@ void dump_file_or_folder(struct tar_stat_info *st, char const *name, char *initi
         //aqui name
         if (use_name_i)
         {
-            sprintf(process_message_k, "Processing %s", name);
+            sprintf(process_message_k, "Processing %s", girlfriend_name);
         }
         else
             sprintf(process_message_k, "Processing %s", file_or_folder_to_process);
@@ -3878,7 +3877,7 @@ void __fastcall clean_up_update_ARP(void)
         }
         if (strlen(update_filename_arp))
         {
-            _wunlink(amanda_utf8towide_1_(update_filename_arp));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp)));
         }
     }
 }
@@ -3992,8 +3991,12 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
         char *buf_i;
 
-        char temp_i[1027];
-        char temp_i_f[1027];
+        static char temp_i[AMANDA__SIZE];
+        static char temp_i_f[AMANDA__SIZE];
+
+        memset(temp_i, 0, sizeof(temp_i));
+        memset(temp_i_f, 0, sizeof(temp_i_f));
+
         mode_is_update_libarchive_v27 = false;
 
         while (get_list_itens(exit_data_ar))
@@ -4016,7 +4019,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
             strcpy(error_message_k, "Invalid file to create, cannot be relative");
             init_playlist_z_june_24();
-            _wunlink(amanda_utf8towide_1_(temp_file_update_i));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
             return 1001;
         }
 
@@ -4033,7 +4036,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
             }
 
             init_playlist_z_june_24();
-            _wunlink(amanda_utf8towide_1_(temp_file_update_i));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
             return 30003;
         }
 
@@ -4074,7 +4077,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
             }
 
             init_playlist_z_june_24();
-            _wunlink(amanda_utf8towide_1_(temp_file_update_i));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
             return fatal_exit_k;
         }
 
@@ -4091,7 +4094,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                 mode_is_update_arp = false;
             }
             init_playlist_z_june_24();
-            _wunlink(amanda_utf8towide_1_(temp_file_update_i));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
             return fatal_exit_k;
         }
 
@@ -4104,15 +4107,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
         strcpy(temp_i, ar_gettemppath_z());
         strcat(temp_i, "d");
-        _wunlink(amanda_utf8towide_1_(temp_i));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_i)));
 
         rspmakedir_v2(temp_i);
 
         strcpy(temp_i_f, ar_gettemppath_z());
         strcat(temp_i_f, "a");
 
-        if (!SetFileAttributesW(
-                amanda_utf8towide_1_(temp_i_f),
+        if (!SetFileAttributesW(permissive_name_m_(
+                amanda_utf8towide_1_(temp_i_f)),
                 FILE_ATTRIBUTE_ARCHIVE))
         {
             ;
@@ -4120,11 +4123,10 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
             //exit(27);
         }
 
-        temp_file_i = _wfopen(amanda_utf8towide_1_(temp_file_update_i), L"rb");
+        temp_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)), L"rb");
 
         if (NULL == temp_file_i)
         {
-
             init_playlist_z_june_24();
             fatal_exit_k = 300007;
             strcpy(error_message_k, "Cannot open temp file");
@@ -4169,7 +4171,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                                 &ftime);
 
                             hFile =
-                                CreateFileW(amanda_utf8towide_1_(temp_i),
+                                CreateFileW(permissive_name_m_(amanda_utf8towide_1_(temp_i)),
                                             GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
                                             NULL,
                                             OPEN_EXISTING,
@@ -4192,7 +4194,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                             my_ptr_ar->file_offset_i,
                             SEEK_SET);
 
-                        writ_file_i = _wfopen(amanda_utf8towide_1_(temp_i_f), L"wb");
+                        writ_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_i_f)), L"wb");
 
                         if (NULL == writ_file_i)
                         {
@@ -4235,7 +4237,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                                 &ftime);
 
                             hFile =
-                                CreateFileW(amanda_utf8towide_1_(temp_i_f),
+                                CreateFileW(permissive_name_m_(amanda_utf8towide_1_(temp_i_f)),
                                             GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
                                             NULL,
                                             OPEN_EXISTING,
@@ -4249,8 +4251,8 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                             }
                         }
 
-                        if (!SetFileAttributesW(
-                                amanda_utf8towide_1_(temp_i_f),
+                        if (!SetFileAttributesW(permissive_name_m_(
+                                amanda_utf8towide_1_(temp_i_f)),
                                 my_ptr_ar->attributes_i))
                         {
                             ;
@@ -4261,7 +4263,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                         libarchive_process_p_func(my_ptr_ar->item_entry_i, temp_i_f);
 
                         if (!SetFileAttributesW(
-                                amanda_utf8towide_1_(temp_i_f),
+                                permissive_name_m_(amanda_utf8towide_1_(temp_i_f)),
                                 FILE_ATTRIBUTE_ARCHIVE))
                         {
                             ;
@@ -4279,16 +4281,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
         if (1 == ret_arp_)
         {
-
             fatal_exit_k = 200007;
             strcpy(error_message_k, "Fatal error in the compression function, can be a wrong combination of the number of threads and compression level, please verify");
         }
         if (0 == ret_arp_)
         {
 
-            _wunlink(amanda_utf8towide_1_(tar_filename_ar));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(tar_filename_ar)));
 
-            _wrename(amanda_utf8towide_2_(archive_name_array_filename), amanda_utf8towide_1_(tar_filename_ar));
+            _wrename(permissive_name_m_(amanda_utf8towide_2_(archive_name_array_filename)), permissive_name_m_v27(amanda_utf8towide_1_(tar_filename_ar)));
         }
 
     exit_amanda:;
@@ -4308,7 +4309,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
             fclose(temp_file_i);
         }
 
-        _wunlink(amanda_utf8towide_1_(temp_file_update_i));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
 
         if (writ_file_i)
         {
@@ -4316,9 +4317,9 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
             writ_file_i = NULL;
         }
 
-        _wunlink(amanda_utf8towide_1_(temp_i_f));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_i_f)));
         progress_is_libarchive_v27 = false;
-        RemoveDirectoryW(amanda_utf8towide_1_(temp_i));
+        RemoveDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp_i)));
         return fatal_exit_k;
     }
 
@@ -4971,7 +4972,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
             }
 
             if (delete_temp_folder_z)
-                _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+                _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
             strcpy(error_message_k, "Cannot create temporary file");
             return 30003;
@@ -4983,7 +4984,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
     archive = -1;
 
-    attributes = GetFileAttributesW(amanda_utf8towide_1_(path_with_the_files_ar));
+    attributes = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(path_with_the_files_ar)));
 
     if (INVALID_FILE_ATTRIBUTES == attributes)
     {

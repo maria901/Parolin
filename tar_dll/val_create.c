@@ -54,9 +54,25 @@
 
 #include <stdbool.h>
 
+#ifndef AMANDA__SIZE_w
+#define AMANDA__SIZE_w (32767)
+#endif
+
 #include "arp.h"
 #include "arp_2.h"
 //functions
+
+/**
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we
+ * provide two functions that are exactly the same because someone may
+ * use it in multi-thread code
+ *
+ * @param pUTF8 the input utf-8 encoded filename
+ *
+ * @return the static allocated WCHAR array with the filename as wide string
+ *
+ */
+WCHAR *amanda_utf8towide_1_(char *pUTF8);
 
 void trocadordebackslashfrente(char *path);
 
@@ -104,8 +120,11 @@ static int64_t VAL_p_file_size = 0;
 
 static char buffer_arp[AMANDA_SIZE__];
 
+char ready_to_save_char_m_[AMANDA__SIZE];
+WCHAR ready_to_save_WCHAR_m_[AMANDA__SIZE_w];
+
 /**
- * VAL based function, it will write information about
+ * VAL based function, it will write information about   
  * a folder to the destination VAL file
  *
  * @param my_VAL_data the struct with the VAL information
@@ -113,6 +132,7 @@ static char buffer_arp[AMANDA_SIZE__];
  */
 void dump_diretory_VAL_arp(VAL_data *my_VAL_data)
 {
+
      if (0 == _telli64(archive))
      {
           ret_arp = _write(archive, "VALP", 4);
@@ -154,10 +174,20 @@ void dump_diretory_VAL_arp(VAL_data *my_VAL_data)
           first_pass_VAL_p = false;
      }
 
-     //////////////////////////////////////////////////////////////////////
+     /****************************************************************************************/
+
      strcpy(temp_arp, "VAL_filename ");
 
-     sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(my_VAL_data->VAL_filename));
+     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename);
+
+     wcscpy(ready_to_save_WCHAR_m_, amanda_utf8towide_1_(my_VAL_data->VAL_filename));
+
+     while ((MAX_PATH - 2) < wcslen(amanda_utf8towide_1_(ready_to_save_char_m_)))
+     {
+          ready_to_save_char_m_[strlen(ready_to_save_char_m_) - 1] = 0;
+     }
+
+     sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(ready_to_save_char_m_));
 
      len_arp = strlen(temp_arp) + 1;
 
@@ -168,17 +198,47 @@ void dump_diretory_VAL_arp(VAL_data *my_VAL_data)
           strcpy(error_message_k, "Cannot write to destination file");
      }
 
-     trocadordebackslashfrente(my_VAL_data->VAL_filename);
+     trocadordebackslashfrente(ready_to_save_char_m_);
 
-     len_arp = strlen(my_VAL_data->VAL_filename);
+     len_arp = strlen(ready_to_save_char_m_);
 
-     ret_arp = _write(archive, my_VAL_data->VAL_filename, len_arp);
+     ret_arp = _write(archive, ready_to_save_char_m_, len_arp);
      if (ret_arp != len_arp)
      {
           fatal_exit_k = 27003;
           strcpy(error_message_k, "Cannot write to destination file");
      }
 
+     /****************************************************************************************/
+     /****************************************************************************************/
+     //modified at 13/september/2021 23:30 to support long paths...
+     strcpy(temp_arp, "VAL_filename_v27_v51 ");
+
+     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename);
+
+     sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(ready_to_save_char_m_));
+
+     len_arp = strlen(temp_arp) + 1;
+
+     ret_arp = _write(archive, temp_arp, len_arp);
+     if (ret_arp != len_arp)
+     {
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
+     }
+
+     trocadordebackslashfrente(ready_to_save_char_m_);
+
+     len_arp = strlen(ready_to_save_char_m_);
+
+     ret_arp = _write(archive, ready_to_save_char_m_, len_arp);
+     if (ret_arp != len_arp)
+     {
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
+     }
+
+     /****************************************************************************************/
      strcpy(temp_arp, "VAL_attributes ");
 
      sprintf(temp_arp + strlen(temp_arp), "%d 0", 4);
@@ -430,9 +490,19 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data *my_VAL_data)
      }
 
      ////////////////////////////////////////////////////////////////////
+
      strcpy(temp_arp, "VAL_filename ");
 
-     sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(my_VAL_data->VAL_filename));
+     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename);
+
+     wcscpy(ready_to_save_WCHAR_m_, amanda_utf8towide_1_(my_VAL_data->VAL_filename));
+
+     while ((MAX_PATH - 2) < wcslen(amanda_utf8towide_1_(ready_to_save_char_m_)))
+     {
+          ready_to_save_char_m_[strlen(ready_to_save_char_m_) - 1] = 0;
+     }
+
+     sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(ready_to_save_char_m_));
 
      len_arp = strlen(temp_arp) + 1;
 
@@ -443,14 +513,43 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data *my_VAL_data)
           strcpy(error_message_k, "Cannot write to destination file");
      }
 
-     len_arp = strlen(my_VAL_data->VAL_filename);
+     len_arp = strlen(ready_to_save_char_m_);
 
-     ret_arp = _write(archive, my_VAL_data->VAL_filename, len_arp);
+     ret_arp = _write(archive, ready_to_save_char_m_, len_arp);
      if (ret_arp != len_arp)
      {
           fatal_exit_k = 27003;
           strcpy(error_message_k, "Cannot write to destination file");
      }
+     /************************************************************************************************************/
+
+     strcpy(temp_arp, "VAL_filename_v27_v51 ");
+
+     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename);
+
+     sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(ready_to_save_char_m_));
+
+     len_arp = strlen(temp_arp) + 1;
+
+     ret_arp = _write(archive, temp_arp, len_arp);
+     if (ret_arp != len_arp)
+     {
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
+     }
+
+     //trocadordebackslashfrente(ready_to_save_char_m_);
+
+     len_arp = strlen(ready_to_save_char_m_);
+
+     ret_arp = _write(archive, ready_to_save_char_m_, len_arp);
+     if (ret_arp != len_arp)
+     {
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
+     }
+
+     /************************************************************************************************************/
 
      strcpy(temp_arp, "VAL_attributes ");
 

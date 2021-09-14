@@ -225,7 +225,7 @@ extract_dir_VAL(char *file_name_in_arp)
     if (AMANDA__SIZE < strlen(file_name_in_arp))
     {
         memcpy(file_name, file_name_in_arp, AMANDA__SIZE - 2);
-        strcpy(error_message_k, "Path came from Linux and is above #define 32767, aborting...");
+        strcpy(error_message_k, "Path came from Linux and is above 32767, aborting...");
         fatal_exit_k = 10002;
     }
     else
