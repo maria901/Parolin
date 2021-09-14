@@ -141,11 +141,15 @@ enum compression_modes_AR
 	AAKP_MODE_VAL_COMPRESS2
 };
 
+#ifndef AMANDA__SIZE
+#define AMANDA__SIZE ((32767 * 6) + 2)
+#endif
+
 typedef struct arp_
 {
 	__time64_t   VAL_timestamp64        ;
 	bool         Val_is_using_filetime  ;
-	char         VAL_filename[1024]     ;
+	char         VAL_filename[AMANDA__SIZE];
 	DWORD        VAL_attributes         ;
 	FILETIME     CreationTime___junior  ;
 	FILETIME     LastAccessTime_junior  ;

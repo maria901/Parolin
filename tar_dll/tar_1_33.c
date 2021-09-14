@@ -1,59 +1,36 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*                                                                              *
-*        Licensa de Cï¿½pia (C) <2021>  <Corporaï¿½ï¿½o do Trabalho Binï¿½rio>         *
-*                                                                              *
-*     Este  programa  ï¿½ software livre: vocï¿½ pode redistribuir isto e/ou       *
-*     modificar  isto sobre os termos do  GNU Licensa Geral Pï¿½blica como       8
-*     publicado  pela Fundaï¿½ï¿½o  de Software  Livre, tanto a versï¿½o 3  da       *
-*     Licensa, ou (dependendo da sua opï¿½ï¿½o) qualquer versï¿½o posterior.         *
-*                                                                              *
-*     Este  programa ï¿½ distribuï¿½do na  esperanï¿½a que isto vai  ser ï¿½til,       *
-*     mas SEM  QUALQUER GARANTIA; sem  atï¿½ mesmo a implicada garantia de       *
-*     COMERCIALIZAï¿½ï¿½O ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
-*     Licensa Geral Pï¿½blica para mais detalhes.                                *
-*                                                                              *
-*     Vocï¿½ deve ter recebido uma  cï¿½pia da LICENSA GERAL PUBLICA e a GNU       *
-*     Licensa Pï¿½blica Menor junto com este programa                            *
-*     Se nï¿½o, veja <http://www.gnu.org/licenses/>.                             *
-*                                                                              *
-*     Suporte: https://nomade.sourceforge.io/                                  *
-*                                                                              *
-*     E-mails direto dos felizes programadores:                                *
-*     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
-*     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
-*                                                                              *
-*     contato imediato(para uma resposta muita rï¿½pida) WhatsApp                *
-*     (+55)41 9627 1708 - isto estï¿½ sempre ligado (eu acho...)                 *
-*                                                                              *
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails direto dos felizes programadores:                                *
+ *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
+ *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *                                                                              *
+ *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
-#include /* amanda's smart ape */ <sys/utime.h>
-#include /* amanda's smart ape */ <windows.h>
-#include /* amanda's smart ape */ <stdint.h>
-#include /* amanda's smart ape */ <stdio.h>
-#include /* amanda's smart ape */ <stdlib.h>
-#include /* amanda's smart ape */ <string.h>
-#include /* amanda's smart ape */ <time.h>
-#include /* amanda's smart ape */ <errno.h>
-#include /* amanda's smart ape */ <fcntl.h>
-#include /* amanda's smart ape */ <ctype.h>
-#include /* amanda's smart ape */ <math.h>
-#include /* amanda's smart ape */ <wctype.h>
-#include /* amanda's smart ape */ <wchar.h>
-#include /* amanda's smart ape */ <stdarg.h>
-#include /* amanda's smart ape */ <stddef.h>
-#include /* amanda's smart ape */ <setjmp.h>
-#include /* amanda's smart ape */ <locale.h>
-#include /* amanda's smart ape */ <signal.h>
-#include /* amanda's smart ape */ <limits.h>
-#include /* amanda's smart ape */ <float.h>
-#include /* amanda's smart ape */ <iso646.h>
+#include "microsoft_header_fix_m.h"
 
-#undef NDEBUG
-#include /* amanda's smart ape */ <assert.h>
-#include /* amanda's smart ape */ <psapi.h>
-#include /* amanda's smart ape */ <process.h>
+#include /* amanda's smart ape */ "win64.h" /* to make the compiler happy */
 
 //#define Z_DEBUG__TEMP 1
 
@@ -61,12 +38,6 @@
 
 //set it to one if you want to allow the extraction of VAL encrypted files with different passwords, but it is not recommended, you are warned
 #define ARP_ALLOW_MULTIPLE_PASSWORDS_ 0
-
-#include /* amanda's smart ape */ <stdbool.h>
-#include /* amanda's smart ape */ <dirent.h>
-#include /* amanda's smart ape */ <sys\stat.h>
-
-#include /* amanda's smart ape */ "win64.h" /* to make the compiler happy */
 
 #define INT_BITS_STRLEN_BOUND(b) (((b)*146 + 484) / 485)
 
@@ -139,7 +110,7 @@ int remove_temp_folder_i(void);
 /**
  * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
  */
-#define AMANDA__SIZE (32767 * 6)
+#define AMANDA__SIZE ((32767 * 6) + 2)
 /**
  * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
  * 
@@ -174,6 +145,16 @@ int __stdcall split_compressed_file_p(int64_t slice_in_bytes_p_);
 
 int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_filename_in_temp_p);
 
+/**
+ * To convert an input wide string to a utf-8 encoded filename on return
+ *
+ * @param pUSC2_maria the wide string to be converted
+ *
+ * @return it will return the static allocated char * string with the utf-8 encoded filename
+ *
+ */
+char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria);
+
 extern void
 pedro_dprintf(
 	int amanda_level,
@@ -183,19 +164,61 @@ pedro_dprintfW(
 	int amanda_level,
 	wchar_t *format, ...);
 
-/***************************************************************************************************************
+wchar_t *
+remove_permissive_name_m_(wchar_t *wname)
+{
+
+	/**
+ * oi amor...
  */
+	static wchar_t wname_copy[AMANDA__SIZE_w + 1];
+
+	wchar_t *wname_copy_v27 = wname_copy;
+
+	wcscpy(wname_copy, wname);
+
+	if (3 < wcslen(wname_copy))
+	{
+
+		if ('\\' == wname_copy[0] &&
+			'\\' == wname_copy[1] &&
+			'?' == wname_copy[2])
+		{
+			wname_copy_v27++;
+			wname_copy_v27++;
+			wname_copy_v27++;
+			wname_copy_v27++;
+			return wname_copy_v27;
+		}
+		else
+		{
+			return wname;
+		}
+	}
+	else
+	{
+		return wname;
+	}
+}
+
+/******************************************************************************************/
 
 wchar_t *
-maria__la_win_permissive_name_w(const wchar_t *wname)
+permissive_name_m_(const wchar_t *wname)
 {
-	
-	wchar_t *wn, *wnp;
+
+	static wchar_t *wnp = NULL;
+	wchar_t *wn;
 	wchar_t *ws, *wsp;
 	DWORD len, slen;
 	int unc;
 
-	wnp = malloc(AMANDA__SIZE * 2);
+	if (NULL == wnp)
+	{
+		wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
+	}
+
+	//wnp = malloc(AMANDA__SIZE * 2);
 
 	wcscpy(wnp, wname);
 
@@ -203,7 +226,7 @@ maria__la_win_permissive_name_w(const wchar_t *wname)
 
 	wn = wnp;
 
-	if (wnp[0] == L'\\' && wnp[1] == L'\\' &&
+	if (wnp[0] == L'\\' && wnp[1] == L'\\' && // access to the wrong position in memory, fixed now
 		wnp[2] == L'?' && wnp[3] == L'\\')
 		/* We have already a permissive name. */
 		return (wn);
@@ -248,7 +271,7 @@ maria__la_win_permissive_name_w(const wchar_t *wname)
 	ws = wsp = malloc(slen * sizeof(wchar_t));
 	if (ws == NULL)
 	{
-		free(wn);
+		//free(wn);
 		return (NULL);
 	}
 	/* prepend "\\?\" */
@@ -264,8 +287,110 @@ maria__la_win_permissive_name_w(const wchar_t *wname)
 	}
 	wcsncpy(wsp, wnp, slen);
 	wsp[slen - 1] = L'\0'; /* Ensure null termination. */
-	free(wn);
-	return (ws);
+	//free(wn);
+
+	wcscpy(wnp, ws);
+
+	free(ws);
+
+	pedro_dprintf(0, "interno %s\n", valquiria_wide_to_utf8(wnp));
+
+	return (wnp);
+}
+
+wchar_t *
+permissive_name_m_v27(const wchar_t *wname)
+{
+
+	static wchar_t *wnp = NULL;
+	wchar_t *wn;
+	wchar_t *ws, *wsp;
+	DWORD len, slen;
+	int unc;
+
+	if (NULL == wnp)
+	{
+		wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
+	}
+
+	//wnp = malloc(AMANDA__SIZE * 2);
+
+	wcscpy(wnp, wname);
+
+	len = wcslen(wname);
+
+	wn = wnp;
+
+	if (wnp[0] == L'\\' && wnp[1] == L'\\' && // access to the wrong position in memory, fixed now
+		wnp[2] == L'?' && wnp[3] == L'\\')
+		/* We have already a permissive name. */
+		return (wn);
+
+	if (wnp[0] == L'\\' && wnp[1] == L'\\' &&
+		wnp[2] == L'.' && wnp[3] == L'\\')
+	{
+		/* This is a device name */
+		if (((wnp[4] >= L'a' && wnp[4] <= L'z') ||
+			 (wnp[4] >= L'A' && wnp[4] <= L'Z')) &&
+			wnp[5] == L':' && wnp[6] == L'\\')
+			wnp[2] = L'?'; /* Not device name. */
+		return (wn);
+	}
+
+	unc = 0;
+	if (wnp[0] == L'\\' && wnp[1] == L'\\' && wnp[2] != L'\\')
+	{
+		wchar_t *p = &wnp[2];
+
+		/* Skip server-name letters. */
+		while (*p != L'\\' && *p != L'\0')
+			++p;
+		if (*p == L'\\')
+		{
+			wchar_t *rp = ++p;
+			/* Skip share-name letters. */
+			while (*p != L'\\' && *p != L'\0')
+				++p;
+			if (*p == L'\\' && p != rp)
+			{
+				/* Now, match patterns such as
+				 * "\\server-name\share-name\" */
+				wnp += 2;
+				len -= 2;
+				unc = 1;
+			}
+		}
+	}
+
+	slen = 4 + (unc * 4) + len + 1;
+	ws = wsp = malloc(slen * sizeof(wchar_t));
+	if (ws == NULL)
+	{
+		//free(wn);
+		return (NULL);
+	}
+	/* prepend "\\?\" */
+	wcsncpy(wsp, L"\\\\?\\", 4);
+	wsp += 4;
+	slen -= 4;
+	if (unc)
+	{
+		/* append "UNC\" ---> "\\?\UNC\" */
+		wcsncpy(wsp, L"UNC\\", 4);
+		wsp += 4;
+		slen -= 4;
+	}
+	wcsncpy(wsp, wnp, slen);
+	wsp[slen - 1] = L'\0'; /* Ensure null termination. */
+	//free(wn);
+
+	wcscpy(wnp, ws);
+
+	free(ws);
+
+	pedro_dprintf(0, "interno %s\n", valquiria_wide_to_utf8(wnp));
+
+	return (wnp);
 }
 
 /***************************************************************************************************************
@@ -404,7 +529,7 @@ int detected_format_arp;
 
 char string_format_arp[1024] = "unkonwn";
 
-char temp_folder_z[1024] = {
+char temp_folder_z[AMANDA__SIZE] = {
 	0,
 };
 
@@ -453,7 +578,7 @@ char update_temp_dir_arp[1024] = {0};
 
 bool recurse_on_subfolders_arp = true;
 
-char creating_folder_maria[1024];
+char creating_folder_maria[AMANDA__SIZE];
 
 int getpor_10000(int max, int fatia);
 
@@ -481,9 +606,9 @@ int return_value_from_list = 0;
  */
 WCHAR *amanda_utf8towide_1_(char *pUTF8)
 {
-	static WCHAR ricardo_k[1024];
+	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
 
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, 1024);
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
 	return ricardo_k;
 }
 
@@ -499,9 +624,9 @@ WCHAR *amanda_utf8towide_1_(char *pUTF8)
  */
 WCHAR *amanda_utf8towide_2_(char *pUTF8)
 {
-	static WCHAR ricardo_k[1024];
+	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
 
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, 1024);
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
 	return ricardo_k;
 }
 /**
@@ -530,9 +655,9 @@ int widetoutf8_ar(WCHAR *pUSC2, char *pUTF8, int nUTF8)
  */
 char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria)
 {
-	static char saida_utf8[1024];
+	static char saida_utf8[AMANDA__SIZE];
 
-	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, 1024, 0, 0);
+	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
 	return saida_utf8;
 }
 /**
@@ -1612,9 +1737,9 @@ void add_more_one_is_amanda_update_(
 												 my_struct_for_list_ar_is_amanda_update_));
 		aak_inicio_is_amanda_update_ = aak_is_amanda_update_;
 		aak_pointer_is_amanda_update_ = aak_is_amanda_update_;
-		aak_is_amanda_update_->filename_k = malloc(1027);
+		aak_is_amanda_update_->filename_k = malloc(strlen(filename_k_ar) + 1);
 
-		strncpy_z(aak_is_amanda_update_->filename_k, filename_k_ar, 1026);
+		strcpy(aak_is_amanda_update_->filename_k, filename_k_ar);
 
 		aak_is_amanda_update_->size_of_file_arp = size_of_file_arp;
 		aak_is_amanda_update_->mtime_tv_sec_arp = mtime_tv_sec_arp;
@@ -1647,9 +1772,9 @@ void add_more_one_is_amanda_update_(
 
 		aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_amanda_update_));
 
-		aak_ptr->filename_k = malloc(1027);
+		aak_ptr->filename_k = malloc(strlen(filename_k_ar) + 1);
 
-		strncpy_z(aak_ptr->filename_k, filename_k_ar, 1026);
+		strcpy(aak_ptr->filename_k, filename_k_ar);
 		aak_ptr->size_of_file_arp = size_of_file_arp;
 		aak_ptr->mtime_tv_sec_arp = mtime_tv_sec_arp;
 		aak_ptr->is_directory_arp = is_directory_arp;
@@ -2067,8 +2192,8 @@ int processed_itens_ar = 0;
 int numero_de_itens = 0;
 int folders_ar;
 int files_ar;
-char extracting_filename_ar[1024];
-char warning_info[1024];
+char extracting_filename_ar[AMANDA__SIZE];
+char warning_info[AMANDA__SIZE];
 
 void __stdcall get_tar_info_ar(
 	int *Isdir_k_ar,
@@ -2365,12 +2490,12 @@ void add_more_one_is_extract_(
 		aak_is_extract_ = calloc(1, sizeof(struct my_struct_for_list_ar_is_extract_));
 		aak_inicio_is_extract_ = aak_is_extract_;
 		aak_pointer_is_extract_ = aak_is_extract_;
-		aak_is_extract_->extracting_filename_ar_ = malloc(1027);
-		aak_is_extract_->warning_info_ = malloc(1027);
-		aak_is_extract_->creating_folder_maria_ = malloc(1027);
-		strncpy_z(aak_is_extract_->extracting_filename_ar_, extracting_filename_ar__, 1026);
-		strncpy_z(aak_is_extract_->warning_info_, warning_info_ar_, 1026);
-		strncpy_z(aak_is_extract_->creating_folder_maria_, creating_folder_maria__, 1026);
+		aak_is_extract_->extracting_filename_ar_ = malloc(strlen(extracting_filename_ar__) + 1);
+		aak_is_extract_->warning_info_ = malloc(strlen(warning_info_ar_) + 1);
+		aak_is_extract_->creating_folder_maria_ = malloc(strlen(creating_folder_maria__) + 1);
+		strcpy(aak_is_extract_->extracting_filename_ar_, extracting_filename_ar__);
+		strcpy(aak_is_extract_->warning_info_, warning_info_ar_);
+		strcpy(aak_is_extract_->creating_folder_maria_, creating_folder_maria__);
 		aak_is_extract_->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_extract_));
 		has_itens_is_extract_ = 1;
 		has_itens_copy_is_extract_ = has_itens_is_extract_;
@@ -2382,12 +2507,12 @@ void add_more_one_is_extract_(
 		assert(aak_ptr);
 		assert(8 < sizeof(struct my_struct_for_list_ar_is_extract_));
 		aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_extract_));
-		aak_ptr->extracting_filename_ar_ = malloc(1027);
-		aak_ptr->warning_info_ = malloc(1027);
-		aak_ptr->creating_folder_maria_ = malloc(1024);
-		strncpy_z(aak_ptr->extracting_filename_ar_, extracting_filename_ar__, 1026);
-		strncpy_z(aak_ptr->warning_info_, warning_info_ar_, 1026);
-		strncpy_z(aak_ptr->creating_folder_maria_, creating_folder_maria__, 1026);
+		aak_ptr->extracting_filename_ar_ = malloc(strlen(extracting_filename_ar__) + 1);
+		aak_ptr->warning_info_ = malloc(strlen(warning_info_ar_) + 1);
+		aak_ptr->creating_folder_maria_ = malloc(strlen(creating_folder_maria__) + 1);
+		strcpy(aak_ptr->extracting_filename_ar_, extracting_filename_ar__);
+		strcpy(aak_ptr->warning_info_, warning_info_ar_);
+		strcpy(aak_ptr->creating_folder_maria_, creating_folder_maria__);
 		aak_is_extract_ = aak_ptr->next_ar;
 		has_itens_is_extract_++;
 		has_itens_copy_is_extract_ = has_itens_is_extract_;
@@ -2837,7 +2962,7 @@ static char const base_64_digits[64] =
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //the destination folder
-char extract_folder_final[1027] = {
+char extract_folder_final[AMANDA__SIZE] = {
 	0,
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -10822,8 +10947,8 @@ ar_gettemppath_z(void)
 
 	if (0 == strlen(temp_folder_z))
 	{
-		WCHAR out_z[MAX_PATH + 1];
-		GetTempPathW(MAX_PATH, out_z);
+		static WCHAR out_z[AMANDA__SIZE + 1];
+		GetTempPathW(AMANDA__SIZE, out_z);
 		strcpy(temp_folder_z, valquiria_wide_to_utf8(out_z));
 	}
 

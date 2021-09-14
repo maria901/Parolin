@@ -719,12 +719,12 @@ usage(void)
 	errmsg(m);
 	exit(1);
 }
-
+#define AMANDA__SIZE_w (32767)
 WCHAR *amanda_utf8towide_1_(char *pUTF8)
 {
-	static WCHAR ricardo_k[AMANDA__SIZE];
+	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
 
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE);
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
 	return ricardo_k;
 }
 

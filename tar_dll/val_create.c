@@ -1,7 +1,5 @@
-//2021 amanda & ricardo
 
-
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -30,14 +28,14 @@
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
-#include    <windows.h>
-#include     <stdint.h>
-#include      <stdio.h>
-#include     <stdlib.h>
-#include     <string.h>
-#include       <time.h>
-#include      <errno.h>
-#include      <fcntl.h>
+#include <windows.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <errno.h>
+#include <fcntl.h>
 #include <ctype.h>
 #include <math.h>
 #include <wctype.h>
@@ -60,30 +58,26 @@
 #include "arp_2.h"
 //functions
 
-void
-trocadordebackslashfrente(char *path);
+void trocadordebackslashfrente(char *path);
 
-void
-trocadordebackslashtras(char *path);
+void trocadordebackslashtras(char *path);
 
 extern void
-pedro_dprintf
-(
-     int amanda_level,
-     char *format, ...
-     );
+pedro_dprintf(
+    int amanda_level,
+    char *format, ...);
 // defines
 extern bool first_pass_VAL_p;
 extern bool enable_encryption_arp_;
 extern enum z_encryption_method internal_encryption_z_method;
 extern enum mode_is_include_or_exclude mode_is_include_or_exclude__;
 extern bool recurse_on_subfolders_arp;
-extern char archive_name_array_filename                          [];
-extern char global_patern_ar                                     [];
+extern char archive_name_array_filename[];
+extern char global_patern_ar[];
 extern int fatal_exit_k;
 extern int archive;
 extern int64_t ricrdo_bytes_read;
-extern char error_message_k   [];
+extern char error_message_k[];
 
 static int ret_arp_;
 static bool ret_bool_arp_;
@@ -91,14 +85,12 @@ static bool ret_bool_arp_;
 #define ftell _ftelli64
 
 __int64 _lseeki64(
-     int fd,
-     __int64 offset,
-     int origin
-     );
+    int fd,
+    __int64 offset,
+    int origin);
 
 __int64 _telli64(
-     int handle
-     );
+    int handle);
 
 static int time_t_arp;
 static int len_arp;
@@ -119,50 +111,50 @@ static char buffer_arp[AMANDA_SIZE__];
  * @param my_VAL_data the struct with the VAL information
  *
  */
-void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
+void dump_diretory_VAL_arp(VAL_data *my_VAL_data)
 {
      if (0 == _telli64(archive))
      {
-	  ret_arp = _write(archive, "VALP", 4);
+          ret_arp = _write(archive, "VALP", 4);
 
-	  if (4 != ret_arp)
-	  {
-	       fatal_exit_k = 27001;
-	       strcpy(error_message_k, "Cannot write to destination file");
-	  }
+          if (4 != ret_arp)
+          {
+               fatal_exit_k = 27001;
+               strcpy(error_message_k, "Cannot write to destination file");
+          }
      }
-//////////////////////////////////////////////////////////////////////
-//aqui...
-     if(first_pass_VAL_p)
+     //////////////////////////////////////////////////////////////////////
+     //aqui...
+     if (first_pass_VAL_p)
      {
-//Mr. Do
+          //Mr. Do
 
-	  strcpy(temp_arp, "VAL_p_file_size ");
+          strcpy(temp_arp, "VAL_p_file_size ");
 
-	  sprintf(temp_arp + strlen(temp_arp), "%d 0", 8);
+          sprintf(temp_arp + strlen(temp_arp), "%d 0", 8);
 
-	  len_arp = strlen(temp_arp) + 1;
+          len_arp = strlen(temp_arp) + 1;
 
-	  ret_arp = _write(archive, temp_arp, len_arp);
-	  if (ret_arp != len_arp)
-	  {
-	       fatal_exit_k = 27002;
-	       strcpy(error_message_k, "Cannot write to destination file");
-	  }
+          ret_arp = _write(archive, temp_arp, len_arp);
+          if (ret_arp != len_arp)
+          {
+               fatal_exit_k = 27002;
+               strcpy(error_message_k, "Cannot write to destination file");
+          }
 
-	  len_arp = 8;
+          len_arp = 8;
 
-	  ret_arp = _write(archive, & /*for your pleasure */ VAL_p_file_size, len_arp);
-	  if (ret_arp != len_arp)
-	  {
-	       fatal_exit_k = 27003;
-	       strcpy(error_message_k, "Cannot write to destination file");
-	  }
-       
-	  first_pass_VAL_p = false;
+          ret_arp = _write(archive, &/*for your pleasure */ VAL_p_file_size, len_arp);
+          if (ret_arp != len_arp)
+          {
+               fatal_exit_k = 27003;
+               strcpy(error_message_k, "Cannot write to destination file");
+          }
+
+          first_pass_VAL_p = false;
      }
-  
-//////////////////////////////////////////////////////////////////////
+
+     //////////////////////////////////////////////////////////////////////
      strcpy(temp_arp, "VAL_filename ");
 
      sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(my_VAL_data->VAL_filename));
@@ -172,8 +164,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      trocadordebackslashfrente(my_VAL_data->VAL_filename);
@@ -183,8 +175,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, my_VAL_data->VAL_filename, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "VAL_attributes ");
@@ -196,8 +188,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 4;
@@ -205,8 +197,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, &my_VAL_data->VAL_attributes, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "VAL_timestamp ");
@@ -218,8 +210,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 4;
@@ -229,8 +221,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, &time_t_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "VAL_timestamp64 ");
@@ -242,8 +234,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 8;
@@ -251,10 +243,10 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, &my_VAL_data->VAL_timestamp64, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
-  
+
      strcpy(temp_arp, "VAL_is_dir ");
 
      sprintf(temp_arp + strlen(temp_arp), "%d 0", 4);
@@ -264,8 +256,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 4;
@@ -275,8 +267,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, &time_t_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "VAL_is_encrypted ");
@@ -288,8 +280,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27035;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27035;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 4;
@@ -299,8 +291,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, &time_t_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27036;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27036;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "Val_is_using_filetime ");
@@ -312,8 +304,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27038;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27038;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      ret_arp_ = sizeof(FILETIME);
@@ -324,8 +316,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, &temp_long_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      ret_bool_arp_ = true;
@@ -334,32 +326,32 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
 
      if (ret_arp != 1)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      ret_arp = _write(archive, &my_VAL_data->CreationTime___junior, ret_arp_);
 
      if (ret_arp != ret_arp_)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      ret_arp = _write(archive, &my_VAL_data->LastAccessTime_junior, ret_arp_);
 
      if (ret_arp != ret_arp_)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      ret_arp = _write(archive, &my_VAL_data->LastWriteTime__junior, ret_arp_);
 
      if (ret_arp != ret_arp_)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "VAL_file_size ");
@@ -371,8 +363,8 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 8;
@@ -380,10 +372,9 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
      ret_arp = _write(archive, &my_VAL_data->VAL_file_size, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
-
 }
 
 /**
@@ -397,48 +388,48 @@ void dump_diretory_VAL_arp(VAL_data * my_VAL_data)
  * the fatal_exit_k and error_message_k variables
  *
  */
-int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
+int dump_regular_file_VAL_arp(int fd_arp, VAL_data *my_VAL_data)
 {
      if (0 == _telli64(archive))
      {
-	  ret_arp = _write(archive, "VALP" , 4);
+          ret_arp = _write(archive, "VALP", 4);
 
-	  if (4 != ret_arp)
-	  {
-	       fatal_exit_k = 27001;
-	       strcpy(error_message_k, "Cannot write to destination file");
-	  }
+          if (4 != ret_arp)
+          {
+               fatal_exit_k = 27001;
+               strcpy(error_message_k, "Cannot write to destination file");
+          }
      }
-/////////////////////////////////////////////////////////////////////
-//aqui
+     /////////////////////////////////////////////////////////////////////
+     //aqui
 
-     if(first_pass_VAL_p)
+     if (first_pass_VAL_p)
      {
-	  strcpy(temp_arp, "VAL_p_file_size ");
+          strcpy(temp_arp, "VAL_p_file_size ");
 
-	  sprintf(temp_arp + strlen(temp_arp), "%d 0", 8);
+          sprintf(temp_arp + strlen(temp_arp), "%d 0", 8);
 
-	  len_arp = strlen(temp_arp) + 1;
+          len_arp = strlen(temp_arp) + 1;
 
-	  ret_arp = _write(archive, temp_arp, len_arp);
-	  if (ret_arp != len_arp)
-	  {
-	       fatal_exit_k = 27002;
-	       strcpy(error_message_k, "Cannot write to destination file");
-	  }
+          ret_arp = _write(archive, temp_arp, len_arp);
+          if (ret_arp != len_arp)
+          {
+               fatal_exit_k = 27002;
+               strcpy(error_message_k, "Cannot write to destination file");
+          }
 
-	  len_arp = 8;
+          len_arp = 8;
 
-	  ret_arp = _write(archive, & VAL_p_file_size, len_arp);
-	  if (ret_arp != len_arp)
-	  {
-	       fatal_exit_k = 27003;
-	       strcpy(error_message_k, "Cannot write to destination file");
-	  }
-	  first_pass_VAL_p = false;
+          ret_arp = _write(archive, &VAL_p_file_size, len_arp);
+          if (ret_arp != len_arp)
+          {
+               fatal_exit_k = 27003;
+               strcpy(error_message_k, "Cannot write to destination file");
+          }
+          first_pass_VAL_p = false;
      }
-  
-////////////////////////////////////////////////////////////////////
+
+     ////////////////////////////////////////////////////////////////////
      strcpy(temp_arp, "VAL_filename ");
 
      sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(my_VAL_data->VAL_filename));
@@ -448,8 +439,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = strlen(my_VAL_data->VAL_filename);
@@ -457,8 +448,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, my_VAL_data->VAL_filename, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "VAL_attributes ");
@@ -470,8 +461,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 4;
@@ -479,8 +470,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, &my_VAL_data->VAL_attributes, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "VAL_encryption_method ");
@@ -492,8 +483,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 4;
@@ -501,8 +492,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, &my_VAL_data->VAL_encryption_method, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "VAL_timestamp ");
@@ -514,8 +505,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 4;
@@ -525,8 +516,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, &time_t_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "VAL_timestamp64 ");
@@ -538,8 +529,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 8;
@@ -547,10 +538,10 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, &my_VAL_data->VAL_timestamp64, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
-  
+
      strcpy(temp_arp, "VAL_is_dir ");
 
      sprintf(temp_arp + strlen(temp_arp), "%d 0", 4);
@@ -560,19 +551,19 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 4;
 
-     time_t_arp = my_VAL_data->VAL_is_dir;      //redundant...
+     time_t_arp = my_VAL_data->VAL_is_dir; //redundant...
 
      ret_arp = _write(archive, &time_t_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      strcpy(temp_arp, "VAL_is_encrypted ");
@@ -584,8 +575,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27038;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27038;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 4;
@@ -595,10 +586,10 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, &time_t_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
-  
+
      strcpy(temp_arp, "Val_is_using_filetime ");
 
      sprintf(temp_arp + strlen(temp_arp), "%d 1", 8);
@@ -608,8 +599,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27038;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27038;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      ret_arp_ = sizeof(FILETIME);
@@ -620,8 +611,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, &temp_long_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      ret_bool_arp_ = true;
@@ -630,34 +621,34 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
 
      if (ret_arp != 1)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      ret_arp = _write(archive, &my_VAL_data->CreationTime___junior, ret_arp_);
 
      if (ret_arp != ret_arp_)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      ret_arp = _write(archive, &my_VAL_data->LastAccessTime_junior, ret_arp_);
 
      if (ret_arp != ret_arp_)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      ret_arp = _write(archive, &my_VAL_data->LastWriteTime__junior, ret_arp_);
 
      if (ret_arp != ret_arp_)
      {
-	  fatal_exit_k = 27039;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27039;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
-  
+
      strcpy(temp_arp, "VAL_file_size ");
 
      sprintf(temp_arp + strlen(temp_arp), "%d 1", 8);
@@ -667,8 +658,8 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, temp_arp, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27002;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27002;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      len_arp = 8;
@@ -676,61 +667,61 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data * my_VAL_data)
      ret_arp = _write(archive, &my_VAL_data->VAL_file_size, len_arp);
      if (ret_arp != len_arp)
      {
-	  fatal_exit_k = 27003;
-	  strcpy(error_message_k, "Cannot write to destination file");
+          fatal_exit_k = 27003;
+          strcpy(error_message_k, "Cannot write to destination file");
      }
 
      {
 
-	  int64_t remaining_arp = my_VAL_data->VAL_file_size;
-	  int len_arp;
-	  int len_arp_w;
-	  int len_fatia;
+          int64_t remaining_arp = my_VAL_data->VAL_file_size;
+          int len_arp;
+          int len_arp_w;
+          int len_fatia;
 
      return_aqui_arp:;
 
-	  len_fatia = min(remaining_arp, AMANDA_SIZE__);
+          len_fatia = min(remaining_arp, AMANDA_SIZE__);
 
-	  len_arp = _read(fd_arp, buffer_arp, len_fatia);
+          len_arp = _read(fd_arp, buffer_arp, len_fatia);
 
-	  if (-1 == len_arp)
-	  {
-	       fatal_exit_k = 27004;
-	       strcpy(error_message_k, "Cannot read from input file");
-	       goto saida_arp;
-	  }
+          if (-1 == len_arp)
+          {
+               fatal_exit_k = 27004;
+               strcpy(error_message_k, "Cannot read from input file");
+               goto saida_arp;
+          }
 
-	  if (len_arp)
-	  {
-	       if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
-	       {
-		    ricrdo_bytes_read += len_arp / 2;
-	       }
-	       else
-	       {
-		    ricrdo_bytes_read += len_arp;
-	       }
+          if (len_arp)
+          {
+               if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
+               {
+                    ricrdo_bytes_read += len_arp / 2;
+               }
+               else
+               {
+                    ricrdo_bytes_read += len_arp;
+               }
 
-	       len_arp_w = _write(archive, buffer_arp, len_arp);
+               len_arp_w = _write(archive, buffer_arp, len_arp);
 
-	       if (len_arp_w != len_arp)
-	       {
-		    fatal_exit_k = 27005;
-		    strcpy(error_message_k, "Cannot write to VAL file");
-		    goto saida_arp;
-	       }
+               if (len_arp_w != len_arp)
+               {
+                    fatal_exit_k = 27005;
+                    strcpy(error_message_k, "Cannot write to VAL file");
+                    goto saida_arp;
+               }
 
-	       remaining_arp -= len_arp;
-	       goto return_aqui_arp;
-	  }
-	  else
-	  {
-	       if (0 != remaining_arp)
-	       {
-		    fatal_exit_k = 27006;
-		    strcpy(error_message_k, "Cannot read all data from input file 2\n");
-	       }
-	  }
+               remaining_arp -= len_arp;
+               goto return_aqui_arp;
+          }
+          else
+          {
+               if (0 != remaining_arp)
+               {
+                    fatal_exit_k = 27006;
+                    strcpy(error_message_k, "Cannot read all data from input file\n");
+               }
+          }
      }
 
 saida_arp:;

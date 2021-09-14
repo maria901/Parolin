@@ -818,7 +818,7 @@ namespace tar_sample_ar
 			}
 			else if(2 == ret_arp)
 			{
-				MessageBox.Show("Path larger than MAX_PATH");
+				MessageBox.Show("Path larger than 32767 or error");
 				my_error_ar.Text = "Error: Path too large";
 				//button1.Text = "criando...";
 			}

@@ -43,6 +43,7 @@ __FBSDID("$FreeBSD$");
 #include "archive_private.h"
 #include "archive_read_disk_private.h"
 
+#define AMANDA__SIZE_w (32767)
 #define AMANDA__SIZE (32767 * 6)
 
 char real_input_utf_8_i_3[1027] = { 0 };
@@ -75,9 +76,9 @@ static char * valquiria_wide_to_utf8(WCHAR * pUSC2_maria)
  */
 static WCHAR * amanda_utf8towide_1_(char *pUTF8)
 {
-	static WCHAR ricardo_k[AMANDA__SIZE];
+	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
 
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE);
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
 	return ricardo_k;
 }
 int debug_mode_i;

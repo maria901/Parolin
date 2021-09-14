@@ -49,7 +49,7 @@
 #define EPOC_TIME	(116444736000000000ULL)
 
 static void cpio_dosmaperr(unsigned long);
-
+#define AMANDA__SIZE_w (32767)
 #define AMANDA__SIZE (32767 * 6)
 /**
  * To convert an utf-8 encoded filename to a wide string (WCHAR *), we
@@ -63,9 +63,9 @@ static void cpio_dosmaperr(unsigned long);
  */
 static WCHAR * amanda_utf8towide_1_(char *pUTF8)
 {
-	static WCHAR ricardo_k[AMANDA__SIZE];
+	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
 
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE);
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
 	return ricardo_k;
 }
 

@@ -1483,18 +1483,27 @@ dump_regular_file(int fd, struct tar_stat_info *st)
  */
 void dump_file_or_folder(struct tar_stat_info *st, char const *name, char *initial_path_ar)
 {
-    VAL_data my_VAL_data = {0};
-    VAL_data my_VAL_data_copy_i = {0};
+    static VAL_data my_VAL_data;
+    static VAL_data my_VAL_data_copy_i;
+
     HANDLE hFile;
     enum dump_status status;
     DWORD attributes;
     __time64_t mtime_tv_sec_arp = 0;
-    char filename_k_arp[1024] = {0};
-    char file_or_folder_to_process[1000] = {0};
-    char file_or_folder_to_process_copy[1024] = {0};
-    char tar_file_copy[1024] = {0};
+    static char filename_k_arp[AMANDA__SIZE];
+    static char file_or_folder_to_process[AMANDA__SIZE];
+    static char file_or_folder_to_process_copy[AMANDA__SIZE];
+    static char tar_file_copy[AMANDA__SIZE];
     bool is_dir_ar = false;
     int fd_ar;
+
+    memset(filename_k_arp, 0, sizeof(filename_k_arp));
+    memset(file_or_folder_to_process, 0, sizeof(file_or_folder_to_process));
+    memset(file_or_folder_to_process_copy, 0, sizeof(file_or_folder_to_process_copy));
+    memset(tar_file_copy, 0, sizeof(tar_file_copy));
+
+    memset(&my_VAL_data, 0, sizeof(my_VAL_data));
+    memset(&my_VAL_data_copy_i, 0, sizeof(my_VAL_data_copy_i));
 
     strcpy(file_or_folder_to_process, initial_path_ar);
 
