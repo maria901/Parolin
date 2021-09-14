@@ -29,33 +29,33 @@
  *                                                                          *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include  <windows.h>
-#include   <stdint.h>
-#include    <stdio.h>
-#include   <stdlib.h>
-#include   <string.h>
-#include     <time.h>
-#include    <errno.h>
-#include    <fcntl.h>
-#include    <ctype.h>
-#include     <math.h>
-#include   <wctype.h>
-#include    <wchar.h>
-#include   <stdarg.h>
-#include   <stddef.h>
-#include   <setjmp.h>
-#include   <locale.h>
-#include   <signal.h>
-#include   <limits.h>
-#include    <float.h>
-#include   <iso646.h>
+#include <windows.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <math.h>
+#include <wctype.h>
+#include <wchar.h>
+#include <stdarg.h>
+#include <stddef.h>
+#include <setjmp.h>
+#include <locale.h>
+#include <signal.h>
+#include <limits.h>
+#include <float.h>
+#include <iso646.h>
 
 #undef NDEBUG
-#include   <assert.h>
+#include <assert.h>
 
-#include  <stdbool.h>
+#include <stdbool.h>
 
-#include  <process.h>
+#include <process.h>
 
 #ifndef uchar
 #define uchar unsigned char
@@ -72,7 +72,7 @@
 ///////////////////////////////
 //defines
 
-#define       CHUNK_P (1 << 17)
+#define CHUNK_P (1 << 17)
 
 int64_t slice_in_bytes_p = 0;
 
@@ -93,7 +93,7 @@ ar_gettemppath_z(void);
  * @return the static allocated WCHAR array with the filename as wide string
  *
  */
-WCHAR * amanda_utf8towide_1_(char *pUTF8);
+WCHAR *amanda_utf8towide_1_(char *pUTF8);
 /*
 {
 	static WCHAR ricardo_k[1024];
@@ -181,8 +181,7 @@ strrstr(char *s1, char *s2);
  * @return always 0
  *
  */
-int
-stripfilenameandpath(char *path, char *onlypath, char *onlyfilename);
+int stripfilenameandpath(char *path, char *onlypath, char *onlyfilename);
 /*
 {
   char*ptr;
@@ -218,243 +217,235 @@ stripfilenameandpath(char *path, char *onlypath, char *onlyfilename);
 }
 */
 
-void __fastcall get_extension_p(char * filename_p, char *extension_p)
+void __fastcall get_extension_p(char *filename_p, char *extension_p)
 {
 
-     char *ptr_p;
-     char filename_copy_p  [1027];
-     char filename_copy_2_p[1027];
+	char *ptr_p;
+	static char filename_copy_p[1027];
+	static char filename_copy_2_p[1027];
 
-     strcpy(filename_copy_2_p, filename_p);
+	strcpy(filename_copy_2_p, filename_p);
 
-     ptr_p = filename_copy_2_p;
-     
-     while(*ptr_p)
-     {
-	  if('/' == *ptr_p)
-	  {
-	       *ptr_p = '\\';
-	  }
-	  ptr_p++;
-     }
-     
-     stripfilenameandpath(filename_copy_2_p, NULL, filename_copy_p);
-     
-     ptr_p = strrstr(filename_copy_p, ".");
+	ptr_p = filename_copy_2_p;
 
-     if(ptr_p)
-     {
-	  strcpy(extension_p, ptr_p + 1);
-     }
-     else
-     {
-	  extension_p[0] = 0;
-     }
-     
-     return;    
+	while (*ptr_p)
+	{
+		if ('/' == *ptr_p)
+		{
+			*ptr_p = '\\';
+		}
+		ptr_p++;
+	}
+
+	stripfilenameandpath(filename_copy_2_p, NULL, filename_copy_p);
+
+	ptr_p = strrstr(filename_copy_p, ".");
+
+	if (ptr_p)
+	{
+		strcpy(extension_p, ptr_p + 1);
+	}
+	else
+	{
+		extension_p[0] = 0;
+	}
+
+	return;
 }
 
-int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char * adjusted_filename_in_temp_p)
+int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_filename_in_temp_p)
 {
-     //int    position_p             ;
-     //char * pointer_char_p         ;
-     FILE * my_input_file     =  NULL;
-     FILE * my_file_p         =  NULL;
-     char * ptr_p                    ;
-     char * buf_p                    ;
-     char   constructed_chunk_p[1027];
-     char   temp_folder_name_p [1027];
-     char   first_chunk_p      [1027];
-     char   the_extension_p    [1027];
-     char   temp_p             [300 ];
-     int    i_p                      ;
-     int    counter_p                ;
-     int    return_value_p    =     0;
-     int    len_p                    ;
-     int    check_write_p            ;
-     bool   found_p           = false;
-     bool   did_p             = false;
-     /*
+	//int    position_p             ;
+	//char * pointer_char_p         ;
+	FILE *my_input_file = NULL;
+	FILE *my_file_p = NULL;
+	char *ptr_p;
+	char *buf_p;
+	static char constructed_chunk_p[AMANDA__SIZE];
+	static char temp_folder_name_p[AMANDA__SIZE];
+	static char first_chunk_p[AMANDA__SIZE];
+	static char the_extension_p[AMANDA__SIZE];
+	char temp_p[300];
+	int i_p;
+	int counter_p;
+	int return_value_p = 0;
+	int len_p;
+	int check_write_p;
+	bool found_p = false;
+	bool did_p = false;
+	/*
 
-vamos ver as extensoes primeiro...
+			vamos ver as extensoes primeiro...
 
-*/
+	*/
 
-     buf_p = malloc(CHUNK_P)           ;
-     adjusted_filename_in_temp_p[0] = 0;
-     
-     if(0 == constructed_chunk_p[0] && 1 == constructed_chunk_p[0])
-     {
-	  return 0;
-     }
+	buf_p = malloc(CHUNK_P);
+	adjusted_filename_in_temp_p[0] = 0;
 
-     get_extension_p(filename_utf_8_p, the_extension_p);
+	if (0 == constructed_chunk_p[0] && 1 == constructed_chunk_p[0])
+	{
+		return 0;
+	}
 
-     if(strlen(the_extension_p) && 3 == strlen(the_extension_p))
-     {
-	  for(i_p = 1; i_p < 100; i_p++)
-	  {
+	get_extension_p(filename_utf_8_p, the_extension_p);
 
-	       sprintf(temp_p, "%03d", i_p);
+	if (strlen(the_extension_p) && 3 == strlen(the_extension_p))
+	{
+		for (i_p = 1; i_p < 100; i_p++)
+		{
 
-	       if(0 == strcmp(the_extension_p, temp_p))
-	       {
+			sprintf(temp_p, "%03d", i_p);
 
-		    found_p = true;
-		    break;
-		    
-	       }	       
-	       
-	  }
-	  
-     }
+			if (0 == strcmp(the_extension_p, temp_p))
+			{
 
-     if(found_p)
-     {
-	  counter_p = 1;
+				found_p = true;
+				break;
+			}
+		}
+	}
 
-	  if(-1 == counter_p)
-	  {
+	if (found_p)
+	{
+		counter_p = 1;
 
-	       return false;
-	       
-	  }
-	  retorno_p:;
-	  
-	  strcpy(first_chunk_p, filename_utf_8_p);
-	  
-	  ptr_p = strrstr(first_chunk_p, ".");
-	  
-	  *ptr_p = 0;
+		if (-1 == counter_p)
+		{
 
-	  if(0 == strlen(adjusted_filename_in_temp_p))
-	  {
+			return false;
+		}
+	retorno_p:;
 
-	       stripfilenameandpath(first_chunk_p, NULL, adjusted_filename_in_temp_p);
+		strcpy(first_chunk_p, filename_utf_8_p);
 
-	       strcpy(temp_folder_name_p, ar_gettemppath_z());
-	       //strcat(temp_folder_name_p, "\\");
+		ptr_p = strrstr(first_chunk_p, ".");
 
-	       if('\\' != temp_folder_name_p[strlen(temp_folder_name_p) - 1])
-	       {
-		    strcat(temp_folder_name_p, "\\");
-	       }
-	       
-	       strcat(temp_folder_name_p, adjusted_filename_in_temp_p);
-	       strcpy(adjusted_filename_in_temp_p, temp_folder_name_p);
+		*ptr_p = 0;
 
-	       pedro_dprintf(-1, "file in temp folder %s\n", adjusted_filename_in_temp_p);
+		if (0 == strlen(adjusted_filename_in_temp_p))
+		{
 
-	       //vai abrir o arquivo...
+			stripfilenameandpath(first_chunk_p, NULL, adjusted_filename_in_temp_p);
 
-	       my_file_p = _wfopen(amanda_utf8towide_1_(adjusted_filename_in_temp_p), L"wb");
+			strcpy(temp_folder_name_p, ar_gettemppath_z());
+			//strcat(temp_folder_name_p, "\\");
 
-	       if(!my_file_p)
-	       {
+			if ('\\' != temp_folder_name_p[strlen(temp_folder_name_p) - 1])
+			{
+				strcat(temp_folder_name_p, "\\");
+			}
 
-		    return_value_p = 5112;
-		    strcpy(error_message_k, "Cannot open temp file to write");
-		    goto saida_p;
-		    
-	       }
-	       
-	  }
-	  
-	  pedro_dprintf(-1, "ajustado %s\n", first_chunk_p);
+			strcat(temp_folder_name_p, adjusted_filename_in_temp_p);
+			strcpy(adjusted_filename_in_temp_p, temp_folder_name_p);
 
-	  sprintf(first_chunk_p + strlen(first_chunk_p), ".%03d", counter_p);
+			pedro_dprintf(-1, "file in temp folder %s\n", adjusted_filename_in_temp_p);
 
-	  pedro_dprintf(-1, "final %s\n", first_chunk_p);	  
+			//vai abrir o arquivo...
 
-	  my_input_file = _wfopen(amanda_utf8towide_1_(first_chunk_p), L"rb");
+			my_file_p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(adjusted_filename_in_temp_p)), L"wb");
 
-	  if(!my_input_file)
-	  {
-	       if(false == did_p)
-	       {
+			if (!my_file_p)
+			{
 
-		    return_value_p = 5113;
-		    pedro_dprintf(-1, "Cannot find first file to join\n");
-		    strcpy(error_message_k, "Cannot find first file to join");
+				return_value_p = 5112;
+				strcpy(error_message_k, "Cannot open temp file to write");
+				goto saida_p;
+			}
+		}
 
-		    fclose(my_file_p);
-		    my_file_p = NULL;
-		    _wunlink(amanda_utf8towide_1_(adjusted_filename_in_temp_p));
-		    //goto saida_p;
+		pedro_dprintf(-1, "ajustado %s\n", first_chunk_p);
 
-	       }
-	       goto saida_p;
-	  }
-	  did_p = true;
+		sprintf(first_chunk_p + strlen(first_chunk_p), ".%03d", counter_p);
 
-     again_p:;
-	  
-	  len_p = fread(buf_p, 1, CHUNK_P, my_input_file);
+		pedro_dprintf(-1, "final %s\n", first_chunk_p);
 
-	  check_write_p = fwrite(buf_p, 1, len_p, my_file_p);
+		my_input_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(first_chunk_p)), L"rb");
 
-	  if(check_write_p != len_p)
-	  {
-	       return_value_p = 5114;
-	       pedro_dprintf(-1, "Cannot write to temporary file\n");
-	       strcpy(error_message_k, "Cannot write to temporary file");
-	       goto saida_p;
-	  }
+		if (!my_input_file)
+		{
+			if (false == did_p)
+			{
 
-	  if(len_p)
-	  {
-	       goto again_p;
-	  }
-	  
-	  fclose(my_input_file);
-	  my_input_file = NULL;
-	  counter_p++;
-	  goto retorno_p;
-     }
-     
-     pedro_dprintf(-1, "é multi-volume %d\n", (int) found_p);
+				return_value_p = 5113;
+				pedro_dprintf(-1, "Cannot find first file to join\n");
+				strcpy(error_message_k, "Cannot find first file to join");
 
-     if(-1 == return_value_p)
-     {
-	  goto saida_p;	  
-     }
-     
+				fclose(my_file_p);
+				my_file_p = NULL;
+				_wunlink(permissive_name_m_(amanda_utf8towide_1_(adjusted_filename_in_temp_p)));
+				//goto saida_p;
+			}
+			goto saida_p;
+		}
+		did_p = true;
+
+	again_p:;
+
+		len_p = fread(buf_p, 1, CHUNK_P, my_input_file);
+
+		check_write_p = fwrite(buf_p, 1, len_p, my_file_p);
+
+		if (check_write_p != len_p)
+		{
+			return_value_p = 5114;
+			pedro_dprintf(-1, "Cannot write to temporary file\n");
+			strcpy(error_message_k, "Cannot write to temporary file");
+			goto saida_p;
+		}
+
+		if (len_p)
+		{
+			goto again_p;
+		}
+
+		fclose(my_input_file);
+		my_input_file = NULL;
+		counter_p++;
+		goto retorno_p;
+	}
+
+	pedro_dprintf(-1, "é multi-volume %d\n", (int)found_p);
+
+	if (-1 == return_value_p)
+	{
+		goto saida_p;
+	}
+
 saida_p:;
 
-     free(buf_p);
-     if(my_file_p)
-     {
-	  fclose(my_file_p);
-     }
-     if(my_input_file)
-     {
-	  fclose(my_input_file);
-     }
-     if(0 == return_value_p && did_p)
-     {
+	free(buf_p);
+	if (my_file_p)
+	{
+		fclose(my_file_p);
+	}
+	if (my_input_file)
+	{
+		fclose(my_input_file);
+	}
+	if (0 == return_value_p && did_p)
+	{
 
-	  return 1;	  
-	  
-     }
-    
-     return return_value_p;  //maybe an error   
+		return 1;
+	}
+
+	return return_value_p; //maybe an error
 }
 
 int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p)
 {
 
-     int      len_p             ;
-     int      return_value_p = 0;
-     int      ret_arp_          ;
-     int      counter_p      = 0;
-     int      check_write_p     ;
-     int64_t  remaining_p       ;
-     int64_t  remaining_slice_p ;
-     FILE *   input__p    = NULL;
-     FILE *   output_p    = NULL;
-     char     out_file_p[1027  ];
-     char *   temp_data_p = NULL;
-/*
+	int len_p;
+	int return_value_p = 0;
+	int ret_arp_;
+	int counter_p = 0;
+	int check_write_p;
+	int64_t remaining_p;
+	int64_t remaining_slice_p;
+	FILE *input__p = NULL;
+	FILE *output_p = NULL;
+	char out_file_p[AMANDA__SIZE];
+	char *temp_data_p = NULL;
+	/*
      {
 	  char extension_p[300] = {0};
 	  get_extension_p(filename_utf_8_p, extension_p);
@@ -462,143 +453,138 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p)
 	  pedro_dprintf(-1, "pegou extensao .%s.\n", extension_p);	  
      }
 */
-     int64_t  original_size_p = getfilesize_ar(filename_utf_8_p);
-     
-     if(NULL == output_p && NULL != output_p &&
-	remaining_p && ret_arp_)//to make compiler happy
-     {
-	  return -27;
-     }
-     pedro_dprintf(-1, "dentro, sizes %lld %lld\n",
-		   slice_in_bytes_p,
-		   original_size_p);
-     
-     if(0 != slice_in_bytes_p && 0 != original_size_p)
-     {
-	  if(original_size_p > slice_in_bytes_p)
-	  {
-	       remaining_p = original_size_p;
+	int64_t original_size_p = getfilesize_ar(filename_utf_8_p);
 
-	       temp_data_p = malloc(CHUNK_P);
-	       
-	       input__p = _wfopen(amanda_utf8towide_1_(filename_utf_8_p), L"rb");
+	if (NULL == output_p && NULL != output_p &&
+		remaining_p && ret_arp_) //to make compiler happy
+	{
+		return -27;
+	}
+	pedro_dprintf(-1, "dentro, sizes %lld %lld\n",
+				  slice_in_bytes_p,
+				  original_size_p);
 
-	       if(!input__p)
-	       {
+	if (0 != slice_in_bytes_p && 0 != original_size_p)
+	{
+		if (original_size_p > slice_in_bytes_p)
+		{
+			remaining_p = original_size_p;
 
-		    return_value_p = 5101;
-		    strcpy(error_message_k, "Cannot open output file to split");
-		    goto saida_p;
-		    
-	       }
-	       
-	       while(1)
-	       {
-		    counter_p++;
+			temp_data_p = malloc(CHUNK_P);
 
-		    strcpy(out_file_p,   filename_utf_8_p );
+			input__p = _wfopen(amanda_utf8towide_1_(filename_utf_8_p), L"rb");
 
-		    sprintf(out_file_p + strlen(out_file_p),
-			    ".%03d",
-			    counter_p + 1);
+			if (!input__p)
+			{
 
-		    _wunlink(amanda_utf8towide_1_(out_file_p));
-		    
-		    strcpy(out_file_p,   filename_utf_8_p );
-		    
-		    sprintf(out_file_p + strlen(out_file_p),
-			    ".%03d",
-			    counter_p);
+				return_value_p = 5101;
+				strcpy(error_message_k, "Cannot open output file to split");
+				goto saida_p;
+			}
 
-		    pedro_dprintf(-1, "saiu %s\n", out_file_p);
+			while (1)
+			{
+				counter_p++;
 
-		    output_p = _wfopen(amanda_utf8towide_1_(out_file_p), L"wb");
+				strcpy(out_file_p, filename_utf_8_p);
 
-		    if(output_p)
-		    {
-			 remaining_slice_p = slice_in_bytes_p;
+				sprintf(out_file_p + strlen(out_file_p),
+						".%03d",
+						counter_p + 1);
 
-		    more_data_p:;
-			 
-			 len_p = fread(temp_data_p, 1, min(remaining_slice_p, CHUNK_P), input__p);
+				_wunlink(amanda_utf8towide_1_(out_file_p));
 
-			 check_write_p = fwrite(temp_data_p, 1, len_p, output_p);
+				strcpy(out_file_p, filename_utf_8_p);
 
-			 if(check_write_p != len_p)
-			 {
-			      return_value_p = 5102;
-			      strcpy(error_message_k, "Cannot write to output file");
-			      goto saida_p;
-			 }
-			 
-			 remaining_slice_p -= len_p;
-			 remaining_p       -= len_p;
+				sprintf(out_file_p + strlen(out_file_p),
+						".%03d",
+						counter_p);
 
-			 if(0 == remaining_p)
-			 {
-			      pedro_dprintf(-1, "terminou split \n");
-			      fclose(input__p);
-			      input__p = NULL;
+				pedro_dprintf(-1, "saiu %s\n", out_file_p);
 
-			      _wunlink(amanda_utf8towide_1_(filename_utf_8_p));
-			      
-			      
-			      goto     saida_p;
-			 }
-			 if(0 != len_p)
-			 {
-			      goto more_data_p;
-			 }
-			 
-			 fclose(output_p);
-			 output_p = NULL;
-		    }
-		    else
-		    {
-			 return_value_p = 5104;
-			 strcpy(error_message_k, "Cannot open output file to write");
-			 goto saida_p;			 
-		    }
-		    /*
+				output_p = _wfopen(amanda_utf8towide_1_(out_file_p), L"wb");
+
+				if (output_p)
+				{
+					remaining_slice_p = slice_in_bytes_p;
+
+				more_data_p:;
+
+					len_p = fread(temp_data_p, 1, min(remaining_slice_p, CHUNK_P), input__p);
+
+					check_write_p = fwrite(temp_data_p, 1, len_p, output_p);
+
+					if (check_write_p != len_p)
+					{
+						return_value_p = 5102;
+						strcpy(error_message_k, "Cannot write to output file");
+						goto saida_p;
+					}
+
+					remaining_slice_p -= len_p;
+					remaining_p -= len_p;
+
+					if (0 == remaining_p)
+					{
+						pedro_dprintf(-1, "terminou split \n");
+						fclose(input__p);
+						input__p = NULL;
+
+						_wunlink(amanda_utf8towide_1_(filename_utf_8_p));
+
+						goto saida_p;
+					}
+					if (0 != len_p)
+					{
+						goto more_data_p;
+					}
+
+					fclose(output_p);
+					output_p = NULL;
+				}
+				else
+				{
+					return_value_p = 5104;
+					strcpy(error_message_k, "Cannot open output file to write");
+					goto saida_p;
+				}
+				/*
 		    if(10 == counter_p)
 		    {
 			 pedro_dprintf(-1, "limitado a dez chunks\n");
 			 break;
 		    }
 		    */
-	       }
-	       
-	       
-	  }
-     }
+			}
+		}
+	}
 
 saida_p:;
 
-     if(input__p)
-     {
-	  fclose(input__p);
-     }
-     if(output_p)
-     {
-	  fclose(output_p);
-     }
-     if(temp_data_p)
-     {
-	  free(temp_data_p);
-     }
-     return return_value_p;
+	if (input__p)
+	{
+		fclose(input__p);
+	}
+	if (output_p)
+	{
+		fclose(output_p);
+	}
+	if (temp_data_p)
+	{
+		free(temp_data_p);
+	}
+	return return_value_p;
 }
 
 int __stdcall split_compressed_file_p(int64_t slice_in_bytes_p_)
 {
-     slice_in_bytes_p = slice_in_bytes_p_;
+	slice_in_bytes_p = slice_in_bytes_p_;
 
-     if(0 > slice_in_bytes_p)
-     {
+	if (0 > slice_in_bytes_p)
+	{
 
-	  slice_in_bytes_p = 0;
-	  
-     }
-     
-     return 0;     
+		slice_in_bytes_p = 0;
+	}
+
+	return 0;
 }

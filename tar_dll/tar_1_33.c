@@ -439,7 +439,6 @@ inittimer2(int value)
  *
  *
  */
-
 void strncpy_z(char *dest_z, char *src_z, size_t len_)
 {
 
@@ -2224,7 +2223,7 @@ getfilesize_ar(char *infile_ar)
 	__int64 ret;
 	FILE *myfile;
 
-	if ((myfile = _wfopen(amanda_utf8towide_1_(infile_ar), L"rb")) == NULL)
+	if ((myfile = _wfopen(permissive_name_m_(amanda_utf8towide_1_(infile_ar)), L"rb")) == NULL)
 	{
 		return 0;
 	}
@@ -2291,11 +2290,11 @@ void add_more_one_is_list_(
 		aak_is_list_ = calloc(1, sizeof(struct my_struct_for_list_ar_is_list_));
 		aak_inicio_is_list_ = aak_is_list_;
 		aak_pointer_is_list_ = aak_is_list_;
-		aak_is_list_->filename_k = malloc(1027);
-		aak_is_list_->typeflag_ar_ = malloc(1027);
+		aak_is_list_->filename_k = malloc(strlen(filename_k_ar) + 1);
+		aak_is_list_->typeflag_ar_ = malloc(strlen(typeflag_ar_) + 1);
 
-		strncpy_z(aak_is_list_->filename_k, filename_k_ar, 1026);
-		strncpy_z(aak_is_list_->typeflag_ar_, typeflag_ar_, 1026);
+		strcpy(aak_is_list_->filename_k, filename_k_ar);
+		strcpy(aak_is_list_->typeflag_ar_, typeflag_ar_);
 
 		aak_is_list_->Isdir_k = Isdir_k_ar;
 		aak_is_list_->Second_k = Second_k_ar;
@@ -2323,11 +2322,11 @@ void add_more_one_is_list_(
 
 		aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_list_));
 
-		aak_ptr->filename_k = malloc(1027);
-		aak_ptr->typeflag_ar_ = malloc(1027);
+		aak_ptr->filename_k = malloc(strlen(filename_k_ar) + 1);
+		aak_ptr->typeflag_ar_ = malloc(strlen(typeflag_ar_) + 1);
 
-		strncpy_z(aak_ptr->filename_k, filename_k_ar, 1026);
-		strncpy_z(aak_ptr->typeflag_ar_, typeflag_ar_, 1026);
+		strcpy(aak_ptr->filename_k, filename_k_ar);
+		strcpy(aak_ptr->typeflag_ar_, typeflag_ar_);
 		aak_ptr->Isdir_k = Isdir_k_ar;
 		aak_ptr->Second_k = Second_k_ar;
 		aak_ptr->Minute_k = Minute_k_ar;
