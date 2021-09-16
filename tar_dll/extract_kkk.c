@@ -2010,7 +2010,7 @@ open_output_file_VAL(char const *file_name,
         fd = _wopen(permissive_name_m_(amanda_utf8towide_1_(destination_file_kp)),
                     openflag, _S_IWRITE);
 
-        pedro_dprintf(0, "val %d abrindo arquivo com perm %s\n", fd, destination_file_kp);
+        pedro_dprintf(-1, "val %d abrindo arquivo com perm %s\n", fd, destination_file_kp);
 
         //assert(0);
     }

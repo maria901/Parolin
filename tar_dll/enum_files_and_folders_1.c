@@ -1,21 +1,21 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *                                                                              *
-*        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+*        Licensa de Cï¿½pia (C) <2021>  <Corporaï¿½ï¿½o do Trabalho Binï¿½rio>         *
 *                                                                              *
-*     Este  programa  é software livre: você pode redistribuir isto e/ou       *
-*     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
-*     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
-*     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+*     Este  programa  ï¿½ software livre: vocï¿½ pode redistribuir isto e/ou       *
+*     modificar  isto sobre os termos do  GNU Licensa Geral Pï¿½blica como       8
+*     publicado  pela Fundaï¿½ï¿½o  de Software  Livre, tanto a versï¿½o 3  da       *
+*     Licensa, ou (dependendo da sua opï¿½ï¿½o) qualquer versï¿½o posterior.         *
 *                                                                              *
-*     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
-*     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
-*     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
-*     Licensa Geral Pública para mais detalhes.                                *
+*     Este  programa ï¿½ distribuï¿½do na  esperanï¿½a que isto vai  ser ï¿½til,       *
+*     mas SEM  QUALQUER GARANTIA; sem  atï¿½ mesmo a implicada garantia de       *
+*     COMERCIALIZAï¿½ï¿½O ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+*     Licensa Geral Pï¿½blica para mais detalhes.                                *
 *                                                                              *
-*     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
-*     Licensa Pública Menor junto com este programa                            *
-*     Se não, veja <http://www.gnu.org/licenses/>.                             *
+*     Vocï¿½ deve ter recebido uma  cï¿½pia da LICENSA GERAL PUBLICA e a GNU       *
+*     Licensa Pï¿½blica Menor junto com este programa                            *
+*     Se nï¿½o, veja <http://www.gnu.org/licenses/>.                             *
 *                                                                              *
 *     Suporte: https://nomade.sourceforge.io/                                  *
 *                                                                              *
@@ -23,8 +23,8 @@
 *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
 *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
 *                                                                              *
-*     contato imediato(para uma resposta muita rápida) WhatsApp                *
-*     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
+*     contato imediato(para uma resposta muita rï¿½pida) WhatsApp                *
+*     (+55)41 9627 1708 - isto estï¿½ sempre ligado (eu acho...)                 *
 *                                                                              *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
@@ -76,6 +76,17 @@ bool cancel_me_amanda_smart_ape = false;
 char entry_______i[1027];
 char whole_entry_i[1027];
 
+
+/**
+ * Our own non recursive files and folders scan, not copied from 
+ * stackoverflow because it was not there
+ * 
+ * @param initial_path_amanda_s_smart_ape  the initial path 
+ * 
+ * @param recurse_on_subfolders_amanda_s_smart_ape  to recurse or not
+ * 
+ * @param 
+ */
 int amanda_s_smart_ape(__attribute__((unused)) char *initial_path_amanda_s_smart_ape,
                        bool recurse_on_subfolders_amanda_s_smart_ape, enum amanda__mode amanda_mode)
 {
@@ -152,10 +163,10 @@ loop_again_amanda_s_smart_ape:;
 		pedro_dprintf(-1, "path %s\n", szDir);
 		if (oi_amanda_ptr == oi_amanda_ptr_inicial)
 		{
-			pedro_dprintf(-1, "free forçado final on %x\n", oi_amanda_ptr);
+			pedro_dprintf(-1, "free forï¿½ado final on %x\n", oi_amanda_ptr);
 			free(oi_amanda_ptr);
 			oi_amanda_ptr = NULL;
-			goto no_entries_i; //se é um subdiretorio tem . e .. experimente
+			goto no_entries_i; //se ï¿½ um subdiretorio tem . e .. experimente
 		}
 
 		goto keep_running_amanda_s_smart_ape;
@@ -717,8 +728,8 @@ keep_running_amanda_s_smart_ape:;   //one less bug..
 	if (oi_amanda_ptr_inicial != oi_amanda_ptr)
 	{
 
-		pedro_dprintf(IS_DEBUG_APE__, "nao é tem que processar\n");
-		//vamos lá...debugar isto bem amor... /* here for historical reasons
+		pedro_dprintf(IS_DEBUG_APE__, "nao ï¿½ tem que processar\n");
+		//vamos lï¿½...debugar isto bem amor... /* here for historical reasons
 
 		assert(NULL != oi_amanda_ptr->previous_amanda_s_smart_ape);
 

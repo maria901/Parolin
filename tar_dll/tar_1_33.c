@@ -1,4 +1,3 @@
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
@@ -19,11 +18,11 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails direto dos felizes programadores:                                *
- *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
- *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
  *                                                                              *
- *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
@@ -201,8 +200,12 @@ remove_permissive_name_m_(wchar_t *wname)
 	}
 }
 
-/******************************************************************************************/
-
+/**
+ * To make the path wide mode aware, stolen from libarchive
+ * 
+ * 15/september/2021 10:14
+ *
+ */
 wchar_t *
 permissive_name_m_(const wchar_t *wname)
 {
@@ -292,8 +295,6 @@ permissive_name_m_(const wchar_t *wname)
 	wcscpy(wnp, ws);
 
 	free(ws);
-
-	pedro_dprintf(0, "interno %s\n", valquiria_wide_to_utf8(wnp));
 
 	return (wnp);
 }
@@ -387,8 +388,6 @@ permissive_name_m_v27(const wchar_t *wname)
 	wcscpy(wnp, ws);
 
 	free(ws);
-
-	pedro_dprintf(0, "interno %s\n", valquiria_wide_to_utf8(wnp));
 
 	return (wnp);
 }
@@ -594,13 +593,13 @@ int return_value_from_list = 0;
 #define minor_t int
 
 /**
- * To convert an utf-8 encoded filename to a wide string (WCHAR *), we
- * provide two functions that are exactly the same because someone may
- * use it in multi-thread code
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
+ *  . provide two functions that are exactly the same because someone may 
+ * use it in multi-thread code 
  *
- * @param pUTF8 the input utf-8 encoded filename
+ * @param pUTF8 the input utf-8 encoded filename 
  *
- * @return the static allocated WCHAR array with the filename as wide string
+ * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
 WCHAR *amanda_utf8towide_1_(char *pUTF8)
@@ -1160,8 +1159,9 @@ internal_progress_z_arp_ internal_progress_z_arp_func = NULL;
  * information on your PC, like me
  *
  * @return void...
+ * 
  */
-void init_rsp_arp_encrypt_arp(void)
+void init_rsp_arp_encrypt_arp(void)//ola
 {
 
 	char copy_ar[1024];
@@ -5743,7 +5743,7 @@ void _open_archive(enum access_mode wanted_access)
 			break;
 
 		case ACCESS_WRITE:
-			archive = _wcreat(amanda_utf8towide_1_(archive_name_array_filename), _S_IWRITE);
+			archive = _wcreat(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), _S_IWRITE);
 			if (0 > archive)
 			{
 				fatal_exit_k = 1;
@@ -5852,7 +5852,7 @@ int check_lzma_file_aakp(char *data_rspk)
  */
 int open_compressed_archive(void)
 {
-	archive = _wopen(amanda_utf8towide_1_(archive_name_array_filename), O_RDONLY | O_BINARY,
+	archive = _wopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), O_RDONLY | O_BINARY,
 					 _S_IREAD);
 	if (archive == -1)
 		return archive;

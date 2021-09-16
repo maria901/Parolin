@@ -84,13 +84,13 @@ ar_gettemppath_z(void);
 
 ///////////////////////////////
 /**
- * To convert an utf-8 encoded filename to a wide string (WCHAR *), we
- * provide two functions that are exactly the same because someone may
- * use it in multi-thread code
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
+ * provide two functions that are exactly the same because someone may 
+ * use it in multi-thread code 
  *
- * @param pUTF8 the input utf-8 encoded filename
+ * @param pUTF8 the input utf-8 encoded filename 
  *
- * @return the static allocated WCHAR array with the filename as wide string
+ * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
 WCHAR *amanda_utf8towide_1_(char *pUTF8);
@@ -404,7 +404,7 @@ int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_file
 		goto retorno_p;
 	}
 
-	pedro_dprintf(-1, "é multi-volume %d\n", (int)found_p);
+	pedro_dprintf(-1, "ï¿½ multi-volume %d\n", (int)found_p);
 
 	if (-1 == return_value_p)
 	{

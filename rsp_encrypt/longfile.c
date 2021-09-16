@@ -1,4 +1,3 @@
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
@@ -19,14 +18,15 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails direto dos felizes programadores:                                *
- *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
- *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
  *                                                                              *
- *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+
 
 #include <windows.h>
 #include <stdint.h>
@@ -157,8 +157,7 @@ HANDLE lfopen(const char *szFileName, char *pMode)
 #endif
 		if (unicodemode)
 		{
-			utf8towide(szFileName, wpmode, 600);
-			ret = CreateFileW(wpmode, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_ARCHIVE, NULL);
+			ret = CreateFileW(permissive_name_m_(amanda_utf8towide_1_((void *)szFileName)), GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_ARCHIVE, NULL);
 		}
 		else
 		{
@@ -168,8 +167,7 @@ HANDLE lfopen(const char *szFileName, char *pMode)
 	case 'a':
 		if (unicodemode)
 		{
-			utf8towide(szFileName, wpmode, 600);
-			ret = CreateFileW(wpmode, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+			ret = CreateFileW(permissive_name_m_(amanda_utf8towide_1_((void *)szFileName)), GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 		}
 		else
 		{
@@ -240,13 +238,13 @@ __int64 lffilesize(const char *szFileName)
 
 	if (unicodemode)
 	{
-		utf8towide(szFileName, wpmode, 600);
+		//utf8towide(szFileName, wpmode, 600);
 
 #ifdef NPRINTF
 		dprintf("arquivo %s\n", szFileName);
 #endif
 
-		hFile = CreateFileW(wpmode, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+		hFile = CreateFileW(permissive_name_m_(amanda_utf8towide_1_((void *)szFileName)), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 	}
 	else
 	{
@@ -265,7 +263,7 @@ __int64 lffilesize(const char *szFileName)
 __int64 lffilesizeW(const WCHAR *szFileName)
 {
 	__int64 iResult;
-	HANDLE hFile = CreateFileW(szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+	HANDLE hFile = CreateFileW(permissive_name_m_(szFileName), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return 0;
 

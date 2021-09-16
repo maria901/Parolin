@@ -1,4 +1,3 @@
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
@@ -19,14 +18,15 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails direto dos felizes programadores:                                *
- *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
- *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
  *                                                                              *
- *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////z
 //defines...
@@ -52,11 +52,7 @@ void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data *VAL_data_arp
 
 enum libarchive_compression_modes_AR compression_mode_p = P_MODE_IS_ZIP__NO_PASSWORD;
 
-int64_t bytes_read_p = 0;
-
-wchar_t amanda_path[AMANDA__SIZE_w + 1] = {
-    0,
-};
+int64_t bytes_read_p = 0; //oi
 
 bool first_pass_VAL_p;
 
@@ -2164,8 +2160,8 @@ bool strmatch(char str[], char pattern[], int n, int m)
     return lookup[n][m];
 }
 
-char fixo_path_ar[1024];
-char final_file_or_folder_ar[1024];
+char fixo_path_ar[AMANDA__SIZE];
+char final_file_or_folder_ar[AMANDA__SIZE];
 
 /**
  * This function will adjust corretly the exit_path_ar with
@@ -2190,24 +2186,24 @@ __int64 amanda_itens;
 __int64 ricard0_itens_processed;
 
 /**
- * This function will scan the disk for files and folders in the selected
- * folder, recursive search, and will call the function to dump the data
- * to disk creating a Tar file or VAL file
+ * This function will scan the disk for files and folders in the selected 
+ * folder, non recursive search, and will call the function to dump the data 
+ * to disk creating a Tar file or VAL file 
  *
- * @param lpcszFolder_ar the folder being search
+ * @param lpcszFolder_ar the folder being search 
  *
- * @param first_call whether it is the first call
+ * @param first_call whether it is the first call 
  *
- * @param only_get_number_of_files_ar if we only want to get
- * the number of files and folders
+ * @param only_get_number_of_files_ar if we only want to get 
+ * the number of files and folders 
  *
- * @return true if ok, false if it need to stop searching
+ * @return true if ok, false if it need to stop searching 
  *
  */
 bool EnumerateFolder(char *lpcszFolder_ar, __attribute__((unused)) int first_call, bool only_get_number_of_files_ar)
 {
-    char *szDir = malloc(5000);
-    char *lpcszFolder = malloc(5001);
+    char *szDir = malloc(AMANDA__SIZE);
+    char *lpcszFolder = malloc(AMANDA__SIZE);
 
     strcpy(lpcszFolder, lpcszFolder_ar);
     trocadordebackslashtras(lpcszFolder);
@@ -2227,10 +2223,12 @@ bool EnumerateFolder(char *lpcszFolder_ar, __attribute__((unused)) int first_cal
     {
         goto ok_ar_v27;
     }
+
     if ('\\' == fixo_path_ar[0] && '\\' == fixo_path_ar[1])
     {
         goto ok_ar_v27;
     }
+
     fatal_exit_k = 101;
     strcpy(error_message_k, "Invalid path");
 
@@ -3908,7 +3906,11 @@ int __stdcall get_cannot_read_warnings(void)
 
     return ret_val_i;
 }
-
+/**
+ *  To see whether the path looks valid
+ * 
+ * 
+ */
 bool check_valid_path_i(char *data_i)
 {
 
@@ -4115,8 +4117,8 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
         strcat(temp_i_f, "a");
 
         if (!SetFileAttributesW(permissive_name_m_(
-                amanda_utf8towide_1_(temp_i_f)),
-                FILE_ATTRIBUTE_ARCHIVE))
+                                    amanda_utf8towide_1_(temp_i_f)),
+                                FILE_ATTRIBUTE_ARCHIVE))
         {
             ;
 
@@ -4252,8 +4254,8 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                         }
 
                         if (!SetFileAttributesW(permissive_name_m_(
-                                amanda_utf8towide_1_(temp_i_f)),
-                                my_ptr_ar->attributes_i))
+                                                    amanda_utf8towide_1_(temp_i_f)),
+                                                my_ptr_ar->attributes_i))
                         {
                             ;
 
@@ -5009,20 +5011,6 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
     }
 
     dllinit_arp();
-
-    if (0 == wcslen(amanda_path))
-    {
-
-        GetCurrentDirectoryW(
-            600,
-            amanda_path);
-
-        if (0 == wcslen(amanda_path))
-        {
-
-            assert(0 && "Cannot get current dir");
-        }
-    }
 
     //pedro_dprintfW(0, L"amanda path %ls\n", amanda_path);
 
