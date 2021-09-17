@@ -1,69 +1,46 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*                                                                              *
-*        Licensa de Cï¿½pia (C) <2021>  <Corporaï¿½ï¿½o do Trabalho Binï¿½rio>         *
-*                                                                              *
-*     Este  programa  ï¿½ software livre: vocï¿½ pode redistribuir isto e/ou       *
-*     modificar  isto sobre os termos do  GNU Licensa Geral Pï¿½blica como       8
-*     publicado  pela Fundaï¿½ï¿½o  de Software  Livre, tanto a versï¿½o 3  da       *
-*     Licensa, ou (dependendo da sua opï¿½ï¿½o) qualquer versï¿½o posterior.         *
-*                                                                              *
-*     Este  programa ï¿½ distribuï¿½do na  esperanï¿½a que isto vai  ser ï¿½til,       *
-*     mas SEM  QUALQUER GARANTIA; sem  atï¿½ mesmo a implicada garantia de       *
-*     COMERCIALIZAï¿½ï¿½O ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
-*     Licensa Geral Pï¿½blica para mais detalhes.                                *
-*                                                                              *
-*     Vocï¿½ deve ter recebido uma  cï¿½pia da LICENSA GERAL PUBLICA e a GNU       *
-*     Licensa Pï¿½blica Menor junto com este programa                            *
-*     Se nï¿½o, veja <http://www.gnu.org/licenses/>.                             *
-*                                                                              *
-*     Suporte: https://nomade.sourceforge.io/                                  *
-*                                                                              *
-*     E-mails direto dos felizes programadores:                                *
-*     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
-*     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
-*                                                                              *
-*     contato imediato(para uma resposta muita rï¿½pida) WhatsApp                *
-*     (+55)41 9627 1708 - isto estï¿½ sempre ligado (eu acho...)                 *
-*                                                                              *
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
+ *                                                                              *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
 #define IS_DEBUG_APE__ /* kkkkkkkkkkkk */ (-1)
-#include /* amanda's smart ape */ < windows.h>
-#include /* amanda's smart ape  */ < stdint.h>
-#include /* amanda's smart ape   */ < stdio.h>
-#include /* amanda's smart ape  */ < stdlib.h>
-#include /* amanda's smart ape  */ < string.h>
-#include /* amanda's smart ape    */ < time.h>
-#include /* amanda's smart ape   */ < errno.h>
-#include /* amanda's smart ape   */ < fcntl.h>
-#include /* amanda's smart ape   */ < ctype.h>
-#include /* amanda's smart ape    */ < math.h>
-#include /* amanda's smart ape  */ < wctype.h>
-#include /* amanda's smart ape   */ < wchar.h>
-#include /* amanda's smart ape  */ < stdarg.h>
-#include /* amanda's smart ape  */ < stddef.h>
-#include /* amanda's smart ape  */ < setjmp.h>
-#include /* amanda's smart ape  */ < locale.h>
-#include /* amanda's smart ape  */ < signal.h>
-#include /* amanda's smart ape  */ < limits.h>
-#include /* amanda's smart ape   */ < float.h>
-#include /* amanda's smart ape  */ < iso646.h>
 
-#undef NDEBUG
-#include /* amanda's smart ape  */ < assert.h>
-#include /* amanda's smart ape */ < stdbool.h>
-#include /* amanda's smart ape */ < process.h>
+#include "pk2.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 //oie...
 
 struct oi_amanda
 {
-	char entry______i[1027];
-	char whole_entry_i[1027];
-	char whole_entry_above_i[1027];
-	char whole_path_above_i[1027];
+	char *entry______i;
+	char *whole_entry_i;
+	char *whole_entry_above_i;
+
 	struct oi_amanda *next_amanda_s_smart_ape;
 	struct oi_amanda *previous_amanda_s_smart_ape;
 	struct oi_amanda *subfolder_amanda_s_smart_ape;
@@ -73,8 +50,8 @@ struct oi_amanda
 
 bool cancel_me_amanda_smart_ape = false;
 
-char entry_______i[1027];
-char whole_entry_i[1027];
+char entry_______i[AMANDA__SIZE];
+char whole_entry_i[AMANDA__SIZE];
 
 bool is_valid__Pk_folder(char *the_path_k__p)
 {
@@ -89,7 +66,6 @@ bool is_valid__Pk_folder(char *the_path_k__p)
 	}
 
 	return true;
-
 }
 /**
  * Our own non recursive files and folders scan, not copied from 
@@ -100,6 +76,8 @@ bool is_valid__Pk_folder(char *the_path_k__p)
  * @param recurse_on_subfolders_amanda_s_smart_ape  to recurse or not
  * 
  * @param amanda_mode whether the call came from scanfolder or enumfolder
+ * 
+ * @return always 0...
  * 
  */
 int amanda_s_smart_ape(__attribute__((unused)) char *initial_path_amanda_s_smart_ape,
@@ -113,9 +91,9 @@ int amanda_s_smart_ape(__attribute__((unused)) char *initial_path_amanda_s_smart
 	struct oi_amanda *to_call_free______amanda_s_smart_ape;
 
 	WIN32_FIND_DATAW ffd = {0};
-	char szDir[1027];
-	char szDir_i[1027];
-	char lpcszFolder[1027];
+	static char szDir[AMANDA__SIZE];
+	static char szDir_i[AMANDA__SIZE];
+	static char lpcszFolder[AMANDA__SIZE];
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//for ScanFolder
@@ -170,7 +148,7 @@ loop_again_amanda_s_smart_ape:;
 	//assert(0 && "mais amor?...");
 
 	pedro_dprintf(IS_DEBUG_APE__, "endereco da struct na entrada %p\n", oi_amanda_ptr);
-	oi_amanda_ptr->current_hFind_amanda_s_smart_____ape = FindFirstFileW(amanda_utf8towide_1_(szDir), &ffd);
+	oi_amanda_ptr->current_hFind_amanda_s_smart_____ape = FindFirstFileW(permissive_name_m_(amanda_utf8towide_1_(szDir)), &ffd);
 	pedro_dprintf(-1, "ok1 \n");
 	if (INVALID_HANDLE_VALUE == oi_amanda_ptr->current_hFind_amanda_s_smart_____ape)
 	{
@@ -178,7 +156,7 @@ loop_again_amanda_s_smart_ape:;
 		pedro_dprintf(-1, "path %s\n", szDir);
 		if (oi_amanda_ptr == oi_amanda_ptr_inicial)
 		{
-			pedro_dprintf(-1, "free forï¿½ado final on %x\n", oi_amanda_ptr);
+			pedro_dprintf(-1, "free forçado final on %x\n", oi_amanda_ptr);
 			free(oi_amanda_ptr);
 			oi_amanda_ptr = NULL;
 			goto no_entries_i; //se é um subdiretorio tem . e .. experimente
@@ -201,15 +179,42 @@ loop_again_amanda_s_smart_ape:;
 			if (is_valid__Pk_folder(valquiria_wide_to_utf8(ffd.cFileName)))
 			{
 
-				; //do
+				; //Mr. Do...my love Ricardo.
+
 				pedro_dprintf(-1, "2 dir  -> %s\n", valquiria_wide_to_utf8(ffd.cFileName));
 
 				if (INVALID_HANDLE_VALUE == oi_amanda_ptr->parent_hFind_amanda_s_smart______ape)
 				{
+
+					if (NULL == oi_amanda_ptr->entry______i)
+					{
+						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+					}
+					else
+					{
+						free(oi_amanda_ptr->entry______i);
+						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+					}
+
 					strcpy(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName));
 				}
 				else
 				{
+
+					if (NULL == oi_amanda_ptr->entry______i)
+					{
+						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) +
+																	strlen(oi_amanda_ptr->whole_entry_above_i) +
+																	strlen("\\") + 3);
+					}
+					else
+					{
+						free(oi_amanda_ptr->entry______i);
+						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) +
+																	strlen(oi_amanda_ptr->whole_entry_above_i) +
+																	strlen("\\") + 3);
+					}
+
 					strcpy(oi_amanda_ptr->entry______i, oi_amanda_ptr->whole_entry_above_i);
 					strcat(oi_amanda_ptr->entry______i, "\\");
 					strcat(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName));
@@ -221,6 +226,16 @@ loop_again_amanda_s_smart_ape:;
 
 					oi_amanda_ptr->subfolder_amanda_s_smart_ape->previous_amanda_s_smart_ape = oi_amanda_ptr;
 
+					if (NULL == oi_amanda_ptr->subfolder_amanda_s_smart_ape->whole_entry_above_i)
+					{
+						oi_amanda_ptr->subfolder_amanda_s_smart_ape->whole_entry_above_i = calloc(1, strlen(oi_amanda_ptr->entry______i) + 3);
+					}
+					else
+					{
+						free(oi_amanda_ptr->subfolder_amanda_s_smart_ape->whole_entry_above_i);
+						oi_amanda_ptr->subfolder_amanda_s_smart_ape->whole_entry_above_i = calloc(1, strlen(oi_amanda_ptr->entry______i) + 3);
+					}
+
 					strcpy(oi_amanda_ptr->subfolder_amanda_s_smart_ape->whole_entry_above_i,
 						   oi_amanda_ptr->entry______i);
 
@@ -231,6 +246,16 @@ loop_again_amanda_s_smart_ape:;
 				strcpy(szDir, lpcszFolder);
 				strcat(szDir, "\\");
 				strcat(szDir, oi_amanda_ptr->entry______i);
+
+				if (NULL == oi_amanda_ptr->whole_entry_i)
+				{
+					oi_amanda_ptr->whole_entry_i = calloc(1, strlen(szDir) + strlen("\\*") + 3);
+				}
+				else
+				{
+					free(oi_amanda_ptr->whole_entry_i);
+					oi_amanda_ptr->whole_entry_i = calloc(1, strlen(szDir) + strlen("\\*") + 3);
+				}
 
 				strcpy(oi_amanda_ptr->whole_entry_i, szDir);
 
@@ -262,6 +287,7 @@ loop_again_amanda_s_smart_ape:;
 					/*
 					   setor de folders
 					 */
+
 					strcpy(whole_entry_i, oi_amanda_ptr->whole_entry_i);
 					strcpy(entry_______i, oi_amanda_ptr->entry______i);
 
@@ -287,15 +313,21 @@ loop_again_amanda_s_smart_ape:;
 					{
 						skip_ar = 0;
 
-						if (258 < strlen(whole_entry_i))
+						if (mode_is_VAL_arp)
 						{
-							static char temp_ar[1024] = {0};
+						}
+						else
+						{
+							if (258 < strlen(whole_entry_i))
+							{
+								static char temp_ar[AMANDA__SIZE] = {0};
 
-							snprintf(temp_ar, 600, "Skipping folder %s because the path is too large for windows", szDir);
-							skip_ar = 1;
-							add_more_one(temp_ar);
-							warning_flag = 28;
-							folders_count++;
+								snprintf(temp_ar, AMANDA__SIZE - 3, "Skipping folder %s because the path is too large for windows", szDir);
+								skip_ar = 1;
+								add_more_one(temp_ar);
+								warning_flag = 28;
+								folders_count++;
+							}
 						}
 
 						if (0 == skip_ar)
@@ -354,10 +386,28 @@ loop_again_amanda_s_smart_ape:;
 
 			if (INVALID_HANDLE_VALUE == oi_amanda_ptr->parent_hFind_amanda_s_smart______ape)
 			{
+				if (NULL == oi_amanda_ptr->entry______i)
+				{
+					oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+				}
+				else
+				{
+					free(oi_amanda_ptr->entry______i);
+					oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+				}
 				strcpy(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName));
 			}
 			else
 			{
+				if (NULL == oi_amanda_ptr->entry______i)
+				{
+					oi_amanda_ptr->entry______i = calloc(1, strlen(oi_amanda_ptr->whole_entry_above_i) + strlen("\\") + strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+				}
+				else
+				{
+					free(oi_amanda_ptr->entry______i);
+					oi_amanda_ptr->entry______i = calloc(1, strlen(oi_amanda_ptr->whole_entry_above_i) + strlen("\\") + strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+				}
 				strcpy(oi_amanda_ptr->entry______i, oi_amanda_ptr->whole_entry_above_i);
 				strcat(oi_amanda_ptr->entry______i, "\\");
 				strcat(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName));
@@ -366,6 +416,16 @@ loop_again_amanda_s_smart_ape:;
 			strcpy(szDir_i, lpcszFolder);
 			strcat(szDir_i, "\\");
 			strcat(szDir_i, oi_amanda_ptr->entry______i);
+
+			if (NULL == oi_amanda_ptr->whole_entry_i)
+			{
+				oi_amanda_ptr->whole_entry_i = calloc(1, strlen(szDir_i) + 1);
+			}
+			else
+			{
+				free(oi_amanda_ptr->whole_entry_i);
+				oi_amanda_ptr->whole_entry_i = calloc(1, strlen(szDir_i) + 1);
+			}
 
 			strcpy(oi_amanda_ptr->whole_entry_i, szDir_i);
 
@@ -387,7 +447,7 @@ loop_again_amanda_s_smart_ape:;
 				{
 
 					{
-						static char my_copy_of_filename_ar[1024];
+						static char my_copy_of_filename_ar[AMANDA__SIZE];
 						strcpy(my_copy_of_filename_ar, valquiria_wide_to_utf8(ffd.cFileName));
 						strtolower_ar(my_copy_of_filename_ar);
 						{
@@ -456,7 +516,7 @@ loop_again_amanda_s_smart_ape:;
 										get_timestamp_arp(whole_entry_i, &s_arp_3, &VAL_data_i);
 
 										attributes_i = GetFileAttributesW(
-											amanda_utf8towide_1_(whole_entry_i));
+											permissive_name_m_(amanda_utf8towide_1_(whole_entry_i)));
 
 										/*
 
@@ -493,7 +553,7 @@ loop_again_amanda_s_smart_ape:;
 											__attribute__((unused)) int len_i;
 											FILE *the_file_i;
 
-											the_file_i = _wfopen(amanda_utf8towide_1_(whole_entry_i), L"rb");
+											the_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(whole_entry_i)), L"rb");
 
 											if (the_file_i)
 											{
@@ -553,24 +613,29 @@ loop_again_amanda_s_smart_ape:;
 					}
 
 					skip_ar = 0;
-
-					if (258 < strlen(whole_entry_i))
+					if (mode_is_VAL_arp)
 					{
-						static char temp_ar[1024] = {0};
-
-						snprintf(temp_ar, 600, "Skipping folder %s because the path is too large for windows", szDir);
-						skip_ar = 1;
-						add_more_one(temp_ar);
-						warning_flag = 28;
-						folders_count++;
 					}
+					else
+					{
+						if (258 < strlen(whole_entry_i))
+						{
+							static char temp_ar[AMANDA__SIZE] = {0};
 
+							snprintf(temp_ar, 600, "Skipping folder %s because the path is too large for windows", szDir);
+							skip_ar = 1;
+							add_more_one(temp_ar);
+							warning_flag = 28;
+							folders_count++;
+						}
+					}
+					
 					if (0 == skip_ar)
 					{
 						if (only_get_number_of_files_ar_v27)
 						{
 							amanda_itens++;
-							static char my_copy_of_filename_ar[1024];
+							static char my_copy_of_filename_ar[AMANDA__SIZE];
 							strcpy(my_copy_of_filename_ar, valquiria_wide_to_utf8(ffd.cFileName));
 							strtolower_ar(my_copy_of_filename_ar);
 							{
@@ -608,7 +673,7 @@ loop_again_amanda_s_smart_ape:;
 
 								if (achei_o_match)
 								{
-									char file_or_folder_to_process___[1024] = {0};
+									static char file_or_folder_to_process___[AMANDA__SIZE]; // = {0};
 
 									strcpy(file_or_folder_to_process___, fixo_path_ar);
 
@@ -628,7 +693,7 @@ loop_again_amanda_s_smart_ape:;
 						}
 						else
 						{
-							static char my_copy_of_filename_ar[1024];
+							static char my_copy_of_filename_ar[AMANDA__SIZE];
 							strcpy(my_copy_of_filename_ar, valquiria_wide_to_utf8(ffd.cFileName));
 							strtolower_ar(my_copy_of_filename_ar);
 							{
@@ -734,6 +799,24 @@ keep_running_amanda_s_smart_ape:; //one less bug..
 
 		oi_amanda_ptr = oi_amanda_ptr->previous_amanda_s_smart_ape;
 
+		if (to_call_free______amanda_s_smart_ape->entry______i)
+		{
+			free(to_call_free______amanda_s_smart_ape->entry______i);
+			to_call_free______amanda_s_smart_ape->entry______i = NULL;
+		}
+
+		if (to_call_free______amanda_s_smart_ape->whole_entry_above_i)
+		{
+			free(to_call_free______amanda_s_smart_ape->whole_entry_above_i);
+			to_call_free______amanda_s_smart_ape->whole_entry_above_i = NULL;
+		}
+
+		if (to_call_free______amanda_s_smart_ape->whole_entry_i)
+		{
+			free(to_call_free______amanda_s_smart_ape->whole_entry_i);
+			to_call_free______amanda_s_smart_ape->whole_entry_i = NULL;
+		}
+
 		free(to_call_free______amanda_s_smart_ape);
 
 		pedro_dprintf(IS_DEBUG_APE__, "novo endereco de oi_amanda_ptr %x\n", oi_amanda_ptr);
@@ -742,6 +825,25 @@ keep_running_amanda_s_smart_ape:; //one less bug..
 	}
 
 	pedro_dprintf(-1, "free final on %x\n", oi_amanda_ptr);
+
+	if (oi_amanda_ptr->entry______i)
+	{
+		free(oi_amanda_ptr->entry______i);
+		oi_amanda_ptr->entry______i = NULL;
+	}
+
+	if (oi_amanda_ptr->whole_entry_above_i)
+	{
+		free(oi_amanda_ptr->whole_entry_above_i);
+		oi_amanda_ptr->whole_entry_above_i = NULL;
+	}
+
+	if (oi_amanda_ptr->whole_entry_i)
+	{
+		free(oi_amanda_ptr->whole_entry_i);
+		oi_amanda_ptr->whole_entry_i = NULL;
+	}
+
 	free(oi_amanda_ptr);
 
 no_entries_i:;

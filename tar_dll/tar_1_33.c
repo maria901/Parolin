@@ -203,7 +203,7 @@ remove_permissive_name_m_(wchar_t *wname)
 /**
  * To make the path wide mode aware, stolen from libarchive
  * 
- * 15/september/2021 10:14
+ * 15/september/2021 10:14, last visit 16/09/2021 22:36 by bhond...
  *
  */
 wchar_t *

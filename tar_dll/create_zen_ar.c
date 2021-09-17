@@ -229,7 +229,7 @@ typedef struct _amanda_
 our_map_arp global_our_map_arp = {0};
 our_map_arp *global_ptr_our_map_arp = NULL;
 our_map_arp *global_ptr_our_map_arp_v27 = NULL;
-char temp_encrypted_file_arp[1024];
+char temp_encrypted_file_arp[AMANDA__SIZE];
 
 int dump_regular_file_VAL_arp(int fd_arp, VAL_data *my_VAL_data);
 void dump_diretory_VAL_arp(VAL_data *my_VAL_data);
@@ -1465,7 +1465,7 @@ dump_regular_file(int fd, struct tar_stat_info *st)
 
 /**
  * This is the function that handle the dump of the dir and file information
- * for Tar and VAL format
+ * for Tar and VAL format, full support to wide paths...
  *
  * @param st the main struct for the Tar file and also VAL format
  *
@@ -1675,9 +1675,9 @@ void dump_file_or_folder(struct tar_stat_info *st,
         if (ARP_MODE_IS_FIRST_STEP == step_for_create_arp)
         {
             int found_arp = 0;
-            char *temp_arp_1 = malloc(1024);
-            char *temp_arp_2 = malloc(1024);
-            char *temp_arp_3 = malloc(1024);
+            char *temp_arp_1 = malloc(AMANDA__SIZE);
+            char *temp_arp_2 = malloc(AMANDA__SIZE);
+            char *temp_arp_3 = malloc(AMANDA__SIZE);
             int has_itens_is_amanda_update_internal = has_itens_is_amanda_update_internal_b_arp;
             struct my_struct_for_list_ar_is_amanda_update_ *aak_ptr;
             aak_ptr = aak_inicio_is_amanda_update_;
@@ -1726,7 +1726,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
             void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data *VAL_data_arp);
             __time64_t s_arp_3;
 
-            _wstat(amanda_utf8towide_1_(file_or_folder_to_process), &st->stat);
+            _wstat(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process)), &st->stat);
             mtime_tv_sec_arp = st->mtime.tv_sec;
             get_timestamp_arp(file_or_folder_to_process, &s_arp_3, &my_VAL_data);
             mtime_tv_sec_arp = s_arp_3;
@@ -1810,11 +1810,11 @@ void dump_file_or_folder(struct tar_stat_info *st,
             {
                 assert(0 && "Unsupported encryption method\n");
             }
-            fd_ar = _wopen(amanda_utf8towide_1_(temp_encrypted_file_arp), O_RDONLY | O_BINARY,
+            fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)), O_RDONLY | O_BINARY,
                            _S_IREAD);
         }
         else
-            fd_ar = _wopen(amanda_utf8towide_1_(file_or_folder_to_process), O_RDONLY | O_BINARY,
+            fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process)), O_RDONLY | O_BINARY,
                            _S_IREAD);
 
         if (-1 == fd_ar)
@@ -1827,9 +1827,9 @@ void dump_file_or_folder(struct tar_stat_info *st,
         {
             {
                 int found_arp = 0;
-                char *temp_arp_1 = malloc(1024);
-                char *temp_arp_2 = malloc(1024);
-                char *temp_arp_3 = malloc(1024);
+                char *temp_arp_1 = malloc(AMANDA__SIZE);
+                char *temp_arp_2 = malloc(AMANDA__SIZE);
+                char *temp_arp_3 = malloc(AMANDA__SIZE);
                 int has_itens_is_amanda_update_internal = has_itens_is_amanda_update_internal_b_arp;
                 struct my_struct_for_list_ar_is_amanda_update_ *aak_ptr;
                 aak_ptr = aak_inicio_is_amanda_update_;
@@ -1872,9 +1872,9 @@ void dump_file_or_folder(struct tar_stat_info *st,
         {
             if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
             {
-                _wunlink(amanda_utf8towide_1_(temp_encrypted_file_arp));
+                _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)));
             }
-
+            pedro_dprintf(0, "Cannot open size %d\n", strlen(file_or_folder_to_process));
             sprintf(warning_message_k, "Cannot open %s to write", file_or_folder_to_process);
             add_more_one(warning_message_k);
             return;
@@ -1927,7 +1927,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
 
         if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
         {
-            _wunlink(amanda_utf8towide_1_(temp_encrypted_file_arp));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)));
         }
 
         if (ARP_MODE_IS_FIRST_STEP == mode_is_update_arp)
@@ -1991,11 +1991,11 @@ void dump_file_or_folder(struct tar_stat_info *st,
                 {
                     assert(0 && "Unsupported encryption method\n");
                 }
-                fd_ar = _wopen(amanda_utf8towide_1_(temp_encrypted_file_arp), O_RDONLY | O_BINARY,
+                fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)), O_RDONLY | O_BINARY,
                                _S_IREAD);
             }
             else
-                fd_ar = _wopen(amanda_utf8towide_1_(file_or_folder_to_process), O_RDONLY | O_BINARY,
+                fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process)), O_RDONLY | O_BINARY,
                                _S_IREAD);
             if (-1 != fd_ar)
             {
@@ -2016,7 +2016,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
             }
             if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
             {
-                _wunlink(amanda_utf8towide_1_(temp_encrypted_file_arp));
+                _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)));
             }
         }
     }
