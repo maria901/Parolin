@@ -29,31 +29,31 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
 #define IS_DEBUG_APE__ /* kkkkkkkkkkkk */ (-1)
-#include /* amanda's smart ape */ <windows.h>
-#include /* amanda's smart ape  */ <stdint.h>
-#include /* amanda's smart ape   */ <stdio.h>
-#include /* amanda's smart ape  */ <stdlib.h>
-#include /* amanda's smart ape  */ <string.h>
-#include /* amanda's smart ape    */ <time.h>
-#include /* amanda's smart ape   */ <errno.h>
-#include /* amanda's smart ape   */ <fcntl.h>
-#include /* amanda's smart ape   */ <ctype.h>
-#include /* amanda's smart ape    */ <math.h>
-#include /* amanda's smart ape  */ <wctype.h>
-#include /* amanda's smart ape   */ <wchar.h>
-#include /* amanda's smart ape  */ <stdarg.h>
-#include /* amanda's smart ape  */ <stddef.h>
-#include /* amanda's smart ape  */ <setjmp.h>
-#include /* amanda's smart ape  */ <locale.h>
-#include /* amanda's smart ape  */ <signal.h>
-#include /* amanda's smart ape  */ <limits.h>
-#include /* amanda's smart ape   */ <float.h>
-#include /* amanda's smart ape  */ <iso646.h>
+#include /* amanda's smart ape */ < windows.h>
+#include /* amanda's smart ape  */ < stdint.h>
+#include /* amanda's smart ape   */ < stdio.h>
+#include /* amanda's smart ape  */ < stdlib.h>
+#include /* amanda's smart ape  */ < string.h>
+#include /* amanda's smart ape    */ < time.h>
+#include /* amanda's smart ape   */ < errno.h>
+#include /* amanda's smart ape   */ < fcntl.h>
+#include /* amanda's smart ape   */ < ctype.h>
+#include /* amanda's smart ape    */ < math.h>
+#include /* amanda's smart ape  */ < wctype.h>
+#include /* amanda's smart ape   */ < wchar.h>
+#include /* amanda's smart ape  */ < stdarg.h>
+#include /* amanda's smart ape  */ < stddef.h>
+#include /* amanda's smart ape  */ < setjmp.h>
+#include /* amanda's smart ape  */ < locale.h>
+#include /* amanda's smart ape  */ < signal.h>
+#include /* amanda's smart ape  */ < limits.h>
+#include /* amanda's smart ape   */ < float.h>
+#include /* amanda's smart ape  */ < iso646.h>
 
 #undef NDEBUG
-#include /* amanda's smart ape  */ <assert.h>
-#include /* amanda's smart ape */ <stdbool.h>
-#include /* amanda's smart ape */ <process.h>
+#include /* amanda's smart ape  */ < assert.h>
+#include /* amanda's smart ape */ < stdbool.h>
+#include /* amanda's smart ape */ < process.h>
 
 //////////////////////////////////////////////////////////////////////////////////////
 //oie...
@@ -76,7 +76,21 @@ bool cancel_me_amanda_smart_ape = false;
 char entry_______i[1027];
 char whole_entry_i[1027];
 
+bool is_valid__Pk_folder(char *the_path_k__p)
+{
 
+	if (0 == strcmp(".", the_path_k__p))
+	{
+		return false;
+	}
+	if (0 == strcmp("..", the_path_k__p))
+	{
+		return false;
+	}
+
+	return true;
+
+}
 /**
  * Our own non recursive files and folders scan, not copied from 
  * stackoverflow because it was not there
@@ -85,10 +99,11 @@ char whole_entry_i[1027];
  * 
  * @param recurse_on_subfolders_amanda_s_smart_ape  to recurse or not
  * 
- * @param 
+ * @param amanda_mode whether the call came from scanfolder or enumfolder
+ * 
  */
 int amanda_s_smart_ape(__attribute__((unused)) char *initial_path_amanda_s_smart_ape,
-                       bool recurse_on_subfolders_amanda_s_smart_ape, enum amanda__mode amanda_mode)
+					   bool recurse_on_subfolders_amanda_s_smart_ape, enum amanda__mode amanda_mode)
 {
 
 	struct oi_amanda *oi_amanda_ptr = calloc(1, sizeof(struct oi_amanda));
@@ -97,7 +112,7 @@ int amanda_s_smart_ape(__attribute__((unused)) char *initial_path_amanda_s_smart
 
 	struct oi_amanda *to_call_free______amanda_s_smart_ape;
 
-	WIN32_FIND_DATAW ffd ={0};
+	WIN32_FIND_DATAW ffd = {0};
 	char szDir[1027];
 	char szDir_i[1027];
 	char lpcszFolder[1027];
@@ -108,7 +123,7 @@ int amanda_s_smart_ape(__attribute__((unused)) char *initial_path_amanda_s_smart
 	static VAL_data VAL_data_i;
 	int64_t size_i;
 	__attribute__((unused)) int len_i;
-	if(I_MODE_IS_SCANFOLDER == amanda_mode)
+	if (I_MODE_IS_SCANFOLDER == amanda_mode)
 	{
 		files_that_cannot_be_read_update = 0;
 	}
@@ -122,7 +137,7 @@ int amanda_s_smart_ape(__attribute__((unused)) char *initial_path_amanda_s_smart
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// keeping this here int debug_counter_amanda_s_smart_ape = 8;
 
-	strcpy(lpcszFolder, initial_path_amanda_s_smart_ape);//"C:\\Ava\\back\\test_i");
+	strcpy(lpcszFolder, initial_path_amanda_s_smart_ape); //"C:\\Ava\\back\\test_i");
 
 	//strcpy(lpcszFolder, "C:\\");
 
@@ -166,7 +181,7 @@ loop_again_amanda_s_smart_ape:;
 			pedro_dprintf(-1, "free forï¿½ado final on %x\n", oi_amanda_ptr);
 			free(oi_amanda_ptr);
 			oi_amanda_ptr = NULL;
-			goto no_entries_i; //se ï¿½ um subdiretorio tem . e .. experimente
+			goto no_entries_i; //se é um subdiretorio tem . e .. experimente
 		}
 
 		goto keep_running_amanda_s_smart_ape;
@@ -183,9 +198,8 @@ loop_again_amanda_s_smart_ape:;
 
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 		{
-			if ('.' != (valquiria_wide_to_utf8(ffd.cFileName))[0])
+			if (is_valid__Pk_folder(valquiria_wide_to_utf8(ffd.cFileName)))
 			{
-
 
 				; //do
 				pedro_dprintf(-1, "2 dir  -> %s\n", valquiria_wide_to_utf8(ffd.cFileName));
@@ -208,14 +222,14 @@ loop_again_amanda_s_smart_ape:;
 					oi_amanda_ptr->subfolder_amanda_s_smart_ape->previous_amanda_s_smart_ape = oi_amanda_ptr;
 
 					strcpy(oi_amanda_ptr->subfolder_amanda_s_smart_ape->whole_entry_above_i,
-					       oi_amanda_ptr->entry______i);
+						   oi_amanda_ptr->entry______i);
 
 					oi_amanda_ptr->subfolder_amanda_s_smart_ape->parent_hFind_amanda_s_smart______ape =
 						oi_amanda_ptr->current_hFind_amanda_s_smart_____ape;
 				}
 
 				strcpy(szDir, lpcszFolder);
-				strcat(szDir, "\\"       );
+				strcat(szDir, "\\");
 				strcat(szDir, oi_amanda_ptr->entry______i);
 
 				strcpy(oi_amanda_ptr->whole_entry_i, szDir);
@@ -239,7 +253,7 @@ loop_again_amanda_s_smart_ape:;
 
 				pedro_dprintf(IS_DEBUG_APE__, "oi_amanda_ptr->current_hFind_amanda_s_smart_____ape == %x\n", oi_amanda_ptr->current_hFind_amanda_s_smart_____ape);
 
-				pedro_dprintf(IS_DEBUG_APE__, "dir %s\n", oi_amanda_ptr->entry______i );
+				pedro_dprintf(IS_DEBUG_APE__, "dir %s\n", oi_amanda_ptr->entry______i);
 				pedro_dprintf(IS_DEBUG_APE__, "dir %s\n", oi_amanda_ptr->whole_entry_i);
 				pedro_dprintf(IS_DEBUG_APE__, "*************************************\n");
 
@@ -249,16 +263,15 @@ loop_again_amanda_s_smart_ape:;
 					   setor de folders
 					 */
 					strcpy(whole_entry_i, oi_amanda_ptr->whole_entry_i);
-					strcpy(entry_______i, oi_amanda_ptr->entry______i );
+					strcpy(entry_______i, oi_amanda_ptr->entry______i);
 
-					if(I_MODE_IS_SCANFOLDER == amanda_mode)
+					if (I_MODE_IS_SCANFOLDER == amanda_mode)
 					{
 
 						check_item_z_june_24(entry_______i);
 						get_timestamp_arp(whole_entry_i, &s_arp_3, &VAL_data_i);
 
-						add_more_one_z_june_24
-						(
+						add_more_one_z_june_24(
 							atime_i,
 							mtime_i,
 							ctime_i,
@@ -267,17 +280,16 @@ loop_again_amanda_s_smart_ape:;
 							entry_______i,
 							true,
 							true,
-							0
-						);
+							0);
 					}
 
-					if(I_MODE_IS_ENUMFOLDER_1 == amanda_mode)
+					if (I_MODE_IS_ENUMFOLDER_1 == amanda_mode)
 					{
 						skip_ar = 0;
 
 						if (258 < strlen(whole_entry_i))
 						{
-							static char temp_ar[1024] = { 0 };
+							static char temp_ar[1024] = {0};
 
 							snprintf(temp_ar, 600, "Skipping folder %s because the path is too large for windows", szDir);
 							skip_ar = 1;
@@ -286,9 +298,9 @@ loop_again_amanda_s_smart_ape:;
 							folders_count++;
 						}
 
-						if(0 == skip_ar)
+						if (0 == skip_ar)
 						{
-							if(only_get_number_of_files_ar_v27)
+							if (only_get_number_of_files_ar_v27)
 							{
 								amanda_itens++;
 							}
@@ -297,7 +309,6 @@ loop_again_amanda_s_smart_ape:;
 								dump_file_new_ar(NULL, entry_______i, fixo_path_ar);
 
 								ricard0_itens_processed++;
-
 							}
 						}
 
@@ -315,7 +326,6 @@ loop_again_amanda_s_smart_ape:;
 						{
 							cancel_me_amanda_smart_ape = true;
 						}
-
 					}
 				}
 
@@ -371,10 +381,9 @@ loop_again_amanda_s_smart_ape:;
 				 */
 
 				strcpy(whole_entry_i, oi_amanda_ptr->whole_entry_i);
-				strcpy(entry_______i, oi_amanda_ptr->entry______i );
+				strcpy(entry_______i, oi_amanda_ptr->entry______i);
 
-
-				if(I_MODE_IS_SCANFOLDER == amanda_mode)
+				if (I_MODE_IS_SCANFOLDER == amanda_mode)
 				{
 
 					{
@@ -391,7 +400,7 @@ loop_again_amanda_s_smart_ape:;
 								if (strlen(token))
 								{
 									achei_o_match = strmatch(my_copy_of_filename_ar, token,
-									                         strlen(my_copy_of_filename_ar), strlen(token));
+															 strlen(my_copy_of_filename_ar), strlen(token));
 								}
 								if (achei_o_match)
 								{
@@ -441,14 +450,13 @@ loop_again_amanda_s_smart_ape:;
 										 */
 									}
 
-									if(is_update_i)
+									if (is_update_i)
 									{
 
 										get_timestamp_arp(whole_entry_i, &s_arp_3, &VAL_data_i);
 
-										attributes_i  =  GetFileAttributesW(
-											amanda_utf8towide_1_(whole_entry_i)
-											);
+										attributes_i = GetFileAttributesW(
+											amanda_utf8towide_1_(whole_entry_i));
 
 										/*
 
@@ -466,7 +474,7 @@ loop_again_amanda_s_smart_ape:;
 
 										   }
 										 */
-										if(INVALID_FILE_ATTRIBUTES != attributes_i)
+										if (INVALID_FILE_ATTRIBUTES != attributes_i)
 										{
 											;
 										}
@@ -475,24 +483,22 @@ loop_again_amanda_s_smart_ape:;
 											attributes_i = 0x20;
 										}
 
-
 										//					     [12608] temp_del_entry_i C:\Ava\back\extract_k\taglib-1.11.1\bindings\CMakeLists.txt  _amanda_debug_
 
 										{
 
 #define THE_SIZE_I (1 << 17)
 
-											char * buf_i = malloc(THE_SIZE_I);
+											char *buf_i = malloc(THE_SIZE_I);
 											__attribute__((unused)) int len_i;
-											FILE * the_file_i;
+											FILE *the_file_i;
 
 											the_file_i = _wfopen(amanda_utf8towide_1_(whole_entry_i), L"rb");
 
-											if(the_file_i)
+											if (the_file_i)
 											{
 												check_item_z_june_24(entry_______i);
-												add_more_one_z_june_24
-												(
+												add_more_one_z_june_24(
 													atime_i,
 													mtime_i,
 													ctime_i,
@@ -503,10 +509,10 @@ loop_again_amanda_s_smart_ape:;
 													true,
 													attributes_i);
 												size_i = 0;
-												while((len_i = fread(buf_i, 1, THE_SIZE_I, the_file_i)))
+												while ((len_i = fread(buf_i, 1, THE_SIZE_I, the_file_i)))
 												{
 													;
-													if((fwrite(buf_i, 1, len_i, my___temp_file_i)) != (size_t)len_i)
+													if ((fwrite(buf_i, 1, len_i, my___temp_file_i)) != (size_t)len_i)
 													{
 														fatal_exit_k = 12345100;
 													}
@@ -517,45 +523,40 @@ loop_again_amanda_s_smart_ape:;
 											}
 											else
 											{
-												files_that_cannot_be_read_update++;//precisa melhorar isto e mostrar uma lista de arquivos que nao puderam ser lidos...
+												files_that_cannot_be_read_update++; //precisa melhorar isto e mostrar uma lista de arquivos que nao puderam ser lidos...
 											}
 
 											free(buf_i);
 										}
-
 									}
-
 								}
 							}
 						}
-
 					}
-
-
 				}
 
-				if(I_MODE_IS_ENUMFOLDER_1 == amanda_mode)
+				if (I_MODE_IS_ENUMFOLDER_1 == amanda_mode)
 				{
-						while (pause_flag_ar)
-						{
-							Sleep(50);
+					while (pause_flag_ar)
+					{
+						Sleep(50);
 
-							if (fatal_exit_k)
-							{
-								cancel_me_amanda_smart_ape = true;
-								break;
-							}
-						}
 						if (fatal_exit_k)
 						{
 							cancel_me_amanda_smart_ape = true;
+							break;
 						}
-						
+					}
+					if (fatal_exit_k)
+					{
+						cancel_me_amanda_smart_ape = true;
+					}
+
 					skip_ar = 0;
 
 					if (258 < strlen(whole_entry_i))
 					{
-						static char temp_ar[1024] = { 0 };
+						static char temp_ar[1024] = {0};
 
 						snprintf(temp_ar, 600, "Skipping folder %s because the path is too large for windows", szDir);
 						skip_ar = 1;
@@ -564,9 +565,9 @@ loop_again_amanda_s_smart_ape:;
 						folders_count++;
 					}
 
-					if(0 == skip_ar)
+					if (0 == skip_ar)
 					{
-						if(only_get_number_of_files_ar_v27)
+						if (only_get_number_of_files_ar_v27)
 						{
 							amanda_itens++;
 							static char my_copy_of_filename_ar[1024];
@@ -574,16 +575,16 @@ loop_again_amanda_s_smart_ape:;
 							strtolower_ar(my_copy_of_filename_ar);
 							{
 								bool achei_o_match = false;
-								const char *my_str_literal = global_patern_ar;   //"* *.txt *.ini";
+								const char *my_str_literal = global_patern_ar; //"* *.txt *.ini";
 								char *token, *str, *tofree;
 
-								tofree = str = strdup(my_str_literal);           // We own str's memory now.
+								tofree = str = strdup(my_str_literal); // We own str's memory now.
 								while ((token = strsep(&str, " ")))
 								{
 									if (strlen(token))
 									{
 										achei_o_match = strmatch(my_copy_of_filename_ar, token,
-										                         strlen(my_copy_of_filename_ar), strlen(token));
+																 strlen(my_copy_of_filename_ar), strlen(token));
 									}
 									if (achei_o_match)
 									{
@@ -607,7 +608,7 @@ loop_again_amanda_s_smart_ape:;
 
 								if (achei_o_match)
 								{
-									char file_or_folder_to_process___[1024] = { 0 };
+									char file_or_folder_to_process___[1024] = {0};
 
 									strcpy(file_or_folder_to_process___, fixo_path_ar);
 
@@ -622,7 +623,6 @@ loop_again_amanda_s_smart_ape:;
 									strcat(file_or_folder_to_process___, entry_______i);
 									trocadordebackslashtras(file_or_folder_to_process___);
 									amanda_pereira_total_size += getfilesize_ar(file_or_folder_to_process___);
-
 								}
 							}
 						}
@@ -641,14 +641,14 @@ loop_again_amanda_s_smart_ape:;
 									if (strlen(token))
 									{
 										achei_o_match = strmatch(my_copy_of_filename_ar, token,
-										                         strlen(my_copy_of_filename_ar), strlen(token));
+																 strlen(my_copy_of_filename_ar), strlen(token));
 									}
 									if (achei_o_match)
 									{
 										break;
 									}
 								}
-								
+
 								free(tofree);
 
 								if (ARP_EXCLUDE_FILES == mode_is_include_or_exclude__)
@@ -665,13 +665,11 @@ loop_again_amanda_s_smart_ape:;
 
 								if (achei_o_match)
 								{
-										dump_file_new_ar(NULL, entry_______i, fixo_path_ar);								
+									dump_file_new_ar(NULL, entry_______i, fixo_path_ar);
 								}
-								
 							}
-							
-							ricard0_itens_processed++;
 
+							ricard0_itens_processed++;
 						}
 					}
 
@@ -685,15 +683,12 @@ loop_again_amanda_s_smart_ape:;
 							break;
 						}
 					}
-					
+
 					if (fatal_exit_k)
 					{
 						cancel_me_amanda_smart_ape = true;
 					}
-
 				}
-
-
 			}
 
 			/*
@@ -706,7 +701,7 @@ loop_again_amanda_s_smart_ape:;
 
 		//porque nao amor?...da pelo menos pra testar isto
 
-entrada_again_smart_ape_from_amanda:;
+	entrada_again_smart_ape_from_amanda:;
 
 		if (1 == 0)
 		{
@@ -723,7 +718,7 @@ exit_me_forced_amanda_s_smart_ape:;
 
 	FindClose(oi_amanda_ptr->current_hFind_amanda_s_smart_____ape);
 
-keep_running_amanda_s_smart_ape:;   //one less bug..
+keep_running_amanda_s_smart_ape:; //one less bug..
 
 	if (oi_amanda_ptr_inicial != oi_amanda_ptr)
 	{
