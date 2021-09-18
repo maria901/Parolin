@@ -40,6 +40,37 @@
 #  include <io.h>
 #endif
 
+/**
+ * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
+ */
+#define AMANDA__SIZE ((32767 * 6) + 2)
+/**
+ * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
+ * 
+ */
+#define AMANDA__SIZE_w (32767)
+
+/**
+ * To make the path wide mode aware, stolen from libarchive
+ * 
+ * 15/september/2021 10:14, last visit 16/09/2021 22:36 by bhond...
+ *
+ */
+wchar_t *
+permissive_name_m_(const wchar_t *wname);
+
+/**
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
+ *  . provide two functions that are exactly the same because someone may 
+ * use it in multi-thread code 
+ *
+ * @param pUTF8 the input utf-8 encoded filename 
+ *
+ * @return the static allocated WCHAR array with the filename as wide string 
+ *
+ */
+WCHAR *amanda_utf8towide_1_v27(char *pUTF8);
+
 #include "../lib/common/mem.h"     /* U32, U64 */
 #include "fileio.h"
 
@@ -626,6 +657,7 @@ static int FIO_removeFile(const char* path)
 static FILE* FIO_openSrcFile(const FIO_prefs_t* const prefs, const char* srcFileName)
 {
     stat_t statbuf;
+	
     int allowBlockDevices = prefs != NULL ? prefs->allowBlockDevices : 0;
     assert(srcFileName != NULL);
     if (!strcmp (srcFileName, stdinmark)) {
@@ -648,8 +680,8 @@ static FILE* FIO_openSrcFile(const FIO_prefs_t* const prefs, const char* srcFile
                         srcFileName);
         return NULL;
     }
-
-    {   FILE* const f = fopen(srcFileName, "rb");
+	
+    {   FILE* const f = _wfopen(amanda_utf8towide_1_v27((void *) srcFileName), L"rb");
         if (f == NULL)
             DISPLAYLEVEL(1, "zstd: %s: %s \n", srcFileName, strerror(errno));
         return f;
@@ -664,6 +696,7 @@ FIO_openDstFile(FIO_ctx_t* fCtx, FIO_prefs_t* const prefs,
                 const char* srcFileName, const char* dstFileName,
                 const int mode)
 {
+	
     if (prefs->testMode) return NULL;  /* do not open file in test mode */
 
     assert(dstFileName != NULL);
@@ -717,7 +750,8 @@ FIO_openDstFile(FIO_ctx_t* fCtx, FIO_prefs_t* const prefs,
         /* Windows requires opening the file as a "binary" file to avoid
          * mangling. This macro doesn't exist on unix. */
         const int openflags = O_WRONLY|O_CREAT|O_TRUNC|O_BINARY;
-        const int fd = _open(dstFileName, openflags, mode);
+		
+        const int fd = _wopen(amanda_utf8towide_1_v27((void *) dstFileName), openflags, mode);
         FILE* f = NULL;
         if (fd != -1) {
             f = _fdopen(fd, "wb");
@@ -733,6 +767,7 @@ FIO_openDstFile(FIO_ctx_t* fCtx, FIO_prefs_t* const prefs,
         if (f == NULL) {
             DISPLAYLEVEL(1, "zstd: %s: %s\n", dstFileName, strerror(errno));
         }
+				
         return f;
     }
 }
@@ -753,6 +788,9 @@ static size_t FIO_createDictBuffer(void** bufferPtr, const char* fileName, FIO_p
     if (fileName == NULL) return 0;
 
     DISPLAYLEVEL(4,"Loading %s as dictionary \n", fileName);
+	
+	pedro_dprintf(0, "FIO_createDictBuffer fopen line %d", __LINE__);
+	
     fileHandle = fopen(fileName, "rb");
     if (fileHandle==NULL) EXM_THROW(31, "%s: %s", fileName, strerror(errno));
 
@@ -1347,6 +1385,8 @@ FIO_compressZstdFrame(FIO_ctx_t* const fCtx,
     FILE* const dstFile = ress.dstFile;
     U64 compressedfilesize = 0;
     ZSTD_EndDirective directive = ZSTD_e_continue;
+
+//exit(27);
 
     /* stats */
     ZSTD_frameProgression previous_zfp_update = { 0, 0, 0, 0, 0, 0 };
