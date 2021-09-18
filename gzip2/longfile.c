@@ -1,30 +1,31 @@
-/*
-    Copyright (C) <2021>  <BinaryWork Corp.>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU GENERAL PUBLIC LICENSE
-        and GNU LESSER GENERAL PUBLIC LICENSE along with this program.
-        If not, see <http://www.gnu.org/licenses/>.
-
-    support: https://arsoftware.net.br/binarywork _____________
-    mirror :  http://nomade.sourceforge.net/?AR=true&ar_debug=1
-
-        direct programmers e-mails:
-        Ricardo: arsoftware25@gmail.com  ricardo@arsoftware.net.br
-         Amanda: arsoftware10@gmail.com  amanda@arsoftware.net. br
-
-        immediate contact(for a very fast answer) WhatsApp
-        (+55)41 9627 1708 - it is always on
- */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
+ *                                                                              *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
 /* 
  modified 2020
@@ -42,30 +43,33 @@
 #undef NDEBUG
 #include <assert.h>
 
+/**
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
+ *  . provide two functions that are exactly the same because someone may 
+ * use it in multi-thread code 
+ *
+ * @param pUTF8 the input utf-8 encoded filename 
+ *
+ * @return the static allocated WCHAR array with the filename as wide string 
+ *
+ */
+WCHAR *amanda_utf8towide_1_v27(const char *pUTF8);
 
-extern void __cdecl dprintf (char *format, ...);
+extern void __cdecl dprintf(char *format, ...);
 
+extern int unicodemode; //if 1 the file is an utf-8 encoded Unicode string, if 0 it is a ansi string
 
-extern int unicodemode;//if 1 the file is an utf-8 encoded Unicode string, if 0 it is a ansi string
+HANDLE lfopen(const char *szFileName, char *pMode);
+void lfclose(HANDLE hFile);
+__int64 lfseek(HANDLE hFile, __int64 iDistance, int iMode);
+__int64 lftell(HANDLE hFile);
+__int64 lffilesize(const char *szFileName);
+unsigned long lfread(void *pBuffer, unsigned long ulCount, HANDLE hFile);
+unsigned long lfwrite(void *pBuffer, unsigned long ulCount, HANDLE hFile);
 
-WCHAR  wpmode[600];
-
-HANDLE lfopen (const char *szFileName, char *pMode);
-void   lfclose (HANDLE hFile);
-__int64 lfseek (HANDLE hFile, __int64 iDistance, int iMode);
-__int64 lftell (HANDLE hFile);
-__int64 lffilesize (const char *szFileName);
-unsigned long lfread (void *pBuffer, unsigned long ulCount, HANDLE hFile);
-unsigned long lfwrite (void *pBuffer, unsigned long ulCount, HANDLE hFile);
-
-int utf8towide (const char *pUTF8, WCHAR * pUSC2, int nUSC2)
+int widetoutf8(WCHAR *pUSC2, char *pUTF8, int nUTF8)
 {
-     return MultiByteToWideChar (CP_UTF8, 0, (LPCSTR) pUTF8, -1, pUSC2, nUSC2);
-}
-
-int widetoutf8 (WCHAR * pUSC2, char *pUTF8, int nUTF8)
-{
-     return WideCharToMultiByte (CP_UTF8, 0, pUSC2, -1, (LPSTR) pUTF8, nUTF8, 0, 0);
+      return WideCharToMultiByte(CP_UTF8, 0, pUSC2, -1, (LPSTR)pUTF8, nUTF8, 0, 0);
 }
 
 /*
@@ -203,71 +207,65 @@ __int64 lftell (HANDLE hFile)
 }
 */
 
-
-static __int64 fs_filesize (HANDLE hFile)
+static __int64 fs_filesize(HANDLE hFile)
 {
-     LARGE_INTEGER li;
+      LARGE_INTEGER li;
 
-     li.QuadPart = 0;
-     li.LowPart = GetFileSize (hFile, (LPDWORD) & li.HighPart);
+      li.QuadPart = 0;
+      li.LowPart = GetFileSize(hFile, (LPDWORD)&li.HighPart);
 
-     if (li.LowPart == 0xFFFFFFFF)
-       {
-	    if (GetLastError () != ERROR_SUCCESS)
-		 return 0;
-       }
+      if (li.LowPart == 0xFFFFFFFF)
+      {
+            if (GetLastError() != ERROR_SUCCESS)
+                  return 0;
+      }
 
-     return (__int64) li.QuadPart;
+      return (__int64)li.QuadPart;
 }
 
-
-__int64 lffilesize (const char *szFileName)//is utf-8
+__int64 lffilesize(const char *szFileName) //is utf-8
 {
-     __int64 iResult;
-     HANDLE hFile;
+      __int64 iResult;
+      HANDLE hFile;
 
-     if (unicodemode)
-       {
-	    utf8towide (szFileName, wpmode, 600);
-		
+      if (unicodemode)
+      {
+
 #ifdef NPRINTF
-		dprintf("arquivo %s\n",szFileName);
+            dprintf("arquivo %s\n", szFileName);
 #endif
-		
-		
-	    hFile = CreateFileW (wpmode, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 
-       }
-     else
-       {
+            hFile = CreateFileW(amanda_utf8towide_1_v27(szFileName), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 
+      }
+      else
+      {
 
+            hFile = CreateFile(szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 
+      }
+      if (hFile == INVALID_HANDLE_VALUE)
+            return 0;
 
-	    hFile = CreateFile (szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
-       }
-     if (hFile == INVALID_HANDLE_VALUE)
-	  return 0;
+      iResult = fs_filesize(hFile);
 
-     iResult = fs_filesize (hFile);
+      CloseHandle(hFile);
 
-     CloseHandle (hFile);
-
-     return iResult;
+      return iResult;
 }
 
-__int64 lffilesizeW (const WCHAR * szFileName)
+__int64 lffilesizeW(const WCHAR *szFileName)//not in use
 {
-     __int64 iResult;
-     HANDLE hFile = CreateFileW (szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
-     if (hFile == INVALID_HANDLE_VALUE)
-	  return 0;
+      __int64 iResult;
+      HANDLE hFile = CreateFileW(szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+      if (hFile == INVALID_HANDLE_VALUE)
+            return 0;
 
-     iResult = fs_filesize (hFile);
+      iResult = fs_filesize(hFile);
 
-     CloseHandle (hFile);
+      CloseHandle(hFile);
 
-     return iResult;
+      return iResult;
 }
 /*
 
