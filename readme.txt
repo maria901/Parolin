@@ -234,7 +234,7 @@ Sorry for this limitation
 
 Changelog:
 
-What is new in version 6.8.3  build 005754 Fri 17/September/2021 23:59:61 codename Dirson
+What is new in version 7.9.1  build 005866 Fri 17/September/2021 23:59:61 codename Dirson
 
 .......... For the moment the  7zip  support  is  only to not
 .......... encrypted files, in compression and uncompression,
@@ -252,7 +252,6 @@ https://github.com/maria901/Parolin/tree/v6.8.2.12
 .......... it a try, and if using encryption use the new mode
 .......... AES CTR is  the  recommended  encryption  mode for
 .......... maximum security
-..........
 
 What is new in version 6.7.8  build 005753 Segunda 02 Agosto 2021  11:24 codename Lööf
 Fixed the files and folders search function, now it is not recursive anymore,
