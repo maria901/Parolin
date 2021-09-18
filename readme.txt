@@ -234,6 +234,26 @@ Sorry for this limitation
 
 Changelog:
 
+What is new in version 6.8.3  build 005754 Fri 17/September/2021 23:59:61 codename Dirson
+
+.......... For the moment the  7zip  support  is  only to not
+.......... encrypted files, in compression and uncompression,
+.......... the 7zip  code  developed and release by Igor were
+.......... just  removed,  sorry, if  you think  that you are
+.......... brave  enough  to  fix  the   original  Igor  code 
+.......... download  the  latest  version  tag  that have the
+.......... buggy code from GitHub at:
+https://github.com/maria901/Parolin/tree/v6.8.2.12
+.......... It  is  in the folder 7zip... good luck it is pure
+.......... COM based calls in C++
+..........
+.......... A  good  replacement  for  encrypted 7zip files is
+.......... VAL with lzma  compression in encrypted mode, give
+.......... it a try, and if using encryption use the new mode
+.......... AES CTR is  the  recommended  encryption  mode for
+.......... maximum security
+..........
+
 What is new in version 6.7.8  build 005753 Segunda 02 Agosto 2021  11:24 codename Lööf
 Fixed the files and folders search function, now it is not recursive anymore,
 so, no matter how many files and folders you search it will not consume the
