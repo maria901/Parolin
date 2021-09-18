@@ -212,6 +212,10 @@ compress2 = Unix compress with multi-thread support
 
 ////////////////////////////////////////////////////////////////////
 
+(After 17/September/2021 the encryption was disabled for 7zip
+because we are using again libarchive and not 7zip sources from
+Igor due to buggy code)
+
 About 7zip compression methods available
 
 For the moment the libarchive modified to support encrypted files
