@@ -1,30 +1,32 @@
-/*
-    Copyright (C) <2021>  <BinaryWork Corp.>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU GENERAL PUBLIC LICENSE
-        and GNU LESSER GENERAL PUBLIC LICENSE along with this program.
-        If not, see <http://www.gnu.org/licenses/>.
-
-    support: https://arsoftware.net.br/binarywork _____________
-    mirror :  http://nomade.sourceforge.net/?AR=true&ar_debug=1
-
-        direct programmers e-mails:
-        Ricardo: arsoftware25@gmail.com  ricardo@arsoftware.net.br
-         Amanda: arsoftware10@gmail.com  amanda@arsoftware.net. br
-
-        immediate contact(for a very fast answer) WhatsApp
-        (+55)41 9627 1708 - it is always on
- */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
+ *                                                                              *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
 #include <windows.h>
 #include <stdio.h>
@@ -65,10 +67,9 @@
 #include <errno.h>
 #include <lzma.h>
 
+WCHAR *amanda_utf8towide_1_v27(char *pUTF8);
+
 #define uint unsigned int
-
-
-WCHAR* __stdcall utf8towide (const char *pUTF8);
 
 void
 dprintf (char *format, ...);
@@ -88,7 +89,7 @@ static __int64 getfilesize (char *infile)
 
 	FILE  *myfile;
 
-	if ((myfile = _wfopen (utf8towide(infile), L"rb")) == NULL)
+	if ((myfile = _wfopen (amanda_utf8towide_1_v27(infile), L"rb")) == NULL)
 	{
 		//dprintf ("The file 'data' was not opened\n");
 		return 0;
@@ -427,20 +428,19 @@ xz_uncompress(char*inputfile,char*outputfile)
 
 	bool success = true;
 
-
 	FILE *input=NULL;
 	FILE *output=NULL;
 
 	progress=porcentagem=0;
 	tamanho=getfilesize(inputfile);
 	processado=0;
-	input=_wfopen (utf8towide(inputfile), L"rb");
+	input=_wfopen (amanda_utf8towide_1_v27(inputfile), L"rb");
 	if(NULL==input)
 	{
 		returnvalue=1;//cannot open input file
 		goto saida;
 	}
-	output=_wfopen (utf8towide(outputfile), L"wb");
+	output=_wfopen (amanda_utf8towide_1_v27(outputfile), L"wb");
 	if(NULL==output)
 	{
 		returnvalue=2;//cannot open output file
