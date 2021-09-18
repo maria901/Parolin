@@ -1,40 +1,36 @@
 
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  *                                                                                *
-  *      Licensa de Cópia (C) <202*>  <Corporação do Trabalho Binário>             *
-  *                                                                                *
-  *   Este programa é software livre: você pode redistribuir isto e/ou modificar   *
-  *   isto sobre os termos do GNU Licensa Geral Pública como publicado pela        *
-  *   Fundação de Software Livre, tanto a versão 3 da Licensa, ou                  *
-  *   (dependendo da sua opção) qualquer versão posterior.                         *
-  *                                                                                *
-  *   Este programa é distribuído na esperança que isto vai ser útil,              *
-  *   mas SEM QUALQUER GARANTIA; sem até mesmo a implicada garantia de             *
-  *   COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a                 *
-  *   Licensa Geral Pública para mais detalhes.                                    *
-  *                                                                                *
-  *   Você deve ter recebido uma cópia da LICENSA GERAL PUBLICA                    *
-  *       e a GNU Licensa Pública Menor junto com este programa                    *
-  *       Se não, veja <http://www.gnu.org/licenses/>.                             *
-  *                                                                                *
-  *   Suporte: https://arsoftware.net.br/binarywork ____________________           *
-  *   Mirrors: https://locacaodiaria.com.br/corporacaodotrabalhobinario/           *
-  *             http://nomade.sourceforge.net/binarywork/ ______________            *
-  *                                                                                *
-  *       e-mails direto dos felizes programadores:                                *
-  *       MathMan: arsoftware25@gmail.com  ricardo@arsoftware.net.br               *
-  *        Amanda: arsoftware10@gmail.com  amanda@arsoftware.net.br                *
-  *                                                                                *
-  *       contato imediato(para uma resposta muita rápida) WhatsApp                *
-  *       (+55)41 9627 1708 - isto está sempre ligado                              *
-  *                                                                                *
-  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
- 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
+ *                                                                              *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+
 /* 
  modified 2021 May
 */
-
-
 
 /*  ainda falta alguns testes , vamos la   */
 
@@ -50,32 +46,153 @@
 #undef NDEBUG
 #include <assert.h>
 
+/**
+ * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
+ */
+#define AMANDA__SIZE ((32767 * 6) + 2)
+/**
+ * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
+ * 
+ */
+#define AMANDA__SIZE_w (32767)
 
-extern void __cdecl dprintf (char *format, ...);
-
-
-extern int unicodemode;//if 1 the file is an utf-8 encoded Unicode string, if 0 it is a ansi string
-
-WCHAR  wpmode[600];
-
-HANDLE lfopen (const char *szFileName, char *pMode);
-void   lfclose (HANDLE hFile);
-__int64 lfseek (HANDLE hFile, __int64 iDistance, int iMode);
-__int64 lftell (HANDLE hFile);
-__int64 lffilesize (const char *szFileName);
-unsigned long lfread (void *pBuffer, unsigned long ulCount, HANDLE hFile);
-unsigned long lfwrite (void *pBuffer, unsigned long ulCount, HANDLE hFile);
-
-
-
-int utf8towide (const char *pUTF8, WCHAR * pUSC2, int nUSC2)
+/**
+ * To make the path wide mode aware, stolen from libarchive
+ * 
+ * 15/september/2021 10:14, last visit 16/09/2021 22:36 by bhond...
+ *
+ */
+wchar_t *
+permissive_name_m_(const wchar_t *wname)
 {
-     return MultiByteToWideChar (CP_UTF8, 0, (LPCSTR) pUTF8, -1, pUSC2, nUSC2);
+
+        static wchar_t *wnp = NULL;
+        wchar_t *wn;
+        wchar_t *ws, *wsp;
+        DWORD len, slen;
+        int unc;
+
+        if (NULL == wnp)
+        {
+                wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
+        }
+
+        //wnp = malloc(AMANDA__SIZE * 2);
+
+        wcscpy(wnp, wname);
+
+        len = wcslen(wname);
+
+        wn = wnp;
+
+        if (wnp[0] == L'\\' && wnp[1] == L'\\' && // access to the wrong position in memory, fixed now
+            wnp[2] == L'?' && wnp[3] == L'\\')
+                /* We have already a permissive name. */
+                return (wn);
+
+        if (wnp[0] == L'\\' && wnp[1] == L'\\' &&
+            wnp[2] == L'.' && wnp[3] == L'\\')
+        {
+                /* This is a device name */
+                if (((wnp[4] >= L'a' && wnp[4] <= L'z') ||
+                     (wnp[4] >= L'A' && wnp[4] <= L'Z')) &&
+                    wnp[5] == L':' && wnp[6] == L'\\')
+                        wnp[2] = L'?'; /* Not device name. */
+                return (wn);
+        }
+
+        unc = 0;
+        if (wnp[0] == L'\\' && wnp[1] == L'\\' && wnp[2] != L'\\')
+        {
+                wchar_t *p = &wnp[2];
+
+                /* Skip server-name letters. */
+                while (*p != L'\\' && *p != L'\0')
+                        ++p;
+                if (*p == L'\\')
+                {
+                        wchar_t *rp = ++p;
+                        /* Skip share-name letters. */
+                        while (*p != L'\\' && *p != L'\0')
+                                ++p;
+                        if (*p == L'\\' && p != rp)
+                        {
+                                /* Now, match patterns such as
+				 * "\\server-name\share-name\" */
+                                wnp += 2;
+                                len -= 2;
+                                unc = 1;
+                        }
+                }
+        }
+
+        slen = 4 + (unc * 4) + len + 1;
+        ws = wsp = malloc(slen * sizeof(wchar_t));
+        if (ws == NULL)
+        {
+                //free(wn);
+                return (NULL);
+        }
+        /* prepend "\\?\" */
+        wcsncpy(wsp, L"\\\\?\\", 4);
+        wsp += 4;
+        slen -= 4;
+        if (unc)
+        {
+                /* append "UNC\" ---> "\\?\UNC\" */
+                wcsncpy(wsp, L"UNC\\", 4);
+                wsp += 4;
+                slen -= 4;
+        }
+        wcsncpy(wsp, wnp, slen);
+        wsp[slen - 1] = L'\0'; /* Ensure null termination. */
+        //free(wn);
+
+        wcscpy(wnp, ws);
+
+        free(ws);
+
+        return (wnp);
 }
 
-int widetoutf8 (WCHAR * pUSC2, char *pUTF8, int nUTF8)
+/**
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
+ *  . provide two functions that are exactly the same because someone may 
+ * use it in multi-thread code 
+ *
+ * @param pUTF8 the input utf-8 encoded filename 
+ *
+ * @return the static allocated WCHAR array with the filename as wide string 
+ *
+ */
+WCHAR *amanda_utf8towide_1_v27(char *pUTF8)
 {
-     return WideCharToMultiByte (CP_UTF8, 0, pUSC2, -1, (LPSTR) pUTF8, nUTF8, 0, 0);
+        static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
+
+        MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
+        return permissive_name_m_(ricardo_k);
+}
+
+extern void __cdecl dprintf(char *format, ...);
+
+extern int unicodemode; //if 1 the file is an utf-8 encoded Unicode string, if 0 it is a ansi string
+
+HANDLE lfopen(const char *szFileName, char *pMode);
+void lfclose(HANDLE hFile);
+__int64 lfseek(HANDLE hFile, __int64 iDistance, int iMode);
+__int64 lftell(HANDLE hFile);
+__int64 lffilesize(const char *szFileName);
+unsigned long lfread(void *pBuffer, unsigned long ulCount, HANDLE hFile);
+unsigned long lfwrite(void *pBuffer, unsigned long ulCount, HANDLE hFile);
+
+int utf8towide(const char *pUTF8, WCHAR *pUSC2, int nUSC2)
+{
+        return MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, pUSC2, nUSC2);
+}
+
+int widetoutf8(WCHAR *pUSC2, char *pUTF8, int nUTF8)
+{
+        return WideCharToMultiByte(CP_UTF8, 0, pUSC2, -1, (LPSTR)pUTF8, nUTF8, 0, 0);
 }
 
 /*
@@ -213,71 +330,62 @@ __int64 lftell (HANDLE hFile)
 }
 */
 
-
-static __int64 fs_filesize (HANDLE hFile)
+static __int64 fs_filesize(HANDLE hFile)
 {
-     LARGE_INTEGER li;
+        LARGE_INTEGER li;
 
-     li.QuadPart = 0;
-     li.LowPart = GetFileSize (hFile, (LPDWORD) & li.HighPart);
+        li.QuadPart = 0;
+        li.LowPart = GetFileSize(hFile, (LPDWORD)&li.HighPart);
 
-     if (li.LowPart == 0xFFFFFFFF)
-       {
-	    if (GetLastError () != ERROR_SUCCESS)
-		 return 0;
-       }
+        if (li.LowPart == 0xFFFFFFFF)
+        {
+                if (GetLastError() != ERROR_SUCCESS)
+                        return 0;
+        }
 
-     return (__int64) li.QuadPart;
+        return (__int64)li.QuadPart;
 }
 
-
-__int64 lffilesize (const char *szFileName)//is utf-8
+__int64 lffilesize(const char *szFileName) //is utf-8
 {
-     __int64 iResult;
-     HANDLE hFile;
+        __int64 iResult;
+        HANDLE hFile;
 
-     if (unicodemode)
-       {
-	    utf8towide (szFileName, wpmode, 600);
-		
+        if (unicodemode)
+        {
+
 #ifdef NPRINTF
-		dprintf("arquivo %s\n",szFileName);
+                dprintf("arquivo %s\n", szFileName);
 #endif
-		
-		
-	    hFile = CreateFileW (wpmode, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 
-       }
-     else
-       {
+                hFile = CreateFileW(amanda_utf8towide_1_v27((void *)szFileName), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+        }
+        else
+        {
+                hFile = CreateFile(szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+        }
+        if (hFile == INVALID_HANDLE_VALUE)
+                return 0;
 
+        iResult = fs_filesize(hFile);
 
+        CloseHandle(hFile);
 
-
-	    hFile = CreateFile (szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
-       }
-     if (hFile == INVALID_HANDLE_VALUE)
-	  return 0;
-
-     iResult = fs_filesize (hFile);
-
-     CloseHandle (hFile);
-
-     return iResult;
+        return iResult;
 }
 
-__int64 lffilesizeW (const WCHAR * szFileName)
+__int64 lffilesizeW(const WCHAR *szFileName)
 {
-     __int64 iResult;
-     HANDLE hFile = CreateFileW (szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
-     if (hFile == INVALID_HANDLE_VALUE)
-	  return 0;
+        __int64 iResult;
+        HANDLE hFile = CreateFileW(permissive_name_m_(szFileName), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+        if (hFile == INVALID_HANDLE_VALUE)
+                return 0;
 
-     iResult = fs_filesize (hFile);
+        iResult = fs_filesize(hFile);
 
-     CloseHandle (hFile);
+        CloseHandle(hFile);
 
-     return iResult;
+        return iResult;
 }
 /*
 

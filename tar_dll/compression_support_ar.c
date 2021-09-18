@@ -13,1938 +13,1757 @@
  */
 void __fastcall dllinit_arp(void)
 {
-     char copy_ar[1024];
-	
-	if(NULL == my_libarchive_dll)
-	{
-		my_libarchive_dll = LoadLibraryA
-			      (
-			"BE_libarchive_" MACHINE_ARP ".DLL"
-		              );
-
-		if(NULL == my_libarchive_dll)
-		{
-			fatal_exit_k = 12345;
-
-			sprintf(copy_ar, "Cannot find DLL BE_libarchive_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
-
-			strcpy(error_message_k, copy_ar);
-
-			goto dll_error_arp;
-			
-		}
-		else
-		{
-
-			libarchive_create_archive_init_p_func = (void *) GetProcAddress(
-				my_libarchive_dll,
-				"libarchive_create_archive_init_p"
-				);
-
-			if(NULL == libarchive_create_archive_init_p_func)
-			{
-				fatal_exit_k = 123456;
-
-				sprintf(copy_ar, "Cannot find function 'libarchive_create_archive_init_p' from BE_libarchive_" MACHINE_ARP ".DLL");
-
-				strcpy(error_message_k, copy_ar);
-			}
-			libarchive_process_p_func = (void *) GetProcAddress(
-				my_libarchive_dll,
-				"libarchive_process_p"
-				);
-
-			if(NULL == libarchive_process_p_func)
-			{
-				fatal_exit_k = 123456;
-
-				sprintf(copy_ar, "Cannot find function 'libarchive_process_p' from BE_libarchive_" MACHINE_ARP ".DLL");
-
-				strcpy(error_message_k, copy_ar);
-			}
-			libarchive_close_p_func = (void *) GetProcAddress(
-				my_libarchive_dll,
-				"libarchive_close_p"
-				);
-
-			if(NULL == libarchive_close_p_func)
-			{
-				fatal_exit_k = 123456;
-
-				sprintf(copy_ar, "Cannot find function 'libarchive_close_p' from BE_libarchive_" MACHINE_ARP ".DLL");
-
-				strcpy(error_message_k, copy_ar);
-			}
-
-			set_progress_p_func = (void *) GetProcAddress(
-			     my_libarchive_dll,
-			     "set_progress_p"
-			     );
-
-			if(NULL == set_progress_p_func)
-			{
-			     fatal_exit_k = 123456;
-
-			     sprintf(copy_ar, "Cannot find function 'set_progress_p' from BE_libarchive_" MACHINE_ARP ".DLL");
-
-			     strcpy(error_message_k, copy_ar);
-			}
-			
-			libarchive_list_entries_p_func = (void *) GetProcAddress(
-			     my_libarchive_dll,
-			     "libarchive_list_entries_p"
-			     );
-
-			if(NULL == libarchive_list_entries_p_func)
-			{
-			     fatal_exit_k = 123457;
-
-			     sprintf(copy_ar, "Cannot find function 'libarchive_list_entries_p' from BE_libarchive_" MACHINE_ARP ".DLL");
-
-			     strcpy(error_message_k, copy_ar);
-			}
-
-			get_tar_info_p_func = (void *) GetProcAddress(
-			     my_libarchive_dll,
-			     "get_tar_info_p"
-			     );
-
-			if(NULL == get_tar_info_p_func)
-			{
-			     fatal_exit_k = 123457;
-
-			     sprintf(copy_ar, "Cannot find function 'get_tar_info_p' from BE_libarchive_" MACHINE_ARP ".DLL");
-
-			     strcpy(error_message_k, copy_ar);
-			}
-			
-			libarchive_extract_entries_p_func = (void *) GetProcAddress(
-			     my_libarchive_dll,
-			     "libarchive_extract_entries_p"
-			     );
-
-			if(NULL == libarchive_extract_entries_p_func)
-			{
-			     fatal_exit_k = 123457;
-
-			     sprintf(copy_ar, "Cannot find function 'libarchive_extract_entries_p' from BE_libarchive_" MACHINE_ARP ".DLL");
-
-			     strcpy(error_message_k, copy_ar);
-			}
-			
-			progress_extract_i_func = (void *) GetProcAddress(
-			     my_libarchive_dll,
-			     "progress_extract_i"
-			     );
-
-			if(NULL == progress_extract_i_func)
-			{
-			     fatal_exit_k = 123457;
+      char copy_ar[1024];
 
-			     sprintf(copy_ar, "Cannot find function 'progress_extract_i' from BE_libarchive_" MACHINE_ARP ".DLL");
-
-			     strcpy(error_message_k, copy_ar);
-			}
+      if (NULL == my_libarchive_dll)
+      {
+            my_libarchive_dll = LoadLibraryA(
+                "BE_libarchive_" MACHINE_ARP ".DLL");
 
-			extract_to_file_i_func = (void *) GetProcAddress(
-			     my_libarchive_dll,
-			     "extract_to_file_i"
-			     );
-
-			if(NULL == extract_to_file_i_func)
-			{
-			     fatal_exit_k = 123458;
+            if (NULL == my_libarchive_dll)
+            {
+                  fatal_exit_k = 12345;
 
-			     sprintf(copy_ar, "Cannot find function 'extract_to_file_i' from BE_libarchive_" MACHINE_ARP ".DLL");
+                  sprintf(copy_ar, "Cannot find DLL BE_libarchive_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-			     strcpy(error_message_k, copy_ar);
-			}
-			
-		}
-	}
-	
-	if(NULL == my_gzip_dll)
-	{
-		my_gzip_dll = LoadLibraryA
-			      (
-			"rspgzip200_" MACHINE_ARP ".dll"
-		              );
+                  strcpy(error_message_k, copy_ar);
 
-		if(NULL == my_gzip_dll)
-		{
-			fatal_exit_k = 30;
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-			sprintf(copy_ar, "Cannot find DLL rspgzip200_" MACHINE_ARP ".dll, it is required in the same path of the Tar DLL");
+                  libarchive_create_archive_init_p_func = (void *)GetProcAddress(
+                      my_libarchive_dll,
+                      "libarchive_create_archive_init_p");
 
-			strcpy(error_message_k, copy_ar);
+                  if (NULL == libarchive_create_archive_init_p_func)
+                  {
+                        fatal_exit_k = 123456;
 
-			goto dll_error_arp;
-			
-		}
-		else
-		{
+                        sprintf(copy_ar, "Cannot find function 'libarchive_create_archive_init_p' from BE_libarchive_" MACHINE_ARP ".DLL");
 
-			Compress_gzip_ar_func = (void *) GetProcAddress(
-				my_gzip_dll,
-				"CompressGzip_utf8_k"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
+                  libarchive_process_p_func = (void *)GetProcAddress(
+                      my_libarchive_dll,
+                      "libarchive_process_p");
 
-			if(NULL == Compress_gzip_ar_func)
-			{
-				fatal_exit_k = 31;
+                  if (NULL == libarchive_process_p_func)
+                  {
+                        fatal_exit_k = 123456;
 
-				sprintf(copy_ar, "Cannot find function 'CompressGzip_utf8_k' from rspgzip200_" MACHINE_ARP ".dll");
+                        sprintf(copy_ar, "Cannot find function 'libarchive_process_p' from BE_libarchive_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
+                  libarchive_close_p_func = (void *)GetProcAddress(
+                      my_libarchive_dll,
+                      "libarchive_close_p");
 
-			GetFinished_gzip_ar_func =(void *) GetProcAddress(
-				my_gzip_dll,
-				"GetFinished"
-				);
+                  if (NULL == libarchive_close_p_func)
+                  {
+                        fatal_exit_k = 123456;
 
-			if(NULL == GetFinished_gzip_ar_func)
-			{
-				fatal_exit_k = 32;
+                        sprintf(copy_ar, "Cannot find function 'libarchive_close_p' from BE_libarchive_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'GetFinished' from rspgzip200_" MACHINE_ARP ".dll");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  set_progress_p_func = (void *)GetProcAddress(
+                      my_libarchive_dll,
+                      "set_progress_p");
 
-			GetProgress_gzip_ar_func =(void *) GetProcAddress(
-				my_gzip_dll,
-				"GetProgress"
-				);
+                  if (NULL == set_progress_p_func)
+                  {
+                        fatal_exit_k = 123456;
 
-			if(NULL == GetProgress_gzip_ar_func)
-			{
-				fatal_exit_k = 33;
+                        sprintf(copy_ar, "Cannot find function 'set_progress_p' from BE_libarchive_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'GetProgress' from rspgzip200_" MACHINE_ARP ".dll");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  libarchive_list_entries_p_func = (void *)GetProcAddress(
+                      my_libarchive_dll,
+                      "libarchive_list_entries_p");
 
-			PauseExecution_gzip_ar_func =(void *) GetProcAddress(
-				my_gzip_dll,
-				"PauseExecution"
-				);
+                  if (NULL == libarchive_list_entries_p_func)
+                  {
+                        fatal_exit_k = 123457;
 
-			if(NULL == PauseExecution_gzip_ar_func)
-			{
-				fatal_exit_k = 34;
+                        sprintf(copy_ar, "Cannot find function 'libarchive_list_entries_p' from BE_libarchive_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'PauseExecution' from rspgzip200_" MACHINE_ARP ".dll");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  get_tar_info_p_func = (void *)GetProcAddress(
+                      my_libarchive_dll,
+                      "get_tar_info_p");
 
-			ResumeExecution_gzip_ar_func =(void *) GetProcAddress(
-				my_gzip_dll,
-				"ResumeExecution"
-				);
+                  if (NULL == get_tar_info_p_func)
+                  {
+                        fatal_exit_k = 123457;
 
-			if(NULL == ResumeExecution_gzip_ar_func)
-			{
-				fatal_exit_k = 35;
+                        sprintf(copy_ar, "Cannot find function 'get_tar_info_p' from BE_libarchive_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'ResumeExecution' from rspgzip200_" MACHINE_ARP ".dll");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  libarchive_extract_entries_p_func = (void *)GetProcAddress(
+                      my_libarchive_dll,
+                      "libarchive_extract_entries_p");
 
-			CancelExecution_gzip_ar_func =(void *) GetProcAddress(
-				my_gzip_dll,
-				"CancelExecution"
-				);
+                  if (NULL == libarchive_extract_entries_p_func)
+                  {
+                        fatal_exit_k = 123457;
 
-			if(NULL == CancelExecution_gzip_ar_func)
-			{
-				fatal_exit_k = 36;
+                        sprintf(copy_ar, "Cannot find function 'libarchive_extract_entries_p' from BE_libarchive_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'CancelExecution' from rspgzip200_" MACHINE_ARP ".dll");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  progress_extract_i_func = (void *)GetProcAddress(
+                      my_libarchive_dll,
+                      "progress_extract_i");
 
-			GetReturnValue_gzip_ar_func =(void *) GetProcAddress(
-				my_gzip_dll,
-				"GetReturnValue"
-				);
+                  if (NULL == progress_extract_i_func)
+                  {
+                        fatal_exit_k = 123457;
 
-			if(NULL == GetReturnValue_gzip_ar_func)
-			{
-				fatal_exit_k = 37;
+                        sprintf(copy_ar, "Cannot find function 'progress_extract_i' from BE_libarchive_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'GetReturnValue' from rspgzip200_" MACHINE_ARP ".dll");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  extract_to_file_i_func = (void *)GetProcAddress(
+                      my_libarchive_dll,
+                      "extract_to_file_i");
 
-			Uncompress_gzip_ar_func =(void *) GetProcAddress(
-				my_gzip_dll,
-				"UncompressGzip_utf8_k"
-				);
+                  if (NULL == extract_to_file_i_func)
+                  {
+                        fatal_exit_k = 123458;
 
-			if(NULL == Uncompress_gzip_ar_func)
-			{
-				fatal_exit_k = 38;
+                        sprintf(copy_ar, "Cannot find function 'extract_to_file_i' from BE_libarchive_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'UncompressGzip_utf8_k' from rspgzip200_" MACHINE_ARP ".dll");
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-				strcpy(error_message_k, copy_ar);
-			}
-		}
-	}
+      if (NULL == my_gzip_dll)
+      {
+            my_gzip_dll = LoadLibraryA(
+                "rspgzip200_" MACHINE_ARP ".dll");
 
+            if (NULL == my_gzip_dll)
+            {
+                  fatal_exit_k = 30;
 
-	if(NULL == my_bz2__dll)
-	{
-		my_bz2__dll = LoadLibraryA
-			      (
-			"rspbzip2_" MACHINE_ARP ".dll"
-		              );
+                  sprintf(copy_ar, "Cannot find DLL rspgzip200_" MACHINE_ARP ".dll, it is required in the same path of the Tar DLL");
 
-		if(NULL == my_bz2__dll)
-		{
-			fatal_exit_k = 40;
+                  strcpy(error_message_k, copy_ar);
 
-			sprintf(copy_ar, "Cannot find DLL rspbzip2_" MACHINE_ARP ".dll, it is required in the same path of the Tar DLL");
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-			strcpy(error_message_k, copy_ar);
+                  Compress_gzip_ar_func = (void *)GetProcAddress(
+                      my_gzip_dll,
+                      "CompressGzip_utf8_k");
 
-			goto dll_error_arp;
-		}
-		else
-		{
+                  if (NULL == Compress_gzip_ar_func)
+                  {
+                        fatal_exit_k = 31;
 
-			Compress_bzip2_ar_func =(void *) GetProcAddress(
-				my_bz2__dll,
-				"Compress"
-				);
+                        sprintf(copy_ar, "Cannot find function 'CompressGzip_utf8_k' from rspgzip200_" MACHINE_ARP ".dll");
 
-			if(NULL == Compress_bzip2_ar_func)
-			{
-				fatal_exit_k = 41;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'Compress' from rspbzip2_" MACHINE_ARP ".dll");
+                  GetFinished_gzip_ar_func = (void *)GetProcAddress(
+                      my_gzip_dll,
+                      "GetFinished");
 
-				strcpy(error_message_k, copy_ar);
-			}
-			GetStatus_bzip2_ar_func =(void *) GetProcAddress(
-				my_bz2__dll,
-				"GetStatus"
-				);
-
-			if(NULL == GetStatus_bzip2_ar_func)
-			{
-				fatal_exit_k = 42;
+                  if (NULL == GetFinished_gzip_ar_func)
+                  {
+                        fatal_exit_k = 32;
 
-				sprintf(copy_ar, "Cannot find function 'GetStatus' from rspbzip2_" MACHINE_ARP ".dll");
+                        sprintf(copy_ar, "Cannot find function 'GetFinished' from rspgzip200_" MACHINE_ARP ".dll");
 
-				strcpy(error_message_k, copy_ar);
-			}
-			GetProgress_bzip2_ar_func =(void *) GetProcAddress(
-				my_bz2__dll,
-				"GetProgress"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == GetProgress_bzip2_ar_func)
-			{
-				fatal_exit_k = 43;
+                  GetProgress_gzip_ar_func = (void *)GetProcAddress(
+                      my_gzip_dll,
+                      "GetProgress");
 
-				sprintf(copy_ar, "Cannot find function 'GetProgress' from rspbzip2_" MACHINE_ARP ".dll");
+                  if (NULL == GetProgress_gzip_ar_func)
+                  {
+                        fatal_exit_k = 33;
 
-				strcpy(error_message_k, copy_ar);
-			}
-			PauseCompress_bzip2_ar_func =(void *) GetProcAddress(
-				my_bz2__dll,
-				"PauseCompress"
-				);
+                        sprintf(copy_ar, "Cannot find function 'GetProgress' from rspgzip200_" MACHINE_ARP ".dll");
 
-			if(NULL == PauseCompress_bzip2_ar_func)
-			{
-				fatal_exit_k = 44;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'PauseCompress' from rspbzip2_" MACHINE_ARP ".dll");
+                  PauseExecution_gzip_ar_func = (void *)GetProcAddress(
+                      my_gzip_dll,
+                      "PauseExecution");
 
-				strcpy(error_message_k, copy_ar);
-			}
-			ResumeCompress_bzip2_ar_func =(void *) GetProcAddress(
-				my_bz2__dll,
-				"ResumeCompress"
-				);
+                  if (NULL == PauseExecution_gzip_ar_func)
+                  {
+                        fatal_exit_k = 34;
 
-			if(NULL == ResumeCompress_bzip2_ar_func)
-			{
-				fatal_exit_k = 45;
+                        sprintf(copy_ar, "Cannot find function 'PauseExecution' from rspgzip200_" MACHINE_ARP ".dll");
 
-				sprintf(copy_ar, "Cannot find function 'ResumeCompress' from rspbzip2_" MACHINE_ARP ".dll");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
-			CancelCompress_bzip2_ar_func =(void *) GetProcAddress(
-				my_bz2__dll,
-				"CancelCompress"
-				);
+                  ResumeExecution_gzip_ar_func = (void *)GetProcAddress(
+                      my_gzip_dll,
+                      "ResumeExecution");
 
-			if(NULL == CancelCompress_bzip2_ar_func)
-			{
-				fatal_exit_k = 46;
+                  if (NULL == ResumeExecution_gzip_ar_func)
+                  {
+                        fatal_exit_k = 35;
 
-				sprintf(copy_ar, "Cannot find function 'CancelCompress' from rspbzip2_" MACHINE_ARP ".dll");
+                        sprintf(copy_ar, "Cannot find function 'ResumeExecution' from rspgzip200_" MACHINE_ARP ".dll");
 
-				strcpy(error_message_k, copy_ar);
-			}
-			Decompress_bzip2_ar_func =(void *) GetProcAddress(
-				my_bz2__dll,
-				"Decompress"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == Decompress_bzip2_ar_func)
-			{
-				fatal_exit_k = 47;
+                  CancelExecution_gzip_ar_func = (void *)GetProcAddress(
+                      my_gzip_dll,
+                      "CancelExecution");
 
-				sprintf(copy_ar, "Cannot find function 'Decompress' from rspbzip2_" MACHINE_ARP ".dll");
+                  if (NULL == CancelExecution_gzip_ar_func)
+                  {
+                        fatal_exit_k = 36;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'CancelExecution' from rspgzip200_" MACHINE_ARP ".dll");
 
-			GetReturnValue_bzip2_ar_func =(void *) GetProcAddress(
-				my_bz2__dll,
-				"GetReturnValue"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == GetReturnValue_bzip2_ar_func)
-			{
-				fatal_exit_k = 48;
+                  GetReturnValue_gzip_ar_func = (void *)GetProcAddress(
+                      my_gzip_dll,
+                      "GetReturnValue");
 
-				sprintf(copy_ar, "Cannot find function 'GetReturnValue' from rspbzip2_" MACHINE_ARP ".dll");
+                  if (NULL == GetReturnValue_gzip_ar_func)
+                  {
+                        fatal_exit_k = 37;
 
-				strcpy(error_message_k, copy_ar);
-			}
-		}
-	}
-	if(NULL == my_lzip__dll)
-	{
-		my_lzip__dll = LoadLibraryA
-			       (
-			"bw_lzip_aakp_" MACHINE_ARP ".DLL"
-		               );
+                        sprintf(copy_ar, "Cannot find function 'GetReturnValue' from rspgzip200_" MACHINE_ARP ".dll");
 
-		if(NULL == my_lzip__dll)
-		{
-			fatal_exit_k = 300;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			sprintf(copy_ar, "Cannot find DLL bw_lzip_aakp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                  Uncompress_gzip_ar_func = (void *)GetProcAddress(
+                      my_gzip_dll,
+                      "UncompressGzip_utf8_k");
 
-			strcpy(error_message_k, copy_ar);
+                  if (NULL == Uncompress_gzip_ar_func)
+                  {
+                        fatal_exit_k = 38;
 
-			goto dll_error_arp;
+                        sprintf(copy_ar, "Cannot find function 'UncompressGzip_utf8_k' from rspgzip200_" MACHINE_ARP ".dll");
 
-		}
-		else
-		{
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-			compress_lzip_rspk_ar_func = (void *) GetProcAddress(
-				my_lzip__dll,
-				"compress_lzip_rspk"
-				);
+      if (NULL == my_bz2__dll)
+      {
+            my_bz2__dll = LoadLibraryA(
+                "rspbzip2_" MACHINE_ARP ".dll");
 
-			if(NULL == compress_lzip_rspk_ar_func)
-			{
-				fatal_exit_k = 310;
+            if (NULL == my_bz2__dll)
+            {
+                  fatal_exit_k = 40;
 
-				sprintf(copy_ar, "Cannot find function 'compress_lzip_rspk' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
+                  sprintf(copy_ar, "Cannot find DLL rspbzip2_" MACHINE_ARP ".dll, it is required in the same path of the Tar DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  strcpy(error_message_k, copy_ar);
 
-			get_progress_lzip_ar_func = (void *) GetProcAddress(
-				my_lzip__dll,
-				"get_progress_lzip"
-				);
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-			if(NULL == get_progress_lzip_ar_func)
-			{
-				fatal_exit_k = 311;
+                  Compress_bzip2_ar_func = (void *)GetProcAddress(
+                      my_bz2__dll,
+                      "Compress");
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_lzip' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == Compress_bzip2_ar_func)
+                  {
+                        fatal_exit_k = 41;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'Compress' from rspbzip2_" MACHINE_ARP ".dll");
 
+                        strcpy(error_message_k, copy_ar);
+                  }
+                  GetStatus_bzip2_ar_func = (void *)GetProcAddress(
+                      my_bz2__dll,
+                      "GetStatus");
 
-			uncompress_lzip_rspk_ar_func = (void *) GetProcAddress(
-				my_lzip__dll,
-				"uncompress_lzip_rspk"
-				);
+                  if (NULL == GetStatus_bzip2_ar_func)
+                  {
+                        fatal_exit_k = 42;
 
-			if(NULL == uncompress_lzip_rspk_ar_func)
-			{
-				fatal_exit_k = 312;
+                        sprintf(copy_ar, "Cannot find function 'GetStatus' from rspbzip2_" MACHINE_ARP ".dll");
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_lzip_rspk' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
+                        strcpy(error_message_k, copy_ar);
+                  }
+                  GetProgress_bzip2_ar_func = (void *)GetProcAddress(
+                      my_bz2__dll,
+                      "GetProgress");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == GetProgress_bzip2_ar_func)
+                  {
+                        fatal_exit_k = 43;
 
+                        sprintf(copy_ar, "Cannot find function 'GetProgress' from rspbzip2_" MACHINE_ARP ".dll");
 
-			pause_lzip_aakp_lzip_ar_func = (void *) GetProcAddress(
-				my_lzip__dll,
-				"pause_lzip_aakp"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
+                  PauseCompress_bzip2_ar_func = (void *)GetProcAddress(
+                      my_bz2__dll,
+                      "PauseCompress");
 
-			if(NULL == pause_lzip_aakp_lzip_ar_func)
-			{
-				fatal_exit_k = 313;
+                  if (NULL == PauseCompress_bzip2_ar_func)
+                  {
+                        fatal_exit_k = 44;
 
-				sprintf(copy_ar, "Cannot find function 'pause_lzip_aakp' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'PauseCompress' from rspbzip2_" MACHINE_ARP ".dll");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
+                  ResumeCompress_bzip2_ar_func = (void *)GetProcAddress(
+                      my_bz2__dll,
+                      "ResumeCompress");
 
+                  if (NULL == ResumeCompress_bzip2_ar_func)
+                  {
+                        fatal_exit_k = 45;
 
-			resume_lzip_aakp_lzip_ar_func = (void *) GetProcAddress(
-				my_lzip__dll,
-				"resume_lzip_aakp"
-				);
+                        sprintf(copy_ar, "Cannot find function 'ResumeCompress' from rspbzip2_" MACHINE_ARP ".dll");
 
-			if(NULL == resume_lzip_aakp_lzip_ar_func)
-			{
-				fatal_exit_k = 314;
+                        strcpy(error_message_k, copy_ar);
+                  }
+                  CancelCompress_bzip2_ar_func = (void *)GetProcAddress(
+                      my_bz2__dll,
+                      "CancelCompress");
 
-				sprintf(copy_ar, "Cannot find function 'resume_lzip_aakp ;-)' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == CancelCompress_bzip2_ar_func)
+                  {
+                        fatal_exit_k = 46;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'CancelCompress' from rspbzip2_" MACHINE_ARP ".dll");
 
-			cancel_lzip_aakp_lzip_ar_func = (void *) GetProcAddress(
-				my_lzip__dll,
-				"cancel_lzip_aakp"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
+                  Decompress_bzip2_ar_func = (void *)GetProcAddress(
+                      my_bz2__dll,
+                      "Decompress");
 
-			if(NULL == cancel_lzip_aakp_lzip_ar_func)
-			{
-				fatal_exit_k = 315;
+                  if (NULL == Decompress_bzip2_ar_func)
+                  {
+                        fatal_exit_k = 47;
 
-				sprintf(copy_ar, "Cannot find function 'cancel_lzip_aakp' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'Decompress' from rspbzip2_" MACHINE_ARP ".dll");
 
-				strcpy(error_message_k, copy_ar);
-			}
-		}
-	}
-	if(NULL == my_lzma__dll)
-	{
-		my_lzma__dll = LoadLibraryA
-			       (
-			"rsp_lzma_aakp_" MACHINE_ARP ".dll"
-		               );
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-		if(NULL == my_lzma__dll)
-		{
-			fatal_exit_k = 400;
+                  GetReturnValue_bzip2_ar_func = (void *)GetProcAddress(
+                      my_bz2__dll,
+                      "GetReturnValue");
 
-			sprintf(copy_ar, "Cannot find DLL rsp_lzma_aakp_" MACHINE_ARP ".dll, it is required in the same path of the Tar DLL");
+                  if (NULL == GetReturnValue_bzip2_ar_func)
+                  {
+                        fatal_exit_k = 48;
 
-			strcpy(error_message_k, copy_ar);
+                        sprintf(copy_ar, "Cannot find function 'GetReturnValue' from rspbzip2_" MACHINE_ARP ".dll");
 
-			goto dll_error_arp;
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
+      if (NULL == my_lzip__dll)
+      {
+            my_lzip__dll = LoadLibraryA(
+                "bw_lzip_aakp_" MACHINE_ARP ".DLL");
 
-		}
-		else
-		{
+            if (NULL == my_lzip__dll)
+            {
+                  fatal_exit_k = 300;
 
-			compress_lzma_rspk_ar_func = (void *) GetProcAddress(
-				my_lzma__dll,
-				"compress_lzma_aakp_rspk"
-				);
+                  sprintf(copy_ar, "Cannot find DLL bw_lzip_aakp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-			if(NULL == compress_lzma_rspk_ar_func)
-			{
-				fatal_exit_k = 401;
+                  strcpy(error_message_k, copy_ar);
 
-				sprintf(copy_ar, "Cannot find function 'compress_lzma_aakp_rspk' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  compress_lzip_rspk_ar_func = (void *)GetProcAddress(
+                      my_lzip__dll,
+                      "compress_lzip_rspk");
 
-			uncompress_lzma_rspk_ar_func = (void *) GetProcAddress(
-				my_lzma__dll,
-				"uncompress_lzma_aakp_rspk"
-				);
+                  if (NULL == compress_lzip_rspk_ar_func)
+                  {
+                        fatal_exit_k = 310;
 
-			if(NULL == uncompress_lzma_rspk_ar_func)
-			{
-				fatal_exit_k = 402;
+                        sprintf(copy_ar, "Cannot find function 'compress_lzip_rspk' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_lzma_aakp_rspk' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  get_progress_lzip_ar_func = (void *)GetProcAddress(
+                      my_lzip__dll,
+                      "get_progress_lzip");
 
-			get_progress_lzma_ar_func = (void *) GetProcAddress(
-				my_lzma__dll,
-				"Progress"
-				);
+                  if (NULL == get_progress_lzip_ar_func)
+                  {
+                        fatal_exit_k = 311;
 
-			if(NULL == get_progress_lzma_ar_func)
-			{
-				fatal_exit_k = 403;
+                        sprintf(copy_ar, "Cannot find function 'get_progress_lzip' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'Progress' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  uncompress_lzip_rspk_ar_func = (void *)GetProcAddress(
+                      my_lzip__dll,
+                      "uncompress_lzip_rspk");
 
-			pause_lzma_aakp_lzma_ar_func = (void *) GetProcAddress(
-				my_lzma__dll,
-				"Pause"
-				);
+                  if (NULL == uncompress_lzip_rspk_ar_func)
+                  {
+                        fatal_exit_k = 312;
 
-			if(NULL == pause_lzma_aakp_lzma_ar_func)
-			{
-				fatal_exit_k = 404;
+                        sprintf(copy_ar, "Cannot find function 'uncompress_lzip_rspk' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'Pause' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  pause_lzip_aakp_lzip_ar_func = (void *)GetProcAddress(
+                      my_lzip__dll,
+                      "pause_lzip_aakp");
 
-			resume_lzma_aakp_lzma_ar_func = (void *) GetProcAddress(
-				my_lzma__dll,
-				"Resume"
-				);
+                  if (NULL == pause_lzip_aakp_lzip_ar_func)
+                  {
+                        fatal_exit_k = 313;
 
-			if(NULL == resume_lzma_aakp_lzma_ar_func)
-			{
-				fatal_exit_k = 405;
+                        sprintf(copy_ar, "Cannot find function 'pause_lzip_aakp' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'Resume' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  resume_lzip_aakp_lzip_ar_func = (void *)GetProcAddress(
+                      my_lzip__dll,
+                      "resume_lzip_aakp");
 
-			cancel_lzma_aakp_lzma_ar_func = (void *) GetProcAddress(
-				my_lzma__dll,
-				"Cancel"
-				);
+                  if (NULL == resume_lzip_aakp_lzip_ar_func)
+                  {
+                        fatal_exit_k = 314;
 
-			if(NULL == cancel_lzma_aakp_lzma_ar_func)
-			{
-				fatal_exit_k = 406;
+                        sprintf(copy_ar, "Cannot find function 'resume_lzip_aakp ;-)' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'Cancel' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
-		}
-	}
+                  cancel_lzip_aakp_lzip_ar_func = (void *)GetProcAddress(
+                      my_lzip__dll,
+                      "cancel_lzip_aakp");
 
-	if(NULL == my_xz____dll)
-	{
-		my_xz____dll = LoadLibraryA
-			       (
-			"rsp_xz_aakp_" MACHINE_ARP ".DLL"
-		               );
+                  if (NULL == cancel_lzip_aakp_lzip_ar_func)
+                  {
+                        fatal_exit_k = 315;
 
-		if(NULL == my_xz____dll)
-		{
-			fatal_exit_k = 700;
+                        sprintf(copy_ar, "Cannot find function 'cancel_lzip_aakp' from bw_lzip_aakp_" MACHINE_ARP ".DLL");
 
-			sprintf(copy_ar, "Cannot find DLL rsp_xz_aakp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
+      
+      if (NULL == my_lzma__dll)
+      {
+            my_lzma__dll = LoadLibraryA(
+                "rsp_lzma_aakp_" MACHINE_ARP ".dll");
 
-			strcpy(error_message_k, copy_ar);
+            if (NULL == my_lzma__dll)
+            {
+                  fatal_exit_k = 400;
 
-			goto dll_error_arp;
+                  sprintf(copy_ar, "Cannot find DLL rsp_lzma_aakp_" MACHINE_ARP ".dll, it is required in the same path of the Tar DLL");
 
-		}
-		else
-		{
+                  strcpy(error_message_k, copy_ar);
 
-			compress_xz___rspk_ar_func = (void *) GetProcAddress
-				                     (
-				my_xz____dll
-				,
-				"Compress"
-			                             );
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-			if(NULL == compress_xz___rspk_ar_func)
-			{
-				fatal_exit_k = 701;
+                  compress_lzma_rspk_ar_func = (void *)GetProcAddress(
+                      my_lzma__dll,
+                      "compress_lzma_aakp_rspk");
 
-				sprintf(copy_ar, "Cannot find function 'Compress' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == compress_lzma_rspk_ar_func)
+                  {
+                        fatal_exit_k = 401;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'compress_lzma_aakp_rspk' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
 
-			uncompress_xz___rspk_ar_func = (void *) GetProcAddress
-				                       (
-				my_xz____dll
-				,
-				"Uncompress"
-			                               );
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == uncompress_xz___rspk_ar_func)
-			{
-				fatal_exit_k = 702;
+                  uncompress_lzma_rspk_ar_func = (void *)GetProcAddress(
+                      my_lzma__dll,
+                      "uncompress_lzma_aakp_rspk");
 
-				sprintf(copy_ar, "Cannot find function 'Uncompress' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == uncompress_lzma_rspk_ar_func)
+                  {
+                        fatal_exit_k = 402;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'uncompress_lzma_aakp_rspk' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
 
-			get_progress_xz___ar_func = (void *) GetProcAddress
-				                    (
-				my_xz____dll
-				,
-				"Progress"
-			                            );
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == get_progress_xz___ar_func)
-			{
-				fatal_exit_k = 703;
+                  get_progress_lzma_ar_func = (void *)GetProcAddress(
+                      my_lzma__dll,
+                      "Progress");
 
-				sprintf(copy_ar, "Cannot find function 'Progress' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == get_progress_lzma_ar_func)
+                  {
+                        fatal_exit_k = 403;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'Progress' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
 
-			pause_xz___aakp_xz___ar_func = (void *) GetProcAddress
-				                       (
-				my_xz____dll
-				,
-				"Pause"
-			                               );
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == pause_xz___aakp_xz___ar_func)
-			{
-				fatal_exit_k = 704;
+                  pause_lzma_aakp_lzma_ar_func = (void *)GetProcAddress(
+                      my_lzma__dll,
+                      "Pause");
 
-				sprintf(copy_ar, "Cannot find function 'Pause' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == pause_lzma_aakp_lzma_ar_func)
+                  {
+                        fatal_exit_k = 404;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'Pause' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
 
-			resume_xz___aakp_xz___ar_func = (void *) GetProcAddress
-				                        (
-				my_xz____dll
-				,
-				"Resume"
-			                                );
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == resume_xz___aakp_xz___ar_func)
-			{
-				fatal_exit_k = 705;
+                  resume_lzma_aakp_lzma_ar_func = (void *)GetProcAddress(
+                      my_lzma__dll,
+                      "Resume");
 
-				sprintf(copy_ar, "Cannot find function 'Resume' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == resume_lzma_aakp_lzma_ar_func)
+                  {
+                        fatal_exit_k = 405;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'Resume' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
 
-			cancel_xz___aakp_xz___ar_func = (void *) GetProcAddress
-				                        (
-				my_xz____dll
-				,
-				"Cancel"
-			                                );
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == cancel_xz___aakp_xz___ar_func)
-			{
-				fatal_exit_k = 706;
+                  cancel_lzma_aakp_lzma_ar_func = (void *)GetProcAddress(
+                      my_lzma__dll,
+                      "Cancel");
 
-				sprintf(copy_ar, "Cannot find function 'Cancel' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == cancel_lzma_aakp_lzma_ar_func)
+                  {
+                        fatal_exit_k = 406;
 
-				strcpy(error_message_k, copy_ar);
-			}
-		}
-	}
+                        sprintf(copy_ar, "Cannot find function 'Cancel' from rsp_lzma_aakp_" MACHINE_ARP ".dLl");
 
-	if(NULL == my_co____dll)
-	{
-	     
-		my_co____dll = LoadLibraryA
-			       (
-			"BE_compress_aakp_" MACHINE_ARP ".DLL"
-		               );
-		
-		if(NULL == my_co____dll)
-		{
-			fatal_exit_k = 800;
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-			sprintf(copy_ar, "Cannot find DLL BE_compress_aakp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+      if (NULL == my_xz____dll)
+      {
+            my_xz____dll = LoadLibraryA(
+                "rsp_xz_aakp_" MACHINE_ARP ".DLL");
 
-			strcpy(error_message_k, copy_ar);
+            if (NULL == my_xz____dll)
+            {
+                  fatal_exit_k = 700;
 
-			goto dll_error_arp;
+                  sprintf(copy_ar, "Cannot find DLL rsp_xz_aakp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-		}
-		else
-		{
+                  strcpy(error_message_k, copy_ar);
 
-			compress_co___rspk_ar_func = (void *) GetProcAddress(
-				my_co____dll,
-				"compress_co___rspk_ar"
-				);
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-			if(NULL == compress_co___rspk_ar_func)
-			{
-				fatal_exit_k = 801;
+                  compress_xz___rspk_ar_func = (void *)GetProcAddress(
+                      my_xz____dll,
+                      "Compress");
 
-				sprintf(copy_ar, "Cannot find function 'compress_co___rspk_ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == compress_xz___rspk_ar_func)
+                  {
+                        fatal_exit_k = 701;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'Compress' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
 
-			uncompress_co___rspk_ar_func = (void *) GetProcAddress(
-				my_co____dll,
-				"uncompress_co___rspk_ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == uncompress_co___rspk_ar_func)
-			{
-				fatal_exit_k = 802;
+                  uncompress_xz___rspk_ar_func = (void *)GetProcAddress(
+                      my_xz____dll,
+                      "Uncompress");
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_co___rspk_ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == uncompress_xz___rspk_ar_func)
+                  {
+                        fatal_exit_k = 702;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'Uncompress' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
 
-			get_progress_co___ar_func = (void *) GetProcAddress(
-				my_co____dll,
-				"get_progress_co___ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == get_progress_co___ar_func)
-			{
-				fatal_exit_k = 803;
+                  get_progress_xz___ar_func = (void *)GetProcAddress(
+                      my_xz____dll,
+                      "Progress");
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_co___ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == get_progress_xz___ar_func)
+                  {
+                        fatal_exit_k = 703;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'Progress' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
 
-			pause_co___aakp_co___ar_func = (void *) GetProcAddress(
-				my_co____dll,
-				"pause_co___aakp_co___ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == pause_co___aakp_co___ar_func)
-			{
-				fatal_exit_k = 804;
+                  pause_xz___aakp_xz___ar_func = (void *)GetProcAddress(
+                      my_xz____dll,
+                      "Pause");
 
-				sprintf(copy_ar, "Cannot find function 'pause_co___aakp_co___ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == pause_xz___aakp_xz___ar_func)
+                  {
+                        fatal_exit_k = 704;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'Pause' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
 
-			resume_co___aakp_co___ar_func = (void *) GetProcAddress(
-				my_co____dll,
-				"resume_co___aakp_co___ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == resume_co___aakp_co___ar_func)
-			{
-				fatal_exit_k = 805;
+                  resume_xz___aakp_xz___ar_func = (void *)GetProcAddress(
+                      my_xz____dll,
+                      "Resume");
 
-				sprintf(copy_ar, "Cannot find function 'resume_co___aakp_co___ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == resume_xz___aakp_xz___ar_func)
+                  {
+                        fatal_exit_k = 705;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'Resume' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
 
-			cancel_co___aakp_co___ar_func = (void *) GetProcAddress(
-				my_co____dll,
-				"cancel_co___aakp_co___ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == cancel_co___aakp_co___ar_func)
-			{
-				fatal_exit_k = 806;
+                  cancel_xz___aakp_xz___ar_func = (void *)GetProcAddress(
+                      my_xz____dll,
+                      "Cancel");
 
-				sprintf(copy_ar, "Cannot find function 'cancel_co___aakp_co___ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == cancel_xz___aakp_xz___ar_func)
+                  {
+                        fatal_exit_k = 706;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'Cancel' from rsp_xz_aakp_" MACHINE_ARP ".DLL");
 
-		}
-	}
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-	if(NULL == my_ju____dll)
-	{
-		my_ju____dll = LoadLibraryA
-			       (
-			"BE_lzop_arp_" MACHINE_ARP ".DLL"
-		               );
+      if (NULL == my_co____dll)
+      {
 
-		if(NULL == my_ju____dll)
-		{
-			fatal_exit_k = 900;
+            my_co____dll = LoadLibraryA(
+                "BE_compress_aakp_" MACHINE_ARP ".DLL");
 
-			sprintf(copy_ar, "Cannot find DLL BE_lzop_arp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+            if (NULL == my_co____dll)
+            {
+                  fatal_exit_k = 800;
 
-			strcpy(error_message_k, copy_ar);
+                  sprintf(copy_ar, "Cannot find DLL BE_compress_aakp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-			goto dll_error_arp;
+                  strcpy(error_message_k, copy_ar);
 
-		}
-		else
-		{
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-			compress_ju___rspk_ar_func = (void *) GetProcAddress(
-				my_ju____dll,
-				"compress_ju___rspk_ar"
-				);
+                  compress_co___rspk_ar_func = (void *)GetProcAddress(
+                      my_co____dll,
+                      "compress_co___rspk_ar");
 
-			if(NULL == compress_ju___rspk_ar_func)
-			{
-				fatal_exit_k = 901;
+                  if (NULL == compress_co___rspk_ar_func)
+                  {
+                        fatal_exit_k = 801;
 
-				sprintf(copy_ar, "Cannot find function 'compress_ju___rspk_ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'compress_co___rspk_ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			uncompress_ju___rspk_ar_func = (void *) GetProcAddress(
-				my_ju____dll,
-				"uncompress_ju___rspk_ar"
-				);
+                  uncompress_co___rspk_ar_func = (void *)GetProcAddress(
+                      my_co____dll,
+                      "uncompress_co___rspk_ar");
 
-			if(NULL == uncompress_ju___rspk_ar_func)
-			{
-				fatal_exit_k = 902;
+                  if (NULL == uncompress_co___rspk_ar_func)
+                  {
+                        fatal_exit_k = 802;
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_ju___rspk_ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'uncompress_co___rspk_ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			get_progress_ju___ar_func = (void *) GetProcAddress(
-				my_ju____dll,
-				"get_progress_ju___ar"
-				);
+                  get_progress_co___ar_func = (void *)GetProcAddress(
+                      my_co____dll,
+                      "get_progress_co___ar");
 
-			if(NULL == get_progress_ju___ar_func)
-			{
-				fatal_exit_k = 903;
+                  if (NULL == get_progress_co___ar_func)
+                  {
+                        fatal_exit_k = 803;
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_ju___ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'get_progress_co___ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			pause_ju___aakp_ju___ar_func = (void *) GetProcAddress(
-				my_ju____dll,
-				"pause_ju___aakp_ju___ar"
-				);
+                  pause_co___aakp_co___ar_func = (void *)GetProcAddress(
+                      my_co____dll,
+                      "pause_co___aakp_co___ar");
 
-			if(NULL == pause_ju___aakp_ju___ar_func)
-			{
-				fatal_exit_k = 904;
+                  if (NULL == pause_co___aakp_co___ar_func)
+                  {
+                        fatal_exit_k = 804;
 
-				sprintf(copy_ar, "Cannot find function 'pause_ju___aakp_ju___ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'pause_co___aakp_co___ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			resume_ju___aakp_ju___ar_func = (void *) GetProcAddress(
-				my_ju____dll,
-				"resume_ju___aakp_ju___ar"
-				);
+                  resume_co___aakp_co___ar_func = (void *)GetProcAddress(
+                      my_co____dll,
+                      "resume_co___aakp_co___ar");
 
-			if(NULL == resume_ju___aakp_ju___ar_func)
-			{
-				fatal_exit_k = 905;
+                  if (NULL == resume_co___aakp_co___ar_func)
+                  {
+                        fatal_exit_k = 805;
 
-				sprintf(copy_ar, "Cannot find function 'resume_ju___aakp_ju___ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'resume_co___aakp_co___ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			cancel_ju___aakp_ju___ar_func = (void *) GetProcAddress(
-				my_ju____dll,
-				"cancel_ju___aakp_ju___ar"
-				);
+                  cancel_co___aakp_co___ar_func = (void *)GetProcAddress(
+                      my_co____dll,
+                      "cancel_co___aakp_co___ar");
 
-			if(NULL == cancel_ju___aakp_ju___ar_func)
-			{
-				fatal_exit_k = 906;
+                  if (NULL == cancel_co___aakp_co___ar_func)
+                  {
+                        fatal_exit_k = 806;
 
-				sprintf(copy_ar, "Cannot find function 'cancel_ju___aakp_ju___ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'cancel_co___aakp_co___ar' from BE_compress_aakp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-		}
-	}
+      if (NULL == my_ju____dll)
+      {
+            my_ju____dll = LoadLibraryA(
+                "BE_lzop_arp_" MACHINE_ARP ".DLL");
 
-	if(NULL == my_l4____dll)
-	{
-		my_l4____dll = LoadLibraryA
-			       (
-			"rsp_lz4_arp_" MACHINE_ARP ".DLL"
-		               );
+            if (NULL == my_ju____dll)
+            {
+                  fatal_exit_k = 900;
 
-		if(NULL == my_l4____dll)
-		{
-			fatal_exit_k = 1100;
+                  sprintf(copy_ar, "Cannot find DLL BE_lzop_arp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-			sprintf(copy_ar, "Cannot find DLL rsp_lz4_arp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                  strcpy(error_message_k, copy_ar);
 
-			strcpy(error_message_k, copy_ar);
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-			goto dll_error_arp;
+                  compress_ju___rspk_ar_func = (void *)GetProcAddress(
+                      my_ju____dll,
+                      "compress_ju___rspk_ar");
 
-		}
-		else
-		{
+                  if (NULL == compress_ju___rspk_ar_func)
+                  {
+                        fatal_exit_k = 901;
 
-			compress_l4___rspk_ar_func = (void *) GetProcAddress(
-				my_l4____dll,
-				"compress_l4___rspk_ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'compress_ju___rspk_ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == compress_l4___rspk_ar_func)
-			{
-				fatal_exit_k = 1101;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'compress_l4___rspk_ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
+                  uncompress_ju___rspk_ar_func = (void *)GetProcAddress(
+                      my_ju____dll,
+                      "uncompress_ju___rspk_ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == uncompress_ju___rspk_ar_func)
+                  {
+                        fatal_exit_k = 902;
 
-			uncompress_l4___rspk_ar_func = (void *) GetProcAddress(
-				my_l4____dll,
-				"uncompress_l4___rspk_ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'uncompress_ju___rspk_ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == uncompress_l4___rspk_ar_func)
-			{
-				fatal_exit_k = 1102;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_l4___rspk_ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
+                  get_progress_ju___ar_func = (void *)GetProcAddress(
+                      my_ju____dll,
+                      "get_progress_ju___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == get_progress_ju___ar_func)
+                  {
+                        fatal_exit_k = 903;
 
-			get_progress_l4___ar_func = (void *) GetProcAddress(
-				my_l4____dll,
-				"get_progress_l4___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'get_progress_ju___ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == get_progress_l4___ar_func)
-			{
-				fatal_exit_k = 1103;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_l4___ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
+                  pause_ju___aakp_ju___ar_func = (void *)GetProcAddress(
+                      my_ju____dll,
+                      "pause_ju___aakp_ju___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == pause_ju___aakp_ju___ar_func)
+                  {
+                        fatal_exit_k = 904;
 
-			pause_l4___aakp_l4___ar_func = (void *) GetProcAddress(
-				my_l4____dll,
-				"pause_l4___aakp_l4___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'pause_ju___aakp_ju___ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == pause_l4___aakp_l4___ar_func)
-			{
-				fatal_exit_k = 1104;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'pause_l4___aakp_l4___ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
+                  resume_ju___aakp_ju___ar_func = (void *)GetProcAddress(
+                      my_ju____dll,
+                      "resume_ju___aakp_ju___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == resume_ju___aakp_ju___ar_func)
+                  {
+                        fatal_exit_k = 905;
 
-			resume_l4___aakp_l4___ar_func = (void *) GetProcAddress(
-				my_l4____dll,
-				"resume_l4___aakp_l4___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'resume_ju___aakp_ju___ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == resume_l4___aakp_l4___ar_func)
-			{
-				fatal_exit_k = 1105;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'resume_l4___aakp_l4___ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
+                  cancel_ju___aakp_ju___ar_func = (void *)GetProcAddress(
+                      my_ju____dll,
+                      "cancel_ju___aakp_ju___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == cancel_ju___aakp_ju___ar_func)
+                  {
+                        fatal_exit_k = 906;
 
-			cancel_l4___aakp_l4___ar_func = (void *) GetProcAddress(
-				my_l4____dll,
-				"cancel_l4___aakp_l4___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'cancel_ju___aakp_ju___ar' from BE_lzop_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == cancel_l4___aakp_l4___ar_func)
-			{
-				fatal_exit_k = 1106;
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-				sprintf(copy_ar, "Cannot find function 'cancel_l4___aakp_l4___ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
+      if (NULL == my_l4____dll)
+      {
+            my_l4____dll = LoadLibraryA(
+                "rsp_lz4_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+            if (NULL == my_l4____dll)
+            {
+                  fatal_exit_k = 1100;
 
-		}
-	}
+                  sprintf(copy_ar, "Cannot find DLL rsp_lz4_arp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-	if(NULL == my_zs____dll)
-	{
-		my_zs____dll = LoadLibraryA
-			       (
-			"RSP_Zstandard_arp_" MACHINE_ARP ".DLL"
-		               );
+                  strcpy(error_message_k, copy_ar);
 
-		if(NULL == my_zs____dll)
-		{
-			fatal_exit_k = 1200;
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-			sprintf(copy_ar, "Cannot find DLL RSP_Zstandard_arp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                  compress_l4___rspk_ar_func = (void *)GetProcAddress(
+                      my_l4____dll,
+                      "compress_l4___rspk_ar");
 
-			strcpy(error_message_k, copy_ar);
+                  if (NULL == compress_l4___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1101;
 
-			goto dll_error_arp;
+                        sprintf(copy_ar, "Cannot find function 'compress_l4___rspk_ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
 
-		}
-		else
-		{
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			compress_zs___rspk_ar_func = (void *) GetProcAddress(
-				my_zs____dll,
-				"compress_zs___rspk_ar"
-				);
+                  uncompress_l4___rspk_ar_func = (void *)GetProcAddress(
+                      my_l4____dll,
+                      "uncompress_l4___rspk_ar");
 
-			if(NULL == compress_zs___rspk_ar_func)
-			{
-				fatal_exit_k = 1201;
+                  if (NULL == uncompress_l4___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1102;
 
-				sprintf(copy_ar, "Cannot find function 'compress_zs___rspk_ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'uncompress_l4___rspk_ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			uncompress_zs___rspk_ar_func = (void *) GetProcAddress(
-				my_zs____dll,
-				"uncompress_zs___rspk_ar"
-				);
+                  get_progress_l4___ar_func = (void *)GetProcAddress(
+                      my_l4____dll,
+                      "get_progress_l4___ar");
 
-			if(NULL == uncompress_zs___rspk_ar_func)
-			{
-				fatal_exit_k = 1202;
+                  if (NULL == get_progress_l4___ar_func)
+                  {
+                        fatal_exit_k = 1103;
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_zs___rspk_ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'get_progress_l4___ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			get_progress_zs___ar_func = (void *) GetProcAddress(
-				my_zs____dll,
-				"get_progress_zs___ar"
-				);
+                  pause_l4___aakp_l4___ar_func = (void *)GetProcAddress(
+                      my_l4____dll,
+                      "pause_l4___aakp_l4___ar");
 
-			if(NULL == get_progress_zs___ar_func)
-			{
-				fatal_exit_k = 1203;
+                  if (NULL == pause_l4___aakp_l4___ar_func)
+                  {
+                        fatal_exit_k = 1104;
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_zs___ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'pause_l4___aakp_l4___ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			pause_zs___aakp_zs___ar_func = (void *) GetProcAddress(
-				my_zs____dll,
-				"pause_zs___aakp_zs___ar"
-				);
+                  resume_l4___aakp_l4___ar_func = (void *)GetProcAddress(
+                      my_l4____dll,
+                      "resume_l4___aakp_l4___ar");
 
-			if(NULL == pause_zs___aakp_zs___ar_func)
-			{
-				fatal_exit_k = 1204;
+                  if (NULL == resume_l4___aakp_l4___ar_func)
+                  {
+                        fatal_exit_k = 1105;
 
-				sprintf(copy_ar, "Cannot find function 'pause_zs___aakp_zs___ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'resume_l4___aakp_l4___ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			resume_zs___aakp_zs___ar_func = (void *) GetProcAddress(
-				my_zs____dll,
-				"resume_zs___aakp_zs___ar"
-				);
+                  cancel_l4___aakp_l4___ar_func = (void *)GetProcAddress(
+                      my_l4____dll,
+                      "cancel_l4___aakp_l4___ar");
 
-			if(NULL == resume_zs___aakp_zs___ar_func)
-			{
-				fatal_exit_k = 1205;
+                  if (NULL == cancel_l4___aakp_l4___ar_func)
+                  {
+                        fatal_exit_k = 1106;
 
-				sprintf(copy_ar, "Cannot find function 'resume_zs___aakp_zs___ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'cancel_l4___aakp_l4___ar' from rsp_lz4_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-			cancel_zs___aakp_zs___ar_func = (void *) GetProcAddress(
-				my_zs____dll,
-				"cancel_zs___aakp_zs___ar"
-				);
+      if (NULL == my_zs____dll)
+      {
+            my_zs____dll = LoadLibraryA(
+                "RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == cancel_zs___aakp_zs___ar_func)
-			{
-				fatal_exit_k = 1206;
+            if (NULL == my_zs____dll)
+            {
+                  fatal_exit_k = 1200;
 
-				sprintf(copy_ar, "Cannot find function 'cancel_zs___aakp_zs___ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
+                  sprintf(copy_ar, "Cannot find DLL RSP_Zstandard_arp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  strcpy(error_message_k, copy_ar);
 
-		}
-	}
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-	if(NULL == my_br____dll)
-	{
-		my_br____dll = LoadLibraryA
-			       (
-			"rsp_brotli_arp_" MACHINE_ARP ".DLL"
-		               );
+                  compress_zs___rspk_ar_func = (void *)GetProcAddress(
+                      my_zs____dll,
+                      "compress_zs___rspk_ar");
 
-		if(NULL == my_br____dll)
-		{
-			fatal_exit_k = 1300;
+                  if (NULL == compress_zs___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1201;
 
-			sprintf(copy_ar, "Cannot find DLL rsp_brotli_arp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                        sprintf(copy_ar, "Cannot find function 'compress_zs___rspk_ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
 
-			strcpy(error_message_k, copy_ar);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			goto dll_error_arp;
+                  uncompress_zs___rspk_ar_func = (void *)GetProcAddress(
+                      my_zs____dll,
+                      "uncompress_zs___rspk_ar");
 
-		}
-		else
-		{
+                  if (NULL == uncompress_zs___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1202;
 
-			compress_br___rspk_ar_func = (void *) GetProcAddress(
-				my_br____dll,
-				"compress_br___rspk_ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'uncompress_zs___rspk_ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == compress_br___rspk_ar_func)
-			{
-				fatal_exit_k = 1301;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'compress_br___rspk_ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
+                  get_progress_zs___ar_func = (void *)GetProcAddress(
+                      my_zs____dll,
+                      "get_progress_zs___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == get_progress_zs___ar_func)
+                  {
+                        fatal_exit_k = 1203;
 
-			uncompress_br___rspk_ar_func = (void *) GetProcAddress(
-				my_br____dll,
-				"uncompress_br___rspk_ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'get_progress_zs___ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == uncompress_br___rspk_ar_func)
-			{
-				fatal_exit_k = 1302;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_br___rspk_ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
+                  pause_zs___aakp_zs___ar_func = (void *)GetProcAddress(
+                      my_zs____dll,
+                      "pause_zs___aakp_zs___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == pause_zs___aakp_zs___ar_func)
+                  {
+                        fatal_exit_k = 1204;
 
-			get_progress_br___ar_func = (void *) GetProcAddress(
-				my_br____dll,
-				"get_progress_br___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'pause_zs___aakp_zs___ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == get_progress_br___ar_func)
-			{
-				fatal_exit_k = 1303;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_br___ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
+                  resume_zs___aakp_zs___ar_func = (void *)GetProcAddress(
+                      my_zs____dll,
+                      "resume_zs___aakp_zs___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == resume_zs___aakp_zs___ar_func)
+                  {
+                        fatal_exit_k = 1205;
 
-			pause_br___aakp_br___ar_func = (void *) GetProcAddress(
-				my_br____dll,
-				"pause_br___aakp_br___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'resume_zs___aakp_zs___ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == pause_br___aakp_br___ar_func)
-			{
-				fatal_exit_k = 1304;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'pause_br___aakp_br___ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
+                  cancel_zs___aakp_zs___ar_func = (void *)GetProcAddress(
+                      my_zs____dll,
+                      "cancel_zs___aakp_zs___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == cancel_zs___aakp_zs___ar_func)
+                  {
+                        fatal_exit_k = 1206;
 
-			resume_br___aakp_br___ar_func = (void *) GetProcAddress(
-				my_br____dll,
-				"resume_br___aakp_br___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'cancel_zs___aakp_zs___ar' from RSP_Zstandard_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == resume_br___aakp_br___ar_func)
-			{
-				fatal_exit_k = 1305;
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-				sprintf(copy_ar, "Cannot find function 'resume_br___aakp_br___ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
+      if (NULL == my_br____dll)
+      {
+            my_br____dll = LoadLibraryA(
+                "rsp_brotli_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+            if (NULL == my_br____dll)
+            {
+                  fatal_exit_k = 1300;
 
-			cancel_br___aakp_br___ar_func = (void *) GetProcAddress(
-				my_br____dll,
-				"cancel_br___aakp_br___ar"
-				);
+                  sprintf(copy_ar, "Cannot find DLL rsp_brotli_arp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-			if(NULL == cancel_br___aakp_br___ar_func)
-			{
-				fatal_exit_k = 1306;
+                  strcpy(error_message_k, copy_ar);
 
-				sprintf(copy_ar, "Cannot find function 'cancel_br___aakp_br___ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  compress_br___rspk_ar_func = (void *)GetProcAddress(
+                      my_br____dll,
+                      "compress_br___rspk_ar");
 
-		}
-	}
+                  if (NULL == compress_br___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1301;
 
-	if(NULL == my_g2____dll)
-	{
-		my_g2____dll = LoadLibraryA
-			       (
-			"rsp_gzip2_" MACHINE_ARP ".DLL"
-		               );
+                        sprintf(copy_ar, "Cannot find function 'compress_br___rspk_ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
 
-		if(NULL == my_g2____dll)
-		{
-			fatal_exit_k = 1400;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			sprintf(copy_ar, "Cannot find DLL rsp_gzip2_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                  uncompress_br___rspk_ar_func = (void *)GetProcAddress(
+                      my_br____dll,
+                      "uncompress_br___rspk_ar");
 
-			strcpy(error_message_k, copy_ar);
+                  if (NULL == uncompress_br___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1302;
 
-			goto dll_error_arp;
+                        sprintf(copy_ar, "Cannot find function 'uncompress_br___rspk_ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
 
-		}
-		else
-		{
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			compress_g2___rspk_ar_func = (void *) GetProcAddress(
-				my_g2____dll,
-				"compress_g2___rspk_ar"
-				);
+                  get_progress_br___ar_func = (void *)GetProcAddress(
+                      my_br____dll,
+                      "get_progress_br___ar");
 
-			if(NULL == compress_g2___rspk_ar_func)
-			{
-				fatal_exit_k = 1401;
+                  if (NULL == get_progress_br___ar_func)
+                  {
+                        fatal_exit_k = 1303;
 
-				sprintf(copy_ar, "Cannot find function 'compress_g2___rspk_ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'get_progress_br___ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			uncompress_g2___rspk_ar_func = (void *) GetProcAddress(
-				my_g2____dll,
-				"uncompress_g2___rspk_ar"
-				);
+                  pause_br___aakp_br___ar_func = (void *)GetProcAddress(
+                      my_br____dll,
+                      "pause_br___aakp_br___ar");
 
-			if(NULL == uncompress_g2___rspk_ar_func)
-			{
-				fatal_exit_k = 1402;
+                  if (NULL == pause_br___aakp_br___ar_func)
+                  {
+                        fatal_exit_k = 1304;
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_g2___rspk_ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'pause_br___aakp_br___ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			get_progress_g2___ar_func = (void *) GetProcAddress(
-				my_g2____dll,
-				"get_progress_g2___ar"
-				);
+                  resume_br___aakp_br___ar_func = (void *)GetProcAddress(
+                      my_br____dll,
+                      "resume_br___aakp_br___ar");
 
-			if(NULL == get_progress_g2___ar_func)
-			{
-				fatal_exit_k = 1403;
+                  if (NULL == resume_br___aakp_br___ar_func)
+                  {
+                        fatal_exit_k = 1305;
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_g2___ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'resume_br___aakp_br___ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			pause_g2___aakp_g2___ar_func = (void *) GetProcAddress(
-				my_g2____dll,
-				"pause_g2___aakp_g2___ar"
-				);
+                  cancel_br___aakp_br___ar_func = (void *)GetProcAddress(
+                      my_br____dll,
+                      "cancel_br___aakp_br___ar");
 
-			if(NULL == pause_g2___aakp_g2___ar_func)
-			{
-				fatal_exit_k = 1404;
+                  if (NULL == cancel_br___aakp_br___ar_func)
+                  {
+                        fatal_exit_k = 1306;
 
-				sprintf(copy_ar, "Cannot find function 'pause_g2___aakp_g2___ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
+                        sprintf(copy_ar, "Cannot find function 'cancel_br___aakp_br___ar' from rsp_brotli_arp_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-			resume_g2___aakp_g2___ar_func = (void *) GetProcAddress(
-				my_g2____dll,
-				"resume_g2___aakp_g2___ar"
-				);
+      if (NULL == my_g2____dll)
+      {
+            my_g2____dll = LoadLibraryA(
+                "rsp_gzip2_" MACHINE_ARP ".DLL");
 
-			if(NULL == resume_g2___aakp_g2___ar_func)
-			{
-				fatal_exit_k = 1405;
+            if (NULL == my_g2____dll)
+            {
+                  fatal_exit_k = 1400;
 
-				sprintf(copy_ar, "Cannot find function 'resume_g2___aakp_g2___ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
+                  sprintf(copy_ar, "Cannot find DLL rsp_gzip2_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  strcpy(error_message_k, copy_ar);
 
-			cancel_g2___aakp_g2___ar_func = (void *) GetProcAddress(
-				my_g2____dll,
-				"cancel_g2___aakp_g2___ar"
-				);
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-			if(NULL == cancel_g2___aakp_g2___ar_func)
-			{
-				fatal_exit_k = 1406;
+                  compress_g2___rspk_ar_func = (void *)GetProcAddress(
+                      my_g2____dll,
+                      "compress_g2___rspk_ar");
 
-				sprintf(copy_ar, "Cannot find function 'cancel_g2___aakp_g2___ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
+                  if (NULL == compress_g2___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1401;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'compress_g2___rspk_ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
 
-		}
-	}
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-	if(NULL == my_b3____dll)
-	{
-		my_b3____dll = LoadLibraryA
-			       (
-			"rsp_bzip3_" MACHINE_ARP ".DLL"
-		               );
+                  uncompress_g2___rspk_ar_func = (void *)GetProcAddress(
+                      my_g2____dll,
+                      "uncompress_g2___rspk_ar");
 
-		if(NULL == my_b3____dll)
-		{
-			fatal_exit_k = 1500;
+                  if (NULL == uncompress_g2___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1402;
 
-			sprintf(copy_ar, "Cannot find DLL rsp_bzip3_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                        sprintf(copy_ar, "Cannot find function 'uncompress_g2___rspk_ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
 
-			strcpy(error_message_k, copy_ar);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			goto dll_error_arp;
+                  get_progress_g2___ar_func = (void *)GetProcAddress(
+                      my_g2____dll,
+                      "get_progress_g2___ar");
 
-		}
-		else
-		{
+                  if (NULL == get_progress_g2___ar_func)
+                  {
+                        fatal_exit_k = 1403;
 
-			compress_b3___rspk_ar_func = (void *) GetProcAddress(
-				my_b3____dll,
-				"compress_b3___rspk_ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'get_progress_g2___ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
 
-			if(NULL == compress_b3___rspk_ar_func)
-			{
-				fatal_exit_k = 1501;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'compress_b3___rspk_ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
+                  pause_g2___aakp_g2___ar_func = (void *)GetProcAddress(
+                      my_g2____dll,
+                      "pause_g2___aakp_g2___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == pause_g2___aakp_g2___ar_func)
+                  {
+                        fatal_exit_k = 1404;
 
-			uncompress_b3___rspk_ar_func = (void *) GetProcAddress(
-				my_b3____dll,
-				"uncompress_b3___rspk_ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'pause_g2___aakp_g2___ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
 
-			if(NULL == uncompress_b3___rspk_ar_func)
-			{
-				fatal_exit_k = 1502;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_b3___rspk_ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
+                  resume_g2___aakp_g2___ar_func = (void *)GetProcAddress(
+                      my_g2____dll,
+                      "resume_g2___aakp_g2___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == resume_g2___aakp_g2___ar_func)
+                  {
+                        fatal_exit_k = 1405;
 
-			get_progress_b3___ar_func = (void *) GetProcAddress(
-				my_b3____dll,
-				"get_progress_b3___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'resume_g2___aakp_g2___ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
 
-			if(NULL == get_progress_b3___ar_func)
-			{
-				fatal_exit_k = 1503;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_b3___ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
+                  cancel_g2___aakp_g2___ar_func = (void *)GetProcAddress(
+                      my_g2____dll,
+                      "cancel_g2___aakp_g2___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == cancel_g2___aakp_g2___ar_func)
+                  {
+                        fatal_exit_k = 1406;
 
-			pause_b3___aakp_b3___ar_func = (void *) GetProcAddress(
-				my_b3____dll,
-				"pause_b3___aakp_b3___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'cancel_g2___aakp_g2___ar' from rsp_gzip2_" MACHINE_ARP ".DLL");
 
-			if(NULL == pause_b3___aakp_b3___ar_func)
-			{
-				fatal_exit_k = 1504;
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-				sprintf(copy_ar, "Cannot find function 'pause_b3___aakp_b3___ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
+      if (NULL == my_b3____dll)
+      {
+            my_b3____dll = LoadLibraryA(
+                "rsp_bzip3_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+            if (NULL == my_b3____dll)
+            {
+                  fatal_exit_k = 1500;
 
-			resume_b3___aakp_b3___ar_func = (void *) GetProcAddress(
-				my_b3____dll,
-				"resume_b3___aakp_b3___ar"
-				);
+                  sprintf(copy_ar, "Cannot find DLL rsp_bzip3_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-			if(NULL == resume_b3___aakp_b3___ar_func)
-			{
-				fatal_exit_k = 1505;
+                  strcpy(error_message_k, copy_ar);
 
-				sprintf(copy_ar, "Cannot find function 'resume_b3___aakp_b3___ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  compress_b3___rspk_ar_func = (void *)GetProcAddress(
+                      my_b3____dll,
+                      "compress_b3___rspk_ar");
 
-			cancel_b3___aakp_b3___ar_func = (void *) GetProcAddress(
-				my_b3____dll,
-				"cancel_b3___aakp_b3___ar"
-				);
+                  if (NULL == compress_b3___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1501;
 
-			if(NULL == cancel_b3___aakp_b3___ar_func)
-			{
-				fatal_exit_k = 1506;
+                        sprintf(copy_ar, "Cannot find function 'compress_b3___rspk_ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'cancel_b3___aakp_b3___ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
-		}
-	}
-	
-	if(NULL == my_l3____dll)
-	{
-		my_l3____dll = LoadLibraryA
-			       (
-			"rsp_lzop2_" MACHINE_ARP ".DLL"
-		               );
+                  uncompress_b3___rspk_ar_func = (void *)GetProcAddress(
+                      my_b3____dll,
+                      "uncompress_b3___rspk_ar");
 
-		if(NULL == my_l3____dll)
-		{
-			fatal_exit_k = 1600;
+                  if (NULL == uncompress_b3___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1502;
 
-			sprintf(copy_ar, "Cannot find DLL rsp_lzop2_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                        sprintf(copy_ar, "Cannot find function 'uncompress_b3___rspk_ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
 
-			strcpy(error_message_k, copy_ar);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			goto dll_error_arp;
+                  get_progress_b3___ar_func = (void *)GetProcAddress(
+                      my_b3____dll,
+                      "get_progress_b3___ar");
 
-		}
-		else
-		{
+                  if (NULL == get_progress_b3___ar_func)
+                  {
+                        fatal_exit_k = 1503;
 
-			compress_l3___rspk_ar_func = (void *) GetProcAddress(
-				my_l3____dll,
-				"compress_l3___rspk_ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'get_progress_b3___ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
 
-			if(NULL == compress_l3___rspk_ar_func)
-			{
-				fatal_exit_k = 1601;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'compress_l3___rspk_ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
+                  pause_b3___aakp_b3___ar_func = (void *)GetProcAddress(
+                      my_b3____dll,
+                      "pause_b3___aakp_b3___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == pause_b3___aakp_b3___ar_func)
+                  {
+                        fatal_exit_k = 1504;
 
-			uncompress_l3___rspk_ar_func = (void *) GetProcAddress(
-				my_l3____dll,
-				"uncompress_l3___rspk_ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'pause_b3___aakp_b3___ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
 
-			if(NULL == uncompress_l3___rspk_ar_func)
-			{
-				fatal_exit_k = 1602;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_l3___rspk_ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
+                  resume_b3___aakp_b3___ar_func = (void *)GetProcAddress(
+                      my_b3____dll,
+                      "resume_b3___aakp_b3___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == resume_b3___aakp_b3___ar_func)
+                  {
+                        fatal_exit_k = 1505;
 
-			get_progress_l3___ar_func = (void *) GetProcAddress(
-				my_l3____dll,
-				"get_progress_l3___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'resume_b3___aakp_b3___ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
 
-			if(NULL == get_progress_l3___ar_func)
-			{
-				fatal_exit_k = 1603;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_l3___ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
+                  cancel_b3___aakp_b3___ar_func = (void *)GetProcAddress(
+                      my_b3____dll,
+                      "cancel_b3___aakp_b3___ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == cancel_b3___aakp_b3___ar_func)
+                  {
+                        fatal_exit_k = 1506;
 
-			pause_l3___aakp_l3___ar_func = (void *) GetProcAddress(
-				my_l3____dll,
-				"pause_l3___aakp_l3___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'cancel_b3___aakp_b3___ar' from rsp_bzip3_" MACHINE_ARP ".DLL");
 
-			if(NULL == pause_l3___aakp_l3___ar_func)
-			{
-				fatal_exit_k = 1604;
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-				sprintf(copy_ar, "Cannot find function 'pause_l3___aakp_l3___ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
+      if (NULL == my_l3____dll)
+      {
+            my_l3____dll = LoadLibraryA(
+                "rsp_lzop2_" MACHINE_ARP ".DLL");
 
-				strcpy(error_message_k, copy_ar);
-			}
+            if (NULL == my_l3____dll)
+            {
+                  fatal_exit_k = 1600;
 
-			resume_l3___aakp_l3___ar_func = (void *) GetProcAddress(
-				my_l3____dll,
-				"resume_l3___aakp_l3___ar"
-				);
+                  sprintf(copy_ar, "Cannot find DLL rsp_lzop2_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-			if(NULL == resume_l3___aakp_l3___ar_func)
-			{
-				fatal_exit_k = 1605;
+                  strcpy(error_message_k, copy_ar);
 
-				sprintf(copy_ar, "Cannot find function 'resume_l3___aakp_l3___ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  compress_l3___rspk_ar_func = (void *)GetProcAddress(
+                      my_l3____dll,
+                      "compress_l3___rspk_ar");
 
-			cancel_l3___aakp_l3___ar_func = (void *) GetProcAddress(
-				my_l3____dll,
-				"cancel_l3___aakp_l3___ar"
-				);
+                  if (NULL == compress_l3___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1601;
 
-			if(NULL == cancel_l3___aakp_l3___ar_func)
-			{
-				fatal_exit_k = 1606;
+                        sprintf(copy_ar, "Cannot find function 'compress_l3___rspk_ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'cancel_l3___aakp_l3___ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				strcpy(error_message_k, copy_ar);
-			}
-		}
-	}
+                  uncompress_l3___rspk_ar_func = (void *)GetProcAddress(
+                      my_l3____dll,
+                      "uncompress_l3___rspk_ar");
 
-	if(NULL == my_l5____dll)
-	{
-		my_l5____dll = LoadLibraryA
-			       (
-			"rsp_lz5_" MACHINE_ARP ".DLL"
-		               );
+                  if (NULL == uncompress_l3___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1602;
 
-		if(NULL == my_l5____dll)
-		{
-			fatal_exit_k = 1600;
+                        sprintf(copy_ar, "Cannot find function 'uncompress_l3___rspk_ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
 
-			sprintf(copy_ar, "Cannot find DLL rsp_lz5_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			strcpy(error_message_k, copy_ar);
+                  get_progress_l3___ar_func = (void *)GetProcAddress(
+                      my_l3____dll,
+                      "get_progress_l3___ar");
 
-			goto dll_error_arp;
+                  if (NULL == get_progress_l3___ar_func)
+                  {
+                        fatal_exit_k = 1603;
 
-		}
-		else
-		{
+                        sprintf(copy_ar, "Cannot find function 'get_progress_l3___ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
 
-			compress_l5___rspk_ar_func = (void *) GetProcAddress(
-				my_l5____dll,
-				"compress_l5___rspk_ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == compress_l5___rspk_ar_func)
-			{
-				fatal_exit_k = 1601;
+                  pause_l3___aakp_l3___ar_func = (void *)GetProcAddress(
+                      my_l3____dll,
+                      "pause_l3___aakp_l3___ar");
 
-				sprintf(copy_ar, "Cannot find function 'compress_l5___rspk_ar' from rsp_lz5_" MACHINE_ARP ".DLL");
+                  if (NULL == pause_l3___aakp_l3___ar_func)
+                  {
+                        fatal_exit_k = 1604;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'pause_l3___aakp_l3___ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
 
-			uncompress_l5___rspk_ar_func = (void *) GetProcAddress(
-				my_l5____dll,
-				"uncompress_l5___rspk_ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == uncompress_l5___rspk_ar_func)
-			{
-				fatal_exit_k = 1602;
+                  resume_l3___aakp_l3___ar_func = (void *)GetProcAddress(
+                      my_l3____dll,
+                      "resume_l3___aakp_l3___ar");
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_l5___rspk_ar' from rsp_lz5_" MACHINE_ARP ".DLL");
+                  if (NULL == resume_l3___aakp_l3___ar_func)
+                  {
+                        fatal_exit_k = 1605;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'resume_l3___aakp_l3___ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
 
-			get_progress_l5___ar_func = (void *) GetProcAddress(
-				my_l5____dll,
-				"get_progress_l5___ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == get_progress_l5___ar_func)
-			{
-				fatal_exit_k = 1603;
+                  cancel_l3___aakp_l3___ar_func = (void *)GetProcAddress(
+                      my_l3____dll,
+                      "cancel_l3___aakp_l3___ar");
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_l5___ar' from rsp_lz5_" MACHINE_ARP ".DLL");
+                  if (NULL == cancel_l3___aakp_l3___ar_func)
+                  {
+                        fatal_exit_k = 1606;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'cancel_l3___aakp_l3___ar' from rsp_lzop2_" MACHINE_ARP ".DLL");
 
-			pause_l5___aakp_l5___ar_func = (void *) GetProcAddress(
-				my_l5____dll,
-				"pause_l5___aakp_l5___ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-			if(NULL == pause_l5___aakp_l5___ar_func)
-			{
-				fatal_exit_k = 1604;
+      if (NULL == my_l5____dll)
+      {
+            my_l5____dll = LoadLibraryA(
+                "rsp_lz5_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'pause_l5___aakp_l5___ar' from rsp_lz5_" MACHINE_ARP ".DLL");
+            if (NULL == my_l5____dll)
+            {
+                  fatal_exit_k = 1600;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  sprintf(copy_ar, "Cannot find DLL rsp_lz5_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-			resume_l5___aakp_l5___ar_func = (void *) GetProcAddress(
-				my_l5____dll,
-				"resume_l5___aakp_l5___ar"
-				);
+                  strcpy(error_message_k, copy_ar);
 
-			if(NULL == resume_l5___aakp_l5___ar_func)
-			{
-				fatal_exit_k = 1605;
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-				sprintf(copy_ar, "Cannot find function 'resume_l5___aakp_l5___ar' from rsp_lz5_" MACHINE_ARP ".DLL");
+                  compress_l5___rspk_ar_func = (void *)GetProcAddress(
+                      my_l5____dll,
+                      "compress_l5___rspk_ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == compress_l5___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1601;
 
-			cancel_l5___aakp_l5___ar_func = (void *) GetProcAddress(
-				my_l5____dll,
-				"cancel_l5___aakp_l5___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'compress_l5___rspk_ar' from rsp_lz5_" MACHINE_ARP ".DLL");
 
-			if(NULL == cancel_l5___aakp_l5___ar_func)
-			{
-				fatal_exit_k = 1606;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'cancel_l5___aakp_l5___ar' from rsp_lz5_" MACHINE_ARP ".DLL");
+                  uncompress_l5___rspk_ar_func = (void *)GetProcAddress(
+                      my_l5____dll,
+                      "uncompress_l5___rspk_ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
-		}
-	}
-	
-	if(NULL == my_bb____dll)
-	{
-		my_bb____dll = LoadLibraryA
-			       (
-			"rsp_brotli2_arp_" MACHINE_ARP ".DLL"
-		               );
+                  if (NULL == uncompress_l5___rspk_ar_func)
+                  {
+                        fatal_exit_k = 1602;
 
-		if(NULL == my_bb____dll)
-		{
-			fatal_exit_k = 2600;
+                        sprintf(copy_ar, "Cannot find function 'uncompress_l5___rspk_ar' from rsp_lz5_" MACHINE_ARP ".DLL");
 
-			sprintf(copy_ar, "Cannot find DLL rsp_brotli2_arp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			strcpy(error_message_k, copy_ar);
+                  get_progress_l5___ar_func = (void *)GetProcAddress(
+                      my_l5____dll,
+                      "get_progress_l5___ar");
 
-			goto dll_error_arp;
+                  if (NULL == get_progress_l5___ar_func)
+                  {
+                        fatal_exit_k = 1603;
 
-		}
-		else
-		{
+                        sprintf(copy_ar, "Cannot find function 'get_progress_l5___ar' from rsp_lz5_" MACHINE_ARP ".DLL");
 
-			compress_bb___rspk_ar_func = (void *) GetProcAddress(
-				my_bb____dll,
-				"compress_bb___rspk_ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == compress_bb___rspk_ar_func)
-			{
-				fatal_exit_k = 2601;
+                  pause_l5___aakp_l5___ar_func = (void *)GetProcAddress(
+                      my_l5____dll,
+                      "pause_l5___aakp_l5___ar");
 
-				sprintf(copy_ar, "Cannot find function 'compress_bb___rspk_ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
+                  if (NULL == pause_l5___aakp_l5___ar_func)
+                  {
+                        fatal_exit_k = 1604;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'pause_l5___aakp_l5___ar' from rsp_lz5_" MACHINE_ARP ".DLL");
 
-			uncompress_bb___rspk_ar_func = (void *) GetProcAddress(
-				my_bb____dll,
-				"uncompress_bb___rspk_ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == uncompress_bb___rspk_ar_func)
-			{
-				fatal_exit_k = 2602;
+                  resume_l5___aakp_l5___ar_func = (void *)GetProcAddress(
+                      my_l5____dll,
+                      "resume_l5___aakp_l5___ar");
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_bb___rspk_ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
+                  if (NULL == resume_l5___aakp_l5___ar_func)
+                  {
+                        fatal_exit_k = 1605;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'resume_l5___aakp_l5___ar' from rsp_lz5_" MACHINE_ARP ".DLL");
 
-			get_progress_bb___ar_func = (void *) GetProcAddress(
-				my_bb____dll,
-				"get_progress_bb___ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == get_progress_bb___ar_func)
-			{
-				fatal_exit_k = 2603;
+                  cancel_l5___aakp_l5___ar_func = (void *)GetProcAddress(
+                      my_l5____dll,
+                      "cancel_l5___aakp_l5___ar");
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_bb___ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
+                  if (NULL == cancel_l5___aakp_l5___ar_func)
+                  {
+                        fatal_exit_k = 1606;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'cancel_l5___aakp_l5___ar' from rsp_lz5_" MACHINE_ARP ".DLL");
 
-			pause_bb___aakp_bb___ar_func = (void *) GetProcAddress(
-				my_bb____dll,
-				"pause_bb___aakp_bb___ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-			if(NULL == pause_bb___aakp_bb___ar_func)
-			{
-				fatal_exit_k = 2604;
+      if (NULL == my_bb____dll)
+      {
+            my_bb____dll = LoadLibraryA(
+                "rsp_brotli2_arp_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'pause_bb___aakp_bb___ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
+            if (NULL == my_bb____dll)
+            {
+                  fatal_exit_k = 2600;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  sprintf(copy_ar, "Cannot find DLL rsp_brotli2_arp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-			resume_bb___aakp_bb___ar_func = (void *) GetProcAddress(
-				my_bb____dll,
-				"resume_bb___aakp_bb___ar"
-				);
+                  strcpy(error_message_k, copy_ar);
 
-			if(NULL == resume_bb___aakp_bb___ar_func)
-			{
-				fatal_exit_k = 2605;
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-				sprintf(copy_ar, "Cannot find function 'resume_bb___aakp_bb___ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
+                  compress_bb___rspk_ar_func = (void *)GetProcAddress(
+                      my_bb____dll,
+                      "compress_bb___rspk_ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == compress_bb___rspk_ar_func)
+                  {
+                        fatal_exit_k = 2601;
 
-			cancel_bb___aakp_bb___ar_func = (void *) GetProcAddress(
-				my_bb____dll,
-				"cancel_bb___aakp_bb___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'compress_bb___rspk_ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
 
-			if(NULL == cancel_bb___aakp_bb___ar_func)
-			{
-				fatal_exit_k = 2606;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'cancel_bb___aakp_bb___ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
+                  uncompress_bb___rspk_ar_func = (void *)GetProcAddress(
+                      my_bb____dll,
+                      "uncompress_bb___rspk_ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
-		}
-	}
-	
-	if(NULL == my_c5____dll)
-	{
-		my_c5____dll = LoadLibraryA
-			       (
-			"BE_compress2_aakp_" MACHINE_ARP ".DLL"
-		               );
+                  if (NULL == uncompress_bb___rspk_ar_func)
+                  {
+                        fatal_exit_k = 2602;
 
-		if(NULL == my_c5____dll)
-		{
-			fatal_exit_k = 3600;
+                        sprintf(copy_ar, "Cannot find function 'uncompress_bb___rspk_ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
 
-			sprintf(copy_ar, "Cannot find DLL BE_compress2_aakp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			strcpy(error_message_k, copy_ar);
+                  get_progress_bb___ar_func = (void *)GetProcAddress(
+                      my_bb____dll,
+                      "get_progress_bb___ar");
 
-			goto dll_error_arp;
+                  if (NULL == get_progress_bb___ar_func)
+                  {
+                        fatal_exit_k = 2603;
 
-		}
-		else
-		{
+                        sprintf(copy_ar, "Cannot find function 'get_progress_bb___ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
 
-			compress_c5___rspk_ar_func = (void *) GetProcAddress(
-				my_c5____dll,
-				"compress_c5___rspk_ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == compress_c5___rspk_ar_func)
-			{
-				fatal_exit_k = 3601;
+                  pause_bb___aakp_bb___ar_func = (void *)GetProcAddress(
+                      my_bb____dll,
+                      "pause_bb___aakp_bb___ar");
 
-				sprintf(copy_ar, "Cannot find function 'compress_c5___rspk_ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == pause_bb___aakp_bb___ar_func)
+                  {
+                        fatal_exit_k = 2604;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'pause_bb___aakp_bb___ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
 
-			uncompress_c5___rspk_ar_func = (void *) GetProcAddress(
-				my_c5____dll,
-				"uncompress_c5___rspk_ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == uncompress_c5___rspk_ar_func)
-			{
-				fatal_exit_k = 3602;
+                  resume_bb___aakp_bb___ar_func = (void *)GetProcAddress(
+                      my_bb____dll,
+                      "resume_bb___aakp_bb___ar");
 
-				sprintf(copy_ar, "Cannot find function 'uncompress_c5___rspk_ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == resume_bb___aakp_bb___ar_func)
+                  {
+                        fatal_exit_k = 2605;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'resume_bb___aakp_bb___ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
 
-			get_progress_c5___ar_func = (void *) GetProcAddress(
-				my_c5____dll,
-				"get_progress_c5___ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-			if(NULL == get_progress_c5___ar_func)
-			{
-				fatal_exit_k = 3603;
+                  cancel_bb___aakp_bb___ar_func = (void *)GetProcAddress(
+                      my_bb____dll,
+                      "cancel_bb___aakp_bb___ar");
 
-				sprintf(copy_ar, "Cannot find function 'get_progress_c5___ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+                  if (NULL == cancel_bb___aakp_bb___ar_func)
+                  {
+                        fatal_exit_k = 2606;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                        sprintf(copy_ar, "Cannot find function 'cancel_bb___aakp_bb___ar' from rsp_brotli2_arp_" MACHINE_ARP ".DLL");
 
-			pause_c5___aakp_c5___ar_func = (void *) GetProcAddress(
-				my_c5____dll,
-				"pause_c5___aakp_c5___ar"
-				);
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
 
-			if(NULL == pause_c5___aakp_c5___ar_func)
-			{
-				fatal_exit_k = 3604;
+      if (NULL == my_c5____dll)
+      {
+            my_c5____dll = LoadLibraryA(
+                "BE_compress2_aakp_" MACHINE_ARP ".DLL");
 
-				sprintf(copy_ar, "Cannot find function 'pause_c5___aakp_c5___ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+            if (NULL == my_c5____dll)
+            {
+                  fatal_exit_k = 3600;
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  sprintf(copy_ar, "Cannot find DLL BE_compress2_aakp_" MACHINE_ARP ".DLL, it is required in the same path of the Tar DLL");
 
-			resume_c5___aakp_c5___ar_func = (void *) GetProcAddress(
-				my_c5____dll,
-				"resume_c5___aakp_c5___ar"
-				);
+                  strcpy(error_message_k, copy_ar);
 
-			if(NULL == resume_c5___aakp_c5___ar_func)
-			{
-				fatal_exit_k = 3605;
+                  goto dll_error_arp;
+            }
+            else
+            {
 
-				sprintf(copy_ar, "Cannot find function 'resume_c5___aakp_c5___ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+                  compress_c5___rspk_ar_func = (void *)GetProcAddress(
+                      my_c5____dll,
+                      "compress_c5___rspk_ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
+                  if (NULL == compress_c5___rspk_ar_func)
+                  {
+                        fatal_exit_k = 3601;
 
-			cancel_c5___aakp_c5___ar_func = (void *) GetProcAddress(
-				my_c5____dll,
-				"cancel_c5___aakp_c5___ar"
-				);
+                        sprintf(copy_ar, "Cannot find function 'compress_c5___rspk_ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
 
-			if(NULL == cancel_c5___aakp_c5___ar_func)
-			{
-				fatal_exit_k = 3606;
+                        strcpy(error_message_k, copy_ar);
+                  }
 
-				sprintf(copy_ar, "Cannot find function 'cancel_c5___aakp_c5___ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+                  uncompress_c5___rspk_ar_func = (void *)GetProcAddress(
+                      my_c5____dll,
+                      "uncompress_c5___rspk_ar");
 
-				strcpy(error_message_k, copy_ar);
-			}
-		}
-	}
-	
+                  if (NULL == uncompress_c5___rspk_ar_func)
+                  {
+                        fatal_exit_k = 3602;
+
+                        sprintf(copy_ar, "Cannot find function 'uncompress_c5___rspk_ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+
+                        strcpy(error_message_k, copy_ar);
+                  }
+
+                  get_progress_c5___ar_func = (void *)GetProcAddress(
+                      my_c5____dll,
+                      "get_progress_c5___ar");
+
+                  if (NULL == get_progress_c5___ar_func)
+                  {
+                        fatal_exit_k = 3603;
+
+                        sprintf(copy_ar, "Cannot find function 'get_progress_c5___ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+
+                        strcpy(error_message_k, copy_ar);
+                  }
+
+                  pause_c5___aakp_c5___ar_func = (void *)GetProcAddress(
+                      my_c5____dll,
+                      "pause_c5___aakp_c5___ar");
+
+                  if (NULL == pause_c5___aakp_c5___ar_func)
+                  {
+                        fatal_exit_k = 3604;
+
+                        sprintf(copy_ar, "Cannot find function 'pause_c5___aakp_c5___ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+
+                        strcpy(error_message_k, copy_ar);
+                  }
+
+                  resume_c5___aakp_c5___ar_func = (void *)GetProcAddress(
+                      my_c5____dll,
+                      "resume_c5___aakp_c5___ar");
+
+                  if (NULL == resume_c5___aakp_c5___ar_func)
+                  {
+                        fatal_exit_k = 3605;
+
+                        sprintf(copy_ar, "Cannot find function 'resume_c5___aakp_c5___ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+
+                        strcpy(error_message_k, copy_ar);
+                  }
+
+                  cancel_c5___aakp_c5___ar_func = (void *)GetProcAddress(
+                      my_c5____dll,
+                      "cancel_c5___aakp_c5___ar");
+
+                  if (NULL == cancel_c5___aakp_c5___ar_func)
+                  {
+                        fatal_exit_k = 3606;
+
+                        sprintf(copy_ar, "Cannot find function 'cancel_c5___aakp_c5___ar' from BE_compress2_aakp_" MACHINE_ARP ".DLL");
+
+                        strcpy(error_message_k, copy_ar);
+                  }
+            }
+      }
+
 dll_error_arp:;
-	return;
+      return;
 }

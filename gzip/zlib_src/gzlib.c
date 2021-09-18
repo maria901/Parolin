@@ -3,6 +3,30 @@
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
+//2021 MathMan and amanda
+#include  <windows.h>
+#include   <stdint.h>
+#include    <stdio.h>
+#include   <stdlib.h>
+#include   <string.h>
+#include     <time.h>
+#include    <errno.h>
+#include    <fcntl.h>
+#include    <ctype.h>
+#include     <math.h>
+#include   <wctype.h>
+#include    <wchar.h>
+#include   <stdarg.h>
+#include   <stddef.h>
+#include   <setjmp.h>
+#include   <locale.h>
+#include   <signal.h>
+#include   <limits.h>
+#include    <float.h>
+#include   <iso646.h>
+
+WCHAR *amanda_utf8towide_1_v27(const char *pUTF8);
+
 #include "gzguts.h"
 
 #if defined(_WIN32) && !defined(__BORLANDC__) && !defined(__MINGW32__)
@@ -104,6 +128,7 @@ const void *path;
 int fd;
 const char *mode;
 {
+	//exit(27); for your eyes only...Ricardo...
 	gz_statep state;
 	z_size_t len;
 	int oflag;
@@ -250,17 +275,16 @@ const char *mode;
 
 	/* open the file with the appropriate flags (or just use fd) */
 
-
 	if(unicodemode)
 	{
 
-		pedro_dprintf(-1, "unicode mode enabled, file %s", (char *)path);
+		pedro_dprintf(-1, "4 unicode mode enabled, file %s", (char *)path);
 
 		state->fd = fd > -1 ? fd : (
 #ifdef WIDECHAR
 			fd == -2 ? _wopen(path, oflag, 0666) :
 #endif
-			_wopen((void *)utf8towide_v2((void *)(const char *)path), oflag, 0666));
+			_wopen(amanda_utf8towide_1_v27(path), oflag, 0666));
 
 	}
 	else

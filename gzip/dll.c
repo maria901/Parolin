@@ -19,11 +19,11 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails direto dos felizes programadores:                                *
- *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
- *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
  *                                                                              *
- *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
@@ -71,6 +71,18 @@
 #else
 #define MYCAST int
 #endif
+
+WCHAR *amanda_utf8towide_1_v27(char *pUTF8);
+
+/**
+ * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
+ */
+#define AMANDA__SIZE ((32767 * 6) + 2)
+/**
+ * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
+ * 
+ */
+#define AMANDA__SIZE_w (32767)
 
 extern int unicodemode;
 
@@ -142,8 +154,8 @@ uint __stdcall rspvalidatefile(uchar *outfile2);
 
 int __stdcall startapi(int parameter);
 
-uchar intoutfile[255];
-uchar intinputfile[255];
+uchar intoutfile[AMANDA__SIZE];
+uchar intinputfile[AMANDA__SIZE];
 uint comando;
 
 uint pauseflag;
@@ -330,12 +342,10 @@ uint __stdcall rspcompress(char *inputfile, char *outfile)
 		;
 	}
 	if (unicodemode)
-	{
-		WCHAR wpmode[300] = {
-			0,
-		};
-		utf8towide(inputfile, wpmode, 300);
-		input = _wfopen(wpmode, L"rb");
+	{		
+		//utf8towide(inputfile, wpmode, 300);
+		input = _wfopen(amanda_utf8towide_1_v27(inputfile), L"rb");
+
 	}
 	else
 		input = fopen(inputfile, "rb");
@@ -440,11 +450,8 @@ uint __stdcall rspuncompress(uchar *outfile, uchar *outfile2)
 
 	if (unicodemode)
 	{
-		WCHAR wpmode[300] = {
-			0,
-		};
-		utf8towide((void *)outfile2, wpmode, 300);
-		input = _wfopen(wpmode, L"wb");
+		//utf8towide((void *)outfile2, wpmode, 300);
+		input = _wfopen(amanda_utf8towide_1_v27((void *) outfile2), L"wb");
 	}
 	else
 		input = fopen((void *)outfile2, "wb");
@@ -742,9 +749,9 @@ int __stdcall interface1(int argumento1, int argumento2, int argumento3,__attrib
 {
 #endif
 
-	static uchar inputfile[255 * 6]; //for Unicode sake, (utf-8)
-	static uchar inputfile2[255 * 6];
-	static uchar outputfile[255 * 6];
+	static uchar inputfile[AMANDA__SIZE]; //for Unicode sake, (utf-8)
+	static uchar inputfile2[AMANDA__SIZE];
+	static uchar outputfile[AMANDA__SIZE];
 	static uchar key[255 * 6];
 
 	if (!strcmp((char *)argumento1, "compress"))
@@ -823,15 +830,11 @@ int __stdcall interface1(int argumento1, int argumento2, int argumento3,__attrib
 	{
 		memset(inputfile, 0, 255);
 		memset(outputfile, 0, 255);
-
 		;
-
 		strcpy((void *)inputfile, (char *)argumento2);
-
 		strcpy((void *)inputfile2, (char *)argumento3);
 		intstatus = 1;
 		isgzip2 = 0;
-
 		return tuncompress((void *)inputfile, (void *)inputfile2);
 	}
 
@@ -853,8 +856,8 @@ int __stdcall interface1(int argumento1, int argumento2, int argumento3,__attrib
 
 	if (!strcmp((char *)argumento1, "uncompressgzip2_utf8_k"))
 	{
-		memset(inputfile, 0, 255);
-		memset(outputfile, 0, 255);
+		memset(inputfile, 0, sizeof(inputfile));
+		memset(outputfile, 0, sizeof(outputfile));
 
 		strcpy((void *)inputfile, (char *)argumento2);
 

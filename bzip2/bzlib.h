@@ -235,7 +235,11 @@ BZ_EXTERN const char * BZ_API(BZ2_bzlibVersion) (
    );
 
 #ifndef BZ_NO_STDIO
-BZ_EXTERN BZFILE * BZ_API(BZ2_bzopen) (
+/**
+ * wide aware my love...
+ * 
+ */
+BZ_EXTERN BZFILE * BZ_API(BZ2_bzopen) (//oi
       const char *path,
       const char *mode
    );

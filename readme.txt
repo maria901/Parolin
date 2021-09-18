@@ -252,8 +252,8 @@ https://github.com/maria901/Parolin/tree/v6.8.2.12
 .......... it a try, and if using encryption use the new mode
 .......... AES CTR is  the  recommended  encryption  mode for
 .......... maximum security
-.......... Also this release is capable of creating and
-.......... extracting VAL files with wide paths (larger than
+.......... Also  this  release  is  capable  of  creating and
+.......... extracting VAL files with  wide paths (larger than
 .......... MAX_PATH), but notice that the compressors and deco-
 .......... mpressors  are  not  for the moment, only pure VAL
 .......... files,  and this VAL files if extracted with older
