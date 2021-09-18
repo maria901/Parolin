@@ -234,6 +234,20 @@ Sorry for this limitation
 
 Changelog:
 
+What is new in version 7.9.2  build 005867 Sabado 18 Setembro 2021  07:39 codename Corcelle
+
+.......... 18 01:32
+.......... Interesting,  .net  framework 4.5.2  don't support
+.......... wide paths out of the box, it is weird...
+..........
+.......... 02:30
+.......... Compressors gzip, bzip2  and lzip are already wide
+.......... paths aware, soon all will be able to handle these
+.......... paths
+..........
+.......... Also, libarchive in these releases are in debug mode,
+.......... soon will be fixed
+
 What is new in version 7.9.1  build 005866 Fri 17/September/2021 23:59:61 codename Dirson
 
 .......... For the moment the  7zip  support  is  only to not
