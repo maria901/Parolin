@@ -1,4 +1,33 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////2021 z
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
+ *                                                                              *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+
+/////////////////////////////////////////////////////////////////////////////////
 //defines...
 
 int encryption_detected_z = -1;
@@ -368,7 +397,7 @@ extract_dir_VAL(char *file_name_in_arp)
  */
 int ispathfile(char *path)
 {
-    char x[1027];
+    static char x[AMANDA__SIZE];
     int ret;
 
     strcpy(x, path);
@@ -551,8 +580,8 @@ char *strrstr_ends_with(char *str, char *substr)
 }
 
 /**
- * It will read the extension to detect whether the file is a valid compressed
- * file
+ * It will read the extension to detect whether the file is a valid compressed 
+ * file, wide path capable my love...
  *
  * @param filename_in_z the filename
  *
@@ -992,7 +1021,7 @@ void __stdcall replace_extension_arp(
     char *out_data_arp)
 {
     char *ptr_arp;
-    char whole_path_copy_arp[1024];
+    static char whole_path_copy_arp[AMANDA__SIZE];
 
     strcpy(whole_path_copy_arp, whole_path_arp);
 
@@ -1353,8 +1382,8 @@ int createtestfilename(char *path1)
         path[ret + 1] = 0;
     }
     {
-        static WCHAR fixo_w_ar[1024];
-        static WCHAR path_w_ar[1024];
+        static WCHAR fixo_w_ar[AMANDA__SIZE_w];
+        static WCHAR path_w_ar[AMANDA__SIZE_w];
         wcscpy(path_w_ar, permissive_name_m_(amanda_utf8towide_1_(path)));
         ret = GetTempFileNameW(path_w_ar, L"BW_AR_", 0, fixo_w_ar);
         if (ret == 0)
@@ -1370,15 +1399,15 @@ int createtestfilename(char *path1)
 }
 
 /**
- * It will just create a windows based temp file using the
- * signature_z information
+ * It will just create a windows based temp file using the 
+ *  signature_z information
  *
  * @param path1 the path where it will create
  *
  * @param out_z the utf-8 encoded temp file
  *
  * @param signature_z the 3 characters to be used as the initial data
- * on the destination temp file
+ *  on the destination temp file
  *
  * @return 0 on error, 1 otherwise
  *
@@ -1423,7 +1452,7 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
  */
 int ispathreadonly(char *path)
 {
-    char x[1027];
+    static char x[AMANDA__SIZE];
     int ret;
     strcpy(x, path);
     ret = strlen(x);
@@ -1494,7 +1523,7 @@ UNC:
  */
 int ispathfolder(char *path)
 {
-    char x[1027];
+    static char x[AMANDA__SIZE];
     int ret;
     strcpy(x, path);
     ret = strlen(x);
@@ -1614,7 +1643,7 @@ int rspmakedir(char *path)
 
                 if (strlen(temp) != 3)
                 {
-                    char temp4[1024];
+                    static char temp4[AMANDA__SIZE];
 
                     strcpy(temp4, temp);
 
@@ -1678,7 +1707,7 @@ unc:
 
                 if (strlen(temp) != 3)
                 {
-                    char temp4[1024];
+                    static char temp4[AMANDA__SIZE];
 
                     strcpy(temp4, temp);
 
@@ -1797,7 +1826,7 @@ int rspmakedir_v2(char *path)
 
                 if (strlen(temp) != 3)
                 {
-                    char temp4[1024];
+                    static char temp4[AMANDA__SIZE];
 
                     strcpy(temp4, temp);
 
@@ -1921,8 +1950,8 @@ open_output_file(char const *file_name, int typeflag, __attribute__((unused)) mo
     }
 
     {
-        char destination_file_kp[1024];
-        char path_to_create_kp[1024] = {0};
+        static char destination_file_kp[AMANDA__SIZE];
+        static char path_to_create_kp[AMANDA__SIZE];
 
         strcpy(destination_file_kp, extract_folder_final);
         strcat(destination_file_kp, file_name);
@@ -1933,7 +1962,7 @@ open_output_file(char const *file_name, int typeflag, __attribute__((unused)) mo
         rspmakedir_v2(path_to_create_kp);
         strcpy(constructed_filename_kp, destination_file_kp);
 
-        fd = _wopen(amanda_utf8towide_1_(destination_file_kp), openflag, _S_IWRITE);
+        fd = _wopen(permissive_name_m_(amanda_utf8towide_1_(destination_file_kp)), openflag, _S_IWRITE);
     }
 
     strcpy(extracting_filename_ar, file_name);
@@ -2042,7 +2071,7 @@ open_output_file_VAL(char const *file_name,
 }
 
 /**
- * Only for Tar files, it will check to see if in the file
+ * Wide path capable, only for Tar files, it will check to see if in the file
  * the information stored during the encryption is available,
  * and if yes what is the encryption used, notice that for the
  * moment the only software capable of using these encryption
@@ -2062,7 +2091,7 @@ bool is_encrypted_gnu_tar_arp(char *file_arp_utf_8)
     FILE *amanda_file;
     int len_arp;
 
-    amanda_file = _wfopen(amanda_utf8towide_1_(file_arp_utf_8), L"rb");
+    amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(file_arp_utf_8)), L"rb");
     if (amanda_file)
     {
         len_arp = fread(&ret_arp_, 1, 4, amanda_file);
@@ -2530,9 +2559,7 @@ exit_now_arp:;
             tm_k = 1 ? *_gmtime64(&s) : *_localtime64(&s);
 
             hFile =
-                CreateFileW(permissive_name_m_
-                (amanda_utf8towide_1_
-                (constructed_filename_kp)),
+                CreateFileW(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)),
                             GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
                             NULL,
                             OPEN_EXISTING,

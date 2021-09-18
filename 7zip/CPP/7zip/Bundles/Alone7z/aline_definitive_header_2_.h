@@ -1,1 +1,0 @@
-#define AMARIC__VERSION "3.5.0 build 162"

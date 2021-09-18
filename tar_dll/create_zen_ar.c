@@ -27,8 +27,7 @@
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////z
+/////////////////////////////////////////////////////////////////////////////////
 //defines...
 
 bool also_encrypt_headers_i = false;
@@ -40,10 +39,6 @@ char patern_ar_7zip_maria[20000];
 /**
   Testes amor...
  */
-bool is_7zip_maria = false;
-int recurse_7zip_maria = 0;
-bool true_if_include_7zip_maria = false;
-char compression_level_7zip_maria[300];
 
 int amanda_s_smart_ape(__attribute__((unused)) char *initial_path_amanda_s_smart_ape,
                        bool recurse_on_subfolders_amanda_s_smart_ape, enum amanda__mode amanda_mode);
@@ -96,7 +91,7 @@ enum z_encryption_method internal_encryption_z_method = Z_NEW_MODE; //default to
 int encryption_process_new_mode_21_february_2021_z(char *original_filename_z)
 {
     int ret_arp_ = 0;
-    char temp_file_in_z[1024];
+    static char temp_file_in_z[AMANDA__SIZE];
     static int64_t temp_long_long;
 
     first_step = 2;
@@ -160,12 +155,12 @@ int encryption_process_new_mode_21_february_2021_z(char *original_filename_z)
             exit(27);
         }
 
-        _wunlink(amanda_utf8towide_1_(original_filename_z));
-        _wrename(amanda_utf8towide_2_(temp_file_in_z), amanda_utf8towide_1_(original_filename_z));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_filename_z)));
+        _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_in_z)), amanda_utf8towide_1_(original_filename_z));
 
         if (119 == ret_arp_)
         {
-            _wunlink(amanda_utf8towide_1_(original_filename_z));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_filename_z)));
         }
     }
 
@@ -214,7 +209,7 @@ HANDLE hMapFile_arp = NULL;
 
 typedef struct _amanda_
 {
-    char global_patern_ar[1024];
+    char global_patern_ar[1024]; // need to change soon...
     int recurse_on_subfolders_arp;
     int mode_is_include_or_exclude__;
     //int files_that_cannot_read    ;
@@ -2413,37 +2408,6 @@ int __stdcall libarchive_create_archive_ar_v2(char *tar_filename_ar,
         return 1;
     }
 
-    is_7zip_maria = false;
-    if (P_MODE_IS_7ZIP == compression_mode_external_ar ||
-        P_MODE_IS_7ZIP_ENCRYPTED == compression_mode_external_ar ||
-        P_MODE_IS_7ZIP_ENCRYPTED_ALSO_HEADERS == compression_mode_external_ar)
-    {
-        is_7zip_maria = true;
-
-        use_encryption_i = false;
-
-        if (P_MODE_IS_7ZIP_ENCRYPTED == compression_mode_external_ar || P_MODE_IS_7ZIP_ENCRYPTED_ALSO_HEADERS ==
-                                                                            compression_mode_external_ar)
-        {
-            use_encryption_i = true;
-        }
-
-        strcpy(tar_filename_ar_7zip_maria, tar_filename_ar);
-        strcpy(path_with_the_files_ar_7zip_maria, path_with_the_files_ar);
-        strcpy(patern_ar_7zip_maria, patern_ar);
-
-        recurse_7zip_maria = recurse_in_subfolders_arp;
-
-        true_if_include_7zip_maria = true;
-
-        if (ARP_INCLUDE_FILES != the__patern_ar__mode)
-        {
-            true_if_include_7zip_maria = false;
-        }
-
-        strcpy(compression_level_7zip_maria, compression_level_p_);
-    }
-
     mode_is_include_or_exclude__ = the__patern_ar__mode;
     recurse_on_subfolders_arp = false;
     if (recurse_in_subfolders_arp)
@@ -2472,25 +2436,21 @@ int __stdcall create_archive_ar(char *tar_filename_ar,
 {
     if (AMANDA__SIZE < strlen(tar_filename_ar))
     {
-        is_7zip_maria = false;
         running_update = 0;
         return 2;
     }
     if (AMANDA__SIZE < strlen(path_with_the_files_ar))
     {
-        is_7zip_maria = false;
         running_update = 0;
         return 2;
     }
     if (19999 < strlen(patern_ar))
     {
-        is_7zip_maria = false;
         running_update = 0;
         return 2;
     }
     if (running_ar)
     {
-        is_7zip_maria = false;
         running_update = 0;
         return 1;
     }
@@ -2527,48 +2487,8 @@ int __stdcall create_archive_ar(char *tar_filename_ar,
  */
 int __stdcall startapi(__attribute__((unused)) int parameter)
 {
-    static char exit_data_ar[AMANDA__SIZE];
-    if (is_7zip_maria)
+   
     {
-        dllinit_arp();
-        init_rsp_arp_encrypt_arp();
-
-        while (get_list_itens(exit_data_ar))
-        {
-            ;
-        }
-
-        if (dont_delete_7zip_file_i)
-        {
-            ; //nothing to do
-        }
-        else
-        {
-            _wunlink(amanda_utf8towide_1_(tar_filename_ar_7zip_maria));
-        }
-
-        return_value_ar = compress_7zip_i_func(tar_filename_ar_7zip_maria,
-                                               path_with_the_files_ar_7zip_maria,
-                                               patern_ar_7zip_maria,
-                                               recurse_7zip_maria,
-                                               true_if_include_7zip_maria,
-                                               compression_level_7zip_maria,
-                                               8,
-                                               error_message_k,
-                                               (void *)add_more_one,
-                                               use_encryption_i,
-                                               the_pass_arp_utf8_i,
-                                               also_encrypt_headers_i);
-
-        SetFileApisToANSI();
-
-        ; //return_value_ar
-    }
-    else
-    {
-
-        //exit(0);
-
         return_value_ar = create_archive_internal_ar(tar_filename__ar, path_with_the_files__ar, patern__ar);
     }
 
@@ -2583,8 +2503,7 @@ int __stdcall startapi(__attribute__((unused)) int parameter)
     mode_is_parolin_p = true;
     use_name_i = false;
     running_ar = 0;
-    is_7zip_maria = false;
-    dont_delete_7zip_file_i = false;
+ 
     return 0;
 }
 
@@ -3745,11 +3664,6 @@ int __stdcall Pause_ar(void)
         global_ptr_our_map_arp->pause____arp = 1;
     }
 
-    if (pause_7zip_i_func)
-    {
-        pause_7zip_i_func();
-    }
-
     return 0;
 }
 
@@ -3792,11 +3706,6 @@ int __stdcall Resume_ar(void)
     }
     pause_flag_ar = 0;
 
-    if (resume_7zip_i_func)
-    {
-        resume_7zip_i_func();
-    }
-
     return 0;
 }
 
@@ -3836,11 +3745,6 @@ int __stdcall Cancel_ar(void)
     if (global_ptr_our_map_arp)
     {
         global_ptr_our_map_arp->cancel___arp = 1;
-    }
-
-    if (cancel_7zip_i_func)
-    {
-        cancel_7zip_i_func();
     }
 
     pause_flag_ar = 0;
@@ -3907,7 +3811,7 @@ int __stdcall get_cannot_read_warnings(void)
     return ret_val_i;
 }
 /**
- *  To see whether the path looks valid
+ *  To see whether the path looks valid, wide path capable...my love
  * 
  * 
  */
@@ -4061,7 +3965,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
             }
 
             init_playlist_z_june_24();
-            _wunlink(amanda_utf8towide_1_(temp_file_update_i));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
             return fatal_exit_k;
         }
 
@@ -5101,7 +5005,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
             assert(-1 != our_update_file_open__arp);
             close(our_update_file_open__arp);
             amanda_pereira_total_size += getfilesize_ar(update_filename_arp);
-            our_update_file_open__arp = _wopen(amanda_utf8towide_1_(update_filename_arp), O_RDONLY | O_BINARY,
+            our_update_file_open__arp = _wopen(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp)), O_RDONLY | O_BINARY,
                                                _S_IREAD);
             if (-1 == our_update_file_open__arp)
             {
@@ -5146,7 +5050,7 @@ pula_arp:;
 
             if (512 < file_size_arp)
             {
-                amanda_file = _wfopen(amanda_utf8towide_1_(archive_name_array_filename), L"rb+");
+                amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), L"rb+");
                 if (amanda_file)
                 {
                     if (ARP_RC4 == encryption_method_to_create)
@@ -5203,7 +5107,7 @@ pula_arp:;
                 //aqui
 
                 file_size_p = getfilesize_ar(archive_name_array_filename);
-                my_val_file_p = _wfopen(amanda_utf8towide_1_(archive_name_array_filename), L"rb+");
+                my_val_file_p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), L"rb+");
 
                 if (my_val_file_p)
                 {
@@ -5228,7 +5132,7 @@ pula_arp:;
             encryption_process_new_mode_21_february_2021_z(archive_name_array_filename);
         else
         {
-            _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
         }
     }
     else if (AAKP_MODE_TAR_GZIP == compression_mode_ar || AAKP_MODE_VAL_GZIP == compression_mode_ar)
@@ -5279,13 +5183,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
     else if (AAKP_MODE_TAR_GZIP2 == compression_mode_ar || AAKP_MODE_VAL_GZIP2 == compression_mode_ar)
@@ -5402,13 +5306,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -5477,13 +5381,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -5582,13 +5486,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -5687,13 +5591,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -5794,13 +5698,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -5901,13 +5805,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -5957,13 +5861,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -6015,13 +5919,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -6077,13 +5981,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -6152,13 +6056,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -6215,13 +6119,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -6297,13 +6201,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -6358,13 +6262,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -6420,13 +6324,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -6487,13 +6391,13 @@ pula_arp:;
                 break;
             }
         }
-        _wunlink(amanda_utf8towide_1_(archive_name_array_filename));
+        _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
         if (0 == fatal_exit_k)
             encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
         else
         {
-            _wunlink(amanda_utf8towide_1_(original_destination_tar_file));
+            _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
         }
     }
 
@@ -6676,11 +6580,6 @@ int __stdcall libarchive_get_progress_p(void)
         return progress_lib_v27;
     }
 
-    if (is_7zip_maria)
-    {
-        dllinit_arp();
-        return get_progress_7zip_i_func();
-    }
     arp_p = getpor_10000_int64_t_ar(amanda_pereira_total_size, bytes_read_p);
 
     if (0 > arp_p)

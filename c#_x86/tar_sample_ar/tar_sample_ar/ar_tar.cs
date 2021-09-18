@@ -115,7 +115,7 @@ namespace tar_sample_ar
 		int	Numfiles_k = 0;
 		
 		string convert_to_utf_8_ar;
-		void Button1Click(object sender, EventArgs e)
+		void Button1Click(object sender, EventArgs e)//list function
 		{
 			string password_i;
 			int ret_ar;

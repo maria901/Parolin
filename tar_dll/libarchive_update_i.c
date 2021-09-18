@@ -70,7 +70,12 @@ void fix_string_i(char *data_i)
 
     return;
 }
-
+/**
+ * Full support to wide paths my love...
+ * 
+ * 
+ * 
+ */
 void __stdcall add_more_one_z_june_24(
     time_t atime_i,
     time_t mtime_i,
