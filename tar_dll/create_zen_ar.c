@@ -1662,7 +1662,8 @@ void dump_file_or_folder(struct tar_stat_info *st,
                 else
                 {
                     //SetCurrentDirectoryW(amanda_utf8towide_1_(initial_path_ar));
-                    libarchive_process_p_func((my_VAL_data.VAL_filename), file_or_folder_to_process);
+
+                    libarchive_process_p_func((my_VAL_data.VAL_filename), valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process))));
                     //SetCurrentDirectoryW(amanda_path);
                 }
             }
@@ -1913,7 +1914,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
                 else
                 {
 
-                    libarchive_process_p_func((my_VAL_data.VAL_filename), file_or_folder_to_process);
+                    libarchive_process_p_func((my_VAL_data.VAL_filename), valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process))));
                 }
             }
         }
@@ -4004,13 +4005,6 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
             return fatal_exit_k;
         }
 
-        //aqui...
-
-        //tem que ;lopear nos arquivos e diretorios
-        //vejamos
-
-        //libarchive_process_p_func((my_VAL_data.VAL_filename), file_or_folder_to_process);
-
         strcpy(temp_i, ar_gettemppath_z());
         strcat(temp_i, "d");
         _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_i)));
@@ -4091,7 +4085,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                             }
                         }
 
-                        libarchive_process_p_func(my_ptr_ar->item_entry_i, temp_i);
+                        libarchive_process_p_func(my_ptr_ar->item_entry_i, valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(temp_i))));
                     }
                     else
                     {
@@ -4166,7 +4160,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                             //exit(27);
                         }
 
-                        libarchive_process_p_func(my_ptr_ar->item_entry_i, temp_i_f);
+                        libarchive_process_p_func(my_ptr_ar->item_entry_i, valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(temp_i_f))));
 
                         if (!SetFileAttributesW(
                                 permissive_name_m_(amanda_utf8towide_1_(temp_i_f)),

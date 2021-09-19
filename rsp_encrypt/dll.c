@@ -136,6 +136,30 @@ dprintf(char *format, ...);
 #define AMANDA__SIZE_w (32767)
 
 /**
+ * Ricardo helper function...just it, without it no large paths support
+ * 
+ * ****************************************************************************************/
+wchar_t *
+permissive_name_m_(const wchar_t *wname);
+
+/**
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
+ *  . provide two functions that are exactly the same because someone may 
+ * use it in multi-thread code 
+ *
+ * @param pUTF8 the input utf-8 encoded filename 
+ *
+ * @return the static allocated WCHAR array with the filename as wide string 
+ *
+ */
+WCHAR *amanda_utf8towide_1_v27(char *pUTF8)
+{
+	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
+	return permissive_name_m_(ricardo_k);
+}
+
+/**
  * To convert an utf-8 encoded filename to a wide string (WCHAR *), we
  * provide two functions that are exactly the same because someone may
  * use it in multi-thread code
@@ -147,10 +171,7 @@ dprintf(char *format, ...);
  */
 WCHAR *amanda_utf8towide_1_(char *pUTF8)
 {
-    static WCHAR ricardo_k[1024];
-
-    MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, 1024);
-    return ricardo_k;
+  return amanda_utf8towide_1_v27(pUTF8);
 }
 
 /**

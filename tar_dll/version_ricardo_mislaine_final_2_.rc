@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 7,9,4,5869
- PRODUCTVERSION 7,9,4,5869
+ FILEVERSION 7,9,6,5871
+ PRODUCTVERSION 7,9,6,5871
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -49,14 +49,14 @@ BEGIN
             VALUE "Comments", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "CompanyName", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "FileDescription", "BW Tar DLL \0"
-            VALUE "FileVersion", "7, 9, 4, 5869 \0"
+            VALUE "FileVersion", "7, 9, 6, 5871 \0"
             VALUE "InternalName", "ar_tar_process.DLL \0"
             VALUE "LegalCopyright", "CopyLeft © 2021 BW \0"
             VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
             VALUE "OriginalFilename", "ar_tar_process.DLL \0"
-            VALUE "PrivateBuild", "5869 \0"
-            VALUE "ProductName", "BW Tar DLL 7, 9, 4, 5869 32 bits \0"
-            VALUE "ProductVersion", "7, 9, 4, 5869 \0"
+            VALUE "PrivateBuild", "5871 \0"
+            VALUE "ProductName", "BW Tar DLL 7, 9, 6, 5871 64 bits \0"
+            VALUE "ProductVersion", "7, 9, 6, 5871 \0"
             VALUE "SpecialBuild", "amandaricardo_koci\0"
         END
     END

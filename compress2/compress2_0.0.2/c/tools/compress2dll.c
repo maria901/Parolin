@@ -1,5 +1,4 @@
-
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -19,11 +18,11 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails direto dos felizes programadores:                                *
- *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
- *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
  *                                                                              *
- *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
@@ -70,8 +69,135 @@ int __amandacall get_multithread_progress(void);
 int *cores_used_z                        = NULL;
 
 extern bool is_multi_thread_z                  ;
-char temp_path_z                         [1024];
 int n_threads_z                             = 1; 
+
+/**
+ * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
+ */
+#define AMANDA__SIZE ((32767 * 6) + 2)
+/**
+ * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
+ * 
+ */
+#define AMANDA__SIZE_w (32767)
+
+char temp_path_z                 [AMANDA__SIZE];
+
+/**
+ * To make the path wide mode aware, stolen from libarchive
+ * 
+ * 15/september/2021 10:14, last visit 16/09/2021 22:36 by bhond...
+ *
+ */
+wchar_t *
+permissive_name_m_(const wchar_t *wname)
+{
+
+	static wchar_t *wnp = NULL;
+	wchar_t *wn;
+	wchar_t *ws, *wsp;
+	DWORD len, slen;
+	int unc;
+
+	if (NULL == wnp)
+	{
+		wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
+	}
+
+	//wnp = malloc(AMANDA__SIZE * 2);
+
+	wcscpy(wnp, wname);
+
+	len = wcslen(wname);
+
+	wn = wnp;
+
+	if (wnp[0] == L'\\' && wnp[1] == L'\\' && // access to the wrong position in memory, fixed now
+		wnp[2] == L'?' && wnp[3] == L'\\')
+		/* We have already a permissive name. */
+		return (wn);
+
+	if (wnp[0] == L'\\' && wnp[1] == L'\\' &&
+		wnp[2] == L'.' && wnp[3] == L'\\')
+	{
+		/* This is a device name */
+		if (((wnp[4] >= L'a' && wnp[4] <= L'z') ||
+			 (wnp[4] >= L'A' && wnp[4] <= L'Z')) &&
+			wnp[5] == L':' && wnp[6] == L'\\')
+			wnp[2] = L'?'; /* Not device name. */
+		return (wn);
+	}
+
+	unc = 0;
+	if (wnp[0] == L'\\' && wnp[1] == L'\\' && wnp[2] != L'\\')
+	{
+		wchar_t *p = &wnp[2];
+
+		/* Skip server-name letters. */
+		while (*p != L'\\' && *p != L'\0')
+			++p;
+		if (*p == L'\\')
+		{
+			wchar_t *rp = ++p;
+			/* Skip share-name letters. */
+			while (*p != L'\\' && *p != L'\0')
+				++p;
+			if (*p == L'\\' && p != rp)
+			{
+				/* Now, match patterns such as
+				 * "\\server-name\share-name\" */
+				wnp += 2;
+				len -= 2;
+				unc = 1;
+			}
+		}
+	}
+
+	slen = 4 + (unc * 4) + len + 1;
+	ws = wsp = malloc(slen * sizeof(wchar_t));
+	if (ws == NULL)
+	{
+		//free(wn);
+		return (NULL);
+	}
+	/* prepend "\\?\" */
+	wcsncpy(wsp, L"\\\\?\\", 4);
+	wsp += 4;
+	slen -= 4;
+	if (unc)
+	{
+		/* append "UNC\" ---> "\\?\UNC\" */
+		wcsncpy(wsp, L"UNC\\", 4);
+		wsp += 4;
+		slen -= 4;
+	}
+	wcsncpy(wsp, wnp, slen);
+	wsp[slen - 1] = L'\0'; /* Ensure null termination. */
+	//free(wn);
+
+	wcscpy(wnp, ws);
+
+	free(ws);
+
+	return (wnp);
+}
+
+/**
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
+ *  . provide two functions that are exactly the same because someone may 
+ * use it in multi-thread code 
+ *
+ * @param pUTF8 the input utf-8 encoded filename 
+ *
+ * @return the static allocated WCHAR array with the filename as wide string 
+ *
+ */
+WCHAR *amanda_utf8towide_1_v27(char *pUTF8)
+{
+	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
+	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
+	return permissive_name_m_(ricardo_k);
+}
 
 //#include "bzlib.h"
 
@@ -90,7 +216,6 @@ pedro_dprintf
 	char *format, ...
 );
 
-int utf8towide (const char *pUTF8, WCHAR * pUSC2, int nUSC2);
 int __stdcall IsAMD64 (void);
 int    compress2_uncompress (char *input, char *output);
 int    compress2_compress (char *input, char *output, int levelin);
@@ -100,8 +225,8 @@ void   removedordeespaconoinicio (char *path);
 void   removedordeespaconofinal (char *path);
 char  *getcpuname_k (void);
 char  *getprocessorbrandstring_k (void);
-char myinfile[255];
-char myoutfile[255];
+char myinfile[AMANDA__SIZE];
+char myoutfile[AMANDA__SIZE];
 int comando;
 char mylevel[255];
 char library[255];
@@ -262,8 +387,8 @@ int __stdcall status (int newvalue)
 
 int __stdcall interface1 (__INT32_OR_INT64 argumento1, __INT32_OR_INT64 argumento2, __INT32_OR_INT64 argumento3, __INT32_OR_INT64 argumento4)
 {
-	static char inputfile[255];
-	static char outputfile[255];
+	static char inputfile[AMANDA__SIZE];
+	static char outputfile[AMANDA__SIZE];
 	if (!strcmp ((char *) argumento1, "compress"))
 	{
 		modo = 0;

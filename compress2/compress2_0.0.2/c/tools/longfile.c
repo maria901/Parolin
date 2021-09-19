@@ -1,5 +1,4 @@
-
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -19,11 +18,11 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails direto dos felizes programadores:                                *
- *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
- *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
  *                                                                              *
- *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
@@ -40,7 +39,7 @@
 
 extern void __cdecl dprintf (char *format, ...);
 extern int unicodemode;
-WCHAR wpmode[600];
+
 HANDLE lfopen (const char *szFileName, char *pMode);
 void   lfclose (HANDLE hFile);
 __int64 lfseek (HANDLE hFile, __int64 iDistance, int iMode);
@@ -49,15 +48,18 @@ __int64 lffilesize (const char *szFileName);
 unsigned long lfread (void *pBuffer, unsigned long ulCount, HANDLE hFile);
 unsigned long lfwrite (void *pBuffer, unsigned long ulCount, HANDLE hFile);
 int setendofile (HANDLE file, __int64 position);
-int utf8towide (const char *pUTF8, WCHAR * pUSC2, int nUSC2)
-{
-	return MultiByteToWideChar (CP_UTF8, 0, (LPCSTR) pUTF8, -1, pUSC2, nUSC2);
-}
 
-int widetoutf8 (WCHAR * pUSC2, char *pUTF8, int nUTF8)
-{
-	return WideCharToMultiByte (CP_UTF8, 0, pUSC2, -1, (LPSTR) pUTF8, nUTF8, 0, 0);
-}
+/**
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
+ *  . provide two functions that are exactly the same because someone may 
+ * use it in multi-thread code 
+ *
+ * @param pUTF8 the input utf-8 encoded filename 
+ *
+ * @return the static allocated WCHAR array with the filename as wide string 
+ *
+ */
+WCHAR *amanda_utf8towide_1_v27(const char *pUTF8);
 
 HANDLE lfopen (const char *szFileName, char *pMode)
 {
@@ -72,8 +74,7 @@ HANDLE lfopen (const char *szFileName, char *pMode)
 
 		if (unicodemode)
 		{
-			utf8towide (szFileName, wpmode, 600);
-			ret = CreateFileW (wpmode, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+			ret = CreateFileW (amanda_utf8towide_1_v27(szFileName), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 
 		}
 		else
@@ -93,9 +94,7 @@ HANDLE lfopen (const char *szFileName, char *pMode)
 #endif
 		if (unicodemode)
 		{
-			utf8towide (szFileName, wpmode, 600);
-			ret = CreateFileW (wpmode, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
-
+			ret = CreateFileW (amanda_utf8towide_1_v27(szFileName), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 		}
 		else
 		{
@@ -108,8 +107,7 @@ HANDLE lfopen (const char *szFileName, char *pMode)
 #endif
 		if (unicodemode)
 		{
-			utf8towide (szFileName, wpmode, 600);
-			ret = CreateFileW (wpmode, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_ARCHIVE, NULL);
+			ret = CreateFileW (amanda_utf8towide_1_v27(szFileName), GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_ARCHIVE, NULL);
 		}
 		else
 		{
@@ -122,8 +120,7 @@ HANDLE lfopen (const char *szFileName, char *pMode)
 #endif
 		if (unicodemode)
 		{
-			utf8towide (szFileName, wpmode, 600);
-			ret = CreateFileW (wpmode, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+			ret = CreateFileW (amanda_utf8towide_1_v27(szFileName), GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 		}
 		else
 		{
@@ -133,8 +130,7 @@ HANDLE lfopen (const char *szFileName, char *pMode)
 	case 'a'://not tested, as far as I know it will not start from the end of the file as you can see below
 		if (unicodemode)
 		{
-			utf8towide (szFileName, wpmode, 600);
-			ret = CreateFileW (wpmode, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+			ret = CreateFileW (amanda_utf8towide_1_v27(szFileName), GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 		}
 		else
 		{
@@ -210,11 +206,10 @@ __int64 lffilesize (const char *szFileName)
 
 	if (unicodemode)
 	{
-		utf8towide (szFileName, wpmode, 600);
 #ifdef NPRINTF
 		dprintf("arquivo %s\n",szFileName);
 #endif
-		hFile = CreateFileW (wpmode, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+		hFile = CreateFileW (amanda_utf8towide_1_v27(szFileName), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 	}
 	else
 	{

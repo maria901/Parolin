@@ -877,7 +877,7 @@ int lz5compress_k(char *input,
                         }
                   }
 #ifndef ARP_USE_ENHANCED_STDIO
-                  _wunlink(amanda_utf8towide_1_(temp_files_z[i_z]));
+                  _wunlink(amanda_utf8towide_1_v27(temp_files_z[i_z]));
 #endif
             }
 
@@ -885,7 +885,7 @@ int lz5compress_k(char *input,
             for (i_z = 0; i_z < n_threads_z; i_z++)
             {
                   free_z(files_to_close_z[i_z]);
-                  _wunlink(amanda_utf8towide_1_(temp_files_z[i_z]));
+                  _wunlink(amanda_utf8towide_1_v27(temp_files_z[i_z]));
             }
 #endif
 
@@ -987,13 +987,7 @@ init_position_z:;
 
       if (!first_pass_z)
       {
-            {
-                  WCHAR wpmode[300] = {
-                      0,
-                  };
-                  utf8towide(input, wpmode, 300);
-                  source = _wfopen(wpmode, L"rb");
-            }
+            source = _wfopen(amanda_utf8towide_1_v27(input), L"rb");
 
             if (NULL == source)
             {
@@ -1002,11 +996,7 @@ init_position_z:;
             }
       }
 
-      {
-            WCHAR temp_w_k[300] = {0};
-            utf8towide(output, temp_w_k, 300);
-            ret = SetFileAttributesW(temp_w_k, FILE_ATTRIBUTE_ARCHIVE);
-      }
+      ret = SetFileAttributesW(amanda_utf8towide_1_v27(output), FILE_ATTRIBUTE_ARCHIVE);
 
       memset(&ar, 0, sizeof(ar));
       ret = fread(&ar, 1, sizeof(ar), source);
@@ -1036,13 +1026,7 @@ init_position_z:;
 
       if (!first_pass_z)
       {
-            {
-                  WCHAR wpmode[300] = {
-                      0,
-                  };
-                  utf8towide(output, wpmode, 300);
-                  dest = _wfopen(wpmode, L"wb");
-            }
+            dest = _wfopen(amanda_utf8towide_1_v27(output), L"wb");
 
             if (NULL == dest)
             {
@@ -1121,11 +1105,7 @@ saida:
 
       if (0 == retvalue)
       {
-            {
-                  WCHAR temp_w_k[300] = {0};
-                  utf8towide(output, temp_w_k, 300);
-                  ret = SetFileAttributesW(temp_w_k, ar.attrib);
-            }
+            ret = SetFileAttributesW(amanda_utf8towide_1_v27(output), ar.attrib);
       }
 
 #ifdef NPRINTF

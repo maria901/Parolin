@@ -1,4 +1,3 @@
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
@@ -19,11 +18,11 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails direto dos felizes programadores:                                *
- *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
- *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ *     E-mails:                                                                 *
+ *     maria@arsoftware.net.br                                                  *
+ *     pedro@locacaodiaria.com.br                                               *
  *                                                                              *
- *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
@@ -1259,13 +1258,20 @@ int __stdcall libarchive_process_p(char *new_entry_relative_p, char *new_entry_c
 		pedro_dprintf(0, "file %s\n", new_entry_relative_p);
 		pedro_dprintf(0, "complete file %s\n", new_entry_complete_p);
 
+if(260 < strlen(new_entry_complete_p))
+{
+	pedro_dprintf(0, "size %d", strlen(new_entry_complete_p));
+	//exit(27);
+	//Beep(1000,3000);
+}
+
 		strcpy(real_input_utf_8_i_2, new_entry_complete_p);
 		//strcpy(real_input_utf_8_i,   new_entry_complete_p);
-		char temp_p[300] = {0};
+		static char temp_p[AMANDA__SIZE] = {0};
 
 		{
 
-			WCHAR temp_p_w[300];
+			static WCHAR temp_p_w[AMANDA__SIZE_w];
 			int p;
 			int i_p;
 
@@ -1276,7 +1282,9 @@ int __stdcall libarchive_process_p(char *new_entry_relative_p, char *new_entry_c
 			for (i_p = 0; i_p < p; i_p++)
 			{
 				temp_p[i_p] = (char)temp_p_w[i_p];
+				temp_p[i_p + 1] = 0;
 			}
+			temp_p[i_p] = 0;
 		}
 
 		r = archive_read_disk_open_w(disk, amanda_utf8towide_1_(new_entry_relative_p));
