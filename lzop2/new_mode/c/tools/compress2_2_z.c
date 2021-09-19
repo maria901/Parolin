@@ -959,7 +959,7 @@ int compress2_uncompress_k_mt_z(char *input, char *output)
       //begin...go for it
 
       if (1 == n_threads_z)
-      {
+      {            
             ; //pass through
       }
       else

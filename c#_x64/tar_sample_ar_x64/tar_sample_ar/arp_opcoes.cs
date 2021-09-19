@@ -36,6 +36,7 @@ namespace tar_sample_ar
 		StringBuilder pega_pass = new StringBuilder(300);
 		void Arp_opcoesLoad(object sender, EventArgs e)
 		{
+			int cores_128_k__p;
 			if(!util_ar.is_parolin_p)
 			{
 				
@@ -96,17 +97,13 @@ namespace tar_sample_ar
 			arp_pass.Text = pega_pass.ToString();
 			util_ar.get__settings_arp("remote_path_arp", pega_pass, pega_pass.Capacity);
 			remote_path_arp.Text = pega_pass.ToString();
-						
-			
+									
 			threads_z.Items.Add("auto");//will be detected at runtime
-			threads_z.Items.Add("1");
-			threads_z.Items.Add("2");
-			threads_z.Items.Add("3");
-			threads_z.Items.Add("4");
-			threads_z.Items.Add("5");
-			threads_z.Items.Add("6");
-			threads_z.Items.Add("7");
-			threads_z.Items.Add("8");
+			
+			for(cores_128_k__p = 1; cores_128_k__p<= 128; cores_128_k__p++)
+			{
+				threads_z.Items.Add(cores_128_k__p.ToString());
+			}
 			
 			util_ar.get__settings_arp("xz_threads", pega_pass, pega_pass.Capacity);
 			

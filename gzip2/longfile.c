@@ -67,11 +67,6 @@ __int64 lffilesize(const char *szFileName);
 unsigned long lfread(void *pBuffer, unsigned long ulCount, HANDLE hFile);
 unsigned long lfwrite(void *pBuffer, unsigned long ulCount, HANDLE hFile);
 
-int widetoutf8(WCHAR *pUSC2, char *pUTF8, int nUTF8)
-{
-      return WideCharToMultiByte(CP_UTF8, 0, pUSC2, -1, (LPSTR)pUTF8, nUTF8, 0, 0);
-}
-
 /*
 
 //for historical reasons...

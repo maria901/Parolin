@@ -57,6 +57,8 @@
 
 #include "win64.h"
 
+extern int64_t max_memory_size_j;
+
 #define CHUNK 131072 /* to never change again */
 
 /**
@@ -85,17 +87,17 @@ extern int intstatus;
 extern int thread_return_value_z;
 extern int pauseflag;
 extern int cancelflag;
-extern int64_t bytes__read_thread_z[10];
-uint64_t bytes_in_each_slice_z[10];
-uint64_t offset_of_each_slice_z[10];
+extern int64_t bytes__read_thread_z[129];
+uint64_t bytes_in_each_slice_z[129];
+uint64_t offset_of_each_slice_z[129];
 extern char temp_path_z[];
-extern char temp_files_z[10][1024];
+extern char temp_files_z[129][2048];
 extern bool is_multi_thread_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-extern FILE_z *files_to_close_z[10];
+extern FILE_z *files_to_close_z[129];
 #endif
 
-extern __INT32_OR_INT64 my_thread_handle[10];
+extern __INT32_OR_INT64 my_thread_handle[129];
 
 extern int *cores_used_z;
 
@@ -126,7 +128,7 @@ int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output
       static char buffer[CHUNK];
       ar_data ar = {0};
 
-      pedro_dprintf(-1, "dentro threads %d\n", n_threads_z);
+      pedro_dprintf(0, "ok dentro threads %d\n", n_threads_z);
 
       thread_return_value_z = 0; //initial thread error value
 
@@ -201,7 +203,7 @@ saida_z:;
 
       fclose(input_file);
 
-      pedro_dprintf(-1, "count of threads %d\n", thread_counter);
+      pedro_dprintf(0, "count of threads %d", thread_counter);
 
       if (retvalue_z)
       {
@@ -261,7 +263,7 @@ saida_z:;
             {
                   {
 #ifdef ARP_USE_ENHANCED_STDIO
-                        ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", MAX_MEMORY_SIZE_Z, __FILE__, __LINE__, NULL);
+                        ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", /*MAX_MEMORY_SIZE_Z*/ max_memory_size_j, __FILE__, __LINE__, NULL);
                         files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
 
 #else
@@ -277,7 +279,7 @@ saida_z:;
                         }
                   }
             }
-
+            pedro_dprintf(0, "criando thread %lld", (int64_t)n_thread_counter);
             my_thread_handle[n_thread_counter] = (__INT32_OR_INT64)_beginthreadex(NULL, 0, my_thread_function_v27, ptr_my_struct_z, 0, NULL);
 
             n_thread_counter++;
@@ -312,7 +314,10 @@ saida_z:;
 
                   {
 #ifdef ARP_USE_ENHANCED_STDIO
-                        temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", MAX_MEMORY_SIZE_Z, __FILE__, __LINE__, files_to_close_z[i_z]);
+
+                        max_memory_size_j = 200000000 / n_threads_z;
+
+                        temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", max_memory_size_j, __FILE__, __LINE__, files_to_close_z[i_z]);
 #else
                         temp_z = _wfopen(wpmode, L"rb");
 #endif

@@ -556,26 +556,14 @@ namespace tar_sample_ar
 					{
 						ret_arp = int.Parse(pega_pass.ToString());
 						
-						switch(ret_arp)
+						if(128 < ret_arp)
 						{
-							case 1://single thread, default mode
-							case 2:
-							case 3:
-							case 4:
-							case 5:
-							case 6:
-							case 7:
-							case 8:
-								threads_used_z = "Threads: " + ret_arp;
-								util_ar.set_thread_number(ret_arp);
-								break;
-							default:
-								threads_used_z = "Threads: 1";
-								util_ar.pedro_dprintf(0, "Invalid thread value\n");
-								util_ar.set_thread_number(1);//default
-								break;
+							ret_arp = 128;//limit
 						}
 						
+						threads_used_z = "Threads: " + ret_arp;
+								util_ar.set_thread_number(ret_arp);
+								
 					}
 					catch
 					{
@@ -1168,23 +1156,12 @@ namespace tar_sample_ar
 						{
 							ret_arp = int.Parse(pega_pass.ToString());
 							
-							switch(ret_arp)
-							{
-								case 1://single thread, default mode
-								case 2:
-								case 3:
-								case 4:
-								case 5:
-								case 6:
-								case 7:
-								case 8:
-									threads_used_z = "Threads: " + ret_arp;
-									break;
-								default:
-									threads_used_z = "Threads: 1";
-									break;
-							}
 							
+							if(128 < ret_arp)
+							{
+								ret_arp = 128;
+							}
+							threads_used_z = "Threads: " + ret_arp;
 						}
 						catch
 						{

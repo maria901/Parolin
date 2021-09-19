@@ -168,6 +168,7 @@ int encryption_process_new_mode_21_february_2021_z(char *original_filename_z)
 }
 
 int threads_z = 1;
+int threads_z_v27 = 1;
 
 /**
  * This is the api call that will pass to the DLL the
@@ -184,6 +185,13 @@ int __stdcall set_thread_number(int value_z)
       if (0 > value_z)
       {
             value_z = 0; //will be based on the number of cpus detected
+            threads_z_v27 = 0;
+      }
+      threads_z_v27 = value_z;
+
+      if (128 < threads_z_v27)
+      {
+            threads_z_v27 = 128;
       }
 
       if (8 < value_z)
@@ -1755,7 +1763,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
             st->archive_file_size = st->stat.st_size;
 
             st->archive_file_size = my_VAL_data.VAL_file_size;
-            
+
             st->stat.st_size = my_VAL_data.VAL_file_size;
 
             pedro_dprintf(-1, "2 size %lld\n", (int64_t)st->archive_file_size);
@@ -5204,10 +5212,11 @@ pula_arp:;
             {
                   first_step = 1;
                   inittimer2(0);
+                  pedro_dprintf(0, "na entrada é %d", threads_z_v27);
                   returnvalue_ar = compress_g2___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
                                                               6,
-                                                              threads_z,
+                                                              threads_z_v27,
                                                               ar_gettemppath_z());
 
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "gzip2 compressed required %.3f seconds\n", inittimer2(1));

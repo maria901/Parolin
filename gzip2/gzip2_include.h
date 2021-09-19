@@ -56,4 +56,4 @@ typedef struct my_thread_struct_z__
 
 #define __valquiriacall __fastcall
 
-#define MAX_MEMORY_SIZE_Z (16 * 1024 * 1024) /* to never change */
+//#define MAX_MEMORY_SIZE_Z (16 * 1024 * 1024) /* to never change !!!*/

@@ -1,5 +1,5 @@
 ﻿
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -24,10 +24,10 @@
  *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
  *                                                                              *
  *     contato imediato(para uma resposta muita rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
- 
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -139,6 +139,14 @@ namespace tar_sample_ar
 					{
 						ret_arp = int.Parse(pega_pass.ToString());
 						
+						if(128 < ret_arp)
+						{
+							ret_arp = 128;
+						}
+						
+						util_ar.set_thread_number(ret_arp);
+						
+						/*
 						switch(ret_arp)
 						{
 							case 1://single thread, default mode
@@ -156,6 +164,8 @@ namespace tar_sample_ar
 								util_ar.set_thread_number(1);//default
 								break;
 						}
+						 */
+						
 						
 					}
 					catch
@@ -244,24 +254,11 @@ namespace tar_sample_ar
 					{
 						ret_arp = int.Parse(pega_pass.ToString());
 						
-						switch(ret_arp)
+						if(128 < ret_arp)
 						{
-							case 1://single thread, default mode
-							case 2:
-							case 3:
-							case 4:
-							case 5:
-							case 6:
-							case 7:
-							case 8:
-								util_ar.set_thread_number(ret_arp);
-								break;
-							default:
-								util_ar.pedro_dprintf(0, "Invalid thread value\n");
-								util_ar.set_thread_number(1);//default
-								break;
+							ret_arp = 128;												
 						}
-						
+						util_ar.set_thread_number(ret_arp);		
 					}
 					catch
 					{
@@ -274,7 +271,7 @@ namespace tar_sample_ar
 			files_ar.Text   =    "Files";
 			my_error_ar.Text  = "Error: <working...>";
 			progress_information_ar.Items.Clear();
-						
+			
 			util_ar.get__settings_arp("the_password_arp", pega_pass, pega_pass.Capacity);
 			//the password is only relevant if encryption is used, but always pass it...
 			
@@ -548,7 +545,7 @@ namespace tar_sample_ar
 			catch(Exception p_e)
 			{
 				util_ar.pedro_dprintf(0, "error de try " + p_e.Message);
-			}			
+			}
 		}
 		void Tempo_extract_Tick(object sender, EventArgs e)
 		{

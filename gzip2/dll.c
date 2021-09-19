@@ -80,7 +80,17 @@ int *cores_used_z = NULL;
 
 #define __amandacall __stdcall
 
-char temp_path_z[1024];
+/**
+ * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
+ */
+#define AMANDA__SIZE ((32767 * 6) + 2)
+/**
+ * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
+ * 
+ */
+#define AMANDA__SIZE_w (32767)
+
+char temp_path_z[AMANDA__SIZE];
 
 uint32_t
 tuklib_cpucores_z(void);
@@ -113,16 +123,6 @@ uint __stdcall rspuncompress(uchar *outfile, uchar *outfile2);
 
 int zuncompress(char *input, char *output);
 int zcompress(char *input, char *output, int level);
-
-/**
- * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
- */
-#define AMANDA__SIZE ((32767 * 6) + 2)
-/**
- * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
- * 
- */
-#define AMANDA__SIZE_w (32767)
 
 /**
  * To make the path wide mode aware, stolen from libarchive
@@ -568,7 +568,6 @@ int __stdcall startapi(__attribute__((unused)) int parameter)
 
       if (3 == comando)
       {
-
             intret = zuncompress((char *)intinputfile, (char *)intoutfile);
       }
 
@@ -619,9 +618,9 @@ int __stdcall interface1(__int64 argumento1, __int64 argumento2, __int64 argumen
 int __stdcall interface1(int argumento1, int argumento2, int argumento3, __attribute__((unused)) int argumento4)
 {
 #endif
-      static char inputfile[255 * 6]; //for Unicode sake, (utf-8)
-      static char inputfile2[255 * 6];
-      static char outputfile[255 * 6];
+      static char inputfile[AMANDA__SIZE]; //for Unicode sake, (utf-8)
+      static char inputfile2[AMANDA__SIZE];
+      static char outputfile[AMANDA__SIZE];
       static char key[255 * 6];
 
       if (!strcmp((char *)argumento1, "compress"))
@@ -662,8 +661,8 @@ int __stdcall interface1(int argumento1, int argumento2, int argumento3, __attri
 
       if (!strcmp((char *)argumento1, "compressgzip2_sha512_k"))
       {
-            memset(inputfile, 0, 255);
-            memset(outputfile, 0, 255);
+            memset(inputfile, 0, sizeof(inputfile));
+            memset(outputfile, 0, sizeof(outputfile));
             memset(key, 0, 256);
 
             isgzip2 = 1;

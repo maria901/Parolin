@@ -10799,10 +10799,10 @@ int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
 }
 
 /**
- * This function will return the temp folder being used, if not set with
- * set_temp_folder_z it will be the user temp folder
+ * This function will return the temp folder being used, if not set with 
+ * set_temp_folder_z it will be the user temp folder 
  *
- * @return a string with the current temp folder
+ * @return a string with the current temp folder 
  */
 char *
 ar_gettemppath_z(void)
