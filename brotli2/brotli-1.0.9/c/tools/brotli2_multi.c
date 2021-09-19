@@ -54,7 +54,7 @@
 #include <stdbool.h>
 
 #include <process.h>
-
+extern int64_t max_memory_size_k__p;
 #include "win64.h"
 
 #define CHUNK 131072 /* to never change again */
@@ -80,7 +80,7 @@ void pedro_dprintf(int amanda_level,
 #include "stdio_v3.h"
 
 extern bool is_multi_thread_z;
-extern char temp_files_z[10][1024];
+extern char temp_files_z[129][2048];
 extern char temp_path_z[];
 extern int finished;
 extern int intcancel;
@@ -88,12 +88,12 @@ extern int intpause;
 extern int intstatus;
 extern int n_threads_z;
 extern int thread_return_value_z;
-extern int64_t bytes__read_thread_z[10];
+extern int64_t bytes__read_thread_z[129];
 extern int64_t totalbytes_z;
-uint64_t bytes_in_each_slice_z[10];
-uint64_t offset_of_each_slice_z[10];
+uint64_t bytes_in_each_slice_z[129];
+uint64_t offset_of_each_slice_z[129];
 #ifdef ARP_USE_ENHANCED_STDIO
-extern FILE_z *files_to_close_z[10];
+extern FILE_z *files_to_close_z[129];
 #endif
 
 /**
@@ -108,7 +108,7 @@ extern FILE_z *files_to_close_z[10];
  */
 WCHAR *amanda_utf8towide_1_v27(char *pUTF8);
 
-extern __INT32_OR_INT64 my_thread_handle[10];
+extern __INT32_OR_INT64 my_thread_handle[129];
 
 extern int *cores_used_z;
 
@@ -267,8 +267,9 @@ saida_z:;
             else
             {
                   {
+                        max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-                        ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", MAX_MEMORY_SIZE_Z, __FILE__, __LINE__, NULL);
+                        ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", max_memory_size_k__p, __FILE__, __LINE__ , NULL);
                         files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
 
 #else
@@ -317,8 +318,9 @@ saida_z:;
             {
 
                   {
+                        max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-                        temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", MAX_MEMORY_SIZE_Z, __FILE__, __LINE__, files_to_close_z[i_z]);
+                        temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", max_memory_size_k__p, __FILE__, __LINE__, files_to_close_z[i_z]);
 #else
                         temp_z = _wfopen(wpmode, L"rb");
 #endif

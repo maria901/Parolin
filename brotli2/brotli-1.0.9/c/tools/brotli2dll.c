@@ -94,18 +94,6 @@ void removedordeespaconoinicio(char *path);
 void removedordeespaconofinal(char *path);
 char *getcpuname_k(void);
 char *getprocessorbrandstring_k(void);
-char myinfile[255];
-char myoutfile[255];
-int comando;
-char mylevel[255];
-char library[255];
-int intpause;
-int intcancel;
-
-int filesize;
-int intfatia;
-int intstatus;
-int intreturn;
 
 /**
  * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
@@ -116,6 +104,19 @@ int intreturn;
  * 
  */
 #define AMANDA__SIZE_w (32767)
+
+char myinfile[AMANDA__SIZE];
+char myoutfile[AMANDA__SIZE];
+int comando;
+char mylevel[255];
+char library[255];
+int intpause;
+int intcancel;
+
+int filesize;
+int intfatia;
+int intstatus;
+int intreturn;
 
 char temp_path_z[AMANDA__SIZE];
 
@@ -291,31 +292,7 @@ int __stdcall startapi(__attribute__((unused)) int parameter)
       intstatus = 0;
       return 0;
 }
-/*
-BOOL WINAPI DllMain (HINSTANCE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
-{
-	switch (ul_reason_for_call)
-	{
-	case DLL_PROCESS_ATTACH:
-		OutputDebugString ("BW LZ5 DLL DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__ ") _amanda_debug_ \n");
 
-#ifdef NPRINTF
-		MessageBox (0, "Alladin debugging code", "BinaryWork Corp.", MB_OK | MB_TOPMOST);
-#endif
-		break;
-	case DLL_THREAD_ATTACH:
-
-		break;
-	case DLL_THREAD_DETACH:
-
-		break;
-	case DLL_PROCESS_DETACH:
-
-		break;
-	}
-	return TRUE;
-}
-*/
 int __stdcall execute(char *infile, char *outfile, char *level, int comando1)
 {
       HANDLE myhandle;

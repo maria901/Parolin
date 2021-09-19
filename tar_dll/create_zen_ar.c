@@ -168,6 +168,7 @@ int encryption_process_new_mode_21_february_2021_z(char *original_filename_z)
 }
 
 int threads_z = 1;
+//threads with up to 128
 int threads_z_v27 = 1;
 
 /**
@@ -182,6 +183,7 @@ int threads_z_v27 = 1;
  */
 int __stdcall set_thread_number(int value_z)
 {
+
       if (0 > value_z)
       {
             value_z = 0; //will be based on the number of cpus detected
@@ -5627,7 +5629,7 @@ pula_arp:;
                   returnvalue_ar = compress_bb___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
                                                               6,
-                                                              threads_z,
+                                                              threads_z_v27,
                                                               ar_gettemppath_z());
 
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "brotli2 compressed required %.3f seconds\n", inittimer2(1));
@@ -5734,7 +5736,7 @@ pula_arp:;
                   returnvalue_ar = compress_c5___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
                                                               6,
-                                                              threads_z,
+                                                              threads_z_v27,
                                                               ar_gettemppath_z());
 
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "compress2 compressed required %.3f seconds\n", inittimer2(1));

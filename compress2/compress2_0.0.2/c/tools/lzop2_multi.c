@@ -27,8 +27,8 @@
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
-uint64_t bytes_in_each_slice_z[10];
-uint64_t offset_of_each_slice_z[10];
+uint64_t bytes_in_each_slice_z[129];
+uint64_t offset_of_each_slice_z[129];
 
 extern int *cores_used_z;
 
@@ -184,8 +184,9 @@ saida_z:;
 		{
 			if (unicodemode)
 			{
+				max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-				ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", MAX_MEMORY_SIZE_Z, __FILE__, __LINE__, NULL);
+				ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", max_memory_size_k__p, __FILE__, __LINE__, NULL);
 				files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
 
 #else
@@ -194,8 +195,9 @@ saida_z:;
 			}
 			else
 			{
+				max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-				ptr_my_struct_z->dest = fopen_z(temp_files_z[n_thread_counter], "wb", MAX_MEMORY_SIZE_Z, __FILE__, __LINE__, NULL);
+				ptr_my_struct_z->dest = fopen_z(temp_files_z[n_thread_counter], "wb", max_memory_size_k__p, __FILE__, __LINE__, NULL);
 				files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
 #else
 
@@ -257,16 +259,18 @@ saida_z:;
 
 			if (unicodemode)
 			{
+				max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-				temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", MAX_MEMORY_SIZE_Z, __FILE__, __LINE__, files_to_close_z[i_z]);
+				temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", max_memory_size_k__p, __FILE__, __LINE__, files_to_close_z[i_z]);
 #else
 				temp_z = _wfopen(wpmode, L"rb");
 #endif
 			}
 			else
 			{
+				max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-				temp_z = fopen_z(temp_files_z[i_z], "rb", MAX_MEMORY_SIZE_Z, __FILE__, __LINE__, files_to_close_z[i_z]);
+				temp_z = fopen_z(temp_files_z[i_z], "rb", max_memory_size_k__p, __FILE__, __LINE__, files_to_close_z[i_z]);
 #else
 				temp_z = fopen(temp_files_z[i_z], "rb");
 #endif

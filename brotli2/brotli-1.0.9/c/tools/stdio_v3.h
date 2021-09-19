@@ -75,7 +75,7 @@ pedro_dprintf
 	char *format, ...
 );
 
-#define MAX_MEMORY_SIZE_Z (16 * 1024 * 1024)
+//#define MAX_MEMORY_SIZE_Z (16 * 1024 * 1024)
 
 #define __valquiriacall __fastcall
 int     __valquiriacall compress2_uncompress_k_real_mt_z (char *input_z, char *output_z)/*for your pleasure */    ;
