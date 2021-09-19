@@ -2210,10 +2210,10 @@ int main()
 
       ret_val_juliete = compress_co___rspk_ar("makefile", "makefile.2.Z", 6);
 
-      pedro_dprintf(0, "ret val amor co %d\n", ret_val_juliete);
+      pedro_dprintf(1001, "ret val amor co %d\n", ret_val_juliete);
 
       ret_val_juliete = uncompress_co___rspk_ar("makefile.2.Z", "makefile.out");
 
-      pedro_dprintf(0, "ret val amor un %d\n", ret_val_juliete);
+      pedro_dprintf(1001, "ret val amor un %d\n", ret_val_juliete);
 }
 #endif

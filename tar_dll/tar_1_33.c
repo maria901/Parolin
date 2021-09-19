@@ -6472,7 +6472,7 @@ int __stdcall startapi_ar_2(__attribute__((unused)) int parameter) //for list pr
 			return_value_from_list = process_tar(0, tar_file_ar_real, list_function_ar_ok);
 		else
 		{
-			pedro_dprintf(0, "7");
+			pedro_dprintf(-1, "7");
 			dllinit_arp();
 
 			{
@@ -6528,7 +6528,7 @@ int __stdcall startapi_ar_2(__attribute__((unused)) int parameter) //for list pr
 		return_value_from_list = is_multi_volume_p;
 	}
 	pedro_dprintf(-1, "is multi volume2 %d\n", (int)is_multi_volume_p);
-pedro_dprintf(0, "13");
+pedro_dprintf(-1, "13");
 	running_2_ar = 0;
 	mode_is_libarchive_list_p = false;
 	return 0;
@@ -6610,7 +6610,7 @@ int __stdcall libarchive_list_tar_file_ar(
 	char *tar_file_ar)
 {
 	mode_is_libarchive_list_p = true;
-	pedro_dprintf(0, "1");
+	pedro_dprintf(-1, "1");
 	return list_tar_file_ar(tar_file_ar);
 }
 
@@ -6639,13 +6639,13 @@ int __stdcall list_tar_file_ar(char *tar_file_ar)
 	extract_cancel_flag = false;
 
 	running_2_ar = 1;
-pedro_dprintf(0, "2");
+pedro_dprintf(-1, "2");
 	strncpy_z(tar_file_ar_real, tar_file_ar, AMANDA__SIZE);
 
 	HANDLE myhandle;
 	MYCAST ThreadId;
 	MYCAST parameter = 1;
-pedro_dprintf(0, "3");
+pedro_dprintf(-1, "3");
 	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
 							(SIZE_T)0,
 							(void *)startapi_ar_2,

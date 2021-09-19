@@ -789,7 +789,7 @@ static size_t FIO_createDictBuffer(void** bufferPtr, const char* fileName, FIO_p
 
     DISPLAYLEVEL(4,"Loading %s as dictionary \n", fileName);
 	
-	pedro_dprintf(0, "FIO_createDictBuffer fopen line %d", __LINE__);
+	pedro_dprintf(-1, "FIO_createDictBuffer fopen line %d", __LINE__);
 	
     fileHandle = fopen(fileName, "rb");
     if (fileHandle==NULL) EXM_THROW(31, "%s: %s", fileName, strerror(errno));

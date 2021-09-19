@@ -341,7 +341,7 @@ permissive_name_m_(const wchar_t *wname)
 
     free(ws);
 
-    pedro_dprintf(0, "interno %s\n", valquiria_wide_to_utf8(wnp));
+    pedro_dprintf(-1, "interno %s\n", valquiria_wide_to_utf8(wnp));
 
     return (wnp);
 }
@@ -436,7 +436,7 @@ permissive_name_m_v27(const wchar_t *wname)
 
     free(ws);
 
-    pedro_dprintf(0, "interno %s\n", valquiria_wide_to_utf8(wnp));
+    pedro_dprintf(-1, "interno %s\n", valquiria_wide_to_utf8(wnp));
 
     return (wnp);
 }

@@ -1736,7 +1736,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
                   my_VAL_data.VAL_timestamp64 = s_arp_3;
                   my_VAL_data.VAL_file_size = getfilesize_ar(file_or_folder_to_process);
 
-                  pedro_dprintf(0, "size %lld\n", (int64_t)my_VAL_data.VAL_file_size);
+                  pedro_dprintf(-1, "size %lld\n", (int64_t)my_VAL_data.VAL_file_size);
 
                   my_VAL_data.VAL_is_dir = false;
                   my_VAL_data.VAL_is_encrypted = false;
@@ -1758,7 +1758,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
             
             st->stat.st_size = my_VAL_data.VAL_file_size;
 
-            pedro_dprintf(0, "2 size %lld\n", (int64_t)st->archive_file_size);
+            pedro_dprintf(-1, "2 size %lld\n", (int64_t)st->archive_file_size);
 
             if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
             {
@@ -1880,7 +1880,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
                   {
                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)));
                   }
-                  pedro_dprintf(0, "Cannot open size %d\n", strlen(file_or_folder_to_process));
+                  pedro_dprintf(-1, "Cannot open size %d\n", strlen(file_or_folder_to_process));
                   sprintf(warning_message_k, "Cannot open %s to write", file_or_folder_to_process);
                   add_more_one(warning_message_k);
                   return;

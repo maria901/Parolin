@@ -1063,7 +1063,7 @@ static BROTLI_BOOL ProvideInput(Context *context)
 #ifdef ARP_DEBUG__
       percent = lgetpor(tamanho____aakp, processado_rspk);
 
-      pedro_dprintf(0, "percent %0.2f %d\n", (double)((double)percent / 100.0), kFileBufferSize);
+      pedro_dprintf(1001, "percent %0.2f %d\n", (double)((double)percent / 100.0), kFileBufferSize);
 #endif
       while (intpause___aakp)
       {
@@ -1472,7 +1472,7 @@ int main(int argc, char **argv)
 
 #ifdef ARP_DEBUG__
 
-      pedro_dprintf(0, "Return value %d\n", return_value_arp);
+      pedro_dprintf(1001, "Return value %d\n", return_value_arp);
 
 #endif
 
