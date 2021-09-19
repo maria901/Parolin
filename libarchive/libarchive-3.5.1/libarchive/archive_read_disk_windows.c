@@ -46,7 +46,7 @@ __FBSDID("$FreeBSD$");
 #define AMANDA__SIZE_w (32767)
 #define AMANDA__SIZE (32767 * 6)
 
-char real_input_utf_8_i_3[1027] = {0};
+char real_input_utf_8_i_3[AMANDA__SIZE] = {0};
 
 /**
  * To convert an input wide string to a utf-8 encoded filename on return

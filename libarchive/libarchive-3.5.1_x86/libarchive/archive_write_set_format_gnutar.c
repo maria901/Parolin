@@ -47,12 +47,12 @@ __FBSDID("$FreeBSD: head/lib/libarchive/archive_write_set_format_gnu_tar.c 19157
 #include "archive_private.h"
 #include "archive_write_private.h"
 #include "archive_write_set_format_private.h"
-
+#define AMANDA__SIZE (32767 * 6)
 static char * valquiria_wide_to_utf8(WCHAR * pUSC2_maria)
 {
-	static char saida_utf8[1024];
+	static char saida_utf8[AMANDA__SIZE];
 
-	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, 1024, 0, 0);
+	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
 	return saida_utf8;
 }
 extern int debug_mode_i;

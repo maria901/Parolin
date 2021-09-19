@@ -266,8 +266,8 @@ static char * valquiria_wide_to_utf8(WCHAR * pUSC2_maria)
 	return saida_utf8;
 }
 
-char real_input_utf_8_i_2[1027] = { 0 };
-char real_input_utf_8_i_extract_2[1027] = { 0 };
+char real_input_utf_8_i_2[AMANDA__SIZE] = { 0 };
+char real_input_utf_8_i_extract_2[AMANDA__SIZE] = { 0 };
 
 wchar_t *
 __la_win_permissive_name_w(const wchar_t *wname)

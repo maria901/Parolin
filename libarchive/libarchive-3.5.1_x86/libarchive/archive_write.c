@@ -620,6 +620,8 @@ _archive_write_close(struct archive *_a)
 	struct archive_write *a = (struct archive_write *)_a;
 	int r = ARCHIVE_OK, r1 = ARCHIVE_OK;
 
+pedro_dprintf(0, "_archive_write_close %s %d\n", __FILE__, __LINE__);
+
 	archive_check_magic(&a->archive, ARCHIVE_WRITE_MAGIC,
 	    ARCHIVE_STATE_ANY | ARCHIVE_STATE_FATAL,
 	    "archive_write_close");

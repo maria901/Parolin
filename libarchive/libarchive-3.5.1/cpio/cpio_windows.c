@@ -131,7 +131,7 @@ static char * valquiria_wide_to_utf8(WCHAR * pUSC2_maria)
 	return saida_utf8;
 }
 
-char real_input_utf_8_i[1027];
+char real_input_utf_8_i[AMANDA__SIZE];
 
 /*
  * Prepend "\\?\" to the path name and convert it to unicode to permit

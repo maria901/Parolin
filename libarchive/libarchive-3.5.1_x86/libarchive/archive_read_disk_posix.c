@@ -501,11 +501,56 @@ _archive_read_free(struct archive *_a)
 	return (r);
 }
 
+extern int debug_mode_i;
+
+static void
+pedro_dprintf
+(
+	int amanda_level,
+	char *format, ...
+)
+{
+	if(debug_mode_i)
+	{
+		return;
+	}
+	//return;
+     if(-1 < amanda_level)
+     {
+	  va_list  amanda;
+	  char *   buffer_kp = malloc(20000);
+	  char *   ptr_z;
+	  va_start (amanda, format);
+	  vsprintf (buffer_kp, format, amanda);
+	  if(strlen(buffer_kp))
+	  {
+	       ptr_z = buffer_kp;
+
+	       while(* ptr_z)
+	       {
+		    if('\n' == *ptr_z || '\r' == *ptr_z)
+		    {
+
+			 *ptr_z = ' ';
+			 
+		    }
+		    ptr_z++;
+	       }
+	  }
+	  strcat(buffer_kp," _amanda_debug_");
+	  OutputDebugString (buffer_kp);
+	  free(buffer_kp);
+	  va_end(amanda);
+	  //fixed...my love
+     }
+	return;
+}
+
 static int
 _archive_read_close(struct archive *_a)
 {
 	struct archive_read_disk *a = (struct archive_read_disk *)_a;
-
+	pedro_dprintf(0, "_archive_read_close %s %d\n", __FILE__, __LINE__);
 	archive_check_magic(_a, ARCHIVE_READ_DISK_MAGIC,
 	    ARCHIVE_STATE_ANY | ARCHIVE_STATE_FATAL, "archive_read_close");
 

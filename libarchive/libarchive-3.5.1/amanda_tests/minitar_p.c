@@ -170,7 +170,7 @@ extern int debug_mode_i;
 char temp__file_i[AMANDA__SIZE];
 
 //0 = show debug
-#define USE_PEDRO_DPRINTF 0
+#define USE_PEDRO_DPRINTF 1
 
 #include <archive.h>
 #include <archive_entry.h>
@@ -1258,12 +1258,12 @@ int __stdcall libarchive_process_p(char *new_entry_relative_p, char *new_entry_c
 		pedro_dprintf(0, "file %s\n", new_entry_relative_p);
 		pedro_dprintf(0, "complete file %s\n", new_entry_complete_p);
 
-if(260 < strlen(new_entry_complete_p))
-{
-	pedro_dprintf(0, "size %d", strlen(new_entry_complete_p));
-	//exit(27);
-	//Beep(1000,3000);
-}
+		if (260 < strlen(new_entry_complete_p))
+		{
+			pedro_dprintf(0, "size %d", strlen(new_entry_complete_p));
+			//exit(27);
+			//Beep(1000,3000);
+		}
 
 		strcpy(real_input_utf_8_i_2, new_entry_complete_p);
 		//strcpy(real_input_utf_8_i,   new_entry_complete_p);
@@ -1694,7 +1694,7 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
 	}
 	for (;;)
 	{
-pedro_dprintf(0, "***entering for\n");
+		pedro_dprintf(0, "***entering for\n");
 		if (extract_pause__flag)
 		{
 			while (*extract_pause__flag)
@@ -2045,7 +2045,7 @@ exit_now_aqui_i:;
 	archive_read_close(a);
 	pedro_dprintf(0, "real final de for 1\n");
 	archive_read_free(a);
-pedro_dprintf(0, "real final de for 2\n");
+	pedro_dprintf(0, "real final de for 2\n");
 	archive_write_close(ext);
 	pedro_dprintf(0, "real final de for 3\n");
 	archive_write_free(ext);
