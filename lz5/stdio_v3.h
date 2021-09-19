@@ -2,7 +2,7 @@
 
 #define ARP_USE_ENHANCED_STDIO
 
-#define MAX_MEMORY_SIZE_Z (16 * 1024 * 1024)
+//#define MAX_MEMORY_SIZE_Z (16 * 1024 * 1024)
 
 typedef struct _ar_data
 {

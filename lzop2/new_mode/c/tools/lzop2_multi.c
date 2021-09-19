@@ -63,8 +63,8 @@ inittimer2(int value)
       return 0;
 }
 
-uint64_t bytes_in_each_slice_z[10];
-uint64_t offset_of_each_slice_z[10];
+uint64_t bytes_in_each_slice_z[129];
+uint64_t offset_of_each_slice_z[129];
 
 extern int *cores_used_z;
 

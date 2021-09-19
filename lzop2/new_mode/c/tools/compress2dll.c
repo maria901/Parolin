@@ -680,7 +680,11 @@ int __stdcall Compresscompress2_(char *Inputfile, char *OutPutFile, int Compress
 
       return 0;
 }
-
+/**
+ * wide path aware and 128 threads...
+ * 
+ * 
+ */
 int __stdcall Compresscompress2__k(char *Inputfile, char *OutPutFile, int CompressionLevel)
 {
       char level[300];

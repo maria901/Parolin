@@ -218,8 +218,8 @@ void removedordeespaconoinicio(char *path);
 void removedordeespaconofinal(char *path);
 char *getcpuname_k(void);
 char *getprocessorbrandstring_k(void);
-char myinfile[255];
-char myoutfile[255];
+char myinfile[AMANDA__SIZE];
+char myoutfile[AMANDA__SIZE];
 int comando;
 char mylevel[255];
 char library[255];
@@ -380,8 +380,8 @@ int __stdcall status(int newvalue)
 
 int __stdcall interface1(__INT32_OR_INT64 argumento1, __INT32_OR_INT64 argumento2, __INT32_OR_INT64 argumento3, __INT32_OR_INT64 argumento4)
 {
-	static char inputfile[255];
-	static char outputfile[255];
+	static char inputfile[AMANDA__SIZE];
+	static char outputfile[AMANDA__SIZE];
 	if (!strcmp((char *)argumento1, "compress"))
 	{
 		modo = 0;

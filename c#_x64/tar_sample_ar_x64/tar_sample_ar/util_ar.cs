@@ -1067,6 +1067,7 @@ namespace tar_sample_ar
 		 */ 
 		internal static void clean_up_memory_p()
 		{
+			return;
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			if (Environment.OSVersion.Platform == PlatformID.Win32NT)

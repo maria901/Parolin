@@ -128,7 +128,7 @@ int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output
       static char buffer[CHUNK];
       ar_data ar = {0};
 
-      pedro_dprintf(0, "ok dentro threads %d\n", n_threads_z);
+      pedro_dprintf(-1, "ok dentro threads %d\n", n_threads_z);
 
       thread_return_value_z = 0; //initial thread error value
 
@@ -203,7 +203,7 @@ saida_z:;
 
       fclose(input_file);
 
-      pedro_dprintf(0, "count of threads %d", thread_counter);
+      pedro_dprintf(-1, "count of threads %d", thread_counter);
 
       if (retvalue_z)
       {
@@ -279,7 +279,7 @@ saida_z:;
                         }
                   }
             }
-            pedro_dprintf(0, "criando thread %lld", (int64_t)n_thread_counter);
+            pedro_dprintf(-1, "criando thread %lld", (int64_t)n_thread_counter);
             my_thread_handle[n_thread_counter] = (__INT32_OR_INT64)_beginthreadex(NULL, 0, my_thread_function_v27, ptr_my_struct_z, 0, NULL);
 
             n_thread_counter++;

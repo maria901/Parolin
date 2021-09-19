@@ -5340,7 +5340,7 @@ pula_arp:;
                   returnvalue_ar = compress_b3___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
                                                               6,
-                                                              threads_z,
+                                                              threads_z_v27,
                                                               ar_gettemppath_z());
 
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "bzip3 compressed required %.3f seconds\n", inittimer2(1));
@@ -5415,7 +5415,7 @@ pula_arp:;
                   returnvalue_ar = compress_l3___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
                                                               6,
-                                                              threads_z,
+                                                              threads_z_v27,
                                                               ar_gettemppath_z());
 
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lzop2 compressed required %.3f seconds\n", inittimer2(1));
@@ -5520,7 +5520,7 @@ pula_arp:;
                   returnvalue_ar = compress_l5___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
                                                               6,
-                                                              threads_z,
+                                                              threads_z_v27,
                                                               ar_gettemppath_z());
 
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lz5 compressed required %.3f seconds\n", inittimer2(1));

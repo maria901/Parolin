@@ -1,6 +1,6 @@
 //by amanda & MathMan, 2021, march, 13, 14:15
 
-#define MAX_MEMORY_SIZE_Z (16 * 1024 * 1024)
+//#define MAX_MEMORY_SIZE_Z (16 * 1024 * 1024)
 
 #ifndef ARP_USE_ENHANCED_STDIO
 #define ARP_USE_ENHANCED_STDIO

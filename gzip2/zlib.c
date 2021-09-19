@@ -567,7 +567,7 @@ saida:;
             {
 #ifdef ARP_USE_ENHANCED_STDIO
 
-                  pedro_dprintf(0, "2 memory size %lld", max_memory_size_j);
+                  pedro_dprintf(-1, "2 memory size %lld", max_memory_size_j);
                   ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[ptr_my_struct_z->thread_id_z]), "rb+", max_memory_size_j, __FILE__, __LINE__, ptr_my_struct_z->dest);
 #else
                   ptr_my_struct_z->dest = _wfopen(wpmode, L"rb+");
@@ -577,7 +577,7 @@ saida:;
             {
 #ifdef ARP_USE_ENHANCED_STDIO
 
-                  pedro_dprintf(0, "3 memory size %lld", max_memory_size_j);
+                  pedro_dprintf(-1, "3 memory size %lld", max_memory_size_j);
                   ptr_my_struct_z->dest = fopen_z(temp_files_z[ptr_my_struct_z->thread_id_z], "rb+", max_memory_size_j, __FILE__, __LINE__, ptr_my_struct_z->dest);
 #else
                   ptr_my_struct_z->dest = fopen(temp_files_z[ptr_my_struct_z->thread_id_z], "rb+");
@@ -711,11 +711,9 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
             level = 9;
       }
 
-      print(); // what is it?....
-
       {
 
-            pedro_dprintf(0, "gzip2 threads %d\n", n_threads_z);
+            pedro_dprintf(-1, "gzip2 threads %d\n", n_threads_z);
 
             totalbytes = lffilesize(input);
             totalbytes_z = totalbytes;
@@ -754,7 +752,7 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                   //aqui...
                   max_memory_size_j = 200000000 / n_threads_z;
 
-                  pedro_dprintf(0, "1 memory size %lld", max_memory_size_j);
+                  pedro_dprintf(-1, "1 memory size %lld", max_memory_size_j);
 
                   for (i_z = 0; i_z < n_threads_z; i_z++)
                   {
@@ -809,7 +807,7 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                               {
 #ifdef ARP_USE_ENHANCED_STDIO
 
-                                    pedro_dprintf(0, "4 memory size %lld", max_memory_size_j);
+                                    pedro_dprintf(-1, "4 memory size %lld", max_memory_size_j);
                                     ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", max_memory_size_j, __FILE__, __LINE__, NULL);
                                     files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
 
@@ -821,7 +819,7 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                               {
 #ifdef ARP_USE_ENHANCED_STDIO
 
-                                    pedro_dprintf(0, "6 memory size %lld", max_memory_size_j);
+                                    pedro_dprintf(-1, "6 memory size %lld", max_memory_size_j);
                                     ptr_my_struct_z->dest = fopen_z(temp_files_z[n_thread_counter], "wb", max_memory_size_j, __FILE__, __LINE__, NULL);
                                     files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
 #else
@@ -846,7 +844,7 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                               remaining_z = totalbytes;
                               offset_z = 0;
 
-                              pedro_dprintf(0, "!!!!! n_threads_z %d", n_threads_z);
+                              pedro_dprintf(-1, "!!!!! n_threads_z %d", n_threads_z);
 
                               for (i_z = 0; i_z < n_threads_z; i_z++)
                               {
@@ -965,7 +963,7 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                               {
 #ifdef ARP_USE_ENHANCED_STDIO
 
-                                    pedro_dprintf(0, "a memory size %lld", max_memory_size_j);
+                                    pedro_dprintf(-1, "a memory size %lld", max_memory_size_j);
                                     temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", max_memory_size_j, __FILE__, __LINE__, files_to_close_z[i_z]);
 #else
                                     temp_z = _wfopen(wpmode, L"rb");
@@ -975,7 +973,7 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                               {
 #ifdef ARP_USE_ENHANCED_STDIO
 
-                                    pedro_dprintf(0, "b memory size %lld", max_memory_size_j);
+                                    pedro_dprintf(-1, "b memory size %lld", max_memory_size_j);
                                     temp_z = fopen_z(temp_files_z[i_z], "rb", max_memory_size_j, __FILE__, __LINE__, files_to_close_z[i_z]);
 
 #else

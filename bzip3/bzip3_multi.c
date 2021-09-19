@@ -58,6 +58,8 @@
 
 #include "win64.h"
 
+extern int64_t max_memory_size_k__p;
+
 #define CHUNK 131072 /* to never change again */
 /**
  * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
@@ -90,7 +92,7 @@ void pedro_dprintf(
 #include "bzip3_structs_z.h"
 
 extern bool is_multi_thread_z;
-extern char temp_files_z[10][1024];
+extern char temp_files_z[129][2048];
 extern char temp_path_z[];
 extern int finished;
 extern int intcancel;
@@ -98,15 +100,15 @@ extern int intpause;
 extern int intstatus;
 extern int n_threads_z;
 extern int thread_return_value_z;
-extern int64_t bytes__read_thread_z[10];
+extern int64_t bytes__read_thread_z[129];
 extern int64_t totalbytes_z;
-uint64_t bytes_in_each_slice_z[10];
-uint64_t offset_of_each_slice_z[10];
+uint64_t bytes_in_each_slice_z[129];
+uint64_t offset_of_each_slice_z[129];
 #ifdef ARP_USE_ENHANCED_STDIO
-extern FILE_z *files_to_close_z[10];
+extern FILE_z *files_to_close_z[129];
 #endif
 
-extern __INT32_OR_INT64 my_thread_handle[10];
+extern __INT32_OR_INT64 my_thread_handle[129];
 
 extern int *cores_used_z;
 
@@ -205,7 +207,7 @@ saida_z:;
 
       fclose(input_file);
 
-      pedro_dprintf(-1, "count of threads %d\n", thread_counter);
+      pedro_dprintf(0, "count of threads %d\n", thread_counter);
 
       if (retvalue_z)
       {
@@ -266,8 +268,9 @@ saida_z:;
             else
             {
                   {
+                        max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-                        ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", MAX_MEMORY_SIZE_Z, __FILE__, __LINE__, NULL);
+                        ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", max_memory_size_k__p, __FILE__, __LINE__, NULL);
                         files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
 
 #else
@@ -316,9 +319,9 @@ saida_z:;
             pedro_dprintf(-1, "arquivo temp a del %s\n", temp_files_z[i_z]);
             if (dest_z)
             {
-
+                  max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-                  temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", MAX_MEMORY_SIZE_Z, __FILE__, __LINE__, files_to_close_z[i_z]);
+                  temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", max_memory_size_k__p, __FILE__, __LINE__, files_to_close_z[i_z]);
 #else
                   temp_z = _wfopen(wpmode, L"rb");
 #endif
