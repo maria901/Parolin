@@ -313,7 +313,7 @@ loop_again_amanda_s_smart_ape:;
 					{
 						skip_ar = 0;
 
-						if (mode_is_VAL_arp)
+						if (true || mode_is_VAL_arp)//hack as usual
 						{
 						}
 						else
@@ -613,7 +613,7 @@ loop_again_amanda_s_smart_ape:;
 					}
 
 					skip_ar = 0;
-					if (mode_is_VAL_arp)
+					if (true || mode_is_VAL_arp)
 					{
 					}
 					else
