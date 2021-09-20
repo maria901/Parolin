@@ -36,10 +36,11 @@ extern int *cores_used_z;
 
 int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output_z)
 {
+	enum error_modes_J juliete_result = ERROR_AMANDA_NO_ERROR__;
 	my_thread_struct_z *ptr_my_struct_z;
 	FILE *dest_z;
 	FILE *input_file;
-	FILE_z *temp_z;
+	FILE_z *temp_z = NULL;
 	int ret_z;
 	int ret2_z;
 	int retvalue_z = 0;
@@ -93,10 +94,10 @@ int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output
 			retvalue_z = 5;
 			goto saida_z;
 		}
-
+		pedro_dprintf(0, "passou aqui ja");
 		if (0 != memcmp(ar.string, signature_z, 4))
 		{
-			pedro_dprintf(-1, "erro 7\n");
+			pedro_dprintf(0, "erro 7 %s %s\n", ar.string, signature_z);
 			retvalue_z = 7;
 			goto saida_z;
 		}
@@ -115,8 +116,11 @@ int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output
 					  bytes_in_each_slice_z[thread_counter],
 					  offset_of_each_slice_z[thread_counter]);
 
-		_fseeki64(input_file, remaining_z, SEEK_CUR);
+		pedro_dprintf(0, "size to skip %lld", (int64_t)remaining_z);
+		pedro_dprintf(0, "sftell %lld", (int64_t)offset_of_each_slice_z[thread_counter]);
 
+		_fseeki64(input_file, remaining_z, SEEK_CUR);
+		pedro_dprintf(0, "sftell depois %lld", (int64_t)_ftelli64(input_file));
 		thread_counter++;
 	}
 
@@ -124,7 +128,7 @@ saida_z:;
 
 	fclose(input_file);
 
-	pedro_dprintf(-1, "count of threads %d\n", thread_counter);
+	pedro_dprintf(0, "count of threads %d\n", thread_counter);
 
 	if (retvalue_z)
 	{
@@ -134,6 +138,8 @@ saida_z:;
 	//exit(27);
 
 	n_threads_z = thread_counter;
+
+	pedro_dprintf(0, "threads internal %d", n_threads_z);
 
 	assert(cores_used_z);
 
@@ -193,17 +199,6 @@ saida_z:;
 				ptr_my_struct_z->dest = _wfopen(wpmode, L"wb");
 #endif
 			}
-			else
-			{
-				max_memory_size_k__p = 200000000 / n_threads_z;
-#ifdef ARP_USE_ENHANCED_STDIO
-				ptr_my_struct_z->dest = fopen_z(temp_files_z[n_thread_counter], "wb", max_memory_size_k__p, __FILE__, __LINE__, NULL);
-				files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
-#else
-
-				ptr_my_struct_z->dest = fopen(temp_files_z[n_thread_counter], "wb");
-#endif
-			}
 
 			if (NULL == ptr_my_struct_z->dest)
 			{
@@ -213,6 +208,8 @@ saida_z:;
 				}
 			}
 		}
+
+		pedro_dprintf(0, "abrindo thread %d", n_thread_counter);
 
 		my_thread_handle[n_thread_counter] = (__INT32_OR_INT64)_beginthreadex(NULL, 0, my_thread_function_v27, ptr_my_struct_z, 0, NULL);
 
@@ -266,26 +263,18 @@ saida_z:;
 				temp_z = _wfopen(wpmode, L"rb");
 #endif
 			}
-			else
-			{
-				max_memory_size_k__p = 200000000 / n_threads_z;
-#ifdef ARP_USE_ENHANCED_STDIO
-				temp_z = fopen_z(temp_files_z[i_z], "rb", max_memory_size_k__p, __FILE__, __LINE__, files_to_close_z[i_z]);
-#else
-				temp_z = fopen(temp_files_z[i_z], "rb");
-#endif
-			}
+
 			if (temp_z)
 			{
 				//Mr. Do
 
 			volta_amanda:;
 #ifdef ARP_USE_ENHANCED_STDIO
-				ret_z = fread_z(buffer, 1, CHUNK, temp_z);
+				ret_z = fread_z(buffer, 1, CHUNK, temp_z, &juliete_result);
 #else
 				ret_z = fread(buffer, 1, CHUNK, temp_z);
 #endif
-				if (0 > ret_z)
+				if (0 > ret_z) //nunca vai acontecer porque é size_t...kkk
 				{
 					if (0 == thread_return_value_z)
 					{
@@ -305,6 +294,7 @@ saida_z:;
 					{
 						if (0 == thread_return_value_z)
 						{
+							assert(0 && "aqui ok");
 							thread_return_value_z = 6; //Cannot write to output file
 						}
 						goto exit_loop_z;
@@ -334,7 +324,6 @@ saida_z:;
 #ifdef ARP_USE_ENHANCED_STDIO
 	for (i_z = 0; i_z < n_threads_z; i_z++)
 	{
-		free_z(files_to_close_z[i_z]);
 		_wunlink(amanda_utf8towide_1_v27(temp_files_z[i_z]));
 	}
 #endif

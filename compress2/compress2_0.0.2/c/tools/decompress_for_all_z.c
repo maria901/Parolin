@@ -1,21 +1,21 @@
 
  /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
- *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *        Licensa de C?pia (C) <2021>  <Corpora??o do Trabalho Bin?rio>         *
  *                                                                              *
- *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
- *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
- *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
- *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *     Este  programa  ? software livre: voc? pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral P?blica como       8
+ *     publicado  pela Funda??o  de Software  Livre, tanto a vers?o 3  da       *
+ *     Licensa, ou (dependendo da sua op??o) qualquer vers?o posterior.         *
  *                                                                              *
- *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
- *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
- *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
- *     Licensa Geral Pública para mais detalhes.                                *
+ *     Este  programa ? distribu?do na  esperan?a que isto vai  ser ?til,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  at? mesmo a implicada garantia de       *
+ *     COMERCIALIZA??O ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral P?blica para mais detalhes.                                *
  *                                                                              *
- *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
- *     Licensa Pública Menor junto com este programa                            *
- *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *     Voc? deve ter recebido uma  c?pia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa P?blica Menor junto com este programa                            *
+ *     Se n?o, veja <http://www.gnu.org/licenses/>.                             *
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
@@ -23,8 +23,8 @@
  *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
  *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
  *                                                                              *
- *     contato imediato(para uma resposta muita rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *     contato imediato(para uma resposta muita r?pida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto est? sempre ligado (eu acho...)                 *      
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
@@ -284,7 +284,7 @@ resetbuf:       ;
 						{
 							if(amanda->dest_is_FILE_z)
 							{
-								if ((int)fwrite_z(outbuf, 1, outpos, amanda->dest) != (int) outpos)
+								if ((int)fwrite_z(outbuf, 1, outpos, amanda->dest, NULL) != (int) outpos)
 								{
 									
 									amanda->internal_error_arp = 6;
@@ -334,7 +334,7 @@ resetbuf:       ;
 
 	if(amanda->dest_is_FILE_z)
 	{
-		if (outpos > 0 && (int)fwrite_z(outbuf, 1, outpos, amanda->dest) != (int)outpos)
+		if (outpos > 0 && (int)fwrite_z(outbuf, 1, outpos, amanda->dest, NULL) != (int)outpos)
 		{
 			amanda->internal_error_arp = 6;
 			return 6; //cannot write to output file

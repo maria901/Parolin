@@ -5811,6 +5811,31 @@ pula_arp:;
                         strcpy(error_message_k, "Cannot create temp file");
                         break;
 
+                  case 95555:
+                        fatal_exit_k = 95555;
+                        strcpy(error_message_k, "Cannot open internal temp file");
+                        break;
+
+                  case 95556:
+                        fatal_exit_k = 95556;
+                        strcpy(error_message_k, "Cannot read from internal temp file");
+                        break;
+
+                  case 95557:
+                        fatal_exit_k = 95557;
+                        strcpy(error_message_k, "Cannot write to internal temp file");
+                        break;
+                        
+                  case 95558:
+                        fatal_exit_k = 95558;
+                        strcpy(error_message_k, "When reading from file the temp file is not open");
+                        break;
+
+                  case 95559:
+                        fatal_exit_k = 95559;
+                        strcpy(error_message_k, "Temp file not loaded");
+                        break;
+
                   default:
                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the compressor and "
                                                             "not handled correctly by the programmer",

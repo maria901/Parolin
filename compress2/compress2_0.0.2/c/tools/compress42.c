@@ -942,7 +942,7 @@ my_thread_struct_z *amanda;
 
 			if (outbits >= (OBUFSIZ << 3))
 			{
-				if (fwrite_z(outbuf, 1, OBUFSIZ, fdout) != OBUFSIZ)
+				if (fwrite(outbuf, 1, OBUFSIZ, fdout) != OBUFSIZ)
 				{
 					amanda->internal_error_arp = 6;
 					//write_error();
@@ -1087,12 +1087,16 @@ my_thread_struct_z *amanda;
 	if (bytes_in > 0)
 		output(outbuf, outbits, fcode.e.ent, n_bits);
 
-	if (fwrite_z(outbuf, 1, (outbits + 7) >> 3, fdout) != (size_t)(outbits + 7) >> 3)
+	if (fwrite(outbuf, 1, (outbits + 7) >> 3, fdout) != (size_t)(outbits + 7) >> 3)
 	{
 		amanda->internal_error_arp = 6;
+		exit(27);
 		return 6; //
 	}
 	amanda->size_of_destination_file_z += (outbits + 7) >> 3;
+	
+	pedro_dprintf(0, "tamanho final dentro %lld", amanda->size_of_destination_file_z);
+	
 	bytes_out += (outbits + 7) >> 3;
 
 	return 0;

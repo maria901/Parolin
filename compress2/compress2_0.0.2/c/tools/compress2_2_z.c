@@ -359,6 +359,7 @@ int64_t veja_z = 0;
 //amanda 2
 unsigned __stdcall my_thread_function(void *my_argument_z)
 {
+      enum error_modes_J juliete_result;
       compressResult_t return_amanda = {1, 0, 0};
       int64_t size_of_compressed_z = 0;
 
@@ -384,10 +385,6 @@ unsigned __stdcall my_thread_function(void *my_argument_z)
             goto saida_arp;
       }
 
-      pedro_dprintf(-1, "my thread running %x \n", my_argument_z);
-
-      pedro_dprintf(-1, "offset %lld\n", ptr_my_struct_z->offset_z);
-
       if (0 != ptr_my_struct_z->offset_z)
       {
             if (
@@ -401,25 +398,24 @@ unsigned __stdcall my_thread_function(void *my_argument_z)
             }
       }
 
-      pedro_dprintf(-1, "slice %lld\n", ptr_my_struct_z->size_of_input_file_z);
       ptr_my_struct_z->size_of_input_file_copy_z = ptr_my_struct_z->size_of_input_file_z;
       veja_z += ptr_my_struct_z->size_of_input_file_z;
 
-      pedro_dprintf(-1, "tamanho apos slices %lld\n", veja_z);
-
       if (ptr_my_struct_z->dest)
       {
-            pedro_dprintf(-1, "fechando dest\n");
+
 #ifdef ARP_USE_ENHANCED_STDIO
-            fclose_z(ptr_my_struct_z->dest);
+            //fclose_z(ptr_my_struct_z->dest);
 #else
-            fclose(ptr_my_struct_z->dest);
-            ptr_my_struct_z->dest = NULL;
+            //fclose(ptr_my_struct_z->dest);
+            // ptr_my_struct_z->dest = NULL;
 #endif
       }
 
 #ifdef ARP_USE_ENHANCED_STDIO
-      ptr_my_struct_z->ret = fwrite_z(&ptr_my_struct_z->ar, 1, sizeof(ptr_my_struct_z->ar), ptr_my_struct_z->dest);
+
+      ptr_my_struct_z->ret = fwrite_z(&ptr_my_struct_z->ar, 1, sizeof(ptr_my_struct_z->ar), ptr_my_struct_z->dest, &juliete_result);
+
 #else
       ptr_my_struct_z->ret = fwrite(&ptr_my_struct_z->ar, 1, sizeof(ptr_my_struct_z->ar), ptr_my_struct_z->dest);
 #endif
@@ -431,7 +427,9 @@ unsigned __stdcall my_thread_function(void *my_argument_z)
       }
       //deu...
 #ifdef ARP_USE_ENHANCED_STDIO
-      ptr_my_struct_z->ret = fwrite_z(&size_of_compressed_z, 1, sizeof(size_of_compressed_z), ptr_my_struct_z->dest);
+
+      ptr_my_struct_z->ret = fwrite_z(&size_of_compressed_z, 1, sizeof(size_of_compressed_z), ptr_my_struct_z->dest, &juliete_result);
+
 #else
       ptr_my_struct_z->ret = fwrite(&size_of_compressed_z, 1, sizeof(size_of_compressed_z), ptr_my_struct_z->dest);
 #endif
@@ -454,8 +452,11 @@ unsigned __stdcall my_thread_function(void *my_argument_z)
       /*
 	pedro_dprintf(-1, "aqui in ptr_my_struct_z->size_of_input_file_copy_z == %lld\n", ptr_my_struct_z->size_of_input_file_copy_z);
 	*/
+
       return_amanda = compress_file(ptr_my_struct_z->input_file, ptr_my_struct_z->dest, ptr_my_struct_z);
+
       size_of_compressed_z = ptr_my_struct_z->size_of_destination_file_z;
+
       if (119 == ptr_my_struct_z->internal_error_arp)
       {
             ptr_my_struct_z->retvalue = ptr_my_struct_z->internal_error_arp;
@@ -480,45 +481,43 @@ saida:
             {
                   max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
+
+                  if (ptr_my_struct_z->dest)
+                  {
+                        fclose(ptr_my_struct_z->dest);
+                        ptr_my_struct_z->dest = NULL;
+                  }
+
                   ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[ptr_my_struct_z->thread_id_z]), "rb+", max_memory_size_k__p, __FILE__, __LINE__, ptr_my_struct_z->dest);
 #else
                   ptr_my_struct_z->dest = _wfopen(wpmode, L"rb+");
 #endif
             }
-            else
-            {
-                  max_memory_size_k__p = 200000000 / n_threads_z;
-#ifdef ARP_USE_ENHANCED_STDIO
-                  ptr_my_struct_z->dest = fopen_z(temp_files_z[ptr_my_struct_z->thread_id_z], "rb+", max_memory_size_k__p, __FILE__, __LINE__, ptr_my_struct_z->dest);
-#else
-                  ptr_my_struct_z->dest = fopen(temp_files_z[ptr_my_struct_z->thread_id_z], "rb+");
-#endif
-            }
+
             if (0 == ptr_my_struct_z->dest)
             {
-
                   ptr_my_struct_z->retvalue = 405;
             }
             else
             {
 #ifdef ARP_USE_ENHANCED_STDIO
-                  ptr_my_struct_z->ret = fwrite_z(&ptr_my_struct_z->ar, 1, sizeof(ptr_my_struct_z->ar), ptr_my_struct_z->dest);
+                  ptr_my_struct_z->ret = fwrite_z(&ptr_my_struct_z->ar, 1, sizeof(ptr_my_struct_z->ar), ptr_my_struct_z->dest, &juliete_result);
+
 #else
                   ptr_my_struct_z->ret = fwrite(&ptr_my_struct_z->ar, 1, sizeof(ptr_my_struct_z->ar), ptr_my_struct_z->dest);
 #endif
                   if (ptr_my_struct_z->ret != sizeof(ptr_my_struct_z->ar))
                   {
-
                         ptr_my_struct_z->retvalue = 400;
                   }
 #ifdef ARP_USE_ENHANCED_STDIO
-                  ptr_my_struct_z->ret = fwrite_z(&size_of_compressed_z, 1, sizeof(size_of_compressed_z), ptr_my_struct_z->dest);
+                  ptr_my_struct_z->ret = fwrite_z(&size_of_compressed_z, 1, sizeof(size_of_compressed_z), ptr_my_struct_z->dest, &juliete_result);
+
 #else
                   ptr_my_struct_z->ret = fwrite(&size_of_compressed_z, 1, sizeof(size_of_compressed_z), ptr_my_struct_z->dest);
 #endif
                   if (ptr_my_struct_z->ret != sizeof(size_of_compressed_z))
                   {
-
                         ptr_my_struct_z->retvalue = 400;
                   }
             }
@@ -526,10 +525,8 @@ saida:
 
       if (ptr_my_struct_z->dest)
       {
-#ifndef ARP_USE_ENHANCED_STDIO
             fclose(ptr_my_struct_z->dest);
             ptr_my_struct_z->dest = NULL;
-#endif
       }
 
       if (intcancel)
@@ -542,17 +539,19 @@ saida_arp:;
       if (ptr_my_struct_z->dest)
       {
             pedro_dprintf(-1, "fechando dest\n");
-#ifndef ARP_USE_ENHANCED_STDIO
+
             fclose(ptr_my_struct_z->dest);
-#endif
+            ptr_my_struct_z->dest = NULL;
       }
       if (ptr_my_struct_z->input_file)
       {
             fclose(ptr_my_struct_z->input_file);
+            ptr_my_struct_z->input_file = NULL;
       }
 
       if (0 == thread_return_value_z)
       {
+
             thread_return_value_z = ptr_my_struct_z->retvalue;
       }
 
@@ -565,7 +564,7 @@ saida_arp:;
 //amanda 1
 int compress2_compress_k(char *input, char *output, int levelin) //level not in use
 {
-
+      enum error_modes_J juliete_result;
       static char buffer[CHUNK];
       FILE_z *temp_z = NULL;
       FILE *dest = NULL;
@@ -645,8 +644,6 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
             while (n_threads_copy--)
             {
                   ptr_my_struct_z = calloc(1, sizeof(my_thread_struct_z));
-                  assert(ptr_my_struct_z);
-                  pedro_dprintf(-1, "alocou\n");
 
                   ptr_my_struct_z->thread_id_z = n_thread_counter;
 
@@ -687,17 +684,6 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
 
 #else
                               ptr_my_struct_z->dest = _wfopen(wpmode, L"wb");
-#endif
-                        }
-                        else
-                        {
-                              max_memory_size_k__p = 200000000 / n_threads_z;
-#ifdef ARP_USE_ENHANCED_STDIO
-                              ptr_my_struct_z->dest = fopen_z(temp_files_z[n_thread_counter], "wb", max_memory_size_k__p, __FILE__, __LINE__, NULL);
-                              files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
-#else
-
-                              ptr_my_struct_z->dest = fopen(temp_files_z[n_thread_counter], "wb");
 #endif
                         }
 
@@ -775,6 +761,7 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
                   WaitForSingleObject((void *)my_thread_handle[i_z], INFINITE);
                   CloseHandle((void *)my_thread_handle[i_z]);
             }
+
             /*
 		   //to finished the code
 		   if(unicodemode)
@@ -827,38 +814,26 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
                         {
                               max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
+                              pedro_dprintf(0, "thread %d", i_z);
                               temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", max_memory_size_k__p, __FILE__, __LINE__, files_to_close_z[i_z]);
+
 #else
                               temp_z = _wfopen(wpmode, L"rb");
 #endif
                         }
-                        else
-                        {
-                              max_memory_size_k__p = 200000000 / n_threads_z;
-#ifdef ARP_USE_ENHANCED_STDIO
-                              temp_z = fopen_z(temp_files_z[i_z], "rb", max_memory_size_k__p, __FILE__, __LINE__, files_to_close_z[i_z]);
-#else
-                              temp_z = fopen(temp_files_z[i_z], "rb");
-#endif
-                        }
+
                         if (temp_z)
                         {
                               //Mr. Do
-
+                              pedro_dprintf(0, "2 thread %d", i_z);
                         volta_amanda:;
 #ifdef ARP_USE_ENHANCED_STDIO
-                              ret = fread_z(buffer, 1, CHUNK, temp_z);
+
+                              ret = fread_z(buffer, 1, CHUNK, temp_z, &juliete_result);
 #else
                               ret = fread(buffer, 1, CHUNK, temp_z);
 #endif
-                              if (0 > ret)
-                              {
-                                    if (0 == thread_return_value_z)
-                                    {
-                                          thread_return_value_z = 5; //Cannot read from input file
-                                    }
-                              }
-                              else if (0 == ret)
+                              if (0 == ret)
                               {
                                     ; //just go by...
                               }
@@ -873,6 +848,7 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
                                           {
                                                 thread_return_value_z = 6; //Cannot write to output file
                                           }
+
                                           goto exit_loop_z;
                                     }
 
@@ -880,9 +856,8 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
                               }
 
                         exit_loop_z:;
-#ifndef ARP_USE_ENHANCED_STDIO
-                              fclose(temp_z);
-#endif
+
+                              //fclose(temp_z);
                         }
                         else
                         {
@@ -900,14 +875,17 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
 #ifdef ARP_USE_ENHANCED_STDIO
             for (i_z = 0; i_z < n_threads_z; i_z++)
             {
-                  free_z(files_to_close_z[i_z]);
+                  if (files_to_close_z[i_z])
+                  {
+                        fclose(files_to_close_z[i_z]);
+                        files_to_close_z[i_z] = NULL;
+                  }
                   _wunlink(amanda_utf8towide_1_v27(temp_files_z[i_z]));
             }
 #endif
 
             if (0 == thread_return_value_z)
             {
-                  pedro_dprintf(-1, "%lld %lld\n", veja_z, totalbytes);
                   assert(veja_z == totalbytes);
             }
 
@@ -918,7 +896,9 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
             {
                   fclose(dest);
             }
+
             intstatus = 0;
+
             return thread_return_value_z;
       }
       intstatus = 0;
@@ -966,10 +946,12 @@ int compress2_uncompress_k_mt_z(char *input, char *output)
 
       if (1 == n_threads_z)
       {
+            pedro_dprintf(0, "single thread mode ");
             ; //pass through
       }
       else
       {
+            pedro_dprintf(0, "multi thread mode ");
             return compress2_uncompress_k_real_mt_z(input, /*for your pleasure */ output);
       }
 
@@ -985,8 +967,6 @@ init_position_z:;
       ar_data ar = {0};
 
       intstatus = 1;
-
-      ////exit(27);
 
       intpause = 0;
       intcancel = 0;
@@ -1052,6 +1032,7 @@ init_position_z:;
       }
 
       amanda.size_of_input_file_copy_z = remaining_z;
+
       //aqui...
 
       ret_arp = decompress_file(source, dest, &amanda);
@@ -1094,7 +1075,7 @@ saida:
                   assert(save_position_z == _ftelli64(source));
 
                   pedro_dprintf(-1, "deve voltar agora, pos in file %lld\n", save_position_z);
-                  //assert(0 && "Continua");
+
                   goto init_position_z;
             }
       }

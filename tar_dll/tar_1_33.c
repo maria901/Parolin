@@ -8429,6 +8429,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
 
 			if (0 == true_if_it_is_extract_ar && (ct_compress2_k == fatal_exit_k))
 			{
+				pedro_dprintf(0, "pegou compress2");
 				static char original_file_tar[AMANDA__SIZE];
 				file_size_total_int64 = 0, file_total__read_int64 = 0;
 				fatal_exit_k = 0;

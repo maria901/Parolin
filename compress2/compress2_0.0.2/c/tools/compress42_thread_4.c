@@ -932,7 +932,7 @@ my_thread_struct_z * amanda;
 
 			if (outbits >= (OBUFSIZ<<3))
 			{
-				if (fwrite_z(outbuf, 1, OBUFSIZ, fdout) != OBUFSIZ)
+				if (fwrite_z(outbuf, 1, OBUFSIZ, fdout, NULL) != OBUFSIZ)
 				{
 					amanda->internal_error_arp = 6;
 					//write_error();
@@ -1065,7 +1065,7 @@ endlop:                 if (fcode.e.ent >= FIRST && rpos < rsize)
 	if (bytes_in > 0)
 		output(outbuf,outbits,fcode.e.ent,n_bits);
 
-	if (fwrite_z(outbuf, 1, (outbits+7)>>3, fdout) != (size_t)(outbits+7)>>3)
+	if (fwrite_z(outbuf, 1, (outbits+7)>>3, fdout, NULL) != (size_t)(outbits+7)>>3)
 	{
 		amanda->internal_error_arp = 6;
 		return 6; //
