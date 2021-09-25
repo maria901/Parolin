@@ -5173,7 +5173,17 @@ pula_arp:;
             {
                   first_step = 1;
                   inittimer2(0);
-                  Compress_gzip_ar_func(archive_name_array_filename, original_destination_tar_file, 6);
+
+                  if (0 > parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 0;
+                  }
+                  if (9 < parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 9;
+                  }
+
+                  Compress_gzip_ar_func(archive_name_array_filename, original_destination_tar_file, parolin_compression_level_p);
                   while (0 == GetFinished_gzip_ar_func())
                   {
                         Sleep(5);
@@ -5232,9 +5242,19 @@ pula_arp:;
                   first_step = 1;
                   inittimer2(0);
                   pedro_dprintf(-1, "na entrada é %d", threads_z_v27);
+
+                  if (0 > parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 0;
+                  }
+                  if (9 < parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 9;
+                  }
+
                   returnvalue_ar = compress_g2___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
-                                                              6,
+                                                              parolin_compression_level_p,
                                                               threads_z_v27,
                                                               ar_gettemppath_z());
 
@@ -5361,9 +5381,20 @@ pula_arp:;
             {
                   first_step = 1;
                   inittimer2(0);
+
+                  if (0 > parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 0;
+                  }
+
+                  if (9 < parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 9;
+                  }
+
                   returnvalue_ar = compress_b3___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
-                                                              6,
+                                                              parolin_compression_level_p,
                                                               threads_z_v27,
                                                               ar_gettemppath_z());
 
@@ -5893,9 +5924,19 @@ pula_arp:;
             {
                   first_step = 1;
                   inittimer2(0);
+
+                  if (0 > parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 0;
+                  }
+                  if (9 < parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 9;
+                  }
+
                   returnvalue_ar = compress_lzip_rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
-                                                              6);
+                                                              parolin_compression_level_p);
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lzip compressed required %.3f seconds\n", inittimer2(1));
 
                   switch (returnvalue_ar)

@@ -350,7 +350,7 @@ unsigned __stdcall my_thread_function(void *my_argument_z)
 
       pedro_dprintf(-1, "tamanho apos slices %lld\n", veja_z);
 
-      ptr_my_struct_z->ret = deflateInit(&ptr_my_struct_z->strm, 6);
+      ptr_my_struct_z->ret = deflateInit(&ptr_my_struct_z->strm, ptr_my_struct_z->level);
 
       assert(ptr_my_struct_z->ret == Z_OK);
 
@@ -707,7 +707,7 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
       veja_z = 0;
       if (levelin <= 0)
       {
-            level = 1;
+            level = 0;
       }
 
       if (levelin > 9)
@@ -883,7 +883,7 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                         ptr_my_struct_z->strm.opaque = Z_NULL;
 
                         ptr_my_struct_z->level = level;
-
+                        pedro_dprintf(-1, "level my dear %d\n", level);
                         if (unicodemode)
                         {
                               ptr_my_struct_z->ar.attrib = GetFileAttributesW(amanda_utf8towide_1_v27(input));
@@ -988,7 +988,7 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                                     else
                                           ret_z = fread_z(buffer, 1, CHUNK, temp_z);
 
-                                    if (0 > ret_z)//Never will occur...but I will keep it here for historical reasons...
+                                    if (0 > ret_z) //Never will occur...but I will keep it here for historical reasons...
                                     {
                                           if (0 == thread_return_value_z)
                                           {
@@ -1089,7 +1089,9 @@ single_thread_z:;
         CloseHandle((void *) my_thread_handle[0]);
  */
 
-      ret_z = deflateInit(&strm, 6);
+      pedro_dprintf(-1, "single thread level my dear %d\n", level);
+
+      ret_z = deflateInit(&strm, level);
 
       assert(ret_z == Z_OK);
 

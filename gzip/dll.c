@@ -74,6 +74,13 @@
 
 WCHAR *amanda_utf8towide_1_v27(char *pUTF8);
 
+void
+pedro_dprintf
+(
+	int amanda_level,
+	char *format, ...
+);
+
 /**
  * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
  */
@@ -288,6 +295,8 @@ uint __stdcall rspcompress(char *inputfile, char *outfile)
 	dprintf("Compression level %d\n", compressionlevel);
 #endif
 
+	pedro_dprintf(-1, "level amor... %d\n", compressionlevel);
+
 	switch (compressionlevel)
 	{
 
@@ -342,10 +351,9 @@ uint __stdcall rspcompress(char *inputfile, char *outfile)
 		;
 	}
 	if (unicodemode)
-	{		
+	{
 		//utf8towide(inputfile, wpmode, 300);
 		input = _wfopen(amanda_utf8towide_1_v27(inputfile), L"rb");
-
 	}
 	else
 		input = fopen(inputfile, "rb");
@@ -451,7 +459,7 @@ uint __stdcall rspuncompress(uchar *outfile, uchar *outfile2)
 	if (unicodemode)
 	{
 		//utf8towide((void *)outfile2, wpmode, 300);
-		input = _wfopen(amanda_utf8towide_1_v27((void *) outfile2), L"wb");
+		input = _wfopen(amanda_utf8towide_1_v27((void *)outfile2), L"wb");
 	}
 	else
 		input = fopen((void *)outfile2, "wb");
@@ -745,7 +753,7 @@ int __stdcall setfinished(uint newvalue)
 int __stdcall interface1(__int64 argumento1, __int64 argumento2, __int64 argumento3, __attribute__((unused)) __int64 argumento4)
 {
 #else
-int __stdcall interface1(int argumento1, int argumento2, int argumento3,__attribute__((unused))  int argumento4)
+int __stdcall interface1(int argumento1, int argumento2, int argumento3, __attribute__((unused)) int argumento4)
 {
 #endif
 

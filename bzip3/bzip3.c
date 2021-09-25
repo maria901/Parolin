@@ -849,7 +849,7 @@ saida:
                   ptr_my_struct_z->retvalue = 116;
             }
       }
-
+      //assert(0);
       assert(BZ_OK == BZ2_bzCompressEnd(&ptr_my_struct_z->strm));
 
       if (ptr_my_struct_z->dest)
@@ -1011,7 +1011,7 @@ int bzip3compress_sha512_k(char *input, char *output, int levelin)
       level = levelin;
       if (levelin <= 0)
       {
-            level = 1;
+            level = 0;
       }
       if (levelin > 9)
       {
@@ -1051,7 +1051,7 @@ int bzip3compress_sha512_k(char *input, char *output, int levelin)
             {
                   n_threads_z = 128;
             }
-            pedro_dprintf(0, "no inicio threads %d", n_threads_z);
+            pedro_dprintf(-1, "no inicio threads %d", n_threads_z);
             for (i_z = 0; i_z < n_threads_z; i_z++)
             {
                   bytes__read_thread_z[i_z] = 0;
@@ -1180,6 +1180,8 @@ int bzip3compress_sha512_k(char *input, char *output, int levelin)
                   memset(&ptr_my_struct_z->strm, 0, sizeof(ptr_my_struct_z->strm));
 
                   ptr_my_struct_z->level = level;
+
+                  pedro_dprintf(-1, "level amor %d\n", level);
 
                   ptr_my_struct_z->ret = BZ2_bzCompressInit(&ptr_my_struct_z->strm, ptr_my_struct_z->level, 4, 30);
 
@@ -2137,7 +2139,7 @@ saida:
 
 int bzip3uncompress_sha512_k_mt_z(char *input, char *output)
 {
-      pedro_dprintf(0, "dentro de decoder multi-thread\n");
+      pedro_dprintf(-1, "dentro de decoder multi-thread\n");
       if (1 != n_threads_z)
       {
             if (0 == n_threads_z)

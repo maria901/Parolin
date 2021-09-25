@@ -1768,6 +1768,8 @@ int __stdcall compress_lzip_rspk(char *inputfile_utf_8,
 
       sprintf(the_level_rspk, "-%d", level_aakp);
 
+      pedro_dprintf(-1, "level my love %d", level_aakp);
+
       arguments_aakp[0] = "our_amazip_dll_is_running_my_love";
       arguments_aakp[2] = "-o";
       arguments_aakp[3] = outputfile_utf_8;
