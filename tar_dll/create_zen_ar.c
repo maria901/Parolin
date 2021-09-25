@@ -5312,6 +5312,11 @@ pula_arp:;
                         strcpy(error_message_k, "inflate error 'uknown'");
                         break;
 
+                  case 97001:
+                        fatal_exit_k = 97001;
+                        strcpy(error_message_k, "Cannot open required temp file");
+                        break;
+
                   default:
                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the compressor and "
                                                             "not handled correctly by the programmer",
@@ -5825,7 +5830,7 @@ pula_arp:;
                         fatal_exit_k = 95557;
                         strcpy(error_message_k, "Cannot write to internal temp file");
                         break;
-                        
+
                   case 95558:
                         fatal_exit_k = 95558;
                         strcpy(error_message_k, "When reading from file the temp file is not open");

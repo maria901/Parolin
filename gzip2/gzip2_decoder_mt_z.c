@@ -323,7 +323,7 @@ saida:
 		if ((status == Z_STREAM_END) || (!strm.avail_out))
 		{
 			// Output buffer is full, or decompression is done, so write buffer to output file.
-			uint n_z = CHUNK - strm.avail_out;
+			int n_z = CHUNK - strm.avail_out;
 
 			if (fwrite_z(out, 1, n_z, amanda->dest) != n_z)
 			{

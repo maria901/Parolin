@@ -814,7 +814,7 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
                         {
                               max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-                              pedro_dprintf(0, "thread %d", i_z);
+                              pedro_dprintf(-1, "thread %d", i_z);
                               temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", max_memory_size_k__p, __FILE__, __LINE__, files_to_close_z[i_z]);
 
 #else
@@ -825,7 +825,7 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
                         if (temp_z)
                         {
                               //Mr. Do
-                              pedro_dprintf(0, "2 thread %d", i_z);
+                              pedro_dprintf(-1, "2 thread %d", i_z);
                         volta_amanda:;
 #ifdef ARP_USE_ENHANCED_STDIO
 
@@ -946,12 +946,12 @@ int compress2_uncompress_k_mt_z(char *input, char *output)
 
       if (1 == n_threads_z)
       {
-            pedro_dprintf(0, "single thread mode ");
+            pedro_dprintf(-1, "single thread mode ");
             ; //pass through
       }
       else
       {
-            pedro_dprintf(0, "multi thread mode ");
+            pedro_dprintf(-1, "multi thread mode ");
             return compress2_uncompress_k_real_mt_z(input, /*for your pleasure */ output);
       }
 

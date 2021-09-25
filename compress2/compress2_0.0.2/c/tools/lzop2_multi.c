@@ -54,8 +54,6 @@ int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output
 	static char buffer[CHUNK];
 	ar_data ar = {0};
 
-	pedro_dprintf(-1, "dentro threads %d\n", n_threads_z);
-
 	thread_return_value_z = 0; //initial thread error value
 
 	//n_threads_copy = n_threads_z;
@@ -94,10 +92,9 @@ int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output
 			retvalue_z = 5;
 			goto saida_z;
 		}
-		pedro_dprintf(0, "passou aqui ja");
+
 		if (0 != memcmp(ar.string, signature_z, 4))
 		{
-			pedro_dprintf(0, "erro 7 %s %s\n", ar.string, signature_z);
 			retvalue_z = 7;
 			goto saida_z;
 		}
@@ -112,23 +109,14 @@ int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output
 		bytes_in_each_slice_z[thread_counter] = remaining_z;
 		offset_of_each_slice_z[thread_counter] = _ftelli64(input_file);
 
-		pedro_dprintf(-1, "itens %lld %lld\n",
-					  bytes_in_each_slice_z[thread_counter],
-					  offset_of_each_slice_z[thread_counter]);
-
-		pedro_dprintf(0, "size to skip %lld", (int64_t)remaining_z);
-		pedro_dprintf(0, "sftell %lld", (int64_t)offset_of_each_slice_z[thread_counter]);
-
 		_fseeki64(input_file, remaining_z, SEEK_CUR);
-		pedro_dprintf(0, "sftell depois %lld", (int64_t)_ftelli64(input_file));
+		
 		thread_counter++;
 	}
 
 saida_z:;
 
 	fclose(input_file);
-
-	pedro_dprintf(0, "count of threads %d\n", thread_counter);
 
 	if (retvalue_z)
 	{
@@ -139,8 +127,6 @@ saida_z:;
 
 	n_threads_z = thread_counter;
 
-	pedro_dprintf(0, "threads internal %d", n_threads_z);
-
 	assert(cores_used_z);
 
 	*cores_used_z = n_threads_z;
@@ -149,8 +135,7 @@ saida_z:;
 
 	while (n_threads_copy--)
 	{
-		pedro_dprintf(-1, "running thread %d\n", n_thread_counter);
-
+		
 		ptr_my_struct_z = calloc(1, sizeof(my_thread_struct_z));
 		assert(ptr_my_struct_z);
 
@@ -209,8 +194,6 @@ saida_z:;
 			}
 		}
 
-		pedro_dprintf(0, "abrindo thread %d", n_thread_counter);
-
 		my_thread_handle[n_thread_counter] = (__INT32_OR_INT64)_beginthreadex(NULL, 0, my_thread_function_v27, ptr_my_struct_z, 0, NULL);
 
 		n_thread_counter++;
@@ -220,7 +203,6 @@ saida_z:;
 	{
 		WaitForSingleObject((void *)my_thread_handle[i_z], INFINITE);
 		CloseHandle((void *)my_thread_handle[i_z]);
-		pedro_dprintf(-1, "Close next\n");
 	}
 
 	if (unicodemode)
@@ -250,7 +232,7 @@ saida_z:;
 	//depois de finalizar
 	for (i_z = 0; i_z < n_threads_z; i_z++)
 	{
-		pedro_dprintf(-1, "arquivo temp a del %s\n", temp_files_z[i_z]);
+
 		if (dest_z)
 		{
 
@@ -338,7 +320,6 @@ saida_z:;
 	intstatus = 0;
 	return thread_return_value_z;
 
-	pedro_dprintf(-1, "final amor...%s %d\n", temp_path_z, (int)thread_return_value_z);
 	exit(27);
 	return 0;
 }

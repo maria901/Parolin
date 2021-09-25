@@ -11,8 +11,6 @@ unsigned __stdcall my_thread_function_v27(void *my_argument_z)
 	if (0 != ptr_my_struct_z->offset_z)
 	{
 
-		pedro_dprintf(0, "seek to %lld\n", ptr_my_struct_z->offset_z);
-
 		if (
 			0 != _fseeki64(
 					 ptr_my_struct_z->input_file,

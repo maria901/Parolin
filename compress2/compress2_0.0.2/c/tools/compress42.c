@@ -1095,7 +1095,7 @@ my_thread_struct_z *amanda;
 	}
 	amanda->size_of_destination_file_z += (outbits + 7) >> 3;
 	
-	pedro_dprintf(0, "tamanho final dentro %lld", amanda->size_of_destination_file_z);
+	pedro_dprintf(-1, "tamanho final dentro %lld", amanda->size_of_destination_file_z);
 	
 	bytes_out += (outbits + 7) >> 3;
 

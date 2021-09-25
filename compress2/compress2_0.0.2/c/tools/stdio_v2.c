@@ -67,7 +67,7 @@ size_t fwrite_z(
 int fclose_z(
 	__attribute__((unused)) FILE_z *stream_z)
 {
-	pedro_dprintf(0, "call to fclose %p", stream_z);
+
 	fclose(stream_z);
 
 	return 0;

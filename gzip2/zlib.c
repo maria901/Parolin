@@ -322,7 +322,7 @@ unsigned __stdcall my_thread_function(void *my_argument_z)
             goto saida_arp;
       }
 
-      if (NULL == ptr_my_struct_z->dest)
+      if (NULL == ptr_my_struct_z->dest) //ta ok
       {
             goto saida_arp;
       }
@@ -461,7 +461,7 @@ unsigned __stdcall my_thread_function(void *my_argument_z)
             if ((status == Z_STREAM_END) || (!ptr_my_struct_z->strm.avail_out))
             {
                   // Output buffer is full, or compression is done, so write buffer to output file.
-                  uint n = CHUNK - ptr_my_struct_z->strm.avail_out;
+                  int n = CHUNK - ptr_my_struct_z->strm.avail_out;
 
                   size_of_compressed_z += n;
                   ptr_my_struct_z->bytestosave += n;
@@ -573,19 +573,23 @@ saida:;
                   ptr_my_struct_z->dest = _wfopen(wpmode, L"rb+");
 #endif
             }
-            else
+            if (ptr_my_struct_z->dest)
             {
-#ifdef ARP_USE_ENHANCED_STDIO
+                  switch (ptr_my_struct_z->dest->internal_error_m)
+                  {
+                  case P_MODE_CANNOT_OPEN_INTERNAL_FILE:
+                        ptr_my_struct_z->retvalue = 97001; //Cannot open required temp file
+                        break;
+                  case P_MODE_IS_IN_ERROR:
 
-                  pedro_dprintf(-1, "3 memory size %lld", max_memory_size_j);
-                  ptr_my_struct_z->dest = fopen_z(temp_files_z[ptr_my_struct_z->thread_id_z], "rb+", max_memory_size_j, __FILE__, __LINE__, ptr_my_struct_z->dest);
-#else
-                  ptr_my_struct_z->dest = fopen(temp_files_z[ptr_my_struct_z->thread_id_z], "rb+");
-#endif
+                        break;
+                  case P_MODE_OK:
+
+                        break;
+                  }
             }
             if (0 == ptr_my_struct_z->dest)
             {
-
                   ptr_my_struct_z->retvalue = 8;
             }
             else
@@ -659,7 +663,7 @@ saida_arp:;
       return 0;
 }
 
-int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in use
+int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in use, just trying to wonder why...
 {
       int i_z;
       FILE *dest = NULL;
@@ -815,18 +819,6 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                                     ptr_my_struct_z->dest = _wfopen(wpmode, L"wb");
 #endif
                               }
-                              else
-                              {
-#ifdef ARP_USE_ENHANCED_STDIO
-
-                                    pedro_dprintf(-1, "6 memory size %lld", max_memory_size_j);
-                                    ptr_my_struct_z->dest = fopen_z(temp_files_z[n_thread_counter], "wb", max_memory_size_j, __FILE__, __LINE__, NULL);
-                                    files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
-#else
-
-                                    ptr_my_struct_z->dest = fopen(temp_files_z[n_thread_counter], "wb");
-#endif
-                              }
 
                               if (NULL == ptr_my_struct_z->dest)
                               {
@@ -969,26 +961,34 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                                     temp_z = _wfopen(wpmode, L"rb");
 #endif
                               }
-                              else
+                              if (temp_z)
                               {
-#ifdef ARP_USE_ENHANCED_STDIO
+                                    switch (temp_z->internal_error_m)
+                                    {
+                                    case P_MODE_CANNOT_OPEN_INTERNAL_FILE:
+                                          thread_return_value_z = 97001; //Cannot open required temp file
+                                          break;
+                                    case P_MODE_IS_IN_ERROR:
 
-                                    pedro_dprintf(-1, "b memory size %lld", max_memory_size_j);
-                                    temp_z = fopen_z(temp_files_z[i_z], "rb", max_memory_size_j, __FILE__, __LINE__, files_to_close_z[i_z]);
+                                          break;
+                                    case P_MODE_OK:
 
-#else
-                                    temp_z = fopen(temp_files_z[i_z], "rb");
-#endif
+                                          break;
+                                    }
                               }
                               if (temp_z)
                               {
                                     //Mr. Do
 
                               volta_amanda:;
+                                    if (97001 == thread_return_value_z)
+                                    {
+                                          ret_z = 0;
+                                    }
+                                    else
+                                          ret_z = fread_z(buffer, 1, CHUNK, temp_z);
 
-                                    ret_z = fread_z(buffer, 1, CHUNK, temp_z);
-
-                                    if (0 > ret_z)
+                                    if (0 > ret_z)//Never will occur...but I will keep it here for historical reasons...
                                     {
                                           if (0 == thread_return_value_z)
                                           {

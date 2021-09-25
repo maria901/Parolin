@@ -5,6 +5,7 @@
 *.la
 *.ric
 *~
+*.zip
 
 # Libraries
 *.lib

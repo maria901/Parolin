@@ -1345,15 +1345,15 @@ compress_file(__attribute__((unused)) FILE *f_in,
      switch (amanda->thread_id_z)
      {
      case 0:
-     pedro_dprintf(0, "!!!thread 0");
+     pedro_dprintf(-1, "!!!thread 0");
           returnvalue_z = compress(amanda->input_file, amanda->dest, amanda);
           break;
      case 1:
-     pedro_dprintf(0, "???thread 1");
+     pedro_dprintf(-1, "???thread 1");
           returnvalue_z = compress_thread_1(amanda->input_file, amanda->dest, amanda);
           break;
      case 2:
-     pedro_dprintf(0, "---thread 2");
+     pedro_dprintf(-1, "---thread 2");
           returnvalue_z = compress_thread_2(amanda->input_file, amanda->dest, amanda);
           break;
      case 3:
@@ -1372,11 +1372,11 @@ compress_file(__attribute__((unused)) FILE *f_in,
           returnvalue_z = compress_thread_7(amanda->input_file, amanda->dest, amanda);
           break;
      case 8:
-          pedro_dprintf(0, "calling 8 %p\n", amanda);
+          pedro_dprintf(-1, "calling 8 %p\n", amanda);
           returnvalue_z = compress_thread_8(amanda->input_file, amanda->dest, amanda);
           break;
      case 9:
-          pedro_dprintf(0, "calling 9 %p\n", amanda);
+          pedro_dprintf(-1, "calling 9 %p\n", amanda);
           returnvalue_z = compress_thread_9(amanda->input_file, amanda->dest, amanda);
           break;
      case 10:
@@ -1759,15 +1759,15 @@ int decompress_file(FILE *f_in, FILE *f_out, my_thread_struct_z *amanda)
      switch (amanda->thread_id_z)
      {
      case 0:
-     pedro_dprintf(0, "...thread 0");
+     pedro_dprintf(-1, "...thread 0");
           retvalue_z = decompress(f_in, f_out, amanda);
           break;
      case 1:
-     pedro_dprintf(0, "...thread 1");
+     pedro_dprintf(-1, "...thread 1");
           retvalue_z = decompress_thread_1(f_in, f_out, amanda);
           break;
      case 2:
-     pedro_dprintf(0, "...thread 2");
+     pedro_dprintf(-1, "...thread 2");
           retvalue_z = decompress_thread_2(f_in, f_out, amanda);
           break;
      case 3:
