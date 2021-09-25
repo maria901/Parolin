@@ -1514,14 +1514,19 @@ compress_file(__attribute__((unused)) FILE* f_in,
               __attribute__((unused)) FILE_z* f_out,
               my_thread_struct_z * amanda)
 {
+	char the_my_love_level_p[300];
 	int returnvalue_z = 0;
 	compressResult_t result_z = {1, 0, 0};
 
 	char *my_main_args[6];
 
+	sprintf(the_my_love_level_p, "-%d", amanda->level);
+
+	pedro_dprintf(-1, "veja amor %s", the_my_love_level_p);
+
 	my_main_args[0] = "test_arp.exe";
 	my_main_args[1] = "-f";
-	my_main_args[2] = "-9";
+	my_main_args[2] = the_my_love_level_p;
 	my_main_args[3] = "file1.txt";
 	my_main_args[4] = "-o";
 	my_main_args[5] = "file2.txt";

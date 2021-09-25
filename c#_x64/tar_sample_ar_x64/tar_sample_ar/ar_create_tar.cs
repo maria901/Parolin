@@ -74,6 +74,37 @@ namespace tar_sample_ar
 		{
 			this.Icon = util_ar.pedro_get_icon();
 			
+			level_new_ava.Items.Add("-5");
+			level_new_ava.Items.Add("-4");
+			level_new_ava.Items.Add("-3");
+			level_new_ava.Items.Add("-2");
+			level_new_ava.Items.Add("-1");
+			level_new_ava.Items.Add("0");
+			level_new_ava.Items.Add("1");
+			level_new_ava.Items.Add("2");
+			level_new_ava.Items.Add("3");
+			level_new_ava.Items.Add("4");
+			level_new_ava.Items.Add("5");
+			level_new_ava.Items.Add("6");
+			level_new_ava.Items.Add("7");
+			level_new_ava.Items.Add("8");
+			level_new_ava.Items.Add("9");
+			level_new_ava.Items.Add("10");
+			level_new_ava.Items.Add("11");
+			level_new_ava.Items.Add("12");
+			level_new_ava.Items.Add("13");
+			level_new_ava.Items.Add("14");
+			level_new_ava.Items.Add("15");
+			level_new_ava.Items.Add("16");
+			level_new_ava.Items.Add("17");
+			level_new_ava.Items.Add("18");
+			level_new_ava.Items.Add("19");
+			level_new_ava.Items.Add("20");
+			level_new_ava.Items.Add("21");
+			level_new_ava.Items.Add("22");
+			
+			level_new_ava.Text = "6";
+			
 			label3.Text = "Using Encryption: no";
 			if(util_ar.use_encryption_arp)
 			{
@@ -91,6 +122,10 @@ namespace tar_sample_ar
 			if(util_ar.is_parolin_p)
 			{
 				this.Text = this.Text + " - Mode is Parolin";
+				
+				level_label.Visible = true;
+				level_new_ava.Visible = true;
+				
 				label3.Visible = true;
 			}
 			else
@@ -526,11 +561,11 @@ namespace tar_sample_ar
 			//
 			// XZ
 			// Zstandard
-			// gzip2     (compression)
-			// bzip3     (compression)
+			// gzip2     (compression, decompression)
+			// bzip3     (compression, decompression)
 			// lzop2     (compression, decompression)
-			// lz5       (compression)
-			// brotli2   (compression)
+			// lz5       (compression, decompression)
+			// brotli2   (compression, decompression)
 			// compress2 (compression, decompression)
 			//
 			// soon all will have, make some tests to see how fast the
@@ -558,7 +593,7 @@ namespace tar_sample_ar
 						
 						if(128 < ret_arp)
 						{
-							ret_arp = 128;//limit
+							ret_arp = 128;//limit for the moment, it looks enough for more ten years
 						}
 						
 						threads_used_z = "Threads: " + ret_arp;
@@ -760,6 +795,13 @@ namespace tar_sample_ar
 			{
 				recurse_int = 1;
 			}
+			
+			// after release 8.4.5 (build 005920 Sabado 25 Setembro 2021  02:14)
+			// you can set the compression level to compressors that support it
+			// if not set it will default to level 6
+			
+			util_ar.set_compression_level_p(level_new_ava.Text);
+			
 			if(mode_is_create)
 			{
 				//if util_ar.size_of_each_file_slice_p is not 0 the resulting

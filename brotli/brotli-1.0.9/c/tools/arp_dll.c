@@ -61,6 +61,7 @@ int __stdcall compress_br___rspk_ar(char *Input_amanda_file_utf_8, char *OutPut_
                                     __attribute__((unused)) int Compression_juliete_Level_unused___)
 {
 
+      char compression_level_my_love[300];
       int return_value_valquiria = 0;
       intpause___aakp = 0;
       intcancel__rspk = 0;
@@ -80,9 +81,22 @@ int __stdcall compress_br___rspk_ar(char *Input_amanda_file_utf_8, char *OutPut_
 
       static char *my_main_args[6];
 
+      if (0 > Compression_juliete_Level_unused___)
+      {
+            Compression_juliete_Level_unused___ = 0;
+      }
+      if (9 < Compression_juliete_Level_unused___)
+      {
+            Compression_juliete_Level_unused___ = 9;
+      }
+
+      sprintf(compression_level_my_love, "-%d", Compression_juliete_Level_unused___);
+
+      pedro_dprintf(-1, "level amor -> %s", compression_level_my_love);
+
       my_main_args[0] = "test_arp.exe";
       my_main_args[1] = "-f";
-      my_main_args[2] = "-9";
+      my_main_args[2] = compression_level_my_love;
       my_main_args[3] = Input_amanda_file_utf_8;
       my_main_args[4] = "-o";
       my_main_args[5] = OutPut_ricardo_File_utf_8;

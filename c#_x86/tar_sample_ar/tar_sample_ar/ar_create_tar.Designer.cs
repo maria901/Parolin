@@ -71,6 +71,8 @@ namespace tar_sample_ar
 			this.memory__label_z = new System.Windows.Forms.Label();
 			this.level_p = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
+			this.level_new_ava = new System.Windows.Forms.ComboBox();
+			this.level_label = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -356,11 +358,31 @@ namespace tar_sample_ar
 			this.label5.TabIndex = 36;
 			this.label5.Text = "Level";
 			// 
+			// level_new_ava
+			// 
+			this.level_new_ava.FormattingEnabled = true;
+			this.level_new_ava.Location = new System.Drawing.Point(505, 37);
+			this.level_new_ava.Name = "level_new_ava";
+			this.level_new_ava.Size = new System.Drawing.Size(126, 21);
+			this.level_new_ava.TabIndex = 37;
+			this.level_new_ava.Visible = false;
+			// 
+			// level_label
+			// 
+			this.level_label.Location = new System.Drawing.Point(502, 17);
+			this.level_label.Name = "level_label";
+			this.level_label.Size = new System.Drawing.Size(59, 17);
+			this.level_label.TabIndex = 38;
+			this.level_label.Text = "Level";
+			this.level_label.Visible = false;
+			// 
 			// ar_create_tar
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(787, 432);
+			this.Controls.Add(this.level_label);
+			this.Controls.Add(this.level_new_ava);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.level_p);
 			this.Controls.Add(this.memory__label_z);
@@ -401,6 +423,8 @@ namespace tar_sample_ar
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Label level_label;
+		private System.Windows.Forms.ComboBox level_new_ava;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.ComboBox level_p;
 		private System.Windows.Forms.Label memory__label_z;

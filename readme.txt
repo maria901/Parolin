@@ -238,6 +238,15 @@ Sorry for this limitation
 
 Changelog:
 
+What is new in version 8.4.5  build 005920 Sabado 25 Setembro 2021  02:14 codename Grozin
+.......... First release with support to level in Parolin (libarchive
+.......... already have this option), notice that some level don't range
+.......... from 0 to 9 like gzip but from -5 to 22 (the case of Zstandard),
+.......... in this case if you pass -5 to gzip it will set as 0 and if
+.......... 22 it will be set as 9, I hope it is well understood, also some
+.......... compressors don't have a compression level like compress and
+.......... compress2, minor modifications.
+
 What is new in version 7.9.2  build 005867 Sabado 18 Setembro 2021  07:39 codename Corcelle
 
 .......... 18 01:32

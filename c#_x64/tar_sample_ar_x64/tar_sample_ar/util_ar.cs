@@ -1,5 +1,5 @@
 ﻿
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -24,10 +24,10 @@
  *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
  *                                                                              *
  *     contato imediato(para uma resposta muita rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
- 
+
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -81,7 +81,7 @@ namespace tar_sample_ar
 		P_MODE_IS_V7TAR_GZIP      ,
 		P_MODE_IS_V7TAR_BZIP2     ,
 		P_MODE_IS_V7TAR_XZ        ,
-		P_MODE_IS_7ZIP_ENCRYPTED  ,		
+		P_MODE_IS_7ZIP_ENCRYPTED  ,
 		P_MODE_IS_7ZIP_ENCRYPTED_ALSO_HEADERS ,
 	}
 	public enum compression_modes_AR
@@ -122,7 +122,7 @@ namespace tar_sample_ar
 		AAKP_MODE_TAR_COMPRESS2,
 		AAKP_MODE_VAL_COMPRESS2
 	};
-		
+	
 	public enum z_encryption_method
 	{
 		Z_OLD_MODE,
@@ -192,7 +192,7 @@ namespace tar_sample_ar
 		[DllImport("ar_tar_process.DLL", CharSet = CharSet.None, ExactSpelling = false)]
 		internal static extern int
 			split_compressed_file_p(long slice_in_bytes_p);
-	
+		
 		/**
 		 * Function to retrieve the Tar file informations
 		 *
@@ -542,11 +542,24 @@ namespace tar_sample_ar
 		 * @param also_encrypt_headers_i_ 1 to encrypt the headers, 0 to don`t
 		 *
 		 * @return always 0
-		 *  
+		 *
 		 */
 		[DllImport("ar_tar_process.DLL", CharSet = CharSet.None, ExactSpelling = false)]
 		internal static extern int
 			set_7zip_encryption_mode_i(int also_encrypt_headers_i_);
+		
+		/**
+		 * To set the compression level, notice that some levels don't range
+		 * from 0 to 9 like gzip but from -5 to 22 (the case of Zstandard),
+		 * in this case if you pass -5 to gzip it will set as 0 and if
+		 * 22 it will be set as 9, I hope it is well understood, also some
+		 * compressors don't have a compression level like compress and
+		 * compress2, use it wisely...(the friend programmer...)
+		 * 
+		 */
+		[DllImport("ar_tar_process.DLL", CharSet = CharSet.None, ExactSpelling = false)]
+		internal static extern int
+			set_compression_level_p(string level_m);
 		
 		/**
 		 * This is the function that will create a Tar or VAL file
@@ -797,7 +810,7 @@ namespace tar_sample_ar
 		
 		/**
 		 * To retrieve the data after a list process
-		 *		 
+		 *
 		 * 
 		 * @param filename_k_ar the filename
 		 *
@@ -1063,11 +1076,11 @@ namespace tar_sample_ar
 		 * a mistery about how it can do it but works, it helps in detection
 		 * of memory leaks because the memory usage of C# is to high and absurd that
 		 * memory leaks go undetected
-		 *  
-		 */ 
+		 *
+		 */
 		internal static void clean_up_memory_p()
 		{
-			return;
+			//return;
 			GC.Collect();
 			GC.WaitForPendingFinalizers();
 			if (Environment.OSVersion.Platform == PlatformID.Win32NT)

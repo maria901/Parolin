@@ -579,12 +579,16 @@ int lz5compress_k(char *input,
 
       if (levelin <= 0)
       {
-            level = 1;
+            level = 0;
       }
+	  
       if (levelin > 9)
       {
             level = 9;
       }
+	  
+	  pedro_dprintf(-1, "level amor brotli2 %d\n", level);
+	  
       veja_z = 0;
 
       totalbytes = lffilesize(input);

@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,1,908
- PRODUCTVERSION 1,1,1,908
+ FILEVERSION 1,1,9,916
+ PRODUCTVERSION 1,1,9,916
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -49,14 +49,14 @@ BEGIN
             VALUE "Comments", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "CompanyName", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "FileDescription", "BW Brotli DLL \0"
-            VALUE "FileVersion", "1, 1, 1, 908 \0"
+            VALUE "FileVersion", "1, 1, 9, 916 \0"
             VALUE "InternalName", "rsp_brotli_arp_32.DLL \0"
             VALUE "LegalCopyright", "CopyLeft © 2021 BW \0"
             VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
             VALUE "OriginalFilename", "rsp_brotli_arp_32.DLL \0"
-            VALUE "PrivateBuild", "908 \0"
-            VALUE "ProductName", "BW Brotli DLL 1, 1, 1, 908 31.5 bits ;-) \0"
-            VALUE "ProductVersion", "1, 1, 1, 908 \0"
+            VALUE "PrivateBuild", "916 \0"
+            VALUE "ProductName", "BW Brotli DLL 1, 1, 9, 916 31.5 bits ;-) \0"
+            VALUE "ProductVersion", "1, 1, 9, 916 \0"
             VALUE "SpecialBuild", "amandaricardo_koci_e_pereira\0"
         END
     END

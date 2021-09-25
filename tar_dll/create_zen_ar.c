@@ -2283,6 +2283,23 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
 int __stdcall startapi(int parameter);
 
+int __stdcall set_compression_level_p(char *level_m)
+{
+
+      parolin_compression_level_p = atoi(level_m);
+
+      if (-5 > parolin_compression_level_p)
+      {
+            parolin_compression_level_p = -5;
+      }
+
+      if (22 < parolin_compression_level_p)
+      {
+            parolin_compression_level_p = 22;
+      }
+
+      return 27;
+}
 /**
  * This is the function that will create a Tar or VAL file
  *
@@ -5214,7 +5231,7 @@ pula_arp:;
             {
                   first_step = 1;
                   inittimer2(0);
-                  pedro_dprintf(0, "na entrada é %d", threads_z_v27);
+                  pedro_dprintf(-1, "na entrada é %d", threads_z_v27);
                   returnvalue_ar = compress_g2___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
                                                               6,
@@ -5631,9 +5648,18 @@ pula_arp:;
 
                   inittimer2(0);
 
+                  if (0 > parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 0;
+                  }
+                  if (9 < parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 9;
+                  }
+
                   returnvalue_ar = compress_bb___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
-                                                              6,
+                                                              parolin_compression_level_p,
                                                               threads_z_v27,
                                                               ar_gettemppath_z());
 
@@ -6326,7 +6352,7 @@ pula_arp:;
                   inittimer2(0);
                   returnvalue_ar = compress_br___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
-                                                              9);
+                                                              parolin_compression_level_p);
 
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "brotli compressed required %.3f seconds\n", inittimer2(1));
 
@@ -6386,7 +6412,18 @@ pula_arp:;
             {
                   first_step = 1;
                   inittimer2(0);
-                  Compress_bzip2_ar_func(archive_name_array_filename, original_destination_tar_file, 6);
+
+                  if (0 > parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 0;
+                  }
+
+                  if (9 < parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 9;
+                  }
+
+                  Compress_bzip2_ar_func(archive_name_array_filename, original_destination_tar_file, parolin_compression_level_p);
 
                   while (GetStatus_bzip2_ar_func())
                   {

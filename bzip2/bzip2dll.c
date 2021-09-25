@@ -60,6 +60,13 @@
 
 #include "aline_definitive_header_2_.h"
 
+void
+pedro_dprintf
+(
+	int amanda_level,
+	char *format, ...
+);
+
 /**
  * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
  */
@@ -286,6 +293,8 @@ int __stdcall bzip2compress(char *infile, char *outfile, char *levelch)
       }
       intfatia = 0;
 
+      pedro_dprintf(-1, "Level %s\n", levelch);
+      
       if ((fn_w != NULL && (BZ2fp_w = BZ2_bzopen(fn_w, levelch)) == NULL))
       {
             fclose(fp_r);
