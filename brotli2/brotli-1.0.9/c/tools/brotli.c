@@ -1522,7 +1522,7 @@ compress_file(__attribute__((unused)) FILE* f_in,
 
 	sprintf(the_my_love_level_p, "-%d", amanda->level);
 
-	pedro_dprintf(-1, "veja amor %s", the_my_love_level_p);
+	pedro_dprintf(-1, "veja amor, level %s", the_my_love_level_p);
 
 	my_main_args[0] = "test_arp.exe";
 	my_main_args[1] = "-f";

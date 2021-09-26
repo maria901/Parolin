@@ -236,9 +236,46 @@ Sorry for this limitation
 
 ////////////////////////////////////////////////////////////////////
 
+About required libraries installed
+
+..........
+.......... Important: Parolin don't compiles with cygwin
+.......... out of the box due to the requirement of
+.......... customized libraries like -llzma that need
+.......... to be genrated from sources at xz folder
+.......... also -lbz2 is required
+.......... it is related only to the libarchive
+.......... compilation, the Parolin don't need it and can
+.......... compile with cygwin out of the box
+
+.......... The makefile that have the ready to use commands
+.......... to install lzma.a static library in your cygwin
+.......... package is in your folder:
+                                     .\<tar folder>\xz\xz-5.2.5\xz-5.2.5\windows\vs2019\makefile
+.......... it is customized to install lzma.a to my customized
+.......... cygwin folder that is C:\cygwin64_amandaricardo_koci_10.2.0\
+.......... modify it to your needs, if lzma.a is generated and installed from
+.......... the makefile above the required headers will also be installed
+.......... for both x86 and x64, good coding day...
+
+////////////////////////////////////////////////////////////////////
+
 Changelog:
 
-What is new in version 8.7.4  build 005949  codename ?
+
+What is new in version 8.9.3  build 005968  Domingo 26 Setembro 2021  08:50 codename Mentré
+
+.......... 08:45
+.......... It is done, all  compressors that allow compres-
+.......... sion level  are  using  it that came from sample
+.......... project,  the  only  different levels used is in
+.......... Zstandard,  it  range from 0 to 22, 6 to default
+.......... level,  GitHub  package  will be pushed in a few
+.......... minutes, sourceforge  will follow, it is release
+.......... 8.9.3
+..........
+
+What is new in version 8.7.4  build 005949  Domingo 26 Setembro 2021  00:42 codename Page
 
 .......... About Lzma -> If you need lzma based compression
 .......... with diferent levels use lzip, because it
@@ -251,6 +288,7 @@ What is new in version 8.7.4  build 005949  codename ?
 .......... (best)
 
 What is new in version 8.4.5  build 005920 Sabado 25 Setembro 2021  02:14 codename Grozin
+
 .......... First release with support to level in Parolin (libarchive
 .......... already have this option), notice that some level don't range
 .......... from 0 to 9 like gzip but from -5 to 22 (the case of Zstandard),

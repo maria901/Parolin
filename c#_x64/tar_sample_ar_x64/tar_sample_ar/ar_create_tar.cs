@@ -1,6 +1,6 @@
 ﻿
 
- /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -25,7 +25,7 @@
  *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
  *                                                                              *
  *     contato imediato(para uma resposta muita rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
@@ -73,12 +73,15 @@ namespace tar_sample_ar
 		void Ar_create_tarLoad(object sender, EventArgs e)
 		{
 			this.Icon = util_ar.pedro_get_icon();
-			
+			/*
+			 * 
 			level_new_ava.Items.Add("-5");
 			level_new_ava.Items.Add("-4");
 			level_new_ava.Items.Add("-3");
 			level_new_ava.Items.Add("-2");
 			level_new_ava.Items.Add("-1");
+			
+			*/
 			level_new_ava.Items.Add("0");
 			level_new_ava.Items.Add("1");
 			level_new_ava.Items.Add("2");
@@ -597,8 +600,8 @@ namespace tar_sample_ar
 						}
 						
 						threads_used_z = "Threads: " + ret_arp;
-								util_ar.set_thread_number(ret_arp);
-								
+						util_ar.set_thread_number(ret_arp);
+						
 					}
 					catch
 					{
@@ -1204,6 +1207,18 @@ namespace tar_sample_ar
 								ret_arp = 128;
 							}
 							threads_used_z = "Threads: " + ret_arp;
+							
+							if("val.xz" == compression_mode_ar_.Text
+							   ||
+							   "tar.xz" == compression_mode_ar_.Text
+							   ||
+							   "val.zst" == compression_mode_ar_.Text
+							   ||
+							   "tar.zst" == compression_mode_ar_.Text)
+							{
+								
+								threads_used_z = "Threads: <internal>";
+							}
 						}
 						catch
 						{

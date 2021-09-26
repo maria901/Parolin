@@ -5466,10 +5466,23 @@ pula_arp:;
             if (0 == fatal_exit_k)
             {
                   first_step = 1;
+
                   inittimer2(0);
+
+                  if (0 > parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 0;
+                  }
+
+                  if (9 < parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 9;
+                  }
+
+                  //notice that we have not developed lzop2 with compression level support, only one level for the moment is allowed, derived from minilzo -> http://www.oberhumer.com/opensource/lzo/ <- (26/sep/2021, 01:43)
                   returnvalue_ar = compress_l3___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
-                                                              6,
+                                                              parolin_compression_level_p,
                                                               threads_z_v27,
                                                               ar_gettemppath_z());
 
@@ -6049,10 +6062,21 @@ pula_arp:;
             {
                   first_step = 1;
                   inittimer2(0);
+
+                  if (0 > parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 0;
+                  }
+                  if (9 < parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 9;
+                  }
+
                   returnvalue_ar = compress_xz___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
-                                                              6,
+                                                              parolin_compression_level_p,
                                                               threads_z);
+
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "xz compressed required %.3f seconds\n", inittimer2(1));
                   switch (returnvalue_ar)
                   {
@@ -6186,9 +6210,19 @@ pula_arp:;
                   first_step = 1;
                   inittimer2(0);
 
+                  if (0 > parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 0;
+                  }
+
+                  if (9 < parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 9;
+                  }
+
                   returnvalue_ar = compress_ju___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
-                                                              9);
+                                                              parolin_compression_level_p);
 
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lzop compressed required %.3f seconds\n", inittimer2(1));
 
@@ -6329,10 +6363,22 @@ pula_arp:;
             if (0 == fatal_exit_k)
             {
                   first_step = 1;
+
                   inittimer2(0);
+
+                  if (0 > parolin_compression_level_p)//correcting, negatives values not allowed in the executable mode
+                  {
+                        parolin_compression_level_p = 0;
+                  }
+
+                  if (22 < parolin_compression_level_p)
+                  {
+                        parolin_compression_level_p = 22;
+                  }
+
                   returnvalue_ar = compress_zs___rspk_ar_func(archive_name_array_filename,
                                                               original_destination_tar_file,
-                                                              9,
+                                                              parolin_compression_level_p,
                                                               threads_z);
 
                   pedro_dprintf(SHOW_DEBUG_SPEED_Z, "zstandard compressed required %.3f seconds\n", inittimer2(1));

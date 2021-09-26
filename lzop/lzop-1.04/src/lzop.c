@@ -3548,6 +3548,8 @@ int __stdcall compress_ju___rspk_ar(char *Input_amanda_file_utf_8, char *OutPut_
       //debug only exit(1);
       pedro_dprintf(-1, "tamanho____aakp %lld\n", tamanho____aakp);
 
+      pedro_dprintf(-1, "level %d\n", Compression_juliete_Level_in_use_now__);
+
       sprintf(level_arp, "-%d", Compression_juliete_Level_in_use_now__);
 
       //aqui

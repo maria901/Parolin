@@ -122,23 +122,7 @@ static __int64 getfilesize(char *infile)
 
       return ret;
 }
-/*
-int xz_compression_progress()
-{
-	int val=progress;
 
-	if(val<0)
-	{
-		val=0;
-	}
-
-	if(val>10000)
-	{
-		val=10000;
-	}
-	return val;
-}
-*/
 static uint getpor(__int64 max, __int64 fatia)
 {
 
@@ -556,6 +540,9 @@ the level range from 0 to 9, 9 to best compression
 
 xz files can be decompressed with Winrar
 
+if threads is used the compression level is the default or
+controled internally, level  don't matter (26/sep/2021, 02:45)
+
 */
 int xz_compress(char *inputfile, char *outputfile, int level)
 {
@@ -622,10 +609,12 @@ int xz_compress(char *inputfile, char *outputfile, int level)
       //success = init_encoder_multi_thread_z(&strm);
       if (1 == threads_z)
       {
+            pedro_dprintf(-1, "mode single thread\n");
             success = init_encoder(&strm, preset);
       }
       else
       {
+            pedro_dprintf(-1, "mode multi thread\n");
             success = init_encoder_multi_thread_z(&strm);
       }
 

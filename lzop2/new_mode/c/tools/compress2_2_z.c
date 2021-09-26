@@ -589,7 +589,7 @@ int compress2_compress_k(char *input, char *output, int levelin) //level not in 
 
       if (levelin <= 0)
       {
-            level = 1;
+            level = 0;
       }
       if (levelin > 9)
       {

@@ -111,6 +111,11 @@ int lzo_decompress(char *buffer, int len, char*outbuf, lzo_uint * outlen, __attr
 	}
 	return 0;
 }
+/**
+ * Main modified lzo compression library without level support, only one level for the moment, 
+ * but with full multithread support (26/sep/2021, 01:40)
+ * 
+ */
 int lzo_compress(char*bufin, int bufinlen, char*outbuf, lzo_uint *outbuflen, my_thread_struct_z * amanda)
 {
 	int r;
