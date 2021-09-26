@@ -238,6 +238,18 @@ Sorry for this limitation
 
 Changelog:
 
+What is new in version 8.7.4  build 005949  codename ?
+
+.......... About Lzma -> If you need lzma based compression
+.......... with diferent levels use lzip, because it
+.......... is also lzma compression just slower, for
+.......... the moment lzma compression only on default
+.......... compression level using up the 200 mb for
+.......... compression, in case of lzip maximum
+.......... compression uses up to 460 mb of memory, lzip
+.......... compression levels range from 0 (fast) to 9
+.......... (best)
+
 What is new in version 8.4.5  build 005920 Sabado 25 Setembro 2021  02:14 codename Grozin
 .......... First release with support to level in Parolin (libarchive
 .......... already have this option), notice that some level don't range
