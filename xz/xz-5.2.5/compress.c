@@ -61,7 +61,8 @@
 #define uint unsigned int
 
 extern int porcentagem;
-
+extern int64_t bytes_processados_m;
+extern int64_t final_fix_p;
 int threads_z = 1; //default
 
 /**
@@ -78,6 +79,9 @@ WCHAR *amanda_utf8towide_1_v27(char *pUTF8);
 
 void dprintf(char *format, ...);
 
+int __fastcall progress_pos_m(uint64_t *in_pos,
+                              uint64_t *compressed_pos, uint64_t *uncompressed_pos);
+
 void pedro_dprintf(
     int amanda_level,
     char *format, ...);
@@ -85,7 +89,7 @@ void pedro_dprintf(
 extern int intpause;
 extern int intcancel;
 
-static __int64 tamanho = 0;
+__int64 tamanho = 0;
 static __int64 processado = 0;
 static int progress = 0;
 /**
@@ -329,13 +333,51 @@ init_encoder(lzma_stream *strm, uint32_t preset)
       return false;
 }
 
+static void
+progress_pos_m_p(lzma_stream *progress_strm, uint64_t *in_pos,
+                 uint64_t *compressed_pos, uint64_t *uncompressed_pos)
+{
+      uint64_t out_pos;
+      if (false)
+      {
+            // In passthru mode the progress info is in total_in/out but
+            // the *progress_strm itself isn't initialized and thus we
+            // cannot use lzma_get_progress().
+            *in_pos = progress_strm->total_in;
+            out_pos = progress_strm->total_out;
+      }
+      else
+      {
+            lzma_get_progress(progress_strm, in_pos, &out_pos);
+      }
+
+      // It cannot have processed more input than it has been given.
+      assert(*in_pos <= progress_strm->total_in);
+
+      // It cannot have produced more output than it claims to have ready.
+      assert(out_pos >= progress_strm->total_out);
+
+      if (true)
+      { //if compression
+            *compressed_pos = out_pos;
+            *uncompressed_pos = *in_pos;
+      }
+      else
+      {
+            *compressed_pos = *in_pos; //decompression
+            *uncompressed_pos = out_pos;
+      }
+
+      return;
+}
+
 static bool
 compress(lzma_stream *strm, FILE *infile, FILE *outfile)
 {
       // This will be LZMA_RUN until the end of the input file is reached.
       // This tells lzma_code() when there will be no more input.
       lzma_action action = LZMA_RUN;
-
+      final_fix_p = 0;
       pedro_dprintf(-1, "Entrou\n");
 
       // Buffers to temporarily hold uncompressed input
@@ -358,7 +400,8 @@ compress(lzma_stream *strm, FILE *infile, FILE *outfile)
       strm->avail_in = 0;
       strm->next_out = outbuf;
       strm->avail_out = sizeof(outbuf);
-
+      porcentagem = 0;
+      bytes_processados_m = 0;
       // Loop until the file has been successfully compressed or until
       // an error occurs.
       while (true)
@@ -369,8 +412,9 @@ compress(lzma_stream *strm, FILE *infile, FILE *outfile)
                   strm->next_in = inbuf;
                   strm->avail_in = fread(inbuf, 1, sizeof(inbuf),
                                          infile);
+                  /*
                   processado += strm->avail_in;
-
+*/
                   while (intpause)
                   {
 
@@ -386,8 +430,8 @@ compress(lzma_stream *strm, FILE *infile, FILE *outfile)
                   {
                         goto saida;
                   }
-
-                  progress = getpor(tamanho, processado);
+                  /*
+                  progress = getpor(tamanho, final_fix_p);
 
                   if (progress < 0)
                   {
@@ -400,6 +444,7 @@ compress(lzma_stream *strm, FILE *infile, FILE *outfile)
                   }
 
                   porcentagem = progress;
+*/
 
                   //printf("progress %03d\r",progress);
 

@@ -227,6 +227,7 @@ int running = 0;
 int intpause = 0;
 int intcancel = 0;
 
+int64_t bytes_processados_m;
 int porcentagem;
 int xz_compress(char *inputfile, char *outputfile, int level);
 

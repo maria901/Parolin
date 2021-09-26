@@ -540,6 +540,13 @@ progress_pos(uint64_t *in_pos,
 	return;
 }
 
+int __fastcall progress_pos_m(uint64_t *in_pos,
+		uint64_t *compressed_pos, uint64_t *uncompressed_pos)
+		{
+			
+			progress_pos(in_pos, compressed_pos, uncompressed_pos);
+			return 0;
+		}
 
 extern void
 message_progress_update(void)

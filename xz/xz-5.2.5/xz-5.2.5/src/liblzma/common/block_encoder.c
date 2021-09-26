@@ -14,8 +14,19 @@
 #include "filter_encoder.h"
 #include "check.h"
 
+int64_t final_fix_p;
+extern __int64 tamanho;
+extern int porcentagem;
+extern int64_t bytes_processados_m;
+extern int intpause;
+extern int intcancel;
 
-typedef struct {
+void pedro_dprintf(
+	int amanda_level,
+	char *format, ...);
+
+typedef struct
+{
 	/// The filters in the chain; initialized with lzma_raw_decoder_init().
 	lzma_next_coder next;
 
@@ -24,7 +35,8 @@ typedef struct {
 	/// has been finished.
 	lzma_block *block;
 
-	enum {
+	enum
+	{
 		SEQ_CODE,
 		SEQ_PADDING,
 		SEQ_CHECK,
@@ -43,27 +55,48 @@ typedef struct {
 	lzma_check_state check;
 } lzma_block_coder;
 
+static unsigned int getpor(__int64 max, __int64 fatia)
+{
+
+	double maxa;
+	double fatiaa;
+
+	maxa = (double)max;
+	fatiaa = (double)fatia;
+
+	if (max == 0)
+	{
+		return 0;
+	}
+
+	maxa = ((double)10000 / maxa * fatiaa);
+
+	return (unsigned int)maxa;
+}
 
 static lzma_ret
 block_encode(void *coder_ptr, const lzma_allocator *allocator,
-		const uint8_t *restrict in, size_t *restrict in_pos,
-		size_t in_size, uint8_t *restrict out,
-		size_t *restrict out_pos, size_t out_size, lzma_action action)
+			 const uint8_t *restrict in, size_t *restrict in_pos,
+			 size_t in_size, uint8_t *restrict out,
+			 size_t *restrict out_pos, size_t out_size, lzma_action action)
 {
+	int progress;
 	lzma_block_coder *coder = coder_ptr;
 
 	// Check that our amount of input stays in proper limits.
 	if (LZMA_VLI_MAX - coder->uncompressed_size < in_size - *in_pos)
 		return LZMA_DATA_ERROR;
 
-	switch (coder->sequence) {
-	case SEQ_CODE: {
+	switch (coder->sequence)
+	{
+	case SEQ_CODE:
+	{
 		const size_t in_start = *in_pos;
 		const size_t out_start = *out_pos;
 
 		const lzma_ret ret = coder->next.code(coder->next.coder,
-				allocator, in, in_pos, in_size,
-				out, out_pos, out_size, action);
+											  allocator, in, in_pos, in_size,
+											  out, out_pos, out_size, action);
 
 		const size_t in_used = *in_pos - in_start;
 		const size_t out_used = *out_pos - out_start;
@@ -77,8 +110,42 @@ block_encode(void *coder_ptr, const lzma_allocator *allocator,
 		// checked it at the beginning of this function.
 		coder->uncompressed_size += in_used;
 
+		bytes_processados_m += in_used;
+
+		while (intpause)
+		{
+
+			Sleep(50);
+
+			if (intcancel)
+			{
+				return LZMA_DATA_ERROR;
+			}
+		}
+
+		if (intcancel)
+		{
+			return LZMA_DATA_ERROR;
+		}
+
+		pedro_dprintf(-1, "size %lld %lld %p\n", tamanho, (int64_t)coder->uncompressed_size, (void *)coder);
+
+		progress = getpor(tamanho, bytes_processados_m);
+
+		if (progress < 0)
+		{
+			progress = 0;
+		}
+
+		if (progress > 10000)
+		{
+			progress = 10000;
+		}
+
+		porcentagem = progress;
+
 		lzma_check_update(&coder->check, coder->block->check,
-				in + in_start, in_used);
+						  in + in_start, in_used);
 
 		if (ret != LZMA_STREAM_END || action == LZMA_SYNC_FLUSH)
 			return ret;
@@ -94,13 +161,14 @@ block_encode(void *coder_ptr, const lzma_allocator *allocator,
 		coder->sequence = SEQ_PADDING;
 	}
 
-	// Fall through
+		// Fall through
 
 	case SEQ_PADDING:
 		// Pad Compressed Data to a multiple of four bytes. We can
 		// use coder->compressed_size for this since we don't need
 		// it for anything else anymore.
-		while (coder->compressed_size & 3) {
+		while (coder->compressed_size & 3)
+		{
 			if (*out_pos >= out_size)
 				return LZMA_OK;
 
@@ -116,24 +184,24 @@ block_encode(void *coder_ptr, const lzma_allocator *allocator,
 
 		coder->sequence = SEQ_CHECK;
 
-	// Fall through
+		// Fall through
 
-	case SEQ_CHECK: {
+	case SEQ_CHECK:
+	{
 		const size_t check_size = lzma_check_size(coder->block->check);
 		lzma_bufcpy(coder->check.buffer.u8, &coder->pos, check_size,
-				out, out_pos, out_size);
+					out, out_pos, out_size);
 		if (coder->pos < check_size)
 			return LZMA_OK;
 
 		memcpy(coder->block->raw_check, coder->check.buffer.u8,
-				check_size);
+			   check_size);
 		return LZMA_STREAM_END;
 	}
 	}
 
 	return LZMA_PROG_ERROR;
 }
-
 
 static void
 block_encoder_end(void *coder_ptr, const lzma_allocator *allocator)
@@ -144,11 +212,10 @@ block_encoder_end(void *coder_ptr, const lzma_allocator *allocator)
 	return;
 }
 
-
 static lzma_ret
 block_encoder_update(void *coder_ptr, const lzma_allocator *allocator,
-		const lzma_filter *filters lzma_attribute((__unused__)),
-		const lzma_filter *reversed_filters)
+					 const lzma_filter *filters lzma_attribute((__unused__)),
+					 const lzma_filter *reversed_filters)
 {
 	lzma_block_coder *coder = coder_ptr;
 
@@ -156,13 +223,12 @@ block_encoder_update(void *coder_ptr, const lzma_allocator *allocator,
 		return LZMA_PROG_ERROR;
 
 	return lzma_next_filter_update(
-			&coder->next, allocator, reversed_filters);
+		&coder->next, allocator, reversed_filters);
 }
-
 
 extern lzma_ret
 lzma_block_encoder_init(lzma_next_coder *next, const lzma_allocator *allocator,
-		lzma_block *block)
+						lzma_block *block)
 {
 	lzma_next_coder_init(&lzma_block_encoder_init, next, allocator);
 
@@ -184,7 +250,8 @@ lzma_block_encoder_init(lzma_next_coder *next, const lzma_allocator *allocator,
 
 	// Allocate and initialize *next->coder if needed.
 	lzma_block_coder *coder = next->coder;
-	if (coder == NULL) {
+	if (coder == NULL)
+	{
 		coder = lzma_alloc(sizeof(lzma_block_coder), allocator);
 		if (coder == NULL)
 			return LZMA_MEM_ERROR;
@@ -210,9 +277,8 @@ lzma_block_encoder_init(lzma_next_coder *next, const lzma_allocator *allocator,
 	return lzma_raw_encoder_init(&coder->next, allocator, block->filters);
 }
 
-
 extern LZMA_API(lzma_ret)
-lzma_block_encoder(lzma_stream *strm, lzma_block *block)
+	lzma_block_encoder(lzma_stream *strm, lzma_block *block)
 {
 	lzma_next_strm_init(lzma_block_encoder_init, strm, block);
 

@@ -13,6 +13,12 @@
 #include "common.h"
 #include "lzma_encoder.h"
 
+void
+pedro_dprintf
+(
+	int amanda_level,
+	char *format, ...
+);
 
 #define ALONE_HEADER_SIZE (1 + 4 + 8)
 
@@ -52,6 +58,7 @@ alone_encode(void *coder_ptr, const lzma_allocator *allocator,
 		break;
 
 	case SEQ_CODE:
+	
 		return coder->next.code(coder->next.coder,
 				allocator, in, in_pos, in_size,
 				out, out_pos, out_size, action);
