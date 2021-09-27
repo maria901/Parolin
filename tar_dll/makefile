@@ -8,7 +8,7 @@ RIC            =
 
 amanda_32: /bw_tmp/parolin/be_xml_32aakp.o /bw_tmp/parolin/tar_32aakp.o /bw_tmp/parolin/val_create_32arp.o /bw_tmp/parolin/pedro_32aakp.o /bw_tmp/parolin/val_extract_32arp.o
 
-	-rm *.DLL *.dll *.ric *~ *.exe *.EXE *.o *.a
+#	-rm *.DLL *.dll *.ric *~ *.exe *.EXE *.o *.a
 
 	@/bw_tmp/amandaricardo_mvbuild26_33.exe amanda_file_counter_32.ini versio_n.ama.rc version_ricardo_mislaine_final_2_.rc aline_definitive_header_2_.h "32 bits" ar_tar_process.DLL increase
 

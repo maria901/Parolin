@@ -96,6 +96,14 @@
 
 #include <process.h>
 
+#include <sys/stat.h>
+
+__int64 tamanho = 0;
+int porcentagem = 0;
+int64_t bytes_processados_m = 0;
+int intpause = 0;
+int intcancel = 0;
+
 #define AMANDA__SIZE (32767 * 6)
 
 #ifndef uchar
@@ -1568,7 +1576,44 @@ int *folders_ar = NULL;
 int *files_ar = NULL;
 
 bool is_7z_i = false;
+/**
+ * It will convert a time_t unix time to FILETIME
+ *
+ */
+void TimetToFileTime(time_t t, LPFILETIME pft)
+{
+	LONGLONG ll = Int32x32To64(t, 10000000) + 116444736000000000;
+	pft->dwLowDateTime = (DWORD)ll;
+	pft->dwHighDateTime = ll >> 32;
+}
+#define ARCHIVE_LITERAL_LL(x) x##ll
+#define ARCHIVE_LITERAL_ULL(x) x##ull
+#define EPOC_TIME ARCHIVE_LITERAL_ULL(116444736000000000)
+#define WINTIME(sec, nsec) ((Int32x32To64(sec, 10000000) + EPOC_TIME) + \
+							(((nsec) / 1000) * 10))
 
+int __fastcall ricardo_convert_m(int64_t a_m, int64_t b_m, SYSTEMTIME *smtime)
+{
+	struct timeval times[2];
+	ULARGE_INTEGER wintm;
+	FILETIME fmtime;
+	SYSTEMTIME l_amanda_fmtime;
+
+	times[0].tv_sec = a_m;
+	times[0].tv_usec = b_m;
+
+	wintm.QuadPart = WINTIME(times[0].tv_sec /*+ (60 * 60)*/, times[0].tv_usec);
+	fmtime.dwLowDateTime = wintm.LowPart;
+	fmtime.dwHighDateTime = wintm.HighPart;
+
+	FileTimeToSystemTime(
+		&fmtime,
+		&l_amanda_fmtime);
+
+	SystemTimeToTzSpecificLocalTime(NULL, &l_amanda_fmtime, smtime);
+
+	return 0;
+}
 int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p, tar_list_function_ar our_function_list_p, char *error_message_p, char *archive_format_p)
 {
 	pedro_dprintf(0, "entering libarchive_list_entries_p\n");
@@ -1894,25 +1939,19 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
 						}
 					}
 
-					struct tm tm_k;
-
 					__time64_t s;
 
 					s = archive_entry_mtime(entry);
+					SYSTEMTIME lpSystemTime_ar = {0};
+					
+					ricardo_convert_m(s, archive_entry_mtime_nsec(entry), &lpSystemTime_ar);
 
-					if (!_gmtime64(&s))
-					{
-						s = time(NULL);
-					}
-
-					tm_k = 0 ? *_gmtime64(&s) : *_localtime64(&s);
-
-					(*Second_k_ar_p) = (WORD)tm_k.tm_sec;
-					(*Minute_k_ar_p) = (WORD)tm_k.tm_min;
-					(*Hour_k_ar_p) = (WORD)tm_k.tm_hour;
-					(*Year_k_ar_p) = (WORD)tm_k.tm_year + 1900;
-					(*Month_k_ar_p) = (WORD)tm_k.tm_mon + 1;
-					(*Day_k_ar_p) = (WORD)tm_k.tm_mday;
+					(*Second_k_ar_p) = (WORD)lpSystemTime_ar.wSecond;
+					(*Minute_k_ar_p) = (WORD)lpSystemTime_ar.wMinute;
+					(*Hour_k_ar_p) = (WORD)lpSystemTime_ar.wHour;
+					(*Year_k_ar_p) = (WORD)lpSystemTime_ar.wYear;
+					(*Month_k_ar_p) = (WORD)lpSystemTime_ar.wMonth;
+					(*Day_k_ar_p) = (WORD)lpSystemTime_ar.wDay;
 
 					if (enable_list_process_i && raise_events_i)
 					{

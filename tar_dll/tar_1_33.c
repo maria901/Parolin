@@ -3423,6 +3423,135 @@ void TimetToFileTime(time_t t, LPFILETIME pft)
 	pft->dwLowDateTime = (DWORD)ll;
 	pft->dwHighDateTime = ll >> 32;
 }
+LONGLONG FileTime_to_POSIX_m(FILETIME ft)
+{
+	// takes the last modified date
+	LARGE_INTEGER date, adjust;
+	date.HighPart = ft.dwHighDateTime;
+	date.LowPart = ft.dwLowDateTime;
+
+	// 100-nanoseconds = milliseconds * 10000
+	adjust.QuadPart = 11644473600000 * 10000;
+
+	// removes the diff between 1970 and 1601
+	date.QuadPart -= adjust.QuadPart;
+
+	// converts back from 100-nanoseconds to seconds
+	return date.QuadPart / 10000000;
+}
+/**
+ * Function to retrieve the file timestamp information, it is required because
+ * _stat and _wstat are buggy
+ *
+ */
+BOOL GetLastWriteTime_complete_arp_v27(HANDLE hFile,
+									   char *lpszString_amanda,
+									   __attribute__((unused)) DWORD dwSize,
+									   __time64_t *s_arp,
+									   VAL_data *VAL_data_arp)
+{
+	struct tm tm;
+	FILETIME ftCreate, ftAccess, ftWrite;
+	SYSTEMTIME stUTC, stLocal;
+
+	// Retrieve the file times for the file.
+	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
+	{
+		*s_arp = time(NULL);
+
+		atime_i = *s_arp;
+		ctime_i = *s_arp;
+		mtime_i = *s_arp;
+
+		return FALSE;
+	}
+
+	VAL_data_arp->CreationTime___junior = ftCreate;
+	VAL_data_arp->LastAccessTime_junior = ftAccess;
+	VAL_data_arp->LastWriteTime__junior = ftWrite;
+
+	{
+		// Convert the last-write time to local time.
+		FileTimeToSystemTime(&ftWrite, &stUTC);
+		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+
+		if (lpszString_amanda)
+			// Build a string showing the date and time.
+			sprintf(lpszString_amanda,
+					TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+					stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+					stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+
+		memset(&tm, 0, sizeof(tm));
+
+		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+		tm.tm_mon = stLocal.wMonth - 1;
+		tm.tm_mday = stLocal.wDay;
+
+		tm.tm_hour = stLocal.wHour;
+		tm.tm_min = stLocal.wMinute;
+		tm.tm_sec = stLocal.wSecond;
+		tm.tm_isdst = -1; // Edit 2: Added as per comment
+
+		//*s_arp = _mktime64(&tm);
+		*s_arp = FileTime_to_POSIX_m(ftWrite);
+		mtime_i = *s_arp;
+	}
+
+	{
+		// Convert the last-write time to local time.
+		FileTimeToSystemTime(&ftCreate, &stUTC);
+		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+
+		if (lpszString_amanda)
+			// Build a string showing the date and time.
+			sprintf(lpszString_amanda,
+					TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+					stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+					stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+
+		memset(&tm, 0, sizeof(tm));
+
+		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+		tm.tm_mon = stLocal.wMonth - 1;
+		tm.tm_mday = stLocal.wDay;
+
+		tm.tm_hour = stLocal.wHour;
+		tm.tm_min = stLocal.wMinute;
+		tm.tm_sec = stLocal.wSecond;
+		tm.tm_isdst = -1; // Edit 2: Added as per comment
+
+		ctime_i = FileTime_to_POSIX_m(ftCreate);
+	}
+
+	{
+		// Convert the last-write time to local time.
+		FileTimeToSystemTime(&ftAccess, &stUTC);
+		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+
+		if (lpszString_amanda)
+			// Build a string showing the date and time.
+			sprintf(lpszString_amanda,
+					TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+					stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+					stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+
+		memset(&tm, 0, sizeof(tm));
+
+		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+		tm.tm_mon = stLocal.wMonth - 1;
+		tm.tm_mday = stLocal.wDay;
+
+		tm.tm_hour = stLocal.wHour;
+		tm.tm_min = stLocal.wMinute;
+		tm.tm_sec = stLocal.wSecond;
+		tm.tm_isdst = -1; // Edit 2: Added as per comment
+
+		atime_i = FileTime_to_POSIX_m(ftAccess);
+	}
+
+	return 1;
+}
 
 /**
  * Function to retrieve the file timestamp information, it is required because
@@ -3567,7 +3696,7 @@ void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data *VAL_data_arp
 	}
 	else
 	{
-		GetLastWriteTime_complete_arp(hFile, szBuf, MAX_PATH, s_arp, VAL_data_arp);
+		GetLastWriteTime_complete_arp_v27(hFile, szBuf, MAX_PATH, s_arp, VAL_data_arp);
 
 		CloseHandle(hFile);
 	}
@@ -3604,11 +3733,21 @@ void printf_time(time_t s_arp, __attribute__((unused)) char *file_arp)
 char const *
 tartime(struct timespec t, __attribute__((unused)) bool full_time)
 {
+	FILETIME mftime;
+	SYSTEMTIME stime_m;
+	SYSTEMTIME stime_2m;
 	enum
 	{
 		fraclen = sizeof ".FFFFFFFFF" - 1
 	};
 	static char buffer[5000];
+
+	TimetToFileTime(t.tv_sec, &mftime);
+	FileTimeToSystemTime(&mftime, &stime_m);
+
+	SystemTimeToTzSpecificLocalTime(NULL, &stime_m, &stime_2m);
+
+	/*
 	struct tm *tm;
 	time_t s = t.tv_sec;
 
@@ -3619,12 +3758,15 @@ tartime(struct timespec t, __attribute__((unused)) bool full_time)
 		s = time(NULL);
 		tm = 0 ? gmtime(&s) : localtime(&s);
 	}
-	Second_k = tm->tm_sec;
-	Minute_k = tm->tm_min;
-	Hour_k = tm->tm_hour;
-	Year_k = tm->tm_year + 1900;
-	Month_k = tm->tm_mon + 1;
-	Day_k = tm->tm_mday;
+	*/
+
+	Second_k = stime_2m.wSecond;
+	Minute_k = stime_2m.wMinute;
+	Hour_k = stime_2m.wHour;
+	Year_k = stime_2m.wYear;
+	Month_k = stime_2m.wMonth;
+	Day_k = stime_2m.wDay;
+
 	return buffer;
 }
 
@@ -4008,7 +4150,10 @@ void simple_print_header(struct tar_stat_info *st, union block *blk,
  */
 void tartime_VAL(void)
 {
-	struct tm *tm;
+	FILETIME mftime;
+	SYSTEMTIME stime_m;
+	SYSTEMTIME stime_2m;
+
 	__time64_t s; //= my_VAL_data_arp.VAL_timestamp;
 
 	s = my_VAL_data_arp.VAL_timestamp64;
@@ -4017,21 +4162,18 @@ void tartime_VAL(void)
 		s = my_VAL_data_arp.VAL_timestamp;
 	}
 
-	tm = 0 ? _gmtime64(&s) : _localtime64(&s);
-	tm = 0 ? _gmtime64(&s) : _localtime64(&s);
+	TimetToFileTime(s, &mftime);
+	FileTimeToSystemTime(&mftime, &stime_m);
 
-	if (!tm)
-	{
-		s = time(NULL);
-		tm = 0 ? _gmtime64(&s) : _localtime64(&s);
-	}
+	SystemTimeToTzSpecificLocalTime(NULL, &stime_m, &stime_2m);
 
-	Second_k = tm->tm_sec;
-	Minute_k = tm->tm_min;
-	Hour_k = tm->tm_hour;
-	Year_k = tm->tm_year + 1900;
-	Month_k = tm->tm_mon + 1;
-	Day_k = tm->tm_mday;
+	Second_k = stime_2m.wSecond;
+	Minute_k = stime_2m.wMinute;
+	Hour_k = stime_2m.wHour;
+	Year_k = stime_2m.wYear;
+	Month_k = stime_2m.wMonth;
+	Day_k = stime_2m.wDay;
+
 	return;
 }
 /**
@@ -6504,7 +6646,7 @@ int __stdcall startapi_ar_2(__attribute__((unused)) int parameter) //for list pr
 		else
 		{
 			dllinit_arp();
-	
+
 			{
 				get_tar_info_p_func(
 					&Isdir_k,
@@ -6530,7 +6672,7 @@ int __stdcall startapi_ar_2(__attribute__((unused)) int parameter) //for list pr
 		return_value_from_list = is_multi_volume_p;
 	}
 	pedro_dprintf(-1, "is multi volume2 %d\n", (int)is_multi_volume_p);
-pedro_dprintf(-1, "13");
+	pedro_dprintf(-1, "13");
 	running_2_ar = 0;
 	mode_is_libarchive_list_p = false;
 	return 0;
@@ -6641,13 +6783,13 @@ int __stdcall list_tar_file_ar(char *tar_file_ar)
 	extract_cancel_flag = false;
 
 	running_2_ar = 1;
-pedro_dprintf(-1, "2");
+	pedro_dprintf(-1, "2");
 	strncpy_z(tar_file_ar_real, tar_file_ar, AMANDA__SIZE);
 
 	HANDLE myhandle;
 	MYCAST ThreadId;
 	MYCAST parameter = 1;
-pedro_dprintf(-1, "3");
+	pedro_dprintf(-1, "3");
 	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
 							(SIZE_T)0,
 							(void *)startapi_ar_2,
@@ -8432,7 +8574,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
 			if (0 == true_if_it_is_extract_ar && (ct_compress2_k == fatal_exit_k))
 			{
 				pedro_dprintf(-1, "pegou compress2");
-				static char original_file_tar[     AMANDA__SIZE     ];
+				static char original_file_tar[AMANDA__SIZE];
 				file_size_total_int64 = 0, file_total__read_int64 = 0;
 				fatal_exit_k = 0;
 

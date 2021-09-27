@@ -263,6 +263,13 @@ About required libraries installed
 Changelog:
 
 
+.......... Solved the error in the extraction of GNU tar
+.......... files where the timestamp had errors, this occur
+.......... because localtime and gmtime generates erroneous
+.......... values, now we are using a more correct way to
+.......... handle windows timestamps, notice that Winrar
+.......... and 7zip also have the same problem
+
 What is new in version 8.9.3  build 005968  Domingo 26 Setembro 2021  08:50 codename Mentré
 
 .......... 08:45
