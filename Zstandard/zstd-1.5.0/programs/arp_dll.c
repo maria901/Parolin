@@ -114,7 +114,7 @@ int __stdcall compress_zs___rspk_ar(char *Input_amanda_file_utf_8, char *OutPut_
 		my_main_args[5] = "-o";
 		my_main_args[6] = OutPut_ricardo_File_utf_8;
 
-		tamanho____aakp = tamanho____aakp + (tamanho____aakp / 2);
+		//tamanho____aakp = tamanho____aakp + (tamanho____aakp / 2);
 	}
 
 	return_value_valquiria = main(7, (const char **)my_main_args);
