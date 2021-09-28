@@ -197,7 +197,6 @@ mprintf___arp(char *format, ...)
 {
 	char *buffer = calloc(1, 10000); //for multithread sake
 	va_list amanda_do_ricardo;
-
 	va_start(amanda_do_ricardo, format);
 	vsprintf(buffer, format, amanda_do_ricardo);
 	va_end(amanda_do_ricardo);

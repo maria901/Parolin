@@ -10,7 +10,7 @@ AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wno-unused-function -I 
 
 amanda_32: /bw_tmp/libarchive/pedro_32arp.o
 
-	-rm *.DLL *.dll *.ric *~ *.exe *.EXE *.o *.a
+#	-rm *.DLL *.dll *.ric *~ *.exe *.EXE *.o *.a
 	
 	@/bw_tmp/amandaricardo_mvbuild26_33.exe amanda_file_counter_32.ini versio_n.ama.rc version_ricardo_mislaine_final_2_.rc aline_definitive_header_2_.h "32 bits" BE_libarchive_32.DLL increase
 
