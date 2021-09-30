@@ -1996,7 +1996,7 @@ read_data_compressed(struct archive_read *a, const void **buff, size_t *size,
 
           case 3:
             archive_set_error(&a->archive, ARCHIVE_ERRNO_MISC,
-                              "Parsing filters is unsupported.");
+                              "Parsing filters is unsupported.2");
             return (ARCHIVE_FAILED);
 
           case 4:
@@ -2790,7 +2790,7 @@ expand(struct archive_read *a, int64_t end)
     else if(symbol==257)
     {
       archive_set_error(&a->archive, ARCHIVE_ERRNO_MISC,
-                        "Parsing filters is unsupported.");
+                        "Parsing filters is unsupported.1");
       return (ARCHIVE_FAILED);
     }
     else if(symbol==258)

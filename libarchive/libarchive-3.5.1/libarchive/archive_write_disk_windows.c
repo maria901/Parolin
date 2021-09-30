@@ -508,7 +508,7 @@ archive_wstring_ensure(&(a->_name_data),
 
 */
 
-	if (3 == is_rar_is_utf_8)
+	if (3 == is_rar_is_utf_8)//never will occur
 	{
 		int i_m;
 		char *ptr_m = malloc(AMANDA__SIZE + 1);
@@ -524,7 +524,7 @@ archive_wstring_ensure(&(a->_name_data),
 		wcscpy(wptr_m, amanda_utf8towide_1_(ptr_m));
 		archive_wstring_ensure(&(a->_name_data),
 							   wcslen(wptr_m) + 1);
-
+		/*
 		{
 
 			char output_m[5000] = {0};
@@ -537,9 +537,10 @@ archive_wstring_ensure(&(a->_name_data),
 
 			pedro_dprintf(0, "dentro 31** %s", output_m);
 		}
+		*/
 		a->name = a->_name_data.s;
 		archive_wstrcpy(&(a->_name_data), wptr_m);
-
+		/*
 		{
 
 			char output_m[5000] = {0};
@@ -552,6 +553,7 @@ archive_wstring_ensure(&(a->_name_data),
 
 			pedro_dprintf(0, "dentro 32** %s", output_m);
 		}
+		*/
 		free(ptr_m);
 		free(wptr_m);
 	}
