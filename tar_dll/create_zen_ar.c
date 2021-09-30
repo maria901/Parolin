@@ -2235,6 +2235,14 @@ bool EnumerateFolder(char *lpcszFolder_ar, __attribute__((unused)) int first_cal
       memset(fixo_path_ar, 0, sizeof(fixo_path_ar));
       strcpy(fixo_path_ar, lpcszFolder);
 
+      if (2 == strlen(lpcszFolder))
+      {
+            if (':' == fixo_path_ar[1])
+            {
+                  goto ok_ar_v27;
+            }
+      }
+
       if (':' == fixo_path_ar[1] && '\\' == fixo_path_ar[2])
       {
             goto ok_ar_v27;
@@ -6366,7 +6374,7 @@ pula_arp:;
 
                   inittimer2(0);
 
-                  if (0 > parolin_compression_level_p)//correcting, negatives values not allowed in the executable mode
+                  if (0 > parolin_compression_level_p) //correcting, negatives values not allowed in the executable mode
                   {
                         parolin_compression_level_p = 0;
                   }
