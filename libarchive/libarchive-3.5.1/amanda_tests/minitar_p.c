@@ -98,11 +98,16 @@
 
 #include <sys/stat.h>
 
+void pedro_dprintf(int amanda_level,
+				   char *format, ...);
+
 __int64 tamanho = 0;
 int porcentagem = 0;
 int64_t bytes_processados_m = 0;
 int intpause = 0;
 int intcancel = 0;
+
+extern int is_rar_is_utf_8;
 
 #define AMANDA__SIZE (32767 * 6)
 
@@ -144,6 +149,8 @@ int64_t filesize_ii;
 int64_t file_offset_ii;
 bool is_dir_ii;
 
+extern int is_utf_8_f;
+
 extern time_t atime_iii;
 extern time_t mtime_iii;
 extern time_t birthtime_iii;
@@ -178,7 +185,7 @@ extern int debug_mode_i;
 char temp__file_i[AMANDA__SIZE];
 
 //0 = show debug
-#define USE_PEDRO_DPRINTF 1
+#define USE_PEDRO_DPRINTF 0
 
 #include <archive.h>
 #include <archive_entry.h>
@@ -662,6 +669,7 @@ copy_data(struct archive *ar, struct archive *aw)
 		if (r != ARCHIVE_OK)
 		{
 			errmsg(archive_error_string(ar));
+			pedro_dprintf(0, "erro 1 em copydata : %s\n", archive_error_string(ar));
 			return (r);
 		}
 		bytes_saved_i += size;
@@ -678,6 +686,7 @@ copy_data(struct archive *ar, struct archive *aw)
 		if (r != ARCHIVE_OK)
 		{
 			errmsg(archive_error_string(ar));
+			pedro_dprintf(0, "erro 2 em copydata : %s\n", archive_error_string(ar));
 			return (r);
 		}
 	}
@@ -753,7 +762,11 @@ enum libarchive_compression_modes_AR
 	P_MODE_IS_GNUTAR_XZ,
 	P_MODE_IS_V7TAR_GZIP,
 	P_MODE_IS_V7TAR_BZIP2,
-	P_MODE_IS_V7TAR_XZ
+	P_MODE_IS_V7TAR_XZ,
+	P_MODE_IS_7ZIP_ENCRYPTED,
+	P_MODE_IS_7ZIP_ENCRYPTED_ALSO_HEADERS,
+	P_MODE_IS_RAR,
+	P_MODE_IS_RAR5
 };
 
 struct archive *a;
@@ -762,10 +775,6 @@ ssize_t len;
 int fd;
 
 bool is_open_p = false;
-
-void pedro_dprintf(
-	int amanda_level,
-	char *format, ...);
 
 void pedro_dprintfW( //para imprimir wide string use %ls ok?
 	int amanda_level,
@@ -1622,19 +1631,25 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
      WCHAR * ptr_w_p;
      */
 
+	//	bool is_unicode_j;
+	bool is_file_m = false;
 	bool use_attributes = false;
-	int returnvalue_i = 0;
-	int flags;
+	bool is_internal_utf_8_v;
 	char *ptr_i = NULL;
+	int flags;
+	int r;
+	int returnvalue_i = 0;
+	//	size_t i_m;
 	static char temp_i[AMANDA__SIZE];
 	static char temp_v2_i[AMANDA__SIZE];
 	static char temp_v3_i[AMANDA__SIZE];
+	//	static WCHAR temp_p_w[AMANDA__SIZE_w];
 	struct archive *a;
 	struct archive *ext;
 	struct archive_entry *entry;
-	int r;
 
 	debug_mode_i = 0;
+
 #if USE_PEDRO_DPRINTF
 	debug_mode_i = 1;
 #endif
@@ -1736,8 +1751,10 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
 
 		//exit(r);
 	}
+	is_utf_8_f = 0;
 	for (;;)
 	{
+
 		pedro_dprintf(0, "***entering for\n");
 		if (extract_pause__flag)
 		{
@@ -1778,7 +1795,17 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
 
 			use_attributes = false; //important: use of attributes is only enabled when fully handled in the update mode of files in libarchive modified by us...
 
-			pedro_dprintf(0, "----------------------->%s\n", archive_entry_pathname(entry));
+			//aqui
+
+			archive_entry_pathname(entry);
+
+			pedro_dprintf(0, "--ok amor--------------------->%s\n", archive_entry_pathname(entry));
+
+			is_internal_utf_8_v = is_utf_8_f;
+
+			pedro_dprintf(0, "is utf_8 %d\n", is_internal_utf_8_v);
+
+			is_utf_8_f = 0;
 
 			pedro_dprintf(0, "kkkkkk formato %s\n", archive_format_name(a));
 
@@ -1835,7 +1862,64 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
 				pedro_dprintf(0, "disabled fix 2 !!!!\n");
 				fix_it_i = 0;
 			}
+			is_rar_is_utf_8 = 0;
+			if (0 == strcmp("RAR5", archive_format_name(a)) || 0 == strcmp("RAR", archive_format_name(a)))
+			{
+				pedro_dprintf(0, "****************************\n");
+				pedro_dprintf(0, "filee 1 %s", valquiria_wide_to_utf8((void *)archive_entry_pathname_w(entry)));
+				pedro_dprintf(0, "filee 2 %s", ((void *)archive_entry_pathname(entry)));
 
+				/*
+				wcscpy(temp_p_w, archive_entry_pathname_w(entry));
+
+				is_unicode_j = false;
+
+				for (i_m = 0; i_m < wcslen(temp_p_w); i_m++)
+				{
+					if (255 < temp_p_w[i_m])
+					{
+						is_unicode_j = true;
+						break;
+					}
+				}
+*/
+
+				if (is_internal_utf_8_v)
+				{
+					is_rar_is_utf_8 = 1;
+					strcpy(filename_k_ar_p, archive_entry_pathname(entry));
+				}
+				else
+				{
+					is_rar_is_utf_8 = 2;
+					strcpy(filename_k_ar_p, valquiria_wide_to_utf8((void *)archive_entry_pathname_w(entry)));
+				}
+				//strcpy(filename_k_ar_p, archive_entry_pathname(entry));
+
+				{
+					/*
+					static char temp_1_m[AMANDA__SIZE];
+					static WCHAR temp_p_w[AMANDA__SIZE_w];
+					int p;
+					int i_p;
+
+					strcpy(temp_1_m, archive_entry_pathname(entry));
+
+					p = strlen(temp_1_m);
+
+					for (i_p = 0; i_p < p; i_p++)
+					{
+						temp_p_w[i_p] = (WCHAR)temp_1_m[i_p];
+						temp_p_w[i_p + 1] = 0;
+					}
+					temp_p_w[i_p] = 0;
+*/
+				}
+
+				//assert(0);
+			}
+
+			/*
 			if (0 == strcmp("RAR", archive_format_name(a)))
 			{
 				fix_it_i = 0;
@@ -1852,6 +1936,7 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
 				strcpy(error_message_p, "RAR5 format disabled due to buggy code");
 				goto exit_now_aqui_i;
 			}
+*/
 
 			do_it_i = false;
 			filesize_ii = 0;
@@ -1870,6 +1955,7 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
 					strcpy(typeflag_ar__p, "Unknown");
 					if (S_ISDIR(archive_entry_mode(entry)))
 					{
+						is_file_m = false;
 						is_dir_ii = true;
 						do_it_i = true;
 						if ('/' != filename_k_ar_p[strlen(filename_k_ar_p) - 1])
@@ -1911,7 +1997,7 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
 					{
 						is_dir_ii = false;
 						do_it_i = true;
-
+						is_file_m = true;
 						(*Numfiles_k_ar_p)++;
 						strcpy(typeflag_ar__p, "REGTYPE");
 						(*Isdir_k_ar_p) = 0;
@@ -1942,7 +2028,7 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
 
 					s = archive_entry_mtime(entry);
 					SYSTEMTIME lpSystemTime_ar = {0};
-					
+
 					ricardo_convert_m(s, archive_entry_mtime_nsec(entry), &lpSystemTime_ar);
 
 					(*Second_k_ar_p) = (WORD)lpSystemTime_ar.wSecond;
@@ -2037,22 +2123,34 @@ int __stdcall libarchive_list_entries_p(char *filename_utf_8_p, char *password_p
 			}
 			else
 			{
-				r = copy_data(a, ext);
-				if (r != ARCHIVE_OK)
+				pedro_dprintf(0, "antes de copy data...\n");
+
+				if (is_file_m)
 				{
-					returnvalue_i = 8; //read error...or wrong password
-
-					strcpy(error_message_p, "Read error or wrong password");
-
-					if (is_7z_i)
+					pedro_dprintf(0, "é arquivo\n");
+					r = copy_data(a, ext);
+					if (r != ARCHIVE_OK)
 					{
-						strcpy(error_message_p, "Read error or trying to uncompress a 7zip file with a password, this release don\'t support it for the moment (libarchive)");
-					}
+						returnvalue_i = 8; //read error...or wrong password
 
-					pedro_dprintf(0, "@@@@@@@@@@@@@@read error\n");
-					pedro_dprintf(0, "file to delete %s\n", filename_k_ar_p);
-					goto exit_now_aqui_i;
+						strcpy(error_message_p, "Read error or wrong password");
+
+						if (is_7z_i)
+						{
+							strcpy(error_message_p, "Read error or trying to uncompress a 7zip file with a password, this release don\'t support it for the moment (libarchive)");
+						}
+
+						pedro_dprintf(0, "@@@@@@@@@@@@@@read error\n");
+						pedro_dprintf(0, "file to delete %s\n", filename_k_ar_p);
+						goto exit_now_aqui_i;
+					}
 				}
+				else
+				{
+					pedro_dprintf(0, "é diretório\n");
+				}
+				pedro_dprintf(0, "depois de copy data...\n");
+
 				//aqui...
 				if (do_it_i)
 				{

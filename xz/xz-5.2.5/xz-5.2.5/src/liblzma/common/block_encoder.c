@@ -15,15 +15,32 @@
 #include "check.h"
 
 int64_t final_fix_p;
-extern __int64 tamanho;
-extern int porcentagem;
-extern int64_t bytes_processados_m;
-extern int intpause;
-extern int intcancel;
 
-void pedro_dprintf(
+#ifndef J_DEFINE_FOR_XZ
+ static __int64 tamanho = 0;
+ static int porcentagem = 0;
+ static int64_t bytes_processados_m = 0;
+ static int intpause = 0;
+ static int intcancel = 0;
+ static void pedro_dprintf(
 	int amanda_level,
-	char *format, ...);
+	char *format, ...)
+	{
+		(void) amanda_level;
+		(void) format;
+		return;
+	}
+#else
+ extern __int64 tamanho;
+ extern int porcentagem;
+ extern int64_t bytes_processados_m;
+ extern int intpause;
+ extern int intcancel;
+ void pedro_dprintf(
+	int amanda_level,
+	char *format, ...);	
+#endif
+
 
 typedef struct
 {

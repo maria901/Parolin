@@ -81,7 +81,7 @@ namespace tar_sample_ar
 			level_new_ava.Items.Add("-2");
 			level_new_ava.Items.Add("-1");
 			
-			*/
+			 */
 			level_new_ava.Items.Add("0");
 			level_new_ava.Items.Add("1");
 			level_new_ava.Items.Add("2");
@@ -1109,6 +1109,18 @@ namespace tar_sample_ar
 				{
 					has_multi_thread_support_p = true;
 					temp_p = "tar.xz";
+				}
+				
+				if("rar" == compression_mode_ar_.Text)
+				{
+					has_multi_thread_support_p = false;
+					temp_p = "rar";
+				}
+				
+				if("rar5" == compression_mode_ar_.Text)
+				{
+					has_multi_thread_support_p = false;
+					temp_p = "rar";
 				}
 				
 				util_ar.replace_extension_arp(ar_tar_file_.Text, temp_p,

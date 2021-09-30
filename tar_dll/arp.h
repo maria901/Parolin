@@ -100,6 +100,8 @@ enum libarchive_compression_modes_AR
 	P_MODE_IS_V7TAR_XZ,
 	P_MODE_IS_7ZIP_ENCRYPTED,
 	P_MODE_IS_7ZIP_ENCRYPTED_ALSO_HEADERS,
+	P_MODE_IS_RAR,
+	P_MODE_IS_RAR5
 };
 
 enum compression_modes_AR

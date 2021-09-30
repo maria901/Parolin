@@ -103,6 +103,8 @@ int64_t fix_it_i = 0;
 
 int use_hack_i = 0;
 
+int is_rar_is_utf_8;
+
 static char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria);
 
 char destination_path_utf_8_i_original[AMANDA__SIZE] = {
@@ -496,6 +498,64 @@ permissive_name_w(struct archive_write_disk *a)
 	wchar_t *ws, *wsp;
 	DWORD l;
 
+#define AMANDA__SIZE_w (32767)
+
+	/*
+
+archive_wstring_ensure(&(a->_name_data),
+							   4 + 2 + wcslen(wn) + 1);
+		a->name = a->_name_data.s;
+
+*/
+
+	if (3 == is_rar_is_utf_8)
+	{
+		int i_m;
+		char *ptr_m = malloc(AMANDA__SIZE + 1);
+		WCHAR *wptr_m = calloc(AMANDA__SIZE_w + 2, 1);
+
+		//strcpy(ptr_m, amanda_utf8towide_1_(a->name));
+
+		for (i_m = 0; i_m < wcslen(a->name); i_m++)
+		{
+			ptr_m[i_m] = (char)a->name[i_m];
+			ptr_m[i_m + 1] = 0;
+		}
+		wcscpy(wptr_m, amanda_utf8towide_1_(ptr_m));
+		archive_wstring_ensure(&(a->_name_data),
+							   wcslen(wptr_m) + 1);
+
+		{
+
+			char output_m[5000] = {0};
+			int i_p;
+
+			for (i_p = 0; i_p < wcslen(a->name); i_p++)
+			{
+				output_m[i_p] = a->name[i_p];
+			}
+
+			pedro_dprintf(0, "dentro 31** %s", output_m);
+		}
+		a->name = a->_name_data.s;
+		archive_wstrcpy(&(a->_name_data), wptr_m);
+
+		{
+
+			char output_m[5000] = {0};
+			int i_p;
+
+			for (i_p = 0; i_p < wcslen(a->name); i_p++)
+			{
+				output_m[i_p] = a->name[i_p];
+			}
+
+			pedro_dprintf(0, "dentro 32** %s", output_m);
+		}
+		free(ptr_m);
+		free(wptr_m);
+	}
+
 	wnp = a->name;
 	if (wnp[0] == L'\\' && wnp[1] == L'\\' &&
 		wnp[2] == L'?' && wnp[3] == L'\\')
@@ -649,7 +709,7 @@ permissive_name_w(struct archive_write_disk *a)
 			FILE_ATTRIBUTE_ARCHIVE))
 	{
 		;
-		
+
 		pedro_dprintf(0, "Falhou com %s\n", valquiria_wide_to_utf8((void *)a->name));
 		//assert(0);
 		//exit(27);
@@ -1087,8 +1147,23 @@ _archive_write_disk_header(struct archive *_a, struct archive_entry *entry)
 
 	pedro_dprintf(0, "6 _archive_write_disk_header\n");
 
-	archive_wstrcpy(&(a->_name_data), convert_wide_utf_to_wide((void *)archive_entry_pathname_w(a->entry)));
+	if (2 == is_rar_is_utf_8)
+	{
+		archive_wstring_ensure(&(a->_name_data),
+							   wcslen((void *)archive_entry_pathname_w(a->entry)) + 1000);
+		archive_wstrcpy(&(a->_name_data), (void *)archive_entry_pathname_w(a->entry));
+	}
+	else
+	{
+		archive_wstring_ensure(&(a->_name_data),
+							   wcslen((void *)convert_wide_utf_to_wide((void *)archive_entry_pathname_w(a->entry))) + 1000);
+		archive_wstrcpy(&(a->_name_data), convert_wide_utf_to_wide((void *)archive_entry_pathname_w(a->entry)));
+	}
+
 	a->name = a->_name_data.s;
+
+	pedro_dprintf(0, "dentro 10 %s %d\n", valquiria_wide_to_utf8((void *)a->name), is_rar_is_utf_8);
+
 	archive_clear_error(&a->archive);
 	pedro_dprintf(0, "7 _archive_write_disk_header\n");
 	/*

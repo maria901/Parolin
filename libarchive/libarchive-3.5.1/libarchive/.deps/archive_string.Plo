@@ -261,6 +261,7 @@ libarchive/archive_string.lo: libarchive/archive_string.c \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/wchar.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/wchar_s.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/locale.h \
+ /usr/lib/gcc/x86_64-w64-mingw32/11/include/stdbool.h \
  libarchive/archive_endian.h libarchive/archive_private.h \
  libarchive/archive.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/time.h \
@@ -532,6 +533,7 @@ libarchive/archive_windows.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/wchar.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/wchar_s.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/locale.h:
+/usr/lib/gcc/x86_64-w64-mingw32/11/include/stdbool.h:
 libarchive/archive_endian.h:
 libarchive/archive_private.h:
 libarchive/archive.h:
