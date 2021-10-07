@@ -43,7 +43,7 @@
 #define _GL_SIGNED_TYPE_OR_EXPR(t) TYPE_SIGNED(__typeof__(t))
 
 #define INT_STRLEN_BOUND(t) \
-	(INT_BITS_STRLEN_BOUND(TYPE_WIDTH(t) - _GL_SIGNED_TYPE_OR_EXPR(t)) + _GL_SIGNED_TYPE_OR_EXPR(t))
+     (INT_BITS_STRLEN_BOUND(TYPE_WIDTH(t) - _GL_SIGNED_TYPE_OR_EXPR(t)) + _GL_SIGNED_TYPE_OR_EXPR(t))
 
 #define __amandacall __stdcall
 #define __valquiriacall __fastcall
@@ -86,7 +86,7 @@ char compression_level_p[300];
 char compression_level_char_i[300] = "6";
 FILE *my___temp_file_i;
 char temp_file_update_i[AMANDA__SIZE] = {
-	0,
+    0,
 };
 
 int64_t attributes_i;
@@ -107,7 +107,7 @@ bool mode_is_libarchive_list_p = false;
 bool mode_is_libarchive_extract_p = false;
 
 char key_fingerprint_i[1027] = {
-	0,
+    0,
 };
 
 extern int64_t real_VAL_filesize;
@@ -122,16 +122,16 @@ char error_message_k[AMANDA__SIZE] = {0};
 char remote_path_i[AMANDA__SIZE] = {0};
 ;
 int feline_read_xml(char *filename_utf8_feline,
-					char *root__________feline,
-					char *node__________feline,
-					char *attribute_____feline,
-					char *out_data______feline);
+                    char *root__________feline,
+                    char *node__________feline,
+                    char *attribute_____feline,
+                    char *out_data______feline);
 
 int feline_write_xml(char *filename_utf8_feline,
-					 char *root__________feline,
-					 char *node__________feline,
-					 char *attribute_____feline,
-					 char *in_data_______feline_);
+                     char *root__________feline,
+                     char *node__________feline,
+                     char *attribute_____feline,
+                     char *in_data_______feline_);
 int stripfilenameandpath(char *path, char *onlypath, char *onlyfilename);
 
 __int64
@@ -158,48 +158,51 @@ char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria);
 
 extern void
 pedro_dprintf(
-	int amanda_level,
-	char *format, ...);
+    int amanda_level,
+    char *format, ...);
 extern void
 pedro_dprintfW(
-	int amanda_level,
-	wchar_t *format, ...);
+    int amanda_level,
+    wchar_t *format, ...);
+
+wchar_t *
+remove_permissive_name_m_(wchar_t *wname);
 
 wchar_t *
 remove_permissive_name_m_(wchar_t *wname)
 {
 
-	/**
+     /**
  * oi amor...
  */
-	static wchar_t wname_copy[AMANDA__SIZE_w + 1];
+     static wchar_t wname_copy[AMANDA__SIZE_w + 1];
 
-	wchar_t *wname_copy_v27 = wname_copy;
+     wchar_t *wname_copy_v27 = wname_copy;
 
-	wcscpy(wname_copy, wname);
+     wcscpy(wname_copy, wname);
 
-	if (3 < wcslen(wname_copy))
-	{
+     if (3 < wcslen(wname_copy))
+     {
 
-		if ('\\' == wname_copy[0] &&
-			'\\' == wname_copy[1] &&
-			'?' == wname_copy[2])
-		{
-			wname_copy_v27++;
-			wname_copy_v27++;
-			wname_copy_v27++;
-			wname_copy_v27++;
-			return wname_copy_v27;
-		}
-		else
-		{
-			return wname;
-		}
-	}
-	else
-	{
-		return wname;
-	}
+          if ('\\' == wname_copy[0] &&
+              '\\' == wname_copy[1] &&
+              '?' == wname_copy[2])
+          {
+               wname_copy_v27++;
+               wname_copy_v27++;
+               wname_copy_v27++;
+               wname_copy_v27++;
+               return wname_copy_v27;
+          }
+          else
+          {
+               return wname;
+          }
+     }
+     else
+     {
+          return wname;
+     }
 }
 
 /**
@@ -212,186 +215,186 @@ wchar_t *
 permissive_name_m_(const wchar_t *wname)
 {
 
-	static wchar_t *wnp = NULL;
-	wchar_t *wn;
-	wchar_t *ws, *wsp;
-	DWORD len, slen;
-	int unc;
+     static wchar_t *wnp = NULL;
+     wchar_t *wn;
+     wchar_t *ws, *wsp;
+     DWORD len, slen;
+     int unc;
 
-	if (NULL == wnp)
-	{
-		wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
-	}
+     if (NULL == wnp)
+     {
+          wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
+     }
 
-	//wnp = malloc(AMANDA__SIZE * 2);
+     //wnp = malloc(AMANDA__SIZE * 2);
 
-	wcscpy(wnp, wname);
+     wcscpy(wnp, wname);
 
-	len = wcslen(wname);
+     len = wcslen(wname);
 
-	wn = wnp;
+     wn = wnp;
 
-	if (wnp[0] == L'\\' && wnp[1] == L'\\' && // access to the wrong position in memory, fixed now
-		wnp[2] == L'?' && wnp[3] == L'\\')
-		/* We have already a permissive name. */
-		return (wn);
+     if (wnp[0] == L'\\' && wnp[1] == L'\\' && // access to the wrong position in memory, fixed now
+         wnp[2] == L'?' && wnp[3] == L'\\')
+          /* We have already a permissive name. */
+          return (wn);
 
-	if (wnp[0] == L'\\' && wnp[1] == L'\\' &&
-		wnp[2] == L'.' && wnp[3] == L'\\')
-	{
-		/* This is a device name */
-		if (((wnp[4] >= L'a' && wnp[4] <= L'z') ||
-			 (wnp[4] >= L'A' && wnp[4] <= L'Z')) &&
-			wnp[5] == L':' && wnp[6] == L'\\')
-			wnp[2] = L'?'; /* Not device name. */
-		return (wn);
-	}
+     if (wnp[0] == L'\\' && wnp[1] == L'\\' &&
+         wnp[2] == L'.' && wnp[3] == L'\\')
+     {
+          /* This is a device name */
+          if (((wnp[4] >= L'a' && wnp[4] <= L'z') ||
+               (wnp[4] >= L'A' && wnp[4] <= L'Z')) &&
+              wnp[5] == L':' && wnp[6] == L'\\')
+               wnp[2] = L'?'; /* Not device name. */
+          return (wn);
+     }
 
-	unc = 0;
-	if (wnp[0] == L'\\' && wnp[1] == L'\\' && wnp[2] != L'\\')
-	{
-		wchar_t *p = &wnp[2];
+     unc = 0;
+     if (wnp[0] == L'\\' && wnp[1] == L'\\' && wnp[2] != L'\\')
+     {
+          wchar_t *p = &wnp[2];
 
-		/* Skip server-name letters. */
-		while (*p != L'\\' && *p != L'\0')
-			++p;
-		if (*p == L'\\')
-		{
-			wchar_t *rp = ++p;
-			/* Skip share-name letters. */
-			while (*p != L'\\' && *p != L'\0')
-				++p;
-			if (*p == L'\\' && p != rp)
-			{
-				/* Now, match patterns such as
+          /* Skip server-name letters. */
+          while (*p != L'\\' && *p != L'\0')
+               ++p;
+          if (*p == L'\\')
+          {
+               wchar_t *rp = ++p;
+               /* Skip share-name letters. */
+               while (*p != L'\\' && *p != L'\0')
+                    ++p;
+               if (*p == L'\\' && p != rp)
+               {
+                    /* Now, match patterns such as
 				 * "\\server-name\share-name\" */
-				wnp += 2;
-				len -= 2;
-				unc = 1;
-			}
-		}
-	}
+                    wnp += 2;
+                    len -= 2;
+                    unc = 1;
+               }
+          }
+     }
 
-	slen = 4 + (unc * 4) + len + 1;
-	ws = wsp = malloc(slen * sizeof(wchar_t));
-	if (ws == NULL)
-	{
-		//free(wn);
-		return (NULL);
-	}
-	/* prepend "\\?\" */
-	wcsncpy(wsp, L"\\\\?\\", 4);
-	wsp += 4;
-	slen -= 4;
-	if (unc)
-	{
-		/* append "UNC\" ---> "\\?\UNC\" */
-		wcsncpy(wsp, L"UNC\\", 4);
-		wsp += 4;
-		slen -= 4;
-	}
-	wcsncpy(wsp, wnp, slen);
-	wsp[slen - 1] = L'\0'; /* Ensure null termination. */
-	//free(wn);
+     slen = 4 + (unc * 4) + len + 1;
+     ws = wsp = malloc(slen * sizeof(wchar_t));
+     if (ws == NULL)
+     {
+          //free(wn);
+          return (NULL);
+     }
+     /* prepend "\\?\" */
+     wcsncpy(wsp, L"\\\\?\\", 4);
+     wsp += 4;
+     slen -= 4;
+     if (unc)
+     {
+          /* append "UNC\" ---> "\\?\UNC\" */
+          wcsncpy(wsp, L"UNC\\", 4);
+          wsp += 4;
+          slen -= 4;
+     }
+     wcsncpy(wsp, wnp, slen);
+     wsp[slen - 1] = L'\0'; /* Ensure null termination. */
+     //free(wn);
 
-	wcscpy(wnp, ws);
+     wcscpy(wnp, ws);
 
-	free(ws);
+     free(ws);
 
-	return (wnp);
+     return (wnp);
 }
 
 wchar_t *
 permissive_name_m_v27(const wchar_t *wname)
 {
 
-	static wchar_t *wnp = NULL;
-	wchar_t *wn;
-	wchar_t *ws, *wsp;
-	DWORD len, slen;
-	int unc;
+     static wchar_t *wnp = NULL;
+     wchar_t *wn;
+     wchar_t *ws, *wsp;
+     DWORD len, slen;
+     int unc;
 
-	if (NULL == wnp)
-	{
-		wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
-	}
+     if (NULL == wnp)
+     {
+          wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
+     }
 
-	//wnp = malloc(AMANDA__SIZE * 2);
+     //wnp = malloc(AMANDA__SIZE * 2);
 
-	wcscpy(wnp, wname);
+     wcscpy(wnp, wname);
 
-	len = wcslen(wname);
+     len = wcslen(wname);
 
-	wn = wnp;
+     wn = wnp;
 
-	if (wnp[0] == L'\\' && wnp[1] == L'\\' && // access to the wrong position in memory, fixed now
-		wnp[2] == L'?' && wnp[3] == L'\\')
-		/* We have already a permissive name. */
-		return (wn);
+     if (wnp[0] == L'\\' && wnp[1] == L'\\' && // access to the wrong position in memory, fixed now
+         wnp[2] == L'?' && wnp[3] == L'\\')
+          /* We have already a permissive name. */
+          return (wn);
 
-	if (wnp[0] == L'\\' && wnp[1] == L'\\' &&
-		wnp[2] == L'.' && wnp[3] == L'\\')
-	{
-		/* This is a device name */
-		if (((wnp[4] >= L'a' && wnp[4] <= L'z') ||
-			 (wnp[4] >= L'A' && wnp[4] <= L'Z')) &&
-			wnp[5] == L':' && wnp[6] == L'\\')
-			wnp[2] = L'?'; /* Not device name. */
-		return (wn);
-	}
+     if (wnp[0] == L'\\' && wnp[1] == L'\\' &&
+         wnp[2] == L'.' && wnp[3] == L'\\')
+     {
+          /* This is a device name */
+          if (((wnp[4] >= L'a' && wnp[4] <= L'z') ||
+               (wnp[4] >= L'A' && wnp[4] <= L'Z')) &&
+              wnp[5] == L':' && wnp[6] == L'\\')
+               wnp[2] = L'?'; /* Not device name. */
+          return (wn);
+     }
 
-	unc = 0;
-	if (wnp[0] == L'\\' && wnp[1] == L'\\' && wnp[2] != L'\\')
-	{
-		wchar_t *p = &wnp[2];
+     unc = 0;
+     if (wnp[0] == L'\\' && wnp[1] == L'\\' && wnp[2] != L'\\')
+     {
+          wchar_t *p = &wnp[2];
 
-		/* Skip server-name letters. */
-		while (*p != L'\\' && *p != L'\0')
-			++p;
-		if (*p == L'\\')
-		{
-			wchar_t *rp = ++p;
-			/* Skip share-name letters. */
-			while (*p != L'\\' && *p != L'\0')
-				++p;
-			if (*p == L'\\' && p != rp)
-			{
-				/* Now, match patterns such as
+          /* Skip server-name letters. */
+          while (*p != L'\\' && *p != L'\0')
+               ++p;
+          if (*p == L'\\')
+          {
+               wchar_t *rp = ++p;
+               /* Skip share-name letters. */
+               while (*p != L'\\' && *p != L'\0')
+                    ++p;
+               if (*p == L'\\' && p != rp)
+               {
+                    /* Now, match patterns such as
 				 * "\\server-name\share-name\" */
-				wnp += 2;
-				len -= 2;
-				unc = 1;
-			}
-		}
-	}
+                    wnp += 2;
+                    len -= 2;
+                    unc = 1;
+               }
+          }
+     }
 
-	slen = 4 + (unc * 4) + len + 1;
-	ws = wsp = malloc(slen * sizeof(wchar_t));
-	if (ws == NULL)
-	{
-		//free(wn);
-		return (NULL);
-	}
-	/* prepend "\\?\" */
-	wcsncpy(wsp, L"\\\\?\\", 4);
-	wsp += 4;
-	slen -= 4;
-	if (unc)
-	{
-		/* append "UNC\" ---> "\\?\UNC\" */
-		wcsncpy(wsp, L"UNC\\", 4);
-		wsp += 4;
-		slen -= 4;
-	}
-	wcsncpy(wsp, wnp, slen);
-	wsp[slen - 1] = L'\0'; /* Ensure null termination. */
-	//free(wn);
+     slen = 4 + (unc * 4) + len + 1;
+     ws = wsp = malloc(slen * sizeof(wchar_t));
+     if (ws == NULL)
+     {
+          //free(wn);
+          return (NULL);
+     }
+     /* prepend "\\?\" */
+     wcsncpy(wsp, L"\\\\?\\", 4);
+     wsp += 4;
+     slen -= 4;
+     if (unc)
+     {
+          /* append "UNC\" ---> "\\?\UNC\" */
+          wcsncpy(wsp, L"UNC\\", 4);
+          wsp += 4;
+          slen -= 4;
+     }
+     wcsncpy(wsp, wnp, slen);
+     wsp[slen - 1] = L'\0'; /* Ensure null termination. */
+     //free(wn);
 
-	wcscpy(wnp, ws);
+     wcscpy(wnp, ws);
 
-	free(ws);
+     free(ws);
 
-	return (wnp);
+     return (wnp);
 }
 
 /***************************************************************************************************************
@@ -407,32 +410,32 @@ permissive_name_m_v27(const wchar_t *wname)
 double
 inittimer2(int value)
 {
-	static double freq = 0;
-	static LARGE_INTEGER first;
-	static LARGE_INTEGER second;
+     static double freq = 0;
+     static LARGE_INTEGER first;
+     static LARGE_INTEGER second;
 
-	if (0 == value)
-	{
-		if (freq == 0)
-		{
-			QueryPerformanceFrequency(&first);
-			freq = (double)first.QuadPart;
-		}
+     if (0 == value)
+     {
+          if (freq == 0)
+          {
+               QueryPerformanceFrequency(&first);
+               freq = (double)first.QuadPart;
+          }
 
-		QueryPerformanceCounter(&first);
+          QueryPerformanceCounter(&first);
 
-		return 0;
-	}
+          return 0;
+     }
 
-	if (1 == value)
-	{
-		QueryPerformanceCounter(&second);
-		second.QuadPart = second.QuadPart -
-						  first.QuadPart;
-		return (double)second.QuadPart / freq;
-	}
+     if (1 == value)
+     {
+          QueryPerformanceCounter(&second);
+          second.QuadPart = second.QuadPart -
+                            first.QuadPart;
+          return (double)second.QuadPart / freq;
+     }
 
-	return 0;
+     return 0;
 }
 
 /**
@@ -443,27 +446,27 @@ inittimer2(int value)
 void strncpy_z(char *dest_z, char *src_z, size_t len_)
 {
 
-	int len = (int)len_;
+     int len = (int)len_;
 
-	assert(0 <= (int)len);
+     assert(0 <= (int)len);
 
-	len--;
+     len--;
 
-	if (0 > len)
-	{
-		len = 0;
-	}
+     if (0 > len)
+     {
+          len = 0;
+     }
 
-	if (strlen(src_z) < (size_t)len)
-	{
-		strcpy(dest_z, src_z);
-	}
-	else
-	{
-		memcpy(dest_z, src_z, len);
-		dest_z[len] = 0;
-	}
-	return;
+     if (strlen(src_z) < (size_t)len)
+     {
+          strcpy(dest_z, src_z);
+     }
+     else
+     {
+          memcpy(dest_z, src_z, len);
+          dest_z[len] = 0;
+     }
+     return;
 }
 
 int __amandacall set_temp_folder_z(char *folder_z);
@@ -496,7 +499,7 @@ int running_update = 0;
 bool is_encrypted_by_extension = false;
 
 char file_to_keep_z[AMANDA__SIZE] = {
-	0,
+    0,
 };
 
 char temp_file_for_encrypted[AMANDA__SIZE];
@@ -530,7 +533,7 @@ int detected_format_arp;
 char string_format_arp[1024] = "unkonwn";
 
 char temp_folder_z[AMANDA__SIZE] = {
-	0,
+    0,
 };
 
 char *
@@ -551,7 +554,7 @@ int getpor_10000_int64_t_ar(int64_t max, int64_t fatia);
 bool strmatch(char str[], char pattern[], int n, int m);
 
 char global_patern_ar[20000] = {
-	0,
+    0,
 };
 
 __int64 file_size_total_int64 = 0;
@@ -606,10 +609,10 @@ int return_value_from_list = 0;
  */
 WCHAR *amanda_utf8towide_1_(char *pUTF8)
 {
-	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
+     static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
 
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
-	return ricardo_k;
+     MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
+     return ricardo_k;
 }
 
 /**
@@ -624,10 +627,10 @@ WCHAR *amanda_utf8towide_1_(char *pUTF8)
  */
 WCHAR *amanda_utf8towide_2_(char *pUTF8)
 {
-	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
+     static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
 
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
-	return ricardo_k;
+     MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
+     return ricardo_k;
 }
 /**
  * To convert a wide string to an utf-8 encoded filename, today everything
@@ -642,7 +645,7 @@ WCHAR *amanda_utf8towide_2_(char *pUTF8)
  */
 int widetoutf8_ar(WCHAR *pUSC2, char *pUTF8, int nUTF8)
 {
-	return WideCharToMultiByte(CP_UTF8, 0, pUSC2, -1, (LPSTR)pUTF8, nUTF8, 0, 0);
+     return WideCharToMultiByte(CP_UTF8, 0, pUSC2, -1, (LPSTR)pUTF8, nUTF8, 0, 0);
 }
 
 /**
@@ -655,10 +658,10 @@ int widetoutf8_ar(WCHAR *pUSC2, char *pUTF8, int nUTF8)
  */
 char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria)
 {
-	static char saida_utf8[AMANDA__SIZE];
+     static char saida_utf8[AMANDA__SIZE];
 
-	WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
-	return saida_utf8;
+     WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
+     return saida_utf8;
 }
 /**
  * Function to generate a temporary filename, at this time we are using
@@ -671,13 +674,13 @@ char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria)
  */
 void rspgettemppath_arp(char *path_arp)
 {
-	static WCHAR out_arp[AMANDA__SIZE_w + 1];
+     static WCHAR out_arp[AMANDA__SIZE_w + 1];
 
-	GetTempPathW(AMANDA__SIZE_w, out_arp);
-	strncpy_z(path_arp, valquiria_wide_to_utf8(out_arp), AMANDA__SIZE_w);
-	strcat(path_arp, "temp_file_");
-	sprintf(path_arp + strlen(path_arp), "%d_arp.tmp", (int)GetTickCount());
-	return;
+     GetTempPathW(AMANDA__SIZE_w, out_arp);
+     strncpy_z(path_arp, valquiria_wide_to_utf8(out_arp), AMANDA__SIZE_w);
+     strcat(path_arp, "temp_file_");
+     sprintf(path_arp + strlen(path_arp), "%d_arp.tmp", (int)GetTickCount());
+     return;
 }
 
 bool enable_encryption_arp_ = false;
@@ -692,10 +695,10 @@ char the_pass_arp_utf8_i[1024 + 1 /*for safety*/] = {0};
  */
 void __stdcall pass_password(char *the_pass_arp_, char *the_pass_arp_as_utf_8_i_)
 {
-	memset(the_pass_arp, 0, sizeof(the_pass_arp));
-	strncpy_z(the_pass_arp, the_pass_arp_, 1023); //porque o medo???
-	memset(the_pass_arp_utf8_i, 0, sizeof(the_pass_arp_utf8_i));
-	strncpy_z(the_pass_arp_utf8_i, the_pass_arp_as_utf_8_i_, 1023); //porque o medo???
+     memset(the_pass_arp, 0, sizeof(the_pass_arp));
+     strncpy_z(the_pass_arp, the_pass_arp_, 1023); //porque o medo???
+     memset(the_pass_arp_utf8_i, 0, sizeof(the_pass_arp_utf8_i));
+     strncpy_z(the_pass_arp_utf8_i, the_pass_arp_as_utf_8_i_, 1023); //porque o medo???
 }
 
 /**
@@ -708,11 +711,11 @@ void __stdcall pass_password(char *the_pass_arp_, char *the_pass_arp_as_utf_8_i_
  */
 void __stdcall enable_encryption(int enable_arp)
 {
-	enable_encryption_arp_ = false;
-	if (enable_arp)
-	{
-		enable_encryption_arp_ = true;
-	}
+     enable_encryption_arp_ = false;
+     if (enable_arp)
+     {
+          enable_encryption_arp_ = true;
+     }
 }
 //WIN64 also work...
 #ifdef _M_X64
@@ -726,25 +729,25 @@ mprintf___arp(char *format, ...);
 HMODULE my_libarchive_dll = NULL;
 
 typedef int(__stdcall *get_tar_info_p)(
-	int *Isdir_k_ar,
-	int *Second_k_ar,
-	int *Minute_k_ar,
-	int *Hour_k_ar,
-	int *Year_k_ar,
-	int *Month_k_ar,
-	int *Day_k_ar,
-	__int64 *Size_k_ar,
-	char *filename_k_ar,
-	int *Numdir_k_ar,
-	int *Numfiles_k_ar,
-	char *typeflag_ar_);
+    int *Isdir_k_ar,
+    int *Second_k_ar,
+    int *Minute_k_ar,
+    int *Hour_k_ar,
+    int *Year_k_ar,
+    int *Month_k_ar,
+    int *Day_k_ar,
+    __int64 *Size_k_ar,
+    char *filename_k_ar,
+    int *Numdir_k_ar,
+    int *Numfiles_k_ar,
+    char *typeflag_ar_);
 
 typedef int(__stdcall *libarchive_list_entries_p)(char *filename_utf_8_p, char *password_p, tar_list_function_ar our_function_p, char *error_message_p, char *archive_format_p);
 
 typedef int(__stdcall *libarchive_extract_entries_p)(char *filename_utf_8_p, char *password_p, tar_list_function_ar our_function_p, char *error_message_p, char *archive_format_p, char *dir_to_extract_i, char *extracting_filename_ar, char *warning_info, char *creating_folder_maria, bool *extract_pause__flag, bool *extract_cancel_flag, int *folders_ar, int *files_ar);
 
 typedef int(__stdcall *libarchive_create_archive_init_p)(int archive_kind_p, char *file_utf_8_p, char *passphrase_p,
-														 char *compression_level_p, int number_of_threads_p_);
+                                                         char *compression_level_p, int number_of_threads_p_);
 typedef int(__stdcall *libarchive_process_p)(char *new_entry_relative_p, char *new_entry_complete_p);
 typedef int(__stdcall *libarchive_close_p)(void);
 typedef int(__stdcall *set_progress_p)(int64_t *pointer_value_p);
@@ -752,15 +755,15 @@ typedef int(__stdcall *progress_extract_i)(void);
 
 typedef int(__stdcall *init_playlist_z_june_24_i)(void);
 typedef void(__stdcall *add_more_one_z_june_24_i)(
-	time_t atime_i,
-	time_t mtime_i,
-	time_t birthtime_i,
-	int64_t filesize_i,
-	int64_t file_offset_i,
-	char *item_entry_i,
-	bool is_dir_i,
-	bool in_use_i,
-	int64_t attributes_i);
+    time_t atime_i,
+    time_t mtime_i,
+    time_t birthtime_i,
+    int64_t filesize_i,
+    int64_t file_offset_i,
+    char *item_entry_i,
+    bool is_dir_i,
+    bool in_use_i,
+    int64_t attributes_i);
 
 typedef int(__stdcall *check_item_z_june_24_i)(char *filename_utf8);
 
@@ -797,11 +800,11 @@ HANDLE hMapFile_arp_i = NULL;
 #pragma pack(push, 1)
 typedef struct _amanda_i_
 {
-	char the__path_i[1024]; //need to change soon... 17/september...
-	char key_fingerprint_i[1024];
-	int progress_arp;
-	int pause____arp;
-	int cancel___arp;
+     char the__path_i[1024]; //need to change soon... 17/september...
+     char key_fingerprint_i[1024];
+     int progress_arp;
+     int pause____arp;
+     int cancel___arp;
 } our_map_arp_i;
 #pragma pack(pop)
 
@@ -812,78 +815,78 @@ unsigned __stdcall my_thread_function_v27(__attribute__((unused)) void *my_argum
 {
 #define BUF_SIZE_ARP_I (sizeof(our_map_arp_i))
 
-	char szName_arp_i[1027] = "que_dia____te_amo";
-	int rnd_z;
-	STARTUPINFO si;
-	PROCESS_INFORMATION pi;
-	DWORD exit_code_arp_i = 0;
-	char command_line_arp_i[1027];
+     char szName_arp_i[1027] = "que_dia____te_amo";
+     int rnd_z;
+     STARTUPINFO si;
+     PROCESS_INFORMATION pi;
+     DWORD exit_code_arp_i = 0;
+     char command_line_arp_i[1027];
 
 #ifdef IS_TAR_DLL_I
-	char copy_arp[1024];
+     char copy_arp[1024];
 #endif
 
-	returnvalue_i = 0;
+     returnvalue_i = 0;
 
-	rnd_z = 1000000000;
-	rnd_z = get_rand(0, rnd_z);
-	sprintf(szName_arp_i + strlen(szName_arp_i), "_%d", rnd_z);
+     rnd_z = 1000000000;
+     rnd_z = get_rand(0, rnd_z);
+     sprintf(szName_arp_i + strlen(szName_arp_i), "_%d", rnd_z);
 
-	hMapFile_arp_i = CreateFileMapping(
-		INVALID_HANDLE_VALUE, // use paging file
-		NULL,				  // default security
-		PAGE_READWRITE,		  // read/write access
-		0,					  // maximum object size (high-order DWORD)
-		BUF_SIZE_ARP_I,		  // maximum object size (low-order DWORD)
-		szName_arp_i);		  // name of mapping object
+     hMapFile_arp_i = CreateFileMapping(
+         INVALID_HANDLE_VALUE, // use paging file
+         NULL,                 // default security
+         PAGE_READWRITE,       // read/write access
+         0,                    // maximum object size (high-order DWORD)
+         BUF_SIZE_ARP_I,       // maximum object size (low-order DWORD)
+         szName_arp_i);        // name of mapping object
 
-	if (NULL == hMapFile_arp_i)
-	{
+     if (NULL == hMapFile_arp_i)
+     {
 #ifdef IS_TAR_DLL_I
-		sprintf(copy_arp, "Could not create file mapping object (%d)",
-				(int)GetLastError());
+          sprintf(copy_arp, "Could not create file mapping object (%d)",
+                  (int)GetLastError());
 
-		strcpy(error_message_k, copy_arp);
+          strcpy(error_message_k, copy_arp);
 #endif
-		returnvalue_i = 28006;
-		goto saida_i;
-	}
+          returnvalue_i = 28006;
+          goto saida_i;
+     }
 
-	global_ptr_our_map_arp_v27_i = (our_map_arp_i *)MapViewOfFile(hMapFile_arp_i,	   // handle to map object
-																  FILE_MAP_ALL_ACCESS, // read/write permission
-																  0,
-																  0,
-																  BUF_SIZE_ARP_I);
+     global_ptr_our_map_arp_v27_i = (our_map_arp_i *)MapViewOfFile(hMapFile_arp_i,      // handle to map object
+                                                                   FILE_MAP_ALL_ACCESS, // read/write permission
+                                                                   0,
+                                                                   0,
+                                                                   BUF_SIZE_ARP_I);
 
-	if (NULL == global_ptr_our_map_arp_v27_i)
-	{
+     if (NULL == global_ptr_our_map_arp_v27_i)
+     {
 #ifdef IS_TAR_DLL_I
-		sprintf(copy_arp, "Could not map view of file (%d)",
-				(int)GetLastError());
-		strcpy(error_message_k, copy_arp);
+          sprintf(copy_arp, "Could not map view of file (%d)",
+                  (int)GetLastError());
+          strcpy(error_message_k, copy_arp);
 #endif
 
-		CloseHandle(hMapFile_arp_i);
-		returnvalue_i = 28007;
-		goto saida_i;
-	}
+          CloseHandle(hMapFile_arp_i);
+          returnvalue_i = 28007;
+          goto saida_i;
+     }
 
-	memset(&global_our_map_arp_i, 0, sizeof(global_our_map_arp_i));
-	CopyMemory((PVOID)global_ptr_our_map_arp_v27_i, &global_our_map_arp_i, BUF_SIZE_ARP_I);
-	ZeroMemory(&si, sizeof(si));
-	si.cb = sizeof(si);
-	ZeroMemory(&pi, sizeof(pi));
+     memset(&global_our_map_arp_i, 0, sizeof(global_our_map_arp_i));
+     CopyMemory((PVOID)global_ptr_our_map_arp_v27_i, &global_our_map_arp_i, BUF_SIZE_ARP_I);
+     ZeroMemory(&si, sizeof(si));
+     si.cb = sizeof(si);
+     ZeroMemory(&pi, sizeof(pi));
 
-	si.wShowWindow = SW_HIDE;
-	si.dwFlags = STARTF_USESHOWWINDOW;
+     si.wShowWindow = SW_HIDE;
+     si.dwFlags = STARTF_USESHOWWINDOW;
 
 #ifdef WIN64
-	strcpy(command_line_arp_i, "be_psftp_64.exe ");
+     strcpy(command_line_arp_i, "be_psftp_64.exe ");
 #else
-	strcpy(command_line_arp_i, "be_psftp_32.exe "); // sem quebrar a compatbilidade se poss?vel...
+     strcpy(command_line_arp_i, "be_psftp_32.exe "); // sem quebrar a compatbilidade se poss?vel...
 #endif
 
-	/*
+     /*
 	   arp_psftp_function_func(remote_path_z, user_name_z, password_z, host_z, local_file,
 	                               "to remember february 2021..."
 	                               );
@@ -897,60 +900,60 @@ unsigned __stdcall my_thread_function_v27(__attribute__((unused)) void *my_argum
 
 	 */
 
-	strcat(command_line_arp_i, "\"");
-	strcat(command_line_arp_i, szName_arp_i);
-	strcat(command_line_arp_i, "\" \"");
-	strcat(command_line_arp_i, remote_path_z_i);
-	strcat(command_line_arp_i, "\" \"");
-	strcat(command_line_arp_i, user_name_z_i);
-	strcat(command_line_arp_i, "\" \"");
-	strcat(command_line_arp_i, password_z_i);
-	strcat(command_line_arp_i, "\" \"");
-	strcat(command_line_arp_i, host_z_i);
-	strcat(command_line_arp_i, "\" \"");
-	strcat(command_line_arp_i, local_file_i);
-	strcat(command_line_arp_i, "\"");
+     strcat(command_line_arp_i, "\"");
+     strcat(command_line_arp_i, szName_arp_i);
+     strcat(command_line_arp_i, "\" \"");
+     strcat(command_line_arp_i, remote_path_z_i);
+     strcat(command_line_arp_i, "\" \"");
+     strcat(command_line_arp_i, user_name_z_i);
+     strcat(command_line_arp_i, "\" \"");
+     strcat(command_line_arp_i, password_z_i);
+     strcat(command_line_arp_i, "\" \"");
+     strcat(command_line_arp_i, host_z_i);
+     strcat(command_line_arp_i, "\" \"");
+     strcat(command_line_arp_i, local_file_i);
+     strcat(command_line_arp_i, "\"");
 
-	if (!CreateProcess(NULL, command_line_arp_i, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi))
-	{
+     if (!CreateProcess(NULL, command_line_arp_i, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi))
+     {
 #ifdef IS_TAR_DLL_I
-		sprintf(copy_arp, "Could not start executable 'be_psftp_xx.exe' (%d)",
-				(int)GetLastError());
+          sprintf(copy_arp, "Could not start executable 'be_psftp_xx.exe' (%d)",
+                  (int)GetLastError());
 
-		strcpy(error_message_k, copy_arp);
+          strcpy(error_message_k, copy_arp);
 #endif
-		UnmapViewOfFile(global_ptr_our_map_arp_v27_i);
-		CloseHandle(hMapFile_arp_i);
-		global_ptr_our_map_arp_v27_i = NULL;
-		returnvalue_i = 28008;
-		goto saida_i;
-	}
+          UnmapViewOfFile(global_ptr_our_map_arp_v27_i);
+          CloseHandle(hMapFile_arp_i);
+          global_ptr_our_map_arp_v27_i = NULL;
+          returnvalue_i = 28008;
+          goto saida_i;
+     }
 
-	WaitForSingleObject(pi.hProcess, INFINITE);
-	GetExitCodeProcess(pi.hProcess, &exit_code_arp_i);
-	UnmapViewOfFile(global_ptr_our_map_arp_v27_i);
-	CloseHandle(hMapFile_arp_i);
-	global_ptr_our_map_arp_v27_i = NULL;
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
+     WaitForSingleObject(pi.hProcess, INFINITE);
+     GetExitCodeProcess(pi.hProcess, &exit_code_arp_i);
+     UnmapViewOfFile(global_ptr_our_map_arp_v27_i);
+     CloseHandle(hMapFile_arp_i);
+     global_ptr_our_map_arp_v27_i = NULL;
+     CloseHandle(pi.hProcess);
+     CloseHandle(pi.hThread);
 
-	if (0 == returnvalue_i)
-	{
-		returnvalue_i = exit_code_arp_i;
-	}
+     if (0 == returnvalue_i)
+     {
+          returnvalue_i = exit_code_arp_i;
+     }
 
 saida_i:;
 
-	sftp_already_running = false;
+     sftp_already_running = false;
 
-	_endthreadex(0);
+     _endthreadex(0);
 
-	return 27 + 51;
+     return 27 + 51;
 }
 
 void init_psftp_arp(void)
 {
-	return;
+     return;
 }
 /**
  * To make a call to the SFTP code, sending a local file to the remote path
@@ -967,35 +970,35 @@ void init_psftp_arp(void)
  *
  */
 int __stdcall pass_sftp_data_z(
-	char *remote_path_z,
-	char *user_name_z,
-	char *password_z,
-	char *host_z,
-	char *local_file)
+    char *remote_path_z,
+    char *user_name_z,
+    char *password_z,
+    char *host_z,
+    char *local_file)
 {
-	/*
+     /*
 	   return arp_psftp_function_func(remote_path_z, user_name_z, password_z, host_z, local_file,
 	                               "to remember february 2021..."
 	                               );
 	 */
 
-	if (sftp_already_running)
-	{
-		return 1;
-	}
+     if (sftp_already_running)
+     {
+          return 1;
+     }
 
-	remote_path_i[0] = 0;
-	key_fingerprint_i[0] = 0;
-	strcpy(remote_path_z_i, remote_path_z);
-	strcpy(user_name_z_i, user_name_z);
-	strcpy(password_z_i, password_z);
-	strcpy(host_z_i, host_z);
-	strcpy(local_file_i, local_file);
+     remote_path_i[0] = 0;
+     key_fingerprint_i[0] = 0;
+     strcpy(remote_path_z_i, remote_path_z);
+     strcpy(user_name_z_i, user_name_z);
+     strcpy(password_z_i, password_z);
+     strcpy(host_z_i, host_z);
+     strcpy(local_file_i, local_file);
 
-	sftp_already_running = true;
-	my_thread_handle = (__INT32_OR_INT64)_beginthreadex(NULL, 0, my_thread_function_v27, NULL, 0, NULL);
+     sftp_already_running = true;
+     my_thread_handle = (__INT32_OR_INT64)_beginthreadex(NULL, 0, my_thread_function_v27, NULL, 0, NULL);
 
-	return 0; //pode dizer se ja esta sendo executado...ok amor...
+     return 0; //pode dizer se ja esta sendo executado...ok amor...
 }
 
 /**
@@ -1006,9 +1009,9 @@ int __stdcall pass_sftp_data_z(
  *
  */
 int __stdcall get_sftp_return_value_z(
-	void)
+    void)
 {
-	return returnvalue_i;
+     return returnvalue_i;
 }
 
 /**
@@ -1023,44 +1026,44 @@ int __stdcall get_sftp_return_value_z(
 int __stdcall get_remote_directory_z(char *path_z)
 {
 
-	if (0 != remote_path_i[0])
-	{
+     if (0 != remote_path_i[0])
+     {
 
-		strcpy(path_z, remote_path_i);
-	}
-	else
-	{
-		if (sftp_already_running && global_ptr_our_map_arp_v27_i)
-		{
-			strcpy(path_z, global_ptr_our_map_arp_v27_i->the__path_i);
+          strcpy(path_z, remote_path_i);
+     }
+     else
+     {
+          if (sftp_already_running && global_ptr_our_map_arp_v27_i)
+          {
+               strcpy(path_z, global_ptr_our_map_arp_v27_i->the__path_i);
 
-			strcpy(remote_path_i, path_z);
-		}
-	}
+               strcpy(remote_path_i, path_z);
+          }
+     }
 
-	return 0;
-	//return get_remote_directory_pwd_func(path_z);
+     return 0;
+     //return get_remote_directory_pwd_func(path_z);
 }
 
 int __stdcall get_key_fingerprint_z(char *key_z)
 {
 
-	if (0 != key_fingerprint_i[0])
-	{
-		strcpy(key_z, key_fingerprint_i);
-	}
-	else
-	{
-		if (sftp_already_running && global_ptr_our_map_arp_v27_i)
-		{
-			strcpy(key_z, global_ptr_our_map_arp_v27_i->key_fingerprint_i);
+     if (0 != key_fingerprint_i[0])
+     {
+          strcpy(key_z, key_fingerprint_i);
+     }
+     else
+     {
+          if (sftp_already_running && global_ptr_our_map_arp_v27_i)
+          {
+               strcpy(key_z, global_ptr_our_map_arp_v27_i->key_fingerprint_i);
 
-			strcpy(key_fingerprint_i, key_z);
-		}
-	}
+               strcpy(key_fingerprint_i, key_z);
+          }
+     }
 
-	return 0;
-	//return get_remote_directory_pwd_func(path_z);
+     return 0;
+     //return get_remote_directory_pwd_func(path_z);
 }
 
 /**
@@ -1071,13 +1074,13 @@ int __stdcall get_key_fingerprint_z(char *key_z)
  *
  */
 int __stdcall is_sftp_running_z(
-	void)
+    void)
 {
-	if (sftp_already_running)
-	{
-		return 1;
-	}
-	return 0;
+     if (sftp_already_running)
+     {
+          return 1;
+     }
+     return 0;
 }
 /**
  * To pause the SFTP process, but then the server may close the connection after
@@ -1088,11 +1091,11 @@ int __stdcall is_sftp_running_z(
  */
 int __stdcall pause_sftp(void)
 {
-	if (sftp_already_running && global_ptr_our_map_arp_v27_i)
-	{
-		global_ptr_our_map_arp_v27_i->pause____arp = 1;
-	}
-	return 0; //pause_arp_func();
+     if (sftp_already_running && global_ptr_our_map_arp_v27_i)
+     {
+          global_ptr_our_map_arp_v27_i->pause____arp = 1;
+     }
+     return 0; //pause_arp_func();
 }
 /**
  * To resume the SFTP process
@@ -1102,11 +1105,11 @@ int __stdcall pause_sftp(void)
  */
 int __stdcall resume_sftp(void)
 {
-	if (sftp_already_running && global_ptr_our_map_arp_v27_i)
-	{
-		global_ptr_our_map_arp_v27_i->pause____arp = 0;
-	}
-	return 0; //resume_arp_func();
+     if (sftp_already_running && global_ptr_our_map_arp_v27_i)
+     {
+          global_ptr_our_map_arp_v27_i->pause____arp = 0;
+     }
+     return 0; //resume_arp_func();
 }
 /**
  * To cancel the SFTP process, if you regreted it
@@ -1116,11 +1119,11 @@ int __stdcall resume_sftp(void)
  */
 int __stdcall cancel_sftp(void)
 {
-	if (sftp_already_running && global_ptr_our_map_arp_v27_i)
-	{
-		global_ptr_our_map_arp_v27_i->cancel___arp = 1;
-	}
-	return 0; //cancel_arp_func();
+     if (sftp_already_running && global_ptr_our_map_arp_v27_i)
+     {
+          global_ptr_our_map_arp_v27_i->cancel___arp = 1;
+     }
+     return 0; //cancel_arp_func();
 }
 /**
  * To retrieve the current position of the SFTP upload process
@@ -1131,15 +1134,15 @@ int __stdcall cancel_sftp(void)
  */
 int __stdcall progress_sftp(void)
 {
-	if (sftp_already_running && global_ptr_our_map_arp_v27_i)
-	{
-		return global_ptr_our_map_arp_v27_i->progress_arp;
-	}
-	return 0; //progress_arp_func();
+     if (sftp_already_running && global_ptr_our_map_arp_v27_i)
+     {
+          return global_ptr_our_map_arp_v27_i->progress_arp;
+     }
+     return 0; //progress_arp_func();
 }
 typedef int (*decrypt_arp_)(char *inputfile, char *outputfile, char *key,
-							int64_t *the_arp_file_size, char *encryption_method_i);
-typedef int (*encrypt_arp_)(char *inputfile, char *outputfile, char *key, int is_rc4_arp);
+                            int64_t *the_arp_file_size, char *encryption_method_i);
+typedef int (*encrypt_arp_)(char *inputfile, char *outputfile, char *key, int is_rc4_arp, int ar__threads_z_v27);
 typedef int(__stdcall *PauseExecution__arp_)(void);
 typedef int(__stdcall *ResumeExecution_arp_)(void);
 typedef int(__stdcall *CancelExecution_arp_)(void);
@@ -1165,67 +1168,67 @@ internal_progress_z_arp_ internal_progress_z_arp_func = NULL;
 void init_rsp_arp_encrypt_arp(void) //ola
 {
 
-	char copy_ar[1024];
+     char copy_ar[1024];
 
-	if (NULL == my_rsp_arp_encrypt_dll)
-	{
-		my_rsp_arp_encrypt_dll = LoadLibraryA(
-			"RSP_encrypt_" MACHINE_ARP_ ".DLL");
+     if (NULL == my_rsp_arp_encrypt_dll)
+     {
+          my_rsp_arp_encrypt_dll = LoadLibraryA(
+              "RSP_encrypt_" MACHINE_ARP_ ".DLL");
 
-		if (NULL == my_rsp_arp_encrypt_dll)
-		{
+          if (NULL == my_rsp_arp_encrypt_dll)
+          {
 
-			sprintf(copy_ar, "Cannot find DLL RSP_encrypt_" MACHINE_ARP_ ".DLL, it is required if"
-							 "you want to encrypt and decrypt files");
-			mprintf___arp("%s\n", copy_ar);
-			exit(1);
-			return;
-		}
-		else
-		{
-			decrypt_arp_func = (void *)GetProcAddress(
-				my_rsp_arp_encrypt_dll,
-				"decrypt_arp");
+               sprintf(copy_ar, "Cannot find DLL RSP_encrypt_" MACHINE_ARP_ ".DLL, it is required if"
+                                "you want to encrypt and decrypt files");
+               mprintf___arp("%s\n", copy_ar);
+               exit(1);
+               return;
+          }
+          else
+          {
+               decrypt_arp_func = (void *)GetProcAddress(
+                   my_rsp_arp_encrypt_dll,
+                   "decrypt_arp");
 
-			encrypt_arp_func = (void *)GetProcAddress(
-				my_rsp_arp_encrypt_dll,
-				"encrypt_arp");
+               encrypt_arp_func = (void *)GetProcAddress(
+                   my_rsp_arp_encrypt_dll,
+                   "encrypt_arp");
 
-			PauseExecution__arp_func = (void *)GetProcAddress(
-				my_rsp_arp_encrypt_dll,
-				"PauseExecution");
+               PauseExecution__arp_func = (void *)GetProcAddress(
+                   my_rsp_arp_encrypt_dll,
+                   "PauseExecution");
 
-			ResumeExecution_arp_func = (void *)GetProcAddress(
-				my_rsp_arp_encrypt_dll,
-				"ResumeExecution");
+               ResumeExecution_arp_func = (void *)GetProcAddress(
+                   my_rsp_arp_encrypt_dll,
+                   "ResumeExecution");
 
-			CancelExecution_arp_func = (void *)GetProcAddress(
-				my_rsp_arp_encrypt_dll,
-				"CancelExecution");
+               CancelExecution_arp_func = (void *)GetProcAddress(
+                   my_rsp_arp_encrypt_dll,
+                   "CancelExecution");
 
-			GetProgress_____arp_func = (void *)GetProcAddress(
-				my_rsp_arp_encrypt_dll,
-				"GetProgress");
+               GetProgress_____arp_func = (void *)GetProcAddress(
+                   my_rsp_arp_encrypt_dll,
+                   "GetProgress");
 
-			update_progress_arp_func = (void *)GetProcAddress(
-				my_rsp_arp_encrypt_dll,
-				"update_progress_arp");
+               update_progress_arp_func = (void *)GetProcAddress(
+                   my_rsp_arp_encrypt_dll,
+                   "update_progress_arp");
 
-			internal_progress_z_arp_func = (void *)GetProcAddress(
-				my_rsp_arp_encrypt_dll,
-				"internal_progress_z");
+               internal_progress_z_arp_func = (void *)GetProcAddress(
+                   my_rsp_arp_encrypt_dll,
+                   "internal_progress_z");
 
-			assert(decrypt_arp_func);
-			assert(encrypt_arp_func);
-			assert(PauseExecution__arp_func);
-			assert(ResumeExecution_arp_func);
-			assert(CancelExecution_arp_func);
-			assert(GetProgress_____arp_func);
-			assert(update_progress_arp_func);
-			assert(internal_progress_z_arp_func);
-		}
-	}
-	return;
+               assert(decrypt_arp_func);
+               assert(encrypt_arp_func);
+               assert(PauseExecution__arp_func);
+               assert(ResumeExecution_arp_func);
+               assert(CancelExecution_arp_func);
+               assert(GetProgress_____arp_func);
+               assert(update_progress_arp_func);
+               assert(internal_progress_z_arp_func);
+          }
+     }
+     return;
 }
 
 /**
@@ -1237,8 +1240,8 @@ void init_rsp_arp_encrypt_arp(void) //ola
  */
 int internal_progress_z(void)
 {
-	init_rsp_arp_encrypt_arp();
-	return internal_progress_z_arp_func();
+     init_rsp_arp_encrypt_arp();
+     return internal_progress_z_arp_func();
 }
 /**
  * It will pass the address of the int64_t variable that will be
@@ -1248,9 +1251,9 @@ int internal_progress_z(void)
  */
 void update_progress_arp(int64_t *bytes_read_arp__)
 {
-	init_rsp_arp_encrypt_arp();
-	update_progress_arp_func(bytes_read_arp__);
-	return;
+     init_rsp_arp_encrypt_arp();
+     update_progress_arp_func(bytes_read_arp__);
+     return;
 }
 
 /**
@@ -1267,10 +1270,10 @@ void update_progress_arp(int64_t *bytes_read_arp__)
  * @return 0 if ok
  *
  */
-int encrypt_arp(char *inputfile, char *outputfile, char *key, int encryption_method_z)
+int encrypt_arp(char *inputfile, char *outputfile, char *key, int encryption_method_z, int ar_threads_z_v27_)
 {
-	init_rsp_arp_encrypt_arp();
-	return encrypt_arp_func(inputfile, outputfile, key, encryption_method_z);
+     init_rsp_arp_encrypt_arp();
+     return encrypt_arp_func(inputfile, outputfile, key, encryption_method_z, ar_threads_z_v27_);
 }
 
 /**
@@ -1291,8 +1294,8 @@ int encrypt_arp(char *inputfile, char *outputfile, char *key, int encryption_met
  */
 int decrypt_arp(char *inputfile, char *outputfile, char *key, int64_t *the_arp_file_size, char *encryption_method_i)
 {
-	init_rsp_arp_encrypt_arp();
-	return decrypt_arp_func(inputfile, outputfile, key, the_arp_file_size, encryption_method_i);
+     init_rsp_arp_encrypt_arp();
+     return decrypt_arp_func(inputfile, outputfile, key, the_arp_file_size, encryption_method_i);
 }
 
 /**
@@ -1304,14 +1307,14 @@ int decrypt_arp(char *inputfile, char *outputfile, char *key, int64_t *the_arp_f
 static void
 mprintf___arp(char *format, ...)
 {
-	char *buffer = calloc(1, 10000); //for multithread sake
-	va_list amanda_do_ricardo;
+     char *buffer = calloc(1, 10000); //for multithread sake
+     va_list amanda_do_ricardo;
 
-	va_start(amanda_do_ricardo, format);
-	vsprintf(buffer, format, amanda_do_ricardo);
-	va_end(amanda_do_ricardo);
-	MessageBox(0, buffer, "BW Error", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
-	free(buffer);
+     va_start(amanda_do_ricardo, format);
+     vsprintf(buffer, format, amanda_do_ricardo);
+     va_end(amanda_do_ricardo);
+     MessageBox(0, buffer, "BW Error", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+     free(buffer);
 }
 
 /**
@@ -1327,53 +1330,53 @@ mprintf___arp(char *format, ...)
  */
 int write_xml_z(char *key_name_z, char *data_z)
 {
-	if (MODE_IS_ARP_DEBUG && ispathfile("c:\\Ava\\back\\my_c_file.c"))
-	{
-		return feline_write_xml("c:\\Ava\\back\\my_c_file.mis",
-								"ok12_settings_22_march_2021__19_06",
-								key_name_z,
-								NULL,
-								data_z);
-	}
-	else
-	{
-		return feline_write_xml("ar_tar_process.mis",
-								"ok12_settings_22_march_2021__19_06",
-								key_name_z,
-								NULL,
-								data_z);
-	}
+     if (MODE_IS_ARP_DEBUG && ispathfile("c:\\Ava\\back\\my_c_file.c"))
+     {
+          return feline_write_xml("c:\\Ava\\back\\my_c_file.mis",
+                                  "ok12_settings_22_march_2021__19_06",
+                                  key_name_z,
+                                  NULL,
+                                  data_z);
+     }
+     else
+     {
+          return feline_write_xml("ar_tar_process.mis",
+                                  "ok12_settings_22_march_2021__19_06",
+                                  key_name_z,
+                                  NULL,
+                                  data_z);
+     }
 }
 
 int __stdcall write_xml_z_amanda_s_smart_ape(char *filename_amanda_s_smart_ape, char *key_name_z, char *data_z)
 {
-	{
-		return feline_write_xml(filename_amanda_s_smart_ape,
-								"ok12_settings_16_february_1994",
-								key_name_z,
-								NULL,
-								data_z);
-	}
+     {
+          return feline_write_xml(filename_amanda_s_smart_ape,
+                                  "ok12_settings_16_february_1994",
+                                  key_name_z,
+                                  NULL,
+                                  data_z);
+     }
 }
 
 int __stdcall read_xml_z_amanda_s_smart_ape(char *filename_amanda_s_smart_ape, char *key_name_z, char *data_z, int output_len_z)
 {
-	int ret_arp;
-	char *buf_z;
-	int64_t size_z;
+     int ret_arp;
+     char *buf_z;
+     int64_t size_z;
 
-	{
-		size_z = getfilesize_ar(filename_amanda_s_smart_ape);
-		buf_z = malloc(size_z + 1);
-		ret_arp = feline_read_xml(filename_amanda_s_smart_ape,
-								  "ok12_settings_16_february_1994",
-								  key_name_z,
-								  NULL,
-								  buf_z);
-		strncpy_z(data_z, buf_z, output_len_z);
-		free(buf_z);
-	}
-	return ret_arp;
+     {
+          size_z = getfilesize_ar(filename_amanda_s_smart_ape);
+          buf_z = malloc(size_z + 1);
+          ret_arp = feline_read_xml(filename_amanda_s_smart_ape,
+                                    "ok12_settings_16_february_1994",
+                                    key_name_z,
+                                    NULL,
+                                    buf_z);
+          strncpy_z(data_z, buf_z, output_len_z);
+          free(buf_z);
+     }
+     return ret_arp;
 }
 
 /**
@@ -1383,86 +1386,86 @@ int __stdcall read_xml_z_amanda_s_smart_ape(char *filename_amanda_s_smart_ape, c
 int __stdcall get_rand(int min, int max)
 {
 
-	int range = max - min;
-	int ret;
-	static bool already_amanda_s_smart_ape = false;
-	/*
+     int range = max - min;
+     int ret;
+     static bool already_amanda_s_smart_ape = false;
+     /*
 	   BOOLEAN RtlGenRandom(
 	   PVOID RandomBuffer,
 	   ULONG RandomBufferLength
 	   );
 	 */
 
-	typedef BOOLEAN(__stdcall * RtlGenRandom)(PVOID RandomBuffer,
-											  ULONG RandomBufferLength);
+     typedef BOOLEAN(__stdcall * RtlGenRandom)(PVOID RandomBuffer,
+                                               ULONG RandomBufferLength);
 
-	static HMODULE my_i____dll = NULL;
-	static RtlGenRandom RtlGenRandom_func = NULL;
+     static HMODULE my_i____dll = NULL;
+     static RtlGenRandom RtlGenRandom_func = NULL;
 
-	if (false == already_amanda_s_smart_ape)
-		srand(time(0)),
-			already_amanda_s_smart_ape = true;
+     if (false == already_amanda_s_smart_ape)
+          srand(time(0)),
+              already_amanda_s_smart_ape = true;
 
-	ret = (GetTickCount() * GetTickCount()) + GetTickCount(); //hack
+     ret = (GetTickCount() * GetTickCount()) + GetTickCount(); //hack
 
-	if (RtlGenRandom_func)
-	{
-		assert(TRUE == RtlGenRandom_func(&ret, 4));
-		goto already_i;
-	}
+     if (RtlGenRandom_func)
+     {
+          assert(TRUE == RtlGenRandom_func(&ret, 4));
+          goto already_i;
+     }
 
-	if (NULL == my_i____dll)
-	{
+     if (NULL == my_i____dll)
+     {
 
-		my_i____dll = LoadLibraryA(
-			"Advapi32.dll");
+          my_i____dll = LoadLibraryA(
+              "Advapi32.dll");
 
-		if (NULL == my_i____dll)
-		{
-			;
-		}
-		else
-		{
+          if (NULL == my_i____dll)
+          {
+               ;
+          }
+          else
+          {
 
-			RtlGenRandom_func = (void *)GetProcAddress(
-				my_i____dll,
-				"SystemFunction036");
+               RtlGenRandom_func = (void *)GetProcAddress(
+                   my_i____dll,
+                   "SystemFunction036");
 
-			if (NULL == RtlGenRandom_func)
-			{
-				;
-			}
-			else
-			{
+               if (NULL == RtlGenRandom_func)
+               {
+                    ;
+               }
+               else
+               {
 
-				assert(TRUE == RtlGenRandom_func(&ret, 4));
-			}
-		}
-	}
+                    assert(TRUE == RtlGenRandom_func(&ret, 4));
+               }
+          }
+     }
 
 already_i:;
 
-	if (/*1 || */ NULL == RtlGenRandom_func)
-	{
-		pedro_dprintf(1001, "Important!!! Cannot use the function SystemFunction036\n");
-		//Beep(1000, 1000);
-	}
+     if (/*1 || */ NULL == RtlGenRandom_func)
+     {
+          pedro_dprintf(1001, "Important!!! Cannot use the function SystemFunction036\n");
+          //Beep(1000, 1000);
+     }
 
-	//ret = -2147483648;
+     //ret = -2147483648;
 
-	ret = abs(ret);
-	ret = ret % (range + 1);
-	ret += min;
+     ret = abs(ret);
+     ret = ret % (range + 1);
+     ret += min;
 
-	pedro_dprintf(-1, "valor de ret antes do fix %d\n", ret);
+     pedro_dprintf(-1, "valor de ret antes do fix %d\n", ret);
 
-	if (ret < min)
-	{
-		ret = min; //fix for the abs problem
+     if (ret < min)
+     {
+          ret = min; //fix for the abs problem
 
-		pedro_dprintf(-1, "valor de ret depois do fix %d\n", ret);
-	}
-	return ret;
+          pedro_dprintf(-1, "valor de ret depois do fix %d\n", ret);
+     }
+     return ret;
 }
 
 /**
@@ -1482,36 +1485,36 @@ already_i:;
  */
 int read_xml_z(char *key_name_z, char *data_z, int output_len_z)
 {
-	int ret_arp;
-	char *buf_z;
-	int64_t size_z;
+     int ret_arp;
+     char *buf_z;
+     int64_t size_z;
 
-	if (MODE_IS_ARP_DEBUG && ispathfile("c:\\Ava\\back\\my_c_file.c"))
-	{
+     if (MODE_IS_ARP_DEBUG && ispathfile("c:\\Ava\\back\\my_c_file.c"))
+     {
 
-		size_z = getfilesize_ar("c:\\Ava\\back\\my_c_file.mis");
-		buf_z = malloc(size_z + 1);
-		ret_arp = feline_read_xml("c:\\Ava\\back\\my_c_file.mis",
-								  "ok12_settings_22_march_2021__19_06",
-								  key_name_z,
-								  NULL,
-								  buf_z);
-		strncpy_z(data_z, buf_z, output_len_z);
-		free(buf_z);
-	}
-	else
-	{
-		size_z = getfilesize_ar("ar_tar_process.mis");
-		buf_z = malloc(size_z + 1);
-		ret_arp = feline_read_xml("ar_tar_process.mis",
-								  "ok12_settings_22_march_2021__19_06",
-								  key_name_z,
-								  NULL,
-								  buf_z);
-		strncpy_z(data_z, buf_z, output_len_z);
-		free(buf_z);
-	}
-	return ret_arp;
+          size_z = getfilesize_ar("c:\\Ava\\back\\my_c_file.mis");
+          buf_z = malloc(size_z + 1);
+          ret_arp = feline_read_xml("c:\\Ava\\back\\my_c_file.mis",
+                                    "ok12_settings_22_march_2021__19_06",
+                                    key_name_z,
+                                    NULL,
+                                    buf_z);
+          strncpy_z(data_z, buf_z, output_len_z);
+          free(buf_z);
+     }
+     else
+     {
+          size_z = getfilesize_ar("ar_tar_process.mis");
+          buf_z = malloc(size_z + 1);
+          ret_arp = feline_read_xml("ar_tar_process.mis",
+                                    "ok12_settings_22_march_2021__19_06",
+                                    key_name_z,
+                                    NULL,
+                                    buf_z);
+          strncpy_z(data_z, buf_z, output_len_z);
+          free(buf_z);
+     }
+     return ret_arp;
 }
 
 /**
@@ -1520,12 +1523,12 @@ int read_xml_z(char *key_name_z, char *data_z, int output_len_z)
  */
 void convert_char_to_wchar_idiot_z(char *input_z, WCHAR *output_z)
 {
-	while (*input_z)
-	{
-		*output_z++ = *input_z++;
-	}
-	*output_z = 0;
-	return;
+     while (*input_z)
+     {
+          *output_z++ = *input_z++;
+     }
+     *output_z = 0;
+     return;
 }
 
 /**
@@ -1535,12 +1538,12 @@ void convert_char_to_wchar_idiot_z(char *input_z, WCHAR *output_z)
  */
 void convert_wchar_to_char_jerk_z(WCHAR *input_z, char *output_z)
 {
-	while (*input_z)
-	{
-		*output_z++ = *input_z++;
-	}
-	*output_z = 0;
-	return;
+     while (*input_z)
+     {
+          *output_z++ = *input_z++;
+     }
+     *output_z = 0;
+     return;
 }
 
 /**
@@ -1563,46 +1566,46 @@ void convert_wchar_to_char_jerk_z(WCHAR *input_z, char *output_z)
  */
 int old_ini_get(char *key_arp, char *data_arp, char *if_has_data_use_this_z, int output_len_z)
 {
-	WCHAR exe_path_z[1027] = {
-		0,
-	};
-	char exe_aath_z[1027] = {
-		0,
-	};
-	char exe_fath_z[1027] = {
-		0,
-	};
-	char data_z[1027] = {
-		0,
-	};
-	WCHAR data_w_z[1027] = {
-		0,
-	};
-	WCHAR key_arpw_z[1027] = {
-		0,
-	};
+     WCHAR exe_path_z[1027] = {
+         0,
+     };
+     char exe_aath_z[1027] = {
+         0,
+     };
+     char exe_fath_z[1027] = {
+         0,
+     };
+     char data_z[1027] = {
+         0,
+     };
+     WCHAR data_w_z[1027] = {
+         0,
+     };
+     WCHAR key_arpw_z[1027] = {
+         0,
+     };
 
-	GetModuleFileNameW(
-		NULL,
-		exe_path_z,
-		1027);
-	strncpy_z(exe_aath_z, valquiria_wide_to_utf8(exe_path_z), sizeof(exe_aath_z) - 1);
-	stripfilenameandpath(exe_aath_z, exe_fath_z, NULL);
-	strcat(exe_fath_z, "\\");
-	strcat(exe_fath_z, "ar_tar_process.ini");
+     GetModuleFileNameW(
+         NULL,
+         exe_path_z,
+         1027);
+     strncpy_z(exe_aath_z, valquiria_wide_to_utf8(exe_path_z), sizeof(exe_aath_z) - 1);
+     stripfilenameandpath(exe_aath_z, exe_fath_z, NULL);
+     strcat(exe_fath_z, "\\");
+     strcat(exe_fath_z, "ar_tar_process.ini");
 
-	if (if_has_data_use_this_z)
-	{
-		pedro_dprintf(-1, "Ola ricardo, obrigado por usar nossa rotina de ini\n");
-		strncpy_z(exe_fath_z, if_has_data_use_this_z, sizeof(exe_fath_z) - 1);
-	}
+     if (if_has_data_use_this_z)
+     {
+          pedro_dprintf(-1, "Ola ricardo, obrigado por usar nossa rotina de ini\n");
+          strncpy_z(exe_fath_z, if_has_data_use_this_z, sizeof(exe_fath_z) - 1);
+     }
 
-	convert_char_to_wchar_idiot_z(key_arp, key_arpw_z);
-	GetPrivateProfileStringW(L"parolin", key_arpw_z, L"", data_w_z, sizeof(data_w_z) / 2 /* please, correct me if I am wrong */,
-							 permissive_name_m_(amanda_utf8towide_1_(exe_fath_z)));
-	convert_wchar_to_char_jerk_z(data_w_z, data_z);
-	strncpy_z(data_arp, data_z, output_len_z);
-	return 0;
+     convert_char_to_wchar_idiot_z(key_arp, key_arpw_z);
+     GetPrivateProfileStringW(L"parolin", key_arpw_z, L"", data_w_z, sizeof(data_w_z) / 2 /* please, correct me if I am wrong */,
+                              permissive_name_m_(amanda_utf8towide_1_(exe_fath_z)));
+     convert_wchar_to_char_jerk_z(data_w_z, data_z);
+     strncpy_z(data_arp, data_z, output_len_z);
+     return 0;
 }
 
 /**
@@ -1621,31 +1624,31 @@ int old_ini_get(char *key_arp, char *data_arp, char *if_has_data_use_this_z, int
  */
 int old_ini_write(char *key_arp_z, char *data_arp_z, char *if_has_data_use_this_z)
 {
-	WCHAR exe_path_z[1027];
-	char exe_aath_z[1027];
-	char exe_fath_z[1027];
-	WCHAR data_w_z[1027];
-	WCHAR key_arpw_z[1027];
+     WCHAR exe_path_z[1027];
+     char exe_aath_z[1027];
+     char exe_fath_z[1027];
+     WCHAR data_w_z[1027];
+     WCHAR key_arpw_z[1027];
 
-	GetModuleFileNameW(
-		NULL,
-		exe_path_z,
-		1027);
-	strncpy_z(exe_aath_z, valquiria_wide_to_utf8(exe_path_z), sizeof(exe_aath_z) - 1);
-	stripfilenameandpath(exe_aath_z, exe_fath_z, NULL);
-	strcat(exe_fath_z, "\\");
-	strcat(exe_fath_z, "ar_tar_process.ini");
+     GetModuleFileNameW(
+         NULL,
+         exe_path_z,
+         1027);
+     strncpy_z(exe_aath_z, valquiria_wide_to_utf8(exe_path_z), sizeof(exe_aath_z) - 1);
+     stripfilenameandpath(exe_aath_z, exe_fath_z, NULL);
+     strcat(exe_fath_z, "\\");
+     strcat(exe_fath_z, "ar_tar_process.ini");
 
-	if (if_has_data_use_this_z)
-	{
-		pedro_dprintf(-1, "Ola ricardo, obrigado por usar nossa rotina de ini\n");
-		strncpy_z(exe_fath_z, if_has_data_use_this_z, MAX_PATH);
-	}
-	convert_char_to_wchar_idiot_z(key_arp_z, key_arpw_z);
-	convert_char_to_wchar_idiot_z(data_arp_z, data_w_z);
-	WritePrivateProfileStringW(L"parolin", key_arpw_z, data_w_z,
-							   permissive_name_m_(amanda_utf8towide_1_(exe_fath_z)));
-	return 0;
+     if (if_has_data_use_this_z)
+     {
+          pedro_dprintf(-1, "Ola ricardo, obrigado por usar nossa rotina de ini\n");
+          strncpy_z(exe_fath_z, if_has_data_use_this_z, MAX_PATH);
+     }
+     convert_char_to_wchar_idiot_z(key_arp_z, key_arpw_z);
+     convert_char_to_wchar_idiot_z(data_arp_z, data_w_z);
+     WritePrivateProfileStringW(L"parolin", key_arpw_z, data_w_z,
+                                permissive_name_m_(amanda_utf8towide_1_(exe_fath_z)));
+     return 0;
 }
 
 /**
@@ -1661,14 +1664,14 @@ int old_ini_write(char *key_arp_z, char *data_arp_z, char *if_has_data_use_this_
 int __stdcall get__settings_arp(char *key_arp_z, char *data_arp_z, int output_len_z)
 {
 
-	if (0 > output_len_z)
-	{
-		output_len_z = 0;
-	}
+     if (0 > output_len_z)
+     {
+          output_len_z = 0;
+     }
 
-	read_xml_z(key_arp_z, data_arp_z, output_len_z);
+     read_xml_z(key_arp_z, data_arp_z, output_len_z);
 
-	return 0;
+     return 0;
 }
 /**
  * To save the settings on the ar_tar_process.ini file, it is located
@@ -1685,24 +1688,24 @@ int __stdcall get__settings_arp(char *key_arp_z, char *data_arp_z, int output_le
 int __stdcall save_settings_arp(char *key_arp_z, char *data_arp_z)
 {
 
-	write_xml_z(key_arp_z, data_arp_z);
+     write_xml_z(key_arp_z, data_arp_z);
 
-	return 0;
+     return 0;
 }
 struct my_struct_for_list_ar_is_amanda_update_ //for list only
 {
-	DWORD VAL_attributes;
-	VAL_data VAL_data__arp;
-	__int64 size_of_file_arp;
-	__time64_t VAL_timestamp64;
-	bool has_VAL_struct_arp;
-	char *filename_k;
-	int VAL_is_encrypted;
-	int is_directory_arp;
-	int has_next; //not in use
-	int64_t position_on_file_arp;
-	struct my_struct_for_list_ar_is_amanda_update_ *next_ar;
-	time_t mtime_tv_sec_arp;
+     DWORD VAL_attributes;
+     VAL_data VAL_data__arp;
+     __int64 size_of_file_arp;
+     __time64_t VAL_timestamp64;
+     bool has_VAL_struct_arp;
+     char *filename_k;
+     int VAL_is_encrypted;
+     int is_directory_arp;
+     int has_next; //not in use
+     int64_t position_on_file_arp;
+     struct my_struct_for_list_ar_is_amanda_update_ *next_ar;
+     time_t mtime_tv_sec_arp;
 };
 
 struct my_struct_for_list_ar_is_amanda_update_ *aak_is_amanda_update_;
@@ -1719,82 +1722,82 @@ int has_itens_copy_is_amanda_update_ = 0;
  *
  */
 void add_more_one_is_amanda_update_(
-	char *filename_k_ar,
-	__int64 size_of_file_arp,
-	time_t mtime_tv_sec_arp,
-	int is_directory_arp,
-	__int64 position_on_file_arp,
-	DWORD VAL_attributes,
-	int VAL_is_encrypted,
-	__time64_t VAL_timestamp64,
-	VAL_data *VAL_data__arp)
+    char *filename_k_ar,
+    __int64 size_of_file_arp,
+    time_t mtime_tv_sec_arp,
+    int is_directory_arp,
+    __int64 position_on_file_arp,
+    DWORD VAL_attributes,
+    int VAL_is_encrypted,
+    __time64_t VAL_timestamp64,
+    VAL_data *VAL_data__arp)
 {
-	struct my_struct_for_list_ar_is_amanda_update_ *aak_ptr;
+     struct my_struct_for_list_ar_is_amanda_update_ *aak_ptr;
 
-	if (!has_itens_is_amanda_update_)
-	{
-		aak_is_amanda_update_ = calloc(1, sizeof(struct
-												 my_struct_for_list_ar_is_amanda_update_));
-		aak_inicio_is_amanda_update_ = aak_is_amanda_update_;
-		aak_pointer_is_amanda_update_ = aak_is_amanda_update_;
-		aak_is_amanda_update_->filename_k = malloc(strlen(filename_k_ar) + 1);
+     if (!has_itens_is_amanda_update_)
+     {
+          aak_is_amanda_update_ = calloc(1, sizeof(struct
+                                                   my_struct_for_list_ar_is_amanda_update_));
+          aak_inicio_is_amanda_update_ = aak_is_amanda_update_;
+          aak_pointer_is_amanda_update_ = aak_is_amanda_update_;
+          aak_is_amanda_update_->filename_k = malloc(strlen(filename_k_ar) + 1);
 
-		strcpy(aak_is_amanda_update_->filename_k, filename_k_ar);
+          strcpy(aak_is_amanda_update_->filename_k, filename_k_ar);
 
-		aak_is_amanda_update_->size_of_file_arp = size_of_file_arp;
-		aak_is_amanda_update_->mtime_tv_sec_arp = mtime_tv_sec_arp;
-		aak_is_amanda_update_->next_ar = calloc(1, sizeof(struct
-														  my_struct_for_list_ar_is_amanda_update_));
-		aak_is_amanda_update_->is_directory_arp = is_directory_arp;
-		aak_is_amanda_update_->position_on_file_arp = position_on_file_arp;
-		aak_is_amanda_update_->VAL_attributes = VAL_attributes;
-		aak_is_amanda_update_->VAL_is_encrypted = VAL_is_encrypted;
-		aak_is_amanda_update_->VAL_timestamp64 = VAL_timestamp64;
+          aak_is_amanda_update_->size_of_file_arp = size_of_file_arp;
+          aak_is_amanda_update_->mtime_tv_sec_arp = mtime_tv_sec_arp;
+          aak_is_amanda_update_->next_ar = calloc(1, sizeof(struct
+                                                            my_struct_for_list_ar_is_amanda_update_));
+          aak_is_amanda_update_->is_directory_arp = is_directory_arp;
+          aak_is_amanda_update_->position_on_file_arp = position_on_file_arp;
+          aak_is_amanda_update_->VAL_attributes = VAL_attributes;
+          aak_is_amanda_update_->VAL_is_encrypted = VAL_is_encrypted;
+          aak_is_amanda_update_->VAL_timestamp64 = VAL_timestamp64;
 
-		aak_is_amanda_update_->has_VAL_struct_arp = false;
+          aak_is_amanda_update_->has_VAL_struct_arp = false;
 
-		if (VAL_data__arp)
-		{
-			aak_is_amanda_update_->VAL_data__arp = *VAL_data__arp;
-			aak_is_amanda_update_->has_VAL_struct_arp = true;
-		}
-		has_itens_is_amanda_update_ = 1;
-		has_itens_copy_is_amanda_update_ = has_itens_is_amanda_update_;
+          if (VAL_data__arp)
+          {
+               aak_is_amanda_update_->VAL_data__arp = *VAL_data__arp;
+               aak_is_amanda_update_->has_VAL_struct_arp = true;
+          }
+          has_itens_is_amanda_update_ = 1;
+          has_itens_copy_is_amanda_update_ = has_itens_is_amanda_update_;
 
-		aak_is_amanda_update_ = aak_is_amanda_update_->next_ar;
-	}
-	else
-	{
-		aak_ptr = aak_is_amanda_update_;
-		assert(aak_ptr);
+          aak_is_amanda_update_ = aak_is_amanda_update_->next_ar;
+     }
+     else
+     {
+          aak_ptr = aak_is_amanda_update_;
+          assert(aak_ptr);
 
-		assert(8 < sizeof(struct my_struct_for_list_ar_is_amanda_update_));
+          assert(8 < sizeof(struct my_struct_for_list_ar_is_amanda_update_));
 
-		aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_amanda_update_));
+          aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_amanda_update_));
 
-		aak_ptr->filename_k = malloc(strlen(filename_k_ar) + 1);
+          aak_ptr->filename_k = malloc(strlen(filename_k_ar) + 1);
 
-		strcpy(aak_ptr->filename_k, filename_k_ar);
-		aak_ptr->size_of_file_arp = size_of_file_arp;
-		aak_ptr->mtime_tv_sec_arp = mtime_tv_sec_arp;
-		aak_ptr->is_directory_arp = is_directory_arp;
-		aak_ptr->position_on_file_arp = position_on_file_arp;
-		aak_ptr->VAL_attributes = VAL_attributes;
-		aak_ptr->VAL_is_encrypted = VAL_is_encrypted;
-		aak_ptr->VAL_timestamp64 = VAL_timestamp64;
+          strcpy(aak_ptr->filename_k, filename_k_ar);
+          aak_ptr->size_of_file_arp = size_of_file_arp;
+          aak_ptr->mtime_tv_sec_arp = mtime_tv_sec_arp;
+          aak_ptr->is_directory_arp = is_directory_arp;
+          aak_ptr->position_on_file_arp = position_on_file_arp;
+          aak_ptr->VAL_attributes = VAL_attributes;
+          aak_ptr->VAL_is_encrypted = VAL_is_encrypted;
+          aak_ptr->VAL_timestamp64 = VAL_timestamp64;
 
-		aak_ptr->has_VAL_struct_arp = false;
+          aak_ptr->has_VAL_struct_arp = false;
 
-		if (VAL_data__arp)
-		{
-			aak_ptr->VAL_data__arp = *VAL_data__arp;
-			aak_ptr->has_VAL_struct_arp = true;
-		}
+          if (VAL_data__arp)
+          {
+               aak_ptr->VAL_data__arp = *VAL_data__arp;
+               aak_ptr->has_VAL_struct_arp = true;
+          }
 
-		aak_is_amanda_update_ = aak_ptr->next_ar;
-		has_itens_is_amanda_update_++;
-		has_itens_copy_is_amanda_update_ = has_itens_is_amanda_update_;
-	}
+          aak_is_amanda_update_ = aak_ptr->next_ar;
+          has_itens_is_amanda_update_++;
+          has_itens_copy_is_amanda_update_ = has_itens_is_amanda_update_;
+     }
 }
 
 int clean_list__ar_is_amanda_update_(void);
@@ -1805,15 +1808,15 @@ int clean_list__ar_is_amanda_update_(void);
  */
 int clean_list_itens_is_amanda_update_(void)
 {
-	if (!has_itens_copy_is_amanda_update_)
-	{
-		clean_list__ar_is_amanda_update_();
-		return 0;
-	}
-	aak_pointer_is_amanda_update_ = aak_pointer_is_amanda_update_->next_ar;
-	has_itens_copy_is_amanda_update_--;
-	assert(has_itens_copy_is_amanda_update_ >= 0);
-	return 1;
+     if (!has_itens_copy_is_amanda_update_)
+     {
+          clean_list__ar_is_amanda_update_();
+          return 0;
+     }
+     aak_pointer_is_amanda_update_ = aak_pointer_is_amanda_update_->next_ar;
+     has_itens_copy_is_amanda_update_--;
+     assert(has_itens_copy_is_amanda_update_ >= 0);
+     return 1;
 }
 
 /**
@@ -1822,43 +1825,43 @@ int clean_list_itens_is_amanda_update_(void)
  */
 int clean_list__ar_is_amanda_update_(void)
 {
-	struct my_struct_for_list_ar_is_amanda_update_ *my_ptr_ar;
+     struct my_struct_for_list_ar_is_amanda_update_ *my_ptr_ar;
 
-	struct my_struct_for_list_ar_is_amanda_update_ *my_ptr2_ar;
+     struct my_struct_for_list_ar_is_amanda_update_ *my_ptr2_ar;
 
-	my_ptr2_ar = aak_inicio_is_amanda_update_;
-	my_ptr_ar = aak_inicio_is_amanda_update_;
+     my_ptr2_ar = aak_inicio_is_amanda_update_;
+     my_ptr_ar = aak_inicio_is_amanda_update_;
 inicio_ar:;
-	if (!has_itens_is_amanda_update_)
-	{
-		has_itens_copy_is_amanda_update_ = 0;
-		return 0;
-	}
-	my_ptr2_ar = my_ptr_ar;
-	my_ptr_ar = my_ptr_ar->next_ar;
-	if (1 == has_itens_is_amanda_update_)
-	{
-		free(my_ptr2_ar->next_ar);
-	}
-	free(my_ptr2_ar->filename_k);
-	free(my_ptr2_ar);
-	has_itens_is_amanda_update_--;
-	goto inicio_ar;
-	return 1;
+     if (!has_itens_is_amanda_update_)
+     {
+          has_itens_copy_is_amanda_update_ = 0;
+          return 0;
+     }
+     my_ptr2_ar = my_ptr_ar;
+     my_ptr_ar = my_ptr_ar->next_ar;
+     if (1 == has_itens_is_amanda_update_)
+     {
+          free(my_ptr2_ar->next_ar);
+     }
+     free(my_ptr2_ar->filename_k);
+     free(my_ptr2_ar);
+     has_itens_is_amanda_update_--;
+     goto inicio_ar;
+     return 1;
 }
 
 enum amanda_commands
 {
-	AAKP_CLEAR,
-	AAKP_LIST_PROCESS,
-	AAKP_LIST_FINISH,
-	AAKP_EXTRACT_PROCESS,
-	AAKP_EXTRACT_FINISH,
-	AAKP_ERROR,
-	AAKP_CREATE_ERROR,
-	AAKP_CREATE_WARNING,
-	AAKP_CREATE_FINISH,
-	AAKP_CREATE_PROCESS
+     AAKP_CLEAR,
+     AAKP_LIST_PROCESS,
+     AAKP_LIST_FINISH,
+     AAKP_EXTRACT_PROCESS,
+     AAKP_EXTRACT_FINISH,
+     AAKP_ERROR,
+     AAKP_CREATE_ERROR,
+     AAKP_CREATE_WARNING,
+     AAKP_CREATE_FINISH,
+     AAKP_CREATE_PROCESS
 };
 
 HMODULE my_gzip_dll = NULL;
@@ -1953,7 +1956,7 @@ cancel_lzma_aakp_lzma_ar cancel_lzma_aakp_lzma_ar_func = NULL;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef int(__stdcall *compress_xz___rspk_ar)(char *Inputfile, char *OutPutFile, int CompressionLevel,
-											  int threads____z);
+                                              int threads____z);
 compress_xz___rspk_ar compress_xz___rspk_ar_func = NULL;
 typedef int(__stdcall *uncompress_xz___rspk_ar)(char *Inputfile, char *OutPutFile);
 uncompress_xz___rspk_ar uncompress_xz___rspk_ar_func = NULL;
@@ -2150,18 +2153,18 @@ char extracting_filename_ar[AMANDA__SIZE];
 char warning_info[AMANDA__SIZE];
 
 void __stdcall get_tar_info_ar(
-	int *Isdir_k_ar,
-	int *Second_k_ar,
-	int *Minute_k_ar,
-	int *Hour_k_ar,
-	int *Year_k_ar,
-	int *Month_k_ar,
-	int *Day_k_ar,
-	__int64 *Size_k_ar,
-	char *filename_k_ar,
-	int *Numdir_k_ar,
-	int *Numfiles_k_ar,
-	char *typeflag_ar_);
+    int *Isdir_k_ar,
+    int *Second_k_ar,
+    int *Minute_k_ar,
+    int *Hour_k_ar,
+    int *Year_k_ar,
+    int *Month_k_ar,
+    int *Day_k_ar,
+    __int64 *Size_k_ar,
+    char *filename_k_ar,
+    int *Numdir_k_ar,
+    int *Numfiles_k_ar,
+    char *typeflag_ar_);
 
 /**
  * To get the file size, filename is utf-8
@@ -2175,37 +2178,37 @@ void __stdcall get_tar_info_ar(
 __int64
 getfilesize_ar(char *infile_ar)
 {
-	__int64 ret;
-	FILE *myfile;
+     __int64 ret;
+     FILE *myfile;
 
-	if ((myfile = _wfopen(permissive_name_m_(amanda_utf8towide_1_(infile_ar)), L"rb")) == NULL)
-	{
-		return 0;
-	}
-	ret = _fseeki64(myfile, 0, SEEK_END);
-	ret = _ftelli64(myfile);
-	fclose(myfile);
-	return ret;
+     if ((myfile = _wfopen(permissive_name_m_(amanda_utf8towide_1_(infile_ar)), L"rb")) == NULL)
+     {
+          return 0;
+     }
+     ret = _fseeki64(myfile, 0, SEEK_END);
+     ret = _ftelli64(myfile);
+     fclose(myfile);
+     return ret;
 }
 
 #pragma pack(push, 1)
 
 struct my_struct_for_list_ar_is_list_ //for list only
 {
-	__int64 Size_k;
-	char *filename_k;
-	char *typeflag_ar_;
-	int Day_k;
-	int Hour_k;
-	int Isdir_k;
-	int Minute_k;
-	int Month_k;
-	int Numdir_k;
-	int Numfiles_k;
-	int Second_k;
-	int Year_k;
-	int has_next; //not in use
-	struct my_struct_for_list_ar_is_list_ *next_ar;
+     __int64 Size_k;
+     char *filename_k;
+     char *typeflag_ar_;
+     int Day_k;
+     int Hour_k;
+     int Isdir_k;
+     int Minute_k;
+     int Month_k;
+     int Numdir_k;
+     int Numfiles_k;
+     int Second_k;
+     int Year_k;
+     int has_next; //not in use
+     struct my_struct_for_list_ar_is_list_ *next_ar;
 };
 
 #pragma pack(pop)
@@ -2225,77 +2228,77 @@ int has_itens_copy_is_list_ = 0;
  *
  */
 void add_more_one_is_list_(
-	int Isdir_k_ar,
-	int Second_k_ar,
-	int Minute_k_ar,
-	int Hour_k_ar,
-	int Year_k_ar,
-	int Month_k_ar,
-	int Day_k_ar,
-	__int64 Size_k_ar,
-	char *filename_k_ar,
-	int Numdir_k_ar,
-	int Numfiles_k_ar,
-	char *typeflag_ar_)
+    int Isdir_k_ar,
+    int Second_k_ar,
+    int Minute_k_ar,
+    int Hour_k_ar,
+    int Year_k_ar,
+    int Month_k_ar,
+    int Day_k_ar,
+    __int64 Size_k_ar,
+    char *filename_k_ar,
+    int Numdir_k_ar,
+    int Numfiles_k_ar,
+    char *typeflag_ar_)
 {
-	struct my_struct_for_list_ar_is_list_ *aak_ptr;
+     struct my_struct_for_list_ar_is_list_ *aak_ptr;
 
-	if (!has_itens_is_list_)
-	{
-		aak_is_list_ = calloc(1, sizeof(struct my_struct_for_list_ar_is_list_));
-		aak_inicio_is_list_ = aak_is_list_;
-		aak_pointer_is_list_ = aak_is_list_;
-		aak_is_list_->filename_k = malloc(strlen(filename_k_ar) + 1);
-		aak_is_list_->typeflag_ar_ = malloc(strlen(typeflag_ar_) + 1);
+     if (!has_itens_is_list_)
+     {
+          aak_is_list_ = calloc(1, sizeof(struct my_struct_for_list_ar_is_list_));
+          aak_inicio_is_list_ = aak_is_list_;
+          aak_pointer_is_list_ = aak_is_list_;
+          aak_is_list_->filename_k = malloc(strlen(filename_k_ar) + 1);
+          aak_is_list_->typeflag_ar_ = malloc(strlen(typeflag_ar_) + 1);
 
-		strcpy(aak_is_list_->filename_k, filename_k_ar);
-		strcpy(aak_is_list_->typeflag_ar_, typeflag_ar_);
+          strcpy(aak_is_list_->filename_k, filename_k_ar);
+          strcpy(aak_is_list_->typeflag_ar_, typeflag_ar_);
 
-		aak_is_list_->Isdir_k = Isdir_k_ar;
-		aak_is_list_->Second_k = Second_k_ar;
-		aak_is_list_->Minute_k = Minute_k_ar;
-		aak_is_list_->Hour_k = Hour_k_ar;
-		aak_is_list_->Year_k = Year_k_ar;
-		aak_is_list_->Month_k = Month_k_ar;
-		aak_is_list_->Day_k = Day_k_ar;
-		aak_is_list_->Size_k = Size_k_ar;
-		aak_is_list_->Numdir_k = Numdir_k_ar;
-		aak_is_list_->Numfiles_k = Numfiles_k_ar;
+          aak_is_list_->Isdir_k = Isdir_k_ar;
+          aak_is_list_->Second_k = Second_k_ar;
+          aak_is_list_->Minute_k = Minute_k_ar;
+          aak_is_list_->Hour_k = Hour_k_ar;
+          aak_is_list_->Year_k = Year_k_ar;
+          aak_is_list_->Month_k = Month_k_ar;
+          aak_is_list_->Day_k = Day_k_ar;
+          aak_is_list_->Size_k = Size_k_ar;
+          aak_is_list_->Numdir_k = Numdir_k_ar;
+          aak_is_list_->Numfiles_k = Numfiles_k_ar;
 
-		aak_is_list_->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_list_));
-		has_itens_is_list_ = 1;
-		has_itens_copy_is_list_ = has_itens_is_list_;
+          aak_is_list_->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_list_));
+          has_itens_is_list_ = 1;
+          has_itens_copy_is_list_ = has_itens_is_list_;
 
-		aak_is_list_ = aak_is_list_->next_ar;
-	}
-	else
-	{
-		aak_ptr = aak_is_list_;
-		assert(aak_ptr);
+          aak_is_list_ = aak_is_list_->next_ar;
+     }
+     else
+     {
+          aak_ptr = aak_is_list_;
+          assert(aak_ptr);
 
-		assert(8 < sizeof(struct my_struct_for_list_ar_is_list_));
+          assert(8 < sizeof(struct my_struct_for_list_ar_is_list_));
 
-		aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_list_));
+          aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_list_));
 
-		aak_ptr->filename_k = malloc(strlen(filename_k_ar) + 1);
-		aak_ptr->typeflag_ar_ = malloc(strlen(typeflag_ar_) + 1);
+          aak_ptr->filename_k = malloc(strlen(filename_k_ar) + 1);
+          aak_ptr->typeflag_ar_ = malloc(strlen(typeflag_ar_) + 1);
 
-		strcpy(aak_ptr->filename_k, filename_k_ar);
-		strcpy(aak_ptr->typeflag_ar_, typeflag_ar_);
-		aak_ptr->Isdir_k = Isdir_k_ar;
-		aak_ptr->Second_k = Second_k_ar;
-		aak_ptr->Minute_k = Minute_k_ar;
-		aak_ptr->Hour_k = Hour_k_ar;
-		aak_ptr->Year_k = Year_k_ar;
-		aak_ptr->Month_k = Month_k_ar;
-		aak_ptr->Day_k = Day_k_ar;
-		aak_ptr->Size_k = Size_k_ar;
-		aak_ptr->Numdir_k = Numdir_k_ar;
-		aak_ptr->Numfiles_k = Numfiles_k_ar;
-		aak_is_list_ = aak_ptr->next_ar;
-		has_itens_is_list_++;
-		has_itens_copy_is_list_ = has_itens_is_list_;
-	}
+          strcpy(aak_ptr->filename_k, filename_k_ar);
+          strcpy(aak_ptr->typeflag_ar_, typeflag_ar_);
+          aak_ptr->Isdir_k = Isdir_k_ar;
+          aak_ptr->Second_k = Second_k_ar;
+          aak_ptr->Minute_k = Minute_k_ar;
+          aak_ptr->Hour_k = Hour_k_ar;
+          aak_ptr->Year_k = Year_k_ar;
+          aak_ptr->Month_k = Month_k_ar;
+          aak_ptr->Day_k = Day_k_ar;
+          aak_ptr->Size_k = Size_k_ar;
+          aak_ptr->Numdir_k = Numdir_k_ar;
+          aak_ptr->Numfiles_k = Numfiles_k_ar;
+          aak_is_list_ = aak_ptr->next_ar;
+          has_itens_is_list_++;
+          has_itens_copy_is_list_ = has_itens_is_list_;
+     }
 }
 
 int clean_list__ar_is_list_(void);
@@ -2308,15 +2311,15 @@ int clean_list__ar_is_list_(void);
  */
 int clean_list_itens_is_list_(void)
 {
-	if (!has_itens_copy_is_list_)
-	{
-		clean_list__ar_is_list_();
-		return 0;
-	}
-	aak_pointer_is_list_ = aak_pointer_is_list_->next_ar;
-	has_itens_copy_is_list_--;
-	assert(has_itens_copy_is_list_ >= 0);
-	return 1;
+     if (!has_itens_copy_is_list_)
+     {
+          clean_list__ar_is_list_();
+          return 0;
+     }
+     aak_pointer_is_list_ = aak_pointer_is_list_->next_ar;
+     has_itens_copy_is_list_--;
+     assert(has_itens_copy_is_list_ >= 0);
+     return 1;
 }
 
 /**
@@ -2328,47 +2331,47 @@ int clean_list_itens_is_list_(void)
  *
  */
 int __stdcall get_list__itens__is_list_(
-	char *filename_k_ar,
-	char *typeflag_ar_,
-	int *Isdir_k_ar,
-	int *Second_k_ar,
-	int *Minute_k_ar,
-	int *Hour_k_ar,
-	int *Year_k_ar,
-	int *Month_k_ar,
-	int *Day_k_ar,
-	int64_t *Size_k_ar,
-	int *Numdir_k_ar,
-	int *Numfiles_k_ar,
-	int output_len_z)
+    char *filename_k_ar,
+    char *typeflag_ar_,
+    int *Isdir_k_ar,
+    int *Second_k_ar,
+    int *Minute_k_ar,
+    int *Hour_k_ar,
+    int *Year_k_ar,
+    int *Month_k_ar,
+    int *Day_k_ar,
+    int64_t *Size_k_ar,
+    int *Numdir_k_ar,
+    int *Numfiles_k_ar,
+    int output_len_z)
 {
-	mode_is_list_arp = true;
-	filename_k_ar[0] = 0;
-	typeflag_ar_[0] = 0;
-	if (!has_itens_copy_is_list_)
-	{
-		clean_list__ar_is_list_();
-		return 0;
-	}
+     mode_is_list_arp = true;
+     filename_k_ar[0] = 0;
+     typeflag_ar_[0] = 0;
+     if (!has_itens_copy_is_list_)
+     {
+          clean_list__ar_is_list_();
+          return 0;
+     }
 
-	strncpy_z(filename_k_ar, aak_pointer_is_list_->filename_k, output_len_z);
-	strncpy_z(typeflag_ar_, aak_pointer_is_list_->typeflag_ar_, output_len_z);
+     strncpy_z(filename_k_ar, aak_pointer_is_list_->filename_k, output_len_z);
+     strncpy_z(typeflag_ar_, aak_pointer_is_list_->typeflag_ar_, output_len_z);
 
-	*Isdir_k_ar = aak_pointer_is_list_->Isdir_k;
-	*Second_k_ar = aak_pointer_is_list_->Second_k;
-	*Minute_k_ar = aak_pointer_is_list_->Minute_k;
-	*Hour_k_ar = aak_pointer_is_list_->Hour_k;
-	*Year_k_ar = aak_pointer_is_list_->Year_k;
-	*Month_k_ar = aak_pointer_is_list_->Month_k;
-	*Day_k_ar = aak_pointer_is_list_->Day_k;
-	*Size_k_ar = aak_pointer_is_list_->Size_k;
-	*Numdir_k_ar = aak_pointer_is_list_->Numdir_k;
-	*Numfiles_k_ar = aak_pointer_is_list_->Numfiles_k;
+     *Isdir_k_ar = aak_pointer_is_list_->Isdir_k;
+     *Second_k_ar = aak_pointer_is_list_->Second_k;
+     *Minute_k_ar = aak_pointer_is_list_->Minute_k;
+     *Hour_k_ar = aak_pointer_is_list_->Hour_k;
+     *Year_k_ar = aak_pointer_is_list_->Year_k;
+     *Month_k_ar = aak_pointer_is_list_->Month_k;
+     *Day_k_ar = aak_pointer_is_list_->Day_k;
+     *Size_k_ar = aak_pointer_is_list_->Size_k;
+     *Numdir_k_ar = aak_pointer_is_list_->Numdir_k;
+     *Numfiles_k_ar = aak_pointer_is_list_->Numfiles_k;
 
-	aak_pointer_is_list_ = aak_pointer_is_list_->next_ar;
-	has_itens_copy_is_list_--;
-	assert(has_itens_copy_is_list_ >= 0);
-	return 1;
+     aak_pointer_is_list_ = aak_pointer_is_list_->next_ar;
+     has_itens_copy_is_list_--;
+     assert(has_itens_copy_is_list_ >= 0);
+     return 1;
 }
 /**
  * To cleanup the linked list when it is not in use anymore
@@ -2377,44 +2380,44 @@ int __stdcall get_list__itens__is_list_(
  */
 int clean_list__ar_is_list_(void)
 {
-	struct my_struct_for_list_ar_is_list_ *my_ptr_ar;
-	struct my_struct_for_list_ar_is_list_ *my_ptr2_ar;
+     struct my_struct_for_list_ar_is_list_ *my_ptr_ar;
+     struct my_struct_for_list_ar_is_list_ *my_ptr2_ar;
 
-	my_ptr2_ar = aak_inicio_is_list_;
-	my_ptr_ar = aak_inicio_is_list_;
+     my_ptr2_ar = aak_inicio_is_list_;
+     my_ptr_ar = aak_inicio_is_list_;
 inicio_ar:;
-	if (!has_itens_is_list_)
-	{
-		has_itens_copy_is_list_ = 0;
-		return 0;
-	}
-	my_ptr2_ar = my_ptr_ar;
-	my_ptr_ar = my_ptr_ar->next_ar;
+     if (!has_itens_is_list_)
+     {
+          has_itens_copy_is_list_ = 0;
+          return 0;
+     }
+     my_ptr2_ar = my_ptr_ar;
+     my_ptr_ar = my_ptr_ar->next_ar;
 
-	if (1 == has_itens_is_list_)
-	{
-		;
-		free(my_ptr2_ar->next_ar);
-	}
-	free(my_ptr2_ar->filename_k);
-	free(my_ptr2_ar->typeflag_ar_);
-	free(my_ptr2_ar);
+     if (1 == has_itens_is_list_)
+     {
+          ;
+          free(my_ptr2_ar->next_ar);
+     }
+     free(my_ptr2_ar->filename_k);
+     free(my_ptr2_ar->typeflag_ar_);
+     free(my_ptr2_ar);
 
-	has_itens_is_list_--;
+     has_itens_is_list_--;
 
-	goto inicio_ar;
-	return 1;
+     goto inicio_ar;
+     return 1;
 }
 
 #pragma pack(push, 1)
 
 struct my_struct_for_list_ar_is_extract_ //for list only
 {
-	char *extracting_filename_ar_;
-	char *creating_folder_maria_;
-	char *warning_info_;
-	int has_next;
-	struct my_struct_for_list_ar_is_extract_ *next_ar;
+     char *extracting_filename_ar_;
+     char *creating_folder_maria_;
+     char *warning_info_;
+     int has_next;
+     struct my_struct_for_list_ar_is_extract_ *next_ar;
 };
 
 #pragma pack(pop)
@@ -2433,44 +2436,44 @@ int has_itens_copy_is_extract_ = 0;
  *
  */
 void add_more_one_is_extract_(
-	char *extracting_filename_ar__,
-	char *warning_info_ar_,
-	char *creating_folder_maria__)
+    char *extracting_filename_ar__,
+    char *warning_info_ar_,
+    char *creating_folder_maria__)
 {
-	struct my_struct_for_list_ar_is_extract_ *aak_ptr;
+     struct my_struct_for_list_ar_is_extract_ *aak_ptr;
 
-	if (!has_itens_is_extract_)
-	{
-		aak_is_extract_ = calloc(1, sizeof(struct my_struct_for_list_ar_is_extract_));
-		aak_inicio_is_extract_ = aak_is_extract_;
-		aak_pointer_is_extract_ = aak_is_extract_;
-		aak_is_extract_->extracting_filename_ar_ = malloc(strlen(extracting_filename_ar__) + 1);
-		aak_is_extract_->warning_info_ = malloc(strlen(warning_info_ar_) + 1);
-		aak_is_extract_->creating_folder_maria_ = malloc(strlen(creating_folder_maria__) + 1);
-		strcpy(aak_is_extract_->extracting_filename_ar_, extracting_filename_ar__);
-		strcpy(aak_is_extract_->warning_info_, warning_info_ar_);
-		strcpy(aak_is_extract_->creating_folder_maria_, creating_folder_maria__);
-		aak_is_extract_->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_extract_));
-		has_itens_is_extract_ = 1;
-		has_itens_copy_is_extract_ = has_itens_is_extract_;
-		aak_is_extract_ = aak_is_extract_->next_ar;
-	}
-	else
-	{
-		aak_ptr = aak_is_extract_;
-		assert(aak_ptr);
-		assert(8 < sizeof(struct my_struct_for_list_ar_is_extract_));
-		aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_extract_));
-		aak_ptr->extracting_filename_ar_ = malloc(strlen(extracting_filename_ar__) + 1);
-		aak_ptr->warning_info_ = malloc(strlen(warning_info_ar_) + 1);
-		aak_ptr->creating_folder_maria_ = malloc(strlen(creating_folder_maria__) + 1);
-		strcpy(aak_ptr->extracting_filename_ar_, extracting_filename_ar__);
-		strcpy(aak_ptr->warning_info_, warning_info_ar_);
-		strcpy(aak_ptr->creating_folder_maria_, creating_folder_maria__);
-		aak_is_extract_ = aak_ptr->next_ar;
-		has_itens_is_extract_++;
-		has_itens_copy_is_extract_ = has_itens_is_extract_;
-	}
+     if (!has_itens_is_extract_)
+     {
+          aak_is_extract_ = calloc(1, sizeof(struct my_struct_for_list_ar_is_extract_));
+          aak_inicio_is_extract_ = aak_is_extract_;
+          aak_pointer_is_extract_ = aak_is_extract_;
+          aak_is_extract_->extracting_filename_ar_ = malloc(strlen(extracting_filename_ar__) + 1);
+          aak_is_extract_->warning_info_ = malloc(strlen(warning_info_ar_) + 1);
+          aak_is_extract_->creating_folder_maria_ = malloc(strlen(creating_folder_maria__) + 1);
+          strcpy(aak_is_extract_->extracting_filename_ar_, extracting_filename_ar__);
+          strcpy(aak_is_extract_->warning_info_, warning_info_ar_);
+          strcpy(aak_is_extract_->creating_folder_maria_, creating_folder_maria__);
+          aak_is_extract_->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_extract_));
+          has_itens_is_extract_ = 1;
+          has_itens_copy_is_extract_ = has_itens_is_extract_;
+          aak_is_extract_ = aak_is_extract_->next_ar;
+     }
+     else
+     {
+          aak_ptr = aak_is_extract_;
+          assert(aak_ptr);
+          assert(8 < sizeof(struct my_struct_for_list_ar_is_extract_));
+          aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_extract_));
+          aak_ptr->extracting_filename_ar_ = malloc(strlen(extracting_filename_ar__) + 1);
+          aak_ptr->warning_info_ = malloc(strlen(warning_info_ar_) + 1);
+          aak_ptr->creating_folder_maria_ = malloc(strlen(creating_folder_maria__) + 1);
+          strcpy(aak_ptr->extracting_filename_ar_, extracting_filename_ar__);
+          strcpy(aak_ptr->warning_info_, warning_info_ar_);
+          strcpy(aak_ptr->creating_folder_maria_, creating_folder_maria__);
+          aak_is_extract_ = aak_ptr->next_ar;
+          has_itens_is_extract_++;
+          has_itens_copy_is_extract_ = has_itens_is_extract_;
+     }
 }
 /**
  * To get the progress value for the ListView being populated
@@ -2480,24 +2483,24 @@ void add_more_one_is_extract_(
  */
 int __stdcall get_listview_progress_arp(void)
 {
-	int ret_arp = 0;
+     int ret_arp = 0;
 
-	if (mode_is_list_arp)
-	{
-		ret_arp = (10000 - (getpor_10000_int64_t_ar(has_itens_is_list_, has_itens_copy_is_list_)));
-	}
-	else
-	{
-		ret_arp = (10000 - (getpor_10000_int64_t_ar(has_itens_is_extract_, has_itens_copy_is_extract_)));
-	}
+     if (mode_is_list_arp)
+     {
+          ret_arp = (10000 - (getpor_10000_int64_t_ar(has_itens_is_list_, has_itens_copy_is_list_)));
+     }
+     else
+     {
+          ret_arp = (10000 - (getpor_10000_int64_t_ar(has_itens_is_extract_, has_itens_copy_is_extract_)));
+     }
 
-	if (0 > ret_arp)
-		ret_arp = 0;
+     if (0 > ret_arp)
+          ret_arp = 0;
 
-	if (10000 < ret_arp)
-		ret_arp = 10000;
+     if (10000 < ret_arp)
+          ret_arp = 10000;
 
-	return ret_arp;
+     return ret_arp;
 }
 
 int clean_list__ar_is_extract_(void);
@@ -2509,16 +2512,16 @@ int clean_list__ar_is_extract_(void);
  */
 int get_list_itens_is_extract_()
 {
-	if (!has_itens_copy_is_extract_)
-	{
-		clean_list__ar_is_extract_();
-		return 0;
-	}
+     if (!has_itens_copy_is_extract_)
+     {
+          clean_list__ar_is_extract_();
+          return 0;
+     }
 
-	aak_pointer_is_extract_ = aak_pointer_is_extract_->next_ar;
-	has_itens_copy_is_extract_--;
-	assert(has_itens_copy_is_extract_ >= 0);
-	return 1;
+     aak_pointer_is_extract_ = aak_pointer_is_extract_->next_ar;
+     has_itens_copy_is_extract_--;
+     assert(has_itens_copy_is_extract_ >= 0);
+     return 1;
 }
 /**
  * To get one item from the linked list
@@ -2530,23 +2533,23 @@ int get_list_itens_is_extract_()
  */
 int __stdcall get_last_process_information_ar_is_extract_(char *extracting_filename_ar__, char *creating_folder_maria__, char *warning_info__, int *Folders_ar, int *Files_ar)
 {
-	*Folders_ar = folders_ar;
-	*Files_ar = files_ar;
-	mode_is_list_arp = false;
-	extracting_filename_ar__[0] = 0;
-	warning_info__[0] = 0;
-	if (!has_itens_copy_is_extract_)
-	{
-		clean_list__ar_is_extract_();
-		return 0;
-	}
-	strncpy_z(extracting_filename_ar__, aak_pointer_is_extract_->extracting_filename_ar_, 1026);
-	strncpy_z(warning_info__, aak_pointer_is_extract_->warning_info_, 1026);
-	strncpy_z(creating_folder_maria__, aak_pointer_is_extract_->creating_folder_maria_, 1026);
-	aak_pointer_is_extract_ = aak_pointer_is_extract_->next_ar;
-	has_itens_copy_is_extract_--;
-	assert(has_itens_copy_is_extract_ >= 0);
-	return 1;
+     *Folders_ar = folders_ar;
+     *Files_ar = files_ar;
+     mode_is_list_arp = false;
+     extracting_filename_ar__[0] = 0;
+     warning_info__[0] = 0;
+     if (!has_itens_copy_is_extract_)
+     {
+          clean_list__ar_is_extract_();
+          return 0;
+     }
+     strncpy_z(extracting_filename_ar__, aak_pointer_is_extract_->extracting_filename_ar_, 1026);
+     strncpy_z(warning_info__, aak_pointer_is_extract_->warning_info_, 1026);
+     strncpy_z(creating_folder_maria__, aak_pointer_is_extract_->creating_folder_maria_, 1026);
+     aak_pointer_is_extract_ = aak_pointer_is_extract_->next_ar;
+     has_itens_copy_is_extract_--;
+     assert(has_itens_copy_is_extract_ >= 0);
+     return 1;
 }
 /**
  * To cleanup the linked list
@@ -2556,29 +2559,29 @@ int __stdcall get_last_process_information_ar_is_extract_(char *extracting_filen
  */
 int clean_list__ar_is_extract_(void)
 {
-	struct my_struct_for_list_ar_is_extract_ *my_ptr_ar;
-	struct my_struct_for_list_ar_is_extract_ *my_ptr2_ar;
-	my_ptr2_ar = aak_inicio_is_extract_;
-	my_ptr_ar = aak_inicio_is_extract_;
+     struct my_struct_for_list_ar_is_extract_ *my_ptr_ar;
+     struct my_struct_for_list_ar_is_extract_ *my_ptr2_ar;
+     my_ptr2_ar = aak_inicio_is_extract_;
+     my_ptr_ar = aak_inicio_is_extract_;
 inicio_ar:;
-	if (!has_itens_is_extract_)
-	{
-		has_itens_copy_is_extract_ = 0;
-		return 0;
-	}
-	my_ptr2_ar = my_ptr_ar;
-	my_ptr_ar = my_ptr_ar->next_ar;
-	if (1 == has_itens_is_extract_)
-	{
-		free(my_ptr2_ar->next_ar);
-	}
-	free(my_ptr2_ar->extracting_filename_ar_);
-	free(my_ptr2_ar->warning_info_);
-	free(my_ptr2_ar->creating_folder_maria_);
-	free(my_ptr2_ar);
-	has_itens_is_extract_--;
-	goto inicio_ar;
-	return 1;
+     if (!has_itens_is_extract_)
+     {
+          has_itens_copy_is_extract_ = 0;
+          return 0;
+     }
+     my_ptr2_ar = my_ptr_ar;
+     my_ptr_ar = my_ptr_ar->next_ar;
+     if (1 == has_itens_is_extract_)
+     {
+          free(my_ptr2_ar->next_ar);
+     }
+     free(my_ptr2_ar->extracting_filename_ar_);
+     free(my_ptr2_ar->warning_info_);
+     free(my_ptr2_ar->creating_folder_maria_);
+     free(my_ptr2_ar);
+     has_itens_is_extract_--;
+     goto inicio_ar;
+     return 1;
 }
 /**
  * Function to control the extraction flags and calls to the required functions
@@ -2590,25 +2593,25 @@ inicio_ar:;
  */
 int __stdcall extract_function_ar_ok(int clear_flag_k)
 {
-	switch (clear_flag_k)
-	{
-	case AAKP_CLEAR:
-		while (get_list_itens_is_extract_())
-		{
-			;
-		}
-		break;
-	case AAKP_EXTRACT_PROCESS:
-	{
-		add_more_one_is_extract_(
-			extracting_filename_ar,
-			warning_info,
-			creating_folder_maria);
-		//exit(27);
-	}
-	break;
-	}
-	return 0;
+     switch (clear_flag_k)
+     {
+     case AAKP_CLEAR:
+          while (get_list_itens_is_extract_())
+          {
+               ;
+          }
+          break;
+     case AAKP_EXTRACT_PROCESS:
+     {
+          add_more_one_is_extract_(
+              extracting_filename_ar,
+              warning_info,
+              creating_folder_maria);
+          //exit(27);
+     }
+     break;
+     }
+     return 0;
 }
 /**
  * Function to control the list process
@@ -2620,61 +2623,61 @@ int __stdcall extract_function_ar_ok(int clear_flag_k)
  */
 int __stdcall list_function_ar_ok(int clear_flag_k)
 {
-	switch (clear_flag_k)
-	{
-	case AAKP_CLEAR:
-		while (clean_list_itens_is_list_())
-		{
-			;
-		}
-		break;
-	case AAKP_LIST_PROCESS:
-	{
-		int Isdir_k_ar;
-		int Second_k_ar;
-		int Minute_k_ar;
-		int Hour_k_ar;
-		int Year_k_ar;
-		int Month_k_ar;
-		int Day_k_ar;
-		__int64 Size_k_ar;
-		static char filename_k_ar[AMANDA__SIZE];
-		int Numdir_k_ar;
-		int Numfiles_k_ar;
-		static char typeflag_ar_[1024];
-		get_tar_info_ar(
-			&Isdir_k_ar,
-			&Second_k_ar,
-			&Minute_k_ar,
-			&Hour_k_ar,
-			&Year_k_ar,
-			&Month_k_ar,
-			&Day_k_ar,
-			&Size_k_ar,
-			filename_k_ar,
-			&Numdir_k_ar,
-			&Numfiles_k_ar,
-			typeflag_ar_);
-		numero_de_itens = Numdir_k_ar + Numfiles_k_ar;
-		folders_ar = Numdir_k_ar;
-		files_ar = Numfiles_k_ar;
-		add_more_one_is_list_(
-			Isdir_k_ar,
-			Second_k_ar,
-			Minute_k_ar,
-			Hour_k_ar,
-			Year_k_ar,
-			Month_k_ar,
-			Day_k_ar,
-			Size_k_ar,
-			filename_k_ar,
-			Numdir_k_ar,
-			Numfiles_k_ar,
-			typeflag_ar_);
-	}
-	break;
-	}
-	return 0;
+     switch (clear_flag_k)
+     {
+     case AAKP_CLEAR:
+          while (clean_list_itens_is_list_())
+          {
+               ;
+          }
+          break;
+     case AAKP_LIST_PROCESS:
+     {
+          int Isdir_k_ar;
+          int Second_k_ar;
+          int Minute_k_ar;
+          int Hour_k_ar;
+          int Year_k_ar;
+          int Month_k_ar;
+          int Day_k_ar;
+          __int64 Size_k_ar;
+          static char filename_k_ar[AMANDA__SIZE];
+          int Numdir_k_ar;
+          int Numfiles_k_ar;
+          static char typeflag_ar_[1024];
+          get_tar_info_ar(
+              &Isdir_k_ar,
+              &Second_k_ar,
+              &Minute_k_ar,
+              &Hour_k_ar,
+              &Year_k_ar,
+              &Month_k_ar,
+              &Day_k_ar,
+              &Size_k_ar,
+              filename_k_ar,
+              &Numdir_k_ar,
+              &Numfiles_k_ar,
+              typeflag_ar_);
+          numero_de_itens = Numdir_k_ar + Numfiles_k_ar;
+          folders_ar = Numdir_k_ar;
+          files_ar = Numfiles_k_ar;
+          add_more_one_is_list_(
+              Isdir_k_ar,
+              Second_k_ar,
+              Minute_k_ar,
+              Hour_k_ar,
+              Year_k_ar,
+              Month_k_ar,
+              Day_k_ar,
+              Size_k_ar,
+              filename_k_ar,
+              Numdir_k_ar,
+              Numfiles_k_ar,
+              typeflag_ar_);
+     }
+     break;
+     }
+     return 0;
 }
 
 int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_list_function_ar my_func__);
@@ -2701,32 +2704,32 @@ int Year_k;
  *
  */
 void __stdcall get_tar_info_ar(
-	int *Isdir_k_ar,
-	int *Second_k_ar,
-	int *Minute_k_ar,
-	int *Hour_k_ar,
-	int *Year_k_ar,
-	int *Month_k_ar,
-	int *Day_k_ar,
-	__int64 *Size_k_ar,
-	char *filename_k_ar,
-	int *Numdir_k_ar,
-	int *Numfiles_k_ar,
-	char *typeflag_ar_)
+    int *Isdir_k_ar,
+    int *Second_k_ar,
+    int *Minute_k_ar,
+    int *Hour_k_ar,
+    int *Year_k_ar,
+    int *Month_k_ar,
+    int *Day_k_ar,
+    __int64 *Size_k_ar,
+    char *filename_k_ar,
+    int *Numdir_k_ar,
+    int *Numfiles_k_ar,
+    char *typeflag_ar_)
 {
-	*Isdir_k_ar = Isdir_k;
-	*Second_k_ar = Second_k;
-	*Minute_k_ar = Minute_k;
-	*Hour_k_ar = Hour_k;
-	*Year_k_ar = Year_k;
-	*Month_k_ar = Month_k;
-	*Day_k_ar = Day_k;
-	*Size_k_ar = Size_k;
-	strcpy(filename_k_ar, filename_k);
-	*Numdir_k_ar = Numdir_k;
-	*Numfiles_k_ar = Numfiles_k;
-	strcpy(typeflag_ar_, typeflag_ar);
-	return;
+     *Isdir_k_ar = Isdir_k;
+     *Second_k_ar = Second_k;
+     *Minute_k_ar = Minute_k;
+     *Hour_k_ar = Hour_k;
+     *Year_k_ar = Year_k;
+     *Month_k_ar = Month_k;
+     *Day_k_ar = Day_k;
+     *Size_k_ar = Size_k;
+     strcpy(filename_k_ar, filename_k);
+     *Numdir_k_ar = Numdir_k;
+     *Numfiles_k_ar = Numfiles_k;
+     strcpy(typeflag_ar_, typeflag_ar);
+     return;
 }
 
 #ifndef AMANDA_MAIN___
@@ -2758,7 +2761,7 @@ uintmax_t continued_file_offset;
 void *
 xmemdup(void const *p, size_t s)
 {
-	return memcpy(malloc(s), p, s);
+     return memcpy(malloc(s), p, s);
 }
 
 /**
@@ -2772,7 +2775,7 @@ xmemdup(void const *p, size_t s)
 char *
 xstrdup(char const *string)
 {
-	return xmemdup(string, strlen(string) + 1);
+     return xmemdup(string, strlen(string) + 1);
 }
 
 #define XHDR_PROTECTED 0x01
@@ -2784,112 +2787,112 @@ xstrdup(char const *string)
  */
 struct xhdr_tab
 {
-	char const *keyword;
-	void (*coder)(struct tar_stat_info const *, char const *,
-				  struct xheader *, void const *data);
-	void (*decoder)(struct tar_stat_info *, char const *, char const *, size_t);
-	int flags;
-	bool prefix; /* select handler comparing prefix only */
+     char const *keyword;
+     void (*coder)(struct tar_stat_info const *, char const *,
+                   struct xheader *, void const *data);
+     void (*decoder)(struct tar_stat_info *, char const *, char const *, size_t);
+     int flags;
+     bool prefix; /* select handler comparing prefix only */
 };
 
 enum read_header
 {
-	HEADER_STILL_UNREAD,	 /* for when read_header has not been called */
-	HEADER_SUCCESS,			 /* header successfully read and checksummed */
-	HEADER_SUCCESS_EXTENDED, /* likewise, but we got an extended header */
-	HEADER_ZERO_BLOCK,		 /* zero block where header expected */
-	HEADER_END_OF_FILE,		 /* true end of file while header expected */
-	HEADER_FAILURE			 /* ill-formed header, or bad checksum */
+     HEADER_STILL_UNREAD,     /* for when read_header has not been called */
+     HEADER_SUCCESS,          /* header successfully read and checksummed */
+     HEADER_SUCCESS_EXTENDED, /* likewise, but we got an extended header */
+     HEADER_ZERO_BLOCK,       /* zero block where header expected */
+     HEADER_END_OF_FILE,      /* true end of file while header expected */
+     HEADER_FAILURE           /* ill-formed header, or bad checksum */
 };
 
 enum read_header tar_checksum(union block *header, bool silent);
 
 enum compressed_formats
 {
-	ct_compress_k = 1001,
-	ct_gzip_k,
-	ct_bzip2_k,
-	ct_lzip_k,
-	ct_lzma_k,
-	ct_lzop_k,
-	ct_xz_k,
-	ct_lz4_k,
-	ct_zstd_k,
-	ct_brotli_k,
-	ct_val_k,
-	ct_gzip2a_k,
-	ct_gzip2c_k,
-	ct_bzip3_k,
-	ct_lzop2_k,
-	ct_lz5_k,
-	ct_brotli2_k,
-	ct_compress2_k
+     ct_compress_k = 1001,
+     ct_gzip_k,
+     ct_bzip2_k,
+     ct_lzip_k,
+     ct_lzma_k,
+     ct_lzop_k,
+     ct_xz_k,
+     ct_lz4_k,
+     ct_zstd_k,
+     ct_brotli_k,
+     ct_val_k,
+     ct_gzip2a_k,
+     ct_gzip2c_k,
+     ct_bzip3_k,
+     ct_lzop2_k,
+     ct_lz5_k,
+     ct_brotli2_k,
+     ct_compress2_k
 };
 
 enum dump_status
 {
-	dump_status_ok,
-	dump_status_short,
-	dump_status_fail,
-	dump_status_not_implemented
+     dump_status_ok,
+     dump_status_short,
+     dump_status_fail,
+     dump_status_not_implemented
 };
 
 #define NAME_FIELD_SIZE 100
 
 struct keyword_list
 {
-	struct keyword_list *next;
-	char *pattern;
-	char *value;
+     struct keyword_list *next;
+     char *pattern;
+     char *value;
 };
 
 /* List of keyword/value pairs decoded from the last 'g' type header */
 static struct keyword_list *global_header_override_list = {
-	0,
+    0,
 };
 
 /* Operation mode for read_header: */
 enum read_header_mode
 {
-	read_header_auto,	 /* process extended headers automatically */
-	read_header_x_raw,	 /* return raw extended headers (return
+     read_header_auto,    /* process extended headers automatically */
+     read_header_x_raw,   /* return raw extended headers (return
 	                       HEADER_SUCCESS_EXTENDED) */
-	read_header_x_global /* when POSIX global extended header is read,
+     read_header_x_global /* when POSIX global extended header is read,
 	                        decode it and return
 	                        HEADER_SUCCESS_EXTENDED */
 };
 
 enum compress_type
 {
-	ct_none, /* Unknown compression type */
-	ct_tar,	 /* Plain tar file */
-	ct_compress,
-	ct_gzip,
-	ct_bzip2,
-	ct_lzip,
-	ct_lzma,
-	ct_lzop,
-	ct_xz,
-	ct_lz4,
-	ct_zstd,
-	ct_val,
-	ct_gzip2a,
-	ct_gzip2c,
-	ct_bzip3,
-	ct_lzop2,
-	ct_lz5,
-	ct_brotli2,
-	ct_compress2,
+     ct_none, /* Unknown compression type */
+     ct_tar,  /* Plain tar file */
+     ct_compress,
+     ct_gzip,
+     ct_bzip2,
+     ct_lzip,
+     ct_lzma,
+     ct_lzop,
+     ct_xz,
+     ct_lz4,
+     ct_zstd,
+     ct_val,
+     ct_gzip2a,
+     ct_gzip2c,
+     ct_bzip3,
+     ct_lzop2,
+     ct_lz5,
+     ct_brotli2,
+     ct_compress2,
 };
 
 struct bufmap
 {
-	struct bufmap *next; /* Pointer to the next map entry */
-	size_t start;		 /* Offset of the first data block */
-	char *file_name;	 /* Name of the stored file */
-	off_t sizetotal;	 /* Size of the stored file */
-	off_t sizeleft;		 /* Size left to read/write */
-	size_t nblocks;		 /* Number of blocks written since reset */
+     struct bufmap *next; /* Pointer to the next map entry */
+     size_t start;        /* Offset of the first data block */
+     char *file_name;     /* Name of the stored file */
+     off_t sizetotal;     /* Size of the stored file */
+     off_t sizeleft;      /* Size left to read/write */
+     size_t nblocks;      /* Number of blocks written since reset */
 };
 static struct bufmap *bufmap_head, *bufmap_tail;
 static void (*flush_write_ptr)(size_t);
@@ -2897,27 +2900,27 @@ enum archive_format current_format; /* recognized format */
 enum archive_format archive_format;
 struct zip_magic
 {
-	enum compress_type type;
-	size_t length;
-	char const *magic;
+     enum compress_type type;
+     size_t length;
+     char const *magic;
 };
 
 static intmax_t from_header(const char *, size_t, const char *,
-							intmax_t, uintmax_t, bool, bool);
+                            intmax_t, uintmax_t, bool, bool);
 
 /* Base 64 digits; see Internet RFC 2045 Table 1.  */
 static char const base_64_digits[64] =
-	{
-		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-		'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-		'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-		'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'};
+    {
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //the destination folder
 char extract_folder_final[AMANDA__SIZE] = {
-	0,
+    0,
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2959,7 +2962,7 @@ static void *record_buffer[2]; /* allocated memory */
 
 bool time_to_start_writing = false;
 
-off_t records_read;	   /* number of records read from this archive */
+off_t records_read;    /* number of records read from this archive */
 off_t records_written; /* likewise, for records written */
 
 off_t off_from_header(const char *p, size_t s);
@@ -2969,10 +2972,10 @@ off_t off_from_header(const char *p, size_t s);
 
 /* The maximum and minimum values for the integer type T.  */
 #define TYPE_MINIMUM(t) ((t)~TYPE_MAXIMUM(t))
-#define TYPE_MAXIMUM(t)  \
-	((t)(!TYPE_SIGNED(t) \
-			 ? (t)-1     \
-			 : ((((t)1 << (TYPE_WIDTH(t) - 2)) - 1) * 2 + 1)))
+#define TYPE_MAXIMUM(t)   \
+     ((t)(!TYPE_SIGNED(t) \
+              ? (t)-1     \
+              : ((((t)1 << (TYPE_WIDTH(t) - 2)) - 1) * 2 + 1)))
 
 #define OFF_FROM_HEADER(where) off_from_header(where, sizeof(where))
 
@@ -3004,20 +3007,20 @@ off_t off_from_header(const char *p, size_t s);
 
 /* These warnings are enabled by default in verbose mode: */
 #define WARN_VERBOSE_WARNINGS (WARN_RENAME_DIRECTORY | WARN_NEW_DIRECTORY |   \
-							   WARN_DECOMPRESS_PROGRAM | WARN_EXISTING_FILE | \
-							   WARN_RECORD_SIZE)
+                               WARN_DECOMPRESS_PROGRAM | WARN_EXISTING_FILE | \
+                               WARN_RECORD_SIZE)
 #define WARN_ALL (~WARN_VERBOSE_WARNINGS)
 
 int warning_option = WARN_ALL;
 
 #define WARNING_ENABLED(opt) (warning_option & (opt))
 
-#define WARNOPT(opt, args)        \
-	do                            \
-	{                             \
-		if (WARNING_ENABLED(opt)) \
-			WARN(args);           \
-	} while (0)
+#define WARNOPT(opt, args)          \
+     do                             \
+     {                              \
+          if (WARNING_ENABLED(opt)) \
+               WARN(args);          \
+     } while (0)
 
 #define GLOBAL
 GLOBAL bool read_full_records_option;
@@ -3028,13 +3031,13 @@ GLOBAL size_t archive_names;
 GLOBAL bool seekable_archive;
 GLOBAL bool ignore_failed_read_option;
 GLOBAL struct tar_stat_info current_stat_info = {
-	0,
+    0,
 };
 GLOBAL bool incremental_option;
 GLOBAL struct timespec start_time; /* when we started execution */
 GLOBAL bool numeric_owner_option;
-union block *record_start;	/* start of record of archive */
-union block *record_end;	/* last+1 block of archive record */
+union block *record_start;  /* start of record of archive */
+union block *record_end;    /* last+1 block of archive record */
 union block *current_block; /* current block of archive */
 
 typedef void (*do_something_k)(void);
@@ -3043,9 +3046,9 @@ do_something_k my_process_function = NULL;
 
 enum access_mode
 {
-	ACCESS_READ,
-	ACCESS_WRITE,
-	ACCESS_UPDATE
+     ACCESS_READ,
+     ACCESS_WRITE,
+     ACCESS_UPDATE
 };
 
 enum access_mode access_mode; /* how do we handle the archive */
@@ -3120,8 +3123,8 @@ void close_error(char const *name);
 void xheader_xattr_free(struct xattr_array *xattr_map, size_t xattr_map_size);
 
 enum read_header read_header(union block **return_block,
-							 struct tar_stat_info *info,
-							 enum read_header_mode m);
+                             struct tar_stat_info *info,
+                             enum read_header_mode m);
 
 void set_next_block_after(union block *block);
 
@@ -3157,7 +3160,7 @@ base_len_unix(char const *name);
 bool strip_trailing_slashes_unix(char *file);
 
 void decode_header(union block *header, struct tar_stat_info *stat_info,
-				   enum archive_format *format_pointer, int do_user_group);
+                   enum archive_format *format_pointer, int do_user_group);
 
 static mode_t
 mode_from_header(const char *p, size_t s, bool *hbits);
@@ -3201,7 +3204,7 @@ void mv_end(void);
 void list_archive(void);
 
 void print_header(struct tar_stat_info *st, union block *blk,
-				  off_t block_ordinal);
+                  off_t block_ordinal);
 
 static ssize_t
 _flush_write(void);
@@ -3241,13 +3244,13 @@ void xheader_xattr_init(struct tar_stat_info *st);
  */
 void xheader_xattr_init(struct tar_stat_info *st)
 {
-	st->xattr_map = NULL;
-	st->xattr_map_size = 0;
-	st->acls_a_ptr = NULL;
-	st->acls_a_len = 0;
-	st->acls_d_ptr = NULL;
-	st->acls_d_len = 0;
-	st->cntx_name = NULL;
+     st->xattr_map = NULL;
+     st->xattr_map_size = 0;
+     st->acls_a_ptr = NULL;
+     st->acls_a_len = 0;
+     st->acls_d_ptr = NULL;
+     st->acls_d_len = 0;
+     st->cntx_name = NULL;
 }
 
 /**
@@ -3257,9 +3260,9 @@ void xheader_xattr_init(struct tar_stat_info *st)
 static major_t
 major_from_header(const char *p, size_t s)
 {
-	return from_header(p, s, "major_t",
-					   TYPE_MINIMUM(major_t), TYPE_MAXIMUM(major_t),
-					   false, false);
+     return from_header(p, s, "major_t",
+                        TYPE_MINIMUM(major_t), TYPE_MAXIMUM(major_t),
+                        false, false);
 }
 
 /**
@@ -3269,9 +3272,9 @@ major_from_header(const char *p, size_t s)
 static minor_t
 minor_from_header(const char *p, size_t s)
 {
-	return from_header(p, s, "minor_t",
-					   TYPE_MINIMUM(minor_t), TYPE_MAXIMUM(minor_t),
-					   false, false);
+     return from_header(p, s, "minor_t",
+                        TYPE_MINIMUM(minor_t), TYPE_MAXIMUM(minor_t),
+                        false, false);
 }
 
 /**
@@ -3280,16 +3283,16 @@ minor_from_header(const char *p, size_t s)
  */
 void xheader_destroy(struct xheader *xhdr)
 {
-	if (xhdr->stk)
-	{
-		obstack_free(xhdr->stk, NULL);
-		free(xhdr->stk);
-		xhdr->stk = NULL;
-	}
-	else
-		free(xhdr->buffer);
-	xhdr->buffer = 0;
-	xhdr->size = 0;
+     if (xhdr->stk)
+     {
+          obstack_free(xhdr->stk, NULL);
+          free(xhdr->stk);
+          xhdr->stk = NULL;
+     }
+     else
+          free(xhdr->buffer);
+     xhdr->buffer = 0;
+     xhdr->size = 0;
 }
 
 /**
@@ -3298,16 +3301,16 @@ void xheader_destroy(struct xheader *xhdr)
  */
 void xheader_xattr_free(struct xattr_array *xattr_map, size_t xattr_map_size)
 {
-	size_t scan = 0;
+     size_t scan = 0;
 
-	while (scan < xattr_map_size)
-	{
-		free(xattr_map[scan].xkey);
-		free(xattr_map[scan].xval_ptr);
+     while (scan < xattr_map_size)
+     {
+          free(xattr_map[scan].xkey);
+          free(xattr_map[scan].xval_ptr);
 
-		++scan;
-	}
-	free(xattr_map);
+          ++scan;
+     }
+     free(xattr_map);
 }
 
 /**
@@ -3317,24 +3320,24 @@ void xheader_xattr_free(struct xattr_array *xattr_map, size_t xattr_map_size)
 static void
 xheader_list_destroy(struct keyword_list **root)
 {
-	if (root)
-	{
-		struct keyword_list *kw = *root;
-		while (kw)
-		{
-			struct keyword_list *next = kw->next;
-			free(kw->pattern);
-			free(kw->value);
-			free(kw);
-			kw = next;
-		}
-		*root = NULL;
-	}
+     if (root)
+     {
+          struct keyword_list *kw = *root;
+          while (kw)
+          {
+               struct keyword_list *next = kw->next;
+               free(kw->pattern);
+               free(kw->value);
+               free(kw);
+               kw = next;
+          }
+          *root = NULL;
+     }
 }
 
 static void
 xheader_list_append(struct keyword_list **root, char const *kw,
-					char const *value);
+                    char const *value);
 
 /**
  * Tar related function, version 1.34, this is the function that will dump the data to disk
@@ -3343,22 +3346,22 @@ xheader_list_append(struct keyword_list **root, char const *kw,
 static void
 _gnu_flush_write(__attribute__((unused)) size_t buffer_level)
 {
-	ssize_t status;
+     ssize_t status;
 
-	status = _flush_write();
-	if ((int64_t)status != (int64_t)record_size)
-	{
-	}
-	else
-	{
-		if (status)
-			records_written++;
-	}
+     status = _flush_write();
+     if ((int64_t)status != (int64_t)record_size)
+     {
+     }
+     else
+     {
+          if (status)
+               records_written++;
+     }
 
-	if ((int64_t)status == (int64_t)record_size)
-	{
-		return;
-	}
+     if ((int64_t)status == (int64_t)record_size)
+     {
+          return;
+     }
 }
 
 /**
@@ -3368,7 +3371,7 @@ _gnu_flush_write(__attribute__((unused)) size_t buffer_level)
 size_t
 sys_write_archive_buffer(void)
 {
-	return write(archive, record_start->buffer, record_size);
+     return write(archive, record_start->buffer, record_size);
 }
 
 /**
@@ -3378,9 +3381,9 @@ sys_write_archive_buffer(void)
 static ssize_t
 _flush_write(void)
 {
-	ssize_t status;
-	status = sys_write_archive_buffer();
-	return status;
+     ssize_t status;
+     status = sys_write_archive_buffer();
+     return status;
 }
 
 /**
@@ -3390,15 +3393,15 @@ _flush_write(void)
 static void
 simple_flush_write(size_t level __attribute__((unused)))
 {
-	ssize_t status;
-	status = _flush_write();
-	if ((int64_t)status != (int64_t)record_size)
-	{
-	}
-	else
-	{
-		records_written++;
-	}
+     ssize_t status;
+     status = _flush_write();
+     if ((int64_t)status != (int64_t)record_size)
+     {
+     }
+     else
+     {
+          records_written++;
+     }
 }
 
 /**
@@ -3408,9 +3411,9 @@ simple_flush_write(size_t level __attribute__((unused)))
 static void
 gnu_flush_write(size_t buffer_level)
 {
-	flush_write_ptr = simple_flush_write; /* Avoid recursion */ //too complex for me...
-	_gnu_flush_write(buffer_level);
-	flush_write_ptr = gnu_flush_write;
+     flush_write_ptr = simple_flush_write; /* Avoid recursion */ //too complex for me...
+     _gnu_flush_write(buffer_level);
+     flush_write_ptr = gnu_flush_write;
 }
 
 /**
@@ -3419,25 +3422,25 @@ gnu_flush_write(size_t buffer_level)
  */
 void TimetToFileTime(time_t t, LPFILETIME pft)
 {
-	LONGLONG ll = Int32x32To64(t, 10000000) + 116444736000000000;
-	pft->dwLowDateTime = (DWORD)ll;
-	pft->dwHighDateTime = ll >> 32;
+     LONGLONG ll = Int32x32To64(t, 10000000) + 116444736000000000;
+     pft->dwLowDateTime = (DWORD)ll;
+     pft->dwHighDateTime = ll >> 32;
 }
 LONGLONG FileTime_to_POSIX_m(FILETIME ft)
 {
-	// takes the last modified date
-	LARGE_INTEGER date, adjust;
-	date.HighPart = ft.dwHighDateTime;
-	date.LowPart = ft.dwLowDateTime;
+     // takes the last modified date
+     LARGE_INTEGER date, adjust;
+     date.HighPart = ft.dwHighDateTime;
+     date.LowPart = ft.dwLowDateTime;
 
-	// 100-nanoseconds = milliseconds * 10000
-	adjust.QuadPart = 11644473600000 * 10000;
+     // 100-nanoseconds = milliseconds * 10000
+     adjust.QuadPart = 11644473600000 * 10000;
 
-	// removes the diff between 1970 and 1601
-	date.QuadPart -= adjust.QuadPart;
+     // removes the diff between 1970 and 1601
+     date.QuadPart -= adjust.QuadPart;
 
-	// converts back from 100-nanoseconds to seconds
-	return date.QuadPart / 10000000;
+     // converts back from 100-nanoseconds to seconds
+     return date.QuadPart / 10000000;
 }
 /**
  * Function to retrieve the file timestamp information, it is required because
@@ -3445,112 +3448,112 @@ LONGLONG FileTime_to_POSIX_m(FILETIME ft)
  *
  */
 BOOL GetLastWriteTime_complete_arp_v27(HANDLE hFile,
-									   char *lpszString_amanda,
-									   __attribute__((unused)) DWORD dwSize,
-									   __time64_t *s_arp,
-									   VAL_data *VAL_data_arp)
+                                       char *lpszString_amanda,
+                                       __attribute__((unused)) DWORD dwSize,
+                                       __time64_t *s_arp,
+                                       VAL_data *VAL_data_arp)
 {
-	struct tm tm;
-	FILETIME ftCreate, ftAccess, ftWrite;
-	SYSTEMTIME stUTC, stLocal;
+     struct tm tm;
+     FILETIME ftCreate, ftAccess, ftWrite;
+     SYSTEMTIME stUTC, stLocal;
 
-	// Retrieve the file times for the file.
-	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
-	{
-		*s_arp = time(NULL);
+     // Retrieve the file times for the file.
+     if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
+     {
+          *s_arp = time(NULL);
 
-		atime_i = *s_arp;
-		ctime_i = *s_arp;
-		mtime_i = *s_arp;
+          atime_i = *s_arp;
+          ctime_i = *s_arp;
+          mtime_i = *s_arp;
 
-		return FALSE;
-	}
+          return FALSE;
+     }
 
-	VAL_data_arp->CreationTime___junior = ftCreate;
-	VAL_data_arp->LastAccessTime_junior = ftAccess;
-	VAL_data_arp->LastWriteTime__junior = ftWrite;
+     VAL_data_arp->CreationTime___junior = ftCreate;
+     VAL_data_arp->LastAccessTime_junior = ftAccess;
+     VAL_data_arp->LastWriteTime__junior = ftWrite;
 
-	{
-		// Convert the last-write time to local time.
-		FileTimeToSystemTime(&ftWrite, &stUTC);
-		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+     {
+          // Convert the last-write time to local time.
+          FileTimeToSystemTime(&ftWrite, &stUTC);
+          SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 
-		if (lpszString_amanda)
-			// Build a string showing the date and time.
-			sprintf(lpszString_amanda,
-					TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
-					stLocal.wMonth, stLocal.wDay, stLocal.wYear,
-					stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+          if (lpszString_amanda)
+               // Build a string showing the date and time.
+               sprintf(lpszString_amanda,
+                       TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+                       stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+                       stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
 
-		memset(&tm, 0, sizeof(tm));
+          memset(&tm, 0, sizeof(tm));
 
-		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
-		tm.tm_mon = stLocal.wMonth - 1;
-		tm.tm_mday = stLocal.wDay;
+          tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+          tm.tm_mon = stLocal.wMonth - 1;
+          tm.tm_mday = stLocal.wDay;
 
-		tm.tm_hour = stLocal.wHour;
-		tm.tm_min = stLocal.wMinute;
-		tm.tm_sec = stLocal.wSecond;
-		tm.tm_isdst = -1; // Edit 2: Added as per comment
+          tm.tm_hour = stLocal.wHour;
+          tm.tm_min = stLocal.wMinute;
+          tm.tm_sec = stLocal.wSecond;
+          tm.tm_isdst = -1; // Edit 2: Added as per comment
 
-		//*s_arp = _mktime64(&tm);
-		*s_arp = FileTime_to_POSIX_m(ftWrite);
-		mtime_i = *s_arp;
-	}
+          //*s_arp = _mktime64(&tm);
+          *s_arp = FileTime_to_POSIX_m(ftWrite);
+          mtime_i = *s_arp;
+     }
 
-	{
-		// Convert the last-write time to local time.
-		FileTimeToSystemTime(&ftCreate, &stUTC);
-		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+     {
+          // Convert the last-write time to local time.
+          FileTimeToSystemTime(&ftCreate, &stUTC);
+          SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 
-		if (lpszString_amanda)
-			// Build a string showing the date and time.
-			sprintf(lpszString_amanda,
-					TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
-					stLocal.wMonth, stLocal.wDay, stLocal.wYear,
-					stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+          if (lpszString_amanda)
+               // Build a string showing the date and time.
+               sprintf(lpszString_amanda,
+                       TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+                       stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+                       stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
 
-		memset(&tm, 0, sizeof(tm));
+          memset(&tm, 0, sizeof(tm));
 
-		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
-		tm.tm_mon = stLocal.wMonth - 1;
-		tm.tm_mday = stLocal.wDay;
+          tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+          tm.tm_mon = stLocal.wMonth - 1;
+          tm.tm_mday = stLocal.wDay;
 
-		tm.tm_hour = stLocal.wHour;
-		tm.tm_min = stLocal.wMinute;
-		tm.tm_sec = stLocal.wSecond;
-		tm.tm_isdst = -1; // Edit 2: Added as per comment
+          tm.tm_hour = stLocal.wHour;
+          tm.tm_min = stLocal.wMinute;
+          tm.tm_sec = stLocal.wSecond;
+          tm.tm_isdst = -1; // Edit 2: Added as per comment
 
-		ctime_i = FileTime_to_POSIX_m(ftCreate);
-	}
+          ctime_i = FileTime_to_POSIX_m(ftCreate);
+     }
 
-	{
-		// Convert the last-write time to local time.
-		FileTimeToSystemTime(&ftAccess, &stUTC);
-		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+     {
+          // Convert the last-write time to local time.
+          FileTimeToSystemTime(&ftAccess, &stUTC);
+          SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 
-		if (lpszString_amanda)
-			// Build a string showing the date and time.
-			sprintf(lpszString_amanda,
-					TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
-					stLocal.wMonth, stLocal.wDay, stLocal.wYear,
-					stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+          if (lpszString_amanda)
+               // Build a string showing the date and time.
+               sprintf(lpszString_amanda,
+                       TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+                       stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+                       stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
 
-		memset(&tm, 0, sizeof(tm));
+          memset(&tm, 0, sizeof(tm));
 
-		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
-		tm.tm_mon = stLocal.wMonth - 1;
-		tm.tm_mday = stLocal.wDay;
+          tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+          tm.tm_mon = stLocal.wMonth - 1;
+          tm.tm_mday = stLocal.wDay;
 
-		tm.tm_hour = stLocal.wHour;
-		tm.tm_min = stLocal.wMinute;
-		tm.tm_sec = stLocal.wSecond;
-		tm.tm_isdst = -1; // Edit 2: Added as per comment
+          tm.tm_hour = stLocal.wHour;
+          tm.tm_min = stLocal.wMinute;
+          tm.tm_sec = stLocal.wSecond;
+          tm.tm_isdst = -1; // Edit 2: Added as per comment
 
-		atime_i = FileTime_to_POSIX_m(ftAccess);
-	}
+          atime_i = FileTime_to_POSIX_m(ftAccess);
+     }
 
-	return 1;
+     return 1;
 }
 
 /**
@@ -3559,111 +3562,111 @@ BOOL GetLastWriteTime_complete_arp_v27(HANDLE hFile,
  *
  */
 BOOL GetLastWriteTime_complete_arp(HANDLE hFile,
-								   char *lpszString_amanda,
-								   __attribute__((unused)) DWORD dwSize,
-								   __time64_t *s_arp,
-								   VAL_data *VAL_data_arp)
+                                   char *lpszString_amanda,
+                                   __attribute__((unused)) DWORD dwSize,
+                                   __time64_t *s_arp,
+                                   VAL_data *VAL_data_arp)
 {
-	struct tm tm;
-	FILETIME ftCreate, ftAccess, ftWrite;
-	SYSTEMTIME stUTC, stLocal;
+     struct tm tm;
+     FILETIME ftCreate, ftAccess, ftWrite;
+     SYSTEMTIME stUTC, stLocal;
 
-	// Retrieve the file times for the file.
-	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
-	{
-		*s_arp = time(NULL);
+     // Retrieve the file times for the file.
+     if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
+     {
+          *s_arp = time(NULL);
 
-		atime_i = *s_arp;
-		ctime_i = *s_arp;
-		mtime_i = *s_arp;
+          atime_i = *s_arp;
+          ctime_i = *s_arp;
+          mtime_i = *s_arp;
 
-		return FALSE;
-	}
+          return FALSE;
+     }
 
-	VAL_data_arp->CreationTime___junior = ftCreate;
-	VAL_data_arp->LastAccessTime_junior = ftAccess;
-	VAL_data_arp->LastWriteTime__junior = ftWrite;
+     VAL_data_arp->CreationTime___junior = ftCreate;
+     VAL_data_arp->LastAccessTime_junior = ftAccess;
+     VAL_data_arp->LastWriteTime__junior = ftWrite;
 
-	{
-		// Convert the last-write time to local time.
-		FileTimeToSystemTime(&ftWrite, &stUTC);
-		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+     {
+          // Convert the last-write time to local time.
+          FileTimeToSystemTime(&ftWrite, &stUTC);
+          SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 
-		if (lpszString_amanda)
-			// Build a string showing the date and time.
-			sprintf(lpszString_amanda,
-					TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
-					stLocal.wMonth, stLocal.wDay, stLocal.wYear,
-					stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+          if (lpszString_amanda)
+               // Build a string showing the date and time.
+               sprintf(lpszString_amanda,
+                       TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+                       stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+                       stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
 
-		memset(&tm, 0, sizeof(tm));
+          memset(&tm, 0, sizeof(tm));
 
-		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
-		tm.tm_mon = stLocal.wMonth - 1;
-		tm.tm_mday = stLocal.wDay;
+          tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+          tm.tm_mon = stLocal.wMonth - 1;
+          tm.tm_mday = stLocal.wDay;
 
-		tm.tm_hour = stLocal.wHour;
-		tm.tm_min = stLocal.wMinute;
-		tm.tm_sec = stLocal.wSecond;
-		tm.tm_isdst = -1; // Edit 2: Added as per comment
+          tm.tm_hour = stLocal.wHour;
+          tm.tm_min = stLocal.wMinute;
+          tm.tm_sec = stLocal.wSecond;
+          tm.tm_isdst = -1; // Edit 2: Added as per comment
 
-		*s_arp = _mktime64(&tm);
-		mtime_i = *s_arp;
-	}
+          *s_arp = _mktime64(&tm);
+          mtime_i = *s_arp;
+     }
 
-	{
-		// Convert the last-write time to local time.
-		FileTimeToSystemTime(&ftCreate, &stUTC);
-		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+     {
+          // Convert the last-write time to local time.
+          FileTimeToSystemTime(&ftCreate, &stUTC);
+          SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 
-		if (lpszString_amanda)
-			// Build a string showing the date and time.
-			sprintf(lpszString_amanda,
-					TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
-					stLocal.wMonth, stLocal.wDay, stLocal.wYear,
-					stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+          if (lpszString_amanda)
+               // Build a string showing the date and time.
+               sprintf(lpszString_amanda,
+                       TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+                       stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+                       stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
 
-		memset(&tm, 0, sizeof(tm));
+          memset(&tm, 0, sizeof(tm));
 
-		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
-		tm.tm_mon = stLocal.wMonth - 1;
-		tm.tm_mday = stLocal.wDay;
+          tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+          tm.tm_mon = stLocal.wMonth - 1;
+          tm.tm_mday = stLocal.wDay;
 
-		tm.tm_hour = stLocal.wHour;
-		tm.tm_min = stLocal.wMinute;
-		tm.tm_sec = stLocal.wSecond;
-		tm.tm_isdst = -1; // Edit 2: Added as per comment
+          tm.tm_hour = stLocal.wHour;
+          tm.tm_min = stLocal.wMinute;
+          tm.tm_sec = stLocal.wSecond;
+          tm.tm_isdst = -1; // Edit 2: Added as per comment
 
-		ctime_i = _mktime64(&tm);
-	}
+          ctime_i = _mktime64(&tm);
+     }
 
-	{
-		// Convert the last-write time to local time.
-		FileTimeToSystemTime(&ftAccess, &stUTC);
-		SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+     {
+          // Convert the last-write time to local time.
+          FileTimeToSystemTime(&ftAccess, &stUTC);
+          SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 
-		if (lpszString_amanda)
-			// Build a string showing the date and time.
-			sprintf(lpszString_amanda,
-					TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
-					stLocal.wMonth, stLocal.wDay, stLocal.wYear,
-					stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
+          if (lpszString_amanda)
+               // Build a string showing the date and time.
+               sprintf(lpszString_amanda,
+                       TEXT("%02d/%02d/%d  %02d:%02d:%02d"),
+                       stLocal.wMonth, stLocal.wDay, stLocal.wYear,
+                       stLocal.wHour, stLocal.wMinute, stLocal.wSecond);
 
-		memset(&tm, 0, sizeof(tm));
+          memset(&tm, 0, sizeof(tm));
 
-		tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
-		tm.tm_mon = stLocal.wMonth - 1;
-		tm.tm_mday = stLocal.wDay;
+          tm.tm_year = stLocal.wYear - 1900; // EDIT 2 : 1900's Offset as per comment
+          tm.tm_mon = stLocal.wMonth - 1;
+          tm.tm_mday = stLocal.wDay;
 
-		tm.tm_hour = stLocal.wHour;
-		tm.tm_min = stLocal.wMinute;
-		tm.tm_sec = stLocal.wSecond;
-		tm.tm_isdst = -1; // Edit 2: Added as per comment
+          tm.tm_hour = stLocal.wHour;
+          tm.tm_min = stLocal.wMinute;
+          tm.tm_sec = stLocal.wSecond;
+          tm.tm_isdst = -1; // Edit 2: Added as per comment
 
-		atime_i = _mktime64(&tm);
-	}
+          atime_i = _mktime64(&tm);
+     }
 
-	return 1;
+     return 1;
 }
 
 /**
@@ -3673,34 +3676,34 @@ BOOL GetLastWriteTime_complete_arp(HANDLE hFile,
  */
 void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data *VAL_data_arp)
 {
-	HANDLE hFile;
-	char szBuf[MAX_PATH];
+     HANDLE hFile;
+     char szBuf[MAX_PATH];
 
-	hFile = CreateFileW(permissive_name_m_(amanda_utf8towide_1_(file_arp)),
-						/*
+     hFile = CreateFileW(permissive_name_m_(amanda_utf8towide_1_(file_arp)),
+                         /*
 	                       GENERIC_READ,
 	                       FILE_SHARE_READ, NULL,
 	                       OPEN_EXISTING,
 	                       0,
 	                       NULL);
 	                     */
-						GENERIC_READ,
-						FILE_SHARE_READ, NULL,
-						OPEN_EXISTING,
-						FILE_FLAG_BACKUP_SEMANTICS,
-						NULL);
+                         GENERIC_READ,
+                         FILE_SHARE_READ, NULL,
+                         OPEN_EXISTING,
+                         FILE_FLAG_BACKUP_SEMANTICS,
+                         NULL);
 
-	if (hFile == INVALID_HANDLE_VALUE)
-	{
-		*s_arp = time(NULL);
-	}
-	else
-	{
-		GetLastWriteTime_complete_arp_v27(hFile, szBuf, MAX_PATH, s_arp, VAL_data_arp);
+     if (hFile == INVALID_HANDLE_VALUE)
+     {
+          *s_arp = time(NULL);
+     }
+     else
+     {
+          GetLastWriteTime_complete_arp_v27(hFile, szBuf, MAX_PATH, s_arp, VAL_data_arp);
 
-		CloseHandle(hFile);
-	}
-	return;
+          CloseHandle(hFile);
+     }
+     return;
 }
 
 /**
@@ -3709,21 +3712,21 @@ void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data *VAL_data_arp
  */
 void printf_time(time_t s_arp, __attribute__((unused)) char *file_arp)
 {
-	FILETIME ftime_in = {0};
-	SYSTEMTIME systime_arp = {0};
-	SYSTEMTIME systime_arp2 = {0};
+     FILETIME ftime_in = {0};
+     SYSTEMTIME systime_arp = {0};
+     SYSTEMTIME systime_arp2 = {0};
 
-	TimetToFileTime(s_arp, &ftime_in);
-	FileTimeToSystemTime(
-		&ftime_in,
-		&systime_arp2);
-	SystemTimeToTzSpecificLocalTime(NULL, &systime_arp2, &systime_arp);
-	Second_k = systime_arp.wSecond;
-	Minute_k = systime_arp.wMinute;
-	Hour_k = systime_arp.wHour;
-	Year_k = systime_arp.wYear;
-	Month_k = systime_arp.wMonth;
-	Day_k = systime_arp.wDay;
+     TimetToFileTime(s_arp, &ftime_in);
+     FileTimeToSystemTime(
+         &ftime_in,
+         &systime_arp2);
+     SystemTimeToTzSpecificLocalTime(NULL, &systime_arp2, &systime_arp);
+     Second_k = systime_arp.wSecond;
+     Minute_k = systime_arp.wMinute;
+     Hour_k = systime_arp.wHour;
+     Year_k = systime_arp.wYear;
+     Month_k = systime_arp.wMonth;
+     Day_k = systime_arp.wDay;
 }
 
 /**
@@ -3733,21 +3736,21 @@ void printf_time(time_t s_arp, __attribute__((unused)) char *file_arp)
 char const *
 tartime(struct timespec t, __attribute__((unused)) bool full_time)
 {
-	FILETIME mftime;
-	SYSTEMTIME stime_m;
-	SYSTEMTIME stime_2m;
-	enum
-	{
-		fraclen = sizeof ".FFFFFFFFF" - 1
-	};
-	static char buffer[5000];
+     FILETIME mftime;
+     SYSTEMTIME stime_m;
+     SYSTEMTIME stime_2m;
+     enum
+     {
+          fraclen = sizeof ".FFFFFFFFF" - 1
+     };
+     static char buffer[5000];
 
-	TimetToFileTime(t.tv_sec, &mftime);
-	FileTimeToSystemTime(&mftime, &stime_m);
+     TimetToFileTime(t.tv_sec, &mftime);
+     FileTimeToSystemTime(&mftime, &stime_m);
 
-	SystemTimeToTzSpecificLocalTime(NULL, &stime_m, &stime_2m);
+     SystemTimeToTzSpecificLocalTime(NULL, &stime_m, &stime_2m);
 
-	/*
+     /*
 	struct tm *tm;
 	time_t s = t.tv_sec;
 
@@ -3760,14 +3763,14 @@ tartime(struct timespec t, __attribute__((unused)) bool full_time)
 	}
 	*/
 
-	Second_k = stime_2m.wSecond;
-	Minute_k = stime_2m.wMinute;
-	Hour_k = stime_2m.wHour;
-	Year_k = stime_2m.wYear;
-	Month_k = stime_2m.wMonth;
-	Day_k = stime_2m.wDay;
+     Second_k = stime_2m.wSecond;
+     Minute_k = stime_2m.wMinute;
+     Hour_k = stime_2m.wHour;
+     Year_k = stime_2m.wYear;
+     Month_k = stime_2m.wMonth;
+     Day_k = stime_2m.wDay;
 
-	return buffer;
+     return buffer;
 }
 
 /**
@@ -3776,18 +3779,18 @@ tartime(struct timespec t, __attribute__((unused)) bool full_time)
  */
 void bufmap_free(struct bufmap *mark)
 {
-	struct bufmap *map;
+     struct bufmap *map;
 
-	for (map = bufmap_head; map && map != mark;)
-	{
-		struct bufmap *next = map->next;
-		free(map->file_name);
-		free(map);
-		map = next;
-	}
-	bufmap_head = map;
-	if (!bufmap_head)
-		bufmap_tail = bufmap_head;
+     for (map = bufmap_head; map && map != mark;)
+     {
+          struct bufmap *next = map->next;
+          free(map->file_name);
+          free(map);
+          map = next;
+     }
+     bufmap_head = map;
+     if (!bufmap_head)
+          bufmap_tail = bufmap_head;
 }
 
 /**
@@ -3796,28 +3799,28 @@ void bufmap_free(struct bufmap *mark)
  */
 void close_archive(void)
 {
-	if (!mode_is_VAL_arp)
-	{
-		if (access_mode == ACCESS_WRITE)
-		{
-			do
-				flush_archive();
-			while (current_block > record_start);
-		}
-		close(archive);
-		archive = -1;
-		tar_stat_destroy(&current_stat_info);
-		bufmap_free(NULL);
-	}
-	else
-	{
-		if (-1 != archive)
-		{
-			close(archive);
-		}
-		archive = -1;
-		tar_stat_destroy(&current_stat_info);
-	}
+     if (!mode_is_VAL_arp)
+     {
+          if (access_mode == ACCESS_WRITE)
+          {
+               do
+                    flush_archive();
+               while (current_block > record_start);
+          }
+          close(archive);
+          archive = -1;
+          tar_stat_destroy(&current_stat_info);
+          bufmap_free(NULL);
+     }
+     else
+     {
+          if (-1 != archive)
+          {
+               close(archive);
+          }
+          archive = -1;
+          tar_stat_destroy(&current_stat_info);
+     }
 }
 
 /**
@@ -3826,12 +3829,12 @@ void close_archive(void)
  */
 bool all_names_found(struct tar_stat_info *p)
 {
-	if (!p->file_name)
-	{
-		;
-		return false;
-	}
-	return true;
+     if (!p->file_name)
+     {
+          ;
+          return false;
+     }
+     return true;
 }
 
 /**
@@ -3839,309 +3842,309 @@ bool all_names_found(struct tar_stat_info *p)
  *
  */
 void simple_print_header(struct tar_stat_info *st, union block *blk,
-						 __attribute__((unused)) off_t block_ordinal)
+                         __attribute__((unused)) off_t block_ordinal)
 {
-	char *temp_name;
+     char *temp_name;
 
-	if (0)
-		temp_name = st->file_name ? st->file_name : st->orig_file_name;
-	else
-		temp_name = st->orig_file_name ? st->orig_file_name : st->file_name;
+     if (0)
+          temp_name = st->file_name ? st->file_name : st->orig_file_name;
+     else
+          temp_name = st->orig_file_name ? st->orig_file_name : st->file_name;
 
-	;
-	if (1)
-	{
-		/* Just the fax, mam.  */
-		tartime(st->mtime, true);
-		strcpy(typeflag_ar, "unknown");
+     ;
+     if (1)
+     {
+          /* Just the fax, mam.  */
+          tartime(st->mtime, true);
+          strcpy(typeflag_ar, "unknown");
 
-		Isdir_k = 0;
+          Isdir_k = 0;
 
-		switch (blk->header.typeflag)
-		{
-		case GNUTYPE_VOLHDR:
-			strcpy(typeflag_ar, "GNUTYPE_VOLHDR");
-			break;
+          switch (blk->header.typeflag)
+          {
+          case GNUTYPE_VOLHDR:
+               strcpy(typeflag_ar, "GNUTYPE_VOLHDR");
+               break;
 
-		case GNUTYPE_MULTIVOL:
-			strcpy(typeflag_ar, "GNUTYPE_MULTIVOL");
-			break;
+          case GNUTYPE_MULTIVOL:
+               strcpy(typeflag_ar, "GNUTYPE_MULTIVOL");
+               break;
 
-		case GNUTYPE_LONGNAME:
-			strcpy(typeflag_ar, "GNUTYPE_LONGNAME");
-			break;
+          case GNUTYPE_LONGNAME:
+               strcpy(typeflag_ar, "GNUTYPE_LONGNAME");
+               break;
 
-		case GNUTYPE_LONGLINK:
-			strcpy(typeflag_ar, "GNUTYPE_LONGLINK");
-			break;
+          case GNUTYPE_LONGLINK:
+               strcpy(typeflag_ar, "GNUTYPE_LONGLINK");
+               break;
 
-		case GNUTYPE_SPARSE:
-			strcpy(typeflag_ar, "GNUTYPE_SPARSE");
+          case GNUTYPE_SPARSE:
+               strcpy(typeflag_ar, "GNUTYPE_SPARSE");
 
-			Isdir_k = 0;
-			if (st->had_trailing_slash)
-			{
-				Isdir_k = 1;
-				Numdir_k++;
-			}
-			else
-			{
-				if (is_mislaine_encrypted_)
-				{
-					if (1 == already_arp)
-					{
-						already_arp++;
-						if (ARP_AES == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + AES");
-						}
-						else if (ARP_RC4 == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + RC4");
-						}
-						else if (ARP_SERPENT == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + SERPENT");
-						}
-						else if (ARP_MARS == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + MARS");
-						}
-						else if (ARP_RC6 == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + RC6");
-						}
-						else if (ARP_TWOFISH == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + TWOFISH");
-						}
-					}
+               Isdir_k = 0;
+               if (st->had_trailing_slash)
+               {
+                    Isdir_k = 1;
+                    Numdir_k++;
+               }
+               else
+               {
+                    if (is_mislaine_encrypted_)
+                    {
+                         if (1 == already_arp)
+                         {
+                              already_arp++;
+                              if (ARP_AES == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + AES");
+                              }
+                              else if (ARP_RC4 == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + RC4");
+                              }
+                              else if (ARP_SERPENT == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + SERPENT");
+                              }
+                              else if (ARP_MARS == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + MARS");
+                              }
+                              else if (ARP_RC6 == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + RC6");
+                              }
+                              else if (ARP_TWOFISH == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + TWOFISH");
+                              }
+                         }
 
-					if (ARP_AES == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted AES)");
-					}
-					else if (ARP_RC4 == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted RC4)");
-					}
-					else if (ARP_SERPENT == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted SERPENT)");
-					}
-					else if (ARP_MARS == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted MARS)");
-					}
-					else if (ARP_RC6 == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted RC6)");
-					}
-					else if (ARP_TWOFISH == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted TWOFISH)");
-					}
-				}
-				Numfiles_k++;
-			}
+                         if (ARP_AES == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted AES)");
+                         }
+                         else if (ARP_RC4 == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted RC4)");
+                         }
+                         else if (ARP_SERPENT == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted SERPENT)");
+                         }
+                         else if (ARP_MARS == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted MARS)");
+                         }
+                         else if (ARP_RC6 == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted RC6)");
+                         }
+                         else if (ARP_TWOFISH == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted TWOFISH)");
+                         }
+                    }
+                    Numfiles_k++;
+               }
 
-			break;
+               break;
 
-		case REGTYPE:
-			strcpy(typeflag_ar, "REGTYPE");
+          case REGTYPE:
+               strcpy(typeflag_ar, "REGTYPE");
 
-			Isdir_k = 0;
-			if (st->had_trailing_slash)
-			{
-				Isdir_k = 1;
-				Numdir_k++;
-			}
-			else
-			{
-				if (is_mislaine_encrypted_)
-				{
-					if (1 == already_arp)
-					{
-						already_arp++;
-						if (ARP_AES == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + AES");
-						}
-						else if (ARP_RC4 == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + RC4");
-						}
-						else if (ARP_SERPENT == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + SERPENT");
-						}
-						else if (ARP_MARS == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + MARS");
-						}
-						else if (ARP_RC6 == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + RC6");
-						}
-						else if (ARP_TWOFISH == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + TWOFISH");
-						}
-					}
+               Isdir_k = 0;
+               if (st->had_trailing_slash)
+               {
+                    Isdir_k = 1;
+                    Numdir_k++;
+               }
+               else
+               {
+                    if (is_mislaine_encrypted_)
+                    {
+                         if (1 == already_arp)
+                         {
+                              already_arp++;
+                              if (ARP_AES == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + AES");
+                              }
+                              else if (ARP_RC4 == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + RC4");
+                              }
+                              else if (ARP_SERPENT == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + SERPENT");
+                              }
+                              else if (ARP_MARS == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + MARS");
+                              }
+                              else if (ARP_RC6 == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + RC6");
+                              }
+                              else if (ARP_TWOFISH == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + TWOFISH");
+                              }
+                         }
 
-					if (ARP_AES == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted AES)");
-					}
-					else if (ARP_RC4 == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted RC4)");
-					}
-					else if (ARP_SERPENT == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted SERPENT)");
-					}
-					else if (ARP_MARS == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted MARS)");
-					}
-					else if (ARP_RC6 == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted RC6)");
-					}
-					else if (ARP_TWOFISH == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted TWOFISH)");
-					}
-				}
-				Numfiles_k++;
-			}
-			break;
+                         if (ARP_AES == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted AES)");
+                         }
+                         else if (ARP_RC4 == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted RC4)");
+                         }
+                         else if (ARP_SERPENT == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted SERPENT)");
+                         }
+                         else if (ARP_MARS == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted MARS)");
+                         }
+                         else if (ARP_RC6 == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted RC6)");
+                         }
+                         else if (ARP_TWOFISH == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted TWOFISH)");
+                         }
+                    }
+                    Numfiles_k++;
+               }
+               break;
 
-		case AREGTYPE:
-			strcpy(typeflag_ar, "AREGTYPE");
+          case AREGTYPE:
+               strcpy(typeflag_ar, "AREGTYPE");
 
-			Isdir_k = 0;
-			if (st->had_trailing_slash)
-			{
-				Isdir_k = 1;
-				Numdir_k++;
-			}
-			else
-			{
-				if (is_mislaine_encrypted_)
-				{
-					if (1 == already_arp)
-					{
-						already_arp++;
-						if (ARP_AES == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + AES");
-						}
-						else if (ARP_RC4 == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + RC4");
-						}
-						else if (ARP_SERPENT == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + SERPENT");
-						}
-						else if (ARP_MARS == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + MARS");
-						}
-						else if (ARP_RC6 == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + RC6");
-						}
-						else if (ARP_TWOFISH == encryption_method_arp)
-						{
-							strcat(string_format_arp, " + TWOFISH");
-						}
-					}
+               Isdir_k = 0;
+               if (st->had_trailing_slash)
+               {
+                    Isdir_k = 1;
+                    Numdir_k++;
+               }
+               else
+               {
+                    if (is_mislaine_encrypted_)
+                    {
+                         if (1 == already_arp)
+                         {
+                              already_arp++;
+                              if (ARP_AES == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + AES");
+                              }
+                              else if (ARP_RC4 == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + RC4");
+                              }
+                              else if (ARP_SERPENT == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + SERPENT");
+                              }
+                              else if (ARP_MARS == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + MARS");
+                              }
+                              else if (ARP_RC6 == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + RC6");
+                              }
+                              else if (ARP_TWOFISH == encryption_method_arp)
+                              {
+                                   strcat(string_format_arp, " + TWOFISH");
+                              }
+                         }
 
-					if (ARP_AES == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted AES)");
-					}
-					else if (ARP_RC4 == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted RC4)");
-					}
-					else if (ARP_SERPENT == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted SERPENT)");
-					}
-					else if (ARP_MARS == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted MARS)");
-					}
-					else if (ARP_RC6 == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted RC6)");
-					}
-					else if (ARP_TWOFISH == encryption_method_arp)
-					{
-						strcat(typeflag_ar, " (Encrypted TWOFISH)");
-					}
-				}
-				Numfiles_k++;
-			}
-			break;
+                         if (ARP_AES == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted AES)");
+                         }
+                         else if (ARP_RC4 == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted RC4)");
+                         }
+                         else if (ARP_SERPENT == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted SERPENT)");
+                         }
+                         else if (ARP_MARS == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted MARS)");
+                         }
+                         else if (ARP_RC6 == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted RC6)");
+                         }
+                         else if (ARP_TWOFISH == encryption_method_arp)
+                         {
+                              strcat(typeflag_ar, " (Encrypted TWOFISH)");
+                         }
+                    }
+                    Numfiles_k++;
+               }
+               break;
 
-		case LNKTYPE:
-			strcpy(typeflag_ar, "LNKTYPE");
-			break;
+          case LNKTYPE:
+               strcpy(typeflag_ar, "LNKTYPE");
+               break;
 
-		case GNUTYPE_DUMPDIR:
-			strcpy(typeflag_ar, "GNUTYPE_DUMPDIR");
-			break;
+          case GNUTYPE_DUMPDIR:
+               strcpy(typeflag_ar, "GNUTYPE_DUMPDIR");
+               break;
 
-		case DIRTYPE:
-			Numdir_k++;
-			Isdir_k = 1;
-			strcpy(typeflag_ar, "DIRTYPE");
-			break;
+          case DIRTYPE:
+               Numdir_k++;
+               Isdir_k = 1;
+               strcpy(typeflag_ar, "DIRTYPE");
+               break;
 
-		case SYMTYPE:
-			strcpy(typeflag_ar, "SYMTYPE");
-			break;
+          case SYMTYPE:
+               strcpy(typeflag_ar, "SYMTYPE");
+               break;
 
-		case BLKTYPE:
-			strcpy(typeflag_ar, "BLKTYPE");
-			break;
+          case BLKTYPE:
+               strcpy(typeflag_ar, "BLKTYPE");
+               break;
 
-		case CHRTYPE:
-			strcpy(typeflag_ar, "CHRTYPE");
-			break;
+          case CHRTYPE:
+               strcpy(typeflag_ar, "CHRTYPE");
+               break;
 
-		case FIFOTYPE:
-			strcpy(typeflag_ar, "FIFOTYPE");
-			break;
+          case FIFOTYPE:
+               strcpy(typeflag_ar, "FIFOTYPE");
+               break;
 
-		case CONTTYPE:
-			strcpy(typeflag_ar, "CONTTYPE");
-			break;
-		}
+          case CONTTYPE:
+               strcpy(typeflag_ar, "CONTTYPE");
+               break;
+          }
 
-		Size_k = current_stat_info.stat.st_size;
+          Size_k = current_stat_info.stat.st_size;
 
-		if (is_mislaine_encrypted_)
-		{
-			if (-1 == encryption_detected_z)
-			{
-				Size_k -= 76;
-				if (0 > Size_k)
-				{
-					Size_k = 0;
-				}
-			}
-		};
+          if (is_mislaine_encrypted_)
+          {
+               if (-1 == encryption_detected_z)
+               {
+                    Size_k -= 76;
+                    if (0 > Size_k)
+                    {
+                         Size_k = 0;
+                    }
+               }
+          };
 
-		strncpy_z(filename_k, temp_name, 1026);
-		;
-		my_func_ar_(AAKP_LIST_PROCESS);
-	}
+          strncpy_z(filename_k, temp_name, 1026);
+          ;
+          my_func_ar_(AAKP_LIST_PROCESS);
+     }
 }
 /**
  * Function to convert the value that come from the VAL struct to the time information
@@ -4150,31 +4153,31 @@ void simple_print_header(struct tar_stat_info *st, union block *blk,
  */
 void tartime_VAL(void)
 {
-	FILETIME mftime;
-	SYSTEMTIME stime_m;
-	SYSTEMTIME stime_2m;
+     FILETIME mftime;
+     SYSTEMTIME stime_m;
+     SYSTEMTIME stime_2m;
 
-	__time64_t s; //= my_VAL_data_arp.VAL_timestamp;
+     __time64_t s; //= my_VAL_data_arp.VAL_timestamp;
 
-	s = my_VAL_data_arp.VAL_timestamp64;
-	if (0 == my_VAL_data_arp.VAL_timestamp64)
-	{
-		s = my_VAL_data_arp.VAL_timestamp;
-	}
+     s = my_VAL_data_arp.VAL_timestamp64;
+     if (0 == my_VAL_data_arp.VAL_timestamp64)
+     {
+          s = my_VAL_data_arp.VAL_timestamp;
+     }
 
-	TimetToFileTime(s, &mftime);
-	FileTimeToSystemTime(&mftime, &stime_m);
+     TimetToFileTime(s, &mftime);
+     FileTimeToSystemTime(&mftime, &stime_m);
 
-	SystemTimeToTzSpecificLocalTime(NULL, &stime_m, &stime_2m);
+     SystemTimeToTzSpecificLocalTime(NULL, &stime_m, &stime_2m);
 
-	Second_k = stime_2m.wSecond;
-	Minute_k = stime_2m.wMinute;
-	Hour_k = stime_2m.wHour;
-	Year_k = stime_2m.wYear;
-	Month_k = stime_2m.wMonth;
-	Day_k = stime_2m.wDay;
+     Second_k = stime_2m.wSecond;
+     Minute_k = stime_2m.wMinute;
+     Hour_k = stime_2m.wHour;
+     Year_k = stime_2m.wYear;
+     Month_k = stime_2m.wMonth;
+     Day_k = stime_2m.wDay;
 
-	return;
+     return;
 }
 /**
  * Function to print the VAL information that is in the VAL struct and send it to list process
@@ -4182,106 +4185,106 @@ void tartime_VAL(void)
  */
 void simple_print_header_VAL(void)
 {
-	tartime_VAL();
+     tartime_VAL();
 
-	if (-1 != encryption_detected_z)
-	{
-		my_VAL_data_arp.VAL_is_encrypted = true;
-		my_VAL_data_arp.VAL_encryption_method = encryption_detected_z;
-	}
+     if (-1 != encryption_detected_z)
+     {
+          my_VAL_data_arp.VAL_is_encrypted = true;
+          my_VAL_data_arp.VAL_encryption_method = encryption_detected_z;
+     }
 
-	if (my_VAL_data_arp.VAL_is_dir)
-	{
-		Isdir_k = 1;
-		strcpy(typeflag_ar, "DIRECTORY");
-		Numdir_k++;
-	}
-	else
-	{
-		if (my_VAL_data_arp.VAL_is_encrypted)
-		{
-			if (ARP_AES == my_VAL_data_arp.VAL_encryption_method)
-			{
-				if (0 == already_arp)
-				{
-					already_arp++;
-					strcat(string_format_arp, " + AES");
-				}
-				strcpy(typeflag_ar, "FILE (Encrypted AES)");
-			}
-			else if (ARP_RC4 == my_VAL_data_arp.VAL_encryption_method)
-			{
-				if (0 == already_arp)
-				{
-					already_arp++;
-					strcat(string_format_arp, " + RC4");
-				}
-				strcpy(typeflag_ar, "FILE (Encrypted RC4)");
-			}
-			else if (ARP_SERPENT == my_VAL_data_arp.VAL_encryption_method)
-			{
-				if (0 == already_arp)
-				{
-					already_arp++;
-					strcat(string_format_arp, " + SERPENT");
-				}
-				strcpy(typeflag_ar, "FILE (Encrypted SERPENT)");
-			}
-			else if (ARP_MARS == my_VAL_data_arp.VAL_encryption_method)
-			{
-				if (0 == already_arp)
-				{
-					already_arp++;
-					strcat(string_format_arp, " + MARS");
-				}
-				strcpy(typeflag_ar, "FILE (Encrypted MARS)");
-			}
-			else if (ARP_RC6 == my_VAL_data_arp.VAL_encryption_method)
-			{
-				if (0 == already_arp)
-				{
-					already_arp++;
-					strcat(string_format_arp, " + RC6");
-				}
-				strcpy(typeflag_ar, "FILE (Encrypted RC6)");
-			}
-			else if (ARP_TWOFISH == my_VAL_data_arp.VAL_encryption_method)
-			{
-				if (0 == already_arp)
-				{
-					already_arp++;
-					strcat(string_format_arp, " + TWOFISH");
-				}
-				strcpy(typeflag_ar, "FILE (Encrypted TWOFISH)");
-			}
-		}
-		else
-			strcpy(typeflag_ar, "FILE");
-		Isdir_k = 0;
-		Numfiles_k++;
-	}
+     if (my_VAL_data_arp.VAL_is_dir)
+     {
+          Isdir_k = 1;
+          strcpy(typeflag_ar, "DIRECTORY");
+          Numdir_k++;
+     }
+     else
+     {
+          if (my_VAL_data_arp.VAL_is_encrypted)
+          {
+               if (ARP_AES == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         strcat(string_format_arp, " + AES");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted AES)");
+               }
+               else if (ARP_RC4 == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         strcat(string_format_arp, " + RC4");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted RC4)");
+               }
+               else if (ARP_SERPENT == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         strcat(string_format_arp, " + SERPENT");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted SERPENT)");
+               }
+               else if (ARP_MARS == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         strcat(string_format_arp, " + MARS");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted MARS)");
+               }
+               else if (ARP_RC6 == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         strcat(string_format_arp, " + RC6");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted RC6)");
+               }
+               else if (ARP_TWOFISH == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         strcat(string_format_arp, " + TWOFISH");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted TWOFISH)");
+               }
+          }
+          else
+               strcpy(typeflag_ar, "FILE");
+          Isdir_k = 0;
+          Numfiles_k++;
+     }
 
-	Size_k = my_VAL_data_arp.VAL_file_size;
+     Size_k = my_VAL_data_arp.VAL_file_size;
 
-	if (my_VAL_data_arp.VAL_is_encrypted)
-	{
-		if (-1 == encryption_detected_z)
-		{
-			Size_k -= 76;
-			if (0 > Size_k)
-			{
-				Size_k = 0;
-			}
-		}
-	}
-	if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
-	{
-		strcpy(filename_k, my_VAL_data_arp.VAL_filename_v27_v51);
-	}
-	else
-		strcpy(filename_k, my_VAL_data_arp.VAL_filename);
+     if (my_VAL_data_arp.VAL_is_encrypted)
+     {
+          if (-1 == encryption_detected_z)
+          {
+               Size_k -= 76;
+               if (0 > Size_k)
+               {
+                    Size_k = 0;
+               }
+          }
+     }
+     if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
+     {
+          strcpy(filename_k, my_VAL_data_arp.VAL_filename_v27_v51);
+     }
+     else
+          strcpy(filename_k, my_VAL_data_arp.VAL_filename);
 
-	my_func_ar_(AAKP_LIST_PROCESS);
+     my_func_ar_(AAKP_LIST_PROCESS);
 }
 /**
  * Function to get the list information for the .iso handling routines
@@ -4289,24 +4292,24 @@ void simple_print_header_VAL(void)
  */
 void tartime_iso(void)
 {
-	struct tm *tm;
-	__time64_t s;
+     struct tm *tm;
+     __time64_t s;
 
-	s = my_VAL_data_arp.VAL_timestamp64;
-	tm = 0 ? _gmtime64(&s) : _localtime64(&s);
-	tm = 0 ? _gmtime64(&s) : _localtime64(&s);
-	if (!tm)
-	{
-		s = time(NULL);
-		tm = 0 ? _gmtime64(&s) : _localtime64(&s);
-	}
-	Second_k = tm->tm_sec;
-	Minute_k = tm->tm_min;
-	Hour_k = tm->tm_hour;
-	Year_k = tm->tm_year + 1900;
-	Month_k = tm->tm_mon + 1;
-	Day_k = tm->tm_mday;
-	return;
+     s = my_VAL_data_arp.VAL_timestamp64;
+     tm = 0 ? _gmtime64(&s) : _localtime64(&s);
+     tm = 0 ? _gmtime64(&s) : _localtime64(&s);
+     if (!tm)
+     {
+          s = time(NULL);
+          tm = 0 ? _gmtime64(&s) : _localtime64(&s);
+     }
+     Second_k = tm->tm_sec;
+     Minute_k = tm->tm_min;
+     Hour_k = tm->tm_hour;
+     Year_k = tm->tm_year + 1900;
+     Month_k = tm->tm_mon + 1;
+     Day_k = tm->tm_mday;
+     return;
 }
 /**
  * Function to print the VAL information to the list process
@@ -4314,27 +4317,27 @@ void tartime_iso(void)
  */
 void simple_print_header_iso(void)
 {
-	tartime_iso();
-	if (my_VAL_data_arp.VAL_is_dir)
-	{
-		Isdir_k = 1;
-		strcpy(typeflag_ar, "DIRECTORY");
-		Numdir_k++;
-	}
-	else
-	{
-		if (my_VAL_data_arp.VAL_is_encrypted)
-		{
-			strcpy(typeflag_ar, "FILE (Encrypted)");
-		}
-		else
-			strcpy(typeflag_ar, "FILE");
-		Isdir_k = 0;
-		Numfiles_k++;
-	}
-	Size_k = my_VAL_data_arp.VAL_file_size;
-	strncpy_z(filename_k, my_VAL_data_arp.VAL_filename, 1023);
-	my_func_ar_(AAKP_LIST_PROCESS);
+     tartime_iso();
+     if (my_VAL_data_arp.VAL_is_dir)
+     {
+          Isdir_k = 1;
+          strcpy(typeflag_ar, "DIRECTORY");
+          Numdir_k++;
+     }
+     else
+     {
+          if (my_VAL_data_arp.VAL_is_encrypted)
+          {
+               strcpy(typeflag_ar, "FILE (Encrypted)");
+          }
+          else
+               strcpy(typeflag_ar, "FILE");
+          Isdir_k = 0;
+          Numfiles_k++;
+     }
+     Size_k = my_VAL_data_arp.VAL_file_size;
+     strncpy_z(filename_k, my_VAL_data_arp.VAL_filename, 1023);
+     my_func_ar_(AAKP_LIST_PROCESS);
 }
 
 /**
@@ -4342,9 +4345,9 @@ void simple_print_header_iso(void)
  *
  */
 void print_header(struct tar_stat_info *st, union block *blk,
-				  off_t block_ordinal)
+                  off_t block_ordinal)
 {
-	simple_print_header(st, blk, block_ordinal);
+     simple_print_header(st, blk, block_ordinal);
 }
 
 /**
@@ -4353,10 +4356,10 @@ void print_header(struct tar_stat_info *st, union block *blk,
  */
 void list_archive(void)
 {
-	off_t block_ordinal = current_block_ordinal();
+     off_t block_ordinal = current_block_ordinal();
 
-	print_header(&current_stat_info, current_header, block_ordinal);
-	skip_member();
+     print_header(&current_stat_info, current_header, block_ordinal);
+     skip_member();
 }
 
 /**
@@ -4373,8 +4376,8 @@ void mv_end(void)
  */
 void mv_size_left(off_t size)
 {
-	if (bufmap_head)
-		bufmap_head->sizeleft = size;
+     if (bufmap_head)
+          bufmap_head->sizeleft = size;
 }
 
 /**
@@ -4383,32 +4386,32 @@ void mv_size_left(off_t size)
  */
 void skip_file(off_t size)
 {
-	union block *x;
+     union block *x;
 
-	/* FIXME: Make sure mv_begin_read is always called before it */
-	if (seekable_archive)
-	{
-		off_t nblk = seek_archive(size);
-		if (nblk >= 0)
-			size -= nblk * BLOCKSIZE;
-		else
-			seekable_archive = false;
-	}
-	mv_size_left(size);
-	while (size > 0)
-	{
-		x = find_next_block();
-		if (!x)
-		{
-			;
-			strcpy(error_message_k, "Unexpected end of file found");
-			fatal_exit_k = 2004;
-			return;
-		}
-		set_next_block_after(x);
-		size -= BLOCKSIZE;
-		mv_size_left(size);
-	}
+     /* FIXME: Make sure mv_begin_read is always called before it */
+     if (seekable_archive)
+     {
+          off_t nblk = seek_archive(size);
+          if (nblk >= 0)
+               size -= nblk * BLOCKSIZE;
+          else
+               seekable_archive = false;
+     }
+     mv_size_left(size);
+     while (size > 0)
+     {
+          x = find_next_block();
+          if (!x)
+          {
+               ;
+               strcpy(error_message_k, "Unexpected end of file found");
+               fatal_exit_k = 2004;
+               return;
+          }
+          set_next_block_after(x);
+          size -= BLOCKSIZE;
+          mv_size_left(size);
+     }
 }
 
 /**
@@ -4425,7 +4428,7 @@ void mv_begin_write(__attribute__((unused)) const char *file_name, __attribute__
  */
 void mv_begin_read(struct tar_stat_info *st)
 {
-	mv_begin_write(st->orig_file_name, st->stat.st_size, st->stat.st_size);
+     mv_begin_write(st->orig_file_name, st->stat.st_size, st->stat.st_size);
 }
 
 /**
@@ -4435,19 +4438,19 @@ void mv_begin_read(struct tar_stat_info *st)
  */
 void skip_member(void)
 {
-	if (!current_stat_info.skipped)
-	{
-		char save_typeflag = current_header->header.typeflag;
-		set_next_block_after(current_header);
-		mv_begin_read(&current_stat_info);
-		if (current_stat_info.is_sparse)
-			sparse_skip_file(&current_stat_info);
-		else if (save_typeflag != DIRTYPE)
-		{
-			skip_file(current_stat_info.stat.st_size);
-		}
-		mv_end();
-	}
+     if (!current_stat_info.skipped)
+     {
+          char save_typeflag = current_header->header.typeflag;
+          set_next_block_after(current_header);
+          mv_begin_read(&current_stat_info);
+          if (current_stat_info.is_sparse)
+               sparse_skip_file(&current_stat_info);
+          else if (save_typeflag != DIRTYPE)
+          {
+               skip_file(current_stat_info.stat.st_size);
+          }
+          mv_end();
+     }
 }
 
 /**
@@ -4456,7 +4459,7 @@ void skip_member(void)
  */
 int gname_to_gid(__attribute__((unused)) char const *gname, __attribute__((unused)) short *gidp)
 {
-	return 0;
+     return 0;
 }
 
 /**
@@ -4465,7 +4468,7 @@ int gname_to_gid(__attribute__((unused)) char const *gname, __attribute__((unuse
  */
 int uname_to_uid(__attribute__((unused)) char const *uname, __attribute__((unused)) short *uidp)
 {
-	return 0;
+     return 0;
 }
 
 /**
@@ -4474,9 +4477,9 @@ int uname_to_uid(__attribute__((unused)) char const *uname, __attribute__((unuse
  */
 short gid_from_header(const char *p, size_t s)
 {
-	return from_header(p, s, "int",
-					   TYPE_MINIMUM(int), TYPE_MAXIMUM(int),
-					   false, false);
+     return from_header(p, s, "int",
+                        TYPE_MINIMUM(int), TYPE_MAXIMUM(int),
+                        false, false);
 }
 
 /**
@@ -4485,9 +4488,9 @@ short gid_from_header(const char *p, size_t s)
  */
 short uid_from_header(const char *p, size_t s)
 {
-	return from_header(p, s, "int",
-					   TYPE_MINIMUM(int), TYPE_MAXIMUM(int),
-					   false, false);
+     return from_header(p, s, "int",
+                        TYPE_MINIMUM(int), TYPE_MAXIMUM(int),
+                        false, false);
 }
 
 /**
@@ -4496,15 +4499,15 @@ short uid_from_header(const char *p, size_t s)
  */
 void assign_string_n(char **string, const char *value, size_t n)
 {
-	free(*string);
-	if (value)
-	{
-		size_t l = strnlen(value, n);
-		char *p = malloc(l + 1);
-		memcpy(p, value, l);
-		p[l] = 0;
-		*string = p;
-	}
+     free(*string);
+     if (value)
+     {
+          size_t l = strnlen(value, n);
+          char *p = malloc(l + 1);
+          memcpy(p, value, l);
+          p[l] = 0;
+          *string = p;
+     }
 }
 
 /**
@@ -4514,9 +4517,9 @@ void assign_string_n(char **string, const char *value, size_t n)
 time_t
 time_from_header(const char *p, size_t s)
 {
-	return from_header(p, s, "time_t",
-					   TYPE_MINIMUM(time_t), TYPE_MAXIMUM(time_t),
-					   false, false);
+     return from_header(p, s, "time_t",
+                        TYPE_MINIMUM(time_t), TYPE_MAXIMUM(time_t),
+                        false, false);
 }
 
 /* high performance ("contiguous data") */
@@ -4600,13 +4603,13 @@ time_from_header(const char *p, size_t s)
 mode_t
 mode_from_header(const char *p, size_t s, bool *hbits)
 {
-	intmax_t u = from_header(p, s, "mode_t",
-							 INTMAX_MIN, UINTMAX_MAX,
-							 false, false);
-	mode_t mode = ((u & TSUID ? S_ISUID : 0) | (u & TSGID ? S_ISGID : 0) | (u & TSVTX ? S_ISVTX : 0) | (u & TUREAD ? S_IRUSR : 0) | (u & TUWRITE ? S_IWUSR : 0) | (u & TUEXEC ? S_IXUSR : 0) | (u & TGREAD ? S_IRGRP : 0) | (u & TGWRITE ? S_IWGRP : 0) | (u & TGEXEC ? S_IXGRP : 0) | (u & TOREAD ? S_IROTH : 0) | (u & TOWRITE ? S_IWOTH : 0) | (u & TOEXEC ? S_IXOTH : 0));
+     intmax_t u = from_header(p, s, "mode_t",
+                              INTMAX_MIN, UINTMAX_MAX,
+                              false, false);
+     mode_t mode = ((u & TSUID ? S_ISUID : 0) | (u & TSGID ? S_ISGID : 0) | (u & TSVTX ? S_ISVTX : 0) | (u & TUREAD ? S_IRUSR : 0) | (u & TUWRITE ? S_IWUSR : 0) | (u & TUEXEC ? S_IXUSR : 0) | (u & TGREAD ? S_IRGRP : 0) | (u & TGWRITE ? S_IWGRP : 0) | (u & TGEXEC ? S_IXGRP : 0) | (u & TOREAD ? S_IROTH : 0) | (u & TOWRITE ? S_IWOTH : 0) | (u & TOEXEC ? S_IXOTH : 0));
 
-	*hbits = (u & ~07777) != 0;
-	return mode;
+     *hbits = (u & ~07777) != 0;
+     return mode;
 }
 
 static major_t major_from_header(const char *buf, size_t size);
@@ -4616,7 +4619,7 @@ static minor_t minor_from_header(const char *buf, size_t size);
 #define MAJOR_FROM_HEADER(where) major_from_header(where, sizeof(where))
 #define MINOR_FROM_HEADER(where) minor_from_header(where, sizeof(where))
 #define MODE_FROM_HEADER(where, hbits) \
-	mode_from_header(where, sizeof(where), hbits)
+     mode_from_header(where, sizeof(where), hbits)
 #define TIME_FROM_HEADER(where) time_from_header(where, sizeof(where))
 #define UID_FROM_HEADER(where) uid_from_header(where, sizeof(where))
 
@@ -4640,107 +4643,107 @@ static minor_t minor_from_header(const char *buf, size_t size);
  *  e.g. print_header, that assumes decoded data.
  */
 void decode_header(union block *header, struct tar_stat_info *stat_info,
-				   enum archive_format *format_pointer, int do_user_group)
+                   enum archive_format *format_pointer, int do_user_group)
 {
-	enum archive_format format;
-	bool hbits;
-	mode_t mode = MODE_FROM_HEADER(header->header.mode, &hbits);
+     enum archive_format format;
+     bool hbits;
+     mode_t mode = MODE_FROM_HEADER(header->header.mode, &hbits);
 
-	if (strcmp(header->header.magic, TMAGIC) == 0)
-	{
-		if (header->star_header.prefix[130] == 0 && ISOCTAL(header->star_header.atime[0]) && header->star_header.atime[11] == ' ' && ISOCTAL(header->star_header.ctime[0]) && header->star_header.ctime[11] == ' ')
-			format = STAR_FORMAT;
-		else if (stat_info->xhdr.size)
-			format = POSIX_FORMAT;
-		else
-			format = USTAR_FORMAT;
-	}
-	else if (strcmp(header->buffer + offsetof(struct posix_header, magic),
-					OLDGNU_MAGIC) == 0)
-		format = hbits ? OLDGNU_FORMAT : GNU_FORMAT;
-	else
-		format = V7_FORMAT;
-	*format_pointer = format;
+     if (strcmp(header->header.magic, TMAGIC) == 0)
+     {
+          if (header->star_header.prefix[130] == 0 && ISOCTAL(header->star_header.atime[0]) && header->star_header.atime[11] == ' ' && ISOCTAL(header->star_header.ctime[0]) && header->star_header.ctime[11] == ' ')
+               format = STAR_FORMAT;
+          else if (stat_info->xhdr.size)
+               format = POSIX_FORMAT;
+          else
+               format = USTAR_FORMAT;
+     }
+     else if (strcmp(header->buffer + offsetof(struct posix_header, magic),
+                     OLDGNU_MAGIC) == 0)
+          format = hbits ? OLDGNU_FORMAT : GNU_FORMAT;
+     else
+          format = V7_FORMAT;
+     *format_pointer = format;
 
-	detected_format_arp = format;
+     detected_format_arp = format;
 
-	stat_info->stat.st_mode = mode;
-	stat_info->mtime.tv_sec = TIME_FROM_HEADER(header->header.mtime);
-	stat_info->mtime.tv_nsec = 0;
-	assign_string_n(&stat_info->uname,
-					header->header.uname[0] ? header->header.uname : NULL,
-					sizeof(header->header.uname));
-	assign_string_n(&stat_info->gname,
-					header->header.gname[0] ? header->header.gname : NULL,
-					sizeof(header->header.gname));
+     stat_info->stat.st_mode = mode;
+     stat_info->mtime.tv_sec = TIME_FROM_HEADER(header->header.mtime);
+     stat_info->mtime.tv_nsec = 0;
+     assign_string_n(&stat_info->uname,
+                     header->header.uname[0] ? header->header.uname : NULL,
+                     sizeof(header->header.uname));
+     assign_string_n(&stat_info->gname,
+                     header->header.gname[0] ? header->header.gname : NULL,
+                     sizeof(header->header.gname));
 
-	xheader_xattr_init(stat_info);
+     xheader_xattr_init(stat_info);
 
-	if (format == OLDGNU_FORMAT && incremental_option)
-	{
-		stat_info->atime.tv_sec = TIME_FROM_HEADER(header->oldgnu_header.atime);
-		stat_info->ctime.tv_sec = TIME_FROM_HEADER(header->oldgnu_header.ctime);
-		stat_info->atime.tv_nsec = stat_info->ctime.tv_nsec = 0;
-	}
-	else if (format == STAR_FORMAT)
-	{
-		stat_info->atime.tv_sec = TIME_FROM_HEADER(header->star_header.atime);
-		stat_info->ctime.tv_sec = TIME_FROM_HEADER(header->star_header.ctime);
-		stat_info->atime.tv_nsec = stat_info->ctime.tv_nsec = 0;
-	}
-	else
-		stat_info->atime = stat_info->ctime = start_time;
+     if (format == OLDGNU_FORMAT && incremental_option)
+     {
+          stat_info->atime.tv_sec = TIME_FROM_HEADER(header->oldgnu_header.atime);
+          stat_info->ctime.tv_sec = TIME_FROM_HEADER(header->oldgnu_header.ctime);
+          stat_info->atime.tv_nsec = stat_info->ctime.tv_nsec = 0;
+     }
+     else if (format == STAR_FORMAT)
+     {
+          stat_info->atime.tv_sec = TIME_FROM_HEADER(header->star_header.atime);
+          stat_info->ctime.tv_sec = TIME_FROM_HEADER(header->star_header.ctime);
+          stat_info->atime.tv_nsec = stat_info->ctime.tv_nsec = 0;
+     }
+     else
+          stat_info->atime = stat_info->ctime = start_time;
 
-	if (format == V7_FORMAT)
-	{
-		stat_info->stat.st_uid = UID_FROM_HEADER(header->header.uid);
-		stat_info->stat.st_gid = GID_FROM_HEADER(header->header.gid);
-		stat_info->stat.st_rdev = 0;
-	}
-	else
-	{
-		if (do_user_group)
-		{
-			/* FIXME: Decide if this should somewhat depend on -p.  */
+     if (format == V7_FORMAT)
+     {
+          stat_info->stat.st_uid = UID_FROM_HEADER(header->header.uid);
+          stat_info->stat.st_gid = GID_FROM_HEADER(header->header.gid);
+          stat_info->stat.st_rdev = 0;
+     }
+     else
+     {
+          if (do_user_group)
+          {
+               /* FIXME: Decide if this should somewhat depend on -p.  */
 
-			if (numeric_owner_option || !*header->header.uname || !uname_to_uid(header->header.uname, &stat_info->stat.st_uid))
-				stat_info->stat.st_uid = UID_FROM_HEADER(header->header.uid);
+               if (numeric_owner_option || !*header->header.uname || !uname_to_uid(header->header.uname, &stat_info->stat.st_uid))
+                    stat_info->stat.st_uid = UID_FROM_HEADER(header->header.uid);
 
-			if (numeric_owner_option || !*header->header.gname || !gname_to_gid(header->header.gname, &stat_info->stat.st_gid))
-				stat_info->stat.st_gid = GID_FROM_HEADER(header->header.gid);
-		}
+               if (numeric_owner_option || !*header->header.gname || !gname_to_gid(header->header.gname, &stat_info->stat.st_gid))
+                    stat_info->stat.st_gid = GID_FROM_HEADER(header->header.gid);
+          }
 
-		switch (header->header.typeflag)
-		{
-		case BLKTYPE:
-		case CHRTYPE:
+          switch (header->header.typeflag)
+          {
+          case BLKTYPE:
+          case CHRTYPE:
 
-			stat_info->stat.st_rdev =
-				makedev(MAJOR_FROM_HEADER(header->header.devmajor),
-						MINOR_FROM_HEADER(header->header.devminor));
+               stat_info->stat.st_rdev =
+                   makedev(MAJOR_FROM_HEADER(header->header.devmajor),
+                           MINOR_FROM_HEADER(header->header.devminor));
 
-			//stat_info->stat.st_rdev = 0;
+               //stat_info->stat.st_rdev = 0;
 
-			break;
+               break;
 
-		default:
-			stat_info->stat.st_rdev = 0;
-		}
-	}
+          default:
+               stat_info->stat.st_rdev = 0;
+          }
+     }
 
-	xheader_decode(stat_info);
+     xheader_decode(stat_info);
 
-	if (sparse_member_p(stat_info))
-	{
-		sparse_fixup_header(stat_info);
-		stat_info->is_sparse = true;
-	}
-	else
-	{
-		stat_info->is_sparse = false;
-		if (((current_format == GNU_FORMAT || current_format == OLDGNU_FORMAT) && current_header->header.typeflag == GNUTYPE_DUMPDIR) || stat_info->dumpdir)
-			stat_info->is_dumpdir = true;
-	}
+     if (sparse_member_p(stat_info))
+     {
+          sparse_fixup_header(stat_info);
+          stat_info->is_sparse = true;
+     }
+     else
+     {
+          stat_info->is_sparse = false;
+          if (((current_format == GNU_FORMAT || current_format == OLDGNU_FORMAT) && current_header->header.typeflag == GNUTYPE_DUMPDIR) || stat_info->dumpdir)
+               stat_info->is_dumpdir = true;
+     }
 }
 
 #define FILE_SYSTEM_DRIVE_PREFIX_CAN_BE_RELATIVE_UNIX 0
@@ -4759,25 +4762,25 @@ void decode_header(union block *header, struct tar_stat_info *stat_info,
 char *
 last_component_unix(char const *name)
 {
-	char const *base = name + FILE_SYSTEM_PREFIX_LEN_UNIX(name);
-	char const *p;
-	bool saw_slash = false;
+     char const *base = name + FILE_SYSTEM_PREFIX_LEN_UNIX(name);
+     char const *p;
+     bool saw_slash = false;
 
-	while (ISSLASH_UNIX(*base))
-		base++;
+     while (ISSLASH_UNIX(*base))
+          base++;
 
-	for (p = base; *p; p++)
-	{
-		if (ISSLASH_UNIX(*p))
-			saw_slash = true;
-		else if (saw_slash)
-		{
-			base = p;
-			saw_slash = false;
-		}
-	}
+     for (p = base; *p; p++)
+     {
+          if (ISSLASH_UNIX(*p))
+               saw_slash = true;
+          else if (saw_slash)
+          {
+               base = p;
+               saw_slash = false;
+          }
+     }
 
-	return (char *)base;
+     return (char *)base;
 }
 
 /**
@@ -4787,19 +4790,19 @@ last_component_unix(char const *name)
 size_t
 base_len_unix(char const *name)
 {
-	size_t len;
-	size_t prefix_len = FILE_SYSTEM_PREFIX_LEN_UNIX(name);
+     size_t len;
+     size_t prefix_len = FILE_SYSTEM_PREFIX_LEN_UNIX(name);
 
-	for (len = strlen(name); 1 < len && ISSLASH_UNIX(name[len - 1]); len--)
-		continue;
+     for (len = strlen(name); 1 < len && ISSLASH_UNIX(name[len - 1]); len--)
+          continue;
 
-	if (DOUBLE_SLASH_IS_DISTINCT_ROOT_UNIX && len == 1 && ISSLASH_UNIX(name[0]) && ISSLASH_UNIX(name[1]) && !name[2])
-		return 2;
+     if (DOUBLE_SLASH_IS_DISTINCT_ROOT_UNIX && len == 1 && ISSLASH_UNIX(name[0]) && ISSLASH_UNIX(name[1]) && !name[2])
+          return 2;
 
-	if (FILE_SYSTEM_DRIVE_PREFIX_CAN_BE_RELATIVE_UNIX && prefix_len && len == prefix_len && ISSLASH_UNIX(name[prefix_len]))
-		return prefix_len + 1;
+     if (FILE_SYSTEM_DRIVE_PREFIX_CAN_BE_RELATIVE_UNIX && prefix_len && len == prefix_len && ISSLASH_UNIX(name[prefix_len]))
+          return prefix_len + 1;
 
-	return len;
+     return len;
 }
 
 /**
@@ -4808,18 +4811,18 @@ base_len_unix(char const *name)
  */
 bool strip_trailing_slashes_unix(char *file)
 {
-	char *base = last_component_unix(file);
-	char *base_lim;
-	bool had_slash;
+     char *base = last_component_unix(file);
+     char *base_lim;
+     bool had_slash;
 
-	/* last_component returns "" for file system roots, but we need to turn
+     /* last_component returns "" for file system roots, but we need to turn
 	   "///" into "/".  */
-	if (!*base)
-		base = file;
-	base_lim = base + base_len_unix(base);
-	had_slash = (*base_lim != '\0');
-	*base_lim = '\0';
-	return had_slash;
+     if (!*base)
+          base = file;
+     base_lim = base + base_len_unix(base);
+     had_slash = (*base_lim != '\0');
+     *base_lim = '\0';
+     return had_slash;
 }
 
 /**
@@ -4829,8 +4832,8 @@ bool strip_trailing_slashes_unix(char *file)
  */
 void assign_string(char **string, const char *value)
 {
-	free(*string);
-	*string = value ? strdup(value) : 0;
+     free(*string);
+     *string = value ? strdup(value) : 0;
 }
 
 /**
@@ -4843,7 +4846,7 @@ void assign_string(char **string, const char *value)
 size_t
 available_space_after(union block *pointer)
 {
-	return record_end->buffer - pointer->buffer;
+     return record_end->buffer - pointer->buffer;
 }
 
 /**
@@ -4852,15 +4855,15 @@ available_space_after(union block *pointer)
  */
 void set_next_block_after(union block *block)
 {
-	while (block >= current_block)
-		current_block++;
+     while (block >= current_block)
+          current_block++;
 
-	/* Do *not* flush the archive here.  If we do, the same argument to
+     /* Do *not* flush the archive here.  If we do, the same argument to
 	   set_next_block_after could mean the next block (if the input record
 	   is exactly one block long), which is not what is intended.  */
 
-	if (current_block > record_end)
-		abort();
+     if (current_block > record_end)
+          abort();
 }
 
 /**
@@ -4869,11 +4872,11 @@ void set_next_block_after(union block *block)
  */
 off_t off_from_header(const char *p, size_t s)
 {
-	/* Negative offsets are not allowed in tar files, so invoke
+     /* Negative offsets are not allowed in tar files, so invoke
 	   from_header with minimum value 0, not TYPE_MINIMUM (off_t).  */
-	return from_header(p, s, "off_t",
-					   0, TYPE_MAXIMUM(off_t),
-					   false, false);
+     return from_header(p, s, "off_t",
+                        0, TYPE_MAXIMUM(off_t),
+                        false, false);
 }
 
 /**
@@ -4883,70 +4886,70 @@ off_t off_from_header(const char *p, size_t s)
  */
 static bool
 decode_record(struct xheader *xhdr,
-			  char **ptr,
-			  void (*handler)(void *, char const *, char const *, size_t),
-			  void *data)
+              char **ptr,
+              void (*handler)(void *, char const *, char const *, size_t),
+              void *data)
 {
-	char *start = *ptr;
-	char *p = start;
-	size_t len;
-	char *len_lim;
-	char const *keyword;
-	char *nextp;
-	size_t len_max = xhdr->buffer + xhdr->size - start;
+     char *start = *ptr;
+     char *p = start;
+     size_t len;
+     char *len_lim;
+     char const *keyword;
+     char *nextp;
+     size_t len_max = xhdr->buffer + xhdr->size - start;
 
-	while (*p == ' ' || *p == '\t')
-		p++;
+     while (*p == ' ' || *p == '\t')
+          p++;
 
-	if (!ISDIGIT(*p))
-	{
-		if (*p)
-		{
-			pedro_dprintf(2, "Malformed extended header: missing length");
-		}
-		return false;
-	}
+     if (!ISDIGIT(*p))
+     {
+          if (*p)
+          {
+               pedro_dprintf(2, "Malformed extended header: missing length");
+          }
+          return false;
+     }
 
-	len = strtoumax(p, &len_lim, 10);
+     len = strtoumax(p, &len_lim, 10);
 
-	if (len_max < len)
-	{
-		int len_len = len_lim - p;
-		pedro_dprintf(2, "Extended header length %*s is out of range",
-					  len_len, p);
-		return false;
-	}
+     if (len_max < len)
+     {
+          int len_len = len_lim - p;
+          pedro_dprintf(2, "Extended header length %*s is out of range",
+                        len_len, p);
+          return false;
+     }
 
-	nextp = start + len;
+     nextp = start + len;
 
-	for (p = len_lim; *p == ' ' || *p == '\t'; p++)
-		continue;
-	if (p == len_lim)
-	{
-		pedro_dprintf(2, "Malformed extended header: missing blank after length");
-		return false;
-	}
+     for (p = len_lim; *p == ' ' || *p == '\t'; p++)
+          continue;
+     if (p == len_lim)
+     {
+          pedro_dprintf(2, "Malformed extended header: missing blank after length");
+          return false;
+     }
 
-	keyword = p;
-	p = strchr(p, '=');
-	if (!(p && p < nextp))
-	{
-		pedro_dprintf(2, "Malformed extended header: missing equal sign");
-		return false;
-	}
+     keyword = p;
+     p = strchr(p, '=');
+     if (!(p && p < nextp))
+     {
+          pedro_dprintf(2, "Malformed extended header: missing equal sign");
+          return false;
+     }
 
-	if (nextp[-1] != '\n')
-	{
-		pedro_dprintf(2, "Malformed extended header: missing newline");
-		return false;
-	}
+     if (nextp[-1] != '\n')
+     {
+          pedro_dprintf(2, "Malformed extended header: missing newline");
+          return false;
+     }
 
-	*p = nextp[-1] = '\0';
-	handler(data, keyword, p + 1, nextp - p - 2); /* '=' + trailing '\n' */
-	*p = '=';
-	nextp[-1] = '\n';
-	*ptr = nextp;
-	return true;
+     *p = nextp[-1] = '\0';
+     handler(data, keyword, p + 1, nextp - p - 2); /* '=' + trailing '\n' */
+     *p = '=';
+     nextp[-1] = '\n';
+     *ptr = nextp;
+     return true;
 }
 
 /**
@@ -4955,14 +4958,14 @@ decode_record(struct xheader *xhdr,
  */
 static void
 xheader_list_append(struct keyword_list **root, char const *kw,
-					char const *value)
+                    char const *value)
 {
-	struct keyword_list *kp = malloc(sizeof *kp);
+     struct keyword_list *kp = malloc(sizeof *kp);
 
-	kp->pattern = xstrdup(kw);
-	kp->value = value ? xstrdup(value) : NULL;
-	kp->next = *root;
-	*root = kp;
+     kp->pattern = xstrdup(kw);
+     kp->value = value ? xstrdup(value) : NULL;
+     kp->next = *root;
+     *root = kp;
 }
 
 /**
@@ -4971,15 +4974,15 @@ xheader_list_append(struct keyword_list **root, char const *kw,
  */
 static void
 decg(void *data, char const *keyword, char const *value,
-	 size_t size __attribute__((unused)))
+     size_t size __attribute__((unused)))
 {
-	struct keyword_list **kwl = data;
-	struct xhdr_tab const *tab = locate_handler(keyword);
+     struct keyword_list **kwl = data;
+     struct xhdr_tab const *tab = locate_handler(keyword);
 
-	if (tab && (tab->flags & XHDR_GLOBAL))
-		tab->decoder(data, keyword, value, size);
-	else
-		xheader_list_append(kwl, keyword, value);
+     if (tab && (tab->flags & XHDR_GLOBAL))
+          tab->decoder(data, keyword, value, size);
+     else
+          xheader_list_append(kwl, keyword, value);
 }
 
 /**
@@ -4988,13 +4991,13 @@ decg(void *data, char const *keyword, char const *value,
  */
 void xheader_decode_global(struct xheader *xhdr)
 {
-	if (xhdr->size)
-	{
-		char *p = xhdr->buffer + BLOCKSIZE;
-		xheader_list_destroy(&global_header_override_list);
-		while (decode_record(xhdr, &p, decg, &global_header_override_list))
-			continue;
-	}
+     if (xhdr->size)
+     {
+          char *p = xhdr->buffer + BLOCKSIZE;
+          xheader_list_destroy(&global_header_override_list);
+          while (decode_record(xhdr, &p, decg, &global_header_override_list))
+               continue;
+     }
 }
 
 /**
@@ -5003,187 +5006,187 @@ void xheader_decode_global(struct xheader *xhdr)
  */
 enum read_header
 read_header_old_1_32(union block **return_block, struct tar_stat_info *info,
-					 enum read_header_mode mode)
+                     enum read_header_mode mode)
 {
-	union block *header;
-	union block *header_copy;
-	char *bp;
-	union block *data_block;
-	size_t size, written;
-	union block *next_long_name = 0;
-	union block *next_long_link = 0;
-	size_t next_long_name_blocks = 0;
-	size_t next_long_link_blocks = 0;
+     union block *header;
+     union block *header_copy;
+     char *bp;
+     union block *data_block;
+     size_t size, written;
+     union block *next_long_name = 0;
+     union block *next_long_link = 0;
+     size_t next_long_name_blocks = 0;
+     size_t next_long_link_blocks = 0;
 
-	while (1)
-	{
-		;
-		enum read_header status;
+     while (1)
+     {
+          ;
+          enum read_header status;
 
-		header = find_next_block();
-		*return_block = header;
-		if (!header)
-			return HEADER_END_OF_FILE;
+          header = find_next_block();
+          *return_block = header;
+          if (!header)
+               return HEADER_END_OF_FILE;
 
-		if ((status = tar_checksum(header, false)) != HEADER_SUCCESS)
-			return status;
+          if ((status = tar_checksum(header, false)) != HEADER_SUCCESS)
+               return status;
 
-		/* Good block.  Decode file size and return.  */
+          /* Good block.  Decode file size and return.  */
 
-		if (header->header.typeflag == LNKTYPE)
-			info->stat.st_size = 0; /* links 0 size on tape */
-		else
-		{
-			info->stat.st_size = OFF_FROM_HEADER(header->header.size);
-			if (info->stat.st_size < 0)
-				return HEADER_FAILURE;
-		}
+          if (header->header.typeflag == LNKTYPE)
+               info->stat.st_size = 0; /* links 0 size on tape */
+          else
+          {
+               info->stat.st_size = OFF_FROM_HEADER(header->header.size);
+               if (info->stat.st_size < 0)
+                    return HEADER_FAILURE;
+          }
 
-		if (header->header.typeflag == GNUTYPE_LONGNAME || header->header.typeflag == GNUTYPE_LONGLINK || header->header.typeflag == XHDTYPE || header->header.typeflag == XGLTYPE || header->header.typeflag == SOLARIS_XHDTYPE)
-		{
-			if (mode == read_header_x_raw)
-				return HEADER_SUCCESS_EXTENDED;
-			else if (header->header.typeflag == GNUTYPE_LONGNAME || header->header.typeflag == GNUTYPE_LONGLINK)
-			{
-				size_t name_size = info->stat.st_size;
-				size_t n = name_size % BLOCKSIZE;
-				size = name_size + BLOCKSIZE;
-				if (n)
-					size += BLOCKSIZE - n;
+          if (header->header.typeflag == GNUTYPE_LONGNAME || header->header.typeflag == GNUTYPE_LONGLINK || header->header.typeflag == XHDTYPE || header->header.typeflag == XGLTYPE || header->header.typeflag == SOLARIS_XHDTYPE)
+          {
+               if (mode == read_header_x_raw)
+                    return HEADER_SUCCESS_EXTENDED;
+               else if (header->header.typeflag == GNUTYPE_LONGNAME || header->header.typeflag == GNUTYPE_LONGLINK)
+               {
+                    size_t name_size = info->stat.st_size;
+                    size_t n = name_size % BLOCKSIZE;
+                    size = name_size + BLOCKSIZE;
+                    if (n)
+                         size += BLOCKSIZE - n;
 
-				if ((size_t)name_size != (size_t)(info->stat.st_size) || size < name_size)
-				{
-					assert(0 && "nunca pode acontecer");
-				}
+                    if ((size_t)name_size != (size_t)(info->stat.st_size) || size < name_size)
+                    {
+                         assert(0 && "nunca pode acontecer");
+                    }
 
-				header_copy = malloc(size + 1);
+                    header_copy = malloc(size + 1);
 
-				if (header->header.typeflag == GNUTYPE_LONGNAME)
-				{
-					free(next_long_name);
-					next_long_name = header_copy;
-					next_long_name_blocks = size / BLOCKSIZE;
-				}
-				else
-				{
-					free(next_long_link);
-					next_long_link = header_copy;
-					next_long_link_blocks = size / BLOCKSIZE;
-				}
+                    if (header->header.typeflag == GNUTYPE_LONGNAME)
+                    {
+                         free(next_long_name);
+                         next_long_name = header_copy;
+                         next_long_name_blocks = size / BLOCKSIZE;
+                    }
+                    else
+                    {
+                         free(next_long_link);
+                         next_long_link = header_copy;
+                         next_long_link_blocks = size / BLOCKSIZE;
+                    }
 
-				set_next_block_after(header);
-				*header_copy = *header;
-				bp = header_copy->buffer + BLOCKSIZE;
+                    set_next_block_after(header);
+                    *header_copy = *header;
+                    bp = header_copy->buffer + BLOCKSIZE;
 
-				for (size -= BLOCKSIZE; size > 0; size -= written)
-				{
-					data_block = find_next_block();
-					if (!data_block)
-					{
-						pedro_dprintf(2, "Unexpected EOF in archive");
+                    for (size -= BLOCKSIZE; size > 0; size -= written)
+                    {
+                         data_block = find_next_block();
+                         if (!data_block)
+                         {
+                              pedro_dprintf(2, "Unexpected EOF in archive");
 
-						break;
-					}
-					written = available_space_after(data_block);
-					if (written > size)
-						written = size;
+                              break;
+                         }
+                         written = available_space_after(data_block);
+                         if (written > size)
+                              written = size;
 
-					memcpy(bp, data_block->buffer, written);
-					bp += written;
-					set_next_block_after((union block *)(data_block->buffer + written - 1));
-				}
+                         memcpy(bp, data_block->buffer, written);
+                         bp += written;
+                         set_next_block_after((union block *)(data_block->buffer + written - 1));
+                    }
 
-				*bp = '\0';
-			}
-			else if (header->header.typeflag == XHDTYPE || header->header.typeflag == SOLARIS_XHDTYPE)
-			{
-				;
-				xheader_read(&info->xhdr, header,
-							 OFF_FROM_HEADER(header->header.size));
-			}
-			else if (header->header.typeflag == XGLTYPE)
-			{
-				struct xheader xhdr;
+                    *bp = '\0';
+               }
+               else if (header->header.typeflag == XHDTYPE || header->header.typeflag == SOLARIS_XHDTYPE)
+               {
+                    ;
+                    xheader_read(&info->xhdr, header,
+                                 OFF_FROM_HEADER(header->header.size));
+               }
+               else if (header->header.typeflag == XGLTYPE)
+               {
+                    struct xheader xhdr;
 
-				if (!recent_global_header)
-					recent_global_header = malloc(sizeof *recent_global_header);
-				memcpy(recent_global_header, header,
-					   sizeof *recent_global_header);
-				;
-				memset(&xhdr, 0, sizeof xhdr);
-				xheader_read(&xhdr, header,
-							 OFF_FROM_HEADER(header->header.size));
-				xheader_decode_global(&xhdr);
-				xheader_destroy(&xhdr);
+                    if (!recent_global_header)
+                         recent_global_header = malloc(sizeof *recent_global_header);
+                    memcpy(recent_global_header, header,
+                           sizeof *recent_global_header);
+                    ;
+                    memset(&xhdr, 0, sizeof xhdr);
+                    xheader_read(&xhdr, header,
+                                 OFF_FROM_HEADER(header->header.size));
+                    xheader_decode_global(&xhdr);
+                    xheader_destroy(&xhdr);
 
-				if (mode == read_header_x_global)
-					return HEADER_SUCCESS_EXTENDED;
-			}
-		}
-		else
-		{
-			char const *name;
-			struct posix_header const *h = &header->header;
-			char namebuf[sizeof h->prefix + 1 + NAME_FIELD_SIZE + 1];
+                    if (mode == read_header_x_global)
+                         return HEADER_SUCCESS_EXTENDED;
+               }
+          }
+          else
+          {
+               char const *name;
+               struct posix_header const *h = &header->header;
+               char namebuf[sizeof h->prefix + 1 + NAME_FIELD_SIZE + 1];
 
-			if (recent_long_name)
-			{
-				free(recent_long_name);
-				recent_long_name = NULL;
-			}
+               if (recent_long_name)
+               {
+                    free(recent_long_name);
+                    recent_long_name = NULL;
+               }
 
-			if (next_long_name)
-			{
-				name = next_long_name->buffer + BLOCKSIZE;
-				recent_long_name = next_long_name;
-				recent_long_name_blocks = next_long_name_blocks;
-			}
-			else
-			{
-				/* Accept file names as specified by POSIX.1-1996
+               if (next_long_name)
+               {
+                    name = next_long_name->buffer + BLOCKSIZE;
+                    recent_long_name = next_long_name;
+                    recent_long_name_blocks = next_long_name_blocks;
+               }
+               else
+               {
+                    /* Accept file names as specified by POSIX.1-1996
 				   section 10.1.1.  */
-				char *np = namebuf;
+                    char *np = namebuf;
 
-				if (h->prefix[0] && strcmp(h->magic, TMAGIC) == 0)
-				{
-					memcpy(np, h->prefix, sizeof h->prefix);
-					np[sizeof h->prefix] = '\0';
-					np += strlen(np);
-					*np++ = '/';
-				}
-				memcpy(np, h->name, sizeof h->name);
-				np[sizeof h->name] = '\0';
-				name = namebuf;
-				recent_long_name = 0;
-				recent_long_name_blocks = 0;
-			}
+                    if (h->prefix[0] && strcmp(h->magic, TMAGIC) == 0)
+                    {
+                         memcpy(np, h->prefix, sizeof h->prefix);
+                         np[sizeof h->prefix] = '\0';
+                         np += strlen(np);
+                         *np++ = '/';
+                    }
+                    memcpy(np, h->name, sizeof h->name);
+                    np[sizeof h->name] = '\0';
+                    name = namebuf;
+                    recent_long_name = 0;
+                    recent_long_name_blocks = 0;
+               }
 
-			assign_string(&info->orig_file_name, name);
-			assign_string(&info->file_name, name);
-			info->had_trailing_slash = strip_trailing_slashes_unix(info->file_name);
-			if (recent_long_link)
-			{
-				free(recent_long_link);
-				recent_long_link = NULL;
-			}
-			if (next_long_link)
-			{
-				name = next_long_link->buffer + BLOCKSIZE;
-				recent_long_link = next_long_link;
-				recent_long_link_blocks = next_long_link_blocks;
-			}
-			else
-			{
-				memcpy(namebuf, h->linkname, sizeof h->linkname);
-				namebuf[sizeof h->linkname] = '\0';
-				name = namebuf;
-				recent_long_link = 0;
-				recent_long_link_blocks = 0;
-			}
-			assign_string(&info->link_name, name);
-			return HEADER_SUCCESS;
-		}
-	}
+               assign_string(&info->orig_file_name, name);
+               assign_string(&info->file_name, name);
+               info->had_trailing_slash = strip_trailing_slashes_unix(info->file_name);
+               if (recent_long_link)
+               {
+                    free(recent_long_link);
+                    recent_long_link = NULL;
+               }
+               if (next_long_link)
+               {
+                    name = next_long_link->buffer + BLOCKSIZE;
+                    recent_long_link = next_long_link;
+                    recent_long_link_blocks = next_long_link_blocks;
+               }
+               else
+               {
+                    memcpy(namebuf, h->linkname, sizeof h->linkname);
+                    namebuf[sizeof h->linkname] = '\0';
+                    name = namebuf;
+                    recent_long_link = 0;
+                    recent_long_link_blocks = 0;
+               }
+               assign_string(&info->link_name, name);
+               return HEADER_SUCCESS;
+          }
+     }
 }
 
 /**
@@ -5192,193 +5195,193 @@ read_header_old_1_32(union block **return_block, struct tar_stat_info *info,
  */
 enum read_header
 read_header(union block **return_block, struct tar_stat_info *info,
-			enum read_header_mode mode)
+            enum read_header_mode mode)
 {
-	union block *header;
-	char *bp;
-	union block *data_block;
-	size_t size, written;
-	union block *next_long_name = NULL;
-	union block *next_long_link = NULL;
-	size_t next_long_name_blocks = 0;
-	size_t next_long_link_blocks = 0;
-	enum read_header status = HEADER_SUCCESS;
+     union block *header;
+     char *bp;
+     union block *data_block;
+     size_t size, written;
+     union block *next_long_name = NULL;
+     union block *next_long_link = NULL;
+     size_t next_long_name_blocks = 0;
+     size_t next_long_link_blocks = 0;
+     enum read_header status = HEADER_SUCCESS;
 
-	while (1)
-	{
-		header = find_next_block();
-		*return_block = header;
-		if (!header)
-		{
-			status = HEADER_END_OF_FILE;
-			break;
-		}
+     while (1)
+     {
+          header = find_next_block();
+          *return_block = header;
+          if (!header)
+          {
+               status = HEADER_END_OF_FILE;
+               break;
+          }
 
-		if ((status = tar_checksum(header, false)) != HEADER_SUCCESS)
-			break;
+          if ((status = tar_checksum(header, false)) != HEADER_SUCCESS)
+               break;
 
-		/* Good block.  Decode file size and return.  */
+          /* Good block.  Decode file size and return.  */
 
-		if (header->header.typeflag == LNKTYPE)
-			info->stat.st_size = 0; /* links 0 size on tape */
-		else
-		{
-			info->stat.st_size = OFF_FROM_HEADER(header->header.size);
-			if (info->stat.st_size < 0)
-			{
-				status = HEADER_FAILURE;
-				break;
-			}
-		}
+          if (header->header.typeflag == LNKTYPE)
+               info->stat.st_size = 0; /* links 0 size on tape */
+          else
+          {
+               info->stat.st_size = OFF_FROM_HEADER(header->header.size);
+               if (info->stat.st_size < 0)
+               {
+                    status = HEADER_FAILURE;
+                    break;
+               }
+          }
 
-		if (header->header.typeflag == GNUTYPE_LONGNAME || header->header.typeflag == GNUTYPE_LONGLINK || header->header.typeflag == XHDTYPE || header->header.typeflag == XGLTYPE || header->header.typeflag == SOLARIS_XHDTYPE)
-		{
-			if (mode == read_header_x_raw)
-			{
-				status = HEADER_SUCCESS_EXTENDED;
-				break;
-			}
-			else if (header->header.typeflag == GNUTYPE_LONGNAME || header->header.typeflag == GNUTYPE_LONGLINK)
-			{
-				union block *header_copy;
-				size_t name_size = info->stat.st_size;
-				size_t n = name_size % BLOCKSIZE;
-				size = name_size + BLOCKSIZE;
-				if (n)
-					size += BLOCKSIZE - n;
+          if (header->header.typeflag == GNUTYPE_LONGNAME || header->header.typeflag == GNUTYPE_LONGLINK || header->header.typeflag == XHDTYPE || header->header.typeflag == XGLTYPE || header->header.typeflag == SOLARIS_XHDTYPE)
+          {
+               if (mode == read_header_x_raw)
+               {
+                    status = HEADER_SUCCESS_EXTENDED;
+                    break;
+               }
+               else if (header->header.typeflag == GNUTYPE_LONGNAME || header->header.typeflag == GNUTYPE_LONGLINK)
+               {
+                    union block *header_copy;
+                    size_t name_size = info->stat.st_size;
+                    size_t n = name_size % BLOCKSIZE;
+                    size = name_size + BLOCKSIZE;
+                    if (n)
+                         size += BLOCKSIZE - n;
 
-				if ((size_t)name_size != (size_t)(info->stat.st_size) || size < name_size)
-				{
-					//xalloc_die ();
-					assert(0 && "nunca pode acontecer");
-				}
+                    if ((size_t)name_size != (size_t)(info->stat.st_size) || size < name_size)
+                    {
+                         //xalloc_die ();
+                         assert(0 && "nunca pode acontecer");
+                    }
 
-				header_copy = xmalloc(size + 1);
+                    header_copy = xmalloc(size + 1);
 
-				if (header->header.typeflag == GNUTYPE_LONGNAME)
-				{
-					free(next_long_name);
-					next_long_name = header_copy;
-					next_long_name_blocks = size / BLOCKSIZE;
-				}
-				else
-				{
-					free(next_long_link);
-					next_long_link = header_copy;
-					next_long_link_blocks = size / BLOCKSIZE;
-				}
+                    if (header->header.typeflag == GNUTYPE_LONGNAME)
+                    {
+                         free(next_long_name);
+                         next_long_name = header_copy;
+                         next_long_name_blocks = size / BLOCKSIZE;
+                    }
+                    else
+                    {
+                         free(next_long_link);
+                         next_long_link = header_copy;
+                         next_long_link_blocks = size / BLOCKSIZE;
+                    }
 
-				set_next_block_after(header);
-				*header_copy = *header;
-				bp = header_copy->buffer + BLOCKSIZE;
+                    set_next_block_after(header);
+                    *header_copy = *header;
+                    bp = header_copy->buffer + BLOCKSIZE;
 
-				for (size -= BLOCKSIZE; size > 0; size -= written)
-				{
-					data_block = find_next_block();
-					if (!data_block)
-					{
-						pedro_dprintf(2, "Unexpected EOF in archive");
-						break;
-					}
-					written = available_space_after(data_block);
-					if (written > size)
-						written = size;
+                    for (size -= BLOCKSIZE; size > 0; size -= written)
+                    {
+                         data_block = find_next_block();
+                         if (!data_block)
+                         {
+                              pedro_dprintf(2, "Unexpected EOF in archive");
+                              break;
+                         }
+                         written = available_space_after(data_block);
+                         if (written > size)
+                              written = size;
 
-					memcpy(bp, data_block->buffer, written);
-					bp += written;
-					set_next_block_after((union block *)(data_block->buffer + written - 1));
-				}
+                         memcpy(bp, data_block->buffer, written);
+                         bp += written;
+                         set_next_block_after((union block *)(data_block->buffer + written - 1));
+                    }
 
-				*bp = '\0';
-			}
-			else if (header->header.typeflag == XHDTYPE || header->header.typeflag == SOLARIS_XHDTYPE)
-				xheader_read(&info->xhdr, header,
-							 OFF_FROM_HEADER(header->header.size));
-			else if (header->header.typeflag == XGLTYPE)
-			{
-				struct xheader xhdr;
+                    *bp = '\0';
+               }
+               else if (header->header.typeflag == XHDTYPE || header->header.typeflag == SOLARIS_XHDTYPE)
+                    xheader_read(&info->xhdr, header,
+                                 OFF_FROM_HEADER(header->header.size));
+               else if (header->header.typeflag == XGLTYPE)
+               {
+                    struct xheader xhdr;
 
-				if (!recent_global_header)
-					recent_global_header = xmalloc(sizeof *recent_global_header);
-				memcpy(recent_global_header, header,
-					   sizeof *recent_global_header);
-				memset(&xhdr, 0, sizeof xhdr);
-				xheader_read(&xhdr, header,
-							 OFF_FROM_HEADER(header->header.size));
-				xheader_decode_global(&xhdr);
-				xheader_destroy(&xhdr);
-				if (mode == read_header_x_global)
-				{
-					status = HEADER_SUCCESS_EXTENDED;
-					break;
-				}
-			}
+                    if (!recent_global_header)
+                         recent_global_header = xmalloc(sizeof *recent_global_header);
+                    memcpy(recent_global_header, header,
+                           sizeof *recent_global_header);
+                    memset(&xhdr, 0, sizeof xhdr);
+                    xheader_read(&xhdr, header,
+                                 OFF_FROM_HEADER(header->header.size));
+                    xheader_decode_global(&xhdr);
+                    xheader_destroy(&xhdr);
+                    if (mode == read_header_x_global)
+                    {
+                         status = HEADER_SUCCESS_EXTENDED;
+                         break;
+                    }
+               }
 
-			/* Loop!  */
-		}
-		else
-		{
-			char const *name;
-			struct posix_header const *h = &header->header;
-			char namebuf[sizeof h->prefix + 1 + NAME_FIELD_SIZE + 1];
+               /* Loop!  */
+          }
+          else
+          {
+               char const *name;
+               struct posix_header const *h = &header->header;
+               char namebuf[sizeof h->prefix + 1 + NAME_FIELD_SIZE + 1];
 
-			free(recent_long_name);
+               free(recent_long_name);
 
-			if (next_long_name)
-			{
-				name = next_long_name->buffer + BLOCKSIZE;
-				recent_long_name = next_long_name;
-				recent_long_name_blocks = next_long_name_blocks;
-				next_long_name = NULL;
-			}
-			else
-			{
-				/* Accept file names as specified by POSIX.1-1996
+               if (next_long_name)
+               {
+                    name = next_long_name->buffer + BLOCKSIZE;
+                    recent_long_name = next_long_name;
+                    recent_long_name_blocks = next_long_name_blocks;
+                    next_long_name = NULL;
+               }
+               else
+               {
+                    /* Accept file names as specified by POSIX.1-1996
 				   section 10.1.1.  */
-				char *np = namebuf;
+                    char *np = namebuf;
 
-				if (h->prefix[0] && strcmp(h->magic, TMAGIC) == 0)
-				{
-					memcpy(np, h->prefix, sizeof h->prefix);
-					np[sizeof h->prefix] = '\0';
-					np += strlen(np);
-					*np++ = '/';
-				}
-				memcpy(np, h->name, sizeof h->name);
-				np[sizeof h->name] = '\0';
-				name = namebuf;
-				recent_long_name = 0;
-				recent_long_name_blocks = 0;
-			}
-			assign_string(&info->orig_file_name, name);
-			assign_string(&info->file_name, name);
-			info->had_trailing_slash = strip_trailing_slashes_unix(info->file_name);
+                    if (h->prefix[0] && strcmp(h->magic, TMAGIC) == 0)
+                    {
+                         memcpy(np, h->prefix, sizeof h->prefix);
+                         np[sizeof h->prefix] = '\0';
+                         np += strlen(np);
+                         *np++ = '/';
+                    }
+                    memcpy(np, h->name, sizeof h->name);
+                    np[sizeof h->name] = '\0';
+                    name = namebuf;
+                    recent_long_name = 0;
+                    recent_long_name_blocks = 0;
+               }
+               assign_string(&info->orig_file_name, name);
+               assign_string(&info->file_name, name);
+               info->had_trailing_slash = strip_trailing_slashes_unix(info->file_name);
 
-			free(recent_long_link);
+               free(recent_long_link);
 
-			if (next_long_link)
-			{
-				name = next_long_link->buffer + BLOCKSIZE;
-				recent_long_link = next_long_link;
-				recent_long_link_blocks = next_long_link_blocks;
-				next_long_link = NULL;
-			}
-			else
-			{
-				memcpy(namebuf, h->linkname, sizeof h->linkname);
-				namebuf[sizeof h->linkname] = '\0';
-				name = namebuf;
-				recent_long_link = 0;
-				recent_long_link_blocks = 0;
-			}
-			assign_string(&info->link_name, name);
+               if (next_long_link)
+               {
+                    name = next_long_link->buffer + BLOCKSIZE;
+                    recent_long_link = next_long_link;
+                    recent_long_link_blocks = next_long_link_blocks;
+                    next_long_link = NULL;
+               }
+               else
+               {
+                    memcpy(namebuf, h->linkname, sizeof h->linkname);
+                    namebuf[sizeof h->linkname] = '\0';
+                    name = namebuf;
+                    recent_long_link = 0;
+                    recent_long_link_blocks = 0;
+               }
+               assign_string(&info->link_name, name);
 
-			break;
-		}
-	}
-	free(next_long_name);
-	free(next_long_link);
-	return status;
+               break;
+          }
+     }
+     free(next_long_name);
+     free(next_long_link);
+     return status;
 }
 
 /**
@@ -5419,13 +5422,13 @@ void open_warn(__attribute__((unused)) char const *name)
  */
 void open_diag(char const *name)
 {
-	if (ignore_failed_read_option)
-	{
-		if (WARNING_ENABLED(WARN_FAILED_READ))
-			open_warn(name);
-	}
-	else
-		open_error(name);
+     if (ignore_failed_read_option)
+     {
+          if (WARNING_ENABLED(WARN_FAILED_READ))
+               open_warn(name);
+     }
+     else
+          open_error(name);
 }
 
 /**
@@ -5434,13 +5437,13 @@ void open_diag(char const *name)
  */
 void close_diag(char const *name)
 {
-	if (ignore_failed_read_option)
-	{
-		if (WARNING_ENABLED(WARN_FAILED_READ))
-			close_warn(name);
-	}
-	else
-		close_error(name);
+     if (ignore_failed_read_option)
+     {
+          if (WARNING_ENABLED(WARN_FAILED_READ))
+               close_warn(name);
+     }
+     else
+          close_error(name);
 }
 
 /**
@@ -5451,20 +5454,20 @@ void close_diag(char const *name)
  */
 bool tar_stat_close(struct tar_stat_info *st)
 {
-	int status = (st->dirstream ? closedir(st->dirstream)
-				  : 0 < st->fd	? close(st->fd)
-								: 0);
+     int status = (st->dirstream ? closedir(st->dirstream)
+                   : 0 < st->fd  ? close(st->fd)
+                                 : 0);
 
-	st->dirstream = 0;
-	st->fd = 0;
+     st->dirstream = 0;
+     st->fd = 0;
 
-	if (status == 0)
-		return true;
-	else
-	{
-		close_diag(st->orig_file_name);
-		return false;
-	}
+     if (status == 0)
+          return true;
+     else
+     {
+          close_diag(st->orig_file_name);
+          return false;
+     }
 }
 
 /**
@@ -5473,20 +5476,20 @@ bool tar_stat_close(struct tar_stat_info *st)
  */
 void tar_stat_destroy(struct tar_stat_info *st)
 {
-	tar_stat_close(st);
-	xheader_xattr_free(st->xattr_map, st->xattr_map_size);
-	free(st->orig_file_name);
-	free(st->file_name);
-	free(st->link_name);
-	free(st->uname);
-	free(st->gname);
-	free(st->cntx_name);
-	free(st->acls_a_ptr);
-	free(st->acls_d_ptr);
-	free(st->sparse_map);
-	free(st->dumpdir);
-	xheader_destroy(&st->xhdr);
-	memset(st, 0, sizeof(*st));
+     tar_stat_close(st);
+     xheader_xattr_free(st->xattr_map, st->xattr_map_size);
+     free(st->orig_file_name);
+     free(st->file_name);
+     free(st->link_name);
+     free(st->uname);
+     free(st->gname);
+     free(st->cntx_name);
+     free(st->acls_a_ptr);
+     free(st->acls_d_ptr);
+     free(st->sparse_map);
+     free(st->dumpdir);
+     xheader_destroy(&st->xhdr);
+     memset(st, 0, sizeof(*st));
 }
 
 #if !(UINTMAX_MAX / 2 <= INTMAX_MAX)
@@ -5520,28 +5523,28 @@ void tar_stat_destroy(struct tar_stat_info *st)
  */
 intmax_t
 from_header(char const *where0, size_t digs, char const *type,
-			intmax_t minval, uintmax_t maxval,
-			bool octal_only, bool silent)
+            intmax_t minval, uintmax_t maxval,
+            bool octal_only, bool silent)
 {
-	uintmax_t value;
-	uintmax_t uminval = minval;
-	uintmax_t minus_minval = -uminval;
-	char const *where = where0;
-	char const *lim = where + digs;
-	bool negative = false;
+     uintmax_t value;
+     uintmax_t uminval = minval;
+     uintmax_t minus_minval = -uminval;
+     char const *where = where0;
+     char const *lim = where + digs;
+     bool negative = false;
 
-	/* Accommodate buggy tar of unknown vintage, which outputs leading
+     /* Accommodate buggy tar of unknown vintage, which outputs leading
 	   NUL if the previous field overflows.  */
-	where += !*where;
+     where += !*where;
 
-	/* Accommodate older tars, which output leading spaces.  */
-	for (;;)
-	{
-		if (where == lim)
-		{
-			if (type && !silent)
-			{
-				/*
+     /* Accommodate older tars, which output leading spaces.  */
+     for (;;)
+     {
+          if (where == lim)
+          {
+               if (type && !silent)
+               {
+                    /*
 				   ERROR ((0, 0,
 				   TRANSLATORS: %s is type of the value (gid_t, uid_t,
 				   etc.)
@@ -5549,176 +5552,176 @@ from_header(char const *where0, size_t digs, char const *type,
 				   type));
 				 */
 
-				printf("Blanks in header where numeric %s value expected", type);
-				pedro_dprintf(2, "Blanks in header where numeric %s value expected", type);
-			}
-			return -1;
-		}
-		if (!isspace((unsigned char)*where))
-			break;
-		where++;
-	}
+                    printf("Blanks in header where numeric %s value expected", type);
+                    pedro_dprintf(2, "Blanks in header where numeric %s value expected", type);
+               }
+               return -1;
+          }
+          if (!isspace((unsigned char)*where))
+               break;
+          where++;
+     }
 
-	value = 0;
-	if (ISODIGIT(*where))
-	{
-		char const *where1 = where;
-		bool overflow = false;
+     value = 0;
+     if (ISODIGIT(*where))
+     {
+          char const *where1 = where;
+          bool overflow = false;
 
-		for (;;)
-		{
-			value += *where++ - '0';
-			if (where == lim || !ISODIGIT(*where))
-				break;
-			overflow |= value != (value << LG_8 >> LG_8);
-			value <<= LG_8;
-		}
+          for (;;)
+          {
+               value += *where++ - '0';
+               if (where == lim || !ISODIGIT(*where))
+                    break;
+               overflow |= value != (value << LG_8 >> LG_8);
+               value <<= LG_8;
+          }
 
-		/* Parse the output of older, unportable tars, which generate
+          /* Parse the output of older, unportable tars, which generate
 		   negative values in two's complement octal.  If the leading
 		   nonzero digit is 1, we can't recover the original value
 		   reliably; so do this only if the digit is 2 or more.  This
 		   catches the common case of 32-bit negative time stamps.  */
-		if ((overflow || maxval < value) && '2' <= *where1 && type)
-		{
-			/* Compute the negative of the input value, assuming two's
+          if ((overflow || maxval < value) && '2' <= *where1 && type)
+          {
+               /* Compute the negative of the input value, assuming two's
 			   complement.  */
-			int digit = (*where1 - '0') | 4;
-			overflow = 0;
-			value = 0;
-			where = where1;
-			for (;;)
-			{
-				value += 7 - digit;
-				where++;
-				if (where == lim || !ISODIGIT(*where))
-					break;
-				digit = *where - '0';
-				overflow |= value != (value << LG_8 >> LG_8);
-				value <<= LG_8;
-			}
-			value++;
-			overflow |= !value;
+               int digit = (*where1 - '0') | 4;
+               overflow = 0;
+               value = 0;
+               where = where1;
+               for (;;)
+               {
+                    value += 7 - digit;
+                    where++;
+                    if (where == lim || !ISODIGIT(*where))
+                         break;
+                    digit = *where - '0';
+                    overflow |= value != (value << LG_8 >> LG_8);
+                    value <<= LG_8;
+               }
+               value++;
+               overflow |= !value;
 
-			if (!overflow && value <= minus_minval)
-			{
-				if (!silent)
-				{
-					printf("Archive octal value is out of range; assuming two's complement");
-					pedro_dprintf(2, "Archive octal value is out of range; assuming two's complement");
-				}
+               if (!overflow && value <= minus_minval)
+               {
+                    if (!silent)
+                    {
+                         printf("Archive octal value is out of range; assuming two's complement");
+                         pedro_dprintf(2, "Archive octal value is out of range; assuming two's complement");
+                    }
 
-				negative = true;
-			}
-		}
+                    negative = true;
+               }
+          }
 
-		if (overflow)
-		{
-			if (type && !silent)
-			{
-				printf("Archive octal value is out of range");
-				pedro_dprintf(2, "Archive octal value is out of range");
-			}
-			return -1;
-		}
-	}
-	else if (octal_only)
-	{
-		/* Suppress the following extensions.  */
-	}
-	else if (*where == '-' || *where == '+')
-	{
-		/* Parse base-64 output produced only by tar test versions
+          if (overflow)
+          {
+               if (type && !silent)
+               {
+                    printf("Archive octal value is out of range");
+                    pedro_dprintf(2, "Archive octal value is out of range");
+               }
+               return -1;
+          }
+     }
+     else if (octal_only)
+     {
+          /* Suppress the following extensions.  */
+     }
+     else if (*where == '-' || *where == '+')
+     {
+          /* Parse base-64 output produced only by tar test versions
 		   1.13.6 (1999-08-11) through 1.13.11 (1999-08-23).
 		   Support for this will be withdrawn in future releases.  */
-		int dig;
-		if (!silent)
-		{
-			static bool warned_once;
-			if (!warned_once)
-			{
-				warned_once = true;
-				printf("Archive contains obsolescent base-64 headers");
-				pedro_dprintf(2, "Archive contains obsolescent base-64 headers");
-			}
-		}
-		negative = *where++ == '-';
-		while (where != lim && (dig = base64_map[(unsigned char)*where]) < 64)
-		{
-			if (value << LG_64 >> LG_64 != value)
-			{
-				char *string = alloca(digs + 1);
-				memcpy(string, where0, digs);
-				string[digs] = '\0';
-				if (type && !silent)
-				{
-					printf("Archive signed base-64 string is out of range");
-					pedro_dprintf(2, "Archive signed base-64 string is out of range");
-				}
+          int dig;
+          if (!silent)
+          {
+               static bool warned_once;
+               if (!warned_once)
+               {
+                    warned_once = true;
+                    printf("Archive contains obsolescent base-64 headers");
+                    pedro_dprintf(2, "Archive contains obsolescent base-64 headers");
+               }
+          }
+          negative = *where++ == '-';
+          while (where != lim && (dig = base64_map[(unsigned char)*where]) < 64)
+          {
+               if (value << LG_64 >> LG_64 != value)
+               {
+                    char *string = alloca(digs + 1);
+                    memcpy(string, where0, digs);
+                    string[digs] = '\0';
+                    if (type && !silent)
+                    {
+                         printf("Archive signed base-64 string is out of range");
+                         pedro_dprintf(2, "Archive signed base-64 string is out of range");
+                    }
 
-				return -1;
-			}
-			value = (value << LG_64) | dig;
-			where++;
-		}
-	}
-	else if (*where == '\200' /* positive base-256 */
-			 || *where == '\377' /* negative base-256 */)
-	{
-		/* Parse base-256 output.  A nonnegative number N is
+                    return -1;
+               }
+               value = (value << LG_64) | dig;
+               where++;
+          }
+     }
+     else if (*where == '\200' /* positive base-256 */
+              || *where == '\377' /* negative base-256 */)
+     {
+          /* Parse base-256 output.  A nonnegative number N is
 		   represented as (256**DIGS)/2 + N; a negative number -N is
 		   represented as (256**DIGS) - N, i.e. as two's complement.
 		   The representation guarantees that the leading bit is
 		   always on, so that we don't confuse this format with the
 		   others (assuming ASCII bytes of 8 bits or more).  */
-		int signbit = *where & (1 << (LG_256 - 2));
-		uintmax_t topbits = (((uintmax_t)-signbit)
-							 << (CHAR_BIT * sizeof(uintmax_t) - LG_256 - (LG_256 - 2)));
-		value = (*where++ & ((1 << (LG_256 - 2)) - 1)) - signbit;
-		for (;;)
-		{
-			value = (value << LG_256) + (unsigned char)*where++;
-			if (where == lim)
-				break;
-			if (((value << LG_256 >> LG_256) | topbits) != value)
-			{
-				if (type && !silent)
-				{
-					printf("Archive base-256 value is out of range");
-					pedro_dprintf(2, "Archive base-256 value is out of range");
-				}
-				return -1;
-			}
-		}
-		negative = signbit != 0;
-		if (negative)
-			value = -value;
-	}
+          int signbit = *where & (1 << (LG_256 - 2));
+          uintmax_t topbits = (((uintmax_t)-signbit)
+                               << (CHAR_BIT * sizeof(uintmax_t) - LG_256 - (LG_256 - 2)));
+          value = (*where++ & ((1 << (LG_256 - 2)) - 1)) - signbit;
+          for (;;)
+          {
+               value = (value << LG_256) + (unsigned char)*where++;
+               if (where == lim)
+                    break;
+               if (((value << LG_256 >> LG_256) | topbits) != value)
+               {
+                    if (type && !silent)
+                    {
+                         printf("Archive base-256 value is out of range");
+                         pedro_dprintf(2, "Archive base-256 value is out of range");
+                    }
+                    return -1;
+               }
+          }
+          negative = signbit != 0;
+          if (negative)
+               value = -value;
+     }
 
-	if (where != lim && *where && !isspace((unsigned char)*where))
-	{
-		if (type)
-		{
-			if (!silent)
-			{
-				printf("Archive contains where numeric value expected");
-				pedro_dprintf(2, "Archive contains where numeric value expected");
-			}
-		}
+     if (where != lim && *where && !isspace((unsigned char)*where))
+     {
+          if (type)
+          {
+               if (!silent)
+               {
+                    printf("Archive contains where numeric value expected");
+                    pedro_dprintf(2, "Archive contains where numeric value expected");
+               }
+          }
 
-		return -1;
-	}
+          return -1;
+     }
 
-	if (value <= (negative ? minus_minval : maxval))
-		return represent_uintmax(negative ? -value : value);
+     if (value <= (negative ? minus_minval : maxval))
+          return represent_uintmax(negative ? -value : value);
 
-	if (type && !silent)
-	{
-		printf("Archive value is out of range -> %s\n", type);
-		pedro_dprintf(2, "Archive value is out of range -> %s\n", type);
-	}
+     if (type && !silent)
+     {
+          printf("Archive value is out of range -> %s\n", type);
+          pedro_dprintf(2, "Archive value is out of range -> %s\n", type);
+     }
 
-	return -1;
+     return -1;
 }
 
 /**
@@ -5727,10 +5730,10 @@ from_header(char const *where0, size_t digs, char const *type,
  */
 void base64_init(void)
 {
-	int i;
-	memset(base64_map, 64, sizeof base64_map);
-	for (i = 0; i < 64; i++)
-		base64_map[(int)base_64_digits[i]] = i;
+     int i;
+     memset(base64_map, 64, sizeof base64_map);
+     for (i = 0; i < 64; i++)
+          base64_map[(int)base_64_digits[i]] = i;
 }
 
 /**
@@ -5740,44 +5743,44 @@ void base64_init(void)
 enum read_header
 tar_checksum(union block *header, bool silent)
 {
-	size_t i;
-	int unsigned_sum = 0; /* the POSIX one :-) */
-	int signed_sum = 0;	  /* the Sun one :-( */
-	int recorded_sum;
-	int parsed_sum;
-	char *p;
-	p = header->buffer;
-	for (i = sizeof *header; i-- != 0;)
-	{
-		unsigned_sum += (unsigned char)*p;
-		signed_sum += (signed char)(*p++);
-	}
+     size_t i;
+     int unsigned_sum = 0; /* the POSIX one :-) */
+     int signed_sum = 0;   /* the Sun one :-( */
+     int recorded_sum;
+     int parsed_sum;
+     char *p;
+     p = header->buffer;
+     for (i = sizeof *header; i-- != 0;)
+     {
+          unsigned_sum += (unsigned char)*p;
+          signed_sum += (signed char)(*p++);
+     }
 
-	if (unsigned_sum == 0)
-		return HEADER_ZERO_BLOCK;
+     if (unsigned_sum == 0)
+          return HEADER_ZERO_BLOCK;
 
-	/* Adjust checksum to count the "chksum" field as blanks.  */
+     /* Adjust checksum to count the "chksum" field as blanks.  */
 
-	for (i = sizeof header->header.chksum; i-- != 0;)
-	{
-		unsigned_sum -= (unsigned char)header->header.chksum[i];
-		signed_sum -= (signed char)(header->header.chksum[i]);
-	}
-	unsigned_sum += ' ' * sizeof header->header.chksum;
-	signed_sum += ' ' * sizeof header->header.chksum;
+     for (i = sizeof header->header.chksum; i-- != 0;)
+     {
+          unsigned_sum -= (unsigned char)header->header.chksum[i];
+          signed_sum -= (signed char)(header->header.chksum[i]);
+     }
+     unsigned_sum += ' ' * sizeof header->header.chksum;
+     signed_sum += ' ' * sizeof header->header.chksum;
 
-	parsed_sum = from_header(header->header.chksum,
-							 sizeof header->header.chksum, 0,
-							 0, INT_MAX, true, silent);
-	if (parsed_sum < 0)
-		return HEADER_FAILURE;
+     parsed_sum = from_header(header->header.chksum,
+                              sizeof header->header.chksum, 0,
+                              0, INT_MAX, true, silent);
+     if (parsed_sum < 0)
+          return HEADER_FAILURE;
 
-	recorded_sum = parsed_sum;
+     recorded_sum = parsed_sum;
 
-	if (unsigned_sum != recorded_sum && signed_sum != recorded_sum)
-		return HEADER_FAILURE;
+     if (unsigned_sum != recorded_sum && signed_sum != recorded_sum)
+          return HEADER_FAILURE;
 
-	return HEADER_SUCCESS;
+     return HEADER_SUCCESS;
 }
 
 /**
@@ -5786,9 +5789,9 @@ tar_checksum(union block *header, bool silent)
  */
 void gnu_flush_read(void)
 {
-	flush_read_ptr = simple_flush_read; /* Avoid recursion */
-	_gnu_flush_read();
-	flush_read_ptr = gnu_flush_read;
+     flush_read_ptr = simple_flush_read; /* Avoid recursion */
+     _gnu_flush_read();
+     flush_read_ptr = gnu_flush_read;
 }
 
 /**
@@ -5798,78 +5801,78 @@ void gnu_flush_read(void)
  */
 void _open_archive(enum access_mode wanted_access)
 {
-	if (record_size == 0)
-	{
-		strcpy(error_message_k, "Invalid value for record_size");
-		fatal_exit_k = 1;
-		return;
-	}
-	tar_stat_destroy(&current_stat_info);
-	record_index = 0;
-	init_buffer();
+     if (record_size == 0)
+     {
+          strcpy(error_message_k, "Invalid value for record_size");
+          fatal_exit_k = 1;
+          return;
+     }
+     tar_stat_destroy(&current_stat_info);
+     record_index = 0;
+     init_buffer();
 
-	/* When updating the archive, we start with reading.  */
-	access_mode = wanted_access == ACCESS_UPDATE ? ACCESS_READ : wanted_access;
+     /* When updating the archive, we start with reading.  */
+     access_mode = wanted_access == ACCESS_UPDATE ? ACCESS_READ : wanted_access;
 
-	read_full_records = read_full_records_option;
+     read_full_records = read_full_records_option;
 
-	records_read = 0;
+     records_read = 0;
 
-	if (0 /*use_compress_program_option*/)
-	{
-	}
-	else if (0 /*strcmp (archive_name_array_filename, "-") == 0*/)
-	{
-	}
-	else
-		switch (wanted_access)
-		{
-		case ACCESS_UPDATE: //to make the ricardo compiler happy
+     if (0 /*use_compress_program_option*/)
+     {
+     }
+     else if (0 /*strcmp (archive_name_array_filename, "-") == 0*/)
+     {
+     }
+     else
+          switch (wanted_access)
+          {
+          case ACCESS_UPDATE: //to make the ricardo compiler happy
 
-			break;
+               break;
 
-		case ACCESS_READ:
-			archive = open_compressed_archive();
+          case ACCESS_READ:
+               archive = open_compressed_archive();
 
-			if (fatal_exit_k) //out own error handling method
-			{
-				return;
-			}
+               if (fatal_exit_k) //out own error handling method
+               {
+                    return;
+               }
 
-			if (archive >= 0)
-				guess_seekable_archive();
-			break;
+               if (archive >= 0)
+                    guess_seekable_archive();
+               break;
 
-		case ACCESS_WRITE:
-			archive = _wcreat(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), _S_IWRITE);
-			if (0 > archive)
-			{
-				fatal_exit_k = 1;
-				strcpy(error_message_k, "Cannot access the file to write");
-				return;
-			}
+          case ACCESS_WRITE:
+               archive = _wcreat(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), _S_IWRITE);
+               if (0 > archive)
+               {
+                    fatal_exit_k = 1;
+                    strcpy(error_message_k, "Cannot access the file to write");
+                    return;
+               }
 
-			break;
-		}
+               break;
+          }
 
-	if (archive < 0)
-	{
-		fatal_exit_k = 1;
-		strcpy(error_message_k, "Cannot access the file to read");
-		return;
-	}
-	setmode(archive, O_BINARY);
-	switch (wanted_access)
-	{
-	case ACCESS_UPDATE: //to make the ricardo compiler happy
-		break;
-	case ACCESS_READ:
-		find_next_block(); /* read it in, check for EOF */
-		break;
-	case ACCESS_WRITE:
-		records_written = 0;
-		break;
-	}
+     if (archive < 0)
+     {
+          fatal_exit_k = 1;
+          strcpy(error_message_k, "Cannot access the file to read");
+          return;
+     }
+     setmode(archive, O_BINARY);
+     switch (wanted_access)
+     {
+     case ACCESS_UPDATE: //to make the ricardo compiler happy
+          break;
+     case ACCESS_READ:
+          find_next_block(); /* read it in, check for EOF */
+          break;
+     case ACCESS_WRITE:
+          records_written = 0;
+          break;
+     }
 }
 /**
  * This function will check whether the extension of the tar file is .br
@@ -5877,21 +5880,21 @@ void _open_archive(enum access_mode wanted_access)
  */
 int check_brotli_file_aakp(char *data_rspk)
 {
-	static char temp_aakp[AMANDA__SIZE];
-	char *ptr = NULL;
-	strcpy(temp_aakp, data_rspk);
-	ptr = strrstr(temp_aakp, ".");
-	if (NULL == ptr)
-	{
-		return 0;
-	}
-	ptr++;
-	strtolower_ar(ptr);
-	if (0 == strcmp("br", ptr))
-	{
-		return 1;
-	}
-	return 0;
+     static char temp_aakp[AMANDA__SIZE];
+     char *ptr = NULL;
+     strcpy(temp_aakp, data_rspk);
+     ptr = strrstr(temp_aakp, ".");
+     if (NULL == ptr)
+     {
+          return 0;
+     }
+     ptr++;
+     strtolower_ar(ptr);
+     if (0 == strcmp("br", ptr))
+     {
+          return 1;
+     }
+     return 0;
 }
 /**
  * This function will check whether the file is an .iso file
@@ -5899,21 +5902,21 @@ int check_brotli_file_aakp(char *data_rspk)
  */
 int check_iso_file_aakp(char *data_rspk)
 {
-	static char temp_aakp[AMANDA__SIZE];
-	char *ptr = NULL;
-	strcpy(temp_aakp, data_rspk);
-	ptr = strrstr(temp_aakp, ".");
-	if (NULL == ptr)
-	{
-		return 0;
-	}
-	ptr++;
-	strtolower_ar(ptr);
-	if (0 == strcmp("iso", ptr))
-	{
-		return 1;
-	}
-	return 0;
+     static char temp_aakp[AMANDA__SIZE];
+     char *ptr = NULL;
+     strcpy(temp_aakp, data_rspk);
+     ptr = strrstr(temp_aakp, ".");
+     if (NULL == ptr)
+     {
+          return 0;
+     }
+     ptr++;
+     strtolower_ar(ptr);
+     if (0 == strcmp("iso", ptr))
+     {
+          return 1;
+     }
+     return 0;
 }
 /**
  * This function will check whether the file is a .lzma file
@@ -5921,25 +5924,25 @@ int check_iso_file_aakp(char *data_rspk)
  */
 int check_lzma_file_aakp(char *data_rspk)
 {
-	static char temp_aakp[AMANDA__SIZE];
-	char *ptr = NULL;
-	strcpy(temp_aakp, data_rspk);
-	ptr = strrstr(temp_aakp, ".");
-	if (NULL == ptr)
-	{
-		return 0;
-	}
-	ptr++;
-	strtolower_ar(ptr);
-	if (0 == strcmp("lzma", ptr))
-	{
-		return 1;
-	}
-	if (0 == strcmp("tlz", ptr))
-	{
-		return 1;
-	}
-	return 0;
+     static char temp_aakp[AMANDA__SIZE];
+     char *ptr = NULL;
+     strcpy(temp_aakp, data_rspk);
+     ptr = strrstr(temp_aakp, ".");
+     if (NULL == ptr)
+     {
+          return 0;
+     }
+     ptr++;
+     strtolower_ar(ptr);
+     if (0 == strcmp("lzma", ptr))
+     {
+          return 1;
+     }
+     if (0 == strcmp("tlz", ptr))
+     {
+          return 1;
+     }
+     return 0;
 }
 
 /**
@@ -5950,205 +5953,205 @@ int check_lzma_file_aakp(char *data_rspk)
  */
 int open_compressed_archive(void)
 {
-	archive = _wopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), O_RDONLY | O_BINARY,
-					 _S_IREAD);
-	if (archive == -1)
-		return archive;
-	if (1)
-	{
-		if (1)
-		{
-			bool shortfile;
-			enum compress_type type = check_compressed_archive(&shortfile);
+     archive = _wopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), O_RDONLY | O_BINARY,
+                      _S_IREAD);
+     if (archive == -1)
+          return archive;
+     if (1)
+     {
+          if (1)
+          {
+               bool shortfile;
+               enum compress_type type = check_compressed_archive(&shortfile);
 
-			switch (type)
-			{
-			case ct_gzip2a:
+               switch (type)
+               {
+               case ct_gzip2a:
 
-				sprintf(error_message_k, " %d - File looks like a ct_gzip2a based file, extract it first", ct_gzip2a_k);
+                    sprintf(error_message_k, " %d - File looks like a ct_gzip2a based file, extract it first", ct_gzip2a_k);
 
-				fatal_exit_k = ct_gzip2a_k;
-				return archive;
-				break;
+                    fatal_exit_k = ct_gzip2a_k;
+                    return archive;
+                    break;
 
-			case ct_gzip2c:
+               case ct_gzip2c:
 
-				sprintf(error_message_k, " %d - File looks like a ct_gzip2c based file, extract it first", ct_gzip2c_k);
+                    sprintf(error_message_k, " %d - File looks like a ct_gzip2c based file, extract it first", ct_gzip2c_k);
 
-				fatal_exit_k = ct_gzip2c_k;
-				return archive;
-				break;
+                    fatal_exit_k = ct_gzip2c_k;
+                    return archive;
+                    break;
 
-			case ct_bzip3:
+               case ct_bzip3:
 
-				sprintf(error_message_k, " %d - File looks like a ct_bzip3 based file, extract it first", ct_bzip3_k);
+                    sprintf(error_message_k, " %d - File looks like a ct_bzip3 based file, extract it first", ct_bzip3_k);
 
-				fatal_exit_k = ct_bzip3_k;
-				return archive;
-				break;
+                    fatal_exit_k = ct_bzip3_k;
+                    return archive;
+                    break;
 
-			case ct_lzop2:
+               case ct_lzop2:
 
-				sprintf(error_message_k, " %d - File looks like a ct_lzop2 based file, extract it first", ct_lzop2_k);
+                    sprintf(error_message_k, " %d - File looks like a ct_lzop2 based file, extract it first", ct_lzop2_k);
 
-				fatal_exit_k = ct_lzop2_k;
-				return archive;
-				break;
+                    fatal_exit_k = ct_lzop2_k;
+                    return archive;
+                    break;
 
-			case ct_lz5:
+               case ct_lz5:
 
-				sprintf(error_message_k, " %d - File looks like a ct_lz5 based file, extract it first", ct_lz5_k);
+                    sprintf(error_message_k, " %d - File looks like a ct_lz5 based file, extract it first", ct_lz5_k);
 
-				fatal_exit_k = ct_lz5_k;
-				return archive;
-				break;
+                    fatal_exit_k = ct_lz5_k;
+                    return archive;
+                    break;
 
-			case ct_brotli2:
+               case ct_brotli2:
 
-				sprintf(error_message_k, " %d - File looks like a ct_brotli2 based file, extract it first", ct_brotli2_k);
+                    sprintf(error_message_k, " %d - File looks like a ct_brotli2 based file, extract it first", ct_brotli2_k);
 
-				fatal_exit_k = ct_brotli2_k;
-				return archive;
-				break;
+                    fatal_exit_k = ct_brotli2_k;
+                    return archive;
+                    break;
 
-			case ct_compress2:
+               case ct_compress2:
 
-				sprintf(error_message_k, " %d - File looks like a ct_compress2 based file, extract it first", ct_compress2_k);
+                    sprintf(error_message_k, " %d - File looks like a ct_compress2 based file, extract it first", ct_compress2_k);
 
-				fatal_exit_k = ct_compress2_k;
-				return archive;
-				break;
+                    fatal_exit_k = ct_compress2_k;
+                    return archive;
+                    break;
 
-			case ct_val:
+               case ct_val:
 
-				file_is_VAL_arp = true;
+                    file_is_VAL_arp = true;
 
-				return archive;
+                    return archive;
 
-			case ct_tar:
-				if (shortfile)
-				{
-					strcpy(error_message_k, "This does not look like a tar archive, file ct_tar");
-					fatal_exit_k = 1;
-				}
+               case ct_tar:
+                    if (shortfile)
+                    {
+                         strcpy(error_message_k, "This does not look like a tar archive, file ct_tar");
+                         fatal_exit_k = 1;
+                    }
 
-				return archive;
+                    return archive;
 
-			case ct_none:
-				if (shortfile)
-				{
+               case ct_none:
+                    if (shortfile)
+                    {
 
-					strcpy(error_message_k, "This does not look like a tar archive, file ct_none 1");
-					fatal_exit_k = 1;
+                         strcpy(error_message_k, "This does not look like a tar archive, file ct_none 1");
+                         fatal_exit_k = 1;
 
-					return archive;
-				}
+                         return archive;
+                    }
 
-				if (check_lzma_file_aakp(archive_name_array_filename))
-				{
-					sprintf(error_message_k, " %d - File looks like a lzma based file, extract it first", ct_lzma_k);
-					fatal_exit_k = ct_lzma_k;
-					return archive;
-				}
+                    if (check_lzma_file_aakp(archive_name_array_filename))
+                    {
+                         sprintf(error_message_k, " %d - File looks like a lzma based file, extract it first", ct_lzma_k);
+                         fatal_exit_k = ct_lzma_k;
+                         return archive;
+                    }
 
-				if (check_brotli_file_aakp(archive_name_array_filename))
-				{
-					sprintf(error_message_k, " %d - File looks like a brotli based file, extract it first", ct_brotli_k);
-					fatal_exit_k = ct_brotli_k;
-					return archive;
-				}
+                    if (check_brotli_file_aakp(archive_name_array_filename))
+                    {
+                         sprintf(error_message_k, " %d - File looks like a brotli based file, extract it first", ct_brotli_k);
+                         fatal_exit_k = ct_brotli_k;
+                         return archive;
+                    }
 
-				fatal_exit_k = 0;
-				return archive;
-				break;
+                    fatal_exit_k = 0;
+                    return archive;
+                    break;
 
-			case ct_compress:
+               case ct_compress:
 
-				sprintf(error_message_k, " %d - File looks like a compress based file, extract it first", ct_compress_k);
+                    sprintf(error_message_k, " %d - File looks like a compress based file, extract it first", ct_compress_k);
 
-				fatal_exit_k = ct_compress_k;
-				return archive;
+                    fatal_exit_k = ct_compress_k;
+                    return archive;
 
-				break;
+                    break;
 
-			case ct_gzip:
+               case ct_gzip:
 
-				sprintf(error_message_k, " %d - File looks like a gzip based file, extract it first", ct_gzip_k);
+                    sprintf(error_message_k, " %d - File looks like a gzip based file, extract it first", ct_gzip_k);
 
-				fatal_exit_k = ct_gzip_k;
-				return archive;
+                    fatal_exit_k = ct_gzip_k;
+                    return archive;
 
-				break;
+                    break;
 
-			case ct_bzip2:
-				sprintf(error_message_k, " %d - File looks like a bzip2 based file, extract it first", ct_bzip2_k);
-				fatal_exit_k = ct_bzip2_k;
-				return archive;
+               case ct_bzip2:
+                    sprintf(error_message_k, " %d - File looks like a bzip2 based file, extract it first", ct_bzip2_k);
+                    fatal_exit_k = ct_bzip2_k;
+                    return archive;
 
-				break;
+                    break;
 
-			case ct_lzip:
-				sprintf(error_message_k, " %d - File looks like a lzip based file, extract it first", ct_lzip_k);
-				fatal_exit_k = ct_lzip_k;
-				return archive;
+               case ct_lzip:
+                    sprintf(error_message_k, " %d - File looks like a lzip based file, extract it first", ct_lzip_k);
+                    fatal_exit_k = ct_lzip_k;
+                    return archive;
 
-				break;
+                    break;
 
-			case ct_lzma:
-				sprintf(error_message_k, " %d - File looks like a lzma based file, extract it first", ct_lzma_k);
-				fatal_exit_k = ct_lzma_k;
-				return archive;
+               case ct_lzma:
+                    sprintf(error_message_k, " %d - File looks like a lzma based file, extract it first", ct_lzma_k);
+                    fatal_exit_k = ct_lzma_k;
+                    return archive;
 
-				break;
+                    break;
 
-			case ct_lzop:
-				sprintf(error_message_k, " %d - File looks like a lzop based file, extract it first", ct_lzop_k);
-				fatal_exit_k = ct_lzop_k;
-				return archive;
+               case ct_lzop:
+                    sprintf(error_message_k, " %d - File looks like a lzop based file, extract it first", ct_lzop_k);
+                    fatal_exit_k = ct_lzop_k;
+                    return archive;
 
-				break;
+                    break;
 
-			case ct_xz:
-				sprintf(error_message_k, " %d - File looks like a xz based file, extract it first", ct_xz_k);
-				fatal_exit_k = ct_xz_k;
-				return archive;
+               case ct_xz:
+                    sprintf(error_message_k, " %d - File looks like a xz based file, extract it first", ct_xz_k);
+                    fatal_exit_k = ct_xz_k;
+                    return archive;
 
-				break;
+                    break;
 
-			case ct_lz4:
-				sprintf(error_message_k, "%d - File looks like a lz4 based file, extract it first", ct_lz4_k);
-				fatal_exit_k = ct_lz4_k;
-				return archive;
+               case ct_lz4:
+                    sprintf(error_message_k, "%d - File looks like a lz4 based file, extract it first", ct_lz4_k);
+                    fatal_exit_k = ct_lz4_k;
+                    return archive;
 
-				break;
+                    break;
 
-			case ct_zstd:
-				sprintf(error_message_k, "%d - File looks like a Zstandard based file, extract it first", ct_zstd_k);
-				fatal_exit_k = ct_zstd_k;
-				return archive;
+               case ct_zstd:
+                    sprintf(error_message_k, "%d - File looks like a Zstandard based file, extract it first", ct_zstd_k);
+                    fatal_exit_k = ct_zstd_k;
+                    return archive;
 
-				break;
+                    break;
 
-			default:
+               default:
 
-				strcpy(error_message_k, "This does not look like a tar archive, file unknown ");
-				fatal_exit_k = 1;
+                    strcpy(error_message_k, "This does not look like a tar archive, file unknown ");
+                    fatal_exit_k = 1;
 
-				return archive;
+                    return archive;
 
-				break;
-			}
-		}
+                    break;
+               }
+          }
 
-		assert(0 && "nao pode chegar aqui nunca");
+          assert(0 && "nao pode chegar aqui nunca");
 
-		hit_eof = false;
-	}
+          hit_eof = false;
+     }
 
-	records_read = 0;
-	record_end = record_start; /* set up for 1st record = # 0 */
+     records_read = 0;
+     record_end = record_start; /* set up for 1st record = # 0 */
 
-	return archive;
+     return archive;
 }
 
 /**
@@ -6157,8 +6160,8 @@ int open_compressed_archive(void)
  */
 void guess_seekable_archive(void)
 {
-	seekable_archive = true; //in our case (windows) the file is always seekable
-	return;
+     seekable_archive = true; //in our case (windows) the file is always seekable
+     return;
 }
 
 /**
@@ -6167,27 +6170,27 @@ void guess_seekable_archive(void)
  */
 void _gnu_flush_read(void)
 {
-	size_t status; /* result from system call */
-	size_t status_b = -1;
-	read_error_count = 0; /* clear error count */
-	for (;;)
-	{
-		status = read(archive, record_start->buffer, record_size);
-		if (status == record_size)
-		{
-			file_total__read_int64 += status;
-			records_read++;
-			return;
-		}
-		if (status_b == status)
-		{
-			fatal_exit_k = 1;
-			strcpy(error_message_k, "Cannot read from tar file");
-			return;
-		}
-		break;
-	}
-	short_read(status);
+     size_t status; /* result from system call */
+     size_t status_b = -1;
+     read_error_count = 0; /* clear error count */
+     for (;;)
+     {
+          status = read(archive, record_start->buffer, record_size);
+          if (status == record_size)
+          {
+               file_total__read_int64 += status;
+               records_read++;
+               return;
+          }
+          if (status_b == status)
+          {
+               fatal_exit_k = 1;
+               strcpy(error_message_k, "Cannot read from tar file");
+               return;
+          }
+          break;
+     }
+     short_read(status);
 }
 
 /**
@@ -6196,31 +6199,31 @@ void _gnu_flush_read(void)
  */
 void simple_flush_read(void)
 {
-	size_t status; /* result from system call */
-	int status_i;
-	read_error_count = 0; /* clear error count */
-	for (;;)
-	{
-		status = read(archive, record_start->buffer, record_size);
-		if (status == record_size)
-		{
-			file_total__read_int64 += status;
-			//#error aqui 2
-			records_read++;
-			return;
-		}
+     size_t status; /* result from system call */
+     int status_i;
+     read_error_count = 0; /* clear error count */
+     for (;;)
+     {
+          status = read(archive, record_start->buffer, record_size);
+          if (status == record_size)
+          {
+               file_total__read_int64 += status;
+               //#error aqui 2
+               records_read++;
+               return;
+          }
 
-		status_i = (int)status;
+          status_i = (int)status;
 
-		if (0 > status_i)
-		{
-			fatal_exit_k = 1;
-			strcpy(error_message_k, "Cannot read from tar file");
-			return;
-		}
-		break;
-	}
-	short_read(status);
+          if (0 > status_i)
+          {
+               fatal_exit_k = 1;
+               strcpy(error_message_k, "Cannot read from tar file");
+               return;
+          }
+          break;
+     }
+     short_read(status);
 }
 
 /**
@@ -6229,34 +6232,34 @@ void simple_flush_read(void)
  */
 off_t seek_archive(off_t size)
 {
-	off_t start = current_block_ordinal();
-	off_t offset;
-	off_t nrec, nblk;
-	off_t skipped = (blocking_factor - (current_block - record_start)) * BLOCKSIZE;
-	if (size <= skipped)
-		return 0;
-	/* Compute number of records to skip */
-	nrec = (size - skipped) / record_size;
-	if (nrec == 0)
-		return 0;
-	offset = lseek(archive, nrec * record_size, SEEK_CUR);
-	if (offset < 0)
-		return offset;
-	if (offset % record_size)
-	{
-		strcpy(error_message_k, "lseek not stopped at a record boundary");
-		fatal_exit_k = 1;
-		return 0;
-	}
-	/* Convert to number of records */
-	offset /= BLOCKSIZE;
-	/* Compute number of skipped blocks */
-	nblk = offset - start;
-	/* Update buffering info */
-	records_read += nblk / blocking_factor;
-	record_start_block = offset - blocking_factor;
-	current_block = record_end;
-	return nblk;
+     off_t start = current_block_ordinal();
+     off_t offset;
+     off_t nrec, nblk;
+     off_t skipped = (blocking_factor - (current_block - record_start)) * BLOCKSIZE;
+     if (size <= skipped)
+          return 0;
+     /* Compute number of records to skip */
+     nrec = (size - skipped) / record_size;
+     if (nrec == 0)
+          return 0;
+     offset = lseek(archive, nrec * record_size, SEEK_CUR);
+     if (offset < 0)
+          return offset;
+     if (offset % record_size)
+     {
+          strcpy(error_message_k, "lseek not stopped at a record boundary");
+          fatal_exit_k = 1;
+          return 0;
+     }
+     /* Convert to number of records */
+     offset /= BLOCKSIZE;
+     /* Compute number of skipped blocks */
+     nblk = offset - start;
+     /* Update buffering info */
+     records_read += nblk / blocking_factor;
+     record_start_block = offset - blocking_factor;
+     current_block = record_end;
+     return nblk;
 }
 
 /**
@@ -6265,38 +6268,38 @@ off_t seek_archive(off_t size)
  */
 void short_read(size_t status)
 {
-	size_t left; /* bytes left */
-	char *more;	 /* pointer to next byte to read */
-	more = record_start->buffer + status;
-	left = record_size - status;
-	if (left && left % BLOCKSIZE == 0 && record_start_block == 0 && status != 0)
-	{
-		unsigned long rsize = status / BLOCKSIZE;
-		printf("Record size = %lu block", rsize);
-		pedro_dprintf(2, "Record size = %lu block", rsize);
-	}
+     size_t left; /* bytes left */
+     char *more;  /* pointer to next byte to read */
+     more = record_start->buffer + status;
+     left = record_size - status;
+     if (left && left % BLOCKSIZE == 0 && record_start_block == 0 && status != 0)
+     {
+          unsigned long rsize = status / BLOCKSIZE;
+          printf("Record size = %lu block", rsize);
+          pedro_dprintf(2, "Record size = %lu block", rsize);
+     }
 
-	while (left % BLOCKSIZE != 0 || (left && status && read_full_records))
-	{
-		if (status)
-		{
-			status = read(archive, more, left); // == SAFE_READ_ERROR)
-			if (status == left)
-				file_total__read_int64 += status;
-		}
-		if (status == 0)
-			break;
-		if (!read_full_records)
-		{
-			unsigned long rest = record_size - left;
-			printf("Unaligned block (%lu byte) in archive", rest);
-			pedro_dprintf(2, "Unaligned block (%lu byte) in archive", rest);
-		}
-		left -= status;
-		more += status;
-	}
-	record_end = record_start + (record_size - left) / BLOCKSIZE;
-	records_read++;
+     while (left % BLOCKSIZE != 0 || (left && status && read_full_records))
+     {
+          if (status)
+          {
+               status = read(archive, more, left); // == SAFE_READ_ERROR)
+               if (status == left)
+                    file_total__read_int64 += status;
+          }
+          if (status == 0)
+               break;
+          if (!read_full_records)
+          {
+               unsigned long rest = record_size - left;
+               printf("Unaligned block (%lu byte) in archive", rest);
+               pedro_dprintf(2, "Unaligned block (%lu byte) in archive", rest);
+          }
+          left -= status;
+          more += status;
+     }
+     record_end = record_start + (record_size - left) / BLOCKSIZE;
+     records_read++;
 }
 
 /**
@@ -6305,9 +6308,9 @@ void short_read(size_t status)
  */
 int getpagesize(void)
 {
-	SYSTEM_INFO system_info;
-	GetSystemInfo(&system_info);
-	return system_info.dwPageSize;
+     SYSTEM_INFO system_info;
+     GetSystemInfo(&system_info);
+     return system_info.dwPageSize;
 }
 
 /**
@@ -6320,9 +6323,9 @@ int getpagesize(void)
 void *
 ptr_align(void *ptr, size_t alignment)
 {
-	char *p0 = ptr;
-	char *p1 = p0 + alignment - 1;
-	return p1 - (size_t)p1 % alignment;
+     char *p0 = ptr;
+     char *p1 = p0 + alignment - 1;
+     return p1 - (size_t)p1 % alignment;
 }
 
 /**
@@ -6333,16 +6336,16 @@ ptr_align(void *ptr, size_t alignment)
 void *
 page_aligned_alloc(void **ptr, size_t size)
 {
-	size_t alignment = getpagesize();
-	size_t size1 = size + alignment;
-	if (size1 < size)
-	{
-		pedro_dprintf(2, "Memory exausted");
-		assert(0 && "Memory exausted");
-		exit(26);
-	}
-	*ptr = malloc(size1);
-	return ptr_align(*ptr, alignment);
+     size_t alignment = getpagesize();
+     size_t size1 = size + alignment;
+     if (size1 < size)
+     {
+          pedro_dprintf(2, "Memory exausted");
+          assert(0 && "Memory exausted");
+          exit(26);
+     }
+     *ptr = malloc(size1);
+     return ptr_align(*ptr, alignment);
 }
 
 /**
@@ -6351,12 +6354,12 @@ page_aligned_alloc(void **ptr, size_t size)
  */
 void init_buffer(void)
 {
-	if (!record_buffer_aligned[record_index])
-		record_buffer_aligned[record_index] =
-			page_aligned_alloc(&record_buffer[record_index], record_size);
-	record_start = record_buffer_aligned[record_index];
-	current_block = record_start;
-	record_end = record_start + blocking_factor;
+     if (!record_buffer_aligned[record_index])
+          record_buffer_aligned[record_index] =
+              page_aligned_alloc(&record_buffer[record_index], record_size);
+     record_start = record_buffer_aligned[record_index];
+     current_block = record_start;
+     record_end = record_start + blocking_factor;
 }
 
 /**
@@ -6365,32 +6368,32 @@ void init_buffer(void)
  */
 void flush_archive(void)
 {
-	size_t buffer_level;
-	if (access_mode == ACCESS_READ && time_to_start_writing)
-	{
-		;
-	}
+     size_t buffer_level;
+     if (access_mode == ACCESS_READ && time_to_start_writing)
+     {
+          ;
+     }
 
-	buffer_level = current_block->buffer - record_start->buffer;
-	record_start_block += record_end - record_start;
-	current_block = record_start;
-	record_end = record_start + blocking_factor;
+     buffer_level = current_block->buffer - record_start->buffer;
+     record_start_block += record_end - record_start;
+     current_block = record_start;
+     record_end = record_start + blocking_factor;
 
-	switch (access_mode)
-	{
-	case ACCESS_UPDATE: //to make the ricardo compiler happy
+     switch (access_mode)
+     {
+     case ACCESS_UPDATE: //to make the ricardo compiler happy
 
-		break;
+          break;
 
-	case ACCESS_READ:
-		flush_read();
-		break;
+     case ACCESS_READ:
+          flush_read();
+          break;
 
-	case ACCESS_WRITE:
+     case ACCESS_WRITE:
 
-		flush_write_ptr(buffer_level);
-		break;
-	}
+          flush_write_ptr(buffer_level);
+          break;
+     }
 }
 
 /**
@@ -6403,48 +6406,48 @@ void flush_archive(void)
 union block *
 find_next_block(void)
 {
-	if (current_block == record_end)
-	{
-		if (hit_eof)
-			return 0;
-		flush_archive();
-		if (current_block == record_end)
-		{
-			hit_eof = true;
-			return 0;
-		}
-	}
-	return current_block;
+     if (current_block == record_end)
+     {
+          if (hit_eof)
+               return 0;
+          flush_archive();
+          if (current_block == record_end)
+          {
+               hit_eof = true;
+               return 0;
+          }
+     }
+     return current_block;
 }
 
 static struct zip_magic const magic[] = {
-	{ct_none, 0, 0},
-	{ct_tar, 0, 0},
-	{ct_compress, 2, "\037\235"},
-	{ct_gzip, 2, "\037\213"},
-	{ct_bzip2, 3, "BZh"},
-	{ct_lzip, 4, "LZIP"},
-	{ct_lzma, 6, "\xFFLZMA"}, /* 
+    {ct_none, 0, 0},
+    {ct_tar, 0, 0},
+    {ct_compress, 2, "\037\235"},
+    {ct_gzip, 2, "\037\213"},
+    {ct_bzip2, 3, "BZh"},
+    {ct_lzip, 4, "LZIP"},
+    {ct_lzma, 6, "\xFFLZMA"}, /* 
                                 this don't work as you will see, but I will keep it here...
                                 brotli also don't have a pre-defined header and both are
                                 detected by extension at least in my code, notice that
                                 brotli2 have a header 
                               */
-	{ct_lzop, 4, "\211LZO"},
-	{ct_xz, 6, "\xFD"
-			   "7zXZ"},
-	{ct_lz4, 4, "\x04\x22\x4d\x18"},
-	{ct_zstd, 4, "\x28\xB5\x2F\xFD"},
-	{ct_val, 4, "\x56\x41\x4c\x50"},
-	{ct_gzip2a, 4, "\x52\x53\x50\x47"},
-	{ct_gzip2c, 4, "\x41\x52\x5f\x5f"},
-	{ct_gzip2c, 4, "\x41\x52\x5f\x5E"},
-	{ct_bzip3, 4, "\x41\x52\x5f\x32"},
-	{ct_bzip3, 4, "\x41\x52\x5f\x5d"},
-	{ct_lzop2, 4, "\x41\x52\x5f\x53"},
-	{ct_lz5, 4, "\x41\x52\x5f\x56"},
-	{ct_brotli2, 4, "\x41\x52\x5f\x55"},
-	{ct_compress2, 4, "\x41\x52\x5f\x54"},
+    {ct_lzop, 4, "\211LZO"},
+    {ct_xz, 6, "\xFD"
+               "7zXZ"},
+    {ct_lz4, 4, "\x04\x22\x4d\x18"},
+    {ct_zstd, 4, "\x28\xB5\x2F\xFD"},
+    {ct_val, 4, "\x56\x41\x4c\x50"},
+    {ct_gzip2a, 4, "\x52\x53\x50\x47"},
+    {ct_gzip2c, 4, "\x41\x52\x5f\x5f"},
+    {ct_gzip2c, 4, "\x41\x52\x5f\x5E"},
+    {ct_bzip3, 4, "\x41\x52\x5f\x32"},
+    {ct_bzip3, 4, "\x41\x52\x5f\x5d"},
+    {ct_lzop2, 4, "\x41\x52\x5f\x53"},
+    {ct_lz5, 4, "\x41\x52\x5f\x56"},
+    {ct_brotli2, 4, "\x41\x52\x5f\x55"},
+    {ct_compress2, 4, "\x41\x52\x5f\x54"},
 };
 
 #define NMAGIC (sizeof(magic) / sizeof(magic[0]))
@@ -6456,51 +6459,51 @@ static struct zip_magic const magic[] = {
 enum compress_type
 check_compressed_archive(bool *pshort)
 {
-	struct zip_magic const *p;
-	bool sfr;
-	bool temp;
-	strcpy(record_start->buffer, "<no data$$$>"); //hack by BW
+     struct zip_magic const *p;
+     bool sfr;
+     bool temp;
+     strcpy(record_start->buffer, "<no data$$$>"); //hack by BW
 
-	if (!pshort)
-		pshort = &temp;
+     if (!pshort)
+          pshort = &temp;
 
-	/* Prepare global data needed for find_next_block: */
-	record_end = record_start; /* set up for 1st record = # 0 */
-	sfr = read_full_records;
-	read_full_records = true; /* Suppress fatal error on reading a partial
+     /* Prepare global data needed for find_next_block: */
+     record_end = record_start; /* set up for 1st record = # 0 */
+     sfr = read_full_records;
+     read_full_records = true; /* Suppress fatal error on reading a partial
 	                             record */
-	*pshort = find_next_block() == 0;
+     *pshort = find_next_block() == 0;
 
-	if (0 == strcmp("<no data$$$>", record_start->buffer)) //hack by BW
-	{
-		FILE *my_file_z = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), L"rb");
+     if (0 == strcmp("<no data$$$>", record_start->buffer)) //hack by BW
+     {
+          FILE *my_file_z = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), L"rb");
 
-		if (my_file_z)
-		{
-			memset(record_start->buffer, 0, 7);
-			fread(record_start->buffer, 1, 7, my_file_z);
-			fclose(my_file_z);
-			goto next_step_z;
-		}
-	}
+          if (my_file_z)
+          {
+               memset(record_start->buffer, 0, 7);
+               fread(record_start->buffer, 1, 7, my_file_z);
+               fclose(my_file_z);
+               goto next_step_z;
+          }
+     }
 
-	/* Restore global values */
-	read_full_records = sfr;
+     /* Restore global values */
+     read_full_records = sfr;
 
-	if (record_start != record_end /* no files smaller than BLOCKSIZE */
-		&& (strcmp(record_start->header.magic, TMAGIC) == 0 || strcmp(record_start->buffer + offsetof(struct posix_header,
-																									  magic),
-																	  OLDGNU_MAGIC) == 0) &&
-		tar_checksum(record_start, true) == HEADER_SUCCESS)
-		/* Probably a valid header */
-		return ct_tar;
+     if (record_start != record_end /* no files smaller than BLOCKSIZE */
+         && (strcmp(record_start->header.magic, TMAGIC) == 0 || strcmp(record_start->buffer + offsetof(struct posix_header,
+                                                                                                       magic),
+                                                                       OLDGNU_MAGIC) == 0) &&
+         tar_checksum(record_start, true) == HEADER_SUCCESS)
+          /* Probably a valid header */
+          return ct_tar;
 next_step_z:;
-	for (p = magic + 2; p < magic + NMAGIC; p++)
-		if (memcmp(record_start->buffer, p->magic, p->length) == 0)
-		{
-			return p->type;
-		}
-	return ct_none;
+     for (p = magic + 2; p < magic + NMAGIC; p++)
+          if (memcmp(record_start->buffer, p->magic, p->length) == 0)
+          {
+               return p->type;
+          }
+     return ct_none;
 }
 
 /**
@@ -6509,7 +6512,7 @@ next_step_z:;
  */
 void flush_read(void)
 {
-	flush_read_ptr();
+     flush_read_ptr();
 }
 
 /**
@@ -6518,22 +6521,22 @@ void flush_read(void)
  */
 void open_archive(enum access_mode wanted_access)
 {
-	flush_read_ptr = gnu_flush_read;
-	flush_write_ptr = gnu_flush_write;
-	_open_archive(wanted_access);
-	if (fatal_exit_k)
-	{
-		return;
-	}
-	switch (wanted_access)
-	{
-	case ACCESS_READ:
-	case ACCESS_UPDATE:
-		break;
-	case ACCESS_WRITE:
-		records_written = 0;
-		break;
-	}
+     flush_read_ptr = gnu_flush_read;
+     flush_write_ptr = gnu_flush_write;
+     _open_archive(wanted_access);
+     if (fatal_exit_k)
+     {
+          return;
+     }
+     switch (wanted_access)
+     {
+     case ACCESS_READ:
+     case ACCESS_UPDATE:
+          break;
+     case ACCESS_WRITE:
+          records_written = 0;
+          break;
+     }
 }
 
 /**
@@ -6542,25 +6545,25 @@ void open_archive(enum access_mode wanted_access)
  */
 int __stdcall DllMain(__attribute__((unused)) HANDLE hModule, DWORD ul_reason_for_call, __attribute__((unused)) LPVOID lpReserved)
 {
-	switch (ul_reason_for_call)
-	{
-	case DLL_PROCESS_ATTACH:
-		OutputDebugString("BW Tar DLL ;-) "
-						  " - DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__
-						  ") "
-						  " _amanda_debug_ \n");
-		break;
+     switch (ul_reason_for_call)
+     {
+     case DLL_PROCESS_ATTACH:
+          OutputDebugString("BW Tar DLL ;-) "
+                            " - DLL_PROCESS_ATTACH (" __TIME__ " " __DATE__
+                            ") "
+                            " _amanda_debug_ \n");
+          break;
 
-	case DLL_THREAD_ATTACH:
-		break;
+     case DLL_THREAD_ATTACH:
+          break;
 
-	case DLL_THREAD_DETACH:
-		break;
+     case DLL_THREAD_DETACH:
+          break;
 
-	case DLL_PROCESS_DETACH:
-		break;
-	}
-	return TRUE;
+     case DLL_PROCESS_DETACH:
+          break;
+     }
+     return TRUE;
 }
 /**
  * To know whether the list process is running
@@ -6568,7 +6571,7 @@ int __stdcall DllMain(__attribute__((unused)) HANDLE hModule, DWORD ul_reason_fo
  */
 int __stdcall IsListRunning(void)
 {
-	return running_2_ar;
+     return running_2_ar;
 }
 /**
  * To get the return value for the list process
@@ -6576,7 +6579,7 @@ int __stdcall IsListRunning(void)
  */
 int __stdcall GetReturnValueFromList(void)
 {
-	return return_value_from_list;
+     return return_value_from_list;
 }
 
 char tar_file_ar_real[AMANDA__SIZE];
@@ -6586,7 +6589,7 @@ char tar_file_ar_real[AMANDA__SIZE];
  */
 void __stdcall get_error_message(char *data_ar)
 {
-	strcpy(data_ar, error_message_k);
+     strcpy(data_ar, error_message_k);
 }
 
 int __stdcall list_tar_file_ar(char *tar_file_ar);
@@ -6599,83 +6602,83 @@ char copy_for_extract_ar[AMANDA__SIZE];
  */
 int __stdcall startapi_ar_2(__attribute__((unused)) int parameter) //for list process thread...
 {
-	int is_multi_volume_p;
-	static char temp_tar_file_in_temp_path[AMANDA__SIZE];
-	cores_used_z = 1;
-	memset(copy_for_extract_ar, 0, sizeof(copy_for_extract_ar));
-	modo_e_duplo_ar = false;
-	return_value_from_list = 0;
+     int is_multi_volume_p;
+     static char temp_tar_file_in_temp_path[AMANDA__SIZE];
+     cores_used_z = 1;
+     memset(copy_for_extract_ar, 0, sizeof(copy_for_extract_ar));
+     modo_e_duplo_ar = false;
+     return_value_from_list = 0;
 
-	init_rsp_arp_encrypt_arp();
+     init_rsp_arp_encrypt_arp();
 
-	is_multi_volume_p = detect_multi_volume_p(tar_file_ar_real, temp_tar_file_in_temp_path);
+     is_multi_volume_p = detect_multi_volume_p(tar_file_ar_real, temp_tar_file_in_temp_path);
 
-	if (0 == is_multi_volume_p)
-	{
-		if (!mode_is_libarchive_list_p)
-			return_value_from_list = process_tar(0, tar_file_ar_real, list_function_ar_ok);
-		else
-		{
-			pedro_dprintf(-1, "7");
-			dllinit_arp();
+     if (0 == is_multi_volume_p)
+     {
+          if (!mode_is_libarchive_list_p)
+               return_value_from_list = process_tar(0, tar_file_ar_real, list_function_ar_ok);
+          else
+          {
+               pedro_dprintf(-1, "7");
+               dllinit_arp();
 
-			{
+               {
 
-				get_tar_info_p_func(
-					&Isdir_k,
-					&Second_k,
-					&Minute_k,
-					&Hour_k,
-					&Year_k,
-					&Month_k,
-					&Day_k,
-					&Size_k,
-					filename_k,
-					&Numdir_k,
-					&Numfiles_k,
-					typeflag_ar);
+                    get_tar_info_p_func(
+                        &Isdir_k,
+                        &Second_k,
+                        &Minute_k,
+                        &Hour_k,
+                        &Year_k,
+                        &Month_k,
+                        &Day_k,
+                        &Size_k,
+                        filename_k,
+                        &Numdir_k,
+                        &Numfiles_k,
+                        typeflag_ar);
 
-				return_value_from_list = libarchive_list_entries_p_func(tar_file_ar_real, the_pass_arp, list_function_ar_ok, error_message_k, string_format_arp);
-			}
-		}
-	}
-	else if (1 == is_multi_volume_p)
-	{
-		if (!mode_is_libarchive_list_p)
-			return_value_from_list = process_tar(0, temp_tar_file_in_temp_path, list_function_ar_ok);
-		else
-		{
-			dllinit_arp();
+                    return_value_from_list = libarchive_list_entries_p_func(tar_file_ar_real, the_pass_arp, list_function_ar_ok, error_message_k, string_format_arp);
+               }
+          }
+     }
+     else if (1 == is_multi_volume_p)
+     {
+          if (!mode_is_libarchive_list_p)
+               return_value_from_list = process_tar(0, temp_tar_file_in_temp_path, list_function_ar_ok);
+          else
+          {
+               dllinit_arp();
 
-			{
-				get_tar_info_p_func(
-					&Isdir_k,
-					&Second_k,
-					&Minute_k,
-					&Hour_k,
-					&Year_k,
-					&Month_k,
-					&Day_k,
-					&Size_k,
-					filename_k,
-					&Numdir_k,
-					&Numfiles_k,
-					typeflag_ar);
+               {
+                    get_tar_info_p_func(
+                        &Isdir_k,
+                        &Second_k,
+                        &Minute_k,
+                        &Hour_k,
+                        &Year_k,
+                        &Month_k,
+                        &Day_k,
+                        &Size_k,
+                        filename_k,
+                        &Numdir_k,
+                        &Numfiles_k,
+                        typeflag_ar);
 
-				return_value_from_list = libarchive_list_entries_p_func(temp_tar_file_in_temp_path, the_pass_arp, list_function_ar_ok, error_message_k, string_format_arp);
-			}
-		}
-		_wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_tar_file_in_temp_path)));
-	}
-	else
-	{
-		return_value_from_list = is_multi_volume_p;
-	}
-	pedro_dprintf(-1, "is multi volume2 %d\n", (int)is_multi_volume_p);
-	pedro_dprintf(-1, "13");
-	running_2_ar = 0;
-	mode_is_libarchive_list_p = false;
-	return 0;
+                    return_value_from_list = libarchive_list_entries_p_func(temp_tar_file_in_temp_path, the_pass_arp, list_function_ar_ok, error_message_k, string_format_arp);
+               }
+          }
+          _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_tar_file_in_temp_path)));
+     }
+     else
+     {
+          return_value_from_list = is_multi_volume_p;
+     }
+     pedro_dprintf(-1, "is multi volume2 %d\n", (int)is_multi_volume_p);
+     pedro_dprintf(-1, "13");
+     running_2_ar = 0;
+     mode_is_libarchive_list_p = false;
+     return 0;
 }
 /**
  * This function is called when a thread is initialized, for an extraction process
@@ -6683,54 +6686,54 @@ int __stdcall startapi_ar_2(__attribute__((unused)) int parameter) //for list pr
  */
 int __stdcall startapi_ar_3(__attribute__((unused)) int parameter) //extract call function...
 {
-	int is_multi_volume_p;
-	static char temp_tar_file_in_temp_path[AMANDA__SIZE];
-	cores_used_z = 1;
-	modo_e_duplo_ar = true;
-	memset(copy_for_extract_ar, 0, sizeof(copy_for_extract_ar));
-	return_value_from_list = 0;
+     int is_multi_volume_p;
+     static char temp_tar_file_in_temp_path[AMANDA__SIZE];
+     cores_used_z = 1;
+     modo_e_duplo_ar = true;
+     memset(copy_for_extract_ar, 0, sizeof(copy_for_extract_ar));
+     return_value_from_list = 0;
 
-	init_rsp_arp_encrypt_arp();
+     init_rsp_arp_encrypt_arp();
 
-	is_multi_volume_p = detect_multi_volume_p(tar_file_ar_real, temp_tar_file_in_temp_path);
+     is_multi_volume_p = detect_multi_volume_p(tar_file_ar_real, temp_tar_file_in_temp_path);
 
-	if (0 == is_multi_volume_p)
-	{
-		if (!mode_is_libarchive_extract_p)
-			return_value_from_list = process_tar(1, tar_file_ar_real, extract_function_ar_ok);
-		else
-		{
-			dllinit_arp();
+     if (0 == is_multi_volume_p)
+     {
+          if (!mode_is_libarchive_extract_p)
+               return_value_from_list = process_tar(1, tar_file_ar_real, extract_function_ar_ok);
+          else
+          {
+               dllinit_arp();
 
-			{
-				return_value_from_list = libarchive_extract_entries_p_func(tar_file_ar_real, the_pass_arp, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria, &extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
-			}
-		}
-	}
-	else if (1 == is_multi_volume_p)
-	{
-		if (!mode_is_libarchive_extract_p)
-			return_value_from_list = process_tar(1, temp_tar_file_in_temp_path, extract_function_ar_ok);
-		else
-		{
-			dllinit_arp();
+               {
+                    return_value_from_list = libarchive_extract_entries_p_func(tar_file_ar_real, the_pass_arp, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria, &extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
+               }
+          }
+     }
+     else if (1 == is_multi_volume_p)
+     {
+          if (!mode_is_libarchive_extract_p)
+               return_value_from_list = process_tar(1, temp_tar_file_in_temp_path, extract_function_ar_ok);
+          else
+          {
+               dllinit_arp();
 
-			{
-				return_value_from_list = libarchive_extract_entries_p_func(temp_tar_file_in_temp_path, the_pass_arp, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria, &extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
-			}
-		}
+               {
+                    return_value_from_list = libarchive_extract_entries_p_func(temp_tar_file_in_temp_path, the_pass_arp, extract_function_ar_ok, error_message_k, string_format_arp, extract_folder_final, extracting_filename_ar, warning_info, creating_folder_maria, &extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
+               }
+          }
 
-		_wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_tar_file_in_temp_path)));
-	}
-	else
-	{
-		return_value_from_list = is_multi_volume_p;
-	}
+          _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_tar_file_in_temp_path)));
+     }
+     else
+     {
+          return_value_from_list = is_multi_volume_p;
+     }
 
-	running_2_ar = 0;
-	modo_e_duplo_ar = false;
-	mode_is_libarchive_extract_p = false;
-	return 0;
+     running_2_ar = 0;
+     modo_e_duplo_ar = false;
+     mode_is_libarchive_extract_p = false;
+     return 0;
 }
 
 /**
@@ -6751,11 +6754,11 @@ int __stdcall startapi_ar_3(__attribute__((unused)) int parameter) //extract cal
  *
  */
 int __stdcall libarchive_list_tar_file_ar(
-	char *tar_file_ar)
+    char *tar_file_ar)
 {
-	mode_is_libarchive_list_p = true;
-	pedro_dprintf(-1, "1");
-	return list_tar_file_ar(tar_file_ar);
+     mode_is_libarchive_list_p = true;
+     pedro_dprintf(-1, "1");
+     return list_tar_file_ar(tar_file_ar);
 }
 
 /**
@@ -6764,40 +6767,40 @@ int __stdcall libarchive_list_tar_file_ar(
  */
 int __stdcall list_tar_file_ar(char *tar_file_ar)
 {
-	if (AMANDA__SIZE < strlen(tar_file_ar))
-	{
-		mode_is_libarchive_list_p = false;
-		return 2;
-	}
-	if (running_2_ar)
-	{
-		mode_is_libarchive_list_p = false;
-		return 1;
-	}
-	if (false == check_valid_path_i(tar_file_ar))
-	{
-		return 3;
-	}
+     if (AMANDA__SIZE < strlen(tar_file_ar))
+     {
+          mode_is_libarchive_list_p = false;
+          return 2;
+     }
+     if (running_2_ar)
+     {
+          mode_is_libarchive_list_p = false;
+          return 1;
+     }
+     if (false == check_valid_path_i(tar_file_ar))
+     {
+          return 3;
+     }
 
-	extract_pause__flag = false;
-	extract_cancel_flag = false;
+     extract_pause__flag = false;
+     extract_cancel_flag = false;
 
-	running_2_ar = 1;
-	pedro_dprintf(-1, "2");
-	strncpy_z(tar_file_ar_real, tar_file_ar, AMANDA__SIZE);
+     running_2_ar = 1;
+     pedro_dprintf(-1, "2");
+     strncpy_z(tar_file_ar_real, tar_file_ar, AMANDA__SIZE);
 
-	HANDLE myhandle;
-	MYCAST ThreadId;
-	MYCAST parameter = 1;
-	pedro_dprintf(-1, "3");
-	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
-							(SIZE_T)0,
-							(void *)startapi_ar_2,
-							(LPVOID)parameter,
-							(DWORD)0,
-							(LPDWORD)&ThreadId);
-	CloseHandle(myhandle);
-	return 0;
+     HANDLE myhandle;
+     MYCAST ThreadId;
+     MYCAST parameter = 1;
+     pedro_dprintf(-1, "3");
+     myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
+                             (SIZE_T)0,
+                             (void *)startapi_ar_2,
+                             (LPVOID)parameter,
+                             (DWORD)0,
+                             (LPDWORD)&ThreadId);
+     CloseHandle(myhandle);
+     return 0;
 }
 /**
  * It will pause the extraction process
@@ -6805,33 +6808,33 @@ int __stdcall list_tar_file_ar(char *tar_file_ar)
  */
 int __stdcall ExtractPause_ar(void)
 {
-	if (pause_lzip_aakp_lzip_ar_func)
-	{
-		pause_lzip_aakp_lzip_ar_func();
-		PauseExecution_gzip_ar_func();
-		PauseCompress_bzip2_ar_func();
-		pause_lzma_aakp_lzma_ar_func();
-		pause_xz___aakp_xz___ar_func();
-		pause_co___aakp_co___ar_func();
-		pause_ju___aakp_ju___ar_func();
-		pause_l4___aakp_l4___ar_func();
-		pause_zs___aakp_zs___ar_func();
-		pause_br___aakp_br___ar_func();
-		pause_g2___aakp_g2___ar_func();
-		pause_b3___aakp_b3___ar_func();
-		pause_l3___aakp_l3___ar_func();
-		pause_l5___aakp_l5___ar_func();
-		pause_bb___aakp_bb___ar_func();
-		pause_c5___aakp_c5___ar_func();
-	}
-	extract_pause__flag = true;
-	if (global_ptr_our_map_arp_v27)
-	{
-		global_ptr_our_map_arp_v27->pause____arp = 1;
-	}
-	init_rsp_arp_encrypt_arp();
-	PauseExecution__arp_func();
-	return 0;
+     if (pause_lzip_aakp_lzip_ar_func)
+     {
+          pause_lzip_aakp_lzip_ar_func();
+          PauseExecution_gzip_ar_func();
+          PauseCompress_bzip2_ar_func();
+          pause_lzma_aakp_lzma_ar_func();
+          pause_xz___aakp_xz___ar_func();
+          pause_co___aakp_co___ar_func();
+          pause_ju___aakp_ju___ar_func();
+          pause_l4___aakp_l4___ar_func();
+          pause_zs___aakp_zs___ar_func();
+          pause_br___aakp_br___ar_func();
+          pause_g2___aakp_g2___ar_func();
+          pause_b3___aakp_b3___ar_func();
+          pause_l3___aakp_l3___ar_func();
+          pause_l5___aakp_l5___ar_func();
+          pause_bb___aakp_bb___ar_func();
+          pause_c5___aakp_c5___ar_func();
+     }
+     extract_pause__flag = true;
+     if (global_ptr_our_map_arp_v27)
+     {
+          global_ptr_our_map_arp_v27->pause____arp = 1;
+     }
+     init_rsp_arp_encrypt_arp();
+     PauseExecution__arp_func();
+     return 0;
 }
 /**
  * It will resume the extraction process
@@ -6839,33 +6842,33 @@ int __stdcall ExtractPause_ar(void)
  */
 int __stdcall ExtractResume_ar(void)
 {
-	if (resume_lzip_aakp_lzip_ar_func)
-	{
-		resume_lzip_aakp_lzip_ar_func();
-		ResumeExecution_gzip_ar_func();
-		ResumeCompress_bzip2_ar_func();
-		resume_lzma_aakp_lzma_ar_func();
-		resume_xz___aakp_xz___ar_func();
-		resume_co___aakp_co___ar_func();
-		resume_ju___aakp_ju___ar_func();
-		resume_l4___aakp_l4___ar_func();
-		resume_zs___aakp_zs___ar_func();
-		resume_br___aakp_br___ar_func();
-		resume_g2___aakp_g2___ar_func();
-		resume_b3___aakp_b3___ar_func();
-		resume_l3___aakp_l3___ar_func();
-		resume_l5___aakp_l5___ar_func();
-		resume_bb___aakp_bb___ar_func();
-		resume_c5___aakp_c5___ar_func();
-	}
-	if (global_ptr_our_map_arp_v27)
-	{
-		global_ptr_our_map_arp_v27->pause____arp = 0;
-	}
-	init_rsp_arp_encrypt_arp();
-	ResumeExecution_arp_func();
-	extract_pause__flag = false;
-	return 0;
+     if (resume_lzip_aakp_lzip_ar_func)
+     {
+          resume_lzip_aakp_lzip_ar_func();
+          ResumeExecution_gzip_ar_func();
+          ResumeCompress_bzip2_ar_func();
+          resume_lzma_aakp_lzma_ar_func();
+          resume_xz___aakp_xz___ar_func();
+          resume_co___aakp_co___ar_func();
+          resume_ju___aakp_ju___ar_func();
+          resume_l4___aakp_l4___ar_func();
+          resume_zs___aakp_zs___ar_func();
+          resume_br___aakp_br___ar_func();
+          resume_g2___aakp_g2___ar_func();
+          resume_b3___aakp_b3___ar_func();
+          resume_l3___aakp_l3___ar_func();
+          resume_l5___aakp_l5___ar_func();
+          resume_bb___aakp_bb___ar_func();
+          resume_c5___aakp_c5___ar_func();
+     }
+     if (global_ptr_our_map_arp_v27)
+     {
+          global_ptr_our_map_arp_v27->pause____arp = 0;
+     }
+     init_rsp_arp_encrypt_arp();
+     ResumeExecution_arp_func();
+     extract_pause__flag = false;
+     return 0;
 }
 /**
  * This function is required to explode a string by delimiters, a Linux fnmatch like function requires it
@@ -6874,22 +6877,22 @@ int __stdcall ExtractResume_ar(void)
 char *
 strsep(char **stringp, const char *delim)
 {
-	char *begin, *end;
-	begin = *stringp;
-	if (begin == NULL)
-		return NULL;
-	/* Find the end of the token.  */
-	end = begin + strcspn(begin, delim);
-	if (*end)
-	{
-		/* Terminate the token and set *STRINGP past NUL character.  */
-		*end++ = '\0';
-		*stringp = end;
-	}
-	else
-		/* No more delimiters; this is the last token.  */
-		*stringp = NULL;
-	return begin;
+     char *begin, *end;
+     begin = *stringp;
+     if (begin == NULL)
+          return NULL;
+     /* Find the end of the token.  */
+     end = begin + strcspn(begin, delim);
+     if (*end)
+     {
+          /* Terminate the token and set *STRINGP past NUL character.  */
+          *end++ = '\0';
+          *stringp = end;
+     }
+     else
+          /* No more delimiters; this is the last token.  */
+          *stringp = NULL;
+     return begin;
 }
 
 /**
@@ -6898,33 +6901,33 @@ strsep(char **stringp, const char *delim)
  */
 int __stdcall ExtractCancel_ar(void)
 {
-	if (cancel_lzip_aakp_lzip_ar_func)
-	{
-		cancel_lzip_aakp_lzip_ar_func();
-		CancelExecution_gzip_ar_func();
-		CancelCompress_bzip2_ar_func();
-		cancel_lzip_aakp_lzip_ar_func();
-		cancel_xz___aakp_xz___ar_func();
-		cancel_co___aakp_co___ar_func();
-		cancel_ju___aakp_ju___ar_func();
-		cancel_l4___aakp_l4___ar_func();
-		cancel_zs___aakp_zs___ar_func();
-		cancel_br___aakp_br___ar_func();
-		cancel_g2___aakp_g2___ar_func();
-		cancel_b3___aakp_b3___ar_func();
-		cancel_l3___aakp_l3___ar_func();
-		cancel_l5___aakp_l5___ar_func();
-		cancel_bb___aakp_bb___ar_func();
-		cancel_c5___aakp_c5___ar_func();
-	}
-	if (global_ptr_our_map_arp_v27)
-	{
-		global_ptr_our_map_arp_v27->cancel___arp = 1;
-	}
-	init_rsp_arp_encrypt_arp();
-	CancelExecution_arp_func();
-	extract_cancel_flag = true;
-	return 0;
+     if (cancel_lzip_aakp_lzip_ar_func)
+     {
+          cancel_lzip_aakp_lzip_ar_func();
+          CancelExecution_gzip_ar_func();
+          CancelCompress_bzip2_ar_func();
+          cancel_lzip_aakp_lzip_ar_func();
+          cancel_xz___aakp_xz___ar_func();
+          cancel_co___aakp_co___ar_func();
+          cancel_ju___aakp_ju___ar_func();
+          cancel_l4___aakp_l4___ar_func();
+          cancel_zs___aakp_zs___ar_func();
+          cancel_br___aakp_br___ar_func();
+          cancel_g2___aakp_g2___ar_func();
+          cancel_b3___aakp_b3___ar_func();
+          cancel_l3___aakp_l3___ar_func();
+          cancel_l5___aakp_l5___ar_func();
+          cancel_bb___aakp_bb___ar_func();
+          cancel_c5___aakp_c5___ar_func();
+     }
+     if (global_ptr_our_map_arp_v27)
+     {
+          global_ptr_our_map_arp_v27->cancel___arp = 1;
+     }
+     init_rsp_arp_encrypt_arp();
+     CancelExecution_arp_func();
+     extract_cancel_flag = true;
+     return 0;
 }
 /**
  * It will extract the tar file 'tar_file_ar' an utf-8 encoded file
@@ -6937,45 +6940,45 @@ int __stdcall ExtractCancel_ar(void)
  */
 int __stdcall extract_tar_file_ar(char *tar_file_ar, char *destination_folder_ar)
 {
-	if (AMANDA__SIZE < strlen(tar_file_ar))
-	{
-		mode_is_libarchive_extract_p = false;
-		return 2;
-	}
-	if (AMANDA__SIZE < strlen(destination_folder_ar))
-	{
-		mode_is_libarchive_extract_p = false;
-		return 2;
-	}
-	if (running_2_ar)
-	{
-		mode_is_libarchive_extract_p = false;
-		return 1;
-	}
-	if (false == check_valid_path_i(tar_file_ar) || false == check_valid_path_i(destination_folder_ar))
-	{
-		return 3;
-	}
+     if (AMANDA__SIZE < strlen(tar_file_ar))
+     {
+          mode_is_libarchive_extract_p = false;
+          return 2;
+     }
+     if (AMANDA__SIZE < strlen(destination_folder_ar))
+     {
+          mode_is_libarchive_extract_p = false;
+          return 2;
+     }
+     if (running_2_ar)
+     {
+          mode_is_libarchive_extract_p = false;
+          return 1;
+     }
+     if (false == check_valid_path_i(tar_file_ar) || false == check_valid_path_i(destination_folder_ar))
+     {
+          return 3;
+     }
 
-	running_2_ar = 1;
-	last_list_error_int_arp = 0;
-	memset(last_list_error_message_arp, 0, sizeof(last_list_error_message_arp));
-	extract_pause__flag = false;
-	extract_cancel_flag = false;
-	strncpy_z(tar_file_ar_real, tar_file_ar, AMANDA__SIZE);
-	strncpy_z(extract_folder_final, destination_folder_ar, AMANDA__SIZE);
-	HANDLE myhandle;
-	MYCAST ThreadId;
-	MYCAST parameter = 1;
-	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
-							(SIZE_T)0,
-							(void *)startapi_ar_3,
-							(LPVOID)parameter,
-							(DWORD)0,
-							(LPDWORD)&ThreadId);
+     running_2_ar = 1;
+     last_list_error_int_arp = 0;
+     memset(last_list_error_message_arp, 0, sizeof(last_list_error_message_arp));
+     extract_pause__flag = false;
+     extract_cancel_flag = false;
+     strncpy_z(tar_file_ar_real, tar_file_ar, AMANDA__SIZE);
+     strncpy_z(extract_folder_final, destination_folder_ar, AMANDA__SIZE);
+     HANDLE myhandle;
+     MYCAST ThreadId;
+     MYCAST parameter = 1;
+     myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
+                             (SIZE_T)0,
+                             (void *)startapi_ar_3,
+                             (LPVOID)parameter,
+                             (DWORD)0,
+                             (LPDWORD)&ThreadId);
 
-	CloseHandle(myhandle);
-	return 0;
+     CloseHandle(myhandle);
+     return 0;
 }
 /**
  * Version 5.3.8 and above have the embedded libarchive (https://libarchive.org) on it<br>
@@ -6998,8 +7001,8 @@ int __stdcall extract_tar_file_ar(char *tar_file_ar, char *destination_folder_ar
  */
 int __stdcall libarchive_extract_tar_file_ar(char *tar_file_ar, char *destination_folder_ar)
 {
-	mode_is_libarchive_extract_p = true;
-	return extract_tar_file_ar(tar_file_ar, destination_folder_ar);
+     mode_is_libarchive_extract_p = true;
+     return extract_tar_file_ar(tar_file_ar, destination_folder_ar);
 }
 
 /**
@@ -7012,16 +7015,16 @@ int __stdcall libarchive_extract_tar_file_ar(char *tar_file_ar, char *destinatio
  */
 int getpor_10000_int64_t_ar(int64_t max, int64_t fatia)
 {
-	double maxa;
-	double fatiaa;
-	maxa = (double)max;
-	fatiaa = (double)fatia;
-	if (max == 0 || fatia == 0)
-	{
-		return 0;
-	}
-	maxa = ((double)10000 / maxa * fatiaa);
-	return (int)maxa;
+     double maxa;
+     double fatiaa;
+     maxa = (double)max;
+     fatiaa = (double)fatia;
+     if (max == 0 || fatia == 0)
+     {
+          return 0;
+     }
+     maxa = ((double)10000 / maxa * fatiaa);
+     return (int)maxa;
 }
 
 /**
@@ -7032,7 +7035,7 @@ int getpor_10000_int64_t_ar(int64_t max, int64_t fatia)
  */
 int __stdcall GetListProgress_ar(void)
 {
-	return 0; //for the moment...
+     return 0; //for the moment...
 }
 
 /**
@@ -7043,25 +7046,25 @@ int __stdcall GetListProgress_ar(void)
  */
 int __stdcall GetExtrationProgress_ar(void)
 {
-	int ret_ar;
+     int ret_ar;
 
-	if (mode_is_libarchive_extract_p)
-	{
+     if (mode_is_libarchive_extract_p)
+     {
 
-		if (progress_extract_i_func)
-		{
+          if (progress_extract_i_func)
+          {
 
-			ret_ar = progress_extract_i_func();
+               ret_ar = progress_extract_i_func();
 
-			return ret_ar;
-		}
-		return 10000;
-	}
+               return ret_ar;
+          }
+          return 10000;
+     }
 
-	if (global_ptr_our_map_arp_v27)
-	{
-		assert(0 && "Don't handle iso files anymore in Parolin");
-		/*
+     if (global_ptr_our_map_arp_v27)
+     {
+          assert(0 && "Don't handle iso files anymore in Parolin");
+          /*
 		   static int old_value_arp = 0;
 		   if (time_point_arp_2 < GetTickCount())
 		   {
@@ -7071,17 +7074,17 @@ int __stdcall GetExtrationProgress_ar(void)
 		   }
 		   return old_value_arp;
 		 */
-	}
-	ret_ar = getpor_10000(numero_de_itens, processed_itens_ar);
-	if (0 > ret_ar)
-	{
-		ret_ar = 0;
-	}
-	if (10000 < ret_ar)
-	{
-		ret_ar = 10000;
-	}
-	return ret_ar;
+     }
+     ret_ar = getpor_10000(numero_de_itens, processed_itens_ar);
+     if (0 > ret_ar)
+     {
+          ret_ar = 0;
+     }
+     if (10000 < ret_ar)
+     {
+          ret_ar = 10000;
+     }
+     return ret_ar;
 }
 
 char temp_tar_file_ar[AMANDA__SIZE];
@@ -7096,8 +7099,8 @@ bool flag_to_delete_temp_ar = false;
  */
 int __stdcall get_tar_format_arp(char *format_arp)
 {
-	strcpy(format_arp, string_format_arp);
-	return 0;
+     strcpy(format_arp, string_format_arp);
+     return 0;
 }
 
 /**
@@ -7112,52 +7115,52 @@ int __stdcall get_tar_format_arp(char *format_arp)
  */
 void check_mislaine_encrypted(void)
 {
-	char buf_amanda[1];
-	char header_end_arp[300] = {0};
-	int64_t file_size_arp;
-	FILE *amanda_file;
-	file_size_arp = getfilesize_ar(archive_name_array_filename);
-	if (8 < file_size_arp)
-	{
-		amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), L"rb");
-		if (amanda_file)
-		{
-			encryption_method_arp = ARP_AES;
-			fseek(amanda_file, file_size_arp - 5, SEEK_SET);
-			fread(buf_amanda, 1, 1, amanda_file);
-			if (ARP_RC4 == buf_amanda[0])
-			{
-				encryption_method_arp = ARP_RC4;
-			}
-			if (ARP_SERPENT == buf_amanda[0])
-			{
-				encryption_method_arp = ARP_SERPENT;
-			}
-			if (ARP_MARS == buf_amanda[0])
-			{
-				encryption_method_arp = ARP_MARS;
-			}
-			if (ARP_RC6 == buf_amanda[0])
-			{
-				encryption_method_arp = ARP_RC6;
-			}
-			if (ARP_TWOFISH == buf_amanda[0])
-			{
-				encryption_method_arp = ARP_TWOFISH;
-			}
-			fseek(amanda_file, file_size_arp - 4, SEEK_SET);
-			fread(header_end_arp, 1, 4, amanda_file);
-			if (0 == strcmp("misl", header_end_arp)) //misl comes from Mislaine, my first daughther...
-			{
-				is_mislaine_encrypted_ = true;
-			}
-			else
-			{
-				;
-			}
-			fclose(amanda_file);
-		}
-	}
+     char buf_amanda[1];
+     char header_end_arp[300] = {0};
+     int64_t file_size_arp;
+     FILE *amanda_file;
+     file_size_arp = getfilesize_ar(archive_name_array_filename);
+     if (8 < file_size_arp)
+     {
+          amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), L"rb");
+          if (amanda_file)
+          {
+               encryption_method_arp = ARP_AES;
+               fseek(amanda_file, file_size_arp - 5, SEEK_SET);
+               fread(buf_amanda, 1, 1, amanda_file);
+               if (ARP_RC4 == buf_amanda[0])
+               {
+                    encryption_method_arp = ARP_RC4;
+               }
+               if (ARP_SERPENT == buf_amanda[0])
+               {
+                    encryption_method_arp = ARP_SERPENT;
+               }
+               if (ARP_MARS == buf_amanda[0])
+               {
+                    encryption_method_arp = ARP_MARS;
+               }
+               if (ARP_RC6 == buf_amanda[0])
+               {
+                    encryption_method_arp = ARP_RC6;
+               }
+               if (ARP_TWOFISH == buf_amanda[0])
+               {
+                    encryption_method_arp = ARP_TWOFISH;
+               }
+               fseek(amanda_file, file_size_arp - 4, SEEK_SET);
+               fread(header_end_arp, 1, 4, amanda_file);
+               if (0 == strcmp("misl", header_end_arp)) //misl comes from Mislaine, my first daughther...
+               {
+                    is_mislaine_encrypted_ = true;
+               }
+               else
+               {
+                    ;
+               }
+               fclose(amanda_file);
+          }
+     }
 }
 /**
  * If the file is compressed by one of the 16 compressors supported
@@ -7169,189 +7172,189 @@ void check_mislaine_encrypted(void)
  */
 int __stdcall Initial_Progress_z(void)
 {
-	if (-1 == decompression_progress_mode_arp)
-	{
-		if (keep_temp_file_flag_z)
-		{
-			if (is_encrypted_by_extension) //almost irrelevant...
-				return internal_progress_z() / 2;
-			return internal_progress_z();
-		}
-		return 10000;
-	}
-	switch (decompression_progress_mode_arp)
-	{
-	case AAKP_MODE_GZIP:
-		if (GetProgress_gzip_ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)GetProgress_gzip_ar_func() * 100.0) / 2.0);
-			}
-			return GetProgress_gzip_ar_func() * 100;
-		}
+     if (-1 == decompression_progress_mode_arp)
+     {
+          if (keep_temp_file_flag_z)
+          {
+               if (is_encrypted_by_extension) //almost irrelevant...
+                    return internal_progress_z() / 2;
+               return internal_progress_z();
+          }
+          return 10000;
+     }
+     switch (decompression_progress_mode_arp)
+     {
+     case AAKP_MODE_GZIP:
+          if (GetProgress_gzip_ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)GetProgress_gzip_ar_func() * 100.0) / 2.0);
+               }
+               return GetProgress_gzip_ar_func() * 100;
+          }
 
-		return 10000;
-		break;
+          return 10000;
+          break;
 
-	case AAKP_MODE_BZ2:
-		if (GetProgress_bzip2_ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)GetProgress_bzip2_ar_func() * 100.0) / 2.0);
-			}
-			return GetProgress_bzip2_ar_func() * 100;
-		}
-		return 10000;
-		break;
+     case AAKP_MODE_BZ2:
+          if (GetProgress_bzip2_ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)GetProgress_bzip2_ar_func() * 100.0) / 2.0);
+               }
+               return GetProgress_bzip2_ar_func() * 100;
+          }
+          return 10000;
+          break;
 
-	case AAKP_MODE_BZIP3:
-		if (get_progress_b3___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_b3___ar_func()) / 2.0);
-			}
-			return get_progress_b3___ar_func();
-		}
-		return 10000;
-		break;
+     case AAKP_MODE_BZIP3:
+          if (get_progress_b3___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_b3___ar_func()) / 2.0);
+               }
+               return get_progress_b3___ar_func();
+          }
+          return 10000;
+          break;
 
-	case AAKP_MODE_LZOP2:
-		if (get_progress_l3___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_l3___ar_func()) / 2.0);
-			}
-			return get_progress_l3___ar_func();
-		}
-		return 10000;
-	case AAKP_MODE_LZ5:
-		if (get_progress_l5___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_l5___ar_func()) / 2.0);
-			}
-			return get_progress_l5___ar_func();
-		}
-		return 10000;
-	case AAKP_MODE_BROTLI2:
-		if (get_progress_bb___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_bb___ar_func()) / 2.0);
-			}
-			return get_progress_bb___ar_func();
-		}
-		return 10000;
-		break;
-	case AAKP_MODE_COMPRESS2:
-		if (get_progress_c5___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_c5___ar_func()) / 2.0);
-			}
-			return get_progress_c5___ar_func();
-		}
-		return 10000;
-		break;
-	case AAKP_MODE_LZIP:
-		if (get_progress_lzip_ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_lzip_ar_func()) / 2.0);
-			}
-			return get_progress_lzip_ar_func();
-		}
-		break;
-	case AAKP_MODE_LZMA:
-		if (get_progress_lzma_ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_lzma_ar_func()) / 2.0);
-			}
-			return get_progress_lzma_ar_func();
-		}
-		break;
-	case AAKP_MODE_XZ:
-		if (get_progress_xz___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_xz___ar_func()) / 2.0);
-			}
-			return get_progress_xz___ar_func();
-		}
-		break;
-	case AAKP_MODE_COMPRESS:
-		if (get_progress_co___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_co___ar_func()) / 2.0);
-			}
-			return get_progress_co___ar_func();
-		}
-		break;
-	case AAKP_MODE_LZOP:
-		if (get_progress_ju___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_ju___ar_func()) / 2.0);
-			}
-			return get_progress_ju___ar_func();
-		}
-		break;
-	case AAKP_MODE_LZ4:
-		if (get_progress_l4___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_l4___ar_func()) / 2.0);
-			}
-			return get_progress_l4___ar_func();
-		}
-		break;
-	case AAKP_MODE_ZSTANDARD:
-		if (get_progress_zs___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_zs___ar_func()) / 2.0);
-			}
-			return get_progress_zs___ar_func();
-		}
-		break;
-	case AAKP_MODE_BROTLI:
-		if (get_progress_br___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_br___ar_func()) / 2.0);
-			}
-			return get_progress_br___ar_func();
-		}
-		break;
-	case AAKP_MODE_GZIP2:
-		if (get_progress_g2___ar_func)
-		{
-			if (keep_temp_file_flag_z)
-			{
-				return 5000 + ((int)(double)((double)get_progress_g2___ar_func()) / 2.0);
-			}
-			return get_progress_g2___ar_func();
-		}
-		break;
-	}
-	return 10000;
+     case AAKP_MODE_LZOP2:
+          if (get_progress_l3___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_l3___ar_func()) / 2.0);
+               }
+               return get_progress_l3___ar_func();
+          }
+          return 10000;
+     case AAKP_MODE_LZ5:
+          if (get_progress_l5___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_l5___ar_func()) / 2.0);
+               }
+               return get_progress_l5___ar_func();
+          }
+          return 10000;
+     case AAKP_MODE_BROTLI2:
+          if (get_progress_bb___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_bb___ar_func()) / 2.0);
+               }
+               return get_progress_bb___ar_func();
+          }
+          return 10000;
+          break;
+     case AAKP_MODE_COMPRESS2:
+          if (get_progress_c5___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_c5___ar_func()) / 2.0);
+               }
+               return get_progress_c5___ar_func();
+          }
+          return 10000;
+          break;
+     case AAKP_MODE_LZIP:
+          if (get_progress_lzip_ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_lzip_ar_func()) / 2.0);
+               }
+               return get_progress_lzip_ar_func();
+          }
+          break;
+     case AAKP_MODE_LZMA:
+          if (get_progress_lzma_ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_lzma_ar_func()) / 2.0);
+               }
+               return get_progress_lzma_ar_func();
+          }
+          break;
+     case AAKP_MODE_XZ:
+          if (get_progress_xz___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_xz___ar_func()) / 2.0);
+               }
+               return get_progress_xz___ar_func();
+          }
+          break;
+     case AAKP_MODE_COMPRESS:
+          if (get_progress_co___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_co___ar_func()) / 2.0);
+               }
+               return get_progress_co___ar_func();
+          }
+          break;
+     case AAKP_MODE_LZOP:
+          if (get_progress_ju___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_ju___ar_func()) / 2.0);
+               }
+               return get_progress_ju___ar_func();
+          }
+          break;
+     case AAKP_MODE_LZ4:
+          if (get_progress_l4___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_l4___ar_func()) / 2.0);
+               }
+               return get_progress_l4___ar_func();
+          }
+          break;
+     case AAKP_MODE_ZSTANDARD:
+          if (get_progress_zs___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_zs___ar_func()) / 2.0);
+               }
+               return get_progress_zs___ar_func();
+          }
+          break;
+     case AAKP_MODE_BROTLI:
+          if (get_progress_br___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_br___ar_func()) / 2.0);
+               }
+               return get_progress_br___ar_func();
+          }
+          break;
+     case AAKP_MODE_GZIP2:
+          if (get_progress_g2___ar_func)
+          {
+               if (keep_temp_file_flag_z)
+               {
+                    return 5000 + ((int)(double)((double)get_progress_g2___ar_func()) / 2.0);
+               }
+               return get_progress_g2___ar_func();
+          }
+          break;
+     }
+     return 10000;
 }
 
 /**
@@ -7369,8 +7372,8 @@ int __stdcall Initial_Progress_z(void)
  */
 int __stdcall set_iso_settings(int iso_mode)
 {
-	iso_mode_value = iso_mode;
-	return 0;
+     iso_mode_value = iso_mode;
+     return 0;
 }
 
 /**
@@ -7387,389 +7390,389 @@ int __stdcall set_iso_settings(int iso_mode)
  */
 int __stdcall process_iso(int true_if_it_is_extract_ar, char *tar_file_ar)
 {
-	files_ar = 0;
-	folders_ar = 0;
-	Numdir_k = 0;
-	Numfiles_k = 0;
-	my_func_ar_(AAKP_CLEAR);
-	DWORD exit_code_arp;
-	char command_line_arp[1024];
-	STARTUPINFO si;
-	PROCESS_INFORMATION pi;
-	assert(4 == sizeof(DWORD));
-	char copy_arp[1024];
-	char list_file__S2_arp[1024] = {0};
-	char extract_file__S2_arp[1024] = {0};
-	char get_data_arp[1024];
-	char my_command_call_arp[1024];
-	int pos_arp;
-	char *token, *str, *tofree;
-	int copy_itens_arp;
-	int found_arp = 0;
-	int internal_is_dir_arp = 0;
-	int rnd_z;
-	struct my_struct_for_list_ar_is_amanda_update_ *aak_ptr;
-	strcpy(string_format_arp, "iso");
-	time_point_arp_2 = 0;
+     files_ar = 0;
+     folders_ar = 0;
+     Numdir_k = 0;
+     Numfiles_k = 0;
+     my_func_ar_(AAKP_CLEAR);
+     DWORD exit_code_arp;
+     char command_line_arp[1024];
+     STARTUPINFO si;
+     PROCESS_INFORMATION pi;
+     assert(4 == sizeof(DWORD));
+     char copy_arp[1024];
+     char list_file__S2_arp[1024] = {0};
+     char extract_file__S2_arp[1024] = {0};
+     char get_data_arp[1024];
+     char my_command_call_arp[1024];
+     int pos_arp;
+     char *token, *str, *tofree;
+     int copy_itens_arp;
+     int found_arp = 0;
+     int internal_is_dir_arp = 0;
+     int rnd_z;
+     struct my_struct_for_list_ar_is_amanda_update_ *aak_ptr;
+     strcpy(string_format_arp, "iso");
+     time_point_arp_2 = 0;
 
-	while (clean_list_itens_is_list_())
-	{
-		;
-	}
+     while (clean_list_itens_is_list_())
+     {
+          ;
+     }
 
-	while (clean_list_itens_is_amanda_update_())
-	{
-		;
-	}
-	//modified April/10/2021
+     while (clean_list_itens_is_amanda_update_())
+     {
+          ;
+     }
+     //modified April/10/2021
 
-	strcpy(error_message_k, "iso9660 was disable so the mkisofs executables and cygwin DLL is not required anymore, use libarchive instead");
-	return 27999;
+     strcpy(error_message_k, "iso9660 was disable so the mkisofs executables and cygwin DLL is not required anymore, use libarchive instead");
+     return 27999;
 
-	assert(0 == has_itens_is_amanda_update_);
-	assert(0 == has_itens_copy_is_amanda_update_);
+     assert(0 == has_itens_is_amanda_update_);
+     assert(0 == has_itens_copy_is_amanda_update_);
 #define BUF_SIZE_ARP sizeof(our_map_arp)
-	char szName_arp[1024] = "amanda_e_ricardo_map_v27";
+     char szName_arp[1024] = "amanda_e_ricardo_map_v27";
 
-	fatal_exit_k = 0;
-	rnd_z = 1000000000;
-	rnd_z = get_rand(0, rnd_z);
-	sprintf(szName_arp + strlen(szName_arp), "_%d", rnd_z);
+     fatal_exit_k = 0;
+     rnd_z = 1000000000;
+     rnd_z = get_rand(0, rnd_z);
+     sprintf(szName_arp + strlen(szName_arp), "_%d", rnd_z);
 
-	if (true_if_it_is_extract_ar)
-	{
-		trocadordebackslashtras(extract_folder_final);
-		if (strlen(extract_folder_final) && '\\' != extract_folder_final[strlen(extract_folder_final) - 1])
-		{
-			strcat(extract_folder_final, "\\");
-		}
-		rspmakedir(extract_folder_final);
-	}
+     if (true_if_it_is_extract_ar)
+     {
+          trocadordebackslashtras(extract_folder_final);
+          if (strlen(extract_folder_final) && '\\' != extract_folder_final[strlen(extract_folder_final) - 1])
+          {
+               strcat(extract_folder_final, "\\");
+          }
+          rspmakedir(extract_folder_final);
+     }
 
-	hMapFile_arp = CreateFileMapping(
-		INVALID_HANDLE_VALUE, // use paging file
-		NULL,				  // default security
-		PAGE_READWRITE,		  // read/write access
-		0,					  // maximum object size (high-order DWORD)
-		BUF_SIZE_ARP,		  // maximum object size (low-order DWORD)
-		szName_arp);		  // name of mapping object
+     hMapFile_arp = CreateFileMapping(
+         INVALID_HANDLE_VALUE, // use paging file
+         NULL,                 // default security
+         PAGE_READWRITE,       // read/write access
+         0,                    // maximum object size (high-order DWORD)
+         BUF_SIZE_ARP,         // maximum object size (low-order DWORD)
+         szName_arp);          // name of mapping object
 
-	if (NULL == hMapFile_arp)
-	{
-		sprintf(copy_arp, "Could not create file mapping object (%d)",
-				(int)GetLastError());
+     if (NULL == hMapFile_arp)
+     {
+          sprintf(copy_arp, "Could not create file mapping object (%d)",
+                  (int)GetLastError());
 
-		strcpy(error_message_k, copy_arp);
-		return 28006;
-	}
+          strcpy(error_message_k, copy_arp);
+          return 28006;
+     }
 
-	global_ptr_our_map_arp_v27 = (our_map_arp *)MapViewOfFile(hMapFile_arp,		   // handle to map object
-															  FILE_MAP_ALL_ACCESS, // read/write permission
-															  0,
-															  0,
-															  BUF_SIZE_ARP);
+     global_ptr_our_map_arp_v27 = (our_map_arp *)MapViewOfFile(hMapFile_arp,        // handle to map object
+                                                               FILE_MAP_ALL_ACCESS, // read/write permission
+                                                               0,
+                                                               0,
+                                                               BUF_SIZE_ARP);
 
-	if (NULL == global_ptr_our_map_arp_v27)
-	{
-		sprintf(copy_arp, "Could not map view of file (%d)",
-				(int)GetLastError());
-		strcpy(error_message_k, copy_arp);
-		CloseHandle(hMapFile_arp);
-		return 28007;
-	}
+     if (NULL == global_ptr_our_map_arp_v27)
+     {
+          sprintf(copy_arp, "Could not map view of file (%d)",
+                  (int)GetLastError());
+          strcpy(error_message_k, copy_arp);
+          CloseHandle(hMapFile_arp);
+          return 28007;
+     }
 
-	memset(&global_our_map_arp, 0, sizeof(global_our_map_arp));
-	CopyMemory((PVOID)global_ptr_our_map_arp_v27, &global_our_map_arp, BUF_SIZE_ARP);
-	ZeroMemory(&si, sizeof(si));
-	si.cb = sizeof(si);
-	ZeroMemory(&pi, sizeof(pi));
-	switch (iso_mode_value)
-	{
-	case ARP_MODE_ISO9660:
-		strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -X -i \"");
-		break;
+     memset(&global_our_map_arp, 0, sizeof(global_our_map_arp));
+     CopyMemory((PVOID)global_ptr_our_map_arp_v27, &global_our_map_arp, BUF_SIZE_ARP);
+     ZeroMemory(&si, sizeof(si));
+     si.cb = sizeof(si);
+     ZeroMemory(&pi, sizeof(pi));
+     switch (iso_mode_value)
+     {
+     case ARP_MODE_ISO9660:
+          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -X -i \"");
+          break;
 
-	case ARP_MODE_JOLIET:
-		strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -J -X -i \"");
-		break;
+     case ARP_MODE_JOLIET:
+          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -J -X -i \"");
+          break;
 
-	case ARP_MODE_ROCK_RIDGE:
-		strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -R -X -i \"");
-		break;
+     case ARP_MODE_ROCK_RIDGE:
+          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -R -X -i \"");
+          break;
 
-	case ARP_MODE_JOLIET_PLUS_ROCK_RIDGE:
-		strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -R -X -i \"");
-		break;
+     case ARP_MODE_JOLIET_PLUS_ROCK_RIDGE:
+          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -R -X -i \"");
+          break;
 
-	case ARP_MODE_UDF:
-		strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -X -i \"");
-		break;
+     case ARP_MODE_UDF:
+          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -X -i \"");
+          break;
 
-	default:
-		strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -J -X -i \"");
-		break;
-	}
+     default:
+          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -J -X -i \"");
+          break;
+     }
 
-	if (true_if_it_is_extract_ar)
-	{
-		rspgettemppath_arp(extract_file__S2_arp);
-		strcpy(global_ptr_our_map_arp_v27->extract_file_arp, extract_file__S2_arp);
-		strcpy(command_line_arp, my_command_call_arp);
-		strcat(command_line_arp, tar_file_ar);
-		strcat(command_line_arp, "\" -e \"");
-		strcat(command_line_arp, extract_folder_final);
-		strcat(command_line_arp, "\" ");
-	}
-	else
-	{
-		rspgettemppath_arp(list_file__S2_arp);
-		strcpy(command_line_arp, my_command_call_arp);
-		strcat(command_line_arp, tar_file_ar);
-		strcat(command_line_arp, "\" -l \"");
-		strcat(command_line_arp, list_file__S2_arp); //to modify
-		strcat(command_line_arp, "\" ");
-	}
+     if (true_if_it_is_extract_ar)
+     {
+          rspgettemppath_arp(extract_file__S2_arp);
+          strcpy(global_ptr_our_map_arp_v27->extract_file_arp, extract_file__S2_arp);
+          strcpy(command_line_arp, my_command_call_arp);
+          strcat(command_line_arp, tar_file_ar);
+          strcat(command_line_arp, "\" -e \"");
+          strcat(command_line_arp, extract_folder_final);
+          strcat(command_line_arp, "\" ");
+     }
+     else
+     {
+          rspgettemppath_arp(list_file__S2_arp);
+          strcpy(command_line_arp, my_command_call_arp);
+          strcat(command_line_arp, tar_file_ar);
+          strcat(command_line_arp, "\" -l \"");
+          strcat(command_line_arp, list_file__S2_arp); //to modify
+          strcat(command_line_arp, "\" ");
+     }
 
-	sprintf(command_line_arp + strlen(command_line_arp), "%s", szName_arp);
+     sprintf(command_line_arp + strlen(command_line_arp), "%s", szName_arp);
 
-	si.wShowWindow = SW_HIDE;
-	si.dwFlags = STARTF_USESHOWWINDOW;
+     si.wShowWindow = SW_HIDE;
+     si.dwFlags = STARTF_USESHOWWINDOW;
 
-	if (!CreateProcess(NULL, command_line_arp, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
-	{
-		sprintf(copy_arp, "Could not start executable 'be_isoinfo_cygwin64.exe' (%d)",
-				(int)GetLastError());
+     if (!CreateProcess(NULL, command_line_arp, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+     {
+          sprintf(copy_arp, "Could not start executable 'be_isoinfo_cygwin64.exe' (%d)",
+                  (int)GetLastError());
 
-		strcpy(error_message_k, copy_arp);
-		UnmapViewOfFile(global_ptr_our_map_arp_v27);
-		CloseHandle(hMapFile_arp);
-		global_ptr_our_map_arp_v27 = NULL;
-		return 28008;
-	}
+          strcpy(error_message_k, copy_arp);
+          UnmapViewOfFile(global_ptr_our_map_arp_v27);
+          CloseHandle(hMapFile_arp);
+          global_ptr_our_map_arp_v27 = NULL;
+          return 28008;
+     }
 
-	WaitForSingleObject(pi.hProcess, INFINITE);
-	GetExitCodeProcess(pi.hProcess, &exit_code_arp);
-	UnmapViewOfFile(global_ptr_our_map_arp_v27);
-	CloseHandle(hMapFile_arp);
-	global_ptr_our_map_arp_v27 = NULL;
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
+     WaitForSingleObject(pi.hProcess, INFINITE);
+     GetExitCodeProcess(pi.hProcess, &exit_code_arp);
+     UnmapViewOfFile(global_ptr_our_map_arp_v27);
+     CloseHandle(hMapFile_arp);
+     global_ptr_our_map_arp_v27 = NULL;
+     CloseHandle(pi.hProcess);
+     CloseHandle(pi.hThread);
 
-	if (strlen(list_file__S2_arp))
-	{
-		FILE *my_arp_file;
-		my_arp_file = _wfopen(amanda_utf8towide_1_(list_file__S2_arp), L"rb");
+     if (strlen(list_file__S2_arp))
+     {
+          FILE *my_arp_file;
+          my_arp_file = _wfopen(amanda_utf8towide_1_(list_file__S2_arp), L"rb");
 
-		if (my_arp_file)
-		{
-			while (fgets(get_data_arp, 1024, my_arp_file))
-			{
-				if (2 < strlen(get_data_arp))
-				{
-					pos_arp = 0;
-					tofree = str = strdup(get_data_arp); // We own str's memory now.
-					while ((token = strsep(&str, "<")))
-					{
-						my_VAL_data_arp.VAL_is_encrypted = 0;
-						if (0 == pos_arp)
-						{
-							strcpy(my_VAL_data_arp.VAL_filename, token);
-							found_arp = 0;
-							aak_ptr = aak_inicio_is_amanda_update_;
-							copy_itens_arp = has_itens_is_amanda_update_;
-							while (copy_itens_arp--)
-							{
-								if (0 == strcmp(my_VAL_data_arp.VAL_filename, aak_ptr->filename_k))
-								{
-									found_arp++;
-									break;
-								}
-								aak_ptr = aak_ptr->next_ar;
-							}
-							if (0 == found_arp)
-							{
-								add_more_one_is_amanda_update_(
-									my_VAL_data_arp.VAL_filename,
-									0,
-									0,
-									0,
-									0,
-									0,
-									0,
-									0,
-									NULL);
-							}
-						}
-						if (1 == pos_arp)
-						{
-							my_VAL_data_arp.VAL_is_dir = 1;
-							if (0 == strcmp("file", token))
-							{
-								my_VAL_data_arp.VAL_is_dir = 0;
-							}
-							else
-							{
-								strcat(my_VAL_data_arp.VAL_filename, "/");
-							}
-						}
-						if (2 == pos_arp)
-						{
-							;
-						}
-						if (3 == pos_arp)
-						{
-							my_VAL_data_arp.VAL_timestamp64 = strtoll(token, NULL, 10);
-						}
-						if (4 == pos_arp)
-						{
-							my_VAL_data_arp.VAL_file_size = strtoll(token, NULL, 10);
-						}
-						pos_arp++;
-					}
-					free(tofree);
-					if (!found_arp)
-					{
-						simple_print_header_iso();
-					}
-				}
-			}
-			fclose(my_arp_file);
-		}
-		_wunlink(amanda_utf8towide_1_(list_file__S2_arp));
-		assert(0 == ispathfile(list_file__S2_arp));
-	}
-	if (strlen(extract_file__S2_arp))
-	{
-		FILE *my_arp_file;
-		my_arp_file = _wfopen(amanda_utf8towide_1_(extract_file__S2_arp), L"rb");
+          if (my_arp_file)
+          {
+               while (fgets(get_data_arp, 1024, my_arp_file))
+               {
+                    if (2 < strlen(get_data_arp))
+                    {
+                         pos_arp = 0;
+                         tofree = str = strdup(get_data_arp); // We own str's memory now.
+                         while ((token = strsep(&str, "<")))
+                         {
+                              my_VAL_data_arp.VAL_is_encrypted = 0;
+                              if (0 == pos_arp)
+                              {
+                                   strcpy(my_VAL_data_arp.VAL_filename, token);
+                                   found_arp = 0;
+                                   aak_ptr = aak_inicio_is_amanda_update_;
+                                   copy_itens_arp = has_itens_is_amanda_update_;
+                                   while (copy_itens_arp--)
+                                   {
+                                        if (0 == strcmp(my_VAL_data_arp.VAL_filename, aak_ptr->filename_k))
+                                        {
+                                             found_arp++;
+                                             break;
+                                        }
+                                        aak_ptr = aak_ptr->next_ar;
+                                   }
+                                   if (0 == found_arp)
+                                   {
+                                        add_more_one_is_amanda_update_(
+                                            my_VAL_data_arp.VAL_filename,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            NULL);
+                                   }
+                              }
+                              if (1 == pos_arp)
+                              {
+                                   my_VAL_data_arp.VAL_is_dir = 1;
+                                   if (0 == strcmp("file", token))
+                                   {
+                                        my_VAL_data_arp.VAL_is_dir = 0;
+                                   }
+                                   else
+                                   {
+                                        strcat(my_VAL_data_arp.VAL_filename, "/");
+                                   }
+                              }
+                              if (2 == pos_arp)
+                              {
+                                   ;
+                              }
+                              if (3 == pos_arp)
+                              {
+                                   my_VAL_data_arp.VAL_timestamp64 = strtoll(token, NULL, 10);
+                              }
+                              if (4 == pos_arp)
+                              {
+                                   my_VAL_data_arp.VAL_file_size = strtoll(token, NULL, 10);
+                              }
+                              pos_arp++;
+                         }
+                         free(tofree);
+                         if (!found_arp)
+                         {
+                              simple_print_header_iso();
+                         }
+                    }
+               }
+               fclose(my_arp_file);
+          }
+          _wunlink(amanda_utf8towide_1_(list_file__S2_arp));
+          assert(0 == ispathfile(list_file__S2_arp));
+     }
+     if (strlen(extract_file__S2_arp))
+     {
+          FILE *my_arp_file;
+          my_arp_file = _wfopen(amanda_utf8towide_1_(extract_file__S2_arp), L"rb");
 
-		if (my_arp_file)
-		{
-			while (fgets(get_data_arp, 1024, my_arp_file))
-			{
-				if (2 < strlen(get_data_arp))
-				{
-					int achou_arp = 0;
-					pos_arp = 0;
-					tofree = str = strdup(get_data_arp); // We own str's memory now.
-					found_arp = 1;
+          if (my_arp_file)
+          {
+               while (fgets(get_data_arp, 1024, my_arp_file))
+               {
+                    if (2 < strlen(get_data_arp))
+                    {
+                         int achou_arp = 0;
+                         pos_arp = 0;
+                         tofree = str = strdup(get_data_arp); // We own str's memory now.
+                         found_arp = 1;
 
-					while ((token = strsep(&str, "<")))
-					{
-						if (0 == pos_arp)
-						{
-							found_arp = 0;
-							aak_ptr = aak_inicio_is_amanda_update_;
-							copy_itens_arp = has_itens_is_amanda_update_;
-							while (copy_itens_arp--)
-							{
-								if (0 == strcmp(token, aak_ptr->filename_k))
-								{
-									found_arp++;
-									achou_arp = 1;
-									break;
-								}
-								aak_ptr = aak_ptr->next_ar;
-							}
-							if (0 == found_arp)
-							{
-								add_more_one_is_amanda_update_(
-									token,
-									0,
-									0,
-									0,
-									0,
-									0,
-									0,
-									0,
-									NULL);
-							}
-						}
-						if (1 == pos_arp)
-						{
-							if (0 == strcmp(" ", token))
-							{
-								warning_info[0] = 0;
-							}
-							else
-							{
-								fatal_exit_k = 120;
-								strcpy(error_message_k, "At least one warning occurred, see the ListBox to see what is it");
-								strcpy(warning_info, token);
-							}
-						}
-						if (2 == pos_arp)
-						{
-							if (0 == strcmp(" ", token))
-							{
-								extracting_filename_ar[0] = 0;
-							}
-							else
-							{
-								strcpy(extracting_filename_ar, token);
-							}
-						}
-						if (3 == pos_arp)
-						{
-							if (0 == strcmp(" ", token))
-							{
-								internal_is_dir_arp = 0;
-								creating_folder_maria[0] = 0;
-							}
-							else
-							{
-								internal_is_dir_arp = 1;
-								strcpy(creating_folder_maria, token);
-							}
-						}
-						if (4 == pos_arp)
-						{
-							;
-						}
-						pos_arp++;
-					}
-					free(tofree);
-					if (!achou_arp)
-					{
-						if (internal_is_dir_arp)
-						{
-							folders_ar++;
-						}
-						else
-						{
-							files_ar++;
-						}
+                         while ((token = strsep(&str, "<")))
+                         {
+                              if (0 == pos_arp)
+                              {
+                                   found_arp = 0;
+                                   aak_ptr = aak_inicio_is_amanda_update_;
+                                   copy_itens_arp = has_itens_is_amanda_update_;
+                                   while (copy_itens_arp--)
+                                   {
+                                        if (0 == strcmp(token, aak_ptr->filename_k))
+                                        {
+                                             found_arp++;
+                                             achou_arp = 1;
+                                             break;
+                                        }
+                                        aak_ptr = aak_ptr->next_ar;
+                                   }
+                                   if (0 == found_arp)
+                                   {
+                                        add_more_one_is_amanda_update_(
+                                            token,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            NULL);
+                                   }
+                              }
+                              if (1 == pos_arp)
+                              {
+                                   if (0 == strcmp(" ", token))
+                                   {
+                                        warning_info[0] = 0;
+                                   }
+                                   else
+                                   {
+                                        fatal_exit_k = 120;
+                                        strcpy(error_message_k, "At least one warning occurred, see the ListBox to see what is it");
+                                        strcpy(warning_info, token);
+                                   }
+                              }
+                              if (2 == pos_arp)
+                              {
+                                   if (0 == strcmp(" ", token))
+                                   {
+                                        extracting_filename_ar[0] = 0;
+                                   }
+                                   else
+                                   {
+                                        strcpy(extracting_filename_ar, token);
+                                   }
+                              }
+                              if (3 == pos_arp)
+                              {
+                                   if (0 == strcmp(" ", token))
+                                   {
+                                        internal_is_dir_arp = 0;
+                                        creating_folder_maria[0] = 0;
+                                   }
+                                   else
+                                   {
+                                        internal_is_dir_arp = 1;
+                                        strcpy(creating_folder_maria, token);
+                                   }
+                              }
+                              if (4 == pos_arp)
+                              {
+                                   ;
+                              }
+                              pos_arp++;
+                         }
+                         free(tofree);
+                         if (!achou_arp)
+                         {
+                              if (internal_is_dir_arp)
+                              {
+                                   folders_ar++;
+                              }
+                              else
+                              {
+                                   files_ar++;
+                              }
 
-						my_func_ar_(AAKP_EXTRACT_PROCESS);
-					}
-				}
-			}
-			fclose(my_arp_file);
-		}
-		_wunlink(amanda_utf8towide_1_(extract_file__S2_arp));
-		assert(0 == ispathfile(extract_file__S2_arp));
-	}
-	while (clean_list_itens_is_amanda_update_())
-	{
-		;
-	}
-	assert(0 == has_itens_is_amanda_update_);
-	assert(0 == has_itens_copy_is_amanda_update_);
-	if (exit_code_arp)
-	{
-		if (29 == exit_code_arp)
-		{
-			fatal_exit_k = 119;
-			strcpy(error_message_k, "User abort");
-			fatal_exit_k = 0;
-			goto final_arp;
-		}
-		sprintf(copy_arp, "Error %d running 'be_isoinfo_cygwin64.exe'", (int)exit_code_arp);
-		strcpy(error_message_k, copy_arp);
-		return 28009;
-	}
+                              my_func_ar_(AAKP_EXTRACT_PROCESS);
+                         }
+                    }
+               }
+               fclose(my_arp_file);
+          }
+          _wunlink(amanda_utf8towide_1_(extract_file__S2_arp));
+          assert(0 == ispathfile(extract_file__S2_arp));
+     }
+     while (clean_list_itens_is_amanda_update_())
+     {
+          ;
+     }
+     assert(0 == has_itens_is_amanda_update_);
+     assert(0 == has_itens_copy_is_amanda_update_);
+     if (exit_code_arp)
+     {
+          if (29 == exit_code_arp)
+          {
+               fatal_exit_k = 119;
+               strcpy(error_message_k, "User abort");
+               fatal_exit_k = 0;
+               goto final_arp;
+          }
+          sprintf(copy_arp, "Error %d running 'be_isoinfo_cygwin64.exe'", (int)exit_code_arp);
+          strcpy(error_message_k, copy_arp);
+          return 28009;
+     }
 final_arp:;
-	return fatal_exit_k;
+     return fatal_exit_k;
 }
 
 /**
@@ -7778,44 +7781,44 @@ final_arp:;
  */
 char *__amandacall cpu_speed_z(void)
 {
-	DWORD type_z = REG_SZ;
-	static char speed_z[300] = {
-		0,
-	};
-	char Buffer[_MAX_PATH];
-	char Buffer_z[_MAX_PATH] = {
-		0,
-	};
-	DWORD BufSize = 35;
-	DWORD dwMHz = _MAX_PATH;
-	HKEY hKey;
-	if (0 != strlen(speed_z))
-	{
-		return speed_z;
-	}
-	long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-							   "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
-							   0,
-							   KEY_READ,
-							   &hKey);
+     DWORD type_z = REG_SZ;
+     static char speed_z[300] = {
+         0,
+     };
+     char Buffer[_MAX_PATH];
+     char Buffer_z[_MAX_PATH] = {
+         0,
+     };
+     DWORD BufSize = 35;
+     DWORD dwMHz = _MAX_PATH;
+     HKEY hKey;
+     if (0 != strlen(speed_z))
+     {
+          return speed_z;
+     }
+     long lError = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+                                "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
+                                0,
+                                KEY_READ,
+                                &hKey);
 
-	if (lError != ERROR_SUCCESS)
-	{
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM,
-					  NULL,
-					  lError,
-					  0,
-					  Buffer,
-					  _MAX_PATH,
-					  0);
-		return "<not found>";
-	}
-	RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&dwMHz, &BufSize);
-	BufSize = MAX_PATH;
-	RegQueryValueEx(hKey, "Identifier", NULL, &type_z, (LPBYTE)Buffer_z, &BufSize);
-	sprintf(speed_z, "%ld MHz, %s", dwMHz, Buffer_z);
-	RegCloseKey(hKey);
-	return speed_z;
+     if (lError != ERROR_SUCCESS)
+     {
+          FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM,
+                        NULL,
+                        lError,
+                        0,
+                        Buffer,
+                        _MAX_PATH,
+                        0);
+          return "<not found>";
+     }
+     RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&dwMHz, &BufSize);
+     BufSize = MAX_PATH;
+     RegQueryValueEx(hKey, "Identifier", NULL, &type_z, (LPBYTE)Buffer_z, &BufSize);
+     sprintf(speed_z, "%ld MHz, %s", dwMHz, Buffer_z);
+     RegCloseKey(hKey);
+     return speed_z;
 }
 /**
  * It will process the tar file for list or extraction
@@ -7830,24 +7833,24 @@ char *__amandacall cpu_speed_z(void)
  */
 int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_list_function_ar my_func__)
 {
-	int64_t size_got_p = 0;
-	static int64_t temp_long_long;
-	int64_t temp_unused_var_long_long_int = 0;
-	already_arp = 0;
-	enum read_header status = HEADER_STILL_UNREAD;
-	enum read_header prev_status;
-	int ret_k;
-	encryption_detected_z = -1;
-	flag_to_delete_temp_ar = false;
-	file_is_VAL_arp = false;
-	is_mislaine_encrypted_ = false;
-	decoder_file_z = NULL;
-	strcpy(string_format_arp, "unknown");
-	is_encrypted_by_extension = is_compressed_z(tar_file_ar);
+     int64_t size_got_p = 0;
+     static int64_t temp_long_long;
+     int64_t temp_unused_var_long_long_int = 0;
+     already_arp = 0;
+     enum read_header status = HEADER_STILL_UNREAD;
+     enum read_header prev_status;
+     int ret_k;
+     encryption_detected_z = -1;
+     flag_to_delete_temp_ar = false;
+     file_is_VAL_arp = false;
+     is_mislaine_encrypted_ = false;
+     decoder_file_z = NULL;
+     strcpy(string_format_arp, "unknown");
+     is_encrypted_by_extension = is_compressed_z(tar_file_ar);
 
-	real_VAL_filesize = -1;
+     real_VAL_filesize = -1;
 
-	/*
+     /*
 	if (
 		check_iso_file_aakp(tar_file_ar))
 	{
@@ -7856,2020 +7859,2020 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
 	}
 */
 
-	if (0 == true_if_it_is_extract_ar)
-	{
-		file_size_total_int64 = getfilesize_ar(tar_file_ar);
-		file_total__read_int64 = 0;
-	}
-
-	keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
-
-	if (true_if_it_is_extract_ar)
-	{
-		while (clean_list_itens_is_list_())
-		{
-			;
-		}
-		numero_de_itens = 0;
-		processed_itens_ar = 0;
-		keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
-
-		if (keep_temp_file_flag_z)
-		{
-			if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_for_encrypted, L"AM_"))
-			{
-				archive = -1;
-				strcpy(error_message_k, "Cannot create temporary file");
-				fatal_exit_k = 40001;
-				goto saida_o_k;
-			}
-			strcpy(temp_file_for_encrypted_v2, temp_file_for_encrypted);
-			adjust_extension_z(tar_file_ar, temp_file_for_encrypted_v2);
-			if (0 != strcmp(temp_file_for_encrypted, temp_file_for_encrypted_v2))
-			{
-				_wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_for_encrypted)), amanda_utf8towide_1_(temp_file_for_encrypted_v2));
-			}
-			update_progress_arp(&temp_long_long);
-			ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int, encryption_method__i);
-
-			strcpy(file_to_keep_z, temp_file_for_encrypted_v2);
-			strcpy(tar_file_ar, temp_file_for_encrypted_v2);
-			if (0 == ret_arp_)
-			{
-			}
-			else if (4 == ret_arp_)
-			{
-				archive = -1;
-				strcpy(error_message_k, "Wrong password used");
-				fatal_exit_k = 40003;
-				goto saida_o_k;
-			}
-			else
-			{
-				archive = -1;
-				strcpy(error_message_k, "Unexpected decryption error");
-				fatal_exit_k = 40005;
-				goto saida_o_k;
-			}
-		}
-		ret_k = process_tar(0, tar_file_ar, list_function_ar_ok);
-		if (2004 == ret_k)
-		{
-			archive = -1; //redundant? maybe not !!
-			goto saida_o_k;
-		}
-	}
-	if (false == modo_e_duplo_ar)
-	{
-		keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
-		if (keep_temp_file_flag_z)
-		{
-			if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_for_encrypted, L"AM_"))
-			{
-				archive = -1;
-				strcpy(error_message_k, "Cannot create temporary file");
-				fatal_exit_k = 40001;
-				goto saida_o_k;
-			}
-			strcpy(temp_file_for_encrypted_v2, temp_file_for_encrypted);
-			adjust_extension_z(tar_file_ar, temp_file_for_encrypted_v2);
-			if (0 != strcmp(temp_file_for_encrypted, temp_file_for_encrypted_v2))
-			{
-				_wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_for_encrypted)), amanda_utf8towide_1_(temp_file_for_encrypted_v2));
-			}
-			update_progress_arp(&temp_long_long);
-			ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int, encryption_method__i);
-			strcpy(file_to_keep_z, temp_file_for_encrypted_v2);
-			strcpy(tar_file_ar, temp_file_for_encrypted_v2);
-			if (0 == ret_arp_)
-			{
-			}
-			else if (4 == ret_arp_)
-			{
-				archive = -1;
-				strcpy(error_message_k, "Wrong password used");
-				fatal_exit_k = 40003;
-				goto saida_o_k;
-			}
-			else
-			{
-				archive = -1;
-				strcpy(error_message_k, "Unexpected decryption error");
-				fatal_exit_k = 40005;
-				goto saida_o_k;
-			}
-		}
-	}
-	my_func_ar_ = my_func__;
-	got_a_warning_ar = 0;
-	if (true_if_it_is_extract_ar)
-	{
-		trocadordebackslashtras(extract_folder_final);
-		if (strlen(extract_folder_final) && '\\' != extract_folder_final[strlen(extract_folder_final) - 1])
-		{
-			strcat(extract_folder_final, "\\");
-		}
-	}
-	if (true_if_it_is_extract_ar)
-	{
-		if (last_list_error_int_arp)
-		{
-			goto final_jump_arp;
-		}
-	}
-	Numdir_k = 0;
-	Numfiles_k = 0;
-	my_func_ar_(AAKP_CLEAR);
-	if (1)
-	{
-		blocking_factor = DEFAULT_BLOCKING;
-		record_size = DEFAULT_BLOCKING * BLOCKSIZE;
-		record_index = 0;
-		read_full_records = read_full_records_option;
-		hit_eof = false;
-		record_start_block = 0;
-		error_message_k[0] = 0;
-		fatal_exit_k = 0;
-		archive = -1;
-		if (true_if_it_is_extract_ar)
-		{
-			if (!mode_is_update_arp)
-			{
-				if (rspmakedir(extract_folder_final))
-				{
-					strcpy(error_message_k, "Invalid destination path");
-					fatal_exit_k = 12;
-					goto saida_o_k;
-				}
-			}
-		}
-		tar_sparse_major = 1;
-		tar_sparse_minor = 0;
-		strcpy(archive_name_array_filename, tar_file_ar);
-		{
-			static int already_k = 0;
-			if (!already_k)
-				base64_init();
-			already_k = 2;
-		}
-		if (recent_global_header)
-		{
-			free(recent_global_header);
-			recent_global_header = NULL;
-		}
-		if (true_if_it_is_extract_ar)
-		{
-			my_process_function = extract_archive;
-		}
-		else
-			my_process_function = list_archive;
-		if (true_if_it_is_extract_ar)
-		{
-			if (!strlen(extract_folder_final))
-			{
-				fatal_exit_k = 2001;
-				strcpy(error_message_k, " 2001, You need to provide a destination folder");
-				goto saida_o_k;
-			}
-		}
-		if (strlen(copy_for_extract_ar) && true_if_it_is_extract_ar)
-		{
-			strcpy(archive_name_array_filename, copy_for_extract_ar);
-		}
-		open_archive(ACCESS_READ);
-		if (fatal_exit_k)
-		{
-			if (-1 != archive)
-			{
-				close(archive);
-				archive = -1;
-			}
-			if (0 == true_if_it_is_extract_ar && (ct_bzip3_k == fatal_exit_k))
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"BZ_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_BZIP3;
-				ret_k = uncompress_b3___rspk_ar_func(original_file_tar,
-													 archive_name_array_filename,
-													 threads_z,
-													 ar_gettemppath_z(),
-													 &cores_used_z);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "bzip3 decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 6:
-					fatal_exit_k = 1513;
-					strcpy(error_message_k, " 6 Cannot write to output file");
-					break;
-
-				case 7:
-					fatal_exit_k = 1514;
-					strcpy(error_message_k, "Decompression error");
-					break;
-
-				case 14:
-					fatal_exit_k = 1515;
-					strcpy(error_message_k, " 14 Cannot write to output file");
-					break;
-
-				case 107:
-					fatal_exit_k = 1516;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 108:
-					fatal_exit_k = 1517;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 119:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User cancel");
-					break;
-
-				case 121:
-					fatal_exit_k = 1518;
-					strcpy(error_message_k, "Cannot init decompression");
-					break;
-
-				case 122:
-					fatal_exit_k = 1519;
-					strcpy(error_message_k, "Cannot read from input file");
-					break;
-
-				case 123:
-					fatal_exit_k = 1520;
-					strcpy(error_message_k, "md5 checksum error");
-					break;
-
-				case 124:
-					fatal_exit_k = 1521;
-					strcpy(error_message_k, "Unexpected error ;-) ");
-					break;
-
-				case 125:
-					fatal_exit_k = 1522;
-					strcpy(error_message_k, "Memory error");
-					break;
-
-				case 126:
-					fatal_exit_k = 1523;
-					strcpy(error_message_k, "Invalid bzip3 stream");
-					break;
-
-				case 198:
-					fatal_exit_k = 1524;
-					strcpy(error_message_k, "Header magic error");
-					break;
-
-				case 199:
-					fatal_exit_k = 1525;
-					strcpy(error_message_k, "Invalid bzip3 file");
-					break;
-
-				case 300:
-					fatal_exit_k = 1526;
-					strcpy(error_message_k, "sha512 checksum error");
-					break;
-
-				case 500:
-					fatal_exit_k = 1527;
-					strcpy(error_message_k, "Invalid multi-thread bzip3 file");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and"
-														" not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-			if (0 == true_if_it_is_extract_ar && (ct_lzop2_k == fatal_exit_k))
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"L2_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_LZOP2;
-				ret_k = uncompress_l3___rspk_ar_func(original_file_tar,
-													 archive_name_array_filename,
-													 threads_z,
-													 ar_gettemppath_z(),
-													 &cores_used_z);
-				decompression_progress_mode_arp = -1;
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 1108;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 2:
-					fatal_exit_k = 1109;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 3:
-					fatal_exit_k = 1110;
-					strcpy(error_message_k, "Cannot close the input file");
-					break;
-
-				case 4:
-					fatal_exit_k = 1111;
-					strcpy(error_message_k, "Cannot close output file");
-					break;
-
-				case 5:
-					fatal_exit_k = 1112;
-					strcpy(error_message_k, "Cannot read from input file");
-					break;
-
-				case 6:
-					fatal_exit_k = 1113;
-					strcpy(error_message_k, "Cannot write to output file");
-					break;
-
-				case 7:
-					fatal_exit_k = 1114;
-					strcpy(error_message_k, "It isnot a valid compressed file");
-					break;
-
-				case 8:
-					fatal_exit_k = 1115;
-					strcpy(error_message_k, "Compression error");
-					break;
-
-				case 119:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				case 407:
-					fatal_exit_k = 1116;
-					strcpy(error_message_k, "Cannot create temp file");
-					break;
-
-				case 405:
-					fatal_exit_k = 1117;
-					strcpy(error_message_k, "Cannot open output tempfile");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
-														"and not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && (ct_lz5_k == fatal_exit_k))
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"L5_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_LZ5;
-				ret_k = uncompress_l5___rspk_ar_func(original_file_tar,
-													 archive_name_array_filename,
-													 threads_z,
-													 ar_gettemppath_z(),
-													 &cores_used_z);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lz5 decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 1108;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 2:
-					fatal_exit_k = 1109;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 3:
-					fatal_exit_k = 1110;
-					strcpy(error_message_k, "Cannot close the input file");
-					break;
-
-				case 4:
-					fatal_exit_k = 1111;
-					strcpy(error_message_k, "Cannot close output file");
-					break;
-
-				case 5:
-					fatal_exit_k = 1112;
-					strcpy(error_message_k, "Cannot read from input file");
-					break;
-
-				case 6:
-					fatal_exit_k = 1113;
-					strcpy(error_message_k, "Cannot write to output file");
-					break;
-
-				case 7:
-					fatal_exit_k = 1114;
-					strcpy(error_message_k, "It isnot a valid compressed file");
-					break;
-
-				case 8:
-					fatal_exit_k = 1115;
-					strcpy(error_message_k, "Compression error");
-					break;
-
-				case 119:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				case 403:
-					fatal_exit_k = 1116;
-					strcpy(error_message_k, "File access error");
-					break;
-
-				case 500:
-					fatal_exit_k = 1116;
-					strcpy(error_message_k, "Internal Error 500");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
-														"and not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-			if (0 == true_if_it_is_extract_ar && (ct_brotli2_k == fatal_exit_k))
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"BB_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_BROTLI2;
-				ret_k = uncompress_bb___rspk_ar_func(original_file_tar,
-													 archive_name_array_filename,
-													 threads_z,
-													 ar_gettemppath_z(),
-													 &cores_used_z);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "brotli2 decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 1108;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 2:
-					fatal_exit_k = 1109;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 3:
-					fatal_exit_k = 1110;
-					strcpy(error_message_k, "Cannot close the input file");
-					break;
-
-				case 4:
-					fatal_exit_k = 1111;
-					strcpy(error_message_k, "Cannot close output file");
-					break;
-
-				case 5:
-					fatal_exit_k = 1112;
-					strcpy(error_message_k, "Cannot read from input file");
-					break;
-
-				case 6:
-					fatal_exit_k = 1113;
-					strcpy(error_message_k, "Cannot write to output file");
-					break;
-
-				case 7:
-					fatal_exit_k = 1114;
-					strcpy(error_message_k, "It isnot a valid compressed file");
-					break;
-
-				case 8:
-					fatal_exit_k = 1115;
-					strcpy(error_message_k, "Compression error");
-					break;
-
-				case 119:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				case 199:
-					fatal_exit_k = 1116;
-					strcpy(error_message_k, "Invalid file signature for a brotli2 file");
-					break;
-
-				case 403:
-					fatal_exit_k = 1117;
-					strcpy(error_message_k, "File access error");
-					break;
-
-				case 500:
-					fatal_exit_k = 1118;
-					strcpy(error_message_k, "Invalid compressed file");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
-														"and not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && (ct_compress2_k == fatal_exit_k))
-			{
-				pedro_dprintf(-1, "pegou compress2");
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-
-				strcpy(original_file_tar, archive_name_array_filename);
-
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"C2_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_COMPRESS2;
-				ret_k = uncompress_c5___rspk_ar_func(original_file_tar,
-													 archive_name_array_filename,
-													 threads_z,
-													 ar_gettemppath_z(),
-													 &cores_used_z);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "compress2 decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 1108;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 2:
-					fatal_exit_k = 1109;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 3:
-					fatal_exit_k = 1110;
-					strcpy(error_message_k, "Cannot close the input file");
-					break;
-
-				case 4:
-					fatal_exit_k = 1111;
-					strcpy(error_message_k, "Cannot close output file");
-					break;
-
-				case 5:
-					fatal_exit_k = 1112;
-					strcpy(error_message_k, "Cannot read from input file");
-					break;
-
-				case 6:
-					fatal_exit_k = 1113;
-					strcpy(error_message_k, "Cannot write to output file");
-					break;
-
-				case 7:
-					fatal_exit_k = 1114;
-					strcpy(error_message_k, "It isnot a valid compressed file");
-					break;
-
-				case 8:
-					fatal_exit_k = 1115;
-					strcpy(error_message_k, "Compression error");
-					break;
-
-				case 119:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				case 407:
-					fatal_exit_k = 1116;
-					strcpy(error_message_k, "Cannot create temp file");
-					break;
-
-				case 405:
-					fatal_exit_k = 1117;
-					strcpy(error_message_k, "Cannot open output tempfile");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
-														"and not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && (ct_gzip2a_k == fatal_exit_k || ct_gzip2c_k == fatal_exit_k))
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"G2_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_GZIP2;
-				ret_k = uncompress_g2___rspk_ar_func(original_file_tar,
-													 archive_name_array_filename,
-													 threads_z,
-													 ar_gettemppath_z(),
-													 &cores_used_z);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "gzip2 decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 9:
-					fatal_exit_k = 1411;
-					strcpy(error_message_k, "Cannot read from input file");
-					break;
-
-				case 10:
-					fatal_exit_k = 1412;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 11:
-					fatal_exit_k = 1413;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 14:
-					fatal_exit_k = 1414;
-					strcpy(error_message_k, "Cannot write to output file");
-					break;
-
-				case 15:
-					fatal_exit_k = 1415;
-					strcpy(error_message_k, "md5 checksum error");
-					break;
-
-				case 18:
-					fatal_exit_k = 1416;
-					strcpy(error_message_k, "Unexpected error");
-					break;
-
-				case 19:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User cancel");
-					break;
-
-				case 20:
-					fatal_exit_k = 1418;
-					strcpy(error_message_k, "sha512 checksum error");
-					break;
-
-				case 21:
-					fatal_exit_k = 1419;
-					strcpy(error_message_k, "zlib stream error");
-					break;
-
-				case 90:
-					fatal_exit_k = 1420;
-					strcpy(error_message_k, "Not a valid gzip2 file");
-					break;
-
-				case 500:
-					fatal_exit_k = 1421;
-					strcpy(error_message_k, "Invalid gzip2 multi-thread file");
-					break;
-
-				case 501:
-					fatal_exit_k = 1422;
-					strcpy(error_message_k, "File access error reading input file");
-					break;
-
-				case 528:
-					fatal_exit_k = 1423;
-					strcpy(error_message_k, "inflate error Z_STREAM_END");
-					break;
-
-				case 529:
-					fatal_exit_k = 1425;
-					strcpy(error_message_k, "inflate error Z_NEED_DICT");
-					break;
-
-				case 530:
-					fatal_exit_k = 1426;
-					strcpy(error_message_k, "inflate error Z_STREAM_ERROR");
-					break;
-
-				case 531:
-					fatal_exit_k = 1427;
-					strcpy(error_message_k, "inflate error Z_MEM_ERROR");
-					break;
-
-				case 532:
-					fatal_exit_k = 1428;
-					strcpy(error_message_k, "inflate error Z_DATA_ERROR");
-					break;
-
-				case 533:
-					fatal_exit_k = 1429;
-					strcpy(error_message_k, "inflate error Z_BUF_ERROR ;-) ");
-					break;
-
-				case 534:
-					fatal_exit_k = 1430;
-					strcpy(error_message_k, "inflate error 'uknown'");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
-														"and not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && ct_gzip_k == fatal_exit_k)
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"GZ_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_GZIP;
-				ret_k = Uncompress_gzip_ar_func(original_file_tar, archive_name_array_filename);
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "gzip decompression required %.3f seconds\n", inittimer2(1));
-				while (0 == GetFinished_gzip_ar_func())
-				{
-					file_size_total_int64 = 0, file_total__read_int64 = 0;
-					Sleep(50);
-				}
-				decompression_progress_mode_arp = -1;
-				ret_k = GetReturnValue_gzip_ar_func();
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 10:
-					fatal_exit_k = 91;
-					strcpy(error_message_k, "Cannot open file to read");
-					break;
-
-				case 11:
-					fatal_exit_k = 91;
-					strcpy(error_message_k, "Cannot open file to write");
-					break;
-
-				case 19:
-					fatal_exit_k = 92;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				case 15:
-					fatal_exit_k = 93;
-					strcpy(error_message_k, "Internal gzip error");
-					break;
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
-														"and not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && ct_bzip2_k == fatal_exit_k)
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"B2_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_BZ2;
-				ret_k = Decompress_bzip2_ar_func(original_file_tar, archive_name_array_filename);
-				while (GetStatus_bzip2_ar_func())
-				{
-					file_size_total_int64 = 0, file_total__read_int64 = 0;
-					Sleep(5);
-				}
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "bzip2 decompression required %.3f seconds\n", inittimer2(1));
-				decompression_progress_mode_arp = -1;
-				ret_k = GetReturnValue_bzip2_ar_func();
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 8:
-					fatal_exit_k = 110;
-					strcpy(error_message_k, "Cannot open file to read");
-					break;
-
-				case 14:
-					fatal_exit_k = 111;
-					strcpy(error_message_k, "Cannot read from file");
-					break;
-
-				case 9:
-					fatal_exit_k = 112;
-					strcpy(error_message_k, "Cannot open file to write");
-					break;
-
-				case 12:
-					fatal_exit_k = 113;
-					strcpy(error_message_k, "Internal bzip2 error");
-					break;
-
-				case 15:
-					fatal_exit_k = 114;
-					strcpy(error_message_k, "Internal error reading from bzip2 file");
-					break;
-
-				case 13:
-					fatal_exit_k = 115;
-					strcpy(error_message_k, "Internal error in bzip2");
-					break;
-
-				case 119:
-					fatal_exit_k = 116;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
-														"and not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && ct_lzip_k == fatal_exit_k)
-			{
-				static char original_file_tar[1024];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"LZ_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_LZIP;
-				ret_k = uncompress_lzip_rspk_ar_func(original_file_tar, archive_name_array_filename);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lzip decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 302;
-					strcpy(error_message_k, "Error in the lzip compressor");
-					break;
-
-				case 2:
-					fatal_exit_k = 303;
-					strcpy(error_message_k, "Corrupt or invalid lzip file");
-					break;
-
-				case 3:
-					fatal_exit_k = 304;
-					strcpy(error_message_k, "Internal lzip compressor error");
-					break;
-
-				case 119:
-					fatal_exit_k = 305;
-					strcpy(error_message_k, "User abort");
-					break;
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
-														"not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && ct_lzma_k /*it is LZMA ok ....*/ == fatal_exit_k)
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"LM_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0); //o otimizador de Curitiba
-				decompression_progress_mode_arp = AAKP_MODE_LZMA;
-				ret_k = uncompress_lzma_rspk_ar_func(original_file_tar, archive_name_array_filename);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lzma decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 600;
-					strcpy(error_message_k, "Error openning file for LZMA handling");
-					break;
-
-				case 3:
-					fatal_exit_k = 601;
-					strcpy(error_message_k, "LZMA memory error");
-					break;
-
-				case 4:
-					fatal_exit_k = 602;
-					strcpy(error_message_k, "LZMA data error");
-					break;
-
-				case 5:
-					fatal_exit_k = 603;
-					strcpy(error_message_k, "Unexpected LZMA error");
-					break;
-
-				case 119:
-					fatal_exit_k = 604;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
-														"and not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && ct_xz_k == fatal_exit_k)
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"XZ_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0); //o otimizador de Curitiba
-				decompression_progress_mode_arp = AAKP_MODE_XZ;
-				ret_k = uncompress_xz___rspk_ar_func(original_file_tar, archive_name_array_filename);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "xz decompression required %.3f seconds\n", inittimer2(1));
-
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 707;
-					strcpy(error_message_k, "Error openning file for read");
-					break;
-
-				case 2:
-					fatal_exit_k = 708;
-					strcpy(error_message_k, "Error openning file for write");
-					break;
-
-				case 3:
-					fatal_exit_k = 709;
-					strcpy(error_message_k, "XZ compression internal error");
-					break;
-
-				case 4:
-					fatal_exit_k = 710;
-					strcpy(error_message_k, "XZ decompression error");
-					break;
-
-				case 119:
-					fatal_exit_k = 711;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
-														"not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && ct_compress_k == fatal_exit_k)
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"CO_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_COMPRESS;
-				ret_k = uncompress_co___rspk_ar_func(original_file_tar, archive_name_array_filename);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "compress decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 808;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 2:
-					fatal_exit_k = 809;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 3:
-					fatal_exit_k = 810;
-					strcpy(error_message_k, "Cannot close the input file");
-					break;
-
-				case 4:
-					fatal_exit_k = 811;
-					strcpy(error_message_k, "Cannot close output file");
-					break;
-
-				case 5:
-					fatal_exit_k = 812;
-					strcpy(error_message_k, "Cannot read from input file");
-					break;
-
-				case 6:
-					fatal_exit_k = 813;
-					strcpy(error_message_k, "Cannot write to output file");
-					break;
-
-				case 7:
-					fatal_exit_k = 814;
-					strcpy(error_message_k, "It isnot a valid compressed file");
-					break;
-
-				case 119:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
-														"not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && ct_lzop_k == fatal_exit_k)
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"LP_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0); //o otimizador de Curitiba
-				decompression_progress_mode_arp = AAKP_MODE_LZOP;
-				ret_k = uncompress_ju___rspk_ar_func(original_file_tar, archive_name_array_filename);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lzop decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 907;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 2:
-					fatal_exit_k = 908;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 3:
-					fatal_exit_k = 909;
-					strcpy(error_message_k, "Compression error");
-					break;
-
-				case 4:
-					fatal_exit_k = 910;
-					strcpy(error_message_k, "Uncompression error");
-					break;
-
-				case 119:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
-														"not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && ct_lz4_k == fatal_exit_k)
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"L4_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0); //o otimizador de Curitiba
-				decompression_progress_mode_arp = AAKP_MODE_LZ4;
-				ret_k = uncompress_l4___rspk_ar_func(original_file_tar, archive_name_array_filename);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lz4 decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 1108;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 2:
-					fatal_exit_k = 1109;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 3:
-					fatal_exit_k = 1110;
-					strcpy(error_message_k, "Cannot close the input file");
-					break;
-
-				case 4:
-					fatal_exit_k = 1111;
-					strcpy(error_message_k, "Cannot close output file");
-					break;
-
-				case 5:
-					fatal_exit_k = 1112;
-					strcpy(error_message_k, "Cannot read from input file");
-					break;
-
-				case 6:
-					fatal_exit_k = 1113;
-					strcpy(error_message_k, "Cannot write to output file");
-					break;
-
-				case 7:
-					fatal_exit_k = 1114;
-					strcpy(error_message_k, "It isnot a valid compressed file");
-					break;
-
-				case 8:
-					fatal_exit_k = 1115;
-					strcpy(error_message_k, "Compression error");
-					break;
-
-				case 119:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
-														"not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && ct_zstd_k == fatal_exit_k)
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"ZS_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_ZSTANDARD;
-				ret_k = uncompress_zs___rspk_ar_func(original_file_tar, archive_name_array_filename);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "Zstandard decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 1208;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 2:
-					fatal_exit_k = 1209;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 7:
-					fatal_exit_k = 1214;
-					strcpy(error_message_k, "It isnot a valid compressed file");
-					break;
-
-				case 8:
-					fatal_exit_k = 1215;
-					strcpy(error_message_k, "Compression error");
-					break;
-
-				case 119:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
-														""
-														"not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			if (0 == true_if_it_is_extract_ar && ct_brotli_k == fatal_exit_k)
-			{
-				static char original_file_tar[AMANDA__SIZE];
-				file_size_total_int64 = 0, file_total__read_int64 = 0;
-				fatal_exit_k = 0;
-				strcpy(original_file_tar, archive_name_array_filename);
-				if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"BR_"))
-				{
-					strcpy(error_message_k, "Cannot create temporary file");
-					fatal_exit_k = 30100;
-
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-
-				strcpy(copy_for_extract_ar, temp_tar_file_ar);
-
-				strcpy(archive_name_array_filename, temp_tar_file_ar);
-				flag_to_delete_temp_ar = true;
-				dllinit_arp();
-
-				if (fatal_exit_k)
-				{
-					if (-1 != archive)
-					{
-						close(archive);
-						archive = -1;
-					}
-					goto saida_o_k;
-				}
-				inittimer2(0);
-				decompression_progress_mode_arp = AAKP_MODE_BROTLI;
-				ret_k = uncompress_br___rspk_ar_func(original_file_tar, archive_name_array_filename);
-				decompression_progress_mode_arp = -1;
-				pedro_dprintf(SHOW_DEBUG_SPEED_Z, "brotli decompression required %.3f seconds\n", inittimer2(1));
-				switch (ret_k)
-				{
-				case 0:;
-					break;
-
-				case 1:
-					fatal_exit_k = 1308;
-					strcpy(error_message_k, "Cannot open input file");
-					break;
-
-				case 2:
-					fatal_exit_k = 1309;
-					strcpy(error_message_k, "Cannot open output file");
-					break;
-
-				case 7:
-					fatal_exit_k = 1314;
-					strcpy(error_message_k, "It isnot a valid compressed file");
-					break;
-
-				case 119:
-					fatal_exit_k = 119;
-					strcpy(error_message_k, "User abort");
-					break;
-
-				default:
-					sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
-														"not handled correctly by the programmer",
-							ret_k);
-					strcpy(error_message_k, my_error_as_a_programmer_z);
-					fatal_exit_k = ret_k;
-				}
-
-				if (0 == fatal_exit_k)
-				{
-					open_archive(ACCESS_READ);
-
-					if (fatal_exit_k)
-					{
-						if (-1 != archive)
-						{
-							close(archive);
-							archive = -1;
-						}
-						goto saida_o_k;
-					}
-
-					goto vai_em_frente_ar;
-				}
-			}
-
-			goto saida_o_k;
-		}
-
-	vai_em_frente_ar:;
-		keep_temp_file_flag_z = false;
-
-		if (-1 != encryption_detected_z)
-		{
-			is_mislaine_encrypted_ = true;
-			encryption_method_arp = encryption_detected_z;
-		}
-
-		if (!file_is_VAL_arp)
-		{
-			if (my_process_function == list_archive)
-			{
-				if (-1 == encryption_detected_z)
-					check_mislaine_encrypted();
-			}
-			do
-			{
-				prev_status = status;
-				tar_stat_destroy(&current_stat_info);
-				status = read_header(&current_header, &current_stat_info,
-									 read_header_auto);
+     if (0 == true_if_it_is_extract_ar)
+     {
+          file_size_total_int64 = getfilesize_ar(tar_file_ar);
+          file_total__read_int64 = 0;
+     }
+
+     keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
+
+     if (true_if_it_is_extract_ar)
+     {
+          while (clean_list_itens_is_list_())
+          {
+               ;
+          }
+          numero_de_itens = 0;
+          processed_itens_ar = 0;
+          keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
+
+          if (keep_temp_file_flag_z)
+          {
+               if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_for_encrypted, L"AM_"))
+               {
+                    archive = -1;
+                    strcpy(error_message_k, "Cannot create temporary file");
+                    fatal_exit_k = 40001;
+                    goto saida_o_k;
+               }
+               strcpy(temp_file_for_encrypted_v2, temp_file_for_encrypted);
+               adjust_extension_z(tar_file_ar, temp_file_for_encrypted_v2);
+               if (0 != strcmp(temp_file_for_encrypted, temp_file_for_encrypted_v2))
+               {
+                    _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_for_encrypted)), amanda_utf8towide_1_(temp_file_for_encrypted_v2));
+               }
+               update_progress_arp(&temp_long_long);
+               ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int, encryption_method__i);
+
+               strcpy(file_to_keep_z, temp_file_for_encrypted_v2);
+               strcpy(tar_file_ar, temp_file_for_encrypted_v2);
+               if (0 == ret_arp_)
+               {
+               }
+               else if (4 == ret_arp_)
+               {
+                    archive = -1;
+                    strcpy(error_message_k, "Wrong password used");
+                    fatal_exit_k = 40003;
+                    goto saida_o_k;
+               }
+               else
+               {
+                    archive = -1;
+                    strcpy(error_message_k, "Unexpected decryption error");
+                    fatal_exit_k = 40005;
+                    goto saida_o_k;
+               }
+          }
+          ret_k = process_tar(0, tar_file_ar, list_function_ar_ok);
+          if (2004 == ret_k)
+          {
+               archive = -1; //redundant? maybe not !!
+               goto saida_o_k;
+          }
+     }
+     if (false == modo_e_duplo_ar)
+     {
+          keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
+          if (keep_temp_file_flag_z)
+          {
+               if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_for_encrypted, L"AM_"))
+               {
+                    archive = -1;
+                    strcpy(error_message_k, "Cannot create temporary file");
+                    fatal_exit_k = 40001;
+                    goto saida_o_k;
+               }
+               strcpy(temp_file_for_encrypted_v2, temp_file_for_encrypted);
+               adjust_extension_z(tar_file_ar, temp_file_for_encrypted_v2);
+               if (0 != strcmp(temp_file_for_encrypted, temp_file_for_encrypted_v2))
+               {
+                    _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_for_encrypted)), amanda_utf8towide_1_(temp_file_for_encrypted_v2));
+               }
+               update_progress_arp(&temp_long_long);
+               ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int, encryption_method__i);
+               strcpy(file_to_keep_z, temp_file_for_encrypted_v2);
+               strcpy(tar_file_ar, temp_file_for_encrypted_v2);
+               if (0 == ret_arp_)
+               {
+               }
+               else if (4 == ret_arp_)
+               {
+                    archive = -1;
+                    strcpy(error_message_k, "Wrong password used");
+                    fatal_exit_k = 40003;
+                    goto saida_o_k;
+               }
+               else
+               {
+                    archive = -1;
+                    strcpy(error_message_k, "Unexpected decryption error");
+                    fatal_exit_k = 40005;
+                    goto saida_o_k;
+               }
+          }
+     }
+     my_func_ar_ = my_func__;
+     got_a_warning_ar = 0;
+     if (true_if_it_is_extract_ar)
+     {
+          trocadordebackslashtras(extract_folder_final);
+          if (strlen(extract_folder_final) && '\\' != extract_folder_final[strlen(extract_folder_final) - 1])
+          {
+               strcat(extract_folder_final, "\\");
+          }
+     }
+     if (true_if_it_is_extract_ar)
+     {
+          if (last_list_error_int_arp)
+          {
+               goto final_jump_arp;
+          }
+     }
+     Numdir_k = 0;
+     Numfiles_k = 0;
+     my_func_ar_(AAKP_CLEAR);
+     if (1)
+     {
+          blocking_factor = DEFAULT_BLOCKING;
+          record_size = DEFAULT_BLOCKING * BLOCKSIZE;
+          record_index = 0;
+          read_full_records = read_full_records_option;
+          hit_eof = false;
+          record_start_block = 0;
+          error_message_k[0] = 0;
+          fatal_exit_k = 0;
+          archive = -1;
+          if (true_if_it_is_extract_ar)
+          {
+               if (!mode_is_update_arp)
+               {
+                    if (rspmakedir(extract_folder_final))
+                    {
+                         strcpy(error_message_k, "Invalid destination path");
+                         fatal_exit_k = 12;
+                         goto saida_o_k;
+                    }
+               }
+          }
+          tar_sparse_major = 1;
+          tar_sparse_minor = 0;
+          strcpy(archive_name_array_filename, tar_file_ar);
+          {
+               static int already_k = 0;
+               if (!already_k)
+                    base64_init();
+               already_k = 2;
+          }
+          if (recent_global_header)
+          {
+               free(recent_global_header);
+               recent_global_header = NULL;
+          }
+          if (true_if_it_is_extract_ar)
+          {
+               my_process_function = extract_archive;
+          }
+          else
+               my_process_function = list_archive;
+          if (true_if_it_is_extract_ar)
+          {
+               if (!strlen(extract_folder_final))
+               {
+                    fatal_exit_k = 2001;
+                    strcpy(error_message_k, " 2001, You need to provide a destination folder");
+                    goto saida_o_k;
+               }
+          }
+          if (strlen(copy_for_extract_ar) && true_if_it_is_extract_ar)
+          {
+               strcpy(archive_name_array_filename, copy_for_extract_ar);
+          }
+          open_archive(ACCESS_READ);
+          if (fatal_exit_k)
+          {
+               if (-1 != archive)
+               {
+                    close(archive);
+                    archive = -1;
+               }
+               if (0 == true_if_it_is_extract_ar && (ct_bzip3_k == fatal_exit_k))
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"BZ_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_BZIP3;
+                    ret_k = uncompress_b3___rspk_ar_func(original_file_tar,
+                                                         archive_name_array_filename,
+                                                         threads_z,
+                                                         ar_gettemppath_z(),
+                                                         &cores_used_z);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "bzip3 decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 6:
+                         fatal_exit_k = 1513;
+                         strcpy(error_message_k, " 6 Cannot write to output file");
+                         break;
+
+                    case 7:
+                         fatal_exit_k = 1514;
+                         strcpy(error_message_k, "Decompression error");
+                         break;
+
+                    case 14:
+                         fatal_exit_k = 1515;
+                         strcpy(error_message_k, " 14 Cannot write to output file");
+                         break;
+
+                    case 107:
+                         fatal_exit_k = 1516;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 108:
+                         fatal_exit_k = 1517;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User cancel");
+                         break;
+
+                    case 121:
+                         fatal_exit_k = 1518;
+                         strcpy(error_message_k, "Cannot init decompression");
+                         break;
+
+                    case 122:
+                         fatal_exit_k = 1519;
+                         strcpy(error_message_k, "Cannot read from input file");
+                         break;
+
+                    case 123:
+                         fatal_exit_k = 1520;
+                         strcpy(error_message_k, "md5 checksum error");
+                         break;
+
+                    case 124:
+                         fatal_exit_k = 1521;
+                         strcpy(error_message_k, "Unexpected error ;-) ");
+                         break;
+
+                    case 125:
+                         fatal_exit_k = 1522;
+                         strcpy(error_message_k, "Memory error");
+                         break;
+
+                    case 126:
+                         fatal_exit_k = 1523;
+                         strcpy(error_message_k, "Invalid bzip3 stream");
+                         break;
+
+                    case 198:
+                         fatal_exit_k = 1524;
+                         strcpy(error_message_k, "Header magic error");
+                         break;
+
+                    case 199:
+                         fatal_exit_k = 1525;
+                         strcpy(error_message_k, "Invalid bzip3 file");
+                         break;
+
+                    case 300:
+                         fatal_exit_k = 1526;
+                         strcpy(error_message_k, "sha512 checksum error");
+                         break;
+
+                    case 500:
+                         fatal_exit_k = 1527;
+                         strcpy(error_message_k, "Invalid multi-thread bzip3 file");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and"
+                                                             " not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+               if (0 == true_if_it_is_extract_ar && (ct_lzop2_k == fatal_exit_k))
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"L2_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_LZOP2;
+                    ret_k = uncompress_l3___rspk_ar_func(original_file_tar,
+                                                         archive_name_array_filename,
+                                                         threads_z,
+                                                         ar_gettemppath_z(),
+                                                         &cores_used_z);
+                    decompression_progress_mode_arp = -1;
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 1108;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 1109;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 3:
+                         fatal_exit_k = 1110;
+                         strcpy(error_message_k, "Cannot close the input file");
+                         break;
+
+                    case 4:
+                         fatal_exit_k = 1111;
+                         strcpy(error_message_k, "Cannot close output file");
+                         break;
+
+                    case 5:
+                         fatal_exit_k = 1112;
+                         strcpy(error_message_k, "Cannot read from input file");
+                         break;
+
+                    case 6:
+                         fatal_exit_k = 1113;
+                         strcpy(error_message_k, "Cannot write to output file");
+                         break;
+
+                    case 7:
+                         fatal_exit_k = 1114;
+                         strcpy(error_message_k, "It isnot a valid compressed file");
+                         break;
+
+                    case 8:
+                         fatal_exit_k = 1115;
+                         strcpy(error_message_k, "Compression error");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    case 407:
+                         fatal_exit_k = 1116;
+                         strcpy(error_message_k, "Cannot create temp file");
+                         break;
+
+                    case 405:
+                         fatal_exit_k = 1117;
+                         strcpy(error_message_k, "Cannot open output tempfile");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
+                                                             "and not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && (ct_lz5_k == fatal_exit_k))
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"L5_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_LZ5;
+                    ret_k = uncompress_l5___rspk_ar_func(original_file_tar,
+                                                         archive_name_array_filename,
+                                                         threads_z,
+                                                         ar_gettemppath_z(),
+                                                         &cores_used_z);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lz5 decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 1108;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 1109;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 3:
+                         fatal_exit_k = 1110;
+                         strcpy(error_message_k, "Cannot close the input file");
+                         break;
+
+                    case 4:
+                         fatal_exit_k = 1111;
+                         strcpy(error_message_k, "Cannot close output file");
+                         break;
+
+                    case 5:
+                         fatal_exit_k = 1112;
+                         strcpy(error_message_k, "Cannot read from input file");
+                         break;
+
+                    case 6:
+                         fatal_exit_k = 1113;
+                         strcpy(error_message_k, "Cannot write to output file");
+                         break;
+
+                    case 7:
+                         fatal_exit_k = 1114;
+                         strcpy(error_message_k, "It isnot a valid compressed file");
+                         break;
+
+                    case 8:
+                         fatal_exit_k = 1115;
+                         strcpy(error_message_k, "Compression error");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    case 403:
+                         fatal_exit_k = 1116;
+                         strcpy(error_message_k, "File access error");
+                         break;
+
+                    case 500:
+                         fatal_exit_k = 1116;
+                         strcpy(error_message_k, "Internal Error 500");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
+                                                             "and not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+               if (0 == true_if_it_is_extract_ar && (ct_brotli2_k == fatal_exit_k))
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"BB_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_BROTLI2;
+                    ret_k = uncompress_bb___rspk_ar_func(original_file_tar,
+                                                         archive_name_array_filename,
+                                                         threads_z,
+                                                         ar_gettemppath_z(),
+                                                         &cores_used_z);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "brotli2 decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 1108;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 1109;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 3:
+                         fatal_exit_k = 1110;
+                         strcpy(error_message_k, "Cannot close the input file");
+                         break;
+
+                    case 4:
+                         fatal_exit_k = 1111;
+                         strcpy(error_message_k, "Cannot close output file");
+                         break;
+
+                    case 5:
+                         fatal_exit_k = 1112;
+                         strcpy(error_message_k, "Cannot read from input file");
+                         break;
+
+                    case 6:
+                         fatal_exit_k = 1113;
+                         strcpy(error_message_k, "Cannot write to output file");
+                         break;
+
+                    case 7:
+                         fatal_exit_k = 1114;
+                         strcpy(error_message_k, "It isnot a valid compressed file");
+                         break;
+
+                    case 8:
+                         fatal_exit_k = 1115;
+                         strcpy(error_message_k, "Compression error");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    case 199:
+                         fatal_exit_k = 1116;
+                         strcpy(error_message_k, "Invalid file signature for a brotli2 file");
+                         break;
+
+                    case 403:
+                         fatal_exit_k = 1117;
+                         strcpy(error_message_k, "File access error");
+                         break;
+
+                    case 500:
+                         fatal_exit_k = 1118;
+                         strcpy(error_message_k, "Invalid compressed file");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
+                                                             "and not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && (ct_compress2_k == fatal_exit_k))
+               {
+                    pedro_dprintf(-1, "pegou compress2");
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+
+                    strcpy(original_file_tar, archive_name_array_filename);
+
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"C2_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_COMPRESS2;
+                    ret_k = uncompress_c5___rspk_ar_func(original_file_tar,
+                                                         archive_name_array_filename,
+                                                         threads_z,
+                                                         ar_gettemppath_z(),
+                                                         &cores_used_z);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "compress2 decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 1108;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 1109;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 3:
+                         fatal_exit_k = 1110;
+                         strcpy(error_message_k, "Cannot close the input file");
+                         break;
+
+                    case 4:
+                         fatal_exit_k = 1111;
+                         strcpy(error_message_k, "Cannot close output file");
+                         break;
+
+                    case 5:
+                         fatal_exit_k = 1112;
+                         strcpy(error_message_k, "Cannot read from input file");
+                         break;
+
+                    case 6:
+                         fatal_exit_k = 1113;
+                         strcpy(error_message_k, "Cannot write to output file");
+                         break;
+
+                    case 7:
+                         fatal_exit_k = 1114;
+                         strcpy(error_message_k, "It isnot a valid compressed file");
+                         break;
+
+                    case 8:
+                         fatal_exit_k = 1115;
+                         strcpy(error_message_k, "Compression error");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    case 407:
+                         fatal_exit_k = 1116;
+                         strcpy(error_message_k, "Cannot create temp file");
+                         break;
+
+                    case 405:
+                         fatal_exit_k = 1117;
+                         strcpy(error_message_k, "Cannot open output tempfile");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
+                                                             "and not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && (ct_gzip2a_k == fatal_exit_k || ct_gzip2c_k == fatal_exit_k))
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"G2_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_GZIP2;
+                    ret_k = uncompress_g2___rspk_ar_func(original_file_tar,
+                                                         archive_name_array_filename,
+                                                         threads_z,
+                                                         ar_gettemppath_z(),
+                                                         &cores_used_z);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "gzip2 decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 9:
+                         fatal_exit_k = 1411;
+                         strcpy(error_message_k, "Cannot read from input file");
+                         break;
+
+                    case 10:
+                         fatal_exit_k = 1412;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 11:
+                         fatal_exit_k = 1413;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 14:
+                         fatal_exit_k = 1414;
+                         strcpy(error_message_k, "Cannot write to output file");
+                         break;
+
+                    case 15:
+                         fatal_exit_k = 1415;
+                         strcpy(error_message_k, "md5 checksum error");
+                         break;
+
+                    case 18:
+                         fatal_exit_k = 1416;
+                         strcpy(error_message_k, "Unexpected error");
+                         break;
+
+                    case 19:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User cancel");
+                         break;
+
+                    case 20:
+                         fatal_exit_k = 1418;
+                         strcpy(error_message_k, "sha512 checksum error");
+                         break;
+
+                    case 21:
+                         fatal_exit_k = 1419;
+                         strcpy(error_message_k, "zlib stream error");
+                         break;
+
+                    case 90:
+                         fatal_exit_k = 1420;
+                         strcpy(error_message_k, "Not a valid gzip2 file");
+                         break;
+
+                    case 500:
+                         fatal_exit_k = 1421;
+                         strcpy(error_message_k, "Invalid gzip2 multi-thread file");
+                         break;
+
+                    case 501:
+                         fatal_exit_k = 1422;
+                         strcpy(error_message_k, "File access error reading input file");
+                         break;
+
+                    case 528:
+                         fatal_exit_k = 1423;
+                         strcpy(error_message_k, "inflate error Z_STREAM_END");
+                         break;
+
+                    case 529:
+                         fatal_exit_k = 1425;
+                         strcpy(error_message_k, "inflate error Z_NEED_DICT");
+                         break;
+
+                    case 530:
+                         fatal_exit_k = 1426;
+                         strcpy(error_message_k, "inflate error Z_STREAM_ERROR");
+                         break;
+
+                    case 531:
+                         fatal_exit_k = 1427;
+                         strcpy(error_message_k, "inflate error Z_MEM_ERROR");
+                         break;
+
+                    case 532:
+                         fatal_exit_k = 1428;
+                         strcpy(error_message_k, "inflate error Z_DATA_ERROR");
+                         break;
+
+                    case 533:
+                         fatal_exit_k = 1429;
+                         strcpy(error_message_k, "inflate error Z_BUF_ERROR ;-) ");
+                         break;
+
+                    case 534:
+                         fatal_exit_k = 1430;
+                         strcpy(error_message_k, "inflate error 'uknown'");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
+                                                             "and not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && ct_gzip_k == fatal_exit_k)
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"GZ_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_GZIP;
+                    ret_k = Uncompress_gzip_ar_func(original_file_tar, archive_name_array_filename);
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "gzip decompression required %.3f seconds\n", inittimer2(1));
+                    while (0 == GetFinished_gzip_ar_func())
+                    {
+                         file_size_total_int64 = 0, file_total__read_int64 = 0;
+                         Sleep(50);
+                    }
+                    decompression_progress_mode_arp = -1;
+                    ret_k = GetReturnValue_gzip_ar_func();
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 10:
+                         fatal_exit_k = 91;
+                         strcpy(error_message_k, "Cannot open file to read");
+                         break;
+
+                    case 11:
+                         fatal_exit_k = 91;
+                         strcpy(error_message_k, "Cannot open file to write");
+                         break;
+
+                    case 19:
+                         fatal_exit_k = 92;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    case 15:
+                         fatal_exit_k = 93;
+                         strcpy(error_message_k, "Internal gzip error");
+                         break;
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
+                                                             "and not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && ct_bzip2_k == fatal_exit_k)
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"B2_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_BZ2;
+                    ret_k = Decompress_bzip2_ar_func(original_file_tar, archive_name_array_filename);
+                    while (GetStatus_bzip2_ar_func())
+                    {
+                         file_size_total_int64 = 0, file_total__read_int64 = 0;
+                         Sleep(5);
+                    }
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "bzip2 decompression required %.3f seconds\n", inittimer2(1));
+                    decompression_progress_mode_arp = -1;
+                    ret_k = GetReturnValue_bzip2_ar_func();
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 8:
+                         fatal_exit_k = 110;
+                         strcpy(error_message_k, "Cannot open file to read");
+                         break;
+
+                    case 14:
+                         fatal_exit_k = 111;
+                         strcpy(error_message_k, "Cannot read from file");
+                         break;
+
+                    case 9:
+                         fatal_exit_k = 112;
+                         strcpy(error_message_k, "Cannot open file to write");
+                         break;
+
+                    case 12:
+                         fatal_exit_k = 113;
+                         strcpy(error_message_k, "Internal bzip2 error");
+                         break;
+
+                    case 15:
+                         fatal_exit_k = 114;
+                         strcpy(error_message_k, "Internal error reading from bzip2 file");
+                         break;
+
+                    case 13:
+                         fatal_exit_k = 115;
+                         strcpy(error_message_k, "Internal error in bzip2");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 116;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
+                                                             "and not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && ct_lzip_k == fatal_exit_k)
+               {
+                    static char original_file_tar[1024];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"LZ_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_LZIP;
+                    ret_k = uncompress_lzip_rspk_ar_func(original_file_tar, archive_name_array_filename);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lzip decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 302;
+                         strcpy(error_message_k, "Error in the lzip compressor");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 303;
+                         strcpy(error_message_k, "Corrupt or invalid lzip file");
+                         break;
+
+                    case 3:
+                         fatal_exit_k = 304;
+                         strcpy(error_message_k, "Internal lzip compressor error");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 305;
+                         strcpy(error_message_k, "User abort");
+                         break;
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
+                                                             "not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && ct_lzma_k /*it is LZMA ok ....*/ == fatal_exit_k)
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"LM_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0); //o otimizador de Curitiba
+                    decompression_progress_mode_arp = AAKP_MODE_LZMA;
+                    ret_k = uncompress_lzma_rspk_ar_func(original_file_tar, archive_name_array_filename);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lzma decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 600;
+                         strcpy(error_message_k, "Error openning file for LZMA handling");
+                         break;
+
+                    case 3:
+                         fatal_exit_k = 601;
+                         strcpy(error_message_k, "LZMA memory error");
+                         break;
+
+                    case 4:
+                         fatal_exit_k = 602;
+                         strcpy(error_message_k, "LZMA data error");
+                         break;
+
+                    case 5:
+                         fatal_exit_k = 603;
+                         strcpy(error_message_k, "Unexpected LZMA error");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 604;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor "
+                                                             "and not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && ct_xz_k == fatal_exit_k)
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"XZ_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0); //o otimizador de Curitiba
+                    decompression_progress_mode_arp = AAKP_MODE_XZ;
+                    ret_k = uncompress_xz___rspk_ar_func(original_file_tar, archive_name_array_filename);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "xz decompression required %.3f seconds\n", inittimer2(1));
+
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 707;
+                         strcpy(error_message_k, "Error openning file for read");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 708;
+                         strcpy(error_message_k, "Error openning file for write");
+                         break;
+
+                    case 3:
+                         fatal_exit_k = 709;
+                         strcpy(error_message_k, "XZ compression internal error");
+                         break;
+
+                    case 4:
+                         fatal_exit_k = 710;
+                         strcpy(error_message_k, "XZ decompression error");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 711;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
+                                                             "not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && ct_compress_k == fatal_exit_k)
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"CO_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_COMPRESS;
+                    ret_k = uncompress_co___rspk_ar_func(original_file_tar, archive_name_array_filename);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "compress decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 808;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 809;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 3:
+                         fatal_exit_k = 810;
+                         strcpy(error_message_k, "Cannot close the input file");
+                         break;
+
+                    case 4:
+                         fatal_exit_k = 811;
+                         strcpy(error_message_k, "Cannot close output file");
+                         break;
+
+                    case 5:
+                         fatal_exit_k = 812;
+                         strcpy(error_message_k, "Cannot read from input file");
+                         break;
+
+                    case 6:
+                         fatal_exit_k = 813;
+                         strcpy(error_message_k, "Cannot write to output file");
+                         break;
+
+                    case 7:
+                         fatal_exit_k = 814;
+                         strcpy(error_message_k, "It isnot a valid compressed file");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
+                                                             "not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && ct_lzop_k == fatal_exit_k)
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"LP_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0); //o otimizador de Curitiba
+                    decompression_progress_mode_arp = AAKP_MODE_LZOP;
+                    ret_k = uncompress_ju___rspk_ar_func(original_file_tar, archive_name_array_filename);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lzop decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 907;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 908;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 3:
+                         fatal_exit_k = 909;
+                         strcpy(error_message_k, "Compression error");
+                         break;
+
+                    case 4:
+                         fatal_exit_k = 910;
+                         strcpy(error_message_k, "Uncompression error");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
+                                                             "not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && ct_lz4_k == fatal_exit_k)
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"L4_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0); //o otimizador de Curitiba
+                    decompression_progress_mode_arp = AAKP_MODE_LZ4;
+                    ret_k = uncompress_l4___rspk_ar_func(original_file_tar, archive_name_array_filename);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "lz4 decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 1108;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 1109;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 3:
+                         fatal_exit_k = 1110;
+                         strcpy(error_message_k, "Cannot close the input file");
+                         break;
+
+                    case 4:
+                         fatal_exit_k = 1111;
+                         strcpy(error_message_k, "Cannot close output file");
+                         break;
+
+                    case 5:
+                         fatal_exit_k = 1112;
+                         strcpy(error_message_k, "Cannot read from input file");
+                         break;
+
+                    case 6:
+                         fatal_exit_k = 1113;
+                         strcpy(error_message_k, "Cannot write to output file");
+                         break;
+
+                    case 7:
+                         fatal_exit_k = 1114;
+                         strcpy(error_message_k, "It isnot a valid compressed file");
+                         break;
+
+                    case 8:
+                         fatal_exit_k = 1115;
+                         strcpy(error_message_k, "Compression error");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
+                                                             "not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && ct_zstd_k == fatal_exit_k)
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"ZS_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_ZSTANDARD;
+                    ret_k = uncompress_zs___rspk_ar_func(original_file_tar, archive_name_array_filename);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "Zstandard decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 1208;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 1209;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 7:
+                         fatal_exit_k = 1214;
+                         strcpy(error_message_k, "It isnot a valid compressed file");
+                         break;
+
+                    case 8:
+                         fatal_exit_k = 1215;
+                         strcpy(error_message_k, "Compression error");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
+                                                             ""
+                                                             "not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               if (0 == true_if_it_is_extract_ar && ct_brotli_k == fatal_exit_k)
+               {
+                    static char original_file_tar[AMANDA__SIZE];
+                    file_size_total_int64 = 0, file_total__read_int64 = 0;
+                    fatal_exit_k = 0;
+                    strcpy(original_file_tar, archive_name_array_filename);
+                    if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_tar_file_ar, L"BR_"))
+                    {
+                         strcpy(error_message_k, "Cannot create temporary file");
+                         fatal_exit_k = 30100;
+
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+
+                    strcpy(copy_for_extract_ar, temp_tar_file_ar);
+
+                    strcpy(archive_name_array_filename, temp_tar_file_ar);
+                    flag_to_delete_temp_ar = true;
+                    dllinit_arp();
+
+                    if (fatal_exit_k)
+                    {
+                         if (-1 != archive)
+                         {
+                              close(archive);
+                              archive = -1;
+                         }
+                         goto saida_o_k;
+                    }
+                    inittimer2(0);
+                    decompression_progress_mode_arp = AAKP_MODE_BROTLI;
+                    ret_k = uncompress_br___rspk_ar_func(original_file_tar, archive_name_array_filename);
+                    decompression_progress_mode_arp = -1;
+                    pedro_dprintf(SHOW_DEBUG_SPEED_Z, "brotli decompression required %.3f seconds\n", inittimer2(1));
+                    switch (ret_k)
+                    {
+                    case 0:;
+                         break;
+
+                    case 1:
+                         fatal_exit_k = 1308;
+                         strcpy(error_message_k, "Cannot open input file");
+                         break;
+
+                    case 2:
+                         fatal_exit_k = 1309;
+                         strcpy(error_message_k, "Cannot open output file");
+                         break;
+
+                    case 7:
+                         fatal_exit_k = 1314;
+                         strcpy(error_message_k, "It isnot a valid compressed file");
+                         break;
+
+                    case 119:
+                         fatal_exit_k = 119;
+                         strcpy(error_message_k, "User abort");
+                         break;
+
+                    default:
+                         sprintf(my_error_as_a_programmer_z, "Error %d reported by the decompressor and "
+                                                             "not handled correctly by the programmer",
+                                 ret_k);
+                         strcpy(error_message_k, my_error_as_a_programmer_z);
+                         fatal_exit_k = ret_k;
+                    }
+
+                    if (0 == fatal_exit_k)
+                    {
+                         open_archive(ACCESS_READ);
+
+                         if (fatal_exit_k)
+                         {
+                              if (-1 != archive)
+                              {
+                                   close(archive);
+                                   archive = -1;
+                              }
+                              goto saida_o_k;
+                         }
+
+                         goto vai_em_frente_ar;
+                    }
+               }
+
+               goto saida_o_k;
+          }
+
+     vai_em_frente_ar:;
+          keep_temp_file_flag_z = false;
+
+          if (-1 != encryption_detected_z)
+          {
+               is_mislaine_encrypted_ = true;
+               encryption_method_arp = encryption_detected_z;
+          }
+
+          if (!file_is_VAL_arp)
+          {
+               if (my_process_function == list_archive)
+               {
+                    if (-1 == encryption_detected_z)
+                         check_mislaine_encrypted();
+               }
+               do
+               {
+                    prev_status = status;
+                    tar_stat_destroy(&current_stat_info);
+                    status = read_header(&current_header, &current_stat_info,
+                                         read_header_auto);
 #if 0
 				switch (status)
 				{
@@ -9903,342 +9906,342 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
 				}
 #endif
 
-				switch (status)
-				{
-				case HEADER_STILL_UNREAD:
-				case HEADER_SUCCESS_EXTENDED:
-					goto exit_now_k;
+                    switch (status)
+                    {
+                    case HEADER_STILL_UNREAD:
+                    case HEADER_SUCCESS_EXTENDED:
+                         goto exit_now_k;
 
-				case HEADER_SUCCESS:
+                    case HEADER_SUCCESS:
 
-					/* Valid header.  We should decode next field (mode) first.
+                         /* Valid header.  We should decode next field (mode) first.
 					   Ensure incoming names are null terminated.  */
-					decode_header(current_header, &current_stat_info,
-								  &current_format, 1);
-					if (0)
-					{
-						switch (current_header->header.typeflag)
-						{
-						case GNUTYPE_VOLHDR:
-						case GNUTYPE_MULTIVOL:
-							break;
+                         decode_header(current_header, &current_stat_info,
+                                       &current_format, 1);
+                         if (0)
+                         {
+                              switch (current_header->header.typeflag)
+                              {
+                              case GNUTYPE_VOLHDR:
+                              case GNUTYPE_MULTIVOL:
+                                   break;
 
-						case DIRTYPE:
-							FALLTHROUGH;
+                              case DIRTYPE:
+                                   FALLTHROUGH;
 
-						default:
-							skip_member();
-							continue;
-						}
-					}
+                              default:
+                                   skip_member();
+                                   continue;
+                              }
+                         }
 
-					if (!already_arp)
-					{
-						//encryption_method__i[0] = 0;
-						strcpy(string_format_arp, archive_format_string(detected_format_arp));
+                         if (!already_arp)
+                         {
+                              //encryption_method__i[0] = 0;
+                              strcpy(string_format_arp, archive_format_string(detected_format_arp));
 
-						already_arp++;
-					}
+                              already_arp++;
+                         }
 
-					if (true_if_it_is_extract_ar)
-					{
-						processed_itens_ar++;
-					}
+                         if (true_if_it_is_extract_ar)
+                         {
+                              processed_itens_ar++;
+                         }
 
-					my_process_function();
+                         my_process_function();
 
-					if (2004 == fatal_exit_k)
-					{
-						goto exit_now_k;
-					}
+                         if (2004 == fatal_exit_k)
+                         {
+                              goto exit_now_k;
+                         }
 
-					if (10002 == fatal_exit_k)
-					{
-						goto exit_now_k;
-					}
+                         if (10002 == fatal_exit_k)
+                         {
+                              goto exit_now_k;
+                         }
 
-					if (28000 == fatal_exit_k) //wrong password
-					{
-						goto exit_now_k;
-					}
-					if (28001 == fatal_exit_k) //Unexpected
-					{
-						goto exit_now_k;
-					}
+                         if (28000 == fatal_exit_k) //wrong password
+                         {
+                              goto exit_now_k;
+                         }
+                         if (28001 == fatal_exit_k) //Unexpected
+                         {
+                              goto exit_now_k;
+                         }
 
-					if (extract_cancel_flag)
-					{
-						strcpy(error_message_k, "User abort");
-						fatal_exit_k = 3001; //can change to 119? , I don't know...
-						goto exit_now_k;
-					}
+                         if (extract_cancel_flag)
+                         {
+                              strcpy(error_message_k, "User abort");
+                              fatal_exit_k = 3001; //can change to 119? , I don't know...
+                              goto exit_now_k;
+                         }
 
-					continue;
+                         continue;
 
-				case HEADER_ZERO_BLOCK:
-					set_next_block_after(current_header);
+                    case HEADER_ZERO_BLOCK:
+                         set_next_block_after(current_header);
 
-					if (1)
-					{
+                         if (1)
+                         {
 
-						status = read_header(&current_header, &current_stat_info,
-											 read_header_auto);
-						if (status == HEADER_ZERO_BLOCK)
-							break;
-						break;
-					}
-					status = prev_status;
-					continue;
+                              status = read_header(&current_header, &current_stat_info,
+                                                   read_header_auto);
+                              if (status == HEADER_ZERO_BLOCK)
+                                   break;
+                              break;
+                         }
+                         status = prev_status;
+                         continue;
 
-				case HEADER_END_OF_FILE:
-					break;
+                    case HEADER_END_OF_FILE:
+                         break;
 
-				case HEADER_FAILURE:
-					/* If the previous header was good, tell them that we are
+                    case HEADER_FAILURE:
+                         /* If the previous header was good, tell them that we are
 					   skipping bad ones.  */
-					set_next_block_after(current_header);
-					switch (prev_status)
-					{
-					case HEADER_STILL_UNREAD:
+                         set_next_block_after(current_header);
+                         switch (prev_status)
+                         {
+                         case HEADER_STILL_UNREAD:
 
-						pedro_dprintf(2, "This does not look like a tar archive");
+                              pedro_dprintf(2, "This does not look like a tar archive");
 
-						FALLTHROUGH;
+                              FALLTHROUGH;
 
-					case HEADER_ZERO_BLOCK:
-					case HEADER_SUCCESS:
+                         case HEADER_ZERO_BLOCK:
+                         case HEADER_SUCCESS:
 
-						pedro_dprintf(2, "Skipping to next header");
+                              pedro_dprintf(2, "Skipping to next header");
 
-						break;
+                              break;
 
-					case HEADER_END_OF_FILE:
-					case HEADER_FAILURE:
-						/* We are in the middle of a cascade of errors.  */
-						break;
+                         case HEADER_END_OF_FILE:
+                         case HEADER_FAILURE:
+                              /* We are in the middle of a cascade of errors.  */
+                              break;
 
-					case HEADER_SUCCESS_EXTENDED:
-						assert(0 && "can never occur");
-					}
-					continue;
-				}
-				break;
-			} while (1);
+                         case HEADER_SUCCESS_EXTENDED:
+                              assert(0 && "can never occur");
+                         }
+                         continue;
+                    }
+                    break;
+               } while (1);
 
-		exit_now_k:;
-		}
-		else
-		{
+          exit_now_k:;
+          }
+          else
+          {
 
-			size_got_p = getfilesize_ar(archive_name_array_filename);
+               size_got_p = getfilesize_ar(archive_name_array_filename);
 
-			decoder_file_z = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), L"rb");
-			if (NULL == decoder_file_z)
-			{
-				strcpy(error_message_k, "Cannot open VAL file for read");
-				fatal_exit_k = 40005;
-				goto exit_now_k_VAL;
-			}
+               decoder_file_z = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), L"rb");
+               if (NULL == decoder_file_z)
+               {
+                    strcpy(error_message_k, "Cannot open VAL file for read");
+                    fatal_exit_k = 40005;
+                    goto exit_now_k_VAL;
+               }
 
-			init_decoder_z = 1;
-			//encryption_method__i[0] = 0;
-			strcpy(string_format_arp, "VAL");
-			while (1)
-			{
-				int ret_arp;
-				memset(my_VAL_data_arp.VAL_filename, 0, sizeof(my_VAL_data_arp.VAL_filename));
-				memset(my_VAL_data_arp.VAL_filename_v27_v51, 0, sizeof(my_VAL_data_arp.VAL_filename_v27_v51));
-				ret_arp = decode_VAL_arp(&my_VAL_data_arp);
-				if (ARP_NOMORE == ret_arp)
-				{
-					break;
-				}
-				else
-				{
-					if (true_if_it_is_extract_ar)
-					{
-						processed_itens_ar++;
-						if (my_VAL_data_arp.VAL_is_dir)
-						{
-							if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
-							{
-								extract_dir_VAL(my_VAL_data_arp.VAL_filename_v27_v51);
-							}
-							else
-							{
-								extract_dir_VAL(my_VAL_data_arp.VAL_filename);
-							}
-						}
-						else
-						{
-							if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
-							{
-								extract_file_VAL(my_VAL_data_arp.VAL_filename_v27_v51);
-							}
-							else
-							{
-								extract_file_VAL(my_VAL_data_arp.VAL_filename);
-							}
-						}
-					}
-					else
-					{
-						simple_print_header_VAL();
-						if (my_VAL_data_arp.VAL_file_size)
-						{
-							_fseeki64(
-								decoder_file_z,
-								my_VAL_data_arp.VAL_file_size,
-								SEEK_CUR);
-						}
-					}
+               init_decoder_z = 1;
+               //encryption_method__i[0] = 0;
+               strcpy(string_format_arp, "VAL");
+               while (1)
+               {
+                    int ret_arp;
+                    memset(my_VAL_data_arp.VAL_filename, 0, sizeof(my_VAL_data_arp.VAL_filename));
+                    memset(my_VAL_data_arp.VAL_filename_v27_v51, 0, sizeof(my_VAL_data_arp.VAL_filename_v27_v51));
+                    ret_arp = decode_VAL_arp(&my_VAL_data_arp);
+                    if (ARP_NOMORE == ret_arp)
+                    {
+                         break;
+                    }
+                    else
+                    {
+                         if (true_if_it_is_extract_ar)
+                         {
+                              processed_itens_ar++;
+                              if (my_VAL_data_arp.VAL_is_dir)
+                              {
+                                   if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
+                                   {
+                                        extract_dir_VAL(my_VAL_data_arp.VAL_filename_v27_v51);
+                                   }
+                                   else
+                                   {
+                                        extract_dir_VAL(my_VAL_data_arp.VAL_filename);
+                                   }
+                              }
+                              else
+                              {
+                                   if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
+                                   {
+                                        extract_file_VAL(my_VAL_data_arp.VAL_filename_v27_v51);
+                                   }
+                                   else
+                                   {
+                                        extract_file_VAL(my_VAL_data_arp.VAL_filename);
+                                   }
+                              }
+                         }
+                         else
+                         {
+                              simple_print_header_VAL();
+                              if (my_VAL_data_arp.VAL_file_size)
+                              {
+                                   _fseeki64(
+                                       decoder_file_z,
+                                       my_VAL_data_arp.VAL_file_size,
+                                       SEEK_CUR);
+                              }
+                         }
 
 #if 1 != ARP_ALLOW_MULTIPLE_PASSWORDS_
-					if (28000 == fatal_exit_k) //wrong password
-					{
-						goto exit_now_k_VAL;
-					}
-					if (28001 == fatal_exit_k) //Unexpected
-					{
-						goto exit_now_k_VAL;
-					}
+                         if (28000 == fatal_exit_k) //wrong password
+                         {
+                              goto exit_now_k_VAL;
+                         }
+                         if (28001 == fatal_exit_k) //Unexpected
+                         {
+                              goto exit_now_k_VAL;
+                         }
 #endif
-					if (extract_cancel_flag)
-					{
-						strcpy(error_message_k, "User abort");
-						fatal_exit_k = 3001; //can change to 119? , I don't know...
-						goto exit_now_k_VAL;
-					}
-				}
-			}
-		}
+                         if (extract_cancel_flag)
+                         {
+                              strcpy(error_message_k, "User abort");
+                              fatal_exit_k = 3001; //can change to 119? , I don't know...
+                              goto exit_now_k_VAL;
+                         }
+                    }
+               }
+          }
 
-	exit_now_k_VAL:;
+     exit_now_k_VAL:;
 
-		if (decoder_file_z)
-		{
-			fclose(decoder_file_z);
-			decoder_file_z = NULL;
-		}
+          if (decoder_file_z)
+          {
+               fclose(decoder_file_z);
+               decoder_file_z = NULL;
+          }
 
-		if (-1 != real_VAL_filesize)
-		{
-			if (size_got_p < real_VAL_filesize)
-			{
-				strcpy(error_message_k, "Unexpected end of file found");
-				fatal_exit_k = 5131;
-			}
-			if (size_got_p > real_VAL_filesize)
-			{
-				strcpy(error_message_k, "Size of the VAL file don�t match the header");
-				fatal_exit_k = 5132;
-			}
-		}
-		else
-		{
-			pedro_dprintf(-1, "arquivo VAL antigo ou tar file\n");
-		}
-	}
+          if (-1 != real_VAL_filesize)
+          {
+               if (size_got_p < real_VAL_filesize)
+               {
+                    strcpy(error_message_k, "Unexpected end of file found");
+                    fatal_exit_k = 5131;
+               }
+               if (size_got_p > real_VAL_filesize)
+               {
+                    strcpy(error_message_k, "Size of the VAL file don�t match the header");
+                    fatal_exit_k = 5132;
+               }
+          }
+          else
+          {
+               pedro_dprintf(-1, "arquivo VAL antigo ou tar file\n");
+          }
+     }
 
 saida_o_k:;
 
-	if (-1 != archive)
-	{
-		close_archive();
-		archive = -1;
-	}
+     if (-1 != archive)
+     {
+          close_archive();
+          archive = -1;
+     }
 
-	if (fatal_exit_k)
-	{
-		Numdir_k = 0;
-		Numfiles_k = 0;
-	}
+     if (fatal_exit_k)
+     {
+          Numdir_k = 0;
+          Numfiles_k = 0;
+     }
 
-	if (0 == fatal_exit_k)
-	{
-		if (got_a_warning_ar)
-		{
-			strcpy(error_message_k, "At least one warning occurred, see the listbox to see why");
-			fatal_exit_k = 105;
-		}
-	}
+     if (0 == fatal_exit_k)
+     {
+          if (got_a_warning_ar)
+          {
+               strcpy(error_message_k, "At least one warning occurred, see the listbox to see why");
+               fatal_exit_k = 105;
+          }
+     }
 
-	if (fatal_exit_k)
-	{
-		Numdir_k = 0;
-		Numfiles_k = 0;
-	}
+     if (fatal_exit_k)
+     {
+          Numdir_k = 0;
+          Numfiles_k = 0;
+     }
 
 final_jump_arp:;
 
-	if (flag_to_delete_temp_ar)
-	{
-		if (false == modo_e_duplo_ar)
-		{
-			_wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
-		}
-	}
+     if (flag_to_delete_temp_ar)
+     {
+          if (false == modo_e_duplo_ar)
+          {
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
+          }
+     }
 
-	if (false == modo_e_duplo_ar)
-	{
-		if (strlen(file_to_keep_z))
-		{
-			_wunlink(permissive_name_m_(amanda_utf8towide_1_(file_to_keep_z)));
-			file_to_keep_z[0] = 0;
-		}
-	}
+     if (false == modo_e_duplo_ar)
+     {
+          if (strlen(file_to_keep_z))
+          {
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(file_to_keep_z)));
+               file_to_keep_z[0] = 0;
+          }
+     }
 
-	if (true_if_it_is_extract_ar)
-	{
+     if (true_if_it_is_extract_ar)
+     {
 
-		//so aqui...
+          //so aqui...
 
-		strcat(string_format_arp, encryption_method__i);
-		encryption_method__i[0] = 0;
-		if (last_list_error_int_arp)
-		{
-			fatal_exit_k = last_list_error_int_arp;
-			strcpy(error_message_k, last_list_error_message_arp);
-		}
-		if (strlen(copy_for_extract_ar))
-		{
-			_wunlink(permissive_name_m_(amanda_utf8towide_1_(copy_for_extract_ar)));
-			memset(copy_for_extract_ar, 0, sizeof(copy_for_extract_ar));
-		}
-		if (strlen(file_to_keep_z))
-		{
-			_wunlink(permissive_name_m_(amanda_utf8towide_1_(file_to_keep_z)));
-			file_to_keep_z[0] = 0;
-		}
-	}
-	if (fatal_exit_k)
-		last_list_error_int_arp = fatal_exit_k,
-		strcpy(last_list_error_message_arp, error_message_k); //que que � isto cara?...
+          strcat(string_format_arp, encryption_method__i);
+          encryption_method__i[0] = 0;
+          if (last_list_error_int_arp)
+          {
+               fatal_exit_k = last_list_error_int_arp;
+               strcpy(error_message_k, last_list_error_message_arp);
+          }
+          if (strlen(copy_for_extract_ar))
+          {
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(copy_for_extract_ar)));
+               memset(copy_for_extract_ar, 0, sizeof(copy_for_extract_ar));
+          }
+          if (strlen(file_to_keep_z))
+          {
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(file_to_keep_z)));
+               file_to_keep_z[0] = 0;
+          }
+     }
+     if (fatal_exit_k)
+          last_list_error_int_arp = fatal_exit_k,
+          strcpy(last_list_error_message_arp, error_message_k); //que que � isto cara?...
 
-	//encryption_method__i[0] = 0;
+     //encryption_method__i[0] = 0;
 
-	return fatal_exit_k;
+     return fatal_exit_k;
 }
 
 #endif
 
 int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
-											char *path_with_the_files_ar,
-											char *patern_ar,
-											int compression_mode_external_ar,
-											int recurse_in_subfolders_arp,
-											enum mode_is_include_or_exclude the__patern_ar__mode);
+                                            char *path_with_the_files_ar,
+                                            char *patern_ar,
+                                            int compression_mode_external_ar,
+                                            int recurse_in_subfolders_arp,
+                                            enum mode_is_include_or_exclude the__patern_ar__mode);
 
 int __stdcall startapi_ar_6(int parameter);
 
 static char tar_filename_ar___[AMANDA__SIZE] = {
-	0,
+    0,
 };
 static char path_with_the_files_ar___[AMANDA__SIZE] = {
-	0,
+    0,
 };
 char patern_ar___[20000] = {
-	0,
+    0,
 };
 int compression_mode_external_ar___;
 int recurse_in_subfolders_arp___;
@@ -10258,57 +10261,57 @@ enum mode_is_include_or_exclude the__patern_ar__mode___;
  *
  */
 int __stdcall update_archive_ar_v2(char *tar_filename_ar,
-								   char *path_with_the_files_ar,
-								   char *patern_ar,
-								   int compression_mode_external_ar,
-								   int recurse_in_subfolders_arp,
-								   enum mode_is_include_or_exclude the__patern_ar__mode)
+                                   char *path_with_the_files_ar,
+                                   char *patern_ar,
+                                   int compression_mode_external_ar,
+                                   int recurse_in_subfolders_arp,
+                                   enum mode_is_include_or_exclude the__patern_ar__mode)
 {
-	if (MAX_PATH < strlen(tar_filename_ar))
-	{
-		mode_is_libarchive_update_i = false;
-		return 2;
-	}
-	if (MAX_PATH < strlen(path_with_the_files_ar))
-	{
-		mode_is_libarchive_update_i = false;
-		return 2;
-	}
-	if (19999 < strlen(patern_ar))
-	{
-		mode_is_libarchive_update_i = false;
-		return 2;
-	}
+     if (MAX_PATH < strlen(tar_filename_ar))
+     {
+          mode_is_libarchive_update_i = false;
+          return 2;
+     }
+     if (MAX_PATH < strlen(path_with_the_files_ar))
+     {
+          mode_is_libarchive_update_i = false;
+          return 2;
+     }
+     if (19999 < strlen(patern_ar))
+     {
+          mode_is_libarchive_update_i = false;
+          return 2;
+     }
 
-	if (running_update || running_2_ar || running_ar)
-	{
-		mode_is_libarchive_update_i = false;
-		return 4;
-	}
+     if (running_update || running_2_ar || running_ar)
+     {
+          mode_is_libarchive_update_i = false;
+          return 4;
+     }
 
-	HANDLE myhandle;
-	MYCAST ThreadId;
-	MYCAST parameter = 1;
+     HANDLE myhandle;
+     MYCAST ThreadId;
+     MYCAST parameter = 1;
 
-	running_update = 1;
+     running_update = 1;
 
-	strncpy_z(tar_filename_ar___, tar_filename_ar, AMANDA__SIZE);
-	strncpy_z(path_with_the_files_ar___, path_with_the_files_ar, AMANDA__SIZE);
-	strncpy_z(patern_ar___, patern_ar, 19999);
-	compression_mode_external_ar___ = compression_mode_external_ar;
-	recurse_in_subfolders_arp___ = recurse_in_subfolders_arp;
-	the__patern_ar__mode___ = the__patern_ar__mode;
+     strncpy_z(tar_filename_ar___, tar_filename_ar, AMANDA__SIZE);
+     strncpy_z(path_with_the_files_ar___, path_with_the_files_ar, AMANDA__SIZE);
+     strncpy_z(patern_ar___, patern_ar, 19999);
+     compression_mode_external_ar___ = compression_mode_external_ar;
+     recurse_in_subfolders_arp___ = recurse_in_subfolders_arp;
+     the__patern_ar__mode___ = the__patern_ar__mode;
 
-	myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
-							(SIZE_T)0,
-							(void *)startapi_ar_6,
-							(LPVOID)parameter,
-							(DWORD)0,
-							(LPDWORD)&ThreadId);
+     myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0,
+                             (SIZE_T)0,
+                             (void *)startapi_ar_6,
+                             (LPVOID)parameter,
+                             (DWORD)0,
+                             (LPDWORD)&ThreadId);
 
-	CloseHandle(myhandle);
+     CloseHandle(myhandle);
 
-	return 0;
+     return 0;
 }
 
 /**
@@ -10360,187 +10363,187 @@ int __stdcall update_archive_ar_v2(char *tar_filename_ar,
  *
  */
 int __stdcall libarchive_update_archive_ar_v2(char *tar_filename_ar,
-											  char *path_with_the_files_ar,
-											  char *patern_ar,
-											  int compression_mode_external_ar,
-											  int recurse_in_subfolders_arp,
-											  enum mode_is_include_or_exclude the__patern_ar__mode,
-											  char *compression_level_char_i_)
+                                              char *path_with_the_files_ar,
+                                              char *patern_ar,
+                                              int compression_mode_external_ar,
+                                              int recurse_in_subfolders_arp,
+                                              enum mode_is_include_or_exclude the__patern_ar__mode,
+                                              char *compression_level_char_i_)
 {
 
-	mode_is_libarchive_update_i = true;
-	strcpy(compression_level_char_i, compression_level_char_i_);
-	return update_archive_ar_v2(tar_filename_ar,
-								path_with_the_files_ar,
-								patern_ar,
-								compression_mode_external_ar,
-								recurse_in_subfolders_arp,
-								the__patern_ar__mode);
+     mode_is_libarchive_update_i = true;
+     strcpy(compression_level_char_i, compression_level_char_i_);
+     return update_archive_ar_v2(tar_filename_ar,
+                                 path_with_the_files_ar,
+                                 patern_ar,
+                                 compression_mode_external_ar,
+                                 recurse_in_subfolders_arp,
+                                 the__patern_ar__mode);
 }
 
 int set_folder_time(char *in_folder_i, char *out_folder_i)
 {
-	HANDLE hFile;
-	FILETIME lpCreationTime___jumior;
-	FILETIME lpLastAccessTime_junior;
-	FILETIME lpLastWriteTime__junior;
+     HANDLE hFile;
+     FILETIME lpCreationTime___jumior;
+     FILETIME lpLastAccessTime_junior;
+     FILETIME lpLastWriteTime__junior;
 
-	hFile =
-		CreateFileW(permissive_name_m_(amanda_utf8towide_1_(in_folder_i)),
-					/*
+     hFile =
+         CreateFileW(permissive_name_m_(amanda_utf8towide_1_(in_folder_i)),
+                     /*
 		               GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
 		               NULL,
 		               OPEN_EXISTING,
 		               FILE_FLAG_BACKUP_SEMANTICS,
 		               NULL);
 		             */
-					/*
+                     /*
 		               GENERIC_READ,
 		                  FILE_SHARE_READ, NULL,
 		                  OPEN_EXISTING,
 		                  0,
 		                  NULL);
 		             */
-					GENERIC_READ,
-					FILE_SHARE_READ, NULL,
-					OPEN_EXISTING,
-					FILE_FLAG_BACKUP_SEMANTICS,
-					NULL);
+                     GENERIC_READ,
+                     FILE_SHARE_READ, NULL,
+                     OPEN_EXISTING,
+                     FILE_FLAG_BACKUP_SEMANTICS,
+                     NULL);
 
-	if (INVALID_HANDLE_VALUE != hFile)
-	{
-		if (GetFileTime(
-				hFile,
-				&lpCreationTime___jumior,
-				&lpLastAccessTime_junior,
-				&lpLastWriteTime__junior))
-		{
-			{
+     if (INVALID_HANDLE_VALUE != hFile)
+     {
+          if (GetFileTime(
+                  hFile,
+                  &lpCreationTime___jumior,
+                  &lpLastAccessTime_junior,
+                  &lpLastWriteTime__junior))
+          {
+               {
 
-				{
+                    {
 
-					HANDLE hFile2;
+                         HANDLE hFile2;
 
-					{
+                         {
 
-						hFile2 =
-							CreateFileW(permissive_name_m_(amanda_utf8towide_1_(out_folder_i)),
-										GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-										NULL,
-										OPEN_EXISTING,
-										FILE_FLAG_BACKUP_SEMANTICS,
-										NULL);
+                              hFile2 =
+                                  CreateFileW(permissive_name_m_(amanda_utf8towide_1_(out_folder_i)),
+                                              GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                                              NULL,
+                                              OPEN_EXISTING,
+                                              FILE_FLAG_BACKUP_SEMANTICS,
+                                              NULL);
 
-						if (INVALID_HANDLE_VALUE != hFile2)
-						{
-							SetFileTime(hFile2,
-										&lpCreationTime___jumior,
-										&lpLastAccessTime_junior,
-										&lpLastWriteTime__junior);
-							CloseHandle(hFile2);
-						}
-						else
-						{
-							pedro_dprintf(2, "Cannot set filetime on folder\n");
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			pedro_dprintf(2, "Cannot access timestamp\n");
-		}
+                              if (INVALID_HANDLE_VALUE != hFile2)
+                              {
+                                   SetFileTime(hFile2,
+                                               &lpCreationTime___jumior,
+                                               &lpLastAccessTime_junior,
+                                               &lpLastWriteTime__junior);
+                                   CloseHandle(hFile2);
+                              }
+                              else
+                              {
+                                   pedro_dprintf(2, "Cannot set filetime on folder\n");
+                              }
+                         }
+                    }
+               }
+          }
+          else
+          {
+               pedro_dprintf(2, "Cannot access timestamp\n");
+          }
 
-		CloseHandle(hFile);
-	}
-	else
-	{
-		//pedro_dprintf(2, "Cannot get filetime on folder\n");
+          CloseHandle(hFile);
+     }
+     else
+     {
+          //pedro_dprintf(2, "Cannot get filetime on folder\n");
 
-		pedro_dprintf(2, "Cannot get filetime on file or folder %s\n", in_folder_i);
+          pedro_dprintf(2, "Cannot get filetime on file or folder %s\n", in_folder_i);
 
-	} //
+     } //
 
-	return 0;
+     return 0;
 }
 
 int file_copy_i(char *input_i, char *out_put_i)
 {
 
 #define AMANDA_SIZE___ (1 << 17)
-	int len_i;
-	int len_2_i;
-	int returnvalue_i = 2;
-	char *buf_i = malloc(AMANDA_SIZE___);
-	FILE *out_i;
-	FILE *in_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(input_i)), L"rb");
+     int len_i;
+     int len_2_i;
+     int returnvalue_i = 2;
+     char *buf_i = malloc(AMANDA_SIZE___);
+     FILE *out_i;
+     FILE *in_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(input_i)), L"rb");
 
-	if (in_i)
-	{
+     if (in_i)
+     {
 
-		out_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(out_put_i)), L"wb");
+          out_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(out_put_i)), L"wb");
 
-		if (out_i)
-		{
-			while ((len_i = fread(buf_i, 1, AMANDA_SIZE___, in_i)))
-			{
-				len_2_i = fwrite(buf_i, 1, len_i, out_i);
-				if (len_2_i != len_i)
-				{
-					returnvalue_i = 1;
-				}
-			}
-			if (2 == returnvalue_i)
-			{
-				returnvalue_i = 0;
-			}
-			fclose(out_i);
-		}
-		fclose(in_i);
-	}
-	free(buf_i);
+          if (out_i)
+          {
+               while ((len_i = fread(buf_i, 1, AMANDA_SIZE___, in_i)))
+               {
+                    len_2_i = fwrite(buf_i, 1, len_i, out_i);
+                    if (len_2_i != len_i)
+                    {
+                         returnvalue_i = 1;
+                    }
+               }
+               if (2 == returnvalue_i)
+               {
+                    returnvalue_i = 0;
+               }
+               fclose(out_i);
+          }
+          fclose(in_i);
+     }
+     free(buf_i);
 
-	if (0 == returnvalue_i)
-	{
-		set_folder_time(input_i, out_put_i);
-		//don`t need two calls anymore...set_folder_time(input_i, out_put_i);
-	}
-	return returnvalue_i;
+     if (0 == returnvalue_i)
+     {
+          set_folder_time(input_i, out_put_i);
+          //don`t need two calls anymore...set_folder_time(input_i, out_put_i);
+     }
+     return returnvalue_i;
 }
 
 bool check_temp_folder_passed_i(char *temp_folder_i, char *new_entry_i)
 {
 
-	static char copy_amanda_pereira[AMANDA__SIZE] = {0};
-	static char copy_amanda_pereira_2[AMANDA__SIZE] = {0};
+     static char copy_amanda_pereira[AMANDA__SIZE] = {0};
+     static char copy_amanda_pereira_2[AMANDA__SIZE] = {0};
 
-	if (strlen(temp_folder_i) == strlen(new_entry_i))
-	{
-		if (0 == strcmp(temp_folder_i, new_entry_i))
-		{
+     if (strlen(temp_folder_i) == strlen(new_entry_i))
+     {
+          if (0 == strcmp(temp_folder_i, new_entry_i))
+          {
 
-			return false;
-		}
-	}
+               return false;
+          }
+     }
 
-	if (strlen(new_entry_i) >= strlen(temp_folder_i) + 1)
-	{
+     if (strlen(new_entry_i) >= strlen(temp_folder_i) + 1)
+     {
 
-		strcpy(copy_amanda_pereira, temp_folder_i);
-		strcat(copy_amanda_pereira, "\\");
-		//ready...
-		memcpy(copy_amanda_pereira_2, new_entry_i, strlen(copy_amanda_pereira));
+          strcpy(copy_amanda_pereira, temp_folder_i);
+          strcat(copy_amanda_pereira, "\\");
+          //ready...
+          memcpy(copy_amanda_pereira_2, new_entry_i, strlen(copy_amanda_pereira));
 
-		assert(strlen(copy_amanda_pereira_2) == strlen(copy_amanda_pereira));
+          assert(strlen(copy_amanda_pereira_2) == strlen(copy_amanda_pereira));
 
-		if (0 == strcmp(copy_amanda_pereira, copy_amanda_pereira_2))
-		{
-			return false;
-		}
-	}
+          if (0 == strcmp(copy_amanda_pereira, copy_amanda_pereira_2))
+          {
+               return false;
+          }
+     }
 
-	return true;
+     return true;
 }
 
 bool true_if_include_i = false;
@@ -10557,17 +10560,17 @@ bool ScanFolder(char *lpcszFolder_ar, __attribute__((unused)) int first_call, bo
 #ifdef DEBUG_MICROSOFT_AMANDA_S_SMART_APE_______LIKE_PEDRO_VALUE__
 
 #if DEBUG_MICROSOFT_AMANDA_S_SMART_APE_______LIKE_PEDRO_VALUE__ > -1
-	//assert(0 && " my love ape entering...");
-	//test_amanda_and_ricardo();
+     //assert(0 && " my love ape entering...");
+     //test_amanda_and_ricardo();
 
-	amanda_s_smart_ape(lpcszFolder_ar, recurse_i, I_MODE_IS_SCANFOLDER);
+     amanda_s_smart_ape(lpcszFolder_ar, recurse_i, I_MODE_IS_SCANFOLDER);
 
-	return true;
+     return true;
 #endif
 
 #endif
 
-	return true;
+     return true;
 }
 
 /**
@@ -10575,214 +10578,214 @@ bool ScanFolder(char *lpcszFolder_ar, __attribute__((unused)) int first_call, bo
  *
  */
 int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
-													   char *path_with_the_files_ar,
-													   char *patern_ar,
-													   int compression_mode_external_ar,
-													   int recurse_in_subfolders_arp,
-													   enum mode_is_include_or_exclude the__patern_ar__mode)
+                                                       char *path_with_the_files_ar,
+                                                       char *patern_ar,
+                                                       int compression_mode_external_ar,
+                                                       int recurse_in_subfolders_arp,
+                                                       enum mode_is_include_or_exclude the__patern_ar__mode)
 {
 
-	static char temp_folder_i[AMANDA__SIZE];
-	int i_z;
-	int ret_value_arp = 0;
-	int returnvalue_i = 0;
-	int folders_ar = 0;
-	int files_ar = 0;
+     static char temp_folder_i[AMANDA__SIZE];
+     int i_z;
+     int ret_value_arp = 0;
+     int returnvalue_i = 0;
+     int folders_ar = 0;
+     int files_ar = 0;
 
-	init_rsp_arp_encrypt_arp();
-	dllinit_arp();
+     init_rsp_arp_encrypt_arp();
+     dllinit_arp();
 
-	my___temp_file_i = NULL;
+     my___temp_file_i = NULL;
 
-	files_that_cannot_be_read_update = 0;
+     files_that_cannot_be_read_update = 0;
 
-	//exit(1);
+     //exit(1);
 
-	mode_is_libarchive_update_i = false;
+     mode_is_libarchive_update_i = false;
 
-	if (AMANDA__SIZE < strlen(tar_filename_ar))
-	{
-		running_update = 0;
-		return 2;
-	}
-	if (AMANDA__SIZE < strlen(path_with_the_files_ar))
-	{
-		running_update = 0;
-		return 2;
-	}
-	if (19999 < strlen(patern_ar))
-	{
-		running_update = 0;
-		return 2;
-	}
+     if (AMANDA__SIZE < strlen(tar_filename_ar))
+     {
+          running_update = 0;
+          return 2;
+     }
+     if (AMANDA__SIZE < strlen(path_with_the_files_ar))
+     {
+          running_update = 0;
+          return 2;
+     }
+     if (19999 < strlen(patern_ar))
+     {
+          running_update = 0;
+          return 2;
+     }
 
-	if (!ispathfile(tar_filename_ar))
-	{
+     if (!ispathfile(tar_filename_ar))
+     {
 
-		//running_ar = 1;
-		return libarchive_create_archive_ar_v2(tar_filename_ar,
-											   path_with_the_files_ar,
-											   patern_ar,
-											   compression_mode_external_ar,
-											   recurse_in_subfolders_arp,
-											   the__patern_ar__mode,
-											   compression_level_char_i);
-	}
+          //running_ar = 1;
+          return libarchive_create_archive_ar_v2(tar_filename_ar,
+                                                 path_with_the_files_ar,
+                                                 patern_ar,
+                                                 compression_mode_external_ar,
+                                                 recurse_in_subfolders_arp,
+                                                 the__patern_ar__mode,
+                                                 compression_level_char_i);
+     }
 
-	if (-1 == ret_value_arp) //compiler happy during development...
-	{
+     if (-1 == ret_value_arp) //compiler happy during development...
+     {
 
-		return 27;
-	}
-	//aqui?..., sim
+          return 27;
+     }
+     //aqui?..., sim
 
-	/*
+     /*
 
    primeiro cria um diretorio no temp...
 
    temp_$$$ ta bom
 
  */
-	progress_is_libarchive_v27 = true;
-	progress_lib_v27 = 0;
-	//multiple chunks are not supported
-	split_compressed_file_p(0); //to zero it
+     progress_is_libarchive_v27 = true;
+     progress_lib_v27 = 0;
+     //multiple chunks are not supported
+     split_compressed_file_p(0); //to zero it
 
-	strcpy(error_message_k, "My Error 11");
+     strcpy(error_message_k, "My Error 11");
 
-	strcpy(temp_folder_i, ar_gettemppath_z());
+     strcpy(temp_folder_i, ar_gettemppath_z());
 
-	strcat(temp_folder_i, "temp_$$$");
+     strcat(temp_folder_i, "temp_$$$");
 
-	//tem que criar o diretorio e copiar
+     //tem que criar o diretorio e copiar
 
-	//criar o c�digo
+     //criar o c�digo
 
-	strcpy(global_patern_ar, "*");
-	true_if_include_i = true;
-	delete_if_true_i = true;
+     strcpy(global_patern_ar, "*");
+     true_if_include_i = true;
+     delete_if_true_i = true;
 
-	strcpy(global_temp_folder_i, temp_folder_i);
+     strcpy(global_temp_folder_i, temp_folder_i);
 
-	//ScanFolder(temp_folder_i, 1);
+     //ScanFolder(temp_folder_i, 1);
 
-	delete_if_true_i = false;
+     delete_if_true_i = false;
 
-	extract_pause__flag = false;
-	extract_cancel_flag = false;
+     extract_pause__flag = false;
+     extract_cancel_flag = false;
 
-	dllinit_arp();
+     dllinit_arp();
 
-	/*
+     /*
 	   aqui tem que iniciar a adicao de c�digo
 	 */
 
-	if (createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_update_i, L"am_"))
-	{
-	}
-	else
-	{
-		strcpy(error_message_k, "Error creating temporary file, aborting...");
-		returnvalue_i = 105;
-		goto sai_agora_i;
-	}
+     if (createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_update_i, L"am_"))
+     {
+     }
+     else
+     {
+          strcpy(error_message_k, "Error creating temporary file, aborting...");
+          returnvalue_i = 105;
+          goto sai_agora_i;
+     }
 
-	//exit(27);
+     //exit(27);
 
-	extract_to_file_i_func(ar_gettemppath_z(), true, temp_file_update_i, init_playlist_z_june_24, add_more_one_z_june_24, check_item_z_june_24);
+     extract_to_file_i_func(ar_gettemppath_z(), true, temp_file_update_i, init_playlist_z_june_24, add_more_one_z_june_24, check_item_z_june_24);
 
-	returnvalue_i = libarchive_extract_entries_p_func(tar_filename_ar, the_pass_arp, NULL, error_message_k, string_format_arp, temp_folder_i, extracting_filename_ar, warning_info, creating_folder_maria, &extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
+     returnvalue_i = libarchive_extract_entries_p_func(tar_filename_ar, the_pass_arp, NULL, error_message_k, string_format_arp, temp_folder_i, extracting_filename_ar, warning_info, creating_folder_maria, &extract_pause__flag, &extract_cancel_flag, &folders_ar, &files_ar);
 
-	extract_to_file_i_func(ar_gettemppath_z(), false, temp_file_update_i, init_playlist_z_june_24, add_more_one_z_june_24, check_item_z_june_24);
+     extract_to_file_i_func(ar_gettemppath_z(), false, temp_file_update_i, init_playlist_z_june_24, add_more_one_z_june_24, check_item_z_june_24);
 
-	if (!returnvalue_i)
-	{
-		//copy the files
-		strcpy(global_patern_ar, patern_ar);
+     if (!returnvalue_i)
+     {
+          //copy the files
+          strcpy(global_patern_ar, patern_ar);
 
-		true_if_include_i = false;
-		if (ARP_INCLUDE_FILES == the__patern_ar__mode)
-		{
-			true_if_include_i = true;
-		}
+          true_if_include_i = false;
+          if (ARP_INCLUDE_FILES == the__patern_ar__mode)
+          {
+               true_if_include_i = true;
+          }
 
-		delete_if_true_i = false; //for safety
+          delete_if_true_i = false; //for safety
 
-		is_update_i = true;
+          is_update_i = true;
 
-		my___temp_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)), L"rb+");
+          my___temp_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)), L"rb+");
 
-		if (NULL == my___temp_file_i)
-		{
-			strcpy(error_message_k, "Error openning temporary file, aborting...");
-			returnvalue_i = 106;
-			goto sai_agora_i;
-		}
+          if (NULL == my___temp_file_i)
+          {
+               strcpy(error_message_k, "Error openning temporary file, aborting...");
+               returnvalue_i = 106;
+               goto sai_agora_i;
+          }
 
-		_fseeki64(my___temp_file_i, 0, SEEK_END);
-		fatal_exit_k = 0;
+          _fseeki64(my___temp_file_i, 0, SEEK_END);
+          fatal_exit_k = 0;
 
-		if (recurse_in_subfolders_arp)
-		{
-			ScanFolder(path_with_the_files_ar, 1, true);
-		}
-		else
-		{
-			ScanFolder(path_with_the_files_ar, 1, false);
-		}
+          if (recurse_in_subfolders_arp)
+          {
+               ScanFolder(path_with_the_files_ar, 1, true);
+          }
+          else
+          {
+               ScanFolder(path_with_the_files_ar, 1, false);
+          }
 
-		if (12345100 == fatal_exit_k)
-		{
-			strcpy(error_message_k, "Cannot write to temporary file, aborting...");
-			returnvalue_i = 107;
-			goto sai_agora_i;
-		}
+          if (12345100 == fatal_exit_k)
+          {
+               strcpy(error_message_k, "Cannot write to temporary file, aborting...");
+               returnvalue_i = 107;
+               goto sai_agora_i;
+          }
 
-		is_update_i = false;
+          is_update_i = false;
 
-		if (i_z) //to make the compiler happy...
-		{
-			goto now_i;
-		}
-	now_i:;
+          if (i_z) //to make the compiler happy...
+          {
+               goto now_i;
+          }
+     now_i:;
 
-		if (my___temp_file_i)
-		{
-			fclose(my___temp_file_i);
-			my___temp_file_i = NULL;
-		}
-		//exit(27);
-		//aqui basta chamar o compressor
-		use_name_i = true;
+          if (my___temp_file_i)
+          {
+               fclose(my___temp_file_i);
+               my___temp_file_i = NULL;
+          }
+          //exit(27);
+          //aqui basta chamar o compressor
+          use_name_i = true;
 
-		mode_is_update_libarchive_v27 = true;
+          mode_is_update_libarchive_v27 = true;
 
-		libarchive_create_archive_ar_v2(tar_filename_ar,
-										temp_folder_i, //aqui...sim, vamos la
-										patern_ar,
-										compression_mode_external_ar,
-										recurse_in_subfolders_arp,
-										the__patern_ar__mode,
-										compression_level_char_i);
+          libarchive_create_archive_ar_v2(tar_filename_ar,
+                                          temp_folder_i, //aqui...sim, vamos la
+                                          patern_ar,
+                                          compression_mode_external_ar,
+                                          recurse_in_subfolders_arp,
+                                          the__patern_ar__mode,
+                                          compression_level_char_i);
 
-		return 0;
-	}
+          return 0;
+     }
 
 sai_agora_i:;
 
-	return_value_ar = returnvalue_i;
+     return_value_ar = returnvalue_i;
 
-	running_update = 0;
+     running_update = 0;
 
-	if (my___temp_file_i)
-	{
-		fclose(my___temp_file_i);
-		my___temp_file_i = NULL;
-	}
+     if (my___temp_file_i)
+     {
+          fclose(my___temp_file_i);
+          my___temp_file_i = NULL;
+     }
 
-	_wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
-	progress_is_libarchive_v27 = false;
-	return 10;
+     _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
+     progress_is_libarchive_v27 = false;
+     return 10;
 }
 
 /**
@@ -10793,12 +10796,12 @@ sai_agora_i:;
  */
 int __stdcall startapi_ar_6(__attribute__((unused)) int parameter)
 {
-	return update_archive_ar_v2_internal(tar_filename_ar___,
-										 path_with_the_files_ar___,
-										 patern_ar___,
-										 compression_mode_external_ar___,
-										 recurse_in_subfolders_arp___,
-										 the__patern_ar__mode___);
+     return update_archive_ar_v2_internal(tar_filename_ar___,
+                                          path_with_the_files_ar___,
+                                          patern_ar___,
+                                          compression_mode_external_ar___,
+                                          recurse_in_subfolders_arp___,
+                                          the__patern_ar__mode___);
 }
 
 /**
@@ -10815,132 +10818,132 @@ int __stdcall startapi_ar_6(__attribute__((unused)) int parameter)
  *
  */
 int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
-											char *path_with_the_files_ar,
-											char *patern_ar,
-											int compression_mode_external_ar,
-											int recurse_in_subfolders_arp,
-											enum mode_is_include_or_exclude the__patern_ar__mode)
+                                            char *path_with_the_files_ar,
+                                            char *patern_ar,
+                                            int compression_mode_external_ar,
+                                            int recurse_in_subfolders_arp,
+                                            enum mode_is_include_or_exclude the__patern_ar__mode)
 {
-	int ret_value_arp;
+     int ret_value_arp;
 
-	if (mode_is_libarchive_update_i)
-	{
-		return libarchive_update_archive_ar_v2_internal(tar_filename_ar,
-														path_with_the_files_ar,
-														patern_ar,
-														compression_mode_external_ar,
-														recurse_in_subfolders_arp,
-														the__patern_ar__mode);
-	}
+     if (mode_is_libarchive_update_i)
+     {
+          return libarchive_update_archive_ar_v2_internal(tar_filename_ar,
+                                                          path_with_the_files_ar,
+                                                          patern_ar,
+                                                          compression_mode_external_ar,
+                                                          recurse_in_subfolders_arp,
+                                                          the__patern_ar__mode);
+     }
 
-	if (AMANDA__SIZE < strlen(tar_filename_ar))
-	{
-		running_update = 0;
-		return 2;
-	}
-	if (AMANDA__SIZE < strlen(path_with_the_files_ar))
-	{
-		running_update = 0;
-		return 2;
-	}
-	if (19999 < strlen(patern_ar))
-	{
-		running_update = 0;
-		return 2;
-	}
+     if (AMANDA__SIZE < strlen(tar_filename_ar))
+     {
+          running_update = 0;
+          return 2;
+     }
+     if (AMANDA__SIZE < strlen(path_with_the_files_ar))
+     {
+          running_update = 0;
+          return 2;
+     }
+     if (19999 < strlen(patern_ar))
+     {
+          running_update = 0;
+          return 2;
+     }
 
-	if (!ispathfile(tar_filename_ar))
-	{
+     if (!ispathfile(tar_filename_ar))
+     {
 
-		//running_ar = 1;
-		return create_archive_ar_v2(tar_filename_ar,
-									path_with_the_files_ar,
-									patern_ar,
-									compression_mode_external_ar,
-									recurse_in_subfolders_arp,
-									the__patern_ar__mode);
-	}
-	else
-	{
-		if (
-			check_iso_file_aakp(tar_filename_ar))
-		{
-			strcpy(error_message_k, "This version cannot update an iso file, only in the future");
-			fatal_exit_k = 3;
-			return_value_ar = fatal_exit_k;
-			running_update = 0;
-			return fatal_exit_k;
-		}
+          //running_ar = 1;
+          return create_archive_ar_v2(tar_filename_ar,
+                                      path_with_the_files_ar,
+                                      patern_ar,
+                                      compression_mode_external_ar,
+                                      recurse_in_subfolders_arp,
+                                      the__patern_ar__mode);
+     }
+     else
+     {
+          if (
+              check_iso_file_aakp(tar_filename_ar))
+          {
+               strcpy(error_message_k, "This version cannot update an iso file, only in the future");
+               fatal_exit_k = 3;
+               return_value_ar = fatal_exit_k;
+               running_update = 0;
+               return fatal_exit_k;
+          }
 
-		mode_is_update_arp = true;
+          mode_is_update_arp = true;
 
-		while (clean_list_itens_is_amanda_update_())
-		{
-			;
-		}
-		assert(0 == has_itens_is_amanda_update_);
-		assert(0 == has_itens_copy_is_amanda_update_);
-		if (running_2_ar || running_ar)
-		{
-			strcpy(error_message_k, "Already running, call cancel first");
-			fatal_exit_k = 1001;
-			clean_up_update_ARP();
-			return_value_ar = fatal_exit_k;
-			running_update = 0;
-			return fatal_exit_k;
-		}
+          while (clean_list_itens_is_amanda_update_())
+          {
+               ;
+          }
+          assert(0 == has_itens_is_amanda_update_);
+          assert(0 == has_itens_copy_is_amanda_update_);
+          if (running_2_ar || running_ar)
+          {
+               strcpy(error_message_k, "Already running, call cancel first");
+               fatal_exit_k = 1001;
+               clean_up_update_ARP();
+               return_value_ar = fatal_exit_k;
+               running_update = 0;
+               return fatal_exit_k;
+          }
 
-		if (!createtempfilename_and_keep_z(ar_gettemppath_z(), update_filename_arp, L"UP_"))
-		{
-			strcpy(update_filename_arp, tar_filename_ar);
-			strcat(update_filename_arp, ".$$$$$_bw_update_$$$$$.tmp");
-		}
-		strcpy(update_temp_dir_arp, update_filename_arp);
-		strcat(update_temp_dir_arp, "_d");
-		{
-			our_update_file_open__arp = _wopen(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp)),
-											   O_BINARY | O_CREAT | O_WRONLY | O_TRUNC,
-											   S_IRUSR | S_IWUSR);
-			if (-1 == our_update_file_open__arp)
-			{
-				strcpy(error_message_k, "Cannot open temporary file to write");
-				fatal_exit_k = 1002;
-				clean_up_update_ARP();
-				return_value_ar = fatal_exit_k;
-				running_update = 0;
-				return fatal_exit_k;
-			}
-		}
+          if (!createtempfilename_and_keep_z(ar_gettemppath_z(), update_filename_arp, L"UP_"))
+          {
+               strcpy(update_filename_arp, tar_filename_ar);
+               strcat(update_filename_arp, ".$$$$$_bw_update_$$$$$.tmp");
+          }
+          strcpy(update_temp_dir_arp, update_filename_arp);
+          strcat(update_temp_dir_arp, "_d");
+          {
+               our_update_file_open__arp = _wopen(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp)),
+                                                  O_BINARY | O_CREAT | O_WRONLY | O_TRUNC,
+                                                  S_IRUSR | S_IWUSR);
+               if (-1 == our_update_file_open__arp)
+               {
+                    strcpy(error_message_k, "Cannot open temporary file to write");
+                    fatal_exit_k = 1002;
+                    clean_up_update_ARP();
+                    return_value_ar = fatal_exit_k;
+                    running_update = 0;
+                    return fatal_exit_k;
+               }
+          }
 
-		running_2_ar = 1;
-		last_list_error_int_arp = 0;
-		memset(last_list_error_message_arp, 0, sizeof(last_list_error_message_arp));
-		extract_pause__flag = false;
-		extract_cancel_flag = false;
-		strcpy(tar_file_ar_real, tar_filename_ar);
-		strcpy(extract_folder_final, update_temp_dir_arp);
-		startapi_ar_3(1);
+          running_2_ar = 1;
+          last_list_error_int_arp = 0;
+          memset(last_list_error_message_arp, 0, sizeof(last_list_error_message_arp));
+          extract_pause__flag = false;
+          extract_cancel_flag = false;
+          strcpy(tar_file_ar_real, tar_filename_ar);
+          strcpy(extract_folder_final, update_temp_dir_arp);
+          startapi_ar_3(1);
 
-		if (return_value_from_list)
-		{
-			clean_up_update_ARP();
-			running_update = 0;
-			return return_value_from_list;
-		}
-		has_itens_is_amanda_update_internal_b_arp = has_itens_is_amanda_update_;
+          if (return_value_from_list)
+          {
+               clean_up_update_ARP();
+               running_update = 0;
+               return return_value_from_list;
+          }
+          has_itens_is_amanda_update_internal_b_arp = has_itens_is_amanda_update_;
 
-		//basta zerar a flag...
-		split_compressed_file_p(0);
+          //basta zerar a flag...
+          split_compressed_file_p(0);
 
-		ret_value_arp = create_archive_ar_v2(tar_filename_ar,
-											 path_with_the_files_ar,
-											 patern_ar,
-											 compression_mode_external_ar,
-											 recurse_in_subfolders_arp,
-											 the__patern_ar__mode);
-		return ret_value_arp;
-	}
-	return 0;
+          ret_value_arp = create_archive_ar_v2(tar_filename_ar,
+                                               path_with_the_files_ar,
+                                               patern_ar,
+                                               compression_mode_external_ar,
+                                               recurse_in_subfolders_arp,
+                                               the__patern_ar__mode);
+          return ret_value_arp;
+     }
+     return 0;
 }
 
 /**
@@ -10953,38 +10956,38 @@ char *
 ar_gettemppath_z(void)
 {
 #ifdef Z_DEBUG__TEMP
-	pedro_dprintf(2, "Usando Z_DEBUG__TEMP -> C:\\Ava\\back\\temp\n");
+     pedro_dprintf(2, "Usando Z_DEBUG__TEMP -> C:\\Ava\\back\\temp\n");
 
-	if (0 == strlen(temp_folder_z))
-	{
-		set_temp_folder_z("C:\\Ava\\back\\temp");
-	}
+     if (0 == strlen(temp_folder_z))
+     {
+          set_temp_folder_z("C:\\Ava\\back\\temp");
+     }
 #endif
 
-	if (ispathfile("c:\\Ava\\back\\my_c_file.c"))
-	{
-		static int counter = 0;
-		show_debug_z = 0;
-		counter++;
-		if (25 == counter)
-		{
-			pedro_dprintf(2, "using internal temp folder for debug \n");
-			counter = 0;
-		}
-		if (0 == strlen(temp_folder_z))
-		{
-			set_temp_folder_z("C:\\Ava\\back\\temp");
-		}
-	}
+     if (ispathfile("c:\\Ava\\back\\my_c_file.c"))
+     {
+          static int counter = 0;
+          show_debug_z = 0;
+          counter++;
+          if (25 == counter)
+          {
+               pedro_dprintf(2, "using internal temp folder for debug \n");
+               counter = 0;
+          }
+          if (0 == strlen(temp_folder_z))
+          {
+               set_temp_folder_z("C:\\Ava\\back\\temp");
+          }
+     }
 
-	if (0 == strlen(temp_folder_z))
-	{
-		static WCHAR out_z[AMANDA__SIZE_w + 1];
-		GetTempPathW(AMANDA__SIZE_w, out_z);
-		strcpy(temp_folder_z, valquiria_wide_to_utf8(out_z));
-	}
+     if (0 == strlen(temp_folder_z))
+     {
+          static WCHAR out_z[AMANDA__SIZE_w + 1];
+          GetTempPathW(AMANDA__SIZE_w, out_z);
+          strcpy(temp_folder_z, valquiria_wide_to_utf8(out_z));
+     }
 
-	return temp_folder_z;
+     return temp_folder_z;
 }
 /**
  * To set the temp folder, if the path is invalid it will return an error
@@ -10996,44 +10999,44 @@ ar_gettemppath_z(void)
  */
 int __amandacall set_temp_folder_z(char *folder_z)
 {
-	static char copy_path[AMANDA__SIZE] = {
-		0,
-	};
-	static char copy_path2[AMANDA__SIZE] = {
-		0,
-	};
-	strncpy_z(copy_path, folder_z, AMANDA__SIZE);
+     static char copy_path[AMANDA__SIZE] = {
+         0,
+     };
+     static char copy_path2[AMANDA__SIZE] = {
+         0,
+     };
+     strncpy_z(copy_path, folder_z, AMANDA__SIZE);
 
-	if ('\\' == copy_path[0] && '\\' == copy_path[1])
-	{
-		goto ok_z;
-	}
-	if ('a' <= tolower(copy_path[0]) && 'z' >= tolower(copy_path[0]))
-	{
-		if (':' == copy_path[1] && ('\\' == copy_path[2] || '/' == copy_path[2]))
-			goto ok_z;
-	}
+     if ('\\' == copy_path[0] && '\\' == copy_path[1])
+     {
+          goto ok_z;
+     }
+     if ('a' <= tolower(copy_path[0]) && 'z' >= tolower(copy_path[0]))
+     {
+          if (':' == copy_path[1] && ('\\' == copy_path[2] || '/' == copy_path[2]))
+               goto ok_z;
+     }
 
-	return 1;
+     return 1;
 
 ok_z:;
 
-	trocadordebackslashtras(copy_path);
+     trocadordebackslashtras(copy_path);
 
-	ret_arp_ = strlen(copy_path);
+     ret_arp_ = strlen(copy_path);
 
-	if ('\\' != copy_path[ret_arp_ - 1])
-	{
-		strcat(copy_path, "\\");
-	}
+     if ('\\' != copy_path[ret_arp_ - 1])
+     {
+          strcat(copy_path, "\\");
+     }
 
-	if (createtempfilename_and_keep_z(copy_path, copy_path2, L"oi_"))
-	{
-		_wunlink(permissive_name_m_(amanda_utf8towide_1_(copy_path2)));
-		strncpy_z(temp_folder_z, copy_path, sizeof(temp_folder_z) - 1);
-		return 0;
-	}
-	return 1;
+     if (createtempfilename_and_keep_z(copy_path, copy_path2, L"oi_"))
+     {
+          _wunlink(permissive_name_m_(amanda_utf8towide_1_(copy_path2)));
+          strncpy_z(temp_folder_z, copy_path, sizeof(temp_folder_z) - 1);
+          return 0;
+     }
+     return 1;
 }
 /**
  * It will return the current threads or cores decompressing a file, only
@@ -11046,19 +11049,19 @@ ok_z:;
  */
 int __amandacall decompression_cores_used__z(void)
 {
-	return cores_used_z;
+     return cores_used_z;
 }
 
 int fixed_abs(int value_to_fix)
 {
 
-	value_to_fix = abs(value_to_fix);
+     value_to_fix = abs(value_to_fix);
 
-	if (-2147483648 == value_to_fix)
-	{
-		value_to_fix = 2147483647;
-	}
-	return value_to_fix;
+     if (-2147483648 == value_to_fix)
+     {
+          value_to_fix = 2147483647;
+     }
+     return value_to_fix;
 }
 
 /**
@@ -11070,21 +11073,21 @@ int fixed_abs(int value_to_fix)
  */
 int __amandacall memory_usage__z(char *data_z)
 {
-	//#pragma message "amanda & MathMan compiling Tar DLL at " __TIME__ "..."
+     //#pragma message "amanda & MathMan compiling Tar DLL at " __TIME__ "..."
 
-	/*
+     /*
 	 *                                                                                                       �\_(^^)_/�
 	 */
 
-	double val_z;
-	PROCESS_MEMORY_COUNTERS_EX memory;
-	/* Mr Do. */ GetProcessMemoryInfo(GetCurrentProcess(), (void *)&memory, sizeof(memory));
-	val_z = memory.WorkingSetSize;
-	val_z = val_z / 1024.0;
-	val_z = val_z / 1024.0;
-	sprintf(data_z, "%.3f MB", val_z);
+     double val_z;
+     PROCESS_MEMORY_COUNTERS_EX memory;
+     /* Mr Do. */ GetProcessMemoryInfo(GetCurrentProcess(), (void *)&memory, sizeof(memory));
+     val_z = memory.WorkingSetSize;
+     val_z = val_z / 1024.0;
+     val_z = val_z / 1024.0;
+     sprintf(data_z, "%.3f MB", val_z);
 
-	return 0;
+     return 0;
 }
 
 #include "cpu_fixed_z.c"

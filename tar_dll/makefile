@@ -1,6 +1,6 @@
 #2021 developed by ama   &  card
 AMANDA_FLAGS__ =              -O3  -Wall -Wextra
-AMANDA_FLAGS_z =              -O3  -Wall -Wextra
+AMANDA_FLAGS_z =              -O3  -Wall -Wextra 
 MISLAI_FLAGS__ =              -O0 -Wall -Wno-unused-value -Wno-unused-variable
 CARDO__FLAGS__ =              -D_FIXED_________ -O3
 JULIETFLAGS__  =              -D_FIXED________  -O3
