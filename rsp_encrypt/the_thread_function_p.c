@@ -132,6 +132,9 @@ saida:;
 
     pedro_dprintf(-1, "saida %d bytes written %d\n", ptr_my_struct_z->retvalue, (int)size_of_compressed_z);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+		
     if (ptr_my_struct_z->size_of_input_file_z && (0 == ptr_my_struct_z->retvalue))
     {
         if (0 != infile_remaining && (0 == cancelflag))
@@ -139,6 +142,8 @@ saida:;
             ptr_my_struct_z->retvalue = 160;
         }
     }
+
+#pragma GCC diagnostic pop
 
     if (ptr_my_struct_z->dest)
     {

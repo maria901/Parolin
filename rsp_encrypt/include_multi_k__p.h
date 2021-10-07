@@ -31,6 +31,7 @@ typedef struct my_thread_struct_z__
 	char *buffer;
 	char *out;
 	char *temp_output;
+    char key_k__p[300];
 
 	int64_t *bytes_read_z;
 	int64_t size_of_input_file_copy_z;

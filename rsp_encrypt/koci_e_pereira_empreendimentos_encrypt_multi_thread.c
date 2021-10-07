@@ -81,7 +81,7 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z);
  * @return void
  *
  */
-void trocadordebackslashtras(char *path)
+static void trocadordebackslashtras(char *path)
 {
      int ret;
      char aqui;
@@ -147,7 +147,7 @@ static char temp_folder_z[AMANDA__SIZE] = {
  * @return it will return the static allocated char * string with the utf-8 encoded filename
  *
  */
-char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria)
+static char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria)
 {
      static char saida_utf8[AMANDA__SIZE];
 
@@ -326,7 +326,7 @@ remove_permissive_name_m_(wchar_t *wname)
  * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
-WCHAR *amanda_utf8towide_1_(char *pUTF8)
+static WCHAR *amanda_utf8towide_1_(char *pUTF8)
 {
      static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
 
@@ -472,30 +472,19 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
 {
      int i_z;
      FILE *dest = NULL;
-     FILE *source = NULL;
      FILE *temp_z = NULL;
-
-     __int64 bytesread = 0;
-     __int64 bytestosave = 0;
      __int64 totalbytes = 0;
      unsigned int fatia_m = 0;
-     int64_t infile_remaining = 0;
-     int done = 0;
      int ret_z = 0;
      int ret2 = 0;
-     int retvalue = 0;
-     int writebytes = 0;
      static char buffer[CHUNK_k__p /* + 1 why?...*/];
-     static char out[CHUNK_k__p];
-     char *sha51_ptr = NULL;
      int n_threads_copy;
      int n_thread_counter;
-     int status = 0;
      int first_step_z = 0;
-     int64_t bytes_processed_z = 0;
      int64_t slice_z;
      int64_t remaining_z;
      int64_t offset_z;
+     (void)key_k__p;
      thread_return_value_z = 0;
      my_thread_struct_z *ptr_my_struct_z;
      pauseflag = 0;
@@ -512,7 +501,7 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
 
           if (1000 > totalbytes)
           {
-              n_threads_z = 1;
+               n_threads_z = 1;
           }
 
           if (true)
@@ -625,7 +614,7 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                     assert(ptr_my_struct_z->out);
 
                     memset(&ptr_my_struct_z->ar, 0, sizeof(ar_data));
-
+                    strncpy_z(ptr_my_struct_z->key_k__p, key_k__p, 299);
                     {
 
                          switch (encryption_method_internal_arp)
