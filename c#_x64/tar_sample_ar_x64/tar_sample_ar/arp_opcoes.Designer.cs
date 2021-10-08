@@ -97,7 +97,7 @@ namespace tar_sample_ar
 			this.enc_method_arp.FormattingEnabled = true;
 			this.enc_method_arp.Location = new System.Drawing.Point(130, 88);
 			this.enc_method_arp.Name = "enc_method_arp";
-			this.enc_method_arp.Size = new System.Drawing.Size(134, 21);
+			this.enc_method_arp.Size = new System.Drawing.Size(206, 21);
 			this.enc_method_arp.TabIndex = 5;
 			// 
 			// button2

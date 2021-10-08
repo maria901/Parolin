@@ -157,6 +157,55 @@ int encryption_process_new_mode_21_february_2021_z(char *original_filename_z)
                                       ARP_TWOFISH,
                                       threads_z_v27);
           }
+          else if (ARP_AES_MT == encryption_method_to_create)
+          {
+               ret_arp_ = encrypt_arp(original_filename_z,
+                                      temp_file_in_z,
+                                      the_pass_arp,
+                                      ARP_AES_MT,
+                                      threads_z_v27);
+          }
+          else if (ARP_RC4_MT == encryption_method_to_create)
+          {
+               pedro_dprintf(-1, "method rc4\n");
+               ret_arp_ = encrypt_arp(original_filename_z,
+                                      temp_file_in_z,
+                                      the_pass_arp,
+                                      ARP_RC4_MT,
+                                      threads_z_v27);
+          }
+          else if (ARP_SERPENT_MT == encryption_method_to_create)
+          {
+               ret_arp_ = encrypt_arp(original_filename_z,
+                                      temp_file_in_z,
+                                      the_pass_arp,
+                                      ARP_SERPENT_MT,
+                                      threads_z_v27);
+          }
+          else if (ARP_MARS_MT == encryption_method_to_create)
+          {
+               ret_arp_ = encrypt_arp(original_filename_z,
+                                      temp_file_in_z,
+                                      the_pass_arp,
+                                      ARP_MARS_MT,
+                                      threads_z_v27);
+          }
+          else if (ARP_RC6_MT == encryption_method_to_create)
+          {
+               ret_arp_ = encrypt_arp(original_filename_z,
+                                      temp_file_in_z,
+                                      the_pass_arp,
+                                      ARP_RC6_MT,
+                                      threads_z_v27);
+          }
+          else if (ARP_TWOFISH_MT == encryption_method_to_create)
+          {
+               ret_arp_ = encrypt_arp(original_filename_z,
+                                      temp_file_in_z,
+                                      the_pass_arp,
+                                      ARP_TWOFISH_MT,
+                                      threads_z_v27);
+          }          
           else
           {
                assert(0 && "Unsupported encryption method\n");
@@ -1835,6 +1884,60 @@ void dump_file_or_folder(struct tar_stat_info *st,
                                            ARP_TWOFISH,
                                            threads_z_v27);
                }
+               else if (ARP_AES_MT == encryption_method_to_create)
+               {
+                    my_VAL_data.VAL_encryption_method = ARP_AES_MT;
+                    ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                           temp_encrypted_file_arp,
+                                           the_pass_arp,
+                                           ARP_AES_MT,
+                                           threads_z_v27);
+               }
+               else if (ARP_RC4_MT == encryption_method_to_create)
+               {
+                    my_VAL_data.VAL_encryption_method = ARP_RC4_MT;
+                    ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                           temp_encrypted_file_arp,
+                                           the_pass_arp,
+                                           ARP_RC4_MT,
+                                           threads_z_v27);
+               }
+               else if (ARP_SERPENT_MT == encryption_method_to_create)
+               {
+                    my_VAL_data.VAL_encryption_method = ARP_SERPENT_MT;
+                    ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                           temp_encrypted_file_arp,
+                                           the_pass_arp,
+                                           ARP_SERPENT_MT,
+                                           threads_z_v27);
+               }
+               else if (ARP_MARS_MT == encryption_method_to_create)
+               {
+                    my_VAL_data.VAL_encryption_method = ARP_MARS_MT;
+                    ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                           temp_encrypted_file_arp,
+                                           the_pass_arp,
+                                           ARP_MARS_MT,
+                                           threads_z_v27);
+               }
+               else if (ARP_RC6_MT == encryption_method_to_create)
+               {
+                    my_VAL_data.VAL_encryption_method = ARP_RC6_MT;
+                    ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                           temp_encrypted_file_arp,
+                                           the_pass_arp,
+                                           ARP_RC6_MT,
+                                           threads_z_v27);
+               }
+               else if (ARP_TWOFISH_MT == encryption_method_to_create)
+               {
+                    my_VAL_data.VAL_encryption_method = ARP_TWOFISH_MT;
+                    ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                           temp_encrypted_file_arp,
+                                           the_pass_arp,
+                                           ARP_TWOFISH_MT,
+                                           threads_z_v27);
+               }
                else
                {
                     assert(0 && "Unsupported encryption method\n");
@@ -2020,6 +2123,54 @@ void dump_file_or_folder(struct tar_stat_info *st,
                                                 temp_encrypted_file_arp,
                                                 the_pass_arp,
                                                 ARP_TWOFISH,
+                                                threads_z_v27);
+                    }
+                    else if (ARP_AES_MT == encryption_method_to_create)
+                    {
+                         ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                                temp_encrypted_file_arp,
+                                                the_pass_arp,
+                                                ARP_AES_MT,
+                                                threads_z_v27);
+                    }
+                    else if (ARP_RC4_MT == encryption_method_to_create)
+                    {
+                         ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                                temp_encrypted_file_arp,
+                                                the_pass_arp,
+                                                ARP_RC4_MT,
+                                                threads_z_v27);
+                    }
+                    else if (ARP_SERPENT_MT == encryption_method_to_create)
+                    {
+                         ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                                temp_encrypted_file_arp,
+                                                the_pass_arp,
+                                                ARP_SERPENT_MT,
+                                                threads_z_v27);
+                    }
+                    else if (ARP_MARS_MT == encryption_method_to_create)
+                    {
+                         ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                                temp_encrypted_file_arp,
+                                                the_pass_arp,
+                                                ARP_MARS_MT,
+                                                threads_z_v27);
+                    }
+                    else if (ARP_RC6_MT == encryption_method_to_create)
+                    {
+                         ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                                temp_encrypted_file_arp,
+                                                the_pass_arp,
+                                                ARP_RC6_MT,
+                                                threads_z_v27);
+                    }
+                    else if (ARP_TWOFISH_MT == encryption_method_to_create)
+                    {
+                         ret_arp_ = encrypt_arp(file_or_folder_to_process,
+                                                temp_encrypted_file_arp,
+                                                the_pass_arp,
+                                                ARP_TWOFISH_MT,
                                                 threads_z_v27);
                     }
                     else
@@ -5146,6 +5297,48 @@ pula_arp:;
                               buf_amanda[0] = ARP_TWOFISH;
                               fwrite(buf_amanda, 1, 1, amanda_file);
                          }
+                         if (ARP_AES_MT == encryption_method_to_create)
+                         {
+                              fseek(amanda_file, file_size_arp - 5, SEEK_SET);
+                              char buf_amanda[1];
+                              buf_amanda[0] = ARP_AES_MT;
+                              fwrite(buf_amanda, 1, 1, amanda_file);
+                         }
+                         if (ARP_RC4_MT == encryption_method_to_create)
+                         {
+                              fseek(amanda_file, file_size_arp - 5, SEEK_SET);
+                              char buf_amanda[1];
+                              buf_amanda[0] = ARP_RC4_MT;
+                              fwrite(buf_amanda, 1, 1, amanda_file);
+                         }
+                         if (ARP_SERPENT_MT == encryption_method_to_create)
+                         {
+                              fseek(amanda_file, file_size_arp - 5, SEEK_SET);
+                              char buf_amanda[1];
+                              buf_amanda[0] = ARP_SERPENT_MT;
+                              fwrite(buf_amanda, 1, 1, amanda_file);
+                         }
+                         if (ARP_MARS_MT == encryption_method_to_create)
+                         {
+                              fseek(amanda_file, file_size_arp - 5, SEEK_SET);
+                              char buf_amanda[1];
+                              buf_amanda[0] = ARP_MARS_MT;
+                              fwrite(buf_amanda, 1, 1, amanda_file);
+                         }
+                         if (ARP_RC6_MT == encryption_method_to_create)
+                         {
+                              fseek(amanda_file, file_size_arp - 5, SEEK_SET);
+                              char buf_amanda[1];
+                              buf_amanda[0] = ARP_RC6_MT;
+                              fwrite(buf_amanda, 1, 1, amanda_file);
+                         }
+                         if (ARP_TWOFISH_MT == encryption_method_to_create)
+                         {
+                              fseek(amanda_file, file_size_arp - 5, SEEK_SET);
+                              char buf_amanda[1];
+                              buf_amanda[0] = ARP_TWOFISH_MT;
+                              fwrite(buf_amanda, 1, 1, amanda_file);
+                         }
 
                          fseek(amanda_file, file_size_arp - 4, SEEK_SET);
                          fwrite("misl", 1, 4, amanda_file);
@@ -6694,7 +6887,7 @@ int __amandacall set_encryption_method_z(enum z_encryption_method method_z)
  * "MARS", "RC6", "TWOFISH"
  *
  * @param method_arp the string with the selected method,
- * if it don´t match the valid values the encryption method
+ * if it don't match the valid values the encryption method
  * will be "AES 256 CTR" for ARP_AES
  *
  * @return always 0
@@ -6726,6 +6919,41 @@ int __stdcall set_encryption_mode_z(char *method_arp)
      if (0 == strcmp("TWOFISH", method_arp))
      {
           encryption_method_to_create = ARP_TWOFISH;
+     }
+     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     // added 
+     /*
+
+			enc_method_arp.Items.Add("AES 256 CTR Multi-Thread");
+			enc_method_arp.Items.Add("MARS Multi-Thread");
+			enc_method_arp.Items.Add("RC4 Multi-Thread");
+			enc_method_arp.Items.Add("RC6 Multi-Thread");
+			enc_method_arp.Items.Add("SERPENT Multi-Thread");
+			enc_method_arp.Items.Add("TWOFISH Multi-Thread");
+     */
+     if (0 == strcmp("AES 256 CTR Multi-Thread", method_arp))
+     {
+          encryption_method_to_create = ARP_AES_MT;
+     }
+     if (0 == strcmp("MARS Multi-Thread", method_arp))
+     {
+          encryption_method_to_create = ARP_MARS_MT;
+     }
+     if (0 == strcmp("RC4 Multi-Thread", method_arp))
+     {
+          encryption_method_to_create = ARP_RC4_MT;
+     }
+     if (0 == strcmp("RC6 Multi-Thread", method_arp))
+     {
+          encryption_method_to_create = ARP_RC6_MT;
+     }
+     if (0 == strcmp("SERPENT Multi-Thread", method_arp))
+     {
+          encryption_method_to_create = ARP_SERPENT_MT;
+     }
+     if (0 == strcmp("TWOFISH Multi-Thread", method_arp))
+     {
+          encryption_method_to_create = ARP_TWOFISH_MT;
      }
      return 0;
 }

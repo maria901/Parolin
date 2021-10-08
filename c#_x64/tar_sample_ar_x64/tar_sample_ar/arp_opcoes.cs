@@ -60,6 +60,12 @@ namespace tar_sample_ar
 			enc_method_arp.Items.Add("RC6");
 			enc_method_arp.Items.Add("SERPENT");
 			enc_method_arp.Items.Add("TWOFISH");
+			enc_method_arp.Items.Add("AES 256 CTR Multi-Thread");
+			enc_method_arp.Items.Add("MARS Multi-Thread");
+			enc_method_arp.Items.Add("RC4 Multi-Thread");
+			enc_method_arp.Items.Add("RC6 Multi-Thread");
+			enc_method_arp.Items.Add("SERPENT Multi-Thread");
+			enc_method_arp.Items.Add("TWOFISH Multi-Thread");
 			
 			//If you want any other encryption method please drop me a line
 			
@@ -68,8 +74,8 @@ namespace tar_sample_ar
 			
 			if("" == pega_pass.ToString())
 			{
-				util_ar.save_settings_arp("encryption_arp", "AES 256 CTR");
-				enc_method_arp.Text = "AES 256 CTR";
+				util_ar.save_settings_arp("encryption_arp", "AES 256 CTR Multi-Thread");
+				enc_method_arp.Text = "AES 256 CTR Multi-Thread";
 			}
 			else
 			{

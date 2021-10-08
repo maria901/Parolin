@@ -68,6 +68,12 @@
 #include "rc4.h"
 int unicodemode = 0;
 
+int rspencrypt_encrypt_multi_thread_k__p(char *input,
+                                         char *output,
+                                         char *key_k__p,
+                                         int encryption_method_internal_arp,
+                                         int threads_to_use_k__p);
+
 int __stdcall init_serpent(char *key_arp_);
 
 int __stdcall encryptstring_serpent(unsigned char *buf, unsigned char *bufout, unsigned char *key_arp, unsigned int size);
@@ -1296,7 +1302,7 @@ int __stdcall newfileencrypt2(uint type, uchar *inputfile, uchar *outputfile, uc
      return 0;
 }
 static int64_t the_arp_file_size;
-static int64_t *bytes_read_arp = NULL;
+int64_t *bytes_read_arp = NULL;
 
 int64_t bytes_read_z;
 
@@ -1744,9 +1750,18 @@ int encrypt_arp(uchar *inputfile,
      free_to_work_arp = 1;
 
      encryption_method_internal = encryption_method_internal_arp;
-
-     ret_arp = newfileencrypt2_sha512(17, inputfile, outputfile, (uchar *)key_arp);
-
+     if (ARP_AES == encryption_method_internal_arp || ARP_RC4 == encryption_method_internal_arp || ARP_SERPENT == encryption_method_internal_arp || ARP_MARS == encryption_method_internal_arp || ARP_RC6 == encryption_method_internal_arp || ARP_TWOFISH == encryption_method_internal_arp)
+     {
+          ret_arp = newfileencrypt2_sha512(17, inputfile, outputfile, (uchar *)key_arp);
+     }
+     else
+     {
+          ret_arp = rspencrypt_encrypt_multi_thread_k__p((void *)inputfile,
+                                                         (void *)outputfile,
+                                                         key_arp,
+                                                         encryption_method_internal_arp,
+                                                         number_of_threads_ar);
+     }
      encryption_method_internal = 0;
      free_to_work_arp = 0;
 

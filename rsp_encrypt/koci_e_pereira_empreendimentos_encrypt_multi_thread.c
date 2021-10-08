@@ -31,6 +31,22 @@
 
 #include "include_multi_k__p.h"
 
+#ifndef uchar
+#define uchar unsigned char
+#endif
+
+#ifndef uint
+#define uint unsigned int
+#endif
+
+#ifndef ushort
+#define ushort unsigned short
+#endif
+
+extern int64_t *bytes_read_arp;
+
+extern int64_t bytes_read_z;
+
 enum encryption_mode_arp
 {
      ARP_AES, /**< The Advanced Encryption Standard (AES), also known by its original name Rijndael is a specification for the encryption of electronic data established by the U.S. National Institute of Standards and Technology (NIST) in 2001.*/
@@ -70,7 +86,17 @@ enum encryption_mode_arp
 
 static int64_t ret_arp_ = 0;
 
+uint crc32(uint crc, const uchar *buf, uint len);
+int __stdcall encryptstring2(int *done, uchar *buf, uchar *key, uchar *bufout, uint size, uint keysize);
 int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z);
+int aesencrypt(unsigned char *buf, unsigned char *bufout, unsigned char *key, int keysize, int *done);
+
+/**
+ * sha512_digest_k need to be at least 65 bytes long
+ *
+ */
+int SHA512_filelong_k(unsigned char *inputfile_utf_8, unsigned char *sha512_digest_k);
+int SHA512_filelong_m_opened_file(FILE *the_input_file_arthur, int64_t file_size_erika, unsigned char *sha512_digest_k);
 
 /**
  * It will replace character '/' with '\\' on the given path, very useful
@@ -492,9 +518,11 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
      unicodemode = 1;
      n_threads_z = threads_to_use_k__p;
 
+     bytes_read_z = 0;
+
      {
 
-          pedro_dprintf(-1, "gzip2 threads %d\n", n_threads_z);
+          pedro_dprintf(0, "new encryption threads used %d\n", n_threads_z);
 
           totalbytes = lffilesize(input);
           totalbytes_z = totalbytes;
@@ -615,6 +643,10 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
 
                     memset(&ptr_my_struct_z->ar, 0, sizeof(ar_data));
                     strncpy_z(ptr_my_struct_z->key_k__p, key_k__p, 299);
+
+                    ptr_my_struct_z->init_aes = 1;
+                    ptr_my_struct_z->done2 = 0;
+
                     {
 
                          switch (encryption_method_internal_arp)
@@ -624,12 +656,19 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                               fatia_m = 0x706c6176 - 6; //proximo da lista
                               memcpy(ptr_my_struct_z->ar.string, &fatia_m, 4);
                               break;
+                         case ARP_RC4_MT:
+                              fatia_m = 0x706c6176 - 6; //proximo da lista
+                              memcpy(ptr_my_struct_z->ar.string, &fatia_m, 4);
+                              break;
                          default:
                               pedro_dprintf(1001, "Wrong encryption method");
                               assert(0 && "Wrong encryption method");
                               exit(27);
                               break;
                          }
+
+                         ptr_my_struct_z->encryption_method_internal_arp = encryption_method_internal_arp;
+
                          /*
 
                          memcpy(ptr_my_struct_z->ar.string, "AR__", 4); //aqui 2
