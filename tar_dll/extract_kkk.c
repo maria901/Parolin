@@ -203,13 +203,20 @@ extract_dir(char *file_name_in_arp, int typeflag)
           }
           tm_k = 1 ? *_gmtime64(&s) : *_localtime64(&s);
 
-          hFile =
-              CreateFileW(permissive_name_m_(amanda_utf8towide_1_(destination_folder_kp)),
-                          GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-                          NULL,
-                          OPEN_EXISTING,
-                          FILE_FLAG_BACKUP_SEMANTICS,
-                          NULL);
+          {
+
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               hFile =
+                   CreateFileW(permissive_name_m_(amanda_utf8towide_1_(destination_folder_kp, ar_temp), ar_temp2),
+                               GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                               NULL,
+                               OPEN_EXISTING,
+                               FILE_FLAG_BACKUP_SEMANTICS,
+                               NULL);
+               free(ar_temp);
+               free(ar_temp2);
+          }
 
           if (INVALID_HANDLE_VALUE != hFile)
           {
@@ -327,15 +334,20 @@ extract_dir_VAL(char *file_name_in_arp)
                }
 
                tm_k = 1 ? *_gmtime64(&s) : *_localtime64(&s);
+               {
 
-               hFile =
-                   CreateFileW(permissive_name_m_(amanda_utf8towide_1_(destination_folder_kp)),
-                               GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-                               NULL,
-                               OPEN_EXISTING,
-                               FILE_FLAG_BACKUP_SEMANTICS,
-                               NULL);
-
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    hFile =
+                        CreateFileW(permissive_name_m_(amanda_utf8towide_1_(destination_folder_kp, ar_temp), ar_temp2),
+                                    GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                                    NULL,
+                                    OPEN_EXISTING,
+                                    FILE_FLAG_BACKUP_SEMANTICS,
+                                    NULL);
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                if (INVALID_HANDLE_VALUE != hFile)
                {
                     st.wYear = (WORD)tm_k.tm_year + 1900;
@@ -357,14 +369,20 @@ extract_dir_VAL(char *file_name_in_arp)
           }
           else
           {
-               hFile =
-                   CreateFileW(permissive_name_m_(amanda_utf8towide_1_(destination_folder_kp)),
-                               GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-                               NULL,
-                               OPEN_EXISTING,
-                               FILE_FLAG_BACKUP_SEMANTICS,
-                               NULL);
+               {
 
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    hFile =
+                        CreateFileW(permissive_name_m_(amanda_utf8towide_1_(destination_folder_kp, ar_temp), ar_temp2),
+                                    GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                                    NULL,
+                                    OPEN_EXISTING,
+                                    FILE_FLAG_BACKUP_SEMANTICS,
+                                    NULL);
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                if (INVALID_HANDLE_VALUE != hFile)
                {
                     if (!SetFileTime(hFile, &my_VAL_data_arp.CreationTime___junior,
@@ -408,7 +426,14 @@ int ispathfile(char *path)
           return 0;
      }
 
-     ret = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(x)));
+     {
+
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          ret = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(x, ar_temp), ar_temp2));
+          free(ar_temp);
+          free(ar_temp2);
+     }
 
      if ((int)0xffffffff != (int)ret)
      {
@@ -1373,7 +1398,7 @@ void __stdcall replace_extension_arp(
 int createtestfilename(char *path1)
 {
      int ret;
-     static char path[AMANDA__SIZE];
+     char *path = malloc(AMANDA__SIZE);
      strcpy(path, path1);
      ret = strlen(path);
      if (path[ret - 1] != '\\')
@@ -1382,17 +1407,40 @@ int createtestfilename(char *path1)
           path[ret + 1] = 0;
      }
      {
-          static WCHAR fixo_w_ar[AMANDA__SIZE_w];
-          static WCHAR path_w_ar[AMANDA__SIZE_w];
-          wcscpy(path_w_ar, permissive_name_m_(amanda_utf8towide_1_(path)));
+          WCHAR *fixo_w_ar = malloc(AMANDA__SIZE_ww);
+          WCHAR *path_w_ar = malloc(AMANDA__SIZE_ww);
+
+          {
+
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               wcscpy(path_w_ar, permissive_name_m_(amanda_utf8towide_1_(path, ar_temp), ar_temp2));
+               free(ar_temp);
+               free(ar_temp2);
+          }
+
           ret = GetTempFileNameW(path_w_ar, L"BW_AR_", 0, fixo_w_ar);
+
           if (ret == 0)
           {
+               free(path);
+               free(fixo_w_ar);
+               free(path_w_ar);
                return 0;
           }
           else
           {
-               DeleteFileW(permissive_name_m_(fixo_w_ar));
+
+               {
+
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    DeleteFileW(permissive_name_m_(fixo_w_ar, ar_temp));
+                    free(ar_temp);
+               }
+
+               free(fixo_w_ar);
+               free(path_w_ar);
+               free(path);
                return 1;
           }
      }
@@ -1425,18 +1473,40 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
           path[ret + 1] = 0;
      }
      {
-          static WCHAR fixo_w_ar[AMANDA__SIZE_w + 1];
-          static WCHAR path_w_ar[AMANDA__SIZE_w + 1];
-          wcscpy(path_w_ar, amanda_utf8towide_1_(path));
-          ret = GetTempFileNameW(permissive_name_m_(path_w_ar), signature_z, 0, fixo_w_ar);
+          WCHAR *fixo_w_ar = malloc(AMANDA__SIZE_ww);
+          WCHAR *path_w_ar = malloc(AMANDA__SIZE_ww);
+
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               wcscpy(path_w_ar, amanda_utf8towide_1_(path, ar_temp));
+               free(ar_temp);
+          }
+
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          ret = GetTempFileNameW(permissive_name_m_(path_w_ar, ar_temp), signature_z, 0, fixo_w_ar);
+          free(ar_temp);
+
           if (ret == 0)
           {
+               free(fixo_w_ar);
+               free(path_w_ar);
                return 0;
           }
           else
           {
-               strcpy(out_z,
-                      valquiria_wide_to_utf8(remove_permissive_name_m_(fixo_w_ar)));
+               {
+
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    char *ar_temp2 = (void *)malloc(AMANDA__SIZE);
+                    strcpy(out_z,
+                           valquiria_wide_to_utf8(remove_permissive_name_m_(fixo_w_ar, ar_temp), ar_temp2));
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
+
+               free(fixo_w_ar);
+               free(path_w_ar);
+
                return 1;
           }
      }
@@ -1452,17 +1522,19 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
  */
 int ispathreadonly(char *path)
 {
-     static char x[AMANDA__SIZE];
+     char *x = malloc(AMANDA__SIZE);
      int ret;
      strcpy(x, path);
      ret = strlen(x);
      if (!ret)
      {
+          free(x);
           return -1;
      }
 
      if (ret < 2)
      {
+          free(x);
           return -1;
      }
 
@@ -1473,42 +1545,57 @@ int ispathreadonly(char *path)
 
      if (tolower(x[0]) < 'a')
      {
+          free(x);
           return -1;
      }
 
      if (tolower(x[0]) > 'z')
      {
+          free(x);
           return -1;
      }
 
      if (tolower(x[1]) != ':')
      {
+          free(x);
           return -1;
      }
 
 UNC:
 
-     ret = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(x)));
+{
+
+     WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+     WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+     ret = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(x, ar_temp), ar_temp2));
+     free(ar_temp);
+     free(ar_temp2);
+}
+
      if ((int)0xffffffff != (int)ret)
      {
           if (0x00000010 & ret)
           {
                if (createtestfilename(x))
                {
+                    free(x);
                     return 0;
                }
                else
                {
+                    free(x);
                     return 1;
                }
           }
           else
           {
+               free(x);
                return -1;
           }
      }
      else
      {
+          free(x);
           return -1;
      }
 }
@@ -1523,18 +1610,20 @@ UNC:
  */
 int ispathfolder(char *path)
 {
-     static char x[AMANDA__SIZE];
+     char *x = malloc(AMANDA__SIZE);
      int ret;
      strcpy(x, path);
      ret = strlen(x);
 
      if (!ret)
      {
+          free(x);
           return 0;
      }
 
      if (ret < 2)
      {
+          free(x);
           return 0;
      }
 
@@ -1545,37 +1634,51 @@ int ispathfolder(char *path)
 
      if (tolower(x[0]) < 'a')
      {
+          free(x);
           return 0;
      }
 
      if (tolower(x[0]) > 'z')
      {
+          free(x);
           return 0;
      }
 
      if (x[1] != ':')
      {
+          free(x);
           return 0;
      }
 
 UNC:
 
-     ret = GetFileAttributesW(permissive_name_m_(
-         amanda_utf8towide_1_(x)));
+{
+
+     WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+     WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+     ret = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(x,
+                                                                      ar_temp),
+                                                 ar_temp2));
+     free(ar_temp);
+     free(ar_temp2);
+}
 
      if ((int)0xffffffff != (int)ret)
      {
           if (ret & (0x00000010))
           {
+               free(x);
                return 1;
           }
           else
           {
+               free(x);
                return 0;
           }
      }
      else
      {
+          free(x);
           return 0;
      }
 }
@@ -1638,8 +1741,17 @@ int rspmakedir(char *path)
                     temp1 = temp[i + 1];
                     temp[i + 1] = 0;
 
-                    if (0 == ispathfolder(temp))
-                         CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp)), ((void *)0));
+                    {
+
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         if (0 == ispathfolder(temp))
+                              CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
 
                     if (strlen(temp) != 3)
                     {
@@ -1654,8 +1766,16 @@ int rspmakedir(char *path)
                }
           }
 
-          if (0 == ispathfolder(temp))
-               CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp)), ((void *)0));
+          {
+
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               if (0 == ispathfolder(temp))
+                    CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
      }
 
      if (ispathfolder(temp))
@@ -1702,12 +1822,23 @@ unc:
                     char temp1;
                     temp1 = temp[i + 1];
                     temp[i + 1] = 0;
-                    if (0 == ispathfolder(temp))
-                         CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp)), ((void *)0));
+
+                    {
+
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         if (0 == ispathfolder(temp))
+                              CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
 
                     if (strlen(temp) != 3)
                     {
-                         static char temp4[AMANDA__SIZE];
+
+                         char *temp4 = malloc(AMANDA__SIZE);
 
                          strcpy(temp4, temp);
 
@@ -1715,16 +1846,29 @@ unc:
 
                          if (ispathfile(temp4))
                          {
+                              free(temp4);
                               e_free(temp);
                               return 17;
                          }
+
+                         free(temp4);
                     }
 
                     temp[i + 1] = temp1;
                }
           }
-          if (0 == ispathfolder(temp))
-               CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp)), ((void *)0));
+
+          {
+
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               if (0 == ispathfolder(temp))
+                    CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
      }
 
      if (ispathfolder(temp))
@@ -1821,26 +1965,46 @@ int rspmakedir_v2(char *path)
                     char temp1;
                     temp1 = temp[i + 1];
                     temp[i + 1] = 0;
-                    if (0 == ispathfolder(temp))
-                         CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp)), ((void *)0));
+
+                    {
+
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         if (0 == ispathfolder(temp))
+                              CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
 
                     if (strlen(temp) != 3)
                     {
-                         static char temp4[AMANDA__SIZE];
+                         char *temp4 = malloc(AMANDA__SIZE);
 
                          strcpy(temp4, temp);
 
                          temp4[strlen(temp4) - 1] = 0;
+                         free(temp4);
                     }
 
                     temp[i + 1] = temp1;
                }
           }
 
-          if (0 == ispathfolder(temp))
-               CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp)), ((void *)0));
-     }
+          {
 
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               if (0 == ispathfolder(temp))
+                    CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
+     }
+     e_free(temp);
      return 0;
 unc:
 
@@ -1858,12 +2022,20 @@ unc:
                     char temp1;
                     temp1 = temp[i + 1];
                     temp[i + 1] = 0;
-                    if (0 == ispathfolder(temp))
-                         CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp)), ((void *)0));
+                    {
+
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         if (0 == ispathfolder(temp))
+                              CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
 
                     if (strlen(temp) != 3)
                     {
-                         static char temp4[AMANDA__SIZE];
+                         char *temp4 = malloc(AMANDA__SIZE);
 
                          strcpy(temp4, temp);
 
@@ -1871,16 +2043,27 @@ unc:
 
                          if (ispathfile(temp4))
                          {
+                              free(temp4);
                               e_free(temp);
                               return 17;
                          }
+                         free(temp4);
                     }
 
                     temp[i + 1] = temp1;
                }
           }
-          if (0 == ispathfolder(temp))
-               CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp)), ((void *)0));
+          {
+
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               if (0 == ispathfolder(temp))
+                    CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
      }
 
      e_free(temp);
@@ -1961,8 +2144,15 @@ open_output_file(char const *file_name, int typeflag, __attribute__((unused)) mo
           assert(strlen(path_to_create_kp) != strlen(destination_file_kp));
           rspmakedir_v2(path_to_create_kp);
           strcpy(constructed_filename_kp, destination_file_kp);
+          {
 
-          fd = _wopen(permissive_name_m_(amanda_utf8towide_1_(destination_file_kp)), openflag, _S_IWRITE);
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               fd = _wopen(permissive_name_m_(amanda_utf8towide_1_(destination_file_kp, ar_temp), ar_temp2), openflag, _S_IWRITE);
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
      }
 
      strcpy(extracting_filename_ar, file_name);
@@ -2029,16 +2219,30 @@ open_output_file_VAL(char const *file_name,
           rspmakedir_v2(path_to_create_kp);
           strcpy(constructed_filename_kp, destination_file_kp);
 
-          if (!SetFileAttributesW(
-                  permissive_name_m_(amanda_utf8towide_1_(destination_file_kp)),
-                  FILE_ATTRIBUTE_ARCHIVE))
           {
-               ;
+
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               if (!SetFileAttributesW(
+                       permissive_name_m_(amanda_utf8towide_1_(destination_file_kp, ar_temp), ar_temp2),
+                       FILE_ATTRIBUTE_ARCHIVE))
+               {
+                    ;
+               }
+
+               free(ar_temp);
+               free(ar_temp2);
           }
+          {
 
-          fd = _wopen(permissive_name_m_(amanda_utf8towide_1_(destination_file_kp)),
-                      openflag, _S_IWRITE);
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               fd = _wopen(permissive_name_m_(amanda_utf8towide_1_(destination_file_kp, ar_temp), ar_temp2),
+                           openflag, _S_IWRITE);
 
+               free(ar_temp);
+               free(ar_temp2);
+          }
           pedro_dprintf(-1, "val %d abrindo arquivo com perm %s\n", fd, destination_file_kp);
 
           //assert(0);
@@ -2091,7 +2295,15 @@ bool is_encrypted_gnu_tar_arp(char *file_arp_utf_8)
      FILE *amanda_file;
      int len_arp;
 
-     amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(file_arp_utf_8)), L"rb");
+     {
+
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(file_arp_utf_8, ar_temp), ar_temp2), L"rb");
+          free(ar_temp);
+          free(ar_temp2);
+     }
+
      if (amanda_file)
      {
           len_arp = fread(&ret_arp_, 1, 4, amanda_file);
@@ -2312,22 +2524,79 @@ extract_file(char *file_name_in_arp, int typeflag)
 
                if (0 == ret_arp_)
                {
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)));
+                    {
 
-                    _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_arp)), amanda_utf8towide_1_(constructed_filename_kp));
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
+                    {
+
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp3 = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp4 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_arp, ar_temp), ar_temp2), permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp3), ar_temp4));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                         free(ar_temp3);
+                         free(ar_temp4);
+                    }
                }
                else if (4 == ret_arp_)
                {
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)));
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp)));
+                    {
+
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
+
+                    {
+
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp, ar_temp), ar_temp2));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
+
                     fatal_exit_k = 28000;
                     strcpy(error_message_k, "Wrong password used");
                     return 1;
                }
                else
                {
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)));
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp)));
+                    {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
+
+                    {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp, ar_temp), ar_temp2));
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
+
                     fatal_exit_k = 28001;
                     strcpy(error_message_k, "Unexpected decryption error");
                     return 1;
@@ -2370,15 +2639,20 @@ extract_file(char *file_name_in_arp, int typeflag)
 */
           TimetToFileTime(s, &ftime);
           //SystemTimeToFileTime(&l_amanda_fmtime, &ftime);
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               hFile =
+                   CreateFileW(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2),
+                               GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                               NULL,
+                               OPEN_EXISTING,
+                               FILE_FLAG_BACKUP_SEMANTICS,
+                               NULL);
 
-          hFile =
-              CreateFileW(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)),
-                          GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-                          NULL,
-                          OPEN_EXISTING,
-                          FILE_FLAG_BACKUP_SEMANTICS,
-                          NULL);
-
+               free(ar_temp);
+               free(ar_temp2);
+          }
           if (INVALID_HANDLE_VALUE != hFile)
           {
                SetFileTime(hFile, &ftime, NULL, &ftime);
@@ -2558,21 +2832,79 @@ exit_now_arp:;
 
                if (0 == ret_arp_)
                {
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)));
-                    _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_arp)), permissive_name_m_v27(amanda_utf8towide_1_(constructed_filename_kp)));
+                    {
+
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
+
+                    {
+
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp3 = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp4 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_arp, ar_temp), ar_temp2), permissive_name_m_v27(amanda_utf8towide_1_(constructed_filename_kp, ar_temp3), ar_temp4));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                         free(ar_temp3);
+                         free(ar_temp4);
+                    }
                }
                else if (4 == ret_arp_)
                {
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)));
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp)));
+
+                    {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
+
+                    {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp, ar_temp), ar_temp2));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
+
                     fatal_exit_k = 28000;
                     strcpy(error_message_k, "Wrong password used");
                     return 1;
                }
                else
                {
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)));
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp)));
+                    {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
+                    {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp, ar_temp), ar_temp2));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
                     fatal_exit_k = 28001;
                     strcpy(error_message_k, "Unexpected decryption error");
                     return 1;
@@ -2610,14 +2942,21 @@ exit_now_arp:;
                //struct tm tm_k;
                //tm_k = 1 ? *_gmtime64(&s) : *_localtime64(&s);
                //pedro_dprintf(-1, "time ok %s\n", asctime(_gmtime64(&s)));
-               hFile =
-                   CreateFileW(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)),
-                               GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-                               NULL,
-                               OPEN_EXISTING,
-                               FILE_FLAG_BACKUP_SEMANTICS,
-                               NULL);
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+                    hFile =
+                        CreateFileW(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2),
+                                    GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                                    NULL,
+                                    OPEN_EXISTING,
+                                    FILE_FLAG_BACKUP_SEMANTICS,
+                                    NULL);
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                if (INVALID_HANDLE_VALUE != hFile)
                {
                     /*
@@ -2641,14 +2980,21 @@ exit_now_arp:;
           else
           {
                HANDLE hFile;
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-               hFile =
-                   CreateFileW(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)),
-                               GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-                               NULL,
-                               OPEN_EXISTING,
-                               FILE_FLAG_BACKUP_SEMANTICS,
-                               NULL);
+                    hFile =
+                        CreateFileW(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2),
+                                    GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                                    NULL,
+                                    OPEN_EXISTING,
+                                    FILE_FLAG_BACKUP_SEMANTICS,
+                                    NULL);
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
 
                if (INVALID_HANDLE_VALUE != hFile)
                {
@@ -2663,12 +3009,18 @@ exit_now_arp:;
                     pedro_dprintf(2, "%s: Cannot set filetime on file\n", file_name);
                }
           }
-
-          if (!SetFileAttributesW(
-                  permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp)),
-                  my_VAL_data_arp.VAL_attributes))
           {
-               ;
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               if (!SetFileAttributesW(
+                       permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2),
+                       my_VAL_data_arp.VAL_attributes))
+               {
+                    ;
+               }
+
+               free(ar_temp);
+               free(ar_temp2);
           }
      }
 

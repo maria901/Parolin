@@ -84,8 +84,14 @@ enum encryption_mode_arp
  */
 #define AMANDA__SIZE_w (32767)
 
+#define AMANDA__SIZE_ww ((32767 * 2) + 2)
+
 static int64_t ret_arp_ = 0;
 
+int __stdcall init_rc6__arp_v27(char *key_arp_, char *minha_struct_maria__);
+int __stdcall encryptstring_rc6_arp_v27(uchar *buf, uchar *bufout, char *key_arp, uint size, char *minha_struct_maria_in);
+int get_size_minha_struct_m(void);
+int get_sha512(char *data_arp, char *out_arp);
 uint crc32(uint crc, const uchar *buf, uint len);
 int __stdcall encryptstring2(int *done, uchar *buf, uchar *key, uchar *bufout, uint size, uint keysize);
 int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z);
@@ -173,9 +179,9 @@ static char temp_folder_z[AMANDA__SIZE] = {
  * @return it will return the static allocated char * string with the utf-8 encoded filename
  *
  */
-static char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria)
+static char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria, char *ar_temp_char)
 {
-     static char saida_utf8[AMANDA__SIZE];
+     char *saida_utf8 = ar_temp_char;
 
      WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
      return saida_utf8;
@@ -210,7 +216,7 @@ int n_threads_z = 1;
  *
  */
 static wchar_t *
-permissive_name_m_(const wchar_t *wname)
+permissive_name_m_(const wchar_t *wname, wchar_t *mem_amanda)
 {
 
      static wchar_t *wnp = NULL;
@@ -219,10 +225,7 @@ permissive_name_m_(const wchar_t *wname)
      DWORD len, slen;
      int unc;
 
-     if (NULL == wnp)
-     {
-          wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
-     }
+     wnp = (void *)mem_amanda;
 
      //wnp = malloc(AMANDA__SIZE * 2);
 
@@ -303,18 +306,18 @@ permissive_name_m_(const wchar_t *wname)
 }
 
 wchar_t *
-remove_permissive_name_m_(wchar_t *wname);
+remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_mem);
 
 wchar_t *
-remove_permissive_name_m_(wchar_t *wname)
+remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_mem)
 {
 
      /**
  * oi amor...
  */
-     static wchar_t wname_copy[AMANDA__SIZE_w + 1];
+     wchar_t *wname_copy = ar_mem;
 
-     wchar_t *wname_copy_v27 = wname_copy;
+     wchar_t *wname_copy_v27 = ar_mem;
 
      wcscpy(wname_copy, wname);
 
@@ -352,9 +355,9 @@ remove_permissive_name_m_(wchar_t *wname)
  * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
-static WCHAR *amanda_utf8towide_1_(char *pUTF8)
+static WCHAR *amanda_utf8towide_1_(char *pUTF8, WCHAR *ar_mem)
 {
-     static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
+     WCHAR *ricardo_k = ar_mem;
 
      MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
      return ricardo_k;
@@ -382,7 +385,13 @@ static int ispathfile(char *path)
           return 0;
      }
 
-     ret = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(x)));
+     {
+          WCHAR *temp_ar = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *temp_ar2 = (void *)malloc(AMANDA__SIZE_ww);
+          ret = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(x, temp_ar2), temp_ar));
+          free(temp_ar);
+          free(temp_ar2);
+     }
 
      if ((int)0xffffffff != (int)ret)
      {
@@ -430,9 +439,12 @@ ar_gettemppath_z(void)
 
      if (0 == strlen(temp_folder_z))
      {
-          static WCHAR out_z[AMANDA__SIZE_w + 1];
+          char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+          WCHAR *out_z = malloc(AMANDA__SIZE_w + 1);
           GetTempPathW(AMANDA__SIZE_w, out_z);
-          strcpy(temp_folder_z, valquiria_wide_to_utf8(out_z));
+          strcpy(temp_folder_z, valquiria_wide_to_utf8(out_z, ar_temp_char));
+          free(ar_temp_char);
+          free(out_z);
      }
 
      return temp_folder_z;
@@ -481,7 +493,13 @@ ok_z:;
 
      if (createtempfilename_and_keep_z(copy_path, copy_path2, L"oi_"))
      {
-          _wunlink(permissive_name_m_(amanda_utf8towide_1_(copy_path2)));
+          {
+               WCHAR *temp_ar = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *temp_ar2 = (void *)malloc(AMANDA__SIZE_ww);
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(copy_path2, temp_ar), temp_ar2));
+               free(temp_ar);
+               free(temp_ar2);
+          }
           strncpy_z(temp_folder_z, copy_path, sizeof(temp_folder_z) - 1);
           return 0;
      }
@@ -567,7 +585,13 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
 
                     if (unicodemode)
                     {
-                         ptr_my_struct_z->input_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(input)), L"rb");
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         ptr_my_struct_z->input_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(input, ar_temp), ar_temp2), L"rb");
+
+                         free(ar_temp);
+                         free(ar_temp2);
                     }
                     else
                          ptr_my_struct_z->input_file = fopen(input, "rb");
@@ -592,7 +616,13 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                     {
                          if (unicodemode)
                          {
-                              ptr_my_struct_z->dest = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_files_z[n_thread_counter])), L"wb");
+
+                              WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                              WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                              ptr_my_struct_z->dest = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_files_z[n_thread_counter], ar_temp), ar_temp2), L"wb");
+                              free(ar_temp);
+                              free(ar_temp2);
+
                          }
 
                          if (NULL == ptr_my_struct_z->dest)
@@ -657,7 +687,19 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                               memcpy(ptr_my_struct_z->ar.string, &fatia_m, 4);
                               break;
                          case ARP_RC4_MT:
-                              fatia_m = 0x706c6176 - 6; //proximo da lista
+                              fatia_m = 0x706c6176 - 7; //proximo da lista
+                              memcpy(ptr_my_struct_z->ar.string, &fatia_m, 4);
+                              break;
+                         case ARP_SERPENT_MT:
+                              fatia_m = 0x706c6176 - 8; //proximo da lista
+                              memcpy(ptr_my_struct_z->ar.string, &fatia_m, 4);
+                              break;
+                         case ARP_MARS_MT:
+                              fatia_m = 0x706c6176 - 9; //proximo da lista
+                              memcpy(ptr_my_struct_z->ar.string, &fatia_m, 4);
+                              break;
+                         case ARP_RC6_MT:
+                              fatia_m = 0x706c6176 - 10; //proximo da lista
                               memcpy(ptr_my_struct_z->ar.string, &fatia_m, 4);
                               break;
                          default:
@@ -680,7 +722,11 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
 
                     if (unicodemode)
                     {
-                         ptr_my_struct_z->ar.attrib = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(input)));
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         ptr_my_struct_z->ar.attrib = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(input, ar_temp), ar_temp2));
+                         free(ar_temp);
+                         free(ar_temp2);
                     }
                     else
                          ptr_my_struct_z->ar.attrib = GetFileAttributes(input);
@@ -718,14 +764,24 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
 			        ar.attrib = FILE_ATTRIBUTE_ARCHIVE;
 			   }
 			 */
+               {
 
-               ret_z = SetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(output)), FILE_ATTRIBUTE_ARCHIVE);
-
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    ret_z = SetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(output, ar_temp), ar_temp2), FILE_ATTRIBUTE_ARCHIVE);
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                //abrir arquivo
 
                if (unicodemode)
                {
-                    dest = _wfopen(permissive_name_m_(amanda_utf8towide_1_(output)), L"wb");
+
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    dest = _wfopen(permissive_name_m_(amanda_utf8towide_1_(output, ar_temp), ar_temp2), L"wb");
+                    free(ar_temp),
+                        free(ar_temp2);
                }
                else
                     dest = fopen(output, "wb");
@@ -734,7 +790,7 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                {
                     if (0 == thread_return_value_z)
                     {
-                         thread_return_value_z = 8; //Cannot open output file
+                         thread_return_value_z = 80; //Cannot open output file
                     }
                }
 
@@ -747,7 +803,12 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
 
                          if (unicodemode)
                          {
-                              temp_z = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_files_z[i_z])), L"rb");
+
+                              WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                              WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                              temp_z = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_files_z[i_z], ar_temp), ar_temp2), L"rb");
+                              free(ar_temp);
+                              free(ar_temp2);
                          }
                          if (temp_z)
                          {
@@ -801,8 +862,11 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                               }
                          }
                     }
-
-                    _wunlink(amanda_utf8towide_1_(temp_files_z[i_z]));
+                    {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         _wunlink(amanda_utf8towide_1_(temp_files_z[i_z], ar_temp));
+                         free(ar_temp);
+                    }
                }
 
                if (dest)
@@ -844,7 +908,7 @@ tuklib_cpucores_z(void)
 int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
 {
      int ret;
-     static char path[AMANDA__SIZE];
+     char *path = malloc(AMANDA__SIZE);
      strcpy(path, path1);
      ret = strlen(path);
 
@@ -854,18 +918,39 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
           path[ret + 1] = 0;
      }
      {
-          static WCHAR fixo_w_ar[AMANDA__SIZE_w + 1];
-          static WCHAR path_w_ar[AMANDA__SIZE_w + 1];
-          wcscpy(path_w_ar, amanda_utf8towide_1_(path));
-          ret = GetTempFileNameW(permissive_name_m_(path_w_ar), signature_z, 0, fixo_w_ar);
+          WCHAR *fixo_w_ar = (void *)malloc((AMANDA__SIZE_w * 2) + 2);
+          WCHAR *path_w_ar = (void *)malloc((AMANDA__SIZE_w * 2) + 2);
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               wcscpy(path_w_ar, amanda_utf8towide_1_(path, ar_temp));
+               free(ar_temp);
+          }
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               ret = GetTempFileNameW(permissive_name_m_(path_w_ar, ar_temp), signature_z, 0, fixo_w_ar);
+               free(ar_temp);
+          }
           if (ret == 0)
           {
+               free(fixo_w_ar);
+               free(path_w_ar);
+               free(path);
                return 0;
           }
           else
           {
-               strcpy(out_z,
-                      valquiria_wide_to_utf8(remove_permissive_name_m_(fixo_w_ar)));
+               {
+
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+                    strcpy(out_z,
+                           valquiria_wide_to_utf8(remove_permissive_name_m_(fixo_w_ar, ar_temp), ar_temp_char));
+                    free(ar_temp);
+                    free(ar_temp_char);
+               }
+               free(fixo_w_ar);
+               free(path_w_ar);
+               free(path);
                return 1;
           }
      }

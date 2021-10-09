@@ -205,19 +205,46 @@ int encryption_process_new_mode_21_february_2021_z(char *original_filename_z)
                                       the_pass_arp,
                                       ARP_TWOFISH_MT,
                                       threads_z_v27);
-          }          
+          }
           else
           {
                assert(0 && "Unsupported encryption method\n");
                exit(27);
           }
+          {
 
-          _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_filename_z)));
-          _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_in_z)), amanda_utf8towide_1_(original_filename_z));
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_filename_z, ar_temp), ar_temp2));
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
+
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp3 = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp4 = (void *)malloc(AMANDA__SIZE_ww);
+
+               _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_in_z, ar_temp), ar_temp2), permissive_name_m_v27(amanda_utf8towide_1_(original_filename_z, ar_temp3), ar_temp4));
+
+               free(ar_temp);
+               free(ar_temp2);
+               free(ar_temp3);
+               free(ar_temp4);
+          }
 
           if (119 == ret_arp_)
           {
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_filename_z)));
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_filename_z, ar_temp), ar_temp2));
+
+               free(ar_temp);
+               free(ar_temp2);
           }
      }
 
@@ -1597,8 +1624,15 @@ void dump_file_or_folder(struct tar_stat_info *st,
      trocadordebackslashfrente((char *)girlfriend_name);
      assign_string(&st->orig_file_name, girlfriend_name);
      assign_string(&st->file_name, girlfriend_name);
-     attributes = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process)));
+     {
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+          attributes = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process, ar_temp), ar_temp2));
+
+          free(ar_temp);
+          free(ar_temp2);
+     }
      if (INVALID_FILE_ATTRIBUTES == attributes)
      {
           paths_with_invalid_attributes_arp++;
@@ -1654,20 +1688,28 @@ void dump_file_or_folder(struct tar_stat_info *st,
           FILETIME lpLastAccessTime_junior;
           FILETIME lpLastWriteTime__junior;
 
-          hFile =
-              CreateFileW(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process)),
-                          /*
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               hFile =
+                   CreateFileW(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process, ar_temp), ar_temp2),
+                               /*
                     GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
                     NULL,
                     OPEN_EXISTING,
                     FILE_FLAG_BACKUP_SEMANTICS,
                     NULL);
 		    */
-                          GENERIC_READ,
-                          FILE_SHARE_READ, NULL,
-                          OPEN_EXISTING,
-                          FILE_FLAG_BACKUP_SEMANTICS,
-                          NULL);
+                               GENERIC_READ,
+                               FILE_SHARE_READ, NULL,
+                               OPEN_EXISTING,
+                               FILE_FLAG_BACKUP_SEMANTICS,
+                               NULL);
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
 
           if (INVALID_HANDLE_VALUE != hFile)
           {
@@ -1729,8 +1771,16 @@ void dump_file_or_folder(struct tar_stat_info *st,
                     {
                          //SetCurrentDirectoryW(amanda_utf8towide_1_(initial_path_ar));
 
-                         libarchive_process_p_func((my_VAL_data.VAL_filename), valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process))));
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         char *ar_temp3 = (void *)malloc(AMANDA__SIZE);
+
+                         libarchive_process_p_func((my_VAL_data.VAL_filename), valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process, ar_temp), ar_temp2), ar_temp3));
                          //SetCurrentDirectoryW(amanda_path);
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                         free(ar_temp3);
                     }
                }
           }
@@ -1787,8 +1837,14 @@ void dump_file_or_folder(struct tar_stat_info *st,
           {
                void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data *VAL_data_arp);
                __time64_t s_arp_3;
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    _wstat(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process, ar_temp), ar_temp2), &st->stat);
 
-               _wstat(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process)), &st->stat);
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                mtime_tv_sec_arp = st->mtime.tv_sec;
                get_timestamp_arp(file_or_folder_to_process, &s_arp_3, &my_VAL_data);
                mtime_tv_sec_arp = s_arp_3;
@@ -1942,12 +1998,28 @@ void dump_file_or_folder(struct tar_stat_info *st,
                {
                     assert(0 && "Unsupported encryption method\n");
                }
-               fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)), O_RDONLY | O_BINARY,
-                              _S_IREAD);
+
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp, ar_temp), ar_temp2), O_RDONLY | O_BINARY,
+                                   _S_IREAD);
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
           }
           else
-               fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process)), O_RDONLY | O_BINARY,
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process, ar_temp), ar_temp2), O_RDONLY | O_BINARY,
                               _S_IREAD);
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
 
           if (-1 == fd_ar)
           {
@@ -2004,7 +2076,11 @@ void dump_file_or_folder(struct tar_stat_info *st,
           {
                if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
                {
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)));
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp, ar_temp), ar_temp2));
+                    free(ar_temp);
+                    free(ar_temp2);
                }
                pedro_dprintf(-1, "Cannot open size %d\n", strlen(file_or_folder_to_process));
                sprintf(warning_message_k, "Cannot open %s to write", file_or_folder_to_process);
@@ -2049,8 +2125,15 @@ void dump_file_or_folder(struct tar_stat_info *st,
                     }
                     else
                     {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         char *ar_temp3 = (void *)malloc(AMANDA__SIZE);
 
-                         libarchive_process_p_func((my_VAL_data.VAL_filename), valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process))));
+                         libarchive_process_p_func((my_VAL_data.VAL_filename), valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process, ar_temp), ar_temp2), ar_temp3));
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                         free(ar_temp3);
                     }
                }
           }
@@ -2059,7 +2142,11 @@ void dump_file_or_folder(struct tar_stat_info *st,
 
           if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
           {
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)));
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp, ar_temp), ar_temp2));
+               free(ar_temp);
+               free(ar_temp2);
           }
 
           if (ARP_MODE_IS_FIRST_STEP == mode_is_update_arp)
@@ -2177,12 +2264,25 @@ void dump_file_or_folder(struct tar_stat_info *st,
                     {
                          assert(0 && "Unsupported encryption method\n");
                     }
-                    fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)), O_RDONLY | O_BINARY,
-                                   _S_IREAD);
+
+                    {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp, ar_temp), ar_temp2), O_RDONLY | O_BINARY,
+                                        _S_IREAD);
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
                }
                else
-                    fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process)), O_RDONLY | O_BINARY,
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    fd_ar = _wopen(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process, ar_temp), ar_temp2), O_RDONLY | O_BINARY,
                                    _S_IREAD);
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                if (-1 != fd_ar)
                {
                     while (0 < (len_arp = read(fd_ar, buf_arp, AMANDA_SIZE__)))
@@ -2202,7 +2302,11 @@ void dump_file_or_folder(struct tar_stat_info *st,
                }
                if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
                {
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp)));
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_encrypted_file_arp, ar_temp), ar_temp2));
+                    free(ar_temp);
+                    free(ar_temp2);
                }
           }
      }
@@ -3995,7 +4099,13 @@ void __fastcall clean_up_update_ARP(void)
           }
           if (strlen(update_filename_arp))
           {
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp)));
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp, ar_temp), ar_temp2));
+
+               free(ar_temp);
+               free(ar_temp2);
           }
      }
 }
@@ -4141,7 +4251,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
                strcpy(error_message_k, "Invalid file to create, cannot be relative");
                init_playlist_z_june_24();
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2));
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                return 1001;
           }
 
@@ -4158,7 +4276,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                }
 
                init_playlist_z_june_24();
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2));
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                return 30003;
           }
 
@@ -4181,7 +4307,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                }
 
                init_playlist_z_june_24();
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2));
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                return fatal_exit_k;
           }
 
@@ -4199,7 +4333,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                }
 
                init_playlist_z_june_24();
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2));
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                return fatal_exit_k;
           }
 
@@ -4216,30 +4358,56 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                     mode_is_update_arp = false;
                }
                init_playlist_z_june_24();
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2));
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                return fatal_exit_k;
           }
 
           strcpy(temp_i, ar_gettemppath_z());
           strcat(temp_i, "d");
-          _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_i)));
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_i, ar_temp), ar_temp2));
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
           rspmakedir_v2(temp_i);
 
           strcpy(temp_i_f, ar_gettemppath_z());
           strcat(temp_i_f, "a");
-
-          if (!SetFileAttributesW(permissive_name_m_(
-                                      amanda_utf8towide_1_(temp_i_f)),
-                                  FILE_ATTRIBUTE_ARCHIVE))
           {
-               ;
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               if (!SetFileAttributesW(permissive_name_m_(
+                                           amanda_utf8towide_1_(temp_i_f, ar_temp), ar_temp2),
+                                       FILE_ATTRIBUTE_ARCHIVE))
+               {
+                    ;
 
-               //exit(27);
+                    //exit(27);
+               }
+               free(ar_temp);
+               free(ar_temp2);
           }
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-          temp_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)), L"rb");
+               temp_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2), L"rb");
 
+               free(ar_temp);
+               free(ar_temp2);
+          }
           if (NULL == temp_file_i)
           {
                init_playlist_z_june_24();
@@ -4284,23 +4452,37 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                                    FileTimeToLocalFileTime(
                                        &ftime_in,
                                        &ftime);
+                                   {
+                                        WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                                        WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-                                   hFile =
-                                       CreateFileW(permissive_name_m_(amanda_utf8towide_1_(temp_i)),
-                                                   GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-                                                   NULL,
-                                                   OPEN_EXISTING,
-                                                   FILE_FLAG_BACKUP_SEMANTICS,
-                                                   NULL);
+                                        hFile =
+                                            CreateFileW(permissive_name_m_(amanda_utf8towide_1_(temp_i, ar_temp), ar_temp2),
+                                                        GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                                                        NULL,
+                                                        OPEN_EXISTING,
+                                                        FILE_FLAG_BACKUP_SEMANTICS,
+                                                        NULL);
 
+                                        free(ar_temp);
+                                        free(ar_temp2);
+                                   }
                                    if (INVALID_HANDLE_VALUE != hFile)
                                    {
                                         SetFileTime(hFile, &ftime_in, NULL, &ftime_in);
                                         CloseHandle(hFile);
                                    }
                               }
+                              {
+                                   WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                                   WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                                   char *ar_temp3 = (void *)malloc(AMANDA__SIZE);
+                                   libarchive_process_p_func(my_ptr_ar->item_entry_i, valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(temp_i, ar_temp), ar_temp2), ar_temp3));
 
-                              libarchive_process_p_func(my_ptr_ar->item_entry_i, valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(temp_i))));
+                                   free(ar_temp);
+                                   free(ar_temp2);
+                                   free(ar_temp3);
+                              }
                          }
                          else
                          {
@@ -4308,9 +4490,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                                   temp_file_i,
                                   my_ptr_ar->file_offset_i,
                                   SEEK_SET);
+                              {
+                                   WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                                   WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-                              writ_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_i_f)), L"wb");
+                                   writ_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_i_f, ar_temp), ar_temp2), L"wb");
 
+                                   free(ar_temp);
+                                   free(ar_temp2);
+                              }
                               if (NULL == writ_file_i)
                               {
                                    init_playlist_z_june_24();
@@ -4350,40 +4538,69 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                                    FileTimeToLocalFileTime(
                                        &ftime_in,
                                        &ftime);
+                                   {
+                                        WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                                        WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-                                   hFile =
-                                       CreateFileW(permissive_name_m_(amanda_utf8towide_1_(temp_i_f)),
-                                                   GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
-                                                   NULL,
-                                                   OPEN_EXISTING,
-                                                   FILE_FLAG_BACKUP_SEMANTICS,
-                                                   NULL);
+                                        hFile =
+                                            CreateFileW(permissive_name_m_(amanda_utf8towide_1_(temp_i_f, ar_temp), ar_temp2),
+                                                        GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                                                        NULL,
+                                                        OPEN_EXISTING,
+                                                        FILE_FLAG_BACKUP_SEMANTICS,
+                                                        NULL);
 
+                                        free(ar_temp);
+                                        free(ar_temp2);
+                                   }
                                    if (INVALID_HANDLE_VALUE != hFile)
                                    {
                                         SetFileTime(hFile, &ftime_in, NULL, &ftime_in);
                                         CloseHandle(hFile);
                                    }
                               }
-
-                              if (!SetFileAttributesW(permissive_name_m_(
-                                                          amanda_utf8towide_1_(temp_i_f)),
-                                                      my_ptr_ar->attributes_i))
                               {
-                                   ;
+                                   WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                                   WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-                                   //exit(27);
+                                   if (!SetFileAttributesW(permissive_name_m_(
+                                                               amanda_utf8towide_1_(temp_i_f, ar_temp), ar_temp2),
+                                                           my_ptr_ar->attributes_i))
+                                   {
+                                        ;
+
+                                        //exit(27);
+                                   }
+
+                                   free(ar_temp);
+                                   free(ar_temp2);
                               }
-
-                              libarchive_process_p_func(my_ptr_ar->item_entry_i, valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(temp_i_f))));
-
-                              if (!SetFileAttributesW(
-                                      permissive_name_m_(amanda_utf8towide_1_(temp_i_f)),
-                                      FILE_ATTRIBUTE_ARCHIVE))
                               {
-                                   ;
+                                   WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                                   WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                                   char *ar_temp3 = (void *)malloc(AMANDA__SIZE);
 
-                                   //exit(27);
+                                   libarchive_process_p_func(my_ptr_ar->item_entry_i, valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(temp_i_f, ar_temp), ar_temp2), ar_temp3));
+
+                                   free(ar_temp);
+                                   free(ar_temp2);
+                                   free(ar_temp3);
+                              }
+                              {
+                                   WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                                   WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                                   if (!SetFileAttributesW(
+                                           permissive_name_m_(amanda_utf8towide_1_(temp_i_f, ar_temp), ar_temp2),
+                                           FILE_ATTRIBUTE_ARCHIVE))
+                                   {
+                                        ;
+
+                                        //exit(27);
+                                   }
+
+                                   free(ar_temp);
+                                   free(ar_temp2);
                               }
                          }
                     }
@@ -4401,10 +4618,28 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
           }
           if (0 == ret_arp_)
           {
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(tar_filename_ar)));
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(tar_filename_ar, ar_temp), ar_temp2));
 
-               _wrename(permissive_name_m_(amanda_utf8towide_2_(archive_name_array_filename)), permissive_name_m_v27(amanda_utf8towide_1_(tar_filename_ar)));
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp3 = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp4 = (void *)malloc(AMANDA__SIZE_ww);
+
+                    _wrename(permissive_name_m_(amanda_utf8towide_2_(archive_name_array_filename, ar_temp), ar_temp2), permissive_name_m_v27(amanda_utf8towide_1_(tar_filename_ar, ar_temp3), ar_temp4));
+
+                    free(ar_temp);
+                    free(ar_temp2);
+                    free(ar_temp3);
+                    free(ar_temp4);
+               }
           }
 
      exit_amanda:;
@@ -4424,17 +4659,40 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                fclose(temp_file_i);
           }
 
-          _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2));
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
 
           if (writ_file_i)
           {
                fclose(writ_file_i);
                writ_file_i = NULL;
           }
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-          _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_i_f)));
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_i_f, ar_temp), ar_temp2));
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
           progress_is_libarchive_v27 = false;
-          RemoveDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp_i)));
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               RemoveDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp_i, ar_temp), ar_temp2));
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
           return fatal_exit_k;
      }
 
@@ -5087,7 +5345,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                }
 
                if (delete_temp_folder_z)
-                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename, ar_temp), ar_temp2));
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
 
                strcpy(error_message_k, "Cannot create temporary file");
                return 30003;
@@ -5098,9 +5364,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
      fatal_exit_k = 0;
 
      archive = -1;
+     {
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-     attributes = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(path_with_the_files_ar)));
+          attributes = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(path_with_the_files_ar, ar_temp), ar_temp2));
 
+          free(ar_temp);
+          free(ar_temp2);
+     }
      if (INVALID_FILE_ATTRIBUTES == attributes)
      {
           fatal_exit_k = 13;
@@ -5214,8 +5486,16 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                assert(-1 != our_update_file_open__arp);
                close(our_update_file_open__arp);
                amanda_pereira_total_size += getfilesize_ar(update_filename_arp);
-               our_update_file_open__arp = _wopen(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp)), O_RDONLY | O_BINARY,
-                                                  _S_IREAD);
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                    our_update_file_open__arp = _wopen(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp, ar_temp), ar_temp2), O_RDONLY | O_BINARY,
+                                                       _S_IREAD);
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                if (-1 == our_update_file_open__arp)
                {
                     fatal_exit_k = 10003;
@@ -5259,7 +5539,15 @@ pula_arp:;
 
                if (512 < file_size_arp)
                {
-                    amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), L"rb+");
+                    {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                         amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename, ar_temp), ar_temp2), L"rb+");
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
                     if (amanda_file)
                     {
                          if (ARP_RC4 == encryption_method_to_create)
@@ -5358,8 +5646,15 @@ pula_arp:;
                     //aqui
 
                     file_size_p = getfilesize_ar(archive_name_array_filename);
-                    my_val_file_p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)), L"rb+");
+                    {
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+                         my_val_file_p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename, ar_temp), ar_temp2), L"rb+");
+
+                         free(ar_temp);
+                         free(ar_temp2);
+                    }
                     if (my_val_file_p)
                     {
                          _fseeki64(my_val_file_p, 24, SEEK_SET);
@@ -5380,10 +5675,75 @@ pula_arp:;
           ; //fascinante....
           first_step = 1;
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(archive_name_array_filename);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(archive_name_array_filename);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename, ar_temp), ar_temp2));
+
+               free(ar_temp);
+               free(ar_temp2);
           }
      }
      else if (AAKP_MODE_TAR_GZIP == compression_mode_ar || AAKP_MODE_VAL_GZIP == compression_mode_ar)
@@ -5444,10 +5804,73 @@ pula_arp:;
                     break;
                }
           }
-          _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
+          {               
+                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+          _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
+          }
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -5586,7 +6009,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -5672,7 +6154,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -5790,7 +6331,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -5895,7 +6495,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6011,7 +6670,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6143,7 +6861,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6209,7 +6986,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6267,7 +7103,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6340,7 +7235,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6415,7 +7369,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6488,7 +7501,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6570,7 +7642,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6643,7 +7774,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6705,7 +7895,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6783,7 +8032,66 @@ pula_arp:;
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename)));
 
           if (0 == fatal_exit_k)
-               encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+          {
+               fatal_exit_k = encryption_process_new_mode_21_february_2021_z(original_destination_tar_file);
+
+               switch (fatal_exit_k)
+               {
+               case 0:
+
+                    break;
+               case 2:
+                    strcpy(error_message_k, "2 - Single-thread encryption error, cannot open output file");
+                    break;
+               case 3:
+                    strcpy(error_message_k, "3 - Single-thread unencryption error, invalid file");
+                    break;
+               case 4:
+                    strcpy(error_message_k, "4 - Single-thread unencryption error, sha512 check don't match");
+                    break;
+               case 8:
+                    strcpy(error_message_k, "8 - Multi-thread, cannot open temp output file");
+                    break;
+               case 14:
+                    strcpy(error_message_k, "14 - Multi-thread, cannot write to output file");
+                    break;
+               case 19:
+                    strcpy(error_message_k, "19 - Multi-thread, user cancel (inside thread)");
+                    break;
+               case 80:
+                    strcpy(error_message_k, "80 - Multi-thread, cannot open output file");
+                    break;
+               case 81:
+                    strcpy(error_message_k, "81 - Multi-thread, cannot open output temp file with rb+");
+                    break;
+               case 119:
+                    strcpy(error_message_k, "119 - User cancel");
+                    break;
+               case 140:
+                    strcpy(error_message_k, "140 - Multi-thread, cannot write to temp file");
+                    break;
+               case 160:
+                    strcpy(error_message_k, "160 - Multi-thread, internal thread error, the programmer need to know it");
+                    break;
+               case 401:
+                    strcpy(error_message_k, "401 - Multi-thread, cannot create temp file");
+                    break;
+               case 402:
+                    strcpy(error_message_k, "402 - Multi-thread, cannot read from input temp file");
+                    break;
+               case 404:
+                    strcpy(error_message_k, "404 - Multi-thread, cannot open temp file");
+                    break;
+               case 430:
+                    strcpy(error_message_k, "430 - Multi-thread, cannot read from input file inside thread running");
+                    break;
+               case 441:
+                    strcpy(error_message_k, "441 - Multi-thread, cannot seek on input file");
+                    break;
+               default:
+                    break;
+               }
+          }
           else
           {
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file)));
@@ -6921,7 +8229,7 @@ int __stdcall set_encryption_mode_z(char *method_arp)
           encryption_method_to_create = ARP_TWOFISH;
      }
      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-     // added 
+     // added
      /*
 
 			enc_method_arp.Items.Add("AES 256 CTR Multi-Thread");

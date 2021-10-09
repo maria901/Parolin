@@ -80,6 +80,8 @@ int parolin_compression_level_p;
  */
 #define AMANDA__SIZE_w (32767)
 
+#define AMANDA__SIZE_ww ((32767 * 2) + 2)
+
 char encryption_method__i[300] = {0};
 char compression_level_p[300];
 
@@ -154,7 +156,7 @@ int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_file
  * @return it will return the static allocated char * string with the utf-8 encoded filename
  *
  */
-char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria);
+char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria, char *ar_temp_char);
 
 extern void
 pedro_dprintf(
@@ -166,16 +168,16 @@ pedro_dprintfW(
     wchar_t *format, ...);
 
 wchar_t *
-remove_permissive_name_m_(wchar_t *wname);
+remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_temp);
 
 wchar_t *
-remove_permissive_name_m_(wchar_t *wname)
+remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_temp)
 {
 
      /**
  * oi amor...
  */
-     static wchar_t wname_copy[AMANDA__SIZE_w + 1];
+     wchar_t *wname_copy = ar_temp;
 
      wchar_t *wname_copy_v27 = wname_copy;
 
@@ -212,19 +214,16 @@ remove_permissive_name_m_(wchar_t *wname)
  *
  */
 wchar_t *
-permissive_name_m_(const wchar_t *wname)
+permissive_name_m_(const wchar_t *wname, WCHAR *ar_temp)
 {
 
-     static wchar_t *wnp = NULL;
+     wchar_t *wnp = NULL;
      wchar_t *wn;
      wchar_t *ws, *wsp;
      DWORD len, slen;
      int unc;
 
-     if (NULL == wnp)
-     {
-          wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
-     }
+     wnp = ar_temp;
 
      //wnp = malloc(AMANDA__SIZE * 2);
 
@@ -305,19 +304,16 @@ permissive_name_m_(const wchar_t *wname)
 }
 
 wchar_t *
-permissive_name_m_v27(const wchar_t *wname)
+permissive_name_m_v27(const wchar_t *wname, WCHAR *ar_temp)
 {
 
-     static wchar_t *wnp = NULL;
+     wchar_t *wnp = NULL;
      wchar_t *wn;
      wchar_t *ws, *wsp;
      DWORD len, slen;
      int unc;
 
-     if (NULL == wnp)
-     {
-          wnp = calloc((AMANDA__SIZE_w * 2) + 2, 1);
-     }
+     wnp = ar_temp;
 
      //wnp = malloc(AMANDA__SIZE * 2);
 
@@ -607,9 +603,9 @@ int return_value_from_list = 0;
  * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
-WCHAR *amanda_utf8towide_1_(char *pUTF8)
+WCHAR *amanda_utf8towide_1_(char *pUTF8, WCHAR *ar_temp)
 {
-     static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
+     WCHAR *ricardo_k = ar_temp;
 
      MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
      return ricardo_k;
@@ -625,9 +621,9 @@ WCHAR *amanda_utf8towide_1_(char *pUTF8)
  * @return the static allocated WCHAR array with the filename as wide string
  *
  */
-WCHAR *amanda_utf8towide_2_(char *pUTF8)
+WCHAR *amanda_utf8towide_2_(char *pUTF8, WCHAR *ar_temp)
 {
-     static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
+     WCHAR *ricardo_k = ar_temp;
 
      MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
      return ricardo_k;
@@ -643,7 +639,7 @@ WCHAR *amanda_utf8towide_2_(char *pUTF8)
  * @param nUTF8 the number of characters (bytes) in the pUTF8 array
  *
  */
-int widetoutf8_ar(WCHAR *pUSC2, char *pUTF8, int nUTF8)
+int widetoutf8_ar_no(WCHAR *pUSC2, char *pUTF8, int nUTF8)
 {
      return WideCharToMultiByte(CP_UTF8, 0, pUSC2, -1, (LPSTR)pUTF8, nUTF8, 0, 0);
 }
@@ -656,9 +652,9 @@ int widetoutf8_ar(WCHAR *pUSC2, char *pUTF8, int nUTF8)
  * @return it will return the static allocated char * string with the utf-8 encoded filename
  *
  */
-char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria)
+char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria, char *ar_temp_char)
 {
-     static char saida_utf8[AMANDA__SIZE];
+     char *saida_utf8 = ar_temp_char;
 
      WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
      return saida_utf8;
@@ -672,12 +668,17 @@ char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria)
  *
  *
  */
-void rspgettemppath_arp(char *path_arp)
+void rspgettemppath_arp_no(char *path_arp)
 {
      static WCHAR out_arp[AMANDA__SIZE_w + 1];
 
      GetTempPathW(AMANDA__SIZE_w, out_arp);
-     strncpy_z(path_arp, valquiria_wide_to_utf8(out_arp), AMANDA__SIZE_w);
+     {
+
+          char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+          strncpy_z(path_arp, valquiria_wide_to_utf8(out_arp, ar_temp_char), AMANDA__SIZE_w);
+          free(ar_temp_char);
+     }
      strcat(path_arp, "temp_file_");
      sprintf(path_arp + strlen(path_arp), "%d_arp.tmp", (int)GetTickCount());
      return;
@@ -1589,7 +1590,12 @@ int old_ini_get(char *key_arp, char *data_arp, char *if_has_data_use_this_z, int
          NULL,
          exe_path_z,
          1027);
-     strncpy_z(exe_aath_z, valquiria_wide_to_utf8(exe_path_z), sizeof(exe_aath_z) - 1);
+     {
+
+          char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+          strncpy_z(exe_aath_z, valquiria_wide_to_utf8(exe_path_z, ar_temp_char), sizeof(exe_aath_z) - 1);
+          free(ar_temp_char);
+     }
      stripfilenameandpath(exe_aath_z, exe_fath_z, NULL);
      strcat(exe_fath_z, "\\");
      strcat(exe_fath_z, "ar_tar_process.ini");
@@ -1601,8 +1607,15 @@ int old_ini_get(char *key_arp, char *data_arp, char *if_has_data_use_this_z, int
      }
 
      convert_char_to_wchar_idiot_z(key_arp, key_arpw_z);
-     GetPrivateProfileStringW(L"parolin", key_arpw_z, L"", data_w_z, sizeof(data_w_z) / 2 /* please, correct me if I am wrong */,
-                              permissive_name_m_(amanda_utf8towide_1_(exe_fath_z)));
+     {
+
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          GetPrivateProfileStringW(L"parolin", key_arpw_z, L"", data_w_z, sizeof(data_w_z) / 2 /* please, correct me if I am wrong */,
+                                   permissive_name_m_(amanda_utf8towide_1_(exe_fath_z, ar_temp), ar_temp2));
+          free(ar_temp);
+          free(ar_temp2);
+     }
      convert_wchar_to_char_jerk_z(data_w_z, data_z);
      strncpy_z(data_arp, data_z, output_len_z);
      return 0;
@@ -1634,7 +1647,12 @@ int old_ini_write(char *key_arp_z, char *data_arp_z, char *if_has_data_use_this_
          NULL,
          exe_path_z,
          1027);
-     strncpy_z(exe_aath_z, valquiria_wide_to_utf8(exe_path_z), sizeof(exe_aath_z) - 1);
+     {
+
+          char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+          strncpy_z(exe_aath_z, valquiria_wide_to_utf8(exe_path_z, ar_temp_char), sizeof(exe_aath_z) - 1);
+          free(ar_temp_char);
+     }
      stripfilenameandpath(exe_aath_z, exe_fath_z, NULL);
      strcat(exe_fath_z, "\\");
      strcat(exe_fath_z, "ar_tar_process.ini");
@@ -1646,8 +1664,15 @@ int old_ini_write(char *key_arp_z, char *data_arp_z, char *if_has_data_use_this_
      }
      convert_char_to_wchar_idiot_z(key_arp_z, key_arpw_z);
      convert_char_to_wchar_idiot_z(data_arp_z, data_w_z);
-     WritePrivateProfileStringW(L"parolin", key_arpw_z, data_w_z,
-                                permissive_name_m_(amanda_utf8towide_1_(exe_fath_z)));
+     {
+
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          WritePrivateProfileStringW(L"parolin", key_arpw_z, data_w_z,
+                                     permissive_name_m_(amanda_utf8towide_1_(exe_fath_z, ar_temp), ar_temp2));
+          free(ar_temp);
+          free(ar_temp2);
+     }
      return 0;
 }
 
@@ -2180,14 +2205,23 @@ getfilesize_ar(char *infile_ar)
 {
      __int64 ret;
      FILE *myfile;
-
-     if ((myfile = _wfopen(permissive_name_m_(amanda_utf8towide_1_(infile_ar)), L"rb")) == NULL)
      {
-          return 0;
+
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          if ((myfile = _wfopen(permissive_name_m_(amanda_utf8towide_1_(infile_ar, ar_temp), ar_temp2), L"rb")) == NULL)
+          {
+               free(ar_temp);
+               free(ar_temp2);
+               return 0;
+          }
+          ret = _fseeki64(myfile, 0, SEEK_END);
+          ret = _ftelli64(myfile);
+          fclose(myfile);
+
+          free(ar_temp);
+          free(ar_temp2);
      }
-     ret = _fseeki64(myfile, 0, SEEK_END);
-     ret = _ftelli64(myfile);
-     fclose(myfile);
      return ret;
 }
 

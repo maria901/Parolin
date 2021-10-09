@@ -12,7 +12,7 @@ amanda_32: /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thre
 
 	i686-w64-mingw32-gcc.exe -mdll -O3 -o /bin/tar/x86/RSP_encrypt_32.DLL /bw_tmp/rsp_encrypt/amanda_ver32.o /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o /bw_tmp/rsp_encrypt/adlercheck_32.o /bw_tmp/rsp_encrypt/aes_32.o /bw_tmp/rsp_encrypt/pedro_32.o /bw_tmp/rsp_encrypt/cpu_32.o /bw_tmp/rsp_encrypt/crc32_32.o /bw_tmp/rsp_encrypt/dll_32.o /bw_tmp/rsp_encrypt/folder_i_32.o /bw_tmp/rsp_encrypt/hexa_32.o /bw_tmp/rsp_encrypt/longfile_32.o /bw_tmp/rsp_encrypt/rc4_32.o /bw_tmp/rsp_encrypt/sha512_k_32.o /bw_tmp/rsp_encrypt/serpent_32.o /bw_tmp/rsp_encrypt/mars_32.o /bw_tmp/rsp_encrypt/rc6_32.o /bw_tmp/rsp_encrypt/twofish_32.o /bw_tmp/rsp_encrypt/dprintf_32.o controlname_k.c -Wl,-enable-stdcall-fixup dll_k.def
 
-/bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o : koci_e_pereira_empreendimentos_encrypt_multi_thread.c the_thread_function_p.c include_multi_k__p.h
+/bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o : koci_e_pereira_empreendimentos_encrypt_multi_thread.c the_thread_function_p.c include_multi_k__p.h the_mars.c
 	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o koci_e_pereira_empreendimentos_encrypt_multi_thread.c $(AMANDA_FLAGS__)
 
 /bw_tmp/rsp_encrypt/pedro_32.o: pedro.c
@@ -76,7 +76,7 @@ ricardo_64:	/bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thr
 	x86_64-w64-mingw32-gcc -mdll -O3 -o /bin/tar/x64/RSP_encrypt_64.DLL /bw_tmp/rsp_encrypt/amanda_ver64.o /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_64.o /bw_tmp/rsp_encrypt/adlercheck_64.o /bw_tmp/rsp_encrypt/aes_64.o /bw_tmp/rsp_encrypt/pedro_64.o /bw_tmp/rsp_encrypt/cpu_64.o /bw_tmp/rsp_encrypt/crc32_64.o /bw_tmp/rsp_encrypt/dll_64.o /bw_tmp/rsp_encrypt/dprintf_64.o /bw_tmp/rsp_encrypt/folder_64.o /bw_tmp/rsp_encrypt/hexa_64.o /bw_tmp/rsp_encrypt/longfile_64.o /bw_tmp/rsp_encrypt/rc4_64.o /bw_tmp/rsp_encrypt/sha512_k_64.o /bw_tmp/rsp_encrypt/serpent_64.o /bw_tmp/rsp_encrypt/mars_64.o /bw_tmp/rsp_encrypt/rc6_64.o /bw_tmp/rsp_encrypt/twofish_64.o controlname_k.c -Wl,-enable-stdcall-fixup dll_k.def
 		
 
-/bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_64.o : koci_e_pereira_empreendimentos_encrypt_multi_thread.c the_thread_function_p.c include_multi_k__p.h
+/bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_64.o : koci_e_pereira_empreendimentos_encrypt_multi_thread.c the_thread_function_p.c include_multi_k__p.h the_mars.c
 	x86_64-w64-mingw32-gcc -c -o /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_64.o koci_e_pereira_empreendimentos_encrypt_multi_thread.c $(AMANDA_FLAGS__)
 
 /bw_tmp/rsp_encrypt/sha512_k_64.o: sha512_file_k.c
