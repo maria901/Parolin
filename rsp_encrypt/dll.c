@@ -68,6 +68,8 @@
 #include "rc4.h"
 int unicodemode = 0;
 
+int __fastcall unencrypt_multi_thread_m(char *input_z, char *output_z, char *password_v_);
+
 int rspencrypt_encrypt_multi_thread_k__p(char *input,
                                          char *output,
                                          char *key_k__p,
@@ -127,6 +129,7 @@ int __stdcall newfileencrypt2_sha512(unsigned int type, unsigned char *inputfile
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
+bool is_encrypted_multi_thread_m(char *filename_v);
 HANDLE lfopen(const char *szFileName, char *pMode);
 void lfclose(HANDLE hFile);
 __int64 lfseek(HANDLE hFile, __int64 iDistance, int iMode);
@@ -1789,7 +1792,16 @@ int decrypt_arp(uchar *inputfile, uchar *outputfile, uchar *key, int64_t *the_ar
      encryption_method__i = encryption_method_i;
 
      free_to_work_arp = 1;
-     ret_arp = newfileencrypt2_sha512(18, inputfile, outputfile, (uchar *)key_arp);
+
+     if (is_encrypted_multi_thread_m((void *)inputfile))
+     {
+          //exit(27);
+          ret_arp = unencrypt_multi_thread_m((void *)inputfile, (void *)outputfile, (void *)key_arp);
+     }
+     else
+     {
+          ret_arp = newfileencrypt2_sha512(18, inputfile, outputfile, (uchar *)key_arp);
+     }
      *the_arp_file_size_ = the_arp_file_size;
      free_to_work_arp = 0;
 

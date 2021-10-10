@@ -88,6 +88,9 @@ enum encryption_mode_arp
 
 static int64_t ret_arp_ = 0;
 
+int __fastcall get_size_of_struct_twofish_m(void);
+int __stdcall encryptstring_twofish_arp_maria_v27(uchar *buf, uchar *bufout, char *key_arp, uint size, char *variaveis_m);
+int __stdcall init_twofish_arp_maria_v27(char *key_arp_, char *variaveis_m);
 int __stdcall init_rc6__arp_v27(char *key_arp_, char *minha_struct_maria__);
 int __stdcall encryptstring_rc6_arp_v27(uchar *buf, uchar *bufout, char *key_arp, uint size, char *minha_struct_maria_in);
 int get_size_minha_struct_m(void);
@@ -460,12 +463,8 @@ ar_gettemppath_z(void)
  */
 int __fastcall set_temp_folder_z(char *folder_z)
 {
-     static char copy_path[AMANDA__SIZE] = {
-         0,
-     };
-     static char copy_path2[AMANDA__SIZE] = {
-         0,
-     };
+     char *copy_path = malloc(AMANDA__SIZE);
+     char *copy_path2 = malloc(AMANDA__SIZE);
      strncpy_z(copy_path, folder_z, AMANDA__SIZE);
 
      if ('\\' == copy_path[0] && '\\' == copy_path[1])
@@ -477,7 +476,8 @@ int __fastcall set_temp_folder_z(char *folder_z)
           if (':' == copy_path[1] && ('\\' == copy_path[2] || '/' == copy_path[2]))
                goto ok_z;
      }
-
+     free(copy_path);
+     free(copy_path2);
      return 1;
 
 ok_z:;
@@ -501,8 +501,14 @@ ok_z:;
                free(temp_ar2);
           }
           strncpy_z(temp_folder_z, copy_path, sizeof(temp_folder_z) - 1);
+
+          free(copy_path);
+          free(copy_path2);
           return 0;
      }
+
+     free(copy_path);
+     free(copy_path2);
      return 1;
 }
 
@@ -622,7 +628,6 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                               ptr_my_struct_z->dest = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_files_z[n_thread_counter], ar_temp), ar_temp2), L"wb");
                               free(ar_temp);
                               free(ar_temp2);
-
                          }
 
                          if (NULL == ptr_my_struct_z->dest)
@@ -700,6 +705,10 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                               break;
                          case ARP_RC6_MT:
                               fatia_m = 0x706c6176 - 10; //proximo da lista
+                              memcpy(ptr_my_struct_z->ar.string, &fatia_m, 4);
+                              break;
+                         case ARP_TWOFISH_MT:
+                              fatia_m = 0x706c6176 - 11; //proximo da lista
                               memcpy(ptr_my_struct_z->ar.string, &fatia_m, 4);
                               break;
                          default:
@@ -955,3 +964,60 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
           }
      }
 }
+
+bool is_encrypted_multi_thread_m(char *filename_v)
+{
+     int len_arp;
+     int ret_arp_ = 0;
+     FILE *amanda_file;
+
+     {
+
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_v, ar_temp), ar_temp2), L"rb");
+          free(ar_temp);
+          free(ar_temp2);
+     }
+
+     if (amanda_file)
+     {
+          len_arp = fread(&ret_arp_, 1, 4, amanda_file);
+
+          fclose(amanda_file);
+
+          if (4 == len_arp)
+          {
+               switch (ret_arp_)
+               {
+
+               case 0x706c6176 - 6:
+                    return true;
+                    break;
+
+               case 0x706c6176 - 7:
+                    return true;
+                    break;
+
+               case 0x706c6176 - 8:
+                    return true;
+                    break;
+
+               case 0x706c6176 - 9:
+                    return true;
+                    break;
+
+               case 0x706c6176 - 10:
+                    return true;
+                    break;
+
+               case 0x706c6176 - 11:
+                    return true;
+                    break;
+               }
+          }
+     }
+
+     return false;
+}
+#include "decode_encryption_multi_pedro.c"

@@ -7979,6 +7979,8 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
 
      keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
 
+     pedro_dprintf(0, "antes -> %d", (int)keep_temp_file_flag_z);
+
      if (true_if_it_is_extract_ar)
      {
           while (clean_list_itens_is_list_())
@@ -8049,6 +8051,12 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
           keep_temp_file_flag_z = is_encrypted_gnu_tar_arp(tar_file_ar);
           if (keep_temp_file_flag_z)
           {
+
+               if (keep_temp_file_flag_z)
+               {
+                    pedro_dprintf(0, "encryptado\n");
+               }
+               //exit(27);
                if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_for_encrypted, L"AM_"))
                {
                     archive = -1;

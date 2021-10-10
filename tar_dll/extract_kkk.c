@@ -2307,7 +2307,7 @@ bool is_encrypted_gnu_tar_arp(char *file_arp_utf_8)
      if (amanda_file)
      {
           len_arp = fread(&ret_arp_, 1, 4, amanda_file);
-
+          pedro_dprintf(0, "dentro 11\n");
           if (4 == len_arp)
           {
 
@@ -2319,7 +2319,7 @@ bool is_encrypted_gnu_tar_arp(char *file_arp_utf_8)
                    (0x706c6176 - 4) == ret_arp_ ||
                    (0x706c6176 - 5) == ret_arp_)
                {
-
+                    pedro_dprintf(0, "dentro 22\n");
                     len_arp = fread(buffer_arp, 1, 64, amanda_file);
 
                     if (64 == len_arp)
@@ -2365,6 +2365,43 @@ bool is_encrypted_gnu_tar_arp(char *file_arp_utf_8)
                               }
                          }
                     }
+               }
+               else if ((0x706c6176 - 6) == ret_arp_ ||
+                        (0x706c6176 - 7) == ret_arp_ ||
+                        (0x706c6176 - 8) == ret_arp_ ||
+                        (0x706c6176 - 9) == ret_arp_ ||
+                        (0x706c6176 - 10) == ret_arp_ ||
+                        (0x706c6176 - 11) == ret_arp_)
+               {
+                    switch (ret_arp_)
+                    {
+
+                    case 0x706c6176 - 6:
+                         encryption_detected_z = ARP_AES_MT;
+                         break;
+
+                    case 0x706c6176 - 7:
+                         encryption_detected_z = ARP_RC4_MT;
+                         break;
+
+                    case 0x706c6176 - 8:
+                         encryption_detected_z = ARP_SERPENT_MT;
+                         break;
+
+                    case 0x706c6176 - 9:
+                         encryption_detected_z = ARP_MARS_MT;
+                         break;
+
+                    case 0x706c6176 - 10:
+                         encryption_detected_z = ARP_RC6_MT;
+                         break;
+
+                    case 0x706c6176 - 11:
+                         encryption_detected_z = ARP_TWOFISH_MT;
+                         break;
+                    }
+                    fclose(amanda_file);
+                    return true;
                }
           }
 

@@ -560,6 +560,7 @@ unsigned __stdcall my_thread_function(void *my_argument_z)
      int ret_m;
      int64_t size_of_compressed_z = 0;
      char *rc6_buffer = NULL;
+     char *twofish_buffer = NULL;
 
      char key_v2[300] = {
          0,
@@ -707,6 +708,14 @@ fwrite(&fatia, 1, 4, stream2);
                             rc6_buffer);
 
           break;
+     case ARP_TWOFISH_MT:
+
+          twofish_buffer = calloc(get_size_of_struct_twofish_m(), 1);
+
+          init_twofish_arp_maria_v27((char *)ptr_my_struct_z->key_k__p,
+                                     twofish_buffer);
+
+          break;
      }
 
      for (;;)
@@ -838,6 +847,19 @@ fwrite(&fatia, 1, 4, stream2);
                     goto saida;
                }
                break;
+          case ARP_TWOFISH_MT:
+               encryptstring_twofish_arp_maria_v27((void *)ptr_my_struct_z->buffer,
+                                                   (void *)ptr_my_struct_z->out,
+                                                   (void *)ptr_my_struct_z->key_k__p,
+                                                   n,
+                                                   twofish_buffer);
+               ret_m = fwrite(ptr_my_struct_z->out, 1, n, ptr_my_struct_z->dest);
+               if (ret_m != n)
+               {
+                    ptr_my_struct_z->retvalue = 140; //unexpected error
+                    goto saida;
+               }
+               break;
           }
 
           //printf("Input bytes remaining: %u\n", infile_remaining);
@@ -917,6 +939,11 @@ saida:;
 
 saida_arp:;
 
+     if (twofish_buffer)
+     {
+          free(twofish_buffer);
+          twofish_buffer = NULL;
+     }
      if (rc6_buffer)
      {
           free(rc6_buffer);
