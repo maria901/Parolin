@@ -435,7 +435,7 @@ inittimer2(int value)
 }
 
 /**
- * My fixed strncpy
+ * My fixed strncpy for sure, just forget about 'strncpy' because it is broken
  *
  *
  */
@@ -592,6 +592,8 @@ int return_value_from_list = 0;
 
 #define major_t int
 #define minor_t int
+
+WCHAR *amanda_utf8towide_1_(char *pUTF8, WCHAR *ar_temp);
 
 /**
  * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
@@ -1514,6 +1516,7 @@ int read_xml_z(char *key_name_z, char *data_z, int output_len_z)
           strncpy_z(data_z, buf_z, output_len_z);
           free(buf_z);
      }
+
      return ret_arp;
 }
 
@@ -10893,9 +10896,15 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
           delete_if_true_i = false; //for safety
 
           is_update_i = true;
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-          my___temp_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)), L"rb+");
+               my___temp_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2), L"rb+");
 
+               free(ar_temp);
+               free(ar_temp2);
+          }
           if (NULL == my___temp_file_i)
           {
                strcpy(error_message_k, "Error openning temporary file, aborting...");
@@ -10963,8 +10972,15 @@ sai_agora_i:;
           fclose(my___temp_file_i);
           my___temp_file_i = NULL;
      }
+     {
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-     _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i)));
+          _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2));
+
+          free(ar_temp);
+          free(ar_temp2);
+     }
      progress_is_libarchive_v27 = false;
      return 10;
 }
@@ -11082,9 +11098,17 @@ int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
           strcpy(update_temp_dir_arp, update_filename_arp);
           strcat(update_temp_dir_arp, "_d");
           {
-               our_update_file_open__arp = _wopen(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp)),
-                                                  O_BINARY | O_CREAT | O_WRONLY | O_TRUNC,
-                                                  S_IRUSR | S_IWUSR);
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                    our_update_file_open__arp = _wopen(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp, ar_temp), ar_temp2),
+                                                       O_BINARY | O_CREAT | O_WRONLY | O_TRUNC,
+                                                       S_IRUSR | S_IWUSR);
+
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
                if (-1 == our_update_file_open__arp)
                {
                     strcpy(error_message_k, "Cannot open temporary file to write");
@@ -11163,9 +11187,14 @@ ar_gettemppath_z(void)
 
      if (0 == strlen(temp_folder_z))
      {
-          static WCHAR out_z[AMANDA__SIZE_w + 1];
+          WCHAR *out_z = malloc(AMANDA__SIZE_ww + 1);
           GetTempPathW(AMANDA__SIZE_w, out_z);
-          strcpy(temp_folder_z, valquiria_wide_to_utf8(out_z));
+          {
+               char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+               strcpy(temp_folder_z, valquiria_wide_to_utf8(out_z, ar_temp_char));
+               free(ar_temp_char);
+          }
+          free(out_z);
      }
 
      return temp_folder_z;
@@ -11180,12 +11209,9 @@ ar_gettemppath_z(void)
  */
 int __amandacall set_temp_folder_z(char *folder_z)
 {
-     static char copy_path[AMANDA__SIZE] = {
-         0,
-     };
-     static char copy_path2[AMANDA__SIZE] = {
-         0,
-     };
+     char *copy_path = malloc(AMANDA__SIZE);
+     char *copy_path2 = malloc(AMANDA__SIZE);
+
      strncpy_z(copy_path, folder_z, AMANDA__SIZE);
 
      if ('\\' == copy_path[0] && '\\' == copy_path[1])
@@ -11197,7 +11223,8 @@ int __amandacall set_temp_folder_z(char *folder_z)
           if (':' == copy_path[1] && ('\\' == copy_path[2] || '/' == copy_path[2]))
                goto ok_z;
      }
-
+     free(copy_path);
+     free(copy_path2);
      return 1;
 
 ok_z:;
@@ -11213,10 +11240,24 @@ ok_z:;
 
      if (createtempfilename_and_keep_z(copy_path, copy_path2, L"oi_"))
      {
-          _wunlink(permissive_name_m_(amanda_utf8towide_1_(copy_path2)));
+          {
+               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+               _wunlink(permissive_name_m_(amanda_utf8towide_1_(copy_path2, ar_temp), ar_temp2));
+
+               free(ar_temp);
+               free(ar_temp2);
+          }
           strncpy_z(temp_folder_z, copy_path, sizeof(temp_folder_z) - 1);
+
+          free(copy_path);
+          free(copy_path2);
           return 0;
      }
+
+     free(copy_path);
+     free(copy_path2);
      return 1;
 }
 /**

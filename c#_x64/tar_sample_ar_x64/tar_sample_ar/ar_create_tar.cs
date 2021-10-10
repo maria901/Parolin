@@ -108,6 +108,8 @@ namespace tar_sample_ar
 			
 			level_new_ava.Text = "6";
 			
+			util_ar.pedro_dprintf(0, "iniciou 1");
+			
 			label3.Text = "Using Encryption: no";
 			if(util_ar.use_encryption_arp)
 			{
@@ -151,7 +153,7 @@ namespace tar_sample_ar
 			path_to_add_ar.Text = @"C:\Ava\back\extract_k";
 			include_ar.Text = "* *.txt *.ini";
 			compression_mode_ar_.Items.Clear();
-			
+			util_ar.pedro_dprintf(0, "iniciou 8");
 			if(util_ar.is_parolin_p)
 			{
 				level_p.Visible = false;
@@ -191,8 +193,9 @@ namespace tar_sample_ar
 				compression_mode_ar_.Items.Add("val.br");
 				compression_mode_ar_.Items.Add("val.br2");//Brotli2 is Brotli with multi-thread support
 				//compression_mode_ar_.Items.Add("iso"); the iso was disable in Parolin because libarchive has support to it without executables mkisofs
-				
+				util_ar.pedro_dprintf(0, "iniciou 8.1");
 				compression_mode_ar_.Text = "val";
+				util_ar.pedro_dprintf(0, "iniciou 8.2");
 			}
 			else
 			{
@@ -231,8 +234,10 @@ namespace tar_sample_ar
 				
 				level_p.Text = "6";
 			}
+			util_ar.pedro_dprintf(0, "iniciou 9.a");
 			if("" != util_ar.tar_file_arp)
 			{
+				util_ar.pedro_dprintf(0, "iniciou 9.b");
 				button7.Visible = true;
 				ar_tar_file_.Text         = util_ar.tar_file_arp;
 				path_to_add_ar.Text       = util_ar.path_with_the_files_arp;
@@ -244,6 +249,9 @@ namespace tar_sample_ar
 				{
 					recurse_arp.Checked = true;
 				}
+				
+				util_ar.pedro_dprintf(0, "iniciou 9");
+				
 				if(util_ar.true_if_include__arp)
 				{
 					Include_arpMouseUp(null, null);
@@ -252,7 +260,10 @@ namespace tar_sample_ar
 				{
 					Exclude_arpMouseUp(null, null);
 				}
+				
+				util_ar.pedro_dprintf(0, "iniciou 10");
 			}
+			util_ar.pedro_dprintf(0, "iniciou 11");
 		}
 		StringBuilder pega_pass = new StringBuilder(300);
 		
@@ -1195,6 +1206,7 @@ namespace tar_sample_ar
 			if(!already_thread)
 			{
 				already_thread = true;
+				
 				util_ar.get__settings_arp("xz_threads", pega_pass, pega_pass.Capacity);
 				
 				if("" == pega_pass.ToString())

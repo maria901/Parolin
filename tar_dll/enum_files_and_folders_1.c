@@ -1,5 +1,4 @@
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/********************************************************************************
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -19,14 +18,18 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails:                                                                 *
- *     maria@arsoftware.net.br                                                  *
- *     pedro@locacaodiaria.com.br                                               *
+ ********************************************************************************
+ 
+      E-mails:                                                                 
+      maria@arsoftware.net.br                                                  
+      pedro@locacaodiaria.com.br                                               
+
+ ********************************************************************************
  *                                                                              *
  *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+ *******************************************************************************/
 
 #define IS_DEBUG_APE__ /* kkkkkkkkkkkk */ (-1)
 
@@ -148,7 +151,14 @@ loop_again_amanda_s_smart_ape:;
 	//assert(0 && "mais amor?...");
 
 	pedro_dprintf(IS_DEBUG_APE__, "endereco da struct na entrada %p\n", oi_amanda_ptr);
-	oi_amanda_ptr->current_hFind_amanda_s_smart_____ape = FindFirstFileW(permissive_name_m_(amanda_utf8towide_1_(szDir)), &ffd);
+	{
+		WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+		WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+		oi_amanda_ptr->current_hFind_amanda_s_smart_____ape = FindFirstFileW(permissive_name_m_(amanda_utf8towide_1_(szDir, ar_temp), ar_temp2), &ffd);
+
+		free(ar_temp);
+		free(ar_temp2);
+	}
 	pedro_dprintf(-1, "ok1 \n");
 	if (INVALID_HANDLE_VALUE == oi_amanda_ptr->current_hFind_amanda_s_smart_____ape)
 	{
@@ -176,49 +186,55 @@ loop_again_amanda_s_smart_ape:;
 
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 		{
-			if (is_valid__Pk_folder(valquiria_wide_to_utf8(ffd.cFileName)))
+
+			char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+
+			if (is_valid__Pk_folder(valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char)))
 			{
 
 				; //Mr. Do...my love Ricardo.
 
-				pedro_dprintf(-1, "2 dir  -> %s\n", valquiria_wide_to_utf8(ffd.cFileName));
+				pedro_dprintf(-1, "2 dir  -> %s\n", valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char));
 
 				if (INVALID_HANDLE_VALUE == oi_amanda_ptr->parent_hFind_amanda_s_smart______ape)
 				{
 
 					if (NULL == oi_amanda_ptr->entry______i)
 					{
-						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char)) + 3);
 					}
 					else
 					{
 						free(oi_amanda_ptr->entry______i);
-						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char)) + 3);
 					}
 
-					strcpy(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName));
+					strcpy(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char));
 				}
 				else
 				{
 
 					if (NULL == oi_amanda_ptr->entry______i)
 					{
-						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) +
+						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char)) +
 																	strlen(oi_amanda_ptr->whole_entry_above_i) +
 																	strlen("\\") + 3);
 					}
 					else
 					{
 						free(oi_amanda_ptr->entry______i);
-						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) +
+						oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char)) +
 																	strlen(oi_amanda_ptr->whole_entry_above_i) +
 																	strlen("\\") + 3);
 					}
 
 					strcpy(oi_amanda_ptr->entry______i, oi_amanda_ptr->whole_entry_above_i);
 					strcat(oi_amanda_ptr->entry______i, "\\");
-					strcat(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName));
+					strcat(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char));
 				}
+
+				free(ar_temp_char);
+				ar_temp_char = NULL;
 
 				if (recurse_on_subfolders_amanda_s_smart_ape)
 				{
@@ -313,12 +329,12 @@ loop_again_amanda_s_smart_ape:;
 					{
 						skip_ar = 0;
 
-						if (true || mode_is_VAL_arp)//hack as usual
+						if (true || mode_is_VAL_arp) //hack as usual
 						{
 						}
 						else
 						{
-							if (258 < strlen(whole_entry_i))
+							if (258 < strlen(whole_entry_i)) //not in use anymore
 							{
 								static char temp_ar[AMANDA__SIZE] = {0};
 
@@ -375,6 +391,7 @@ loop_again_amanda_s_smart_ape:;
 			}
 			else
 			{
+				free(ar_temp_char);
 				pedro_dprintf(-1, "3 . ou .. \n");
 				continue;
 			}
@@ -382,37 +399,40 @@ loop_again_amanda_s_smart_ape:;
 		else
 		{
 
-			pedro_dprintf(-1, "4 file -> %s\n", valquiria_wide_to_utf8(ffd.cFileName));
+			char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+
+			pedro_dprintf(-1, "4 file -> %s\n", valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char));
 
 			if (INVALID_HANDLE_VALUE == oi_amanda_ptr->parent_hFind_amanda_s_smart______ape)
 			{
 				if (NULL == oi_amanda_ptr->entry______i)
 				{
-					oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+					oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char)) + 3);
 				}
 				else
 				{
 					free(oi_amanda_ptr->entry______i);
-					oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+					oi_amanda_ptr->entry______i = calloc(1, strlen(valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char)) + 3);
 				}
-				strcpy(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName));
+				strcpy(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char));
 			}
 			else
 			{
 				if (NULL == oi_amanda_ptr->entry______i)
 				{
-					oi_amanda_ptr->entry______i = calloc(1, strlen(oi_amanda_ptr->whole_entry_above_i) + strlen("\\") + strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+					oi_amanda_ptr->entry______i = calloc(1, strlen(oi_amanda_ptr->whole_entry_above_i) + strlen("\\") + strlen(valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char)) + 3);
 				}
 				else
 				{
 					free(oi_amanda_ptr->entry______i);
-					oi_amanda_ptr->entry______i = calloc(1, strlen(oi_amanda_ptr->whole_entry_above_i) + strlen("\\") + strlen(valquiria_wide_to_utf8(ffd.cFileName)) + 3);
+					oi_amanda_ptr->entry______i = calloc(1, strlen(oi_amanda_ptr->whole_entry_above_i) + strlen("\\") + strlen(valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char)) + 3);
 				}
 				strcpy(oi_amanda_ptr->entry______i, oi_amanda_ptr->whole_entry_above_i);
 				strcat(oi_amanda_ptr->entry______i, "\\");
-				strcat(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName));
+				strcat(oi_amanda_ptr->entry______i, valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char));
 			}
-
+			free(ar_temp_char);
+			ar_temp_char = NULL;
 			strcpy(szDir_i, lpcszFolder);
 			strcat(szDir_i, "\\");
 			strcat(szDir_i, oi_amanda_ptr->entry______i);
@@ -448,7 +468,13 @@ loop_again_amanda_s_smart_ape:;
 
 					{
 						static char my_copy_of_filename_ar[AMANDA__SIZE];
-						strcpy(my_copy_of_filename_ar, valquiria_wide_to_utf8(ffd.cFileName));
+
+						char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+
+						strcpy(my_copy_of_filename_ar, valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char));
+
+						free(ar_temp_char);
+
 						strtolower_ar(my_copy_of_filename_ar);
 						{
 							bool achei_o_match = false;
@@ -515,8 +541,14 @@ loop_again_amanda_s_smart_ape:;
 
 										get_timestamp_arp(whole_entry_i, &s_arp_3, &VAL_data_i);
 
-										attributes_i = GetFileAttributesW(
-											permissive_name_m_(amanda_utf8towide_1_(whole_entry_i)));
+										{
+											WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+											WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+											attributes_i = GetFileAttributesW(
+												permissive_name_m_(amanda_utf8towide_1_(whole_entry_i, ar_temp), ar_temp2));
+											free(ar_temp);
+											free(ar_temp2);
+										}
 
 										/*
 
@@ -552,9 +584,15 @@ loop_again_amanda_s_smart_ape:;
 											char *buf_i = malloc(THE_SIZE_I);
 											__attribute__((unused)) int len_i;
 											FILE *the_file_i;
+											{
+												WCHAR *ar_temp = /*  */ (void *)malloc(AMANDA__SIZE_ww);
+												WCHAR *ar_temp2 = /* */ (void *)malloc(AMANDA__SIZE_ww);
 
-											the_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(whole_entry_i)), L"rb");
-
+												the_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(whole_entry_i, ar_temp), ar_temp2), L"rb");
+												
+												free(ar_temp);
+												free(ar_temp2);
+											}
 											if (the_file_i)
 											{
 												check_item_z_june_24(entry_______i);
@@ -629,14 +667,20 @@ loop_again_amanda_s_smart_ape:;
 							folders_count++;
 						}
 					}
-					
+
 					if (0 == skip_ar)
 					{
 						if (only_get_number_of_files_ar_v27)
 						{
 							amanda_itens++;
 							static char my_copy_of_filename_ar[AMANDA__SIZE];
-							strcpy(my_copy_of_filename_ar, valquiria_wide_to_utf8(ffd.cFileName));
+
+							char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+
+							strcpy(my_copy_of_filename_ar, valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char));
+
+							free(ar_temp_char);
+
 							strtolower_ar(my_copy_of_filename_ar);
 							{
 								bool achei_o_match = false;
@@ -694,7 +738,13 @@ loop_again_amanda_s_smart_ape:;
 						else
 						{
 							static char my_copy_of_filename_ar[AMANDA__SIZE];
-							strcpy(my_copy_of_filename_ar, valquiria_wide_to_utf8(ffd.cFileName));
+
+							char *ar_temp_char = (void *)malloc(AMANDA__SIZE);
+
+							strcpy(my_copy_of_filename_ar, valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char));
+
+							free(ar_temp_char);
+
 							strtolower_ar(my_copy_of_filename_ar);
 							{
 								bool achei_o_match = false;

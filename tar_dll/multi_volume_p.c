@@ -1,33 +1,35 @@
-//2021 amanda & ricardo 00:09 21/April
+/********************************************************************************
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ ********************************************************************************
+ 
+      E-mails:                                                                 
+      maria@arsoftware.net.br                                                  
+      pedro@locacaodiaria.com.br                                               
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *    
- *                                                                          *
- *                Copyright (C) <202*>  <BinaryWork Corp.>                  *
- *                                                                          *
- *   This program is free software: you can redistribute it and/or modify   *
- *   it under the terms of the GNU General Public License as published by   *
- *   the  Free  Software  Foundation, either version 3 of the License, or   *
- *   (at your option) any later version.                                    *
- *                                                                          *
- *   This  program  is  distributed  in the hope that it will be useful,    *
- *   but  WITHOUT  ANY WARRANTY;  without  even  the  implied warranty of   *
- *   MERCHANTABILITY  or  FITNESS  FOR  A  PARTICULAR  PURPOSE.   See the   *
- *   GNU General Public License for more details.                           *
- *                                                                          *
- *   You should have received a copy of the GNU GENERAL PUBLIC LICENSE      *
- *       and GNU LESSER GENERAL PUBLIC LICENSE along with this program.     *
- *       If not, see <http://www.gnu.org/licenses/>.                        *
- *                                                                          *
- *   support: https://arsoftware.net.br/binarywork _____________            *
- *                                                                          *
- *       direct programmers e-mails:                                        *
- *       MathMan: arsoftware25@gmail.com  ricardo@arsoftware.net.br         *
- *        Amanda: arsoftware10@gmail.com  amanda@arsoftware.net.br          *
- *                                                                          *
- *       immediate contact(for a very fast answer) WhatsApp                 *
- *       (+55)41 9627 1708 - it is always on                                *
- *                                                                          *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+ ********************************************************************************
+ *                                                                              *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ *******************************************************************************/
 
 #include <windows.h>
 #include <stdint.h>
@@ -93,7 +95,7 @@ ar_gettemppath_z(void);
  * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
-WCHAR *amanda_utf8towide_1_(char *pUTF8);
+WCHAR *amanda_utf8towide_1_(char *pUTF8, WCHAR *ar_temp);
 /*
 {
 	static WCHAR ricardo_k[1024];
@@ -342,8 +344,15 @@ int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_file
 
 			//vai abrir o arquivo...
 
-			my_file_p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(adjusted_filename_in_temp_p)), L"wb");
+			{
+				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+				my_file_p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(adjusted_filename_in_temp_p, ar_temp), ar_temp2), L"wb");
+
+				free(ar_temp);
+				free(ar_temp2);
+			}
 			if (!my_file_p)
 			{
 
@@ -358,9 +367,15 @@ int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_file
 		sprintf(first_chunk_p + strlen(first_chunk_p), ".%03d", counter_p);
 
 		pedro_dprintf(-1, "final %s\n", first_chunk_p);
+		{
+			WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+			WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-		my_input_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(first_chunk_p)), L"rb");
+			my_input_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(first_chunk_p, ar_temp), ar_temp2), L"rb");
 
+			free(ar_temp);
+			free(ar_temp2);
+		}
 		if (!my_input_file)
 		{
 			if (false == did_p)
@@ -372,7 +387,15 @@ int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_file
 
 				fclose(my_file_p);
 				my_file_p = NULL;
-				_wunlink(permissive_name_m_(amanda_utf8towide_1_(adjusted_filename_in_temp_p)));
+				{
+					WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+					WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+					_wunlink(permissive_name_m_(amanda_utf8towide_1_(adjusted_filename_in_temp_p, ar_temp), ar_temp2));
+
+					free(ar_temp);
+					free(ar_temp2);
+				}
 				//goto saida_p;
 			}
 			goto saida_p;
@@ -471,8 +494,15 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p)
 			remaining_p = original_size_p;
 
 			temp_data_p = malloc(CHUNK_P);
+			{
+				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-			input__p = _wfopen(amanda_utf8towide_1_(filename_utf_8_p), L"rb");
+				input__p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf_8_p, ar_temp), ar_temp2), L"rb");
+
+				free(ar_temp);
+				free(ar_temp2);
+			}
 
 			if (!input__p)
 			{
@@ -491,9 +521,15 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p)
 				sprintf(out_file_p + strlen(out_file_p),
 						".%03d",
 						counter_p + 1);
+				{
+					WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+					WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-				_wunlink(amanda_utf8towide_1_(out_file_p));
+					_wunlink(permissive_name_m_v27(amanda_utf8towide_1_(out_file_p, ar_temp), ar_temp2));
 
+					free(ar_temp);
+					free(ar_temp2);
+				}
 				strcpy(out_file_p, filename_utf_8_p);
 
 				sprintf(out_file_p + strlen(out_file_p),
@@ -501,8 +537,15 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p)
 						counter_p);
 
 				pedro_dprintf(-1, "saiu %s\n", out_file_p);
+				{
+					WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+					WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-				output_p = _wfopen(amanda_utf8towide_1_(out_file_p), L"wb");
+					output_p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(out_file_p, ar_temp), ar_temp2), L"wb");
+
+					free(ar_temp);
+					free(ar_temp2);
+				}
 
 				if (output_p)
 				{
@@ -529,8 +572,15 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p)
 						pedro_dprintf(-1, "terminou split \n");
 						fclose(input__p);
 						input__p = NULL;
+						{
+							WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+							WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-						_wunlink(amanda_utf8towide_1_(filename_utf_8_p));
+							_wunlink(permissive_name_m_(amanda_utf8towide_1_(filename_utf_8_p, ar_temp), ar_temp2));
+
+							free(ar_temp);
+							free(ar_temp2);
+						}
 
 						goto saida_p;
 					}

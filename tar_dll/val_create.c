@@ -1,5 +1,4 @@
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/********************************************************************************
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -19,14 +18,18 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails direto dos felizes programadores:                                *
- *     O Ricardinho :    arsoftware25@gmail.com    ricardo@arsoftware.net.br    *
- *     Little_Amanda:    arsoftware10@gmail.com    amanda.@arsoftware.net.br    *
+ ********************************************************************************
+ 
+      E-mails:                                                                 
+      maria@arsoftware.net.br                                                  
+      pedro@locacaodiaria.com.br                                               
+
+ ********************************************************************************
  *                                                                              *
- *     contato imediato(para uma resposta muita rápida) WhatsApp                *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+ *******************************************************************************/
 
 #include <windows.h>
 #include <stdint.h>
@@ -54,6 +57,10 @@
 
 #include <stdbool.h>
 
+#ifndef AMANDA__SIZE_ww
+#define AMANDA__SIZE_ww ((32767 * 2) + 2)
+#endif
+
 #ifndef AMANDA__SIZE_w
 #define AMANDA__SIZE_w (32767)
 #endif
@@ -61,6 +68,8 @@
 #include "arp.h"
 #include "arp_2.h"
 //functions
+wchar_t *
+permissive_name_m_(const wchar_t *wname, WCHAR *ar_temp);
 
 /**
  * To convert an utf-8 encoded filename to a wide string (WCHAR *), we
@@ -72,7 +81,7 @@
  * @return the static allocated WCHAR array with the filename as wide string
  *
  */
-WCHAR *amanda_utf8towide_1_(char *pUTF8);
+WCHAR *amanda_utf8towide_1_(char *pUTF8, WCHAR *ar_temp);
 
 void trocadordebackslashfrente(char *path);
 
@@ -179,14 +188,18 @@ void dump_diretory_VAL_arp(VAL_data *my_VAL_data)
      strcpy(temp_arp, "VAL_filename ");
 
      strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename);
-
-     wcscpy(ready_to_save_WCHAR_m_, amanda_utf8towide_1_(my_VAL_data->VAL_filename));
-
-     while ((MAX_PATH - 2) < wcslen(amanda_utf8towide_1_(ready_to_save_char_m_)))
      {
-          ready_to_save_char_m_[strlen(ready_to_save_char_m_) - 1] = 0;
-     }
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
 
+          wcscpy(ready_to_save_WCHAR_m_, amanda_utf8towide_1_(my_VAL_data->VAL_filename, ar_temp));
+
+          while ((MAX_PATH - 2) < wcslen(amanda_utf8towide_1_(ready_to_save_char_m_, ar_temp)))
+          {
+               ready_to_save_char_m_[strlen(ready_to_save_char_m_) - 1] = 0;
+          }
+
+          free(ar_temp);
+     }
      sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(ready_to_save_char_m_));
 
      len_arp = strlen(temp_arp) + 1;
@@ -494,14 +507,18 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data *my_VAL_data)
      strcpy(temp_arp, "VAL_filename ");
 
      strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename);
-
-     wcscpy(ready_to_save_WCHAR_m_, amanda_utf8towide_1_(my_VAL_data->VAL_filename));
-
-     while ((MAX_PATH - 2) < wcslen(amanda_utf8towide_1_(ready_to_save_char_m_)))
      {
-          ready_to_save_char_m_[strlen(ready_to_save_char_m_) - 1] = 0;
-     }
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
 
+          wcscpy(ready_to_save_WCHAR_m_, amanda_utf8towide_1_(my_VAL_data->VAL_filename, ar_temp));
+
+          while ((MAX_PATH - 2) < wcslen(amanda_utf8towide_1_(ready_to_save_char_m_, ar_temp)))
+          {
+               ready_to_save_char_m_[strlen(ready_to_save_char_m_) - 1] = 0;
+          }
+
+          free(ar_temp);
+     }
      sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(ready_to_save_char_m_));
 
      len_arp = strlen(temp_arp) + 1;

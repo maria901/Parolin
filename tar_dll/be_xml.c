@@ -2,7 +2,7 @@
 //not complete... works only for simple read and write XML process, more code need to
 //be added when possible
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/********************************************************************************
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -22,14 +22,18 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails:                                                                 *
- *     maria@arsoftware.net.br                                                  *
- *     pedro@locacaodiaria.com.br                                               *
+ ********************************************************************************
+ 
+      E-mails:                                                                 
+      maria@arsoftware.net.br                                                  
+      pedro@locacaodiaria.com.br                                               
+
+ ********************************************************************************
  *                                                                              *
  *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+ *******************************************************************************/
 
 #include <windows.h>
 #include <stdint.h>
@@ -56,6 +60,8 @@
 #include <assert.h>
 
 #include <stdbool.h>
+
+#define AMANDA__SIZE_ww ((32767 * 2) + 2)
 
 enum feline_modes
 {
@@ -538,7 +544,7 @@ static int replacestringsensitive2_feline(char *comando, char *source, char *des
  *
  */
 wchar_t *
-permissive_name_m_(const wchar_t *wname);
+permissive_name_m_(const wchar_t *wname, WCHAR *ar_temp);
 /**
  * To convert a utf-8 encoded filename to a wide string (WCHAR *)
  *
@@ -547,13 +553,15 @@ permissive_name_m_(const wchar_t *wname);
  * @return the static allocated WCHAR array with the filename as wide string
  *
  */
+/*
 static WCHAR *amanda_utf8towide_1_(char *pUTF8)
 {
 	static WCHAR ricardo_k[AMANDA__SIZE_w];
 	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
 	return permissive_name_m_(ricardo_k);
 }
-
+*/
+WCHAR *amanda_utf8towide_1_(char *pUTF8, WCHAR *ar_temp);
 /**
  * To remove the initial spaces including \r \n and \t
  *
@@ -658,8 +666,15 @@ int feline_read_xml(char *filename_utf8_feline,
 	strcat(node__________feline_copy_b, node__________feline);
 	strcat(node__________feline_copy_b, ">");
 
-	my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline), L"rb");
+	{
+		WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+		WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+		my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2), L"rb");
+
+		free(ar_temp);
+		free(ar_temp2);
+	}
 	if (compiler_happy_feline == my_file_feline && compiler_happy_feline == my_file_feline) //as you can see the developer need to do things that can be embarassing
 	{
 		goto next_feline;
@@ -844,8 +859,16 @@ int feline_write_xml(char *filename_utf8_feline,
 			strcat(adjusted_node_feline_a, node__________feline);
 			strcat(adjusted_node_feline_a, ">");
 
-			my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-									 L"rb");
+			{
+				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+										 L"rb");
+
+				free(ar_temp);
+				free(ar_temp2);
+			}
 			if (my_file_feline)
 			{
 				fseek(my_file_feline, 0, SEEK_END);
@@ -923,10 +946,16 @@ int feline_write_xml(char *filename_utf8_feline,
 				}
 
 				fclose(my_file_feline);
+				{
+					WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+					WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-				my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-										 L"wb");
+					my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+											 L"wb");
 
+					free(ar_temp);
+					free(ar_temp2);
+				}
 				if (my_file_feline)
 				{
 					fwrite(line_buf_2_feline, 1, strlen(line_buf_2_feline), my_file_feline);
@@ -961,9 +990,16 @@ int feline_write_xml(char *filename_utf8_feline,
 			strcpy(adjusted_root_feline_b, "</");
 			strcat(adjusted_root_feline_b, root__________feline);
 			strcat(adjusted_root_feline_b, ">");
+			{
+				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-			my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-									 L"rb");
+				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+										 L"rb");
+
+				free(ar_temp);
+				free(ar_temp2);
+			}
 			if (my_file_feline)
 			{
 				fseek(my_file_feline, 0, SEEK_END);
@@ -1033,9 +1069,16 @@ int feline_write_xml(char *filename_utf8_feline,
 				}
 
 				fclose(my_file_feline);
+				{
+					WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+					WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-				my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-										 L"wb");
+					my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+											 L"wb");
+
+					free(ar_temp);
+					free(ar_temp2);
+				}
 
 				if (my_file_feline)
 				{
@@ -1061,17 +1104,24 @@ int feline_write_xml(char *filename_utf8_feline,
 	if (-1 == valid_position_feline)
 	{
 
-		if (3 == ret_arp)
 		{
-			my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-									 L"wb");
-		}
-		else
-		{
-			my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-									 L"ab");
-		}
+			WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+			WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+			if (3 == ret_arp)
+			{
+				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+										 L"wb");
+			}
+			else
+			{
+				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+										 L"ab");
+			}
+
+			free(ar_temp);
+			free(ar_temp2);
+		}
 		if (my_file_feline)
 		{
 
@@ -1105,9 +1155,16 @@ int feline_write_xml(char *filename_utf8_feline,
 
 	if (-1 != root_position_feline && -1 == item_position_feline)
 	{
+		{
+			WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+			WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-		my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-								 L"rb");
+			my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+									 L"rb");
+
+			free(ar_temp);
+			free(ar_temp2);
+		}
 		if (my_file_feline)
 		{
 			fseek(my_file_feline, 0, SEEK_END);
@@ -1175,9 +1232,16 @@ int feline_write_xml(char *filename_utf8_feline,
 			}
 
 			fclose(my_file_feline);
+			{
+				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-			my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-									 L"wb");
+				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+										 L"wb");
+
+				free(ar_temp);
+				free(ar_temp2);
+			}
 
 			if (my_file_feline)
 			{
@@ -1199,9 +1263,18 @@ int feline_write_xml(char *filename_utf8_feline,
 
 	if (-1 != root_position_feline && -1 != item_position_feline)
 	{
+		{
+			WCHAR *ar_temp =
+				(void *)malloc(AMANDA__SIZE_ww);
+			WCHAR *ar_temp2 =
+				(void *)malloc(AMANDA__SIZE_ww);
 
-		my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-								 L"rb");
+			my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+									 L"rb");
+
+			free(ar_temp);
+			free(ar_temp2);
+		}
 		if (my_file_feline)
 		{
 			fseek(my_file_feline, 0, SEEK_END);
@@ -1270,10 +1343,16 @@ int feline_write_xml(char *filename_utf8_feline,
 			}
 
 			fclose(my_file_feline);
+			{
+				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-			my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-									 L"wb");
+				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+										 L"wb");
 
+				free(ar_temp);
+				free(ar_temp2);
+			}
 			if (my_file_feline)
 			{
 				fwrite(line_buf_2_feline, 1, strlen(line_buf_2_feline), my_file_feline);
@@ -1294,9 +1373,16 @@ int feline_write_xml(char *filename_utf8_feline,
 
 	if (-1 == root_position_feline)
 	{
+		{
+			WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+			WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-		my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-								 L"rb");
+			my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+									 L"rb");
+
+			free(ar_temp),
+				free(ar_temp2);
+		}
 		if (my_file_feline)
 		{
 			fseek(my_file_feline, 0, SEEK_END);
@@ -1367,10 +1453,16 @@ int feline_write_xml(char *filename_utf8_feline,
 			}
 
 			fclose(my_file_feline);
+			{
+				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-			my_file_feline = _wfopen(amanda_utf8towide_1_(filename_utf8_feline),
-									 L"wb");
+				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
+										 L"wb");
 
+				free(ar_temp);
+				free(ar_temp2);
+			}
 			if (my_file_feline)
 			{
 				fwrite(line_buf_2_feline, 1, strlen(line_buf_2_feline), my_file_feline);
