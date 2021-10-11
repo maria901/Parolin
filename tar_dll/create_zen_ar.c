@@ -248,7 +248,7 @@ int encryption_process_new_mode_21_february_2021_z(char *original_filename_z)
           }
      }
 
-     return 0;
+     return ret_arp_;
 }
 
 int threads_z = 1;
@@ -8299,7 +8299,7 @@ pula_arp:;
                WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_destination_tar_file, ar_temp), ar_temp2));
-               
+
                free(ar_temp);
                free(ar_temp2);
           }

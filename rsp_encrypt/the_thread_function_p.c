@@ -906,6 +906,7 @@ saida:;
 
           if (0 == ptr_my_struct_z->dest)
           {
+               pedro_dprintf(0, "file failed -> %s\n", temp_files_z[ptr_my_struct_z->thread_id_z]);
                ptr_my_struct_z->retvalue = 81;
           }
           else
@@ -975,12 +976,7 @@ saida_arp:;
           thread_return_value_z = ptr_my_struct_z->retvalue;
      }
 
-     if (ptr_my_struct_z->filename_maria)
-     {
-          free(ptr_my_struct_z->filename_maria);
-     }
-
-     pedro_dprintf(-1, "veja %d %d\n", (int)thread_return_value_z, (int)ptr_my_struct_z->retvalue);
+     pedro_dprintf(0, "veja %d %d\n", (int)thread_return_value_z, (int)ptr_my_struct_z->retvalue);
      free(my_argument_z);
      _endthreadex(0);
 

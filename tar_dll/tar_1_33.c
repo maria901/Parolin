@@ -70,6 +70,8 @@ bool only_get_number_of_files_ar_v27 = false;
 
 int parolin_compression_level_p;
 
+char encryption_format_S2_[300] = {0};
+
 /**
  * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
  */
@@ -1143,7 +1145,7 @@ int __stdcall progress_sftp(void)
      return 0; //progress_arp_func();
 }
 typedef int (*decrypt_arp_)(char *inputfile, char *outputfile, char *key,
-                            int64_t *the_arp_file_size, char *encryption_method_i);
+                            int64_t *the_arp_file_size, char *encryption_method_i, int *cores_S2_used_z);
 typedef int (*encrypt_arp_)(char *inputfile, char *outputfile, char *key, int is_rc4_arp, int ar__threads_z_v27);
 typedef int(__stdcall *PauseExecution__arp_)(void);
 typedef int(__stdcall *ResumeExecution_arp_)(void);
@@ -1294,10 +1296,20 @@ int encrypt_arp(char *inputfile, char *outputfile, char *key, int encryption_met
  * @return 0 if no error occurred, if an erroneous password was used it will not return 0
  *
  */
-int decrypt_arp(char *inputfile, char *outputfile, char *key, int64_t *the_arp_file_size, char *encryption_method_i)
+int decrypt_arp(char *inputfile,
+                char *outputfile,
+                char *key,
+                int64_t *the_arp_file_size,
+                char *encryption_method_i,
+                int *cores_S2)
 {
      init_rsp_arp_encrypt_arp();
-     return decrypt_arp_func(inputfile, outputfile, key, the_arp_file_size, encryption_method_i);
+     return decrypt_arp_func(inputfile,
+                             outputfile,
+                             key,
+                             the_arp_file_size,
+                             encryption_method_i,
+                             cores_S2);
 }
 
 /**
@@ -7182,6 +7194,7 @@ bool flag_to_delete_temp_ar = false;
 int __stdcall get_tar_format_arp(char *format_arp)
 {
      strcpy(format_arp, string_format_arp);
+     strcat(format_arp, encryption_format_S2_);
      return 0;
 }
 
@@ -7958,6 +7971,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
      is_mislaine_encrypted_ = false;
      decoder_file_z = NULL;
      strcpy(string_format_arp, "unknown");
+     //cores_used_z = 1;
      is_encrypted_by_extension = is_compressed_z(tar_file_ar);
 
      real_VAL_filesize = -1;
@@ -8017,7 +8031,12 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
                     free(ar_temp4);
                }
                update_progress_arp(&temp_long_long);
-               ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int, encryption_method__i);
+               ret_arp_ = decrypt_arp(tar_file_ar,
+                                      temp_file_for_encrypted_v2,
+                                      the_pass_arp,
+                                      &temp_unused_var_long_long_int,
+                                      encryption_method__i,
+                                      &cores_used_z);
 
                strcpy(file_to_keep_z, temp_file_for_encrypted_v2);
                strcpy(tar_file_ar, temp_file_for_encrypted_v2);
@@ -8081,7 +8100,12 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
                     free(ar_temp4);
                }
                update_progress_arp(&temp_long_long);
-               ret_arp_ = decrypt_arp(tar_file_ar, temp_file_for_encrypted_v2, the_pass_arp, &temp_unused_var_long_long_int, encryption_method__i);
+               ret_arp_ = decrypt_arp(tar_file_ar,
+                                      temp_file_for_encrypted_v2,
+                                      the_pass_arp,
+                                      &temp_unused_var_long_long_int,
+                                      encryption_method__i,
+                                      &cores_used_z);
                strcpy(file_to_keep_z, temp_file_for_encrypted_v2);
                strcpy(tar_file_ar, temp_file_for_encrypted_v2);
                if (0 == ret_arp_)
@@ -10080,6 +10104,8 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
                               //encryption_method__i[0] = 0;
                               strcpy(string_format_arp, archive_format_string(detected_format_arp));
 
+                              //strcat(string_format_arp, encryption_format_S2_);
+
                               already_arp++;
                          }
 
@@ -10193,6 +10219,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
                init_decoder_z = 1;
                //encryption_method__i[0] = 0;
                strcpy(string_format_arp, "VAL");
+               //strcat(string_format_arp, encryption_format_S2_);
                while (1)
                {
                     int ret_arp;

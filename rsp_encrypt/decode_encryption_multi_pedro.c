@@ -39,6 +39,12 @@ static int detected_encryption_method_p;
 
 unsigned __stdcall my_thread_function_v270(void *my_argument_z)
 {
+    char *rc6_buffer = NULL;
+    char *twofish_buffer = NULL;
+
+    char key_v2[300] = {
+        0,
+    };
     int64_t datasaved_m = 0;
     int ret_m, n, infile_remaining;
     my_thread_struct_z *ptr_my_struct_z = (void *)my_argument_z;
@@ -82,7 +88,40 @@ unsigned __stdcall my_thread_function_v270(void *my_argument_z)
     case ARP_AES_MT:
 
         break;
+    case ARP_RC4_MT:
+        strncpy(key_v2, (char *)ptr_my_struct_z->key_k__p, 32);
+        rc4_setup(&ptr_my_struct_z->rc4s, (uchar *)key_v2, 256);
+        break;
+    case ARP_SERPENT_MT:
+        init_serpent_v27((char *)ptr_my_struct_z->key_k__p,
+                         ptr_my_struct_z);
+        break;
+    case ARP_MARS_MT:
+        init_mars_arp_v27((char *)ptr_my_struct_z->key_k__p,
+                          ptr_my_struct_z);
+        break;
+    case ARP_RC6_MT:
+        /*
+          init_mars_arp_v27((char *)ptr_my_struct_z->key_k__p,
+          ptr_my_struct_z);
+          */
+
+        rc6_buffer = calloc(get_size_minha_struct_m(), 1);
+
+        init_rc6__arp_v27((char *)ptr_my_struct_z->key_k__p,
+                          rc6_buffer);
+
+        break;
+    case ARP_TWOFISH_MT:
+
+        twofish_buffer = calloc(get_size_of_struct_twofish_m(), 1);
+
+        init_twofish_arp_maria_v27((char *)ptr_my_struct_z->key_k__p,
+                                   twofish_buffer);
+
+        break;
     default:
+        pedro_dprintf(1001, "Invalid format or method\n");
         exit(27);
         break;
     }
@@ -137,6 +176,72 @@ unsigned __stdcall my_thread_function_v270(void *my_argument_z)
             datasaved_m += n;
 
             break;
+        case ARP_RC4_MT:
+            rc4_crypt(&ptr_my_struct_z->rc4s, (void *)ptr_my_struct_z->buffer, n);
+            ret_m = fwrite((void *)ptr_my_struct_z->buffer, 1, n, ptr_my_struct_z->dest);
+
+            if (ret_m != n)
+            {
+                ptr_my_struct_z->retvalue = 4030; //File access error
+                goto saida_amanda;
+            }
+            break;
+        case ARP_SERPENT_MT:
+            encryptstring_serpent_v27((void *)ptr_my_struct_z->buffer,
+                                      (void *)ptr_my_struct_z->out,
+                                      (void *)ptr_my_struct_z->key_k__p,
+                                      n,
+                                      ptr_my_struct_z);
+
+            ret_m = fwrite(ptr_my_struct_z->out, 1, n, ptr_my_struct_z->dest);
+
+            if (ret_m != n)
+            {
+                ptr_my_struct_z->retvalue = 4030; //File access error
+                goto saida_amanda;
+            }
+            break;
+        case ARP_MARS_MT:
+            encryptstring_mars_arp_v27((void *)ptr_my_struct_z->buffer,
+                                       (void *)ptr_my_struct_z->out,
+                                       (void *)ptr_my_struct_z->key_k__p,
+                                       n,
+                                       ptr_my_struct_z);
+
+            ret_m = fwrite(ptr_my_struct_z->out, 1, n, ptr_my_struct_z->dest);
+
+            if (ret_m != n)
+            {
+                ptr_my_struct_z->retvalue = 4030; //File access error
+                goto saida_amanda;
+            }
+            break;
+        case ARP_RC6_MT:
+            encryptstring_rc6_arp_v27((void *)ptr_my_struct_z->buffer,
+                                      (void *)ptr_my_struct_z->out,
+                                      (void *)ptr_my_struct_z->key_k__p,
+                                      n,
+                                      rc6_buffer);
+            ret_m = fwrite(ptr_my_struct_z->out, 1, n, ptr_my_struct_z->dest);
+            if (ret_m != n)
+            {
+                ptr_my_struct_z->retvalue = 4030; //File access error
+                goto saida_amanda;
+            }
+            break;
+        case ARP_TWOFISH_MT:
+            encryptstring_twofish_arp_maria_v27((void *)ptr_my_struct_z->buffer,
+                                                (void *)ptr_my_struct_z->out,
+                                                (void *)ptr_my_struct_z->key_k__p,
+                                                n,
+                                                twofish_buffer);
+            ret_m = fwrite(ptr_my_struct_z->out, 1, n, ptr_my_struct_z->dest);
+            if (ret_m != n)
+            {
+                ptr_my_struct_z->retvalue = 4030; //File access error
+                goto saida_amanda;
+            }
+            break;
         }
         while ((*(ptr_my_struct_z->intpause)))
         {
@@ -186,7 +291,17 @@ saida_amanda:;
         free(ptr_my_struct_z->out);
     }
 
-    pedro_dprintf(0, "&&&&Data saved %lld\n", datasaved_m);
+    if (twofish_buffer)
+    {
+        free(twofish_buffer);
+    }
+
+    if (rc6_buffer)
+    {
+        free(rc6_buffer);
+    }
+
+    pedro_dprintf(-1, "&&&&Data saved %lld\n", datasaved_m);
 
     //Sleep(2000);
 
@@ -220,7 +335,10 @@ getfilesize_ar(char *infile_ar)
     }
     return ret;
 }
-int __fastcall unencrypt_multi_thread_m(char *input_z, char *output_z, char *password_v_)
+int __fastcall unencrypt_multi_thread_m(char *input_z,
+                                        char *output_z,
+                                        char *password_v_,
+                                        int *cores_S2__)
 {
     my_thread_struct_z *ptr_my_struct_z;
     FILE *dest_z;
@@ -240,6 +358,8 @@ int __fastcall unencrypt_multi_thread_m(char *input_z, char *output_z, char *pas
     unsigned char sha512buf_m[64] = {0};
     uchar sha512_internal_maria[64];
     ar_data ar = {0};
+
+    cores___S2_ = cores_S2__;
 
     bytes_read_z = 0;
 
@@ -379,9 +499,13 @@ saida_z:;
     pedro_dprintf(-1, "passou ok 1\n");
     //exit(27);
 
+    //*cores___S2_ = n_threads_z;
+
     n_threads_z = thread_counter;
 
     n_threads_copy = thread_counter;
+
+    *cores___S2_ = n_threads_copy;
 
     while (n_threads_copy--)
     {

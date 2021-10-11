@@ -1101,7 +1101,7 @@ int SHA512_filelong_m_opened_file(FILE *the_input_file_arthur, int64_t file_size
  * sha512_digest_k need to be at least 65 bytes long
  *
  */
-int SHA512_filelong_m_opened_file_v27(FILE *the_input_file_arthur, int64_t offset_m, int64_t file_size_erika, unsigned char *sha512_digest_k)
+int SHA512_filelong_m_opened_file_v27_no(FILE *the_input_file_arthur, int64_t offset_m, int64_t file_size_erika, unsigned char *sha512_digest_k)
 {
 	int size_m = file_size_erika;
 

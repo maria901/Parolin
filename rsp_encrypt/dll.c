@@ -68,7 +68,10 @@
 #include "rc4.h"
 int unicodemode = 0;
 
-int __fastcall unencrypt_multi_thread_m(char *input_z, char *output_z, char *password_v_);
+int __fastcall unencrypt_multi_thread_m(char *input_z,
+                                        char *output_z,
+                                        char *password_v_,
+                                        int *);
 
 int rspencrypt_encrypt_multi_thread_k__p(char *input,
                                          char *output,
@@ -1772,11 +1775,16 @@ int encrypt_arp(uchar *inputfile,
      {
           return 119; //user cancel.
      }
-
+     pedro_dprintf(0, "na saida %d", ret_arp);
      return ret_arp;
 }
 
-int decrypt_arp(uchar *inputfile, uchar *outputfile, uchar *key, int64_t *the_arp_file_size_, char *encryption_method_i)
+int decrypt_arp(uchar *inputfile,
+                uchar *outputfile,
+                uchar *key,
+                int64_t *the_arp_file_size_,
+                char *encryption_method_i,
+                int *cores_S2__)
 {
      int ret_arp;
      char key_arp[300] = {0};
@@ -1796,7 +1804,10 @@ int decrypt_arp(uchar *inputfile, uchar *outputfile, uchar *key, int64_t *the_ar
      if (is_encrypted_multi_thread_m((void *)inputfile))
      {
           //exit(27);
-          ret_arp = unencrypt_multi_thread_m((void *)inputfile, (void *)outputfile, (void *)key_arp);
+          ret_arp = unencrypt_multi_thread_m((void *)inputfile,
+                                             (void *)outputfile,
+                                             (void *)key_arp,
+                                             cores_S2__);
      }
      else
      {

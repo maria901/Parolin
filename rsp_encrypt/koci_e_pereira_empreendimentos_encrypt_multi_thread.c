@@ -86,6 +86,8 @@ enum encryption_mode_arp
 
 #define AMANDA__SIZE_ww ((32767 * 2) + 2)
 
+static int *cores___S2_ = NULL;
+
 static int64_t ret_arp_ = 0;
 int SHA512_filelong_m_opened_file_v27(FILE *the_input_file_arthur, int64_t offset_m, int64_t file_size_erika, unsigned char *sha512_digest_k);
 int __fastcall get_size_of_struct_twofish_m(void);
@@ -222,7 +224,7 @@ static wchar_t *
 permissive_name_m_(const wchar_t *wname, wchar_t *mem_amanda)
 {
 
-     static wchar_t *wnp = NULL;
+     wchar_t *wnp = NULL;
      wchar_t *wn;
      wchar_t *ws, *wsp;
      DWORD len, slen;
@@ -589,9 +591,6 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                     pedro_dprintf(-1, "alocou\n");
 
                     ptr_my_struct_z->thread_id_z = n_thread_counter;
-
-                    ptr_my_struct_z->filename_maria = malloc(strlen(input) + 1);
-                    strcpy(ptr_my_struct_z->filename_maria, input);
 
                     if (unicodemode)
                     {

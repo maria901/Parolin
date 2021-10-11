@@ -2295,6 +2295,10 @@ bool is_encrypted_gnu_tar_arp(char *file_arp_utf_8)
      FILE *amanda_file;
      int len_arp;
 
+     memset(encryption_format_S2_, 0, sizeof(encryption_format_S2_));
+
+     strcpy(encryption_format_S2_, " ");
+
      {
 
           WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
@@ -2378,26 +2382,32 @@ bool is_encrypted_gnu_tar_arp(char *file_arp_utf_8)
 
                     case 0x706c6176 - 6:
                          encryption_detected_z = ARP_AES_MT;
+                         strcat(encryption_format_S2_, "+ AES MT");
                          break;
 
                     case 0x706c6176 - 7:
                          encryption_detected_z = ARP_RC4_MT;
+                         strcat(encryption_format_S2_, "+ RC4 MT");
                          break;
 
                     case 0x706c6176 - 8:
                          encryption_detected_z = ARP_SERPENT_MT;
+                         strcat(encryption_format_S2_, " + SERPENT MT");
                          break;
 
                     case 0x706c6176 - 9:
                          encryption_detected_z = ARP_MARS_MT;
+                         strcat(encryption_format_S2_, "+ MARS MT");
                          break;
 
                     case 0x706c6176 - 10:
                          encryption_detected_z = ARP_RC6_MT;
+                         strcat(encryption_format_S2_, "+ RC6 MT");
                          break;
 
                     case 0x706c6176 - 11:
                          encryption_detected_z = ARP_TWOFISH_MT;
+                         strcat(encryption_format_S2_, "+ TWOFISH MT");
                          break;
                     }
                     fclose(amanda_file);
@@ -2557,7 +2567,12 @@ extract_file(char *file_name_in_arp, int typeflag)
                strcpy(temp_file_arp, constructed_filename_kp);
                strcat(temp_file_arp, ".$_$arp.tmp");
 
-               ret_arp_ = decrypt_arp(constructed_filename_kp, temp_file_arp, the_pass_arp, &temp_2_arp, encryption_method__i);
+               ret_arp_ = decrypt_arp(constructed_filename_kp,
+                                      temp_file_arp,
+                                      the_pass_arp,
+                                      &temp_2_arp,
+                                      encryption_method__i,
+                                      &cores_used_z);
 
                if (0 == ret_arp_)
                {
@@ -2865,7 +2880,12 @@ exit_now_arp:;
                update_progress_arp(&temp_arp);
                strcpy(temp_file_arp, constructed_filename_kp);
                strcat(temp_file_arp, ".$_$arp.tmp");
-               ret_arp_ = decrypt_arp(constructed_filename_kp, temp_file_arp, the_pass_arp, &temp_2_arp, encryption_method__i);
+               ret_arp_ = decrypt_arp(constructed_filename_kp,
+                                      temp_file_arp,
+                                      the_pass_arp,
+                                      &temp_2_arp,
+                                      encryption_method__i,
+                                      &cores_used_z);
 
                if (0 == ret_arp_)
                {
