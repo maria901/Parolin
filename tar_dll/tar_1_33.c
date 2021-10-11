@@ -4312,6 +4312,60 @@ void simple_print_header_VAL(void)
                     }
                     strcpy(typeflag_ar, "FILE (Encrypted TWOFISH)");
                }
+               else if (ARP_AES_MT == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         //strcat(string_format_arp, " + TWOFISH");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted AES)");
+               }
+               else if (ARP_RC4_MT == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         //strcat(string_format_arp, " + TWOFISH");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted RC4)");
+               }
+               else if (ARP_SERPENT_MT == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         //strcat(string_format_arp, " + TWOFISH");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted SERPENT)");
+               }
+               else if (ARP_MARS_MT == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         //strcat(string_format_arp, " + TWOFISH");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted MARS)");
+               }
+               else if (ARP_RC6_MT == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         //strcat(string_format_arp, " + TWOFISH");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted RC6)");
+               }
+               else if (ARP_TWOFISH_MT == my_VAL_data_arp.VAL_encryption_method)
+               {
+                    if (0 == already_arp)
+                    {
+                         already_arp++;
+                         //strcat(string_format_arp, " + TWOFISH");
+                    }
+                    strcpy(typeflag_ar, "FILE (Encrypted TWOFISH)");
+               }
           }
           else
                strcpy(typeflag_ar, "FILE");
@@ -7971,7 +8025,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
      is_mislaine_encrypted_ = false;
      decoder_file_z = NULL;
      strcpy(string_format_arp, "unknown");
-     //cores_used_z = 1;
+     cores_used_z = 1;
      is_encrypted_by_extension = is_compressed_z(tar_file_ar);
 
      real_VAL_filesize = -1;
