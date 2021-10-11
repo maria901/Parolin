@@ -33,12 +33,14 @@
 
 static uint64_t bytes_in_each_slice_z[129];
 static uint64_t offset_of_each_slice_z[129];
-static uint64_t the_sha512_got_maria[129][64];
+static unsigned char the_sha512_got_maria[129][64];
 
 static int detected_encryption_method_p;
 
 unsigned __stdcall my_thread_function_v270(void *my_argument_z)
 {
+    int64_t datasaved_m = 0;
+    int ret_m, n, infile_remaining;
     my_thread_struct_z *ptr_my_struct_z = (void *)my_argument_z;
     assert(ptr_my_struct_z);
     if (NULL == ptr_my_struct_z->dest)
@@ -48,25 +50,21 @@ unsigned __stdcall my_thread_function_v270(void *my_argument_z)
 
     pedro_dprintf(-1, "bytes to extract %lld\n", ptr_my_struct_z->size_of_input_file_copy_z);
 
-    /*
-	if(0 != ptr_my_struct_z->offset_z)
-	{
-		
-		pedro_dprintf(-1, "seek to %lld\n", ptr_my_struct_z->offset_z);
-		
-		if(
-			0 != _fseeki64(
-				ptr_my_struct_z->input_file,
-				ptr_my_struct_z->offset_z,
-				SEEK_SET
-				)
-			)
-		{
-			ptr_my_struct_z->retvalue = 403;  //File access error
-			goto saida_amanda;
-		}
-	}
-	*/
+    if (0 != ptr_my_struct_z->offset_z)
+    {
+
+        pedro_dprintf(-1, "seek to %lld\n", ptr_my_struct_z->offset_z);
+
+        if (
+            0 != _fseeki64(
+                     ptr_my_struct_z->input_file,
+                     ptr_my_struct_z->offset_z,
+                     SEEK_SET))
+        {
+            ptr_my_struct_z->retvalue = 4019; //File access error
+            goto saida_amanda;
+        }
+    }
 
     //aqui amor...
 
@@ -75,25 +73,94 @@ unsigned __stdcall my_thread_function_v270(void *my_argument_z)
     /*
       ptr_my_struct_z->retvalue = zuncompress_sha512_k_mt_decoding_multi_thread_z(ptr_my_struct_z->input_file, NULL, ptr_my_struct_z);
 */
+    ptr_my_struct_z->buffer = malloc(CHUNK_k__p);
+    ptr_my_struct_z->out = malloc(CHUNK_k__p);
+    ptr_my_struct_z->init_aes = 1;
 
-    if (119 == ptr_my_struct_z->internal_error_arp)
+    switch (detected_encryption_method_p)
     {
-        ptr_my_struct_z->retvalue = 119;
+    case ARP_AES_MT:
+
+        break;
+    default:
+        exit(27);
+        break;
     }
-    else if (6 == ptr_my_struct_z->internal_error_arp)
+
+    infile_remaining = ptr_my_struct_z->size_of_input_file_z;
+
+    for (;;)
     {
-        ptr_my_struct_z->retvalue = ptr_my_struct_z->internal_error_arp;
-    }
-    else
-    {
-        if (ptr_my_struct_z->retvalue)
+        ;
+
+        n = min(infile_remaining, CHUNK_k__p);
+
+        ptr_my_struct_z->ret = fread(ptr_my_struct_z->buffer, 1, n, ptr_my_struct_z->input_file);
+
+        if (0 == ptr_my_struct_z->ret)
         {
-            pedro_dprintf(-1, "error 2 7 \n");
-            ptr_my_struct_z->retvalue = 7; //Decompression error
+            goto saida_amanda;
+        }
+
+        if (ptr_my_struct_z->ret != n)
+        {
+            ptr_my_struct_z->retvalue = 4020; //Cannot read from input file
+            goto saida_amanda;
+        }
+
+        infile_remaining -= n;
+
+        if (bytes_read_arp)
+        {
+            *bytes_read_arp += n / 2;
+        }
+
+        bytes_read_z += n / 2;
+
+        switch (detected_encryption_method_p)
+        {
+        case ARP_AES_MT:
+            encryptstring2_pedro((void *)ptr_my_struct_z->buffer,
+                                 (void *)ptr_my_struct_z->key_k__p,
+                                 (void *)ptr_my_struct_z->out,
+                                 n,
+                                 0,
+                                 ptr_my_struct_z);
+            ret_m = fwrite(ptr_my_struct_z->out, 1, n, ptr_my_struct_z->dest);
+
+            if (ret_m != n)
+            {
+                ptr_my_struct_z->retvalue = 4030; //File access error
+                goto saida_amanda;
+            }
+
+            datasaved_m += n;
+
+            break;
+        }
+        while ((*(ptr_my_struct_z->intpause)))
+        {
+            Sleep(50);
+            if (*(ptr_my_struct_z->intcancel))
+            {
+                ptr_my_struct_z->retvalue = 119; //User abort
+                goto saida_amanda;
+            }
+        }
+        if (*(ptr_my_struct_z->intcancel))
+        {
+            ptr_my_struct_z->retvalue = 119; //User abort
+            goto saida_amanda;
         }
     }
 
 saida_amanda:;
+
+    if (ptr_my_struct_z->dest)
+    {
+        fclose(ptr_my_struct_z->dest);
+        ptr_my_struct_z->dest = NULL;
+    }
 
     if (*(ptr_my_struct_z->intcancel))
     {
@@ -109,6 +176,17 @@ saida_amanda:;
     {
         thread_return_value_z = ptr_my_struct_z->retvalue;
     }
+    if (ptr_my_struct_z->buffer)
+    {
+        free(ptr_my_struct_z->buffer);
+    }
+
+    if (ptr_my_struct_z->out)
+    {
+        free(ptr_my_struct_z->out);
+    }
+
+    pedro_dprintf(0, "&&&&Data saved %lld\n", datasaved_m);
 
     //Sleep(2000);
 
@@ -118,6 +196,30 @@ saida_amanda:;
     return 27 + 51;
 }
 
+__int64
+getfilesize_ar(char *infile_ar)
+{
+    __int64 ret;
+    FILE *myfile;
+    {
+
+        WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+        WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+        if ((myfile = _wfopen(permissive_name_m_(amanda_utf8towide_1_(infile_ar, ar_temp), ar_temp2), L"rb")) == NULL)
+        {
+            free(ar_temp);
+            free(ar_temp2);
+            return 0;
+        }
+        ret = _fseeki64(myfile, 0, SEEK_END);
+        ret = _ftelli64(myfile);
+        fclose(myfile);
+
+        free(ar_temp);
+        free(ar_temp2);
+    }
+    return ret;
+}
 int __fastcall unencrypt_multi_thread_m(char *input_z, char *output_z, char *password_v_)
 {
     my_thread_struct_z *ptr_my_struct_z;
@@ -135,7 +237,11 @@ int __fastcall unencrypt_multi_thread_m(char *input_z, char *output_z, char *pas
     int *ptr_int_m;
     int64_t remaining_z;
     static char buffer[CHUNK_k__p];
+    unsigned char sha512buf_m[64] = {0};
+    uchar sha512_internal_maria[64];
     ar_data ar = {0};
+
+    bytes_read_z = 0;
 
     pedro_dprintf(-1, "ok dentro threads %d\n", n_threads_z);
 
@@ -235,7 +341,9 @@ int __fastcall unencrypt_multi_thread_m(char *input_z, char *output_z, char *pas
         }
         bytes_in_each_slice_z[thread_counter] = remaining_z;
 
-        ret_arp = fread(the_sha512_got_maria[thread_counter], 1, 64, input_file);
+        ret_arp = fread(sha512buf_m, 1, 64, input_file);
+        memcpy(&the_sha512_got_maria[thread_counter][0], sha512buf_m, 64);
+        pedro_dprintf(0, "val -> %d\n", (int)sha512buf_m[0]);
 
         if (64 != ret_arp)
         {
@@ -262,7 +370,7 @@ saida_z:;
 
     pedro_dprintf(0, "count of threads %d", thread_counter);
     pedro_dprintf(0, "retval m %d", retvalue_z);
-    exit(27);
+    //exit(27);
 
     if (retvalue_z)
     {
@@ -391,6 +499,9 @@ saida_z:;
     for (i_z = 0; i_z < n_threads_z; i_z++)
     {
         pedro_dprintf(-1, "arquivo temp a del %s\n", temp_files_z[i_z]);
+
+        pedro_dprintf(0, "888Size -> %lld\n", getfilesize_ar(temp_files_z[i_z]));
+
         if (dest_z)
         {
 
@@ -414,6 +525,17 @@ saida_z:;
             if (temp_z)
             {
                 //Mr. Do
+
+                SHA512_filelong_m_opened_file(temp_z,
+                                              bytes_in_each_slice_z[i_z],
+                                              sha512_internal_maria);
+
+                if (0 != memcmp(sha512_internal_maria, &the_sha512_got_maria[i_z][0], 64))
+                {
+
+                    thread_return_value_z = 4;
+                }
+                pedro_dprintf(0, "thread %d %d size %lld", (int)sha512_internal_maria[0], the_sha512_got_maria[i_z][0], bytes_in_each_slice_z[i_z]);
 
             volta_amanda:;
 #ifdef ARP_USE_ENHANCED_STDIO

@@ -96,6 +96,11 @@
 #undef NDEBUG
 #include <assert.h>
 
+void pedro_dprintf(int amanda_level,
+				   char *format, ...);
+
+int adler32(int adler, char *buf, int len);
+
 #define AMANDA_TAMANHO 0x100000
 
 extern long long int bytes_read_z;
@@ -909,7 +914,7 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
 void *sha512_init_k()
 {
 	//SHA512_CTX *c = NULL;
-	char *ctx = malloc(sizeof(SHA512_CTX));
+	char *ctx = calloc(sizeof(SHA512_CTX), 1);
 
 	assert(ctx);
 
@@ -1034,7 +1039,6 @@ int SHA512_filelong_k(unsigned char *inputfile, unsigned char *sha512_digest_k)
  */
 int SHA512_filelong_m_opened_file(FILE *the_input_file_arthur, int64_t file_size_erika, unsigned char *sha512_digest_k)
 {
-
 	int64_t position_laura = _ftelli64(the_input_file_arthur);
 	unsigned char *buf = malloc(AMANDA_TAMANHO);
 	//HANDLE stream;
@@ -1050,7 +1054,7 @@ int SHA512_filelong_m_opened_file(FILE *the_input_file_arthur, int64_t file_size
 
 		len_mislaine = fread(buf, 1, fatia_feline, the_input_file_arthur);
 
-		if (len_mislaine <= 0)
+		if (0 == len_mislaine)
 		{
 			break;
 		}
@@ -1077,6 +1081,8 @@ int SHA512_filelong_m_opened_file(FILE *the_input_file_arthur, int64_t file_size
 
 		bytes_read_z += len_mislaine / 2;
 
+		//memset(buf, 0, len_mislaine);
+
 		sha512_update_k(ptr_sha512_k, buf, len_mislaine);
 		//crc = adler32 (crc, buf, len);
 	}
@@ -1086,6 +1092,74 @@ int SHA512_filelong_m_opened_file(FILE *the_input_file_arthur, int64_t file_size
 	_fseeki64(the_input_file_arthur, position_laura, SEEK_SET);
 
 	sha512_final_k(ptr_sha512_k, sha512_digest_k);
+
+	free(buf);
+	return 0;
+}
+
+/**
+ * sha512_digest_k need to be at least 65 bytes long
+ *
+ */
+int SHA512_filelong_m_opened_file_v27(FILE *the_input_file_arthur, int64_t offset_m, int64_t file_size_erika, unsigned char *sha512_digest_k)
+{
+	int size_m = file_size_erika;
+
+	_fseeki64(the_input_file_arthur, offset_m, SEEK_SET);
+
+	unsigned char *buf = malloc(AMANDA_TAMANHO);
+	//HANDLE stream;
+	unsigned int len_mislaine;
+	size_t /* porque eu to usando isso ? */ fatia_feline;
+
+	char *ptr_sha512_k = sha512_init_k();
+
+	while (1)
+	{
+
+		fatia_feline = min(file_size_erika, AMANDA_TAMANHO);
+
+		len_mislaine = fread(buf, 1, fatia_feline, the_input_file_arthur);
+
+		if (0 == len_mislaine)
+		{
+			break;
+		}
+
+		file_size_erika -= len_mislaine;
+
+	ret_z_1:
+		if (1 == intpause)
+		{
+
+			if (1 == intcancel)
+			{
+				break;
+			}
+
+			Sleep(50);
+			goto ret_z_1;
+		}
+
+		if (1 == intcancel)
+		{
+			break;
+		}
+
+		bytes_read_z += len_mislaine / 2;
+
+		//memset(buf, 0, len_mislaine);
+
+		sha512_update_k(ptr_sha512_k, buf, len_mislaine);
+		//crc = adler32 (crc, buf, len);
+	}
+
+	//lfclose(stream);
+
+	sha512_final_k(ptr_sha512_k, sha512_digest_k);
+
+	pedro_dprintf(0, "adler32 %d size %d \n", adler32(0, (void *)sha512_digest_k, 64), size_m);
+
 	free(buf);
 	return 0;
 }

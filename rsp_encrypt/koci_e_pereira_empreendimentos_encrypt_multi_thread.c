@@ -87,7 +87,7 @@ enum encryption_mode_arp
 #define AMANDA__SIZE_ww ((32767 * 2) + 2)
 
 static int64_t ret_arp_ = 0;
-
+int SHA512_filelong_m_opened_file_v27(FILE *the_input_file_arthur, int64_t offset_m, int64_t file_size_erika, unsigned char *sha512_digest_k);
 int __fastcall get_size_of_struct_twofish_m(void);
 int __stdcall encryptstring_twofish_arp_maria_v27(uchar *buf, uchar *bufout, char *key_arp, uint size, char *variaveis_m);
 int __stdcall init_twofish_arp_maria_v27(char *key_arp_, char *variaveis_m);
@@ -549,6 +549,7 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
           pedro_dprintf(0, "new encryption threads used %d\n", n_threads_z);
 
           totalbytes = lffilesize(input);
+
           totalbytes_z = totalbytes;
 
           if (1000 > totalbytes)
@@ -588,6 +589,9 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                     pedro_dprintf(-1, "alocou\n");
 
                     ptr_my_struct_z->thread_id_z = n_thread_counter;
+
+                    ptr_my_struct_z->filename_maria = malloc(strlen(input) + 1);
+                    strcpy(ptr_my_struct_z->filename_maria, input);
 
                     if (unicodemode)
                     {

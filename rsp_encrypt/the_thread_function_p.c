@@ -557,6 +557,7 @@ int __stdcall encryptstring2_pedro(uchar *buf, uchar *key, uchar *bufout, uint s
 unsigned __stdcall my_thread_function(void *my_argument_z);
 unsigned __stdcall my_thread_function(void *my_argument_z)
 {
+     int64_t saved_bytes_m = 0;
      int ret_m;
      int64_t size_of_compressed_z = 0;
      char *rc6_buffer = NULL;
@@ -631,11 +632,11 @@ unsigned __stdcall my_thread_function(void *my_argument_z)
           goto saida;
      }
 
-     pedro_dprintf(-1, "position after %lld\n", _ftelli64(ptr_my_struct_z->dest));
-
      SHA512_filelong_m_opened_file(ptr_my_struct_z->input_file,
                                    ptr_my_struct_z->size_of_input_file_z,
                                    ptr_my_struct_z->sha512_digest_k);
+
+     pedro_dprintf(0, "sha thread %d size %lld", (int)ptr_my_struct_z->sha512_digest_k[0], ptr_my_struct_z->size_of_input_file_z);
 
      int64_t infile_remaining = ptr_my_struct_z->size_of_input_file_z;
 
@@ -861,7 +862,7 @@ fwrite(&fatia, 1, 4, stream2);
                }
                break;
           }
-
+          saved_bytes_m += n;
           //printf("Input bytes remaining: %u\n", infile_remaining);
 
           ptr_my_struct_z->bytesread = ptr_my_struct_z->bytesread + ptr_my_struct_z->ret;
@@ -939,6 +940,8 @@ saida:;
 
 saida_arp:;
 
+     pedro_dprintf(0, "****Data savedsaved_bytes_m %lld\n", saved_bytes_m);
+
      if (twofish_buffer)
      {
           free(twofish_buffer);
@@ -971,6 +974,12 @@ saida_arp:;
      {
           thread_return_value_z = ptr_my_struct_z->retvalue;
      }
+
+     if (ptr_my_struct_z->filename_maria)
+     {
+          free(ptr_my_struct_z->filename_maria);
+     }
+
      pedro_dprintf(-1, "veja %d %d\n", (int)thread_return_value_z, (int)ptr_my_struct_z->retvalue);
      free(my_argument_z);
      _endthreadex(0);

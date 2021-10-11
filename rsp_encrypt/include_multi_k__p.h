@@ -38,6 +38,7 @@ typedef struct my_thread_struct_z__
     char *buffer;
     char *out;
     char *temp_output;
+    char * filename_maria;
     char key_k__p[300];
     unsigned char sha512_digest_k[65];
     int64_t *bytes_read_z;
