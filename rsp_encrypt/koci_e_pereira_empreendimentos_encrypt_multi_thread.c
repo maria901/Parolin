@@ -548,7 +548,7 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
 
      {
 
-          pedro_dprintf(0, "new encryption threads used %d\n", n_threads_z);
+          pedro_dprintf(-1, "new encryption threads used %d\n", n_threads_z);
 
           totalbytes = lffilesize(input);
 
@@ -886,7 +886,7 @@ int rspencrypt_encrypt_multi_thread_k__p(char *input,
                     fclose(dest), dest = NULL;
                }
 
-               pedro_dprintf(0, "vejamos %d\n", thread_return_value_z);
+               pedro_dprintf(-1, "vejamos %d\n", thread_return_value_z);
 
                return thread_return_value_z;
           }

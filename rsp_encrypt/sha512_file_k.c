@@ -1158,7 +1158,7 @@ int SHA512_filelong_m_opened_file_v27_no(FILE *the_input_file_arthur, int64_t of
 
 	sha512_final_k(ptr_sha512_k, sha512_digest_k);
 
-	pedro_dprintf(0, "adler32 %d size %d \n", adler32(0, (void *)sha512_digest_k, 64), size_m);
+	pedro_dprintf(-1, "adler32 %d size %d \n", adler32(0, (void *)sha512_digest_k, 64), size_m);
 
 	free(buf);
 	return 0;

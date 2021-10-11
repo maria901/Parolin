@@ -1775,7 +1775,7 @@ int encrypt_arp(uchar *inputfile,
      {
           return 119; //user cancel.
      }
-     pedro_dprintf(0, "na saida %d", ret_arp);
+     pedro_dprintf(-1, "na saida %d", ret_arp);
      return ret_arp;
 }
 

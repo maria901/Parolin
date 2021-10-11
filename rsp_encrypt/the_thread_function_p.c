@@ -636,7 +636,7 @@ unsigned __stdcall my_thread_function(void *my_argument_z)
                                    ptr_my_struct_z->size_of_input_file_z,
                                    ptr_my_struct_z->sha512_digest_k);
 
-     pedro_dprintf(0, "sha thread %d size %lld", (int)ptr_my_struct_z->sha512_digest_k[0], ptr_my_struct_z->size_of_input_file_z);
+     pedro_dprintf(-1, "sha thread %d size %lld", (int)ptr_my_struct_z->sha512_digest_k[0], ptr_my_struct_z->size_of_input_file_z);
 
      int64_t infile_remaining = ptr_my_struct_z->size_of_input_file_z;
 
@@ -906,7 +906,7 @@ saida:;
 
           if (0 == ptr_my_struct_z->dest)
           {
-               pedro_dprintf(0, "file failed -> %s\n", temp_files_z[ptr_my_struct_z->thread_id_z]);
+               pedro_dprintf(-1, "file failed -> %s\n", temp_files_z[ptr_my_struct_z->thread_id_z]);
                ptr_my_struct_z->retvalue = 81;
           }
           else
@@ -941,7 +941,7 @@ saida:;
 
 saida_arp:;
 
-     pedro_dprintf(0, "****Data savedsaved_bytes_m %lld\n", saved_bytes_m);
+     pedro_dprintf(-1, "****Data savedsaved_bytes_m %lld\n", saved_bytes_m);
 
      if (twofish_buffer)
      {
@@ -976,7 +976,7 @@ saida_arp:;
           thread_return_value_z = ptr_my_struct_z->retvalue;
      }
 
-     pedro_dprintf(0, "veja %d %d\n", (int)thread_return_value_z, (int)ptr_my_struct_z->retvalue);
+     pedro_dprintf(-1, "veja %d %d\n", (int)thread_return_value_z, (int)ptr_my_struct_z->retvalue);
      free(my_argument_z);
      _endthreadex(0);
 

@@ -2,7 +2,7 @@
 
 AMANDA_FLAGS__=-O3 -Wextra -Wall -Wfatal-errors -Werror -Wextra -Wno-unused-function -Wno-stringop-truncation -DALE__
 
-amanda_32: /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o /bw_tmp/rsp_encrypt/adlercheck_32.o /bw_tmp/rsp_encrypt/aes_32.o /bw_tmp/rsp_encrypt/pedro_32.o /bw_tmp/rsp_encrypt/cpu_32.o /bw_tmp/rsp_encrypt/crc32_32.o /bw_tmp/rsp_encrypt/dll_32.o /bw_tmp/rsp_encrypt/folder_i_32.o /bw_tmp/rsp_encrypt/hexa_32.o /bw_tmp/rsp_encrypt/longfile_32.o /bw_tmp/rsp_encrypt/rc4_32.o /bw_tmp/rsp_encrypt/sha512_k_32.o /bw_tmp/rsp_encrypt/serpent_32.o /bw_tmp/rsp_encrypt/mars_32.o /bw_tmp/rsp_encrypt/rc6_32.o /bw_tmp/rsp_encrypt/twofish_32.o /bw_tmp/rsp_encrypt/dprintf_32.o
+amanda_32: /bw_tmp/rsp_encrypt/twofish_mt_maria_32.o /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o /bw_tmp/rsp_encrypt/adlercheck_32.o /bw_tmp/rsp_encrypt/aes_32.o /bw_tmp/rsp_encrypt/pedro_32.o /bw_tmp/rsp_encrypt/cpu_32.o /bw_tmp/rsp_encrypt/crc32_32.o /bw_tmp/rsp_encrypt/dll_32.o /bw_tmp/rsp_encrypt/folder_i_32.o /bw_tmp/rsp_encrypt/hexa_32.o /bw_tmp/rsp_encrypt/longfile_32.o /bw_tmp/rsp_encrypt/rc4_32.o /bw_tmp/rsp_encrypt/sha512_k_32.o /bw_tmp/rsp_encrypt/serpent_32.o /bw_tmp/rsp_encrypt/mars_32.o /bw_tmp/rsp_encrypt/rc6_32.o /bw_tmp/rsp_encrypt/twofish_32.o /bw_tmp/rsp_encrypt/dprintf_32.o
 
 #	-rm *.DLL *.dll *.ric *~ *.exe *.EXE *.o *.a
 
@@ -10,9 +10,13 @@ amanda_32: /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thre
 
 	@i686-w64-mingw32-windres.exe -o /bw_tmp/rsp_encrypt/amanda_ver32.o -O coff version_ricardo_mislaine_final_2_.rc
 
-	i686-w64-mingw32-gcc.exe -mdll -O3 -o /bin/tar/x86/RSP_encrypt_32.DLL /bw_tmp/rsp_encrypt/amanda_ver32.o /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o /bw_tmp/rsp_encrypt/adlercheck_32.o /bw_tmp/rsp_encrypt/aes_32.o /bw_tmp/rsp_encrypt/pedro_32.o /bw_tmp/rsp_encrypt/cpu_32.o /bw_tmp/rsp_encrypt/crc32_32.o /bw_tmp/rsp_encrypt/dll_32.o /bw_tmp/rsp_encrypt/folder_i_32.o /bw_tmp/rsp_encrypt/hexa_32.o /bw_tmp/rsp_encrypt/longfile_32.o /bw_tmp/rsp_encrypt/rc4_32.o /bw_tmp/rsp_encrypt/sha512_k_32.o /bw_tmp/rsp_encrypt/serpent_32.o /bw_tmp/rsp_encrypt/mars_32.o /bw_tmp/rsp_encrypt/rc6_32.o /bw_tmp/rsp_encrypt/twofish_32.o /bw_tmp/rsp_encrypt/dprintf_32.o controlname_k.c -Wl,-enable-stdcall-fixup dll_k.def
+	i686-w64-mingw32-gcc.exe -mdll -O3 -o /bin/tar/x86/RSP_encrypt_32.DLL /bw_tmp/rsp_encrypt/amanda_ver32.o /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o /bw_tmp/rsp_encrypt/twofish_mt_maria_32.o /bw_tmp/rsp_encrypt/adlercheck_32.o /bw_tmp/rsp_encrypt/aes_32.o /bw_tmp/rsp_encrypt/pedro_32.o /bw_tmp/rsp_encrypt/cpu_32.o /bw_tmp/rsp_encrypt/crc32_32.o /bw_tmp/rsp_encrypt/dll_32.o /bw_tmp/rsp_encrypt/folder_i_32.o /bw_tmp/rsp_encrypt/hexa_32.o /bw_tmp/rsp_encrypt/longfile_32.o /bw_tmp/rsp_encrypt/rc4_32.o /bw_tmp/rsp_encrypt/sha512_k_32.o /bw_tmp/rsp_encrypt/serpent_32.o /bw_tmp/rsp_encrypt/mars_32.o /bw_tmp/rsp_encrypt/rc6_32.o /bw_tmp/rsp_encrypt/twofish_32.o /bw_tmp/rsp_encrypt/dprintf_32.o controlname_k.c -Wl,-enable-stdcall-fixup dll_k.def
 
-/bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o : koci_e_pereira_empreendimentos_encrypt_multi_thread.c the_thread_function_p.c include_multi_k__p.h the_mars.c
+
+/bw_tmp/rsp_encrypt/twofish_mt_maria_32.o: twofish_mt_maria.c std_defs_tf_maria.h
+	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/rsp_encrypt/twofish_mt_maria_32.o twofish_mt_maria.c $(AMANDA_FLAGS__)
+
+/bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o : koci_e_pereira_empreendimentos_encrypt_multi_thread.c the_thread_function_p.c include_multi_k__p.h the_mars.c decode_encryption_multi_pedro.c
 	i686-w64-mingw32-gcc.exe -c -o /bw_tmp/rsp_encrypt/koci_e_pereira_empreendimentos_encrypt_multi_thread_32.o koci_e_pereira_empreendimentos_encrypt_multi_thread.c $(AMANDA_FLAGS__)
 
 /bw_tmp/rsp_encrypt/pedro_32.o: pedro.c

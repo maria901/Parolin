@@ -423,31 +423,31 @@ int __fastcall unencrypt_multi_thread_m(char *input_z,
         switch (*ptr_int_m)
         {
         case 0x706c6176 - 6:
-            pedro_dprintf(0, "ok 1");
+            pedro_dprintf(-11102021, "ok 1");
             detected_encryption_method_p = ARP_AES_MT;
             break;
         case 0x706c6176 - 7:
-            pedro_dprintf(0, "ok 2");
+            pedro_dprintf(-11102021, "ok 2");
             detected_encryption_method_p = ARP_RC4_MT;
             break;
         case 0x706c6176 - 8:
-            pedro_dprintf(0, "ok 3");
+            pedro_dprintf(-11102021, "ok 3");
             detected_encryption_method_p = ARP_SERPENT_MT;
             break;
         case 0x706c6176 - 9:
-            pedro_dprintf(0, "ok 4");
+            pedro_dprintf(-11102021, "ok 4");
             detected_encryption_method_p = ARP_MARS_MT;
             break;
         case 0x706c6176 - 10:
-            pedro_dprintf(0, "ok 5");
+            pedro_dprintf(-11102021, "ok 5");
             detected_encryption_method_p = ARP_RC6_MT;
             break;
         case 0x706c6176 - 11:
-            pedro_dprintf(0, "ok 6");
+            pedro_dprintf(-11102021, "ok 6");
             detected_encryption_method_p = ARP_TWOFISH_MT;
             break;
         default:
-            pedro_dprintf(0, "erro 7 metodo de encryptacao invalido\n");
+            pedro_dprintf(-11102021, "erro 7 metodo de encryptacao invalido\n");
             retvalue_z = 7;
             goto saida_z;
             break;
@@ -463,7 +463,7 @@ int __fastcall unencrypt_multi_thread_m(char *input_z,
 
         ret_arp = fread(sha512buf_m, 1, 64, input_file);
         memcpy(&the_sha512_got_maria[thread_counter][0], sha512buf_m, 64);
-        pedro_dprintf(0, "val -> %d\n", (int)sha512buf_m[0]);
+        pedro_dprintf(-11102021, "val -> %d\n", (int)sha512buf_m[0]);
 
         if (64 != ret_arp)
         {
@@ -473,13 +473,13 @@ int __fastcall unencrypt_multi_thread_m(char *input_z,
 
         offset_of_each_slice_z[thread_counter] = _ftelli64(input_file);
 
-        pedro_dprintf(0, "itens %lld %lld\n",
+        pedro_dprintf(-11102021, "itens %lld %lld\n",
                       bytes_in_each_slice_z[thread_counter],
                       offset_of_each_slice_z[thread_counter]);
 
         _fseeki64(input_file, remaining_z, SEEK_CUR);
 
-        pedro_dprintf(0, "depois de seek %lld", _ftelli64(input_file));
+        pedro_dprintf(-11102021, "depois de seek %lld", _ftelli64(input_file));
 
         thread_counter++;
     }
@@ -488,8 +488,8 @@ saida_z:;
 
     fclose(input_file);
 
-    pedro_dprintf(0, "count of threads %d", thread_counter);
-    pedro_dprintf(0, "retval m %d", retvalue_z);
+    pedro_dprintf(-11102021, "count of threads %d", thread_counter);
+    pedro_dprintf(-11102021, "retval m %d", retvalue_z);
     //exit(27);
 
     if (retvalue_z)
@@ -624,7 +624,7 @@ saida_z:;
     {
         pedro_dprintf(-1, "arquivo temp a del %s\n", temp_files_z[i_z]);
 
-        pedro_dprintf(0, "888Size -> %lld\n", getfilesize_ar(temp_files_z[i_z]));
+        pedro_dprintf(-11102021, "888Size -> %lld\n", getfilesize_ar(temp_files_z[i_z]));
 
         if (dest_z)
         {
@@ -659,7 +659,7 @@ saida_z:;
 
                     thread_return_value_z = 4;
                 }
-                pedro_dprintf(0, "thread %d %d size %lld", (int)sha512_internal_maria[0], the_sha512_got_maria[i_z][0], bytes_in_each_slice_z[i_z]);
+                pedro_dprintf(-11102021, "thread %d %d size %lld", (int)sha512_internal_maria[0], the_sha512_got_maria[i_z][0], bytes_in_each_slice_z[i_z]);
 
             volta_amanda:;
 #ifdef ARP_USE_ENHANCED_STDIO
@@ -743,7 +743,7 @@ saida_z:;
         free(ar_temp2);
     }
 
-    pedro_dprintf(0, "unencrypt multi, erro que deu %d\n", thread_return_value_z);
+    pedro_dprintf(-11102021, "unencrypt multi, erro que deu %d\n", thread_return_value_z);
 
     return thread_return_value_z;
 
