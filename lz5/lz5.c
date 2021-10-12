@@ -120,9 +120,9 @@ wchar_t *
 remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_temp)
 {
 
-      /**
- * oi amor...
- */
+     /**
+      * oi amor...
+      */
       wchar_t *wname_copy = ar_temp;
 
       wchar_t *wname_copy_v27 = wname_copy;

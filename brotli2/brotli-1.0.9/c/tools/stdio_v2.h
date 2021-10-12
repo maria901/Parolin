@@ -35,8 +35,8 @@ enum open_modes_z
 
 typedef struct FILE_z__
 {
-	char  filename_a_z       [1024];
-	WCHAR filename_w_z       [1024];
+	char  filename_a_z       [5000];
+	WCHAR filename_w_z       [5000];
 	enum open_modes_z open_mode_int;
 	FILE* internal_file_z          ;
 	//char open_mode[20]           ;

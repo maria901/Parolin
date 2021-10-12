@@ -1,77 +1,82 @@
-/*
-    Copyright (C) <2021>  <BinaryWork Corp.>
+/********************************************************************************
+ *                                                                              *
+ *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
+ *                                                                              *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
+ *                                                                              *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
+ *     Licensa Geral Pública para mais detalhes.                                *
+ *                                                                              *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
+ *     Licensa Pública Menor junto com este programa                            *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                             *
+ *                                                                              *
+ *     Suporte: https://nomade.sourceforge.io/                                  *
+ *                                                                              *
+ ********************************************************************************
+ 
+      E-mails:                                                                 
+      maria@arsoftware.net.br                                                  
+      pedro@locacaodiaria.com.br                                               
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ ********************************************************************************
+ *                                                                              *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp                *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *                                                                              *
+ *******************************************************************************/
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+#define AMANDA__SIZE_ww ((32767 * 2) + 2)
 
-    You should have received a copy of the GNU GENERAL PUBLIC LICENSE
-        and GNU LESSER GENERAL PUBLIC LICENSE along with this program.
-        If not, see <http://www.gnu.org/licenses/>.
-
-    support: https://arsoftware.net.br/binarywork _____________
-
-        direct programmers e-mails:
-        Ricardo: arsoftware25@gmail.com  ricardo@arsoftware.net.br
-         Amanda: arsoftware10@gmail.com  amanda@arsoftware.net. br
-
-        immediate contact(for a very fast answer) WhatsApp
-        (+55)41 9627 1708 - it is always on
+/**
+ * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
  */
+#define AMANDA__SIZE ((32767 * 6) + 2)
+/**
+ * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
+ * 
+ */
+#define AMANDA__SIZE_w (32767)
 
-void
-pedro_dprintf
-(
+wchar_t *
+permissive_name_m_v28(const wchar_t *wname, WCHAR *ar_temp);
+wchar_t *
+remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_temp);
+WCHAR *amanda_utf8towide_1_v28(char *pUTF8, WCHAR *ar_temp);
+char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria, char *ar_temp_char);
+
+void pedro_dprintf(
 	int amanda_level,
-	char *format, ...
-);
+	char *format, ...);
 
-int intpause___aakp     = 0;
-int intcancel__rspk     = 0;
+int intpause___aakp = 0;
+int intcancel__rspk = 0;
 
 __int64 tamanho____aakp = 0;
 __int64 processado_rspk = 0;
-int     return_value_arp;
+int return_value_arp;
 
 int porcentagem_junior_ale_mislaine_thalia_aline_juliete_valquiria_maria_feline_pedro;
 
-static WCHAR* __stdcall utf8towide (const char *pUTF8)
-{
-/* nUSC2 is the number of characters, not chars */
-
-	static int position=0;
-	if(0==position)
-	{
-		static WCHAR pUSC2[1024];
-		MultiByteToWideChar (CP_UTF8, 0, (LPCSTR) pUTF8, -1, pUSC2, 1024);
-		position=1;
-		return pUSC2;
-	}
-	else
-	{
-		static WCHAR pUSC2[1024];
-		MultiByteToWideChar (CP_UTF8, 0, (LPCSTR) pUTF8, -1, pUSC2, 1024);
-		position=0;
-		return pUSC2;
-	}
-	return NULL;
-}
-
-__int64 getfilesize_aakp_plus_rspk (char *infile_utf8_valquiria)
+__int64 getfilesize_aakp_plus_rspk(char *infile_utf8_valquiria)
 {
 
 	__int64 ret;
 
-	FILE  *myfile;
+	FILE *myfile;
+	WCHAR *ar_temp = /* for your pleasure... */ (void *)malloc(AMANDA__SIZE_ww);
+	WCHAR *ar_temp2 = /*       ric           */ (void *)malloc(AMANDA__SIZE_ww);
 
-	if ((myfile = _wfopen (utf8towide(infile_utf8_valquiria), L"rb")) == NULL)
+	if ((myfile = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(infile_utf8_valquiria, ar_temp), ar_temp2), L"rb")) == NULL)
 	{
+
+		free(ar_temp);
+		free(ar_temp2);
 		//dprintf ("The file 'data' was not opened\n");
 		return 0;
 	}
@@ -80,23 +85,24 @@ __int64 getfilesize_aakp_plus_rspk (char *infile_utf8_valquiria)
 		//dprintf ("The file 'data' was opened\n");
 	}
 
-	ret = _fseeki64 (myfile, 0, SEEK_END);
+	free(ar_temp);
+	free(ar_temp2);
+	ret = _fseeki64(myfile, 0, SEEK_END);
 
-	ret = _ftelli64 (myfile);
+	ret = _ftelli64(myfile);
 
 	// dprintf ("tamanho do arquivo %d\n ", ret);
 
-	fclose (myfile);
+	fclose(myfile);
 
 	// printf ("Tamanho do arquivo %s  %d \n", infile, ret);
 
 	return ret;
-
 }
 
-int lgetpor (__int64 max_Amanda, __int64 fatia_Ricardo)
+int lgetpor(__int64 max_Amanda, __int64 fatia_Ricardo)
 {
-/*
+	/*
 
    2/27/2004 12:13PM modificacao para evitar divisao por 0, eu te amo...
 
@@ -105,16 +111,15 @@ int lgetpor (__int64 max_Amanda, __int64 fatia_Ricardo)
 	double maxa;
 	double fatiaa;
 
-	maxa =   (double)    max_Amanda;
-	fatiaa = (double) fatia_Ricardo;
+	maxa = (double)max_Amanda;
+	fatiaa = (double)fatia_Ricardo;
 
 	if (max_Amanda == 0 || fatia_Ricardo == 0)
 	{
 		return 0;
 	}
 
-	maxa =  ((double) 10000 / maxa * fatiaa);
+	maxa = ((double)10000 / maxa * fatiaa);
 
-	return (int) maxa;
-
+	return (int)maxa;
 }

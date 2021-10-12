@@ -464,9 +464,9 @@ void free_z(FILE_z *stream_z)
 
 FILE * fopen_utf8_z(char * filename_z, char * mode)
 {
-	WCHAR ricardo_k[1024];
+	WCHAR ricardo_k[5000];
 	MultiByteToWideChar (CP_UTF8, 0, (LPCSTR) filename_z, -1, ricardo_k, 1024);
-	WCHAR ricardo2_k[1024];
+	WCHAR ricardo2_k[5000];
 	MultiByteToWideChar (CP_UTF8, 0, (LPCSTR) mode, -1, ricardo2_k, 1024);
 	
 	return _wfopen(ricardo_k, ricardo2_k);	

@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/********************************************************************************
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -18,14 +18,18 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails:                                                                 *
- *     maria@arsoftware.net.br                                                  *
- *     pedro@locacaodiaria.com.br                                               *
+ ********************************************************************************
+ 
+      E-mails:                                                                 
+      maria@arsoftware.net.br                                                  
+      pedro@locacaodiaria.com.br                                               
+
+ ********************************************************************************
  *                                                                              *
  *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+ *******************************************************************************/
 
 uint64_t bytes_in_each_slice_z[129];
 uint64_t offset_of_each_slice_z[129];
@@ -62,12 +66,16 @@ int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output
 
 	//primeiro precisa detectar quantos threads foram usados no arquivo compactado
 
-	if (unicodemode)
+	if (true)
 	{
-		input_file = _wfopen(amanda_utf8towide_1_v27(input_z), L"rb");
+		WCHAR *ar_temp = /* for your pleasure... */ (void *)malloc(AMANDA__SIZE_ww);
+		WCHAR *ar_temp2 = /*       ric           */ (void *)malloc(AMANDA__SIZE_ww);
+
+		input_file = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(input_z, ar_temp), ar_temp2), L"rb");
+
+		free(ar_temp);
+		free(ar_temp2);
 	}
-	else
-		input_file = fopen(input_z, "rb"); //never will be called, don´t be afraid
 
 	if (NULL == input_file)
 	{
@@ -110,7 +118,7 @@ int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output
 		offset_of_each_slice_z[thread_counter] = _ftelli64(input_file);
 
 		_fseeki64(input_file, remaining_z, SEEK_CUR);
-		
+
 		thread_counter++;
 	}
 
@@ -135,18 +143,22 @@ saida_z:;
 
 	while (n_threads_copy--)
 	{
-		
+
 		ptr_my_struct_z = calloc(1, sizeof(my_thread_struct_z));
 		assert(ptr_my_struct_z);
 
 		ptr_my_struct_z->thread_id_z = n_thread_counter;
 
-		if (unicodemode)
+		if (true)
 		{
-			ptr_my_struct_z->input_file = _wfopen(amanda_utf8towide_1_v27(input_z), L"rb");
+			register WCHAR *ar_temp = /* for your pleasure... */ (void *)malloc(AMANDA__SIZE_ww);
+			volatile WCHAR *ar_temp2 = /*       ric           */ (void *)malloc(AMANDA__SIZE_ww);
+
+			ptr_my_struct_z->input_file = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(input_z, ar_temp), (void *)ar_temp2), L"rb");
+
+			free((void *)ar_temp);
+			free((void *)ar_temp2);
 		}
-		else
-			ptr_my_struct_z->input_file = fopen(input_z, "rb"); //never will be called, don´t be afraid
 
 		intpause = 0;
 		intcancel = 0;
@@ -177,9 +189,14 @@ saida_z:;
 			{
 				max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-				ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", max_memory_size_k__p, __FILE__, __LINE__, NULL);
+				auto WCHAR *ar_temp = /* for your pleasure... */ (void *)malloc(AMANDA__SIZE_ww);
+				WCHAR *ar_temp2 = /*       ric           */ (void *)malloc(AMANDA__SIZE_ww);
+
+				ptr_my_struct_z->dest = _wfopen_z(permissive_name_m_v28(amanda_utf8towide_1_v28(temp_files_z[n_thread_counter], ar_temp), ar_temp2), "wb", max_memory_size_k__p, __FILE__, __LINE__, NULL);
 				files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
 
+				free(ar_temp);
+				free(ar_temp2);
 #else
 				ptr_my_struct_z->dest = _wfopen(wpmode, L"wb");
 #endif
@@ -205,21 +222,18 @@ saida_z:;
 		CloseHandle((void *)my_thread_handle[i_z]);
 	}
 
-	if (unicodemode)
+	if (true)
 	{
-		SetFileAttributesW(amanda_utf8towide_1_v27(output_z), FILE_ATTRIBUTE_ARCHIVE);
-	}
-	else
-		SetFileAttributes(output_z, FILE_ATTRIBUTE_ARCHIVE);
+		WCHAR *ar_temp = /* for your pleasure... */ (void *)malloc(AMANDA__SIZE_ww);
+		WCHAR *ar_temp2 = /*       ric           */ (void *)malloc(AMANDA__SIZE_ww);
 
-	//abrir arquivo
+		SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(output_z, ar_temp), ar_temp2), FILE_ATTRIBUTE_ARCHIVE);
 
-	if (unicodemode)
-	{
-		dest_z = _wfopen(amanda_utf8towide_1_v27(output_z), L"wb");
+		dest_z = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(output_z, ar_temp), ar_temp2), L"wb");
+
+		free(ar_temp);
+		free(ar_temp2);
 	}
-	else
-		dest_z = fopen(output_z, "wb");
 
 	if (NULL == dest_z)
 	{
@@ -240,7 +254,13 @@ saida_z:;
 			{
 				max_memory_size_k__p = 200000000 / n_threads_z;
 #ifdef ARP_USE_ENHANCED_STDIO
-				temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", max_memory_size_k__p, __FILE__, __LINE__, files_to_close_z[i_z]);
+				WCHAR *ar_temp = /* for your pleasure... */ (void *)malloc(AMANDA__SIZE_ww);
+				WCHAR *ar_temp2 = /*       ric           */ (void *)malloc(AMANDA__SIZE_ww);
+
+				temp_z = _wfopen_z(permissive_name_m_v28(amanda_utf8towide_1_v28(temp_files_z[i_z], ar_temp), ar_temp2), "rb", max_memory_size_k__p, __FILE__, __LINE__, files_to_close_z[i_z]);
+
+				free(ar_temp);
+				free(ar_temp2);
 #else
 				temp_z = _wfopen(wpmode, L"rb");
 #endif
@@ -299,6 +319,7 @@ saida_z:;
 			}
 		}
 #ifndef ARP_USE_ENHANCED_STDIO
+#error cannot occur never...
 		_wunlink(amanda_utf8towide_1_(temp_files_z[i_z]));
 #endif
 	}
@@ -306,7 +327,13 @@ saida_z:;
 #ifdef ARP_USE_ENHANCED_STDIO
 	for (i_z = 0; i_z < n_threads_z; i_z++)
 	{
-		_wunlink(amanda_utf8towide_1_v27(temp_files_z[i_z]));
+		WCHAR *ar_temp = /* for your pleasure... */ (void *)malloc(AMANDA__SIZE_ww);
+		WCHAR *ar_temp2 = /*       ric           */ (void *)malloc(AMANDA__SIZE_ww);
+
+		_wunlink(permissive_name_m_v28(amanda_utf8towide_1_v28(temp_files_z[i_z], ar_temp), ar_temp2));
+
+		free(ar_temp);
+		free(ar_temp2);
 	}
 #endif
 
