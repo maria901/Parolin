@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 4,2,4,134
- PRODUCTVERSION 4,2,4,134
+ FILEVERSION 4,2,5,135
+ PRODUCTVERSION 4,2,5,135
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -49,14 +49,14 @@ BEGIN
             VALUE "Comments", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "CompanyName", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "FileDescription", "BW Gzip DLL \0"
-            VALUE "FileVersion", "4, 2, 4, 134 \0"
-            VALUE "InternalName", "rspgzip200_32.dll \0"
+            VALUE "FileVersion", "4, 2, 5, 135 \0"
+            VALUE "InternalName", "rspgzip200_64.dll \0"
             VALUE "LegalCopyright", "CopyLeft © 2021 BW \0"
             VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
-            VALUE "OriginalFilename", "rspgzip200_32.dll \0"
-            VALUE "PrivateBuild", "134 \0"
-            VALUE "ProductName", "BW Gzip DLL 4, 2, 4, 134 32 bits \0"
-            VALUE "ProductVersion", "4, 2, 4, 134 \0"
+            VALUE "OriginalFilename", "rspgzip200_64.dll \0"
+            VALUE "PrivateBuild", "135 \0"
+            VALUE "ProductName", "BW Gzip DLL 4, 2, 5, 135 64 bits \0"
+            VALUE "ProductVersion", "4, 2, 5, 135 \0"
             VALUE "SpecialBuild", "amandaricardo_koci\0"
         END
     END

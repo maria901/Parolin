@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/********************************************************************************
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -18,30 +18,67 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails:                                                                 *
- *     maria@arsoftware.net.br                                                  *
- *     pedro@locacaodiaria.com.br                                               *
+ ********************************************************************************
+ 
+      E-mails:                                                                 
+      maria@arsoftware.net.br                                                  
+      pedro@locacaodiaria.com.br                                               
+
+ ********************************************************************************
  *                                                                              *
  *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+ *******************************************************************************/
 
 /* 
  modified 2020
 */
-
+//2021 MathMan and amanda
 #include <windows.h>
-#include <winioctl.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <string.h>
-
-// #define NDEBUG
+#include <time.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <math.h>
+#include <wctype.h>
+#include <wchar.h>
+#include <stdarg.h>
+#include <stddef.h>
+#include <setjmp.h>
+#include <locale.h>
+#include <signal.h>
+#include <limits.h>
+#include <float.h>
+#include <iso646.h>
 
 #undef NDEBUG
 #include <assert.h>
+
+#include <stdbool.h>
+
+#include <process.h>
+
+#ifndef uchar
+#define uchar unsigned char
+#endif
+
+#ifndef uint
+#define uint unsigned int
+#endif
+
+#ifndef ushort
+#define ushort unsigned short
+#endif
+
+/**
+ * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
+ */
+#define AMANDA__SIZE_ww ((32767 * 2) + 2) /* having fun... */
 
 /**
  * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
@@ -53,7 +90,12 @@
  * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
-WCHAR *amanda_utf8towide_1_v27(const char *pUTF8);
+WCHAR *amanda_utf8towide_1_v27_no_october_2021(const char *pUTF8);
+
+WCHAR *amanda_utf8towide_1_v28(char *pUTF8, WCHAR *ar_temp);
+
+wchar_t *
+permissive_name_m_v28(const wchar_t *wname, WCHAR *ar_temp);
 
 extern void __cdecl dprintf(char *format, ...);
 
@@ -204,63 +246,67 @@ __int64 lftell (HANDLE hFile)
 
 static __int64 fs_filesize(HANDLE hFile)
 {
-      LARGE_INTEGER li;
+     LARGE_INTEGER li;
 
-      li.QuadPart = 0;
-      li.LowPart = GetFileSize(hFile, (LPDWORD)&li.HighPart);
+     li.QuadPart = 0;
+     li.LowPart = GetFileSize(hFile, (LPDWORD)&li.HighPart);
 
-      if (li.LowPart == 0xFFFFFFFF)
-      {
-            if (GetLastError() != ERROR_SUCCESS)
-                  return 0;
-      }
+     if (li.LowPart == 0xFFFFFFFF)
+     {
+          if (GetLastError() != ERROR_SUCCESS)
+               return 0;
+     }
 
-      return (__int64)li.QuadPart;
+     return (__int64)li.QuadPart;
 }
 
 __int64 lffilesize(const char *szFileName) //is utf-8
 {
-      __int64 iResult;
-      HANDLE hFile;
+     __int64 iResult;
+     HANDLE hFile;
 
-      if (unicodemode)
-      {
+     if (unicodemode)
+     {
 
 #ifdef NPRINTF
-            dprintf("arquivo %s\n", szFileName);
+          dprintf("arquivo %s\n", szFileName);
 #endif
 
-            hFile = CreateFileW(amanda_utf8towide_1_v27(szFileName), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-      }
-      else
-      {
+          hFile = CreateFileW(permissive_name_m_v28(amanda_utf8towide_1_v28((void *)szFileName, ar_temp), ar_temp2), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
 
-            hFile = CreateFile(szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+          free(ar_temp);
+          free(ar_temp2);
+     }
+     else
+     {
 
-      }
-      if (hFile == INVALID_HANDLE_VALUE)
-            return 0;
+          hFile = CreateFile(szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+     }
+     if (hFile == INVALID_HANDLE_VALUE)
+          return 0;
 
-      iResult = fs_filesize(hFile);
+     iResult = fs_filesize(hFile);
 
-      CloseHandle(hFile);
+     CloseHandle(hFile);
 
-      return iResult;
+     return iResult;
 }
 
-__int64 lffilesizeW(const WCHAR *szFileName)//not in use
+__int64 lffilesizeW(const WCHAR *szFileName) //not in use
 {
-      __int64 iResult;
-      HANDLE hFile = CreateFileW(szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
-      if (hFile == INVALID_HANDLE_VALUE)
-            return 0;
+     __int64 iResult;
+     HANDLE hFile = CreateFileW(szFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_ARCHIVE, NULL);
+     if (hFile == INVALID_HANDLE_VALUE)
+          return 0;
 
-      iResult = fs_filesize(hFile);
+     iResult = fs_filesize(hFile);
 
-      CloseHandle(hFile);
+     CloseHandle(hFile);
 
-      return iResult;
+     return iResult;
 }
 /*
 

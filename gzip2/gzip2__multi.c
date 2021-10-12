@@ -61,6 +61,8 @@ extern int64_t max_memory_size_j;
 
 #define CHUNK 131072 /* to never change again */
 
+#define AMANDA__SIZE_ww ((32767 * 2) + 2)
+
 /**
  * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
  *  . provide two functions that are exactly the same because someone may 
@@ -71,7 +73,12 @@ extern int64_t max_memory_size_j;
  * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
-WCHAR *amanda_utf8towide_1_v27(const char *pUTF8);
+WCHAR *amanda_utf8towide_1_v27_no(const char *pUTF8);
+
+WCHAR *amanda_utf8towide_1_v28(char *pUTF8, WCHAR *ar_temp);
+
+wchar_t *
+permissive_name_m_v28(const wchar_t *wname, WCHAR *ar_temp);
 
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
@@ -143,7 +150,13 @@ int __valquiriacall compress2_uncompress_k_real_mt_z(char *input_z, char *output
 
       if (1)
       {
-            input_file = _wfopen(amanda_utf8towide_1_v27(input_z), L"rb");
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+            input_file = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(input_z, ar_temp), ar_temp2), L"rb");
+
+            free(ar_temp);
+            free(ar_temp2);
       }
       else
             input_file = fopen(input_z, "rb"); //never will be called, don´t be afraid
@@ -231,7 +244,13 @@ saida_z:;
 
             if (1)
             {
-                  ptr_my_struct_z->input_file = _wfopen(amanda_utf8towide_1_v27(input_z), L"rb");
+                  WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                  WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                  ptr_my_struct_z->input_file = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(input_z, ar_temp), ar_temp2), L"rb");
+
+                  free(ar_temp);
+                  free(ar_temp2);
             }
             else
                   ptr_my_struct_z->input_file = fopen(input_z, "rb"); //never will be called, don´t be afraid
@@ -263,8 +282,15 @@ saida_z:;
             {
                   {
 #ifdef ARP_USE_ENHANCED_STDIO
-                        ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", /*MAX_MEMORY_SIZE_Z*/ max_memory_size_j, __FILE__, __LINE__, NULL);
+
+                        WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                        WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                        ptr_my_struct_z->dest = _wfopen_z(permissive_name_m_v28(amanda_utf8towide_1_v28(temp_files_z[n_thread_counter], ar_temp), ar_temp2), "wb", /*MAX_MEMORY_SIZE_Z*/ max_memory_size_j, __FILE__, __LINE__, NULL);
                         files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
+
+                        free(ar_temp);
+                        free(ar_temp2);
 
 #else
                         ptr_my_struct_z->dest = _wfopen(wpmode, L"wb");
@@ -292,11 +318,26 @@ saida_z:;
             pedro_dprintf(-1, "Close next\n");
       }
       {
-            SetFileAttributesW(amanda_utf8towide_1_v27(output_z), FILE_ATTRIBUTE_ARCHIVE);
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+            SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(output_z,
+                                                                             ar_temp),
+                                                     ar_temp2),
+                               FILE_ATTRIBUTE_ARCHIVE);
+
+            free(ar_temp);
+            free(ar_temp2);
       }
+      {
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-      dest_z = _wfopen(amanda_utf8towide_1_v27(output_z), L"wb");
+            dest_z = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(output_z, ar_temp), ar_temp2), L"wb");
 
+            free(ar_temp);
+            free(ar_temp2);
+      }
       if (NULL == dest_z)
       {
             if (0 == thread_return_value_z)
@@ -317,7 +358,13 @@ saida_z:;
 
                         max_memory_size_j = 200000000 / n_threads_z;
 
-                        temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", max_memory_size_j, __FILE__, __LINE__, files_to_close_z[i_z]);
+                        WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                        WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                        temp_z = _wfopen_z(permissive_name_m_v28(amanda_utf8towide_1_v28(temp_files_z[i_z], ar_temp), ar_temp2), "rb", max_memory_size_j, __FILE__, __LINE__, files_to_close_z[i_z]);
+
+                        free(ar_temp);
+                        free(ar_temp2);
 #else
                         temp_z = _wfopen(wpmode, L"rb");
 #endif
@@ -375,6 +422,7 @@ saida_z:;
                   }
             }
 #ifndef ARP_USE_ENHANCED_STDIO
+#error nao pode acontecer
             _wunlink(amanda_utf8towide_1_(temp_files_z[i_z]));
 #endif
       }
@@ -383,7 +431,14 @@ saida_z:;
       for (i_z = 0; i_z < n_threads_z; i_z++)
       {
             free_z(files_to_close_z[i_z]);
-            _wunlink(amanda_utf8towide_1_v27(temp_files_z[i_z]));
+
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+            _wunlink(permissive_name_m_v28(amanda_utf8towide_1_v28(temp_files_z[i_z], ar_temp), ar_temp2));
+
+            free(ar_temp);
+            free(ar_temp2);
       }
 #endif
 
@@ -397,7 +452,13 @@ saida_z:;
 
       if (0 == thread_return_value_z)
       {
-            ret_z = SetFileAttributesW(amanda_utf8towide_1_v27(output_z), ar.attrib);
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+            ret_z = SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(output_z, ar_temp), ar_temp2), ar.attrib);
+
+            free(ar_temp);
+            free(ar_temp2);
       }
 
       intstatus = 0;

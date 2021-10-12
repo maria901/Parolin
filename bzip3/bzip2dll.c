@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/********************************************************************************
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -18,14 +18,18 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails:                                                                 *
- *     maria@arsoftware.net.br                                                  *
- *     pedro@locacaodiaria.com.br                                               *
+ ********************************************************************************
+ 
+      E-mails:                                                                 
+      maria@arsoftware.net.br                                                  
+      pedro@locacaodiaria.com.br                                               
+
+ ********************************************************************************
  *                                                                              *
  *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+ *******************************************************************************/
 
 /*
     <main dll interface>
@@ -59,6 +63,7 @@
 
 #include "stdio_v2.h"
 
+#define AMANDA__SIZE_ww ((32767 * 2) + 2)
 /**
  * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
  */
@@ -70,13 +75,37 @@
 #define AMANDA__SIZE_w (32767)
 
 /**
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
+ *  . provide two functions that are exactly the same because someone may 
+ * use it in multi-thread code 
+ *
+ * @param pUTF8 the input utf-8 encoded filename 
+ *
+ * @return the static allocated WCHAR array with the filename as wide string 
+ *
+ */
+WCHAR *amanda_utf8towide_1_v28(char *pUTF8, WCHAR *ar_temp)
+{
+      WCHAR *ricardo_k = ar_temp;
+
+      MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
+      return ricardo_k;
+}
+
+wchar_t *
+remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_temp);
+
+wchar_t *
+permissive_name_m_v28(const wchar_t *wname, WCHAR *ar_temp);
+
+/**
  * To make the path wide mode aware, stolen from libarchive
  * 
  * 15/september/2021 10:14, last visit 16/09/2021 22:36 by bhond...
  *
  */
 wchar_t *
-permissive_name_m_(const wchar_t *wname)
+permissive_name_m_no_october_2021(const wchar_t *wname)
 {
 
       static wchar_t *wnp = NULL;
@@ -178,11 +207,49 @@ permissive_name_m_(const wchar_t *wname)
  * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
-WCHAR *amanda_utf8towide_1_v27(char *pUTF8)
+/*
+WCHAR *amanda_utf8towide_1_v27_no_october_2021(char *pUTF8)
 {
       static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
       MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
       return permissive_name_m_(ricardo_k);
+}
+*/
+wchar_t *
+remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_temp)
+{
+
+      /**
+ * oi amor...
+ */
+      wchar_t *wname_copy = ar_temp;
+
+      wchar_t *wname_copy_v27 = wname_copy;
+
+      wcscpy(wname_copy, wname);
+
+      if (3 < wcslen(wname_copy))
+      {
+
+            if ('\\' == wname_copy[0] &&
+                '\\' == wname_copy[1] &&
+                '?' == wname_copy[2])
+            {
+                  wname_copy_v27++;
+                  wname_copy_v27++;
+                  wname_copy_v27++;
+                  wname_copy_v27++;
+                  return wname_copy_v27;
+            }
+            else
+            {
+                  return wname;
+            }
+      }
+      else
+      {
+            return wname;
+      }
 }
 
 //bool is_multi_thread_z = false;
@@ -267,11 +334,24 @@ int __stdcall bzip2compress(char *infile, char *outfile, char *levelch)
 
       unicodemode = 1;
 
-      ret = SetFileAttributesW(amanda_utf8towide_1_v27(outfile), FILE_ATTRIBUTE_ARCHIVE);
-
       {
-            if ((myfile = _wfopen(amanda_utf8towide_1_v27(infile), L"rb")) == NULL)
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+            ret = SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(outfile, ar_temp), ar_temp2), FILE_ATTRIBUTE_ARCHIVE);
+
+            free(ar_temp);
+            free(ar_temp2);
+      }
+      {
+
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+            if ((myfile = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(infile, ar_temp), ar_temp2), L"rb")) == NULL)
             {
+                  free(ar_temp);
+                  free(ar_temp2);
                   intstatus = 0;
                   return 8;
             }
@@ -279,6 +359,9 @@ int __stdcall bzip2compress(char *infile, char *outfile, char *levelch)
             {
                   ;
             }
+
+            free(ar_temp);
+            free(ar_temp2);
       }
       ret = fseek(myfile, 0, SEEK_END);
 
@@ -290,11 +373,21 @@ int __stdcall bzip2compress(char *infile, char *outfile, char *levelch)
       {
             if (fn_r)
             {
-                  if ((fp_r = _wfopen(amanda_utf8towide_1_v27(fn_r), L"rb")) == NULL)
+                  WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                  WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                  if ((fp_r = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(fn_r, ar_temp), ar_temp2), L"rb")) == NULL)
                   {
+
+                        free(ar_temp);
+                        free(ar_temp2);
+
                         intstatus = 0;
                         return (8);
                   }
+
+                  free(ar_temp);
+                  free(ar_temp2);
             }
       }
       intfatia = 0;
@@ -411,15 +504,25 @@ int __stdcall bzip2decompress(char *infile, char *outfile)
 
       fn_w = outfile;
       fn_r = infile;
-
-      ret = SetFileAttributesW(amanda_utf8towide_1_v27(outfile), FILE_ATTRIBUTE_ARCHIVE);
-
-      if ((myfile = _wfopen(amanda_utf8towide_1_v27(infile), L"rb")) == NULL)
       {
-            intstatus = 0;
-            return 8;
-      }
 
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+            ret = SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(outfile, ar_temp), ar_temp2), FILE_ATTRIBUTE_ARCHIVE);
+
+            if ((myfile = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(infile, ar_temp), ar_temp2), L"rb")) == NULL)
+            {
+
+                  free(ar_temp);
+                  free(ar_temp2);
+                  intstatus = 0;
+                  return 8;
+            }
+
+            free(ar_temp);
+            free(ar_temp2);
+      }
       {
             char temp[300];
             fread(temp, 1, 4, myfile);
@@ -440,11 +543,21 @@ int __stdcall bzip2decompress(char *infile, char *outfile)
       intfatia = 0;
       if (fn_w)
       {
-            if ((fp_w = _wfopen(amanda_utf8towide_1_v27(fn_w), L"wb")) == NULL)
+
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+            if ((fp_w = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(fn_w, ar_temp), ar_temp2), L"wb")) == NULL)
             {
                   intstatus = 0;
+
+                  free(ar_temp);
+                  free(ar_temp2);
                   return (9);
             }
+
+            free(ar_temp);
+            free(ar_temp2);
       }
 
       if ((fn_r != NULL && (BZ2fp_r = BZ2_bzopen(fn_r, "rb")) == NULL))

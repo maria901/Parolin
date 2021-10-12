@@ -1463,7 +1463,7 @@ int createtestfilename(char *path1)
 int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
 {
      int ret;
-     static char path[AMANDA__SIZE];
+     char *path = malloc(AMANDA__SIZE);
      strcpy(path, path1);
      ret = strlen(path);
 
@@ -1490,6 +1490,7 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
           {
                free(fixo_w_ar);
                free(path_w_ar);
+               free(path);
                return 0;
           }
           else
@@ -1506,7 +1507,7 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
 
                free(fixo_w_ar);
                free(path_w_ar);
-
+               free(path);
                return 1;
           }
      }
@@ -2311,7 +2312,7 @@ bool is_encrypted_gnu_tar_arp(char *file_arp_utf_8)
      if (amanda_file)
      {
           len_arp = fread(&ret_arp_, 1, 4, amanda_file);
-          pedro_dprintf(0, "dentro 11\n");
+          pedro_dprintf(-1, "dentro 11\n");
           if (4 == len_arp)
           {
 
@@ -2323,7 +2324,7 @@ bool is_encrypted_gnu_tar_arp(char *file_arp_utf_8)
                    (0x706c6176 - 4) == ret_arp_ ||
                    (0x706c6176 - 5) == ret_arp_)
                {
-                    pedro_dprintf(0, "dentro 22\n");
+                    pedro_dprintf(-1, "dentro 22\n");
                     len_arp = fread(buffer_arp, 1, 64, amanda_file);
 
                     if (64 == len_arp)

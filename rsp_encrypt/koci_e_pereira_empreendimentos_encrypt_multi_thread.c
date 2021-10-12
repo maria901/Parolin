@@ -429,13 +429,15 @@ ar_gettemppath_z(void)
 
      if (ispathfile("c:\\Ava\\back\\my_c_file.c"))
      {
+		 /*
           static int counter = 0;
           counter++;
           if (25 == counter)
           {
-               pedro_dprintf(2, "using internal temp folder for debug \n");
+               pedro_dprintf(2, "using. internal temp folder for debug \n");
                counter = 0;
           }
+		  */
           if (0 == strlen(temp_folder_z))
           {
                set_temp_folder_z("C:\\Ava\\back\\temp");

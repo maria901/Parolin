@@ -100,7 +100,7 @@ int64_t max_memory_size_j = 0;
  * @return it will return the static allocated char * string with the utf-8 encoded filename
  *
  */
-char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria)
+char *valquiria_wide_to_utf8_no_october_2021(WCHAR *pUSC2_maria)
 {
       static char saida_utf8[AMANDA__SIZE];
 
@@ -108,8 +108,24 @@ char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria)
       return saida_utf8;
 }
 
+/**
+ * To convert an input wide string to a utf-8 encoded filename on return
+ *
+ * @param pUSC2_maria the wide string to be converted
+ *
+ * @return it will return the static allocated char * string with the utf-8 encoded filename
+ *
+ */
+char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria, char *ar_temp_char)
+{
+      char *saida_utf8 = ar_temp_char;
+
+      WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
+      return saida_utf8;
+}
+
 wchar_t *
-remove_permissive_name_m_(wchar_t *wname)
+remove_permissive_name_m_no_october_2021(wchar_t *wname)
 {
 
       /**
@@ -155,7 +171,17 @@ remove_permissive_name_m_(wchar_t *wname)
  * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
-WCHAR *amanda_utf8towide_1_v27(char *pUTF8);
+WCHAR *amanda_utf8towide_1_v27_no_october_2021__time_14_24_24(char *pUTF8);
+
+/**
+ * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
+ */
+#define AMANDA__SIZE_ww ((32767 * 2) + 2)
+
+WCHAR *amanda_utf8towide_1_v28(char *pUTF8, WCHAR *ar_temp);
+
+wchar_t *
+permissive_name_m_v28(const wchar_t *wname, WCHAR *ar_temp);
 
 bool is_multi_thread_z = false;
 
@@ -216,6 +242,43 @@ int __stdcall execute();
 int start();
 int start2();
 
+wchar_t *
+remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_temp)
+{
+
+      /**
+ * oi amor...
+ */
+      wchar_t *wname_copy = ar_temp;
+
+      wchar_t *wname_copy_v27 = wname_copy;
+
+      wcscpy(wname_copy, wname);
+
+      if (3 < wcslen(wname_copy))
+      {
+
+            if ('\\' == wname_copy[0] &&
+                '\\' == wname_copy[1] &&
+                '?' == wname_copy[2])
+            {
+                  wname_copy_v27++;
+                  wname_copy_v27++;
+                  wname_copy_v27++;
+                  wname_copy_v27++;
+                  return wname_copy_v27;
+            }
+            else
+            {
+                  return wname;
+            }
+      }
+      else
+      {
+            return wname;
+      }
+}
+
 /**
  * wide aware..my love
  * 
@@ -259,7 +322,7 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
 
       int ret;
 
-      static char path[AMANDA__SIZE];
+      char *path = malloc(AMANDA__SIZE);
 
       strcpy(path, path1);
 
@@ -273,21 +336,42 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
             path[ret + 1] = 0;
       }
       {
-            static WCHAR fixo_w_ar[AMANDA__SIZE_w];
-            static WCHAR path_w_ar[AMANDA__SIZE_w];
+            WCHAR *fixo_w_ar = malloc(AMANDA__SIZE_ww);
+            WCHAR *path_w_ar = malloc(AMANDA__SIZE_ww);
 
-            memset(fixo_w_ar, 0, sizeof(fixo_w_ar));
+            memset(fixo_w_ar, 0, AMANDA__SIZE_ww);
+            {
+                  WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                  WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-            wcscpy(path_w_ar, amanda_utf8towide_1_v27(path));
-            ret = GetTempFileNameW(path_w_ar, signature_z, 0, fixo_w_ar);
+                  wcscpy(path_w_ar, permissive_name_m_v28(amanda_utf8towide_1_v28(path, ar_temp), ar_temp2));
+                  ret = GetTempFileNameW(path_w_ar, signature_z, 0, fixo_w_ar);
 
+                  free(ar_temp);
+                  free(ar_temp2);
+            }
             if (ret == 0)
             {
+                  free(fixo_w_ar);
+                  free(path_w_ar);
+                  free(path);
                   return 0;
             }
             else
             {
-                  strcpy(out_z, valquiria_wide_to_utf8(remove_permissive_name_m_(fixo_w_ar)));
+                  {
+
+                        WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                        //WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                        char *ar_temp3 = (void *)malloc(AMANDA__SIZE);
+                        strcpy(out_z, valquiria_wide_to_utf8(remove_permissive_name_m_(fixo_w_ar, ar_temp), ar_temp3));
+
+                        free(ar_temp);
+                        free(ar_temp3);
+                  }
+                  free(fixo_w_ar);
+                  free(path_w_ar);
+                  free(path);
                   return 1;
             }
       }
@@ -571,8 +655,15 @@ saida:;
             {
 #ifdef ARP_USE_ENHANCED_STDIO
 
+                  WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                  WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
                   pedro_dprintf(-1, "2 memory size %lld", max_memory_size_j);
-                  ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[ptr_my_struct_z->thread_id_z]), "rb+", max_memory_size_j, __FILE__, __LINE__, ptr_my_struct_z->dest);
+                  ptr_my_struct_z->dest = _wfopen_z(permissive_name_m_v28(amanda_utf8towide_1_v28(temp_files_z[ptr_my_struct_z->thread_id_z], ar_temp), ar_temp2), "rb+", max_memory_size_j, __FILE__, __LINE__, ptr_my_struct_z->dest);
+
+                  free(ar_temp);
+                  free(ar_temp2);
+
 #else
                   ptr_my_struct_z->dest = _wfopen(wpmode, L"rb+");
 #endif
@@ -788,7 +879,14 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
 
                         if (unicodemode)
                         {
-                              ptr_my_struct_z->input_file = _wfopen(amanda_utf8towide_1_v27(input), L"rb");
+
+                              WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                              WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                              ptr_my_struct_z->input_file = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(input, ar_temp), ar_temp2), L"rb");
+
+                              free(ar_temp);
+                              free(ar_temp2);
                         }
                         else
                               ptr_my_struct_z->input_file = fopen(input, "rb");
@@ -815,9 +913,15 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                               {
 #ifdef ARP_USE_ENHANCED_STDIO
 
+                                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
                                     pedro_dprintf(-1, "4 memory size %lld", max_memory_size_j);
-                                    ptr_my_struct_z->dest = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[n_thread_counter]), "wb", max_memory_size_j, __FILE__, __LINE__, NULL);
+                                    ptr_my_struct_z->dest = _wfopen_z(permissive_name_m_v28(amanda_utf8towide_1_v28(temp_files_z[n_thread_counter], ar_temp), ar_temp2), "wb", max_memory_size_j, __FILE__, __LINE__, NULL);
                                     files_to_close_z[n_thread_counter] = ptr_my_struct_z->dest;
+
+                                    free(ar_temp);
+                                    free(ar_temp2);
 
 #else
                                     ptr_my_struct_z->dest = _wfopen(wpmode, L"wb");
@@ -890,7 +994,14 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                         pedro_dprintf(-1, "level my dear %d\n", level);
                         if (unicodemode)
                         {
-                              ptr_my_struct_z->ar.attrib = GetFileAttributesW(amanda_utf8towide_1_v27(input));
+
+                              WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                              WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                              ptr_my_struct_z->ar.attrib = GetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(input, ar_temp), ar_temp2));
+
+                              free(ar_temp);
+                              free(ar_temp2);
                         }
                         else
                               ptr_my_struct_z->ar.attrib = GetFileAttributes(input);
@@ -928,14 +1039,26 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
 			        ar.attrib = FILE_ATTRIBUTE_ARCHIVE;
 			   }
 			 */
+                  {
+                        WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                        WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-                  ret_z = SetFileAttributesW(amanda_utf8towide_1_v27(output), FILE_ATTRIBUTE_ARCHIVE);
+                        ret_z = SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), FILE_ATTRIBUTE_ARCHIVE);
 
+                        free(ar_temp);
+                        free(ar_temp2);
+                  }
                   //abrir arquivo
 
                   if (unicodemode)
                   {
-                        dest = _wfopen(amanda_utf8towide_1_v27(output), L"wb");
+                        WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                        WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                        dest = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp), L"wb");
+
+                        free(ar_temp);
+                        free(ar_temp2);
                   }
                   else
                         dest = fopen(output, "wb");
@@ -958,9 +1081,14 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                               if (unicodemode)
                               {
 #ifdef ARP_USE_ENHANCED_STDIO
+                                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
                                     pedro_dprintf(-1, "a memory size %lld", max_memory_size_j);
-                                    temp_z = _wfopen_z(amanda_utf8towide_1_v27(temp_files_z[i_z]), "rb", max_memory_size_j, __FILE__, __LINE__, files_to_close_z[i_z]);
+                                    temp_z = _wfopen_z(permissive_name_m_v28(amanda_utf8towide_1_v28(temp_files_z[i_z], ar_temp), ar_temp2), "rb", max_memory_size_j, __FILE__, __LINE__, files_to_close_z[i_z]);
+
+                                    free(ar_temp);
+                                    free(ar_temp2);
 #else
                                     temp_z = _wfopen(wpmode, L"rb");
 #endif
@@ -1042,7 +1170,14 @@ int zcompress_sha512_k(char *input, char *output, int levelin) //levelin not in 
                   for (i_z = 0; i_z < n_threads_z; i_z++)
                   {
                         free_z(files_to_close_z[i_z]);
-                        _wunlink(amanda_utf8towide_1_v27(temp_files_z[i_z]));
+
+                        WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                        WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                        _wunlink(permissive_name_m_v28(amanda_utf8towide_1_v28(temp_files_z[i_z], ar_temp), ar_temp2));
+
+                        free(ar_temp);
+                        free(ar_temp2);
                   }
 #endif
 
@@ -1103,9 +1238,15 @@ single_thread_z:;
 
       totalbytes = lffilesize(input);
       pedro_dprintf(-1, "original input size %lld\n", (int64_t)totalbytes);
+      {
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-      ar.attrib = GetFileAttributesW(amanda_utf8towide_1_v27(input));
+            ar.attrib = GetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(input, ar_temp), ar_temp2));
 
+            free(ar_temp);
+            free(ar_temp2);
+      }
 #ifdef NPRINTF
       dprintf("atributo %x \n", ar.attrib); //%x requer um int, tem que usar %p
 #endif
@@ -1116,7 +1257,13 @@ single_thread_z:;
       }
       if (unicodemode)
       {
-            source = _wfopen(amanda_utf8towide_1_v27(input), L"rb");
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+            source = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(input, ar_temp), ar_temp2), L"rb");
+
+            free(ar_temp);
+            free(ar_temp2);
       }
       else
             source = fopen(input, "rb");
@@ -1128,11 +1275,24 @@ single_thread_z:;
 
             goto saida;
       }
+      {
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-      ret_z = SetFileAttributesW(amanda_utf8towide_1_v27(output), FILE_ATTRIBUTE_ARCHIVE);
+            ret_z = SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), FILE_ATTRIBUTE_ARCHIVE);
 
-      dest = _wfopen(amanda_utf8towide_1_v27(output), L"wb");
+            free(ar_temp);
+            free(ar_temp2);
+      }
+      {
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+            dest = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), L"wb");
+
+            free(ar_temp);
+            free(ar_temp2);
+      }
       if (NULL == dest)
       {
 
@@ -1315,8 +1475,15 @@ saida:;
 
       if (0 == retvalue)
       {
-            dest = _wfopen(amanda_utf8towide_1_v27(output), L"rb+");
+            {
+                  WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                  WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+                  dest = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), L"rb+");
+
+                  free(ar_temp);
+                  free(ar_temp2);
+            }
             if (NULL == dest)
             {
 
@@ -1375,9 +1542,15 @@ int zuncompress(char *input, char *output)
       signature_z[3] = '_' - 1;
 
       zlibpercent = 0;
+      {
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-      source = _wfopen(amanda_utf8towide_1_v27(input), L"rb");
+            source = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(input, ar_temp), ar_temp2), L"rb");
 
+            free(ar_temp);
+            free(ar_temp2);
+      }
       if (NULL == source)
       {
 
@@ -1385,11 +1558,24 @@ int zuncompress(char *input, char *output)
 
             goto saida;
       }
+      {
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-      ret = SetFileAttributesW(amanda_utf8towide_1_v27(output), FILE_ATTRIBUTE_ARCHIVE);
+            ret = SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), FILE_ATTRIBUTE_ARCHIVE);
 
-      dest = _wfopen(amanda_utf8towide_1_v27(output), L"wb");
+            free(ar_temp);
+            free(ar_temp2);
+      }
+      {
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+            dest = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), L"wb");
+
+            free(ar_temp);
+            free(ar_temp2);
+      }
       if (NULL == dest)
       {
 
@@ -1485,18 +1671,31 @@ int zuncompress_sha512_k(char *input, char *output)
             pedro_dprintf(-1, "probrema aqui\n");
             totalbytes = 0;
       }
+      {
 
-      source = _wfopen(amanda_utf8towide_1_v27(input), L"rb");
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+            source = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(input, ar_temp), ar_temp2), L"rb");
+
+            free(ar_temp);
+            free(ar_temp2);
+      }
       if (NULL == source)
       {
             retvalue = 10;
             goto _to_never_forget___;
       }
+      {
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-      ret = SetFileAttributesW(amanda_utf8towide_1_v27(output), FILE_ATTRIBUTE_ARCHIVE);
-      dest = _wfopen(amanda_utf8towide_1_v27(output), L"wb");
+            ret = SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), FILE_ATTRIBUTE_ARCHIVE);
+            dest = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), L"wb");
 
+            free(ar_temp);
+            free(ar_temp2);
+      }
       if (NULL == dest)
       {
             retvalue = 11;
@@ -1690,7 +1889,13 @@ _to_never_forget___:;
       {
             if (unicodemode)
             {
-                  ret = SetFileAttributesW(amanda_utf8towide_1_v27(output), ar.attrib);
+                  WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                  WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                  ret = SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), ar.attrib);
+
+                  free(ar_temp);
+                  free(ar_temp2);
             }
             else
                   ret = SetFileAttributes(output, ar.attrib);
@@ -1795,7 +2000,13 @@ init_position_z:;
             //first_pass_z = true;
             if (unicodemode)
             {
-                  source = _wfopen(amanda_utf8towide_1_v27(input), L"rb");
+                  WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                  WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                  source = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(input, ar_temp), ar_temp2), L"rb");
+
+                  free(ar_temp);
+                  free(ar_temp2);
             }
             else
                   source = fopen(input, "rb");
@@ -1806,13 +2017,26 @@ init_position_z:;
                   goto saida;
             }
       }
+      {
+            WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+            WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-      ret = SetFileAttributesW(amanda_utf8towide_1_v27(output), FILE_ATTRIBUTE_ARCHIVE);
+            ret = SetFileAttributesW(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), FILE_ATTRIBUTE_ARCHIVE);
 
+            free(ar_temp);
+            free(ar_temp2);
+      }
       if (!first_pass_z)
       {
-            dest = _wfopen(amanda_utf8towide_1_v27(output), L"wb");
+            {
+                  WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                  WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
+                  dest = _wfopen(permissive_name_m_v28(amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), L"wb");
+
+                  free(ar_temp);
+                  free(ar_temp2);
+            }
             if (NULL == dest)
             {
                   if (-1 == retvalue)
@@ -2047,7 +2271,14 @@ saida:;
       {
             if (unicodemode)
             {
-                  ret = SetFileAttributesW(amanda_utf8towide_1_v27(output), ar.attrib);
+                  
+                  WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                  WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+                  ret = SetFileAttributesW(permissive_name_m_v28( amanda_utf8towide_1_v28(output, ar_temp), ar_temp2), ar.attrib);
+                  
+                  free(ar_temp);
+                  free(ar_temp2);
             }
             else
                   ret = SetFileAttributes(output, ar.attrib);

@@ -1742,8 +1742,8 @@ static BZFILE *bzopen_or_bzdopen(const char *path, /* no use when bzdopen */
                         {
                               short temp_w2_k[300] = {0};
 
-                              wcscpy((void *) temp_w2_k, amanda_utf8towide_1_v27(mode2));
-                              fp = _wfopen(amanda_utf8towide_1_v27(path), (unsigned short *)temp_w2_k);
+                              wcscpy((void *) temp_w2_k, amanda_utf8towide_1_v29(mode2));
+                              fp = _wfopen(amanda_utf8towide_1_v29(path), (unsigned short *)temp_w2_k);
                         }
                   }
                   else
