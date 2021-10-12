@@ -175,22 +175,6 @@ permissive_name_m_(const wchar_t *wname)
 	return (wnp);
 }
 
-/**
- * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
- *  . provide two functions that are exactly the same because someone may 
- * use it in multi-thread code 
- *
- * @param pUTF8 the input utf-8 encoded filename 
- *
- * @return the static allocated WCHAR array with the filename as wide string 
- *
- */
-WCHAR *amanda_utf8towide_1_v27(char *pUTF8)
-{
-	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
-	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
-	return permissive_name_m_(ricardo_k);
-}
 extern bool is_multi_thread_z;
 char temp_path_z[AMANDA__SIZE];
 int n_threads_z = 1;

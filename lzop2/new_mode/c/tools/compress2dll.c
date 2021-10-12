@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/********************************************************************************
  *                                                                              *
  *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
  *                                                                              *
@@ -18,14 +18,18 @@
  *                                                                              *
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
- *     E-mails:                                                                 *
- *     maria@arsoftware.net.br                                                  *
- *     pedro@locacaodiaria.com.br                                               *
+ ********************************************************************************
+ 
+      E-mails:                                                                 
+      maria@arsoftware.net.br                                                  
+      pedro@locacaodiaria.com.br                                               
+
+ ********************************************************************************
  *                                                                              *
  *     contato imediato(para uma resposta muito rápida) WhatsApp                *
  *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
  *                                                                              *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+ *******************************************************************************/
 
 /*
     <main dll interface>
@@ -69,6 +73,8 @@ int *cores_used_z = NULL;
 
 extern bool is_multi_thread_z;
 
+#define AMANDA__SIZE_ww ((32767 * 2) + 2)
+
 /**
  * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
  */
@@ -79,6 +85,165 @@ extern bool is_multi_thread_z;
  */
 #define AMANDA__SIZE_w (32767)
 
+wchar_t *
+permissive_name_m_v28(const wchar_t *wname, WCHAR *ar_temp);
+wchar_t *
+remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_temp);
+
+WCHAR *amanda_utf8towide_1_v28(char *pUTF8, WCHAR *ar_temp);
+
+/**
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
+ *  . provide two functions that are exactly the same because someone may 
+ * use it in multi-thread code 
+ *
+ * @param pUTF8 the input utf-8 encoded filename 
+ *
+ * @return the static allocated WCHAR array with the filename as wide string 
+ *
+ */
+WCHAR *amanda_utf8towide_1_v28(char *pUTF8, WCHAR *ar_temp)
+{
+      WCHAR *ricardo_k = ar_temp;
+
+      MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
+      return ricardo_k;
+}
+char *valquiria_wide_to_utf8(WCHAR *pUSC2_maria, char *ar_temp_char)
+{
+      char *saida_utf8 = ar_temp_char;
+
+      WideCharToMultiByte(CP_UTF8, 0, pUSC2_maria, -1, (LPSTR)saida_utf8, AMANDA__SIZE, 0, 0);
+      return saida_utf8;
+}
+
+wchar_t *
+remove_permissive_name_m_(wchar_t *wname, WCHAR *ar_temp)
+{
+
+      /**
+ * oi amor...
+ */
+      wchar_t *wname_copy = ar_temp;
+
+      wchar_t *wname_copy_v27 = wname_copy;
+
+      wcscpy(wname_copy, wname);
+
+      if (3 < wcslen(wname_copy))
+      {
+
+            if ('\\' == wname_copy[0] &&
+                '\\' == wname_copy[1] &&
+                '?' == wname_copy[2])
+            {
+                  wname_copy_v27++;
+                  wname_copy_v27++;
+                  wname_copy_v27++;
+                  wname_copy_v27++;
+                  return wname_copy_v27;
+            }
+            else
+            {
+                  return wname;
+            }
+      }
+      else
+      {
+            return wname;
+      }
+}
+
+wchar_t *
+permissive_name_m_v28(const wchar_t *wname, WCHAR *ar_temp)
+{
+
+     wchar_t *wnp = NULL;
+     wchar_t *wn;
+     wchar_t *ws, *wsp;
+     DWORD len, slen;
+     int unc;
+
+     wnp = ar_temp;
+
+     //wnp = malloc(AMANDA__SIZE * 2);
+
+     wcscpy(wnp, wname);
+
+     len = wcslen(wname);
+
+     wn = wnp;
+
+     if (wnp[0] == L'\\' && wnp[1] == L'\\' && // access to the wrong position in memory, fixed now
+         wnp[2] == L'?' && wnp[3] == L'\\')
+          /* We have already a permissive name. */
+          return (wn);
+
+     if (wnp[0] == L'\\' && wnp[1] == L'\\' &&
+         wnp[2] == L'.' && wnp[3] == L'\\')
+     {
+          /* This is a device name */
+          if (((wnp[4] >= L'a' && wnp[4] <= L'z') ||
+               (wnp[4] >= L'A' && wnp[4] <= L'Z')) &&
+              wnp[5] == L':' && wnp[6] == L'\\')
+               wnp[2] = L'?'; /* Not device name. */
+          return (wn);
+     }
+
+     unc = 0;
+     if (wnp[0] == L'\\' && wnp[1] == L'\\' && wnp[2] != L'\\')
+     {
+          wchar_t *p = &wnp[2];
+
+          /* Skip server-name letters. */
+          while (*p != L'\\' && *p != L'\0')
+               ++p;
+          if (*p == L'\\')
+          {
+               wchar_t *rp = ++p;
+               /* Skip share-name letters. */
+               while (*p != L'\\' && *p != L'\0')
+                    ++p;
+               if (*p == L'\\' && p != rp)
+               {
+                    /* Now, match patterns such as
+				 * "\\server-name\share-name\" */
+                    wnp += 2;
+                    len -= 2;
+                    unc = 1;
+               }
+          }
+     }
+
+     slen = 4 + (unc * 4) + len + 1;
+     ws = wsp = malloc(slen * sizeof(wchar_t));
+     if (ws == NULL)
+     {
+          //free(wn);
+          return (NULL);
+     }
+     /* prepend "\\?\" */
+     wcsncpy(wsp, L"\\\\?\\", 4);
+     wsp += 4;
+     slen -= 4;
+     if (unc)
+     {
+          /* append "UNC\" ---> "\\?\UNC\" */
+          wcsncpy(wsp, L"UNC\\", 4);
+          wsp += 4;
+          slen -= 4;
+     }
+     wcsncpy(wsp, wnp, slen);
+     wsp[slen - 1] = L'\0'; /* Ensure null termination. */
+     //free(wn);
+
+     wcscpy(wnp, ws);
+
+     free(ws);
+
+     return (wnp);
+}
+
 /**
  * To make the path wide mode aware, stolen from libarchive
  * 
@@ -86,7 +251,7 @@ extern bool is_multi_thread_z;
  *
  */
 wchar_t *
-permissive_name_m_(const wchar_t *wname)
+permissive_name_m_no_october_2021(const wchar_t *wname)
 {
 
 	static wchar_t *wnp = NULL;
@@ -188,12 +353,14 @@ permissive_name_m_(const wchar_t *wname)
  * @return the static allocated WCHAR array with the filename as wide string 
  *
  */
-WCHAR *amanda_utf8towide_1_v27(char *pUTF8)
+/*
+WCHAR *amanda_utf8towide_1_v27_no_october(char *pUTF8)
 {
 	static WCHAR ricardo_k[AMANDA__SIZE_w + 1];
 	MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
 	return permissive_name_m_(ricardo_k);
 }
+*/
 
 char temp_path_z[AMANDA__SIZE];
 int n_threads_z = 1;

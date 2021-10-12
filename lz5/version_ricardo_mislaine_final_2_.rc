@@ -30,8 +30,8 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 IDR_MAINFRAME           ICON                                   "amandaricardo_koci_qualquer coisa.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 4,8,5,297
- PRODUCTVERSION 4,8,5,297
+ FILEVERSION 4,8,9,301
+ PRODUCTVERSION 4,8,9,301
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -49,14 +49,14 @@ BEGIN
             VALUE "Comments", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "CompanyName", "BinayrWork Corp. https://nomade.sourceforge.io/ \0"
             VALUE "FileDescription", "BW LZ5 DLL \0"
-            VALUE "FileVersion", "4, 8, 5, 297 \0"
+            VALUE "FileVersion", "4, 8, 9, 301 \0"
             VALUE "InternalName", "rsp_lz5_32.DLL \0"
             VALUE "LegalCopyright", "Copyright © 2021 BW \0"
             VALUE "LegalTrademarks", "https://nomade.sourceforge.io/ \0"
             VALUE "OriginalFilename", "rsp_lz5_32.DLL \0"
-            VALUE "PrivateBuild", "297 \0"
-            VALUE "ProductName", "BW LZ5 DLL 4, 8, 5, 297 31.5 bits ;-) \0"
-            VALUE "ProductVersion", "4, 8, 5, 297 \0"
+            VALUE "PrivateBuild", "301 \0"
+            VALUE "ProductName", "BW LZ5 DLL 4, 8, 9, 301 31.5 bits ;-) \0"
+            VALUE "ProductVersion", "4, 8, 9, 301 \0"
             VALUE "SpecialBuild", "amandaricardo_koci\0"
         END
     END
