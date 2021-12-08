@@ -68,3 +68,5 @@ write_xml_z_amanda_s_smart_ape                           @428
 stripfilenameandpath_amanda_s_smart_ape                  @429
 ControlName                                              @430
 set_compression_level_p                                  @4072
+
+get_DLL_mode_m                                           @4073

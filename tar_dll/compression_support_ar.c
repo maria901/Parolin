@@ -1,4 +1,4 @@
-//december 2020 amanda & ricardo
+// december 2020 amanda & ricardo
 
 #ifdef _M_X64
 #define MACHINE_ARP "64"
@@ -14,6 +14,8 @@
 void __fastcall dllinit_arp(void)
 {
       char copy_ar[1024];
+
+#if 0x1 == AMANDA_MODE
 
       if (NULL == my_libarchive_dll)
       {
@@ -149,7 +151,8 @@ void __fastcall dllinit_arp(void)
                   }
             }
       }
-
+#endif
+#if 0x1 == AMANDA_MODE
       if (NULL == my_gzip_dll)
       {
             my_gzip_dll = LoadLibraryA(
@@ -273,7 +276,8 @@ void __fastcall dllinit_arp(void)
                   }
             }
       }
-
+#endif
+#if 0x1 == AMANDA_MODE
       if (NULL == my_bz2__dll)
       {
             my_bz2__dll = LoadLibraryA(
@@ -391,6 +395,10 @@ void __fastcall dllinit_arp(void)
                   }
             }
       }
+
+#endif
+#if 0x1 == AMANDA_MODE
+
       if (NULL == my_lzip__dll)
       {
             my_lzip__dll = LoadLibraryA(
@@ -488,7 +496,10 @@ void __fastcall dllinit_arp(void)
                   }
             }
       }
-      
+
+#endif
+#if 0x1 == AMANDA_MODE
+
       if (NULL == my_lzma__dll)
       {
             my_lzma__dll = LoadLibraryA(
@@ -587,6 +598,9 @@ void __fastcall dllinit_arp(void)
             }
       }
 
+#endif
+#if 0x1 == AMANDA_MODE
+
       if (NULL == my_xz____dll)
       {
             my_xz____dll = LoadLibraryA(
@@ -684,6 +698,9 @@ void __fastcall dllinit_arp(void)
                   }
             }
       }
+
+#endif
+#if 0x1 == AMANDA_MODE
 
       if (NULL == my_co____dll)
       {
@@ -784,6 +801,9 @@ void __fastcall dllinit_arp(void)
             }
       }
 
+#endif
+#if 0x1 == AMANDA_MODE
+
       if (NULL == my_ju____dll)
       {
             my_ju____dll = LoadLibraryA(
@@ -881,6 +901,9 @@ void __fastcall dllinit_arp(void)
                   }
             }
       }
+
+#endif
+#if 0x1 == AMANDA_MODE
 
       if (NULL == my_l4____dll)
       {
@@ -980,6 +1003,9 @@ void __fastcall dllinit_arp(void)
             }
       }
 
+#endif
+#if 0x1 == AMANDA_MODE
+
       if (NULL == my_zs____dll)
       {
             my_zs____dll = LoadLibraryA(
@@ -1077,6 +1103,9 @@ void __fastcall dllinit_arp(void)
                   }
             }
       }
+
+#endif
+#if 0x1 == AMANDA_MODE
 
       if (NULL == my_br____dll)
       {
@@ -1176,6 +1205,9 @@ void __fastcall dllinit_arp(void)
             }
       }
 
+#endif
+#if 0x1 == AMANDA_MODE
+
       if (NULL == my_g2____dll)
       {
             my_g2____dll = LoadLibraryA(
@@ -1273,6 +1305,9 @@ void __fastcall dllinit_arp(void)
                   }
             }
       }
+
+#endif
+#if 0x1 == AMANDA_MODE || 0x2 == AMANDA_MODE
 
       if (NULL == my_b3____dll)
       {
@@ -1372,6 +1407,9 @@ void __fastcall dllinit_arp(void)
             }
       }
 
+#endif
+#if 0x1 == AMANDA_MODE
+
       if (NULL == my_l3____dll)
       {
             my_l3____dll = LoadLibraryA(
@@ -1469,6 +1507,9 @@ void __fastcall dllinit_arp(void)
                   }
             }
       }
+
+#endif
+#if 0x1 == AMANDA_MODE
 
       if (NULL == my_l5____dll)
       {
@@ -1568,6 +1609,9 @@ void __fastcall dllinit_arp(void)
             }
       }
 
+#endif
+#if 0x1 == AMANDA_MODE
+
       if (NULL == my_bb____dll)
       {
             my_bb____dll = LoadLibraryA(
@@ -1666,6 +1710,9 @@ void __fastcall dllinit_arp(void)
             }
       }
 
+#endif
+#if 0x1 == AMANDA_MODE
+
       if (NULL == my_c5____dll)
       {
             my_c5____dll = LoadLibraryA(
@@ -1762,6 +1809,14 @@ void __fastcall dllinit_arp(void)
                         strcpy(error_message_k, copy_ar);
                   }
             }
+      }
+
+#endif
+
+      if (0 == 1)
+      {
+            printf(copy_ar);
+            goto dll_error_arp;
       }
 
 dll_error_arp:;

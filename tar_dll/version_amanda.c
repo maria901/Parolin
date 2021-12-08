@@ -51,6 +51,14 @@ int __stdcall ControlName(char *version_amanda)
 	" 32 Bits - "
 #endif
 
+#if 0x0 == AMANDA_MODE
+     " Basic "
+#elif 0x1 == AMANDA_MODE
+      " Full " 
+#elif 0x2 == AMANDA_MODE
+      " Minimalist " 
+#endif
+
 __DATE__ " " __TIME__ ;
 	strcpy(version_amanda, ver_ric);
 

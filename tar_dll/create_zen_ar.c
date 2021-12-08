@@ -23,12 +23,12 @@
  *     pedro@locacaodiaria.com.br                                               *
  *                                                                              *
  *     contato imediato(para uma resposta muito rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
 /////////////////////////////////////////////////////////////////////////////////
-//defines...
+// defines...
 
 int threads_z_v27 = 1;
 
@@ -49,7 +49,7 @@ void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data *VAL_data_arp
 
 enum libarchive_compression_modes_AR compression_mode_p = P_MODE_IS_ZIP__NO_PASSWORD;
 
-int64_t bytes_read_p = 0; //oi
+int64_t bytes_read_p = 0; // oi
 
 bool first_pass_VAL_p;
 
@@ -65,7 +65,7 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p);
  *
  */
 double
-get_bucaneiro_tick()
+get_bucaneiro_tick(void)
 {
      LARGE_INTEGER first;
      LARGE_INTEGER second;
@@ -78,7 +78,7 @@ get_bucaneiro_tick()
 
 int first_step = 0;
 
-enum z_encryption_method internal_encryption_z_method = Z_NEW_MODE; //default to the new method, obviously
+enum z_encryption_method internal_encryption_z_method = Z_NEW_MODE; // default to the new method, obviously
 
 /**
  * New function to encrypt files, this is the preferred mode to
@@ -97,154 +97,163 @@ int encryption_process_new_mode_21_february_2021_z(char *original_filename_z)
      static int64_t temp_long_long;
 
      first_step = 2;
-     if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+     if (false)
      {
-          if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_in_z, L"EN_"))
+#else
+     if (true)
+     {
+#endif
+          if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
           {
-               fatal_exit_k = 30004;
-               strcpy(error_message_k, "Cannot create final encrypted file\n");
-               return 1;
-          }
+               if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_file_in_z, L"EN_"))
+               {
+                    fatal_exit_k = 30004;
+                    strcpy(error_message_k, "Cannot create final encrypted file\n");
+                    return 1;
+               }
 
-          update_progress_arp(&temp_long_long);
+               update_progress_arp(&temp_long_long);
 
-          if (ARP_AES == encryption_method_to_create)
-          {
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_AES,
-                                      threads_z_v27);
-          }
-          else if (ARP_RC4 == encryption_method_to_create)
-          {
-               pedro_dprintf(-1, "method rc4\n");
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_RC4,
-                                      threads_z_v27);
-          }
-          else if (ARP_SERPENT == encryption_method_to_create)
-          {
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_SERPENT,
-                                      threads_z_v27);
-          }
-          else if (ARP_MARS == encryption_method_to_create)
-          {
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_MARS,
-                                      threads_z_v27);
-          }
-          else if (ARP_RC6 == encryption_method_to_create)
-          {
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_RC6,
-                                      threads_z_v27);
-          }
-          else if (ARP_TWOFISH == encryption_method_to_create)
-          {
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_TWOFISH,
-                                      threads_z_v27);
-          }
-          else if (ARP_AES_MT == encryption_method_to_create)
-          {
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_AES_MT,
-                                      threads_z_v27);
-          }
-          else if (ARP_RC4_MT == encryption_method_to_create)
-          {
-               pedro_dprintf(-1, "method rc4\n");
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_RC4_MT,
-                                      threads_z_v27);
-          }
-          else if (ARP_SERPENT_MT == encryption_method_to_create)
-          {
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_SERPENT_MT,
-                                      threads_z_v27);
-          }
-          else if (ARP_MARS_MT == encryption_method_to_create)
-          {
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_MARS_MT,
-                                      threads_z_v27);
-          }
-          else if (ARP_RC6_MT == encryption_method_to_create)
-          {
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_RC6_MT,
-                                      threads_z_v27);
-          }
-          else if (ARP_TWOFISH_MT == encryption_method_to_create)
-          {
-               ret_arp_ = encrypt_arp(original_filename_z,
-                                      temp_file_in_z,
-                                      the_pass_arp,
-                                      ARP_TWOFISH_MT,
-                                      threads_z_v27);
-          }
-          else
-          {
-               assert(0 && "Unsupported encryption method\n");
-               exit(27);
-          }
-          {
+               if (ARP_AES == encryption_method_to_create)
+               {
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_AES,
+                                           threads_z_v27);
+               }
+               else if (ARP_RC4 == encryption_method_to_create)
+               {
+                    pedro_dprintf(-1, "method rc4\n");
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_RC4,
+                                           threads_z_v27);
+               }
+               else if (ARP_SERPENT == encryption_method_to_create)
+               {
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_SERPENT,
+                                           threads_z_v27);
+               }
+               else if (ARP_MARS == encryption_method_to_create)
+               {
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_MARS,
+                                           threads_z_v27);
+               }
+               else if (ARP_RC6 == encryption_method_to_create)
+               {
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_RC6,
+                                           threads_z_v27);
+               }
+               else if (ARP_TWOFISH == encryption_method_to_create)
+               {
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_TWOFISH,
+                                           threads_z_v27);
+               }
+               else if (ARP_AES_MT == encryption_method_to_create)
+               {
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_AES_MT,
+                                           threads_z_v27);
+               }
+               else if (ARP_RC4_MT == encryption_method_to_create)
+               {
+                    pedro_dprintf(-1, "method rc4\n");
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_RC4_MT,
+                                           threads_z_v27);
+               }
+               else if (ARP_SERPENT_MT == encryption_method_to_create)
+               {
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_SERPENT_MT,
+                                           threads_z_v27);
+               }
+               else if (ARP_MARS_MT == encryption_method_to_create)
+               {
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_MARS_MT,
+                                           threads_z_v27);
+               }
+               else if (ARP_RC6_MT == encryption_method_to_create)
+               {
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_RC6_MT,
+                                           threads_z_v27);
+               }
+               else if (ARP_TWOFISH_MT == encryption_method_to_create)
+               {
+                    ret_arp_ = encrypt_arp(original_filename_z,
+                                           temp_file_in_z,
+                                           the_pass_arp,
+                                           ARP_TWOFISH_MT,
+                                           threads_z_v27);
+               }
+               else
+               {
+                    assert(0 && "Unsupported encryption method\n");
+                    exit(27);
+               }
+               {
 
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_filename_z, ar_temp), ar_temp2));
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_filename_z, ar_temp), ar_temp2));
 
-               free(ar_temp);
-               free(ar_temp2);
-          }
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
 
-          {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp3 = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp4 = (void *)malloc(AMANDA__SIZE_ww);
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp3 = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp4 = (void *)malloc(AMANDA__SIZE_ww);
 
-               _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_in_z, ar_temp), ar_temp2), permissive_name_m_v27(amanda_utf8towide_1_(original_filename_z, ar_temp3), ar_temp4));
+                    _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_in_z, ar_temp), ar_temp2), permissive_name_m_v27(amanda_utf8towide_1_(original_filename_z, ar_temp3), ar_temp4));
 
-               free(ar_temp);
-               free(ar_temp2);
-               free(ar_temp3);
-               free(ar_temp4);
-          }
+                    free(ar_temp);
+                    free(ar_temp2);
+                    free(ar_temp3);
+                    free(ar_temp4);
+               }
 
-          if (119 == ret_arp_)
-          {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               if (119 == ret_arp_)
+               {
+                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
 
-               _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_filename_z, ar_temp), ar_temp2));
+                    _wunlink(permissive_name_m_(amanda_utf8towide_1_(original_filename_z, ar_temp), ar_temp2));
 
-               free(ar_temp);
-               free(ar_temp2);
+                    free(ar_temp);
+                    free(ar_temp2);
+               }
           }
      }
 
@@ -252,7 +261,7 @@ int encryption_process_new_mode_21_february_2021_z(char *original_filename_z)
 }
 
 int threads_z = 1;
-//threads with up to 128
+// threads with up to 128
 
 /**
  * This is the api call that will pass to the DLL the
@@ -269,7 +278,7 @@ int __stdcall set_thread_number(int value_z)
 
      if (0 > value_z)
      {
-          value_z = 0; //will be based on the number of cpus detected
+          value_z = 0; // will be based on the number of cpus detected
           threads_z_v27 = 0;
      }
      threads_z_v27 = value_z;
@@ -281,7 +290,7 @@ int __stdcall set_thread_number(int value_z)
 
      if (8 < value_z)
      {
-          value_z = 8; //limit
+          value_z = 8; // limit
      }
 
      number_of_threads_p = value_z;
@@ -305,7 +314,7 @@ typedef struct _amanda_
      char global_patern_ar[1024]; // need to change soon...
      int recurse_on_subfolders_arp;
      int mode_is_include_or_exclude__;
-     //int files_that_cannot_read    ;
+     // int files_that_cannot_read    ;
      char extract_file_arp[1024];
      int progress_arp;
      int pause____arp;
@@ -399,8 +408,8 @@ void add_more_one(char *data_ar)
 int clean_list__ar(void);
 
 /**
- * Function to get an item from the linked list (internal), 
- * notice that after 13/September/2021 support to paths above MAX_PATH 
+ * Function to get an item from the linked list (internal),
+ * notice that after 13/September/2021 support to paths above MAX_PATH
  * was added, long paths already checked Ric...
  *
  * @param data_out_ar the string with the information
@@ -654,8 +663,8 @@ void tar_copy_str(char *dst, const char *src, size_t len);
 void strtolower_ar(char *path)
 {
      /*
- * funcao para passar um tolower na string inteira, september 1992
- */
+      * funcao para passar um tolower na string inteira, september 1992
+      */
      int ret;
      int i;
 
@@ -984,21 +993,21 @@ to_chars_subst(int negative, int gnu_format, uintmax_t value, size_t valsize,
           uintmax_t m = maxval + 1 ? maxval + 1 : maxval / 2 + 1;
           char *p = STRINGIFY_BIGINT(m, minbuf + 1);
           *--p = '-';
-          //minval_string = p;
+          // minval_string = p;
      }
      else
      {
-          ; //minval_string = "0";
+          ; // minval_string = "0";
      }
      if (negative)
      {
           char *p = STRINGIFY_BIGINT(-value, valbuf + 1);
           *--p = '-';
-          //value_string = p;
+          // value_string = p;
      }
      else
      {
-          ; //value_string = STRINGIFY_BIGINT (value, valbuf);
+          ; // value_string = STRINGIFY_BIGINT (value, valbuf);
      }
 
      if (substitute)
@@ -1377,7 +1386,7 @@ write_long_name(struct tar_stat_info *st)
           break;
 
      default:
-          abort(); /*FIXME*/ //ok, we will fix it
+          abort(); /*FIXME*/ // ok, we will fix it
      }
      return write_short_name(st);
 }
@@ -1700,7 +1709,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
                     OPEN_EXISTING,
                     FILE_FLAG_BACKUP_SEMANTICS,
                     NULL);
-		    */
+              */
                                GENERIC_READ,
                                FILE_SHARE_READ, NULL,
                                OPEN_EXISTING,
@@ -1726,7 +1735,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
                     {
                          struct timespec t;
 
-                         //ret_ar = 0;
+                         // ret_ar = 0;
                          {
                               __time64_t s_arp_3;
                               get_timestamp_arp(/* already have permissive_name_m_ call */ file_or_folder_to_process, &s_arp_3, &my_VAL_data_copy_i);
@@ -1758,25 +1767,25 @@ void dump_file_or_folder(struct tar_stat_info *st,
           {
                if (!mode_is_VAL_arp)
                {
-                    dump_directory(st); //Later we extend the Tar format to long paths...
+                    dump_directory(st); // Later we extend the Tar format to long paths...
                }
                else
                {
-                    //aqui
+                    // aqui
                     if (mode_is_parolin_p)
                     {
                          dump_diretory_VAL_arp(&my_VAL_data);
                     }
                     else
                     {
-                         //SetCurrentDirectoryW(amanda_utf8towide_1_(initial_path_ar));
+                         // SetCurrentDirectoryW(amanda_utf8towide_1_(initial_path_ar));
 
                          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
                          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
                          char *ar_temp3 = (void *)malloc(AMANDA__SIZE);
 
                          libarchive_process_p_func((my_VAL_data.VAL_filename), valquiria_wide_to_utf8(permissive_name_m_(amanda_utf8towide_1_(file_or_folder_to_process, ar_temp), ar_temp2), ar_temp3));
-                         //SetCurrentDirectoryW(amanda_path);
+                         // SetCurrentDirectoryW(amanda_path);
 
                          free(ar_temp);
                          free(ar_temp2);
@@ -1850,7 +1859,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
                mtime_tv_sec_arp = s_arp_3;
                st->atime.tv_sec = s_arp_3;
                st->atime.tv_nsec = 0;
-               st->mtime.tv_sec = s_arp_3; //only this is relevant
+               st->mtime.tv_sec = s_arp_3; // only this is relevant
                st->mtime.tv_nsec = 0;
                st->ctime.tv_sec = s_arp_3;
                st->ctime.tv_nsec = 0;
@@ -1871,7 +1880,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
 
           if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
           {
-               st->stat.st_size += 4 + 64 + 8; //magic value...
+               st->stat.st_size += 4 + 64 + 8; // magic value...
           }
 
           st->archive_file_size = st->stat.st_size;
@@ -1884,6 +1893,11 @@ void dump_file_or_folder(struct tar_stat_info *st,
 
           if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
           {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+               mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
+               exit(27);
+#endif
                update_progress_arp_func(&ricrdo_bytes_read);
 
                if (ARP_AES == encryption_method_to_create)
@@ -2114,7 +2128,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
                else
                {
 
-                    //aqui
+                    // aqui
                     if (mode_is_parolin_p)
                     {
                          if (dump_regular_file_VAL_arp(fd_ar, &my_VAL_data))
@@ -2161,6 +2175,12 @@ void dump_file_or_folder(struct tar_stat_info *st,
 
                if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
                {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+                    mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
+                    exit(27);
+#endif
+
                     int64_t ricrdo_bytes_read_ = 0;
                     update_progress_arp_func(&ricrdo_bytes_read_);
 
@@ -2287,7 +2307,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
                {
                     while (0 < (len_arp = read(fd_ar, buf_arp, AMANDA_SIZE__)))
                     {
-                         if (0 > len_arp) //it is not redundant? maybe...
+                         if (0 > len_arp) // it is not redundant? maybe...
                          {
                               break;
                          }
@@ -2312,7 +2332,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
      }
      if (ARP_MODE_NORMAL == step_for_create_arp)
      {
-          //aqui name
+          // aqui name
           if (use_name_i)
           {
                sprintf(process_message_k, "Processing %s", girlfriend_name);
@@ -2476,18 +2496,18 @@ __int64 amanda_itens;
 __int64 ricard0_itens_processed;
 
 /**
- * This function will scan the disk for files and folders in the selected 
- * folder, non recursive search, and will call the function to dump the data 
- * to disk creating a Tar file or VAL file 
+ * This function will scan the disk for files and folders in the selected
+ * folder, non recursive search, and will call the function to dump the data
+ * to disk creating a Tar file or VAL file
  *
- * @param lpcszFolder_ar the folder being search 
+ * @param lpcszFolder_ar the folder being search
  *
- * @param first_call whether it is the first call 
+ * @param first_call whether it is the first call
  *
- * @param only_get_number_of_files_ar if we only want to get 
- * the number of files and folders 
+ * @param only_get_number_of_files_ar if we only want to get
+ * the number of files and folders
  *
- * @return true if ok, false if it need to stop searching 
+ * @return true if ok, false if it need to stop searching
  *
  */
 bool EnumerateFolder(char *lpcszFolder_ar, __attribute__((unused)) int first_call, bool only_get_number_of_files_ar)
@@ -2616,7 +2636,7 @@ int __stdcall create_archive_ar_v2(char *tar_filename_ar,
                                    int recurse_in_subfolders_arp,
                                    enum mode_is_include_or_exclude the__patern_ar__mode)
 {
-     if (AMANDA__SIZE < strlen(tar_filename_ar)) //aqui?...
+     if (AMANDA__SIZE < strlen(tar_filename_ar)) // aqui?...
      {
           running_update = 0;
           return 2;
@@ -2655,11 +2675,11 @@ int __stdcall create_archive_ar_v2(char *tar_filename_ar,
  * @param tar_filename_ar the compressed file to be created, cannot be a relative path
  *
  * @param path_with_the_files_ar from where the files will be added
- * 
+ *
  * @param patern_ar the files to be added or wildcards, to add all ini and txt files use '*.txt *.ini'
  *
  * @param compression_mode_external_ar the compression mode to be used, for the moment the allowe are:<br><br>
- * P_MODE_IS_ZIP__NO_PASSWORD<br> 
+ * P_MODE_IS_ZIP__NO_PASSWORD<br>
  * P_MODE_IS_ZIP__ZIPCRYPTO  <br>
  * P_MODE_IS_ZIP__AES_128    <br>
  * P_MODE_IS_ZIP__AES_256    <br>
@@ -2701,6 +2721,11 @@ int __stdcall libarchive_create_archive_ar_v2(char *tar_filename_ar,
                                               enum mode_is_include_or_exclude the__patern_ar__mode,
                                               char * /* for your pleasure... */ compression_level_p_)
 {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+     mprintf___arp("Cannot use libarchive when not in 'full' DLL mode, exiting...");
+     exit(27);
+#endif
 
      if (MAX_PATH < strlen(tar_filename_ar))
      {
@@ -2785,7 +2810,7 @@ int __stdcall create_archive_ar(char *tar_filename_ar,
      MYCAST ThreadId;
      MYCAST parameter = 1;
 
-     myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0, //nao agora...amor...
+     myhandle = CreateThread((LPSECURITY_ATTRIBUTES)0, // nao agora...amor...
                              (SIZE_T)0,
                              (void *)startapi,
                              (LPVOID)parameter,
@@ -2797,7 +2822,7 @@ int __stdcall create_archive_ar(char *tar_filename_ar,
 }
 
 /**
- * This function is called when a call to create a Tar file is done, 
+ * This function is called when a call to create a Tar file is done,
  * it ran in another thread
  *
  * @param parameter ignored parameter
@@ -2818,7 +2843,7 @@ int __stdcall startapi(__attribute__((unused)) int parameter)
           return_value_ar = split_in_multiple_volumes_p(tar_filename__ar);
      }
 
-     //remove_temp_folder_i();
+     // remove_temp_folder_i();
 
      mode_is_parolin_p = true;
      use_name_i = false;
@@ -2835,7 +2860,7 @@ int __stdcall startapi(__attribute__((unused)) int parameter)
  */
 int __stdcall GetStatus_ar(void)
 {
-     if (2 == (running_ar + running_update)) //hack as usual...
+     if (2 == (running_ar + running_update)) // hack as usual...
      {
           return 1;
      }
@@ -2887,6 +2912,12 @@ int __stdcall GetProgress_ar(void)
      {
           if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
           {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+               mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
+               exit(27);
+#endif
+
                if (0 == first_step)
                {
                     val_ar = getpor_10000_int64_t_ar(amanda_pereira_total_size * 2, ricrdo_bytes_read);
@@ -2915,6 +2946,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_GZIP == compression_mode_ar || AAKP_MODE_VAL_GZIP == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use gzip files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -2975,6 +3012,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_GZIP2 == compression_mode_ar || AAKP_MODE_VAL_GZIP2 == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use gzip2 files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3036,6 +3079,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_LZIP == compression_mode_ar || AAKP_MODE_VAL_LZIP == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use lzip files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3097,6 +3146,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_LZMA == compression_mode_ar || AAKP_MODE_VAL_LZMA == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use lzma files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3159,6 +3214,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_XZ == compression_mode_ar || AAKP_MODE_VAL_XZ == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use xz files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3222,6 +3283,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_COMPRESS == compression_mode_ar || AAKP_MODE_VAL_COMPRESS == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use compress files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3284,6 +3351,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_LZOP == compression_mode_ar || AAKP_MODE_VAL_LZOP == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use lzop2 files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3347,6 +3420,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_LZ4 == compression_mode_ar || AAKP_MODE_VAL_LZ4 == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use lz4 files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3410,6 +3489,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_ZSTANDARD == compression_mode_ar || AAKP_MODE_VAL_ZSTANDARD == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use zstandard files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3473,6 +3558,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_BROTLI == compression_mode_ar || AAKP_MODE_VAL_BROTLI == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use brotli files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3536,6 +3627,12 @@ int __stdcall GetProgress_ar(void)
      }
      else if (AAKP_MODE_TAR_BZ2 == compression_mode_ar || AAKP_MODE_VAL_BZ2 == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use bzip2 files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3601,10 +3698,22 @@ int __stdcall GetProgress_ar(void)
 
      else if (AAKP_MODE_TAR_BZIP3 == compression_mode_ar || AAKP_MODE_VAL_BZIP3 == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE
+          mprintf___arp("Cannot use bzip3 files when in 'basic' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
                {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+                    mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
+                    exit(27);
+#endif
+
                     val_ar = getpor_10000_int64_t_ar((int64_t)((double)((double)amanda_pereira_total_size *
                                                                         (double)3.0)),
                                                      ricrdo_bytes_read);
@@ -3632,6 +3741,12 @@ int __stdcall GetProgress_ar(void)
                {
                     if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
                     {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+                         mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
+                         exit(27);
+#endif
+
                          if (1 == first_step)
                          {
                               val_ar = 3333 + ((int)(double)((double)get_progress_b3___ar_func() / (double)3.0));
@@ -3664,6 +3779,12 @@ int __stdcall GetProgress_ar(void)
 
      else if (AAKP_MODE_TAR_LZOP2 == compression_mode_ar || AAKP_MODE_VAL_LZOP2 == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use lzop2 files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3727,6 +3848,12 @@ int __stdcall GetProgress_ar(void)
 
      else if (AAKP_MODE_TAR_LZ5 == compression_mode_ar || AAKP_MODE_VAL_LZ5 == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use lz5 files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3790,6 +3917,12 @@ int __stdcall GetProgress_ar(void)
 
      else if (AAKP_MODE_TAR_BROTLI2 == compression_mode_ar || AAKP_MODE_VAL_BROTLI2 == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use brotli2 files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3853,6 +3986,12 @@ int __stdcall GetProgress_ar(void)
 
      else if (AAKP_MODE_TAR_COMPRESS2 == compression_mode_ar || AAKP_MODE_VAL_COMPRESS2 == compression_mode_ar)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use compress2 files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (0 == first_step)
           {
                if (enable_encryption_arp_ && Z_NEW_MODE == internal_encryption_z_method)
@@ -3931,13 +4070,14 @@ int __stdcall GetProgress_ar(void)
             }
           return old_value_arp;
         }
-	*/
+     */
 
           return 0;
      }
      else
      {
           pedro_dprintf(2, "Invalid format, file: %s, line: %d\n", __FILE__, __LINE__);
+          assert(0 && "see debugview");
           exit(27);
      }
      return 0;
@@ -3952,6 +4092,18 @@ int __stdcall GetProgress_ar(void)
  */
 int __stdcall Pause_ar(void)
 {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+     if (pause_b3___aakp_b3___ar_func)
+     {
+          pause_b3___aakp_b3___ar_func();
+     }
+
+     return 0;
+
+#endif
+
      if (PauseExecution_gzip_ar_func)
      {
           PauseExecution_gzip_ar_func();
@@ -3995,6 +4147,17 @@ int __stdcall Pause_ar(void)
  */
 int __stdcall Resume_ar(void)
 {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+     if (resume_b3___aakp_b3___ar_func)
+     {
+          resume_b3___aakp_b3___ar_func();
+     }
+     return 0;
+
+#endif
+
      if (ResumeExecution_gzip_ar_func)
      {
           ResumeExecution_gzip_ar_func();
@@ -4037,6 +4200,16 @@ int __stdcall Resume_ar(void)
  */
 int __stdcall Cancel_ar(void)
 {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+     if (cancel_b3___aakp_b3___ar_func)
+     {
+          cancel_b3___aakp_b3___ar_func();
+     }
+     return 0;
+
+#endif
      if (CancelExecution_gzip_ar_func)
      {
           CancelExecution_gzip_ar_func();
@@ -4138,8 +4311,8 @@ int __stdcall get_cannot_read_warnings(void)
 }
 /**
  *  To see whether the path looks valid, wide path capable...my love
- * 
- * 
+ *
+ *
  */
 bool check_valid_path_i(char *data_i)
 {
@@ -4210,11 +4383,45 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
      amanda_pereira_total_size = 0;
      ricrdo_bytes_read = 0;
 
+#if 0x0 == AMANDA_MODE
+
+     if (AAKP_MODE_VAL == compression_mode_ar || AAKP_MODE_TAR == compression_mode_ar)
+     {
+          ; //
+     }
+     else
+     {
+          mprintf___arp("Cannot use compression files when not in 'full' or 'minimalist' DLL mode, exiting...");
+          exit(27);
+     }
+
+#endif
+
+#if 0x2 == AMANDA_MODE
+
+     if (AAKP_MODE_VAL == compression_mode_ar || AAKP_MODE_TAR == compression_mode_ar || AAKP_MODE_TAR_BZIP3 == compression_mode_ar)
+     {
+          ; //
+     }
+     else
+     {
+          mprintf___arp("Cannot use compression other than bzip3 (minimalist) when not in 'full' DLL mode, exiting...");
+          exit(27);
+     }
+
+#endif
+
      memset(original_destination_tar_file, 0, sizeof(original_destination_tar_file));
      memset(copy_ar, 0, sizeof(copy_ar));
      memset(exit_data_ar, 0, sizeof(exit_data_ar));
      if (mode_is_update_libarchive_v27)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use libarchive when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           FILE *temp_file_i = NULL;
           FILE *writ_file_i = NULL;
 
@@ -4297,7 +4504,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
           {
                fatal_exit_k = 200001;
                strcpy(error_message_k, "Invalid compression mode for a libarchive format for the moment");
-               //clean_up_update_ARP();
+               // clean_up_update_ARP();
                mode_is_VAL_arp = false;
 
                if (mode_is_update_arp)
@@ -4323,7 +4530,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
           {
                fatal_exit_k = 200002;
                strcpy(error_message_k, "Missing the password for the zip compressed file (cannot be empty), click 'Options' and set the password");
-               //clean_up_update_ARP();
+               // clean_up_update_ARP();
                mode_is_VAL_arp = false;
 
                if (mode_is_update_arp)
@@ -4349,7 +4556,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
           {
                fatal_exit_k = 200003;
                strcpy(error_message_k, "Invalid compression level for this format");
-               //clean_up_update_ARP();
+               // clean_up_update_ARP();
                mode_is_VAL_arp = false;
 
                if (mode_is_update_arp)
@@ -4394,7 +4601,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                {
                     ;
 
-                    //exit(27);
+                    // exit(27);
                }
                free(ar_temp);
                free(ar_temp2);
@@ -4435,7 +4642,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                          if (my_ptr_ar->is_dir_i)
                          {
                               void TimetToFileTime(time_t t, LPFILETIME pft);
-                              //aqui amor...
+                              // aqui amor...
 
                               {
                                    time_t s = my_ptr_ar->mtime_i;
@@ -4569,7 +4776,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                                    {
                                         ;
 
-                                        //exit(27);
+                                        // exit(27);
                                    }
 
                                    free(ar_temp);
@@ -4596,7 +4803,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
                                    {
                                         ;
 
-                                        //exit(27);
+                                        // exit(27);
                                    }
 
                                    free(ar_temp);
@@ -5337,6 +5544,12 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
      if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (!createtempfilename_and_keep_z(ar_gettemppath_z(), temp_encrypted_file_arp, L"EN_"))
           {
                if (mode_is_update_arp)
@@ -5397,7 +5610,7 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
      dllinit_arp();
 
-     //pedro_dprintfW(0, L"amanda path %ls\n", amanda_path);
+     // pedro_dprintfW(0, L"amanda path %ls\n", amanda_path);
 
      if (fatal_exit_k)
      {
@@ -5423,6 +5636,12 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
      if (!mode_is_parolin_p)
      {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          mprintf___arp("Cannot use libarchive when not in 'full' DLL mode, exiting...");
+          exit(27);
+#endif
+
           if (-1 != archive)
           {
                close(archive);
@@ -5533,6 +5752,12 @@ pula_arp:;
      {
           if (enable_encryption_arp_ && Z_OLD_MODE == internal_encryption_z_method)
           {
+
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+               mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
+               exit(27);
+#endif
+
                int64_t file_size_arp;
                FILE *amanda_file;
                file_size_arp = getfilesize_ar(archive_name_array_filename);
@@ -5643,7 +5868,7 @@ pula_arp:;
           {
                if (mode_is_VAL_arp)
                {
-                    //aqui
+                    // aqui
 
                     file_size_p = getfilesize_ar(archive_name_array_filename);
                     {
@@ -5672,7 +5897,7 @@ pula_arp:;
 
      if (AAKP_MODE_TAR == compression_mode_ar || AAKP_MODE_VAL == compression_mode_ar)
      {
-          ; //fascinante....
+          ; // fascinante....
           first_step = 1;
           if (0 == fatal_exit_k)
           {
@@ -6275,7 +6500,7 @@ pula_arp:;
                     parolin_compression_level_p = 9;
                }
 
-               //notice that we have not developed lzop2 with compression level support, only one level for the moment is allowed, derived from minilzo -> http://www.oberhumer.com/opensource/lzo/ <- (26/sep/2021, 01:43)
+               // notice that we have not developed lzop2 with compression level support, only one level for the moment is allowed, derived from minilzo -> http://www.oberhumer.com/opensource/lzo/ <- (26/sep/2021, 01:43)
                returnvalue_ar = compress_l3___rspk_ar_func(archive_name_array_filename,
                                                            original_destination_tar_file,
                                                            parolin_compression_level_p,
@@ -7883,7 +8108,7 @@ pula_arp:;
 
                inittimer2(0);
 
-               if (0 > parolin_compression_level_p) //correcting, negatives values not allowed in the executable mode
+               if (0 > parolin_compression_level_p) // correcting, negatives values not allowed in the executable mode
                {
                     parolin_compression_level_p = 0;
                }
@@ -8439,12 +8664,12 @@ int __stdcall set_encryption_mode_z(char *method_arp)
      // added
      /*
 
-			enc_method_arp.Items.Add("AES 256 CTR Multi-Thread");
-			enc_method_arp.Items.Add("MARS Multi-Thread");
-			enc_method_arp.Items.Add("RC4 Multi-Thread");
-			enc_method_arp.Items.Add("RC6 Multi-Thread");
-			enc_method_arp.Items.Add("SERPENT Multi-Thread");
-			enc_method_arp.Items.Add("TWOFISH Multi-Thread");
+               enc_method_arp.Items.Add("AES 256 CTR Multi-Thread");
+               enc_method_arp.Items.Add("MARS Multi-Thread");
+               enc_method_arp.Items.Add("RC4 Multi-Thread");
+               enc_method_arp.Items.Add("RC6 Multi-Thread");
+               enc_method_arp.Items.Add("SERPENT Multi-Thread");
+               enc_method_arp.Items.Add("TWOFISH Multi-Thread");
      */
      if (0 == strcmp("AES 256 CTR Multi-Thread", method_arp))
      {
@@ -8516,6 +8741,10 @@ int __stdcall libarchive_get_progress_p(void)
      if (progress_is_libarchive_v27)
      {
 
+#if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+          return 0;
+#endif
+
           return progress_lib_v27;
      }
 
@@ -8533,6 +8762,12 @@ int __stdcall libarchive_get_progress_p(void)
      return arp_p;
 }
 
+/**
+ * @brief Not in use anymore because we are not using the original 7Zip code from Igor but libarchive (even if no support to encryption)
+ * 
+ * @param also_encrypt_headers_i_ 
+ * @return int 
+ */
 int __stdcall set_7zip_encryption_mode_i(int also_encrypt_headers_i_)
 {
      also_encrypt_headers_i = false;

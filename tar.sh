@@ -1,12 +1,107 @@
 #compilando...
 
 
+mkdir '/bin/tar/x64_standalone' 2>/dev/null
+
+
+if [ "compile32_force_basic" == "$1" ] 
+then
+
+cd /tar/tar_dll
+touch tar_1_33.c
+make_amanda_kp.exe amanda_32 AMANDA_MODE=0x0 -f makefile
+
+exit
+
+fi
+
+
+if [ "compile32_force_full" == "$1" ] 
+then
+
+cd /tar/tar_dll
+touch tar_1_33.c
+make_amanda_kp.exe amanda_32 AMANDA_MODE=0x1 -f makefile
+
+exit
+
+fi
+
+
 if [ "compile32" == "$1" ] 
 then
 
 cd /tar/tar_dll
 
 make_amanda_kp.exe amanda_32 -f makefile
+
+exit
+
+fi
+
+
+if [ "compile64_force_basic" == "$1" ] 
+then
+
+cd /tar/tar_dll
+touch tar_1_33.c
+
+rm /bin/tar/x64/ar_tar_process.DLL
+rm /bin/tar/x64_standalone/ar_tar_process.DLL
+
+make_amanda_kp.exe ricardo_64 AMANDA_MODE=0x0 -f makefile
+
+#only need it
+
+cp /bin/tar/x64/ar_tar_process.DLL /bin/tar/x64_standalone/ar_tar_process.DLL
+#to avoid a basic version being used as a full version
+rm /bin/tar/x64/ar_tar_process.DLL
+
+cp 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64\ar_v2.ico' 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64_standalone\ar_v2.ico'
+cp 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64\tar_sample_ar_x64.exe' 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64_standalone\tar_sample_ar_x64.exe'
+cp 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64\ar_tar_process.mis' 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64_standalone\ar_tar_process.mis'
+cp 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64\tar_sample_ar_x64.exe.config' 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64_standalone\tar_sample_ar_x64.exe.config'
+
+exit
+
+fi
+
+
+if [ "compile64_force_minimalist" == "$1" ] 
+then
+
+cd /tar/tar_dll
+touch tar_1_33.c
+
+mkdir /bin/tar/x64_minimalist/
+
+rm /bin/tar/x64/ar_tar_process.DLL
+rm /bin/tar/x64_minimalist/ar_tar_process.DLL
+
+make_amanda_kp.exe ricardo_64 AMANDA_MODE=0x2 -f makefile
+
+#only need it
+
+cp /bin/tar/x64/ar_tar_process.DLL /bin/tar/x64_minimalist/ar_tar_process.DLL
+#to avoid a basic version being used as a full version
+rm /bin/tar/x64/ar_tar_process.DLL
+
+cp 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64\ar_v2.ico' 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64_minimalist\ar_v2.ico'
+cp 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64\tar_sample_ar_x64.exe' 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64_minimalist\tar_sample_ar_x64.exe'
+cp 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64\ar_tar_process.mis' 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64_minimalist\ar_tar_process.mis'
+cp 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64\tar_sample_ar_x64.exe.config' 'C:\cygwin64_amandaricardo_koci_10.2.0\bin\tar\x64_minimalist\tar_sample_ar_x64.exe.config'
+
+exit
+
+fi
+
+
+if [ "compile64_force_full" == "$1" ] 
+then
+
+cd /tar/tar_dll
+touch tar_1_33.c
+make_amanda_kp.exe ricardo_64 AMANDA_MODE=0x1 -f makefile
 
 exit
 

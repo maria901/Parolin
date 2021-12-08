@@ -6,6 +6,19 @@ CARDO__FLAGS__ =              -D_FIXED_________ -O3
 JULIETFLAGS__  =              -D_FIXED________  -O3
 RIC            =  
 
+# if 0x1 full mode(all compressors plus sftp), if 0x0 basic
+# mode (no compression no sftp, only the DLL ar_tar_process.DLL
+# is required), if 0x2 minimalist
+# mode (bzip3 compression only, plus tar + val)
+AMANDA_MODE    = 0x1
+
+#ifeq ($(AMANDA_MODE), 0x1)
+#AMANDA_MODE = 0x3
+#endif
+#ifeq ($(AMANDA_MODE), 0x0)
+#AMANDA_MODE = 0x4
+#endif
+
 amanda_32: /bw_tmp/parolin/be_xml_32aakp.o /bw_tmp/parolin/tar_32aakp.o /bw_tmp/parolin/val_create_32arp.o /bw_tmp/parolin/pedro_32aakp.o /bw_tmp/parolin/val_extract_32arp.o
 
 #	-rm *.DLL *.dll *.ric *~ *.exe *.EXE *.o *.a
@@ -14,15 +27,17 @@ amanda_32: /bw_tmp/parolin/be_xml_32aakp.o /bw_tmp/parolin/tar_32aakp.o /bw_tmp/
 
 	@i686-w64-mingw32-windres.exe -o /bw_tmp/parolin/amanda_ver32.o -O coff version_ricardo_mislaine_final_2_.rc
 
-	i686-w64-mingw32-gcc.exe $(CARDO__FLAGS__) -o /bin/tar/x86/ar_tar_process.DLL -mdll version_amanda.c /bw_tmp/parolin/amanda_ver32.o /bw_tmp/parolin/pedro_32aakp.o /bw_tmp/parolin/be_xml_32aakp.o def.def /bw_tmp/parolin/tar_32aakp.o /bw_tmp/parolin/val_create_32arp.o /bw_tmp/parolin/val_extract_32arp.o -Wl,-enable-stdcall-fixup -lpsapi
+	i686-w64-mingw32-gcc.exe $(CARDO__FLAGS__) -DAMANDA_MODE=$(AMANDA_MODE) -o /bin/tar/x86/ar_tar_process.DLL -mdll version_amanda.c /bw_tmp/parolin/amanda_ver32.o /bw_tmp/parolin/pedro_32aakp.o /bw_tmp/parolin/be_xml_32aakp.o def.def /bw_tmp/parolin/tar_32aakp.o /bw_tmp/parolin/val_create_32arp.o /bw_tmp/parolin/val_extract_32arp.o -Wl,-enable-stdcall-fixup -lpsapi
+
+	i686-w64-mingw32-strip /bin/tar/x86/ar_tar_process.DLL
 
 /bw_tmp/parolin/tar_32aakp_z.o: sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c fnmatch_arp.c tar_1_33.c compression_support_ar.c update_arp_k.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c libarchive_update_i.c enum_files_and_folders_1.c
 
-	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/tar_32aakp_z.o tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS_z)
+	i686-w64-mingw32-gcc.exe -DAMANDA_MODE=$(AMANDA_MODE) -Wfatal-errors -Werror -c -o /bw_tmp/parolin/tar_32aakp_z.o tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS_z)
 
 /bw_tmp/parolin/tar_32aakp.o: sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c fnmatch_arp.c tar_1_33.c compression_support_ar.c update_arp_k.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c libarchive_update_i.c enum_files_and_folders_1.c
 
-	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/tar_32aakp.o tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS__)
+	i686-w64-mingw32-gcc.exe -DAMANDA_MODE=$(AMANDA_MODE) -Wfatal-errors -Werror -c -o /bw_tmp/parolin/tar_32aakp.o tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS__)
 
 /bw_tmp/parolin/val_create_32arp.o: val_create.c arp.h arp_2.h
 	i686-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/val_create_32arp.o val_create.c $(AMANDA_FLAGS__)
@@ -45,13 +60,15 @@ ricardo_64: /bw_tmp/parolin/tar_64aakp.o /bw_tmp/parolin/pedro_64aakp.o /bw_tmp/
 
 	@x86_64-w64-mingw32-windres.exe -o /bw_tmp/parolin/amanda_ver64.o -O coff version_ricardo_mislaine_final_2_.rc
 
-	x86_64-w64-mingw32-gcc.exe $(JULIETFLAGS__) -o /bin/tar/x64/ar_tar_process.DLL -mdll version_amanda.c /bw_tmp/parolin/amanda_ver64.o /bw_tmp/parolin/pedro_64aakp.o /bw_tmp/parolin/be_xml_64aakp.o def.def /bw_tmp/parolin/tar_64aakp.o /bw_tmp/parolin/val_create_64arp.o /bw_tmp/parolin/val_extract_64arp.o -Wl,-enable-stdcall-fixup -lpsapi
+	x86_64-w64-mingw32-gcc.exe $(JULIETFLAGS__) -DAMANDA_MODE=$(AMANDA_MODE) -o /bin/tar/x64/ar_tar_process.DLL -mdll version_amanda.c /bw_tmp/parolin/amanda_ver64.o /bw_tmp/parolin/pedro_64aakp.o /bw_tmp/parolin/be_xml_64aakp.o def.def /bw_tmp/parolin/tar_64aakp.o /bw_tmp/parolin/val_create_64arp.o /bw_tmp/parolin/val_extract_64arp.o -Wl,-enable-stdcall-fixup -lpsapi
 
+	x86_64-w64-mingw32-strip.exe /bin/tar/x64/ar_tar_process.DLL
+	
 	$(RIC)
 
 /bw_tmp/parolin/tar_64aakp.o: sparse_2_k.c xheader_k.c extract_kkk.c create_zen_ar.c fnmatch_arp.c tar_1_33.c compression_support_ar.c iso_support_arp.c arp.h arp_2.h cpu_fixed_z.c multi_volume_p.c libarchive_update_i.c enum_files_and_folders_1.c
 
-	x86_64-w64-mingw32-gcc.exe -Wfatal-errors -Werror -c -o /bw_tmp/parolin/tar_64aakp.o tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS__)
+	x86_64-w64-mingw32-gcc.exe -DAMANDA_MODE=$(AMANDA_MODE) -Wfatal-errors -Werror -c -o /bw_tmp/parolin/tar_64aakp.o tar_1_33.c -DPSAPI_VERSION=1 $(AMANDA_FLAGS__)
 
 	$(RIC)
 
