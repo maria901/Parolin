@@ -28,7 +28,7 @@ exit
 fi
 
 
-if [ "compile32" == "$1" ] 
+if [ "compile32_no_without_the_new_flag" == "$1" ] 
 then
 
 cd /tar/tar_dll
@@ -108,7 +108,7 @@ exit
 fi
 
 
-if [ "compile64" == "$1" ] 
+if [ "compile64_no_without_the_new_flag" == "$1" ] 
 then
 
 cd /tar/tar_dll

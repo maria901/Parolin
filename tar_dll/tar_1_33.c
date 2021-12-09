@@ -50,6 +50,8 @@
 
 bool check_valid_path_i(char *data_i);
 
+bool message_box_flag_m = false;
+
 typedef void (*add_more_one_func)(char *);
 
 bool mode_is_update_libarchive_v27 = false;
@@ -705,6 +707,9 @@ void __stdcall pass_password(char *the_pass_arp_, char *the_pass_arp_as_utf_8_i_
      strncpy_z(the_pass_arp_utf8_i, the_pass_arp_as_utf_8_i_, 1023); // porque o medo???
 }
 
+static void
+mprintf___arp(char *format, ...);
+
 /**
  * To enable or disable the encryption, if possible use the new encryption mode
  * because the old mode will try to compress an encrypted file what is impossible,
@@ -718,6 +723,22 @@ void __stdcall enable_encryption(int enable_arp)
      enable_encryption_arp_ = false;
      if (enable_arp)
      {
+
+#if 0x1 != AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
+
+          mprintf___arp("Cannot use encryption if not full mode");
+          exit(27);
+#endif
+
           enable_encryption_arp_ = true;
      }
 }
@@ -983,8 +1004,16 @@ int __stdcall pass_sftp_data_z(
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
 
+     if (true == message_box_flag_m)
+     {
+          while (true)
+          {
+               Sleep(50);
+          }
+     }
+     message_box_flag_m = true;
      mprintf___arp("SFTP is disabled in 'Basic' or 'Minimalist' mode");
-
+     exit(27);
      return 1;
 
 #endif
@@ -6839,6 +6868,16 @@ int __stdcall startapi_ar_2(__attribute__((unused)) int parameter) // for list p
           {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+               if (true == message_box_flag_m)
+               {
+                    while (true)
+                    {
+                         Sleep(50);
+                    }
+               }
+               message_box_flag_m = true;
+
                mprintf___arp("Cannot call libarchive based functions when not in 'full' DLL mode, exiting");
                exit(27);
 #endif
@@ -6874,6 +6913,16 @@ int __stdcall startapi_ar_2(__attribute__((unused)) int parameter) // for list p
           {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+               if (true == message_box_flag_m)
+               {
+                    while (true)
+                    {
+                         Sleep(50);
+                    }
+               }
+               message_box_flag_m = true;
+
                mprintf___arp("Cannot call libarchive based functions when not in 'full' DLL mode, exiting");
                exit(27);
 #endif
@@ -6943,6 +6992,16 @@ int __stdcall startapi_ar_3(__attribute__((unused)) int parameter) // extract ca
           {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+               if (true == message_box_flag_m)
+               {
+                    while (true)
+                    {
+                         Sleep(50);
+                    }
+               }
+               message_box_flag_m = true;
+
                mprintf___arp("Cannot call libarchive based functions when not in 'full' DLL mode, exiting");
                exit(27);
 #endif
@@ -6962,6 +7021,16 @@ int __stdcall startapi_ar_3(__attribute__((unused)) int parameter) // extract ca
           {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+               if (true == message_box_flag_m)
+               {
+                    while (true)
+                    {
+                         Sleep(50);
+                    }
+               }
+               message_box_flag_m = true;
+
                mprintf___arp("Cannot call libarchive based functions when not in 'full' DLL mode, exiting");
                exit(27);
 #endif
@@ -8218,6 +8287,15 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
           {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+               if (true == message_box_flag_m)
+               {
+                    while (true)
+                    {
+                         Sleep(50);
+                    }
+               }
+               message_box_flag_m = true;
                mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
                exit(27);
 #endif
@@ -8287,6 +8365,15 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
           {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+               if (true == message_box_flag_m)
+               {
+                    while (true)
+                    {
+                         Sleep(50);
+                    }
+               }
+               message_box_flag_m = true;
                mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
                exit(27);
 #endif
@@ -10851,6 +10938,15 @@ int __stdcall libarchive_update_archive_ar_v2(char *tar_filename_ar,
 {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+     if (true == message_box_flag_m)
+     {
+          while (true)
+          {
+               Sleep(50);
+          }
+     }
+     message_box_flag_m = true;
      mprintf___arp("Cannot use libarchive when not in 'full' DLL mode, exiting...");
      exit(27);
 #endif

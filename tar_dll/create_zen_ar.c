@@ -1895,6 +1895,15 @@ void dump_file_or_folder(struct tar_stat_info *st,
           {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+               if (true == message_box_flag_m)
+               {
+                    while (true)
+                    {
+                         Sleep(50);
+                    }
+               }
+               message_box_flag_m = true;
                mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
                exit(27);
 #endif
@@ -2177,6 +2186,15 @@ void dump_file_or_folder(struct tar_stat_info *st,
                {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+                    if (true == message_box_flag_m)
+                    {
+                         while (true)
+                         {
+                              Sleep(50);
+                         }
+                    }
+                    message_box_flag_m = true;
                     mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
                     exit(27);
 #endif
@@ -2723,6 +2741,15 @@ int __stdcall libarchive_create_archive_ar_v2(char *tar_filename_ar,
 {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+     if (true == message_box_flag_m)
+     {
+          while (true)
+          {
+               Sleep(50);
+          }
+     }
+     message_box_flag_m = true;
      mprintf___arp("Cannot use libarchive when not in 'full' DLL mode, exiting...");
      exit(27);
 #endif
@@ -2914,6 +2941,15 @@ int __stdcall GetProgress_ar(void)
           {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+               if (true == message_box_flag_m)
+               {
+                    while (true)
+                    {
+                         Sleep(50);
+                    }
+               }
+               message_box_flag_m = true;
                mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
                exit(27);
 #endif
@@ -2948,6 +2984,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use gzip files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3014,6 +3059,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use gzip2 files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3081,6 +3135,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use lzip files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3148,6 +3211,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use lzma files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3216,6 +3288,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use xz files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3285,6 +3366,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use compress files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3353,6 +3443,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use lzop2 files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3422,6 +3521,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use lz4 files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3491,6 +3599,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use zstandard files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3560,6 +3677,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use brotli files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3629,6 +3755,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use bzip2 files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3700,6 +3835,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use bzip3 files when in 'basic' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3710,6 +3854,15 @@ int __stdcall GetProgress_ar(void)
                {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+                    if (true == message_box_flag_m)
+                    {
+                         while (true)
+                         {
+                              Sleep(50);
+                         }
+                    }
+                    message_box_flag_m = true;
                     mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
                     exit(27);
 #endif
@@ -3743,6 +3896,15 @@ int __stdcall GetProgress_ar(void)
                     {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+                         if (true == message_box_flag_m)
+                         {
+                              while (true)
+                              {
+                                   Sleep(50);
+                              }
+                         }
+                         message_box_flag_m = true;
                          mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
                          exit(27);
 #endif
@@ -3781,6 +3943,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use lzop2 files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3850,6 +4021,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use lz5 files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3919,6 +4099,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use brotli2 files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -3988,6 +4177,15 @@ int __stdcall GetProgress_ar(void)
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use compress2 files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -4391,6 +4589,16 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
      }
      else
      {
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
+
           mprintf___arp("Cannot use compression files when not in 'full' or 'minimalist' DLL mode, exiting...");
           exit(27);
      }
@@ -4399,12 +4607,21 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
 
 #if 0x2 == AMANDA_MODE
 
-     if (AAKP_MODE_VAL == compression_mode_ar || AAKP_MODE_TAR == compression_mode_ar || AAKP_MODE_TAR_BZIP3 == compression_mode_ar)
+     if (AAKP_MODE_VAL == compression_mode_ar || AAKP_MODE_TAR == compression_mode_ar || AAKP_MODE_TAR_BZIP3 == compression_mode_ar || AAKP_MODE_VAL_BZIP3 == compression_mode_ar)
      {
           ; //
      }
      else
      {
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use compression other than bzip3 (minimalist) when not in 'full' DLL mode, exiting...");
           exit(27);
      }
@@ -4418,6 +4635,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use libarchive when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -5546,6 +5772,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -5638,6 +5873,15 @@ int __stdcall create_archive_internal_ar(char *tar_filename_ar, char *path_with_
      {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+          if (true == message_box_flag_m)
+          {
+               while (true)
+               {
+                    Sleep(50);
+               }
+          }
+          message_box_flag_m = true;
           mprintf___arp("Cannot use libarchive when not in 'full' DLL mode, exiting...");
           exit(27);
 #endif
@@ -5754,6 +5998,15 @@ pula_arp:;
           {
 
 #if 0x0 == AMANDA_MODE || 0x2 == AMANDA_MODE
+
+               if (true == message_box_flag_m)
+               {
+                    while (true)
+                    {
+                         Sleep(50);
+                    }
+               }
+               message_box_flag_m = true;
                mprintf___arp("Cannot encrypt or unencrypt files when not in 'full' DLL mode, exiting...");
                exit(27);
 #endif
@@ -8764,9 +9017,9 @@ int __stdcall libarchive_get_progress_p(void)
 
 /**
  * @brief Not in use anymore because we are not using the original 7Zip code from Igor but libarchive (even if no support to encryption)
- * 
- * @param also_encrypt_headers_i_ 
- * @return int 
+ *
+ * @param also_encrypt_headers_i_
+ * @return int
  */
 int __stdcall set_7zip_encryption_mode_i(int also_encrypt_headers_i_)
 {
