@@ -648,7 +648,7 @@ archive_entry_pathname(struct archive_entry *entry)
 		{
 			
 			//Beep(1000,1000);
-			pedro_dprintf(2, "#########fix failed\n");
+			pedro_dprintf(2, "#########fix failed");
 			//Sleep(5000);
 			
 			return NULL;

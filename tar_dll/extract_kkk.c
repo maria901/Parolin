@@ -2793,7 +2793,7 @@ extract_file_VAL(char *file_name_in_arp)
                         SEEK_CUR);
                }
 
-               pedro_dprintf(2, "Skipping file %s\n", file_name);
+               pedro_dprintf(2, "Skipping file %s--2--\n", file_name);
                return 1;
           }
           value_for_ftell = 0;

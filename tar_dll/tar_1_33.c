@@ -5885,7 +5885,7 @@ from_header(char const *where0, size_t digs, char const *type,
      if (type && !silent)
      {
           printf("Archive value is out of range -> %s\n", type);
-          pedro_dprintf(2, "Archive value is out of range -> %s\n", type);
+          pedro_dprintf(2, "Archive value is out of range -> %s--3--\n", type);
      }
 
      return -1;
@@ -11052,7 +11052,7 @@ int set_folder_time(char *in_folder_i, char *out_folder_i)
      {
           // pedro_dprintf(2, "Cannot get filetime on folder\n");
 
-          pedro_dprintf(2, "Cannot get filetime on file or folder %s\n", in_folder_i);
+          pedro_dprintf(2, "Cannot get filetime on file or folder %s--4--\n", in_folder_i);
 
      } //
 

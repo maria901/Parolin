@@ -544,7 +544,7 @@ namespace tar_sample_ar
 			}
 			catch(Exception p_e)
 			{
-				util_ar.pedro_dprintf(0, "error de try " + p_e.Message);
+				util_ar.pedro_dprintf(-1, "error de try " + p_e.Message);
 			}
 		}
 		void Tempo_extract_Tick(object sender, EventArgs e)

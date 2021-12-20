@@ -1753,7 +1753,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
                }
                else
                {
-                    pedro_dprintf(2, "Cannot access timestamp of %s\n", file_or_folder_to_process);
+                    pedro_dprintf(2, "Cannot access timestamp of %s", file_or_folder_to_process);
                }
 
                CloseHandle(hFile);
@@ -2047,7 +2047,7 @@ void dump_file_or_folder(struct tar_stat_info *st,
           if (-1 == fd_ar)
           {
                files_that_cannot_be_read++;
-               pedro_dprintf(2, "Error openning %s\n", file_or_folder_to_process);
+               pedro_dprintf(2, "Error openning %s---\n", file_or_folder_to_process);
           }
 
           if (ARP_MODE_IS_FIRST_STEP == mode_is_update_arp)

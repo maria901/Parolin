@@ -439,7 +439,7 @@ namespace tar_sample_ar
 								break;
 							default:
 								threads_used_z = "Threads: 1";
-								util_ar.pedro_dprintf(0, "Invalid thread value\n");
+								
 								util_ar.set_thread_number(1);//default
 								break;
 						}
@@ -457,8 +457,9 @@ namespace tar_sample_ar
 			//file will be splitted in multiple chunks each with this
 			//predefined syze in bytes, first file will be <file>.001 and
 			//so on
-			util_ar.split_compressed_file_p(util_ar.size_of_each_file_slice_p);
 			
+			util_ar.split_compressed_file_p(util_ar.size_of_each_file_slice_p);
+									
 			if(false == mode_is_create)
 			{
 				//when updating files with libarchive multiple chunks are not supported

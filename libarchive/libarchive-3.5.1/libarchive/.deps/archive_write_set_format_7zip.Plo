@@ -261,20 +261,20 @@ libarchive/archive_write_set_format_7zip.lo: \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/inttypes.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/bzlib.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/version.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/base.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/vli.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/check.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/filter.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/bcj.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/delta.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/lzma12.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/container.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/stream_flags.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/block.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/index.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/index_hash.h \
- /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/hardware.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/version.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/base.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/vli.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/check.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/filter.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/bcj.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/delta.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/lzma12.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/container.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/stream_flags.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/block.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/index.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/index_hash.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/hardware.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/zlib.h \
  /usr/x86_64-w64-mingw32/sys-root/mingw/include/zconf.h \
  libarchive/archive.h \
@@ -554,20 +554,20 @@ libarchive/archive_windows.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/inttypes.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/bzlib.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/version.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/base.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/vli.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/check.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/filter.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/bcj.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/delta.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/lzma12.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/container.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/stream_flags.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/block.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/index.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/index_hash.h:
-/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma_headers/hardware.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/version.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/base.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/vli.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/check.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/filter.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/bcj.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/delta.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/lzma12.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/container.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/stream_flags.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/block.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/index.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/index_hash.h:
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/lzma/hardware.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/zlib.h:
 /usr/x86_64-w64-mingw32/sys-root/mingw/include/zconf.h:
 libarchive/archive.h:

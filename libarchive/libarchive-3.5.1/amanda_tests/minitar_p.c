@@ -185,7 +185,7 @@ extern int debug_mode_i;
 char temp__file_i[AMANDA__SIZE];
 
 //0 = show debug
-#define USE_PEDRO_DPRINTF 0
+#define USE_PEDRO_DPRINTF 1
 
 #include <archive.h>
 #include <archive_entry.h>
@@ -1304,13 +1304,13 @@ int __stdcall libarchive_process_p(char *new_entry_relative_p, char *new_entry_c
 		}
 
 		r = archive_read_disk_open_w(disk, amanda_utf8towide_1_(new_entry_relative_p));
-		pedro_dprintf(0, "2 file %s\n", temp_p);
+		pedro_dprintf(0, "2 file %s", temp_p);
 
 		if (r != ARCHIVE_OK)
 		{
 
-			pedro_dprintf(2, "failed with file %s\n", new_entry_relative_p);
-			pedro_dprintf(2, "%s %s %d\n", archive_error_string(disk), __FILE__, __LINE__);
+			pedro_dprintf(2, "failed with file %s", new_entry_relative_p);
+			pedro_dprintf(2, "%s %s %d", archive_error_string(disk), __FILE__, __LINE__);
 
 			exit(1);
 		}
@@ -1364,7 +1364,7 @@ int __stdcall libarchive_process_p(char *new_entry_relative_p, char *new_entry_c
 			if (r < ARCHIVE_OK)
 			{
 
-				pedro_dprintf(2, "%s %s %d\n", archive_error_string(disk), __FILE__, __LINE__);
+				pedro_dprintf(2, "%s %s %d", archive_error_string(disk), __FILE__, __LINE__);
 
 				needcr = 1;
 			}
