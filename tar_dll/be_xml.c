@@ -2,38 +2,38 @@
 //not complete... works only for simple read and write XML process, more code need to
 //be added when possible
 
-/********************************************************************************
- *                                                                              *
- *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
- *                                                                              *
- *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
- *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
- *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
- *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
- *                                                                              *
- *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
- *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
- *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
- *     Licensa Geral Pública para mais detalhes.                                *
- *                                                                              *
- *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
- *     Licensa Pública Menor junto com este programa                            *
- *     Se não, veja <http://www.gnu.org/licenses/>.                             *
- *                                                                              *
- *     Suporte: https://nomade.sourceforge.io/                                  *
- *                                                                              *
- ********************************************************************************
- 
-      E-mails:                                                                 
-      maria@arsoftware.net.br                                                  
-      pedro@locacaodiaria.com.br                                               
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+*                                                                             *
+*        Licensa de Cópia (C) <2022>  <Corporação do Trabalho Binário>        *
+*                                                                             *
+*     Este  programa  é software livre: você pode redistribuir isto e/ou      *
+*     modificar  isto sobre os termos do  GNU Licensa Geral Pública como     10
+*     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da      *
+*     Licensa, ou (dependendo da sua opção) qualquer versão posterior.        *
+*                                                                             *
+*     Este  programa é distribuído na  esperança que isto vai  ser útil,      *
+*     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de      *
+*     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a            *
+*     Licensa Geral Pública para mais detalhes.                               *
+*                                                                             *
+*     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU      *
+*     Licensa Pública Menor junto com este programa                           *
+*     Se não, veja <http://www.gnu.org/licenses/>.                            *
+*                                                                             *
+*     Suporte: https://nomade.sourceforge.io/                                 *
+*                                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
- ********************************************************************************
- *                                                                              *
- *     contato imediato(para uma resposta muito rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
- *                                                                              *
- *******************************************************************************/
+	 E-mails:
+	 maria@arsoftware.net.br
+	 pedro@locacaodiaria.com.br
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                                                                             *
+*     contato imediato(para uma resposta muito rápida) WhatsApp               *
+*     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                *
+*                                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  */
 
 #include <windows.h>
 #include <stdint.h>
@@ -60,6 +60,8 @@
 #include <assert.h>
 
 #include <stdbool.h>
+
+int size_of_WCHAR_mem_r(char *in_string);
 
 #define AMANDA__SIZE_ww ((32767 * 2) + 2)
 
@@ -667,8 +669,9 @@ int feline_read_xml(char *filename_utf8_feline,
 	strcat(node__________feline_copy_b, ">");
 
 	{
-		WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-		WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+		int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+		WCHAR *ar_temp = (void *)malloc(r_temp);
+		WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 		my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2), L"rb");
 
@@ -860,8 +863,9 @@ int feline_write_xml(char *filename_utf8_feline,
 			strcat(adjusted_node_feline_a, ">");
 
 			{
-				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+				int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+				WCHAR *ar_temp = (void *)malloc(r_temp);
+				WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
 										 L"rb");
@@ -947,8 +951,9 @@ int feline_write_xml(char *filename_utf8_feline,
 
 				fclose(my_file_feline);
 				{
-					WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-					WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+					int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+					WCHAR *ar_temp = (void *)malloc(r_temp);
+					WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 					my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
 											 L"wb");
@@ -991,8 +996,9 @@ int feline_write_xml(char *filename_utf8_feline,
 			strcat(adjusted_root_feline_b, root__________feline);
 			strcat(adjusted_root_feline_b, ">");
 			{
-				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+				int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+				WCHAR *ar_temp = (void *)malloc(r_temp);
+				WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
 										 L"rb");
@@ -1070,8 +1076,9 @@ int feline_write_xml(char *filename_utf8_feline,
 
 				fclose(my_file_feline);
 				{
-					WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-					WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+					int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+					WCHAR *ar_temp = (void *)malloc(r_temp);
+					WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 					my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
 											 L"wb");
@@ -1105,8 +1112,9 @@ int feline_write_xml(char *filename_utf8_feline,
 	{
 
 		{
-			WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-			WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+			int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+			WCHAR *ar_temp = (void *)malloc(r_temp);
+			WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 			if (3 == ret_arp)
 			{
@@ -1156,8 +1164,9 @@ int feline_write_xml(char *filename_utf8_feline,
 	if (-1 != root_position_feline && -1 == item_position_feline)
 	{
 		{
-			WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-			WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+			int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+			WCHAR *ar_temp = (void *)malloc(r_temp);
+			WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 			my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
 									 L"rb");
@@ -1233,8 +1242,9 @@ int feline_write_xml(char *filename_utf8_feline,
 
 			fclose(my_file_feline);
 			{
-				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+				int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+				WCHAR *ar_temp = (void *)malloc(r_temp);
+				WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
 										 L"wb");
@@ -1264,10 +1274,11 @@ int feline_write_xml(char *filename_utf8_feline,
 	if (-1 != root_position_feline && -1 != item_position_feline)
 	{
 		{
+			int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
 			WCHAR *ar_temp =
-				(void *)malloc(AMANDA__SIZE_ww);
+				(void *)malloc(r_temp);
 			WCHAR *ar_temp2 =
-				(void *)malloc(AMANDA__SIZE_ww);
+				(void *)malloc(r_temp);
 
 			my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
 									 L"rb");
@@ -1344,8 +1355,9 @@ int feline_write_xml(char *filename_utf8_feline,
 
 			fclose(my_file_feline);
 			{
-				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+				int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+				WCHAR *ar_temp = (void *)malloc(r_temp);
+				WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
 										 L"wb");
@@ -1374,8 +1386,9 @@ int feline_write_xml(char *filename_utf8_feline,
 	if (-1 == root_position_feline)
 	{
 		{
-			WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-			WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+			int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+			WCHAR *ar_temp = (void *)malloc(r_temp);
+			WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 			my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
 									 L"rb");
@@ -1454,8 +1467,9 @@ int feline_write_xml(char *filename_utf8_feline,
 
 			fclose(my_file_feline);
 			{
-				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+				int r_temp = size_of_WCHAR_mem_r(filename_utf8_feline);
+				WCHAR *ar_temp = (void *)malloc(r_temp);
+				WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 				my_file_feline = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf8_feline, ar_temp), ar_temp2),
 										 L"wb");
@@ -1546,7 +1560,7 @@ int feline_remove_node_xml(char *filename_utf8_feline,
 int main()
 {
 	int ret_arp;
-	pedro_dprintf(0, "antes1\n");
+	pedro_dprintf(-20220108, "antes1\n");
 	{
 		char out_data_feline[1027];
 		feline_read_xml("feline.mis", //nao muda mais, por favor
@@ -1556,7 +1570,7 @@ int main()
 						out_data_feline);
 
 		printf("Saida .%s.\n", out_data_feline);
-		pedro_dprintf(0, "antes2\n");
+		pedro_dprintf(-20220108, "antes2\n");
 		printf("Linhas %d posicao do item nas linhas, linha: %d, root position line: %d valid xml position line: %d\n",
 			   lines_count_feline,
 			   item_position_feline,
@@ -1570,7 +1584,7 @@ int main()
 								  "feline_node_test",
 								  NULL /*for the moment*/,
 								  out_data_feline);
-		pedro_dprintf(0, "antes3\n");
+		pedro_dprintf(-20220108, "antes3\n");
 		printf("Saida .%s. return %d\n", out_data_feline, ret_arp);
 
 		printf("Linhas %d posicao do item nas linhas, linha: %d, root position line: %d valid xml position line: %d\n",
@@ -1602,7 +1616,7 @@ int main()
 						out_data_feline);
 		printf("Saiu .%s.\n", out_data_feline);
 
-		pedro_dprintf(0, "saiu armadilhas .%s.\n", out_data_feline);
+		pedro_dprintf(-20220108, "saiu armadilhas .%s.\n", out_data_feline);
 	}
 	return 0;
 }

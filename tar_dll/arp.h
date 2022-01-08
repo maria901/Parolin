@@ -151,8 +151,12 @@ typedef struct arp_
 {
 	__time64_t VAL_timestamp64;
 	bool Val_is_using_filetime;
-	char VAL_filename[AMANDA__SIZE];
-	char VAL_filename_v27_v51[AMANDA__SIZE];
+	//char VAL_filename[AMANDA__SIZE];
+	//char VAL_filename_v27_v51[AMANDA__SIZE];
+
+	char *VAL_filename_dl;
+	
+	char *VAL_filename_v27_v51_dl;
 	DWORD VAL_attributes;
 	FILETIME CreationTime___junior;
 	FILETIME LastAccessTime_junior;
@@ -163,6 +167,11 @@ typedef struct arp_
 	int64_t VAL_file_position;
 	int64_t VAL_file_size;
 	time_t VAL_timestamp;
+
+	bool already_dl_freed;
+
+	bool dont_t_free_now_dl;
+	
 } VAL_data;
 
 int decode_VAL_arp(VAL_data *my_VAL_data);

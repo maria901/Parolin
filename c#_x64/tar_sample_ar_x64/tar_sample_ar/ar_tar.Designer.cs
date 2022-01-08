@@ -1,4 +1,4 @@
-﻿/*
+﻿/* ar.tar designer ric
  * Criado por SharpDevelop.
  * Usuário: AAKP
  * Data: 22/12/2020

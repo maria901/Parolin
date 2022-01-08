@@ -1,4 +1,91 @@
-//2021 amanda & ricardo [closed 02/February/2021 15:04]
+// 2021 ricardo 07/jan/2022 17:23
+
+struct my_struct_for_list_ar_is_amanda_update_dl // for list only
+{
+
+    char *filename_k;
+
+    int has_next; // not in use
+
+    struct my_struct_for_list_ar_is_amanda_update_dl *next_ar;
+};
+
+struct my_struct_for_list_ar_is_amanda_update_dl *aak_is_amanda_update_dl;
+struct my_struct_for_list_ar_is_amanda_update_dl *aak_inicio_is_amanda_update_dl;
+
+struct my_struct_for_list_ar_is_amanda_update_dl *aak_pointer_is_amanda_update_dl;
+
+int has_itens_is_amanda_update_dl = 0;
+
+int has_itens_copy_is_amanda_update_dl = 0;
+
+void add_more_one_is_amanda_update_dl(char *memory_ric)
+{
+    struct my_struct_for_list_ar_is_amanda_update_dl *aak_ptr;
+    if (!has_itens_is_amanda_update_dl)
+    {
+        aak_is_amanda_update_dl = calloc(1, sizeof(struct
+                                                   my_struct_for_list_ar_is_amanda_update_));
+        aak_inicio_is_amanda_update_dl = aak_is_amanda_update_dl;
+        aak_pointer_is_amanda_update_dl = aak_is_amanda_update_dl;
+        aak_is_amanda_update_dl->filename_k = memory_ric;
+
+        aak_is_amanda_update_dl->next_ar = calloc(1, sizeof(struct
+                                                            my_struct_for_list_ar_is_amanda_update_));
+
+        has_itens_is_amanda_update_dl = 1;
+        has_itens_copy_is_amanda_update_dl = has_itens_is_amanda_update_dl;
+
+        aak_is_amanda_update_dl = aak_is_amanda_update_dl->next_ar;
+    }
+    else
+    {
+        aak_ptr = aak_is_amanda_update_dl;
+        assert(aak_ptr);
+
+        assert(8 < sizeof(struct my_struct_for_list_ar_is_amanda_update_dl));
+
+        aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is_amanda_update_dl));
+
+        aak_ptr->filename_k = memory_ric;
+
+        aak_is_amanda_update_dl = aak_ptr->next_ar;
+        has_itens_is_amanda_update_dl++;
+        has_itens_copy_is_amanda_update_dl = has_itens_is_amanda_update_dl;
+    }
+}
+
+/**
+ * To cleanup the linked list when it is not in use anymore
+ *
+ */
+int clean_list__ar_is_amanda_update_dl(void)
+{
+    struct my_struct_for_list_ar_is_amanda_update_dl *my_ptr_ar;
+
+    struct my_struct_for_list_ar_is_amanda_update_dl *my_ptr2_ar;
+
+    my_ptr2_ar = aak_inicio_is_amanda_update_dl;
+    my_ptr_ar = aak_inicio_is_amanda_update_dl;
+inicio_ar:;
+    if (!has_itens_is_amanda_update_dl)
+    {
+        has_itens_copy_is_amanda_update_dl = 0;
+        return 0;
+    }
+    my_ptr2_ar = my_ptr_ar;
+    my_ptr_ar = my_ptr_ar->next_ar;
+    if (1 == has_itens_is_amanda_update_dl)
+    {
+        free(my_ptr2_ar->next_ar);
+    }
+    pedro_dprintf(-20220108, "dando free em endereco %p %s", my_ptr2_ar->filename_k, my_ptr2_ar->filename_k);
+    free(my_ptr2_ar->filename_k); // ta aqui
+    free(my_ptr2_ar);
+    has_itens_is_amanda_update_dl--;
+    goto inicio_ar;
+    return 1;
+}
 
 /**
  * This function is the final function to updated a Tar or VAL file
@@ -9,7 +96,11 @@
  */
 void dump_file_or_folder_final_arp(struct tar_stat_info *st)
 {
-    static VAL_data my_VAL_data;
+    // static VAL_data my_VAL_data;
+    static VAL_data my_VAL_data2;
+
+    int memoria_alocada_dl1 = 0;
+    int memoria_alocada_dl2 = 0;
 
     __int64 can_seek_arp;
     int status;
@@ -26,10 +117,15 @@ void dump_file_or_folder_final_arp(struct tar_stat_info *st)
             trocadordebackslashfrente(aak_ptr->filename_k);
 
             assert(AMANDA__SIZE > strlen(aak_ptr->filename_k));
+            /*
+                        if (mode_is_VAL_arp)
+                        {
+                            my_VAL_data.VAL_filename_dl = calloc(strlen(aak_ptr->filename_k) + 4, 1);
 
-            if (mode_is_VAL_arp)
-                strcpy(my_VAL_data.VAL_filename, aak_ptr->filename_k);
-
+                            strcpy(my_VAL_data.VAL_filename_dl, aak_ptr->filename_k);
+                            pedro_dprintf(-1, "depois de alocou ric");
+                        }
+            */
             if (aak_ptr->is_directory_arp)
             {
                 struct timespec t;
@@ -60,10 +156,30 @@ void dump_file_or_folder_final_arp(struct tar_stat_info *st)
                 }
                 else
                 {
-                    my_VAL_data = aak_ptr->VAL_data__arp;
-                    my_VAL_data.VAL_is_dir = 1;
+                    my_VAL_data2 = aak_ptr->VAL_data__arp;
+                    my_VAL_data2.VAL_is_dir = 1;
+                    pedro_dprintf(-1, "antes diretorio %s freed %d", my_VAL_data2.VAL_filename_dl, my_VAL_data2.already_dl_freed);
 
-                    dump_diretory_VAL_arp(&my_VAL_data);
+                    if (true)
+                    {
+                        dump_diretory_VAL_arp(&my_VAL_data2);
+
+                        pedro_dprintf(-1, "depois diretorio %s %p", my_VAL_data2.VAL_filename_dl, my_VAL_data2.VAL_filename_dl);
+                        // free(my_VAL_data.VAL_filename_dl);
+                        /*
+                                                if (false == my_VAL_data2.already_dl_freed)
+                                                {
+                                                    pedro_dprintf(-1, "adicionado endereco %p", my_VAL_data2.VAL_filename_dl);
+                                                    add_more_one_is_amanda_update_dl(my_VAL_data2.VAL_filename_dl);
+                                                }
+                        */
+
+                        add_more_one_is_amanda_update_dl(my_VAL_data2.VAL_filename_dl);
+
+                        my_VAL_data2.already_dl_freed = true;
+                        // pedro_dprintf(-1, "depois diretorio free ");
+                        // my_VAL_data2.VAL_filename_dl = NULL;
+                    }
                 }
                 sprintf(process_message_k, "Processing %s", aak_ptr->filename_k);
                 add_more_one(process_message_k);
@@ -142,7 +258,7 @@ void dump_file_or_folder_final_arp(struct tar_stat_info *st)
                         break;
                     }
 
-                    my_VAL_data.VAL_is_dir = 0;
+                    // my_VAL_data.VAL_is_dir = 0;
 
                     if (!mode_is_VAL_arp)
                     {
@@ -168,12 +284,32 @@ void dump_file_or_folder_final_arp(struct tar_stat_info *st)
                     }
                     else
                     {
-                        my_VAL_data = aak_ptr->VAL_data__arp; //feito
-                        my_VAL_data.VAL_is_dir = 0;
-                        if (dump_regular_file_VAL_arp(our_update_file_open__arp, &my_VAL_data))
+                        my_VAL_data2 = aak_ptr->VAL_data__arp; // feito
+                        my_VAL_data2.VAL_is_dir = 0;
+
+                        pedro_dprintf(-1, "antes file %s freed %d", my_VAL_data2.VAL_filename_dl, my_VAL_data2.already_dl_freed);
+                        if (true)
                         {
-                            sprintf(warning_message_k, "Cannot process file %s", aak_ptr->filename_k);
-                            add_more_one(warning_message_k);
+                            if (dump_regular_file_VAL_arp(our_update_file_open__arp, &my_VAL_data2))
+                            {
+                                sprintf(warning_message_k, "Cannot process file %s", aak_ptr->filename_k);
+                                add_more_one(warning_message_k);
+                            }
+
+                            pedro_dprintf(-1, "depois file  %s", my_VAL_data2.VAL_filename_dl);
+                            // free(my_VAL_data2.VAL_filename_dl);
+
+                            /*
+                                                        if (false == my_VAL_data2.already_dl_freed)
+                                                        {
+                                                            pedro_dprintf(-1, "adicionado endereco %p", my_VAL_data2.VAL_filename_dl);
+                                                            add_more_one_is_amanda_update_dl(my_VAL_data2.VAL_filename_dl);
+                                                        }
+                            */
+                            add_more_one_is_amanda_update_dl(my_VAL_data2.VAL_filename_dl);
+                            my_VAL_data2.already_dl_freed = true;
+                            // pedro_dprintf(-1, "depois file free ");
+                            // my_VAL_data2.VAL_filename_dl = NULL;
                         }
                     }
 
@@ -185,4 +321,9 @@ void dump_file_or_folder_final_arp(struct tar_stat_info *st)
 
         free(temp_arp_1), free(temp_arp_2), free(temp_arp_3);
     }
+
+    {
+        clean_list__ar_is_amanda_update_dl();
+    }
+    pedro_dprintf(-1, "um e dois %d %d", memoria_alocada_dl1, memoria_alocada_dl2);
 }

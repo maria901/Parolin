@@ -23,12 +23,12 @@
  *     pedro@locacaodiaria.com.br                                               *
  *                                                                              *
  *     contato imediato(para uma resposta muito rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
  *                                                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
 
 /////////////////////////////////////////////////////////////////////////////////
-//defines...
+// defines...
 
 int encryption_detected_z = -1;
 
@@ -64,7 +64,7 @@ GLOBAL bool absolute_names_option = false;
 #define IS_PATH_WITH_DIR(P) (strchr(P, '/') != NULL)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////2021 z
-//functions...
+// functions...
 
 void extract_archive(void);
 
@@ -204,9 +204,9 @@ extract_dir(char *file_name_in_arp, int typeflag)
           tm_k = 1 ? *_gmtime64(&s) : *_localtime64(&s);
 
           {
-
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(destination_folder_kp);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
                hFile =
                    CreateFileW(permissive_name_m_(amanda_utf8towide_1_(destination_folder_kp, ar_temp), ar_temp2),
                                GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -280,7 +280,7 @@ extract_dir_VAL(char *file_name_in_arp)
           {
                return status;
           }
-
+          my_VAL_data_arp.dont_t_free_now_dl = true;
           add_more_one_is_amanda_update_(
               file_name,
               0,
@@ -335,9 +335,9 @@ extract_dir_VAL(char *file_name_in_arp)
 
                tm_k = 1 ? *_gmtime64(&s) : *_localtime64(&s);
                {
-
-                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    int r_temp = size_of_WCHAR_mem_r(destination_folder_kp);
+                    WCHAR *ar_temp = (void *)malloc(r_temp);
+                    WCHAR *ar_temp2 = (void *)malloc(r_temp);
                     hFile =
                         CreateFileW(permissive_name_m_(amanda_utf8towide_1_(destination_folder_kp, ar_temp), ar_temp2),
                                     GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -371,8 +371,9 @@ extract_dir_VAL(char *file_name_in_arp)
           {
                {
 
-                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    int r_temp = size_of_WCHAR_mem_r(destination_folder_kp);
+                    WCHAR *ar_temp = (void *)malloc(r_temp);
+                    WCHAR *ar_temp2 = (void *)malloc(r_temp);
                     hFile =
                         CreateFileW(permissive_name_m_(amanda_utf8towide_1_(destination_folder_kp, ar_temp), ar_temp2),
                                     GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -400,7 +401,7 @@ extract_dir_VAL(char *file_name_in_arp)
                }
           }
      }
-     //assert(0);
+     // assert(0);
      return status;
 }
 
@@ -427,9 +428,9 @@ int ispathfile(char *path)
      }
 
      {
-
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          int r_temp = size_of_WCHAR_mem_r(x);
+          WCHAR *ar_temp = (void *)malloc(r_temp);
+          WCHAR *ar_temp2 = (void *)malloc(r_temp);
           ret = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(x, ar_temp), ar_temp2));
           free(ar_temp);
           free(ar_temp2);
@@ -605,7 +606,7 @@ char *strrstr_ends_with(char *str, char *substr)
 }
 
 /**
- * It will read the extension to detect whether the file is a valid compressed 
+ * It will read the extension to detect whether the file is a valid compressed
  * file, wide path capable my love...
  *
  * @param filename_in_z the filename
@@ -1411,9 +1412,9 @@ int createtestfilename(char *path1)
           WCHAR *path_w_ar = malloc(AMANDA__SIZE_ww);
 
           {
-
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(path);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
                wcscpy(path_w_ar, permissive_name_m_(amanda_utf8towide_1_(path, ar_temp), ar_temp2));
                free(ar_temp);
                free(ar_temp2);
@@ -1447,7 +1448,7 @@ int createtestfilename(char *path1)
 }
 
 /**
- * It will just create a windows based temp file using the 
+ * It will just create a windows based temp file using the
  *  signature_z information
  *
  * @param path1 the path where it will create
@@ -1477,7 +1478,8 @@ int createtempfilename_and_keep_z(char *path1, char *out_z, WCHAR *signature_z)
           WCHAR *path_w_ar = malloc(AMANDA__SIZE_ww);
 
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(path);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
                wcscpy(path_w_ar, amanda_utf8towide_1_(path, ar_temp));
                free(ar_temp);
           }
@@ -1565,9 +1567,9 @@ int ispathreadonly(char *path)
 UNC:
 
 {
-
-     WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-     WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+     int r_temp = size_of_WCHAR_mem_r(x);
+     WCHAR *ar_temp = (void *)malloc(r_temp);
+     WCHAR *ar_temp2 = (void *)malloc(r_temp);
      ret = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(x, ar_temp), ar_temp2));
      free(ar_temp);
      free(ar_temp2);
@@ -1654,9 +1656,9 @@ int ispathfolder(char *path)
 UNC:
 
 {
-
-     WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-     WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+     int r_temp = size_of_WCHAR_mem_r(x);
+     WCHAR *ar_temp = (void *)malloc(r_temp);
+     WCHAR *ar_temp2 = (void *)malloc(r_temp);
      ret = GetFileAttributesW(permissive_name_m_(amanda_utf8towide_1_(x,
                                                                       ar_temp),
                                                  ar_temp2));
@@ -1743,9 +1745,9 @@ int rspmakedir(char *path)
                     temp[i + 1] = 0;
 
                     {
-
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(temp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          if (0 == ispathfolder(temp))
                               CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
@@ -1768,9 +1770,9 @@ int rspmakedir(char *path)
           }
 
           {
-
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(temp);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
                if (0 == ispathfolder(temp))
                     CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
 
@@ -1825,9 +1827,9 @@ unc:
                     temp[i + 1] = 0;
 
                     {
-
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(temp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          if (0 == ispathfolder(temp))
                               CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
@@ -1860,9 +1862,9 @@ unc:
           }
 
           {
-
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(temp);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                if (0 == ispathfolder(temp))
                     CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
@@ -1968,9 +1970,9 @@ int rspmakedir_v2(char *path)
                     temp[i + 1] = 0;
 
                     {
-
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(temp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          if (0 == ispathfolder(temp))
                               CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
@@ -1994,9 +1996,9 @@ int rspmakedir_v2(char *path)
           }
 
           {
-
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(temp);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                if (0 == ispathfolder(temp))
                     CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
@@ -2024,9 +2026,9 @@ unc:
                     temp1 = temp[i + 1];
                     temp[i + 1] = 0;
                     {
-
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(temp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
                          if (0 == ispathfolder(temp))
                               CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
 
@@ -2055,9 +2057,9 @@ unc:
                }
           }
           {
-
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(temp);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                if (0 == ispathfolder(temp))
                     CreateDirectoryW(permissive_name_m_(amanda_utf8towide_1_(temp, ar_temp), ar_temp2), ((void *)0));
@@ -2146,9 +2148,9 @@ open_output_file(char const *file_name, int typeflag, __attribute__((unused)) mo
           rspmakedir_v2(path_to_create_kp);
           strcpy(constructed_filename_kp, destination_file_kp);
           {
-
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(destination_file_kp);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
                fd = _wopen(permissive_name_m_(amanda_utf8towide_1_(destination_file_kp, ar_temp), ar_temp2), openflag, _S_IWRITE);
 
                free(ar_temp);
@@ -2221,9 +2223,9 @@ open_output_file_VAL(char const *file_name,
           strcpy(constructed_filename_kp, destination_file_kp);
 
           {
-
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(destination_file_kp);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
                if (!SetFileAttributesW(
                        permissive_name_m_(amanda_utf8towide_1_(destination_file_kp, ar_temp), ar_temp2),
                        FILE_ATTRIBUTE_ARCHIVE))
@@ -2235,9 +2237,9 @@ open_output_file_VAL(char const *file_name,
                free(ar_temp2);
           }
           {
-
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(destination_file_kp);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
                fd = _wopen(permissive_name_m_(amanda_utf8towide_1_(destination_file_kp, ar_temp), ar_temp2),
                            openflag, _S_IWRITE);
 
@@ -2246,7 +2248,7 @@ open_output_file_VAL(char const *file_name,
           }
           pedro_dprintf(-1, "val %d abrindo arquivo com perm %s\n", fd, destination_file_kp);
 
-          //assert(0);
+          // assert(0);
      }
 
      strcpy(extracting_filename_ar, file_name);
@@ -2301,9 +2303,9 @@ bool is_encrypted_gnu_tar_arp(char *file_arp_utf_8)
      strcpy(encryption_format_S2_, " ");
 
      {
-
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          int r_temp = size_of_WCHAR_mem_r(file_arp_utf_8);
+          WCHAR *ar_temp = (void *)malloc(r_temp);
+          WCHAR *ar_temp2 = (void *)malloc(r_temp);
           amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(file_arp_utf_8, ar_temp), ar_temp2), L"rb");
           free(ar_temp);
           free(ar_temp2);
@@ -2562,7 +2564,7 @@ extract_file(char *file_name_in_arp, int typeflag)
                int64_t temp_arp;
                int64_t temp_2_arp;
                static char temp_file_arp[AMANDA__SIZE];
-               //4 ï¿½ wrong password
+               // 4 ï¿½ wrong password
                update_progress_arp(&temp_arp);
 
                strcpy(temp_file_arp, constructed_filename_kp);
@@ -2578,9 +2580,9 @@ extract_file(char *file_name_in_arp, int typeflag)
                if (0 == ret_arp_)
                {
                     {
-
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(constructed_filename_kp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
 
@@ -2588,11 +2590,12 @@ extract_file(char *file_name_in_arp, int typeflag)
                          free(ar_temp2);
                     }
                     {
-
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp3 = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp4 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temprr1 = size_of_WCHAR_mem_r(temp_file_arp);
+                         WCHAR *ar_temp = (void *)malloc(r_temprr1);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temprr1);
+                         int r_temprr2 = size_of_WCHAR_mem_r(constructed_filename_kp);
+                         WCHAR *ar_temp3 = (void *)malloc(r_temprr2);
+                         WCHAR *ar_temp4 = (void *)malloc(r_temprr2);
 
                          _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_arp, ar_temp), ar_temp2), permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp3), ar_temp4));
 
@@ -2605,9 +2608,9 @@ extract_file(char *file_name_in_arp, int typeflag)
                else if (4 == ret_arp_)
                {
                     {
-
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(constructed_filename_kp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
 
@@ -2616,9 +2619,9 @@ extract_file(char *file_name_in_arp, int typeflag)
                     }
 
                     {
-
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(temp_file_arp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp, ar_temp), ar_temp2));
 
@@ -2633,8 +2636,9 @@ extract_file(char *file_name_in_arp, int typeflag)
                else
                {
                     {
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(constructed_filename_kp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
 
@@ -2643,8 +2647,9 @@ extract_file(char *file_name_in_arp, int typeflag)
                     }
 
                     {
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(temp_file_arp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
                          _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp, ar_temp), ar_temp2));
                          free(ar_temp);
                          free(ar_temp2);
@@ -2691,10 +2696,11 @@ extract_file(char *file_name_in_arp, int typeflag)
           }
 */
           TimetToFileTime(s, &ftime);
-          //SystemTimeToFileTime(&l_amanda_fmtime, &ftime);
+          // SystemTimeToFileTime(&l_amanda_fmtime, &ftime);
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(constructed_filename_kp);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
                hFile =
                    CreateFileW(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2),
                                GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -2891,9 +2897,9 @@ exit_now_arp:;
                if (0 == ret_arp_)
                {
                     {
-
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(constructed_filename_kp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
 
@@ -2902,11 +2908,12 @@ exit_now_arp:;
                     }
 
                     {
-
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp3 = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp4 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temprr1 = size_of_WCHAR_mem_r(temp_file_arp);
+                         WCHAR *ar_temp = (void *)malloc(r_temprr1);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temprr1);
+                         int r_temprr2 = size_of_WCHAR_mem_r(constructed_filename_kp);
+                         WCHAR *ar_temp3 = (void *)malloc(r_temprr2);
+                         WCHAR *ar_temp4 = (void *)malloc(r_temprr2);
 
                          _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_arp, ar_temp), ar_temp2), permissive_name_m_v27(amanda_utf8towide_1_(constructed_filename_kp, ar_temp3), ar_temp4));
 
@@ -2920,8 +2927,9 @@ exit_now_arp:;
                {
 
                     {
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(constructed_filename_kp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
 
@@ -2930,8 +2938,9 @@ exit_now_arp:;
                     }
 
                     {
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(temp_file_arp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp, ar_temp), ar_temp2));
 
@@ -2946,8 +2955,9 @@ exit_now_arp:;
                else
                {
                     {
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(constructed_filename_kp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          _wunlink(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2));
 
@@ -2955,8 +2965,9 @@ exit_now_arp:;
                          free(ar_temp2);
                     }
                     {
-                         WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                         WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                         int r_temp = size_of_WCHAR_mem_r(temp_file_arp);
+                         WCHAR *ar_temp = (void *)malloc(r_temp);
+                         WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                          _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_arp, ar_temp), ar_temp2));
 
@@ -2986,9 +2997,9 @@ exit_now_arp:;
                }
 
                HANDLE hFile;
-               //FILETIME ftLocal;
-               //SYSTEMTIME st;
-               //FILETIME ftime = {0};
+               // FILETIME ftLocal;
+               // SYSTEMTIME st;
+               // FILETIME ftime = {0};
                FILETIME ftime_in = {0};
                TimetToFileTime(s, &ftime_in);
 
@@ -2997,12 +3008,13 @@ exit_now_arp:;
                    &ftime_in,
                    &ftime);
                */
-               //struct tm tm_k;
-               //tm_k = 1 ? *_gmtime64(&s) : *_localtime64(&s);
-               //pedro_dprintf(-1, "time ok %s\n", asctime(_gmtime64(&s)));
+               // struct tm tm_k;
+               // tm_k = 1 ? *_gmtime64(&s) : *_localtime64(&s);
+               // pedro_dprintf(-1, "time ok %s\n", asctime(_gmtime64(&s)));
                {
-                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    int r_temp = size_of_WCHAR_mem_r(constructed_filename_kp);
+                    WCHAR *ar_temp = (void *)malloc(r_temp);
+                    WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                     hFile =
                         CreateFileW(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2),
@@ -3039,8 +3051,9 @@ exit_now_arp:;
           {
                HANDLE hFile;
                {
-                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    int r_temp = size_of_WCHAR_mem_r(constructed_filename_kp);
+                    WCHAR *ar_temp /*  */ = (void *)malloc(r_temp);
+                    WCHAR *ar_temp2 /* */ = (void *)malloc(r_temp);
 
                     hFile =
                         CreateFileW(permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2),
@@ -3068,8 +3081,9 @@ exit_now_arp:;
                }
           }
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(constructed_filename_kp);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
                if (!SetFileAttributesW(
                        permissive_name_m_(amanda_utf8towide_1_(constructed_filename_kp, ar_temp), ar_temp2),
                        my_VAL_data_arp.VAL_attributes))
@@ -3096,9 +3110,10 @@ exit_now_arp:;
 
      if (mode_is_update_arp)
      {
+          my_VAL_data_arp.dont_t_free_now_dl = true;
           add_more_one_is_amanda_update_(
               file_name,
-              _telli64(fd) - value_for_ftell, //correct as usual...
+              _telli64(fd) - value_for_ftell, // correct as usual...
               mtime_tv_sec_arp,
               false,
               value_for_ftell,
@@ -3173,7 +3188,7 @@ prepare_to_extract(char const *file_name, int typeflag, tar_extractor_t *fun)
           break;
 
      case GNUTYPE_VOLHDR:
-          *fun = extract_skip; //untested...
+          *fun = extract_skip; // untested...
           break;
 
      case GNUTYPE_MULTIVOL:
@@ -3235,7 +3250,7 @@ void extract_archive(void)
      tar_extractor_t fun = NULL;
      bool skip_dotdot_name;
 
-     //fatal_exit_hook = extract_finish;
+     // fatal_exit_hook = extract_finish;
 
      set_next_block_after(current_header);
 

@@ -1,35 +1,35 @@
-/********************************************************************************
- *                                                                              *
- *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
- *                                                                              *
- *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
- *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
- *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
- *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
- *                                                                              *
- *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
- *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
- *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
- *     Licensa Geral Pública para mais detalhes.                                *
- *                                                                              *
- *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
- *     Licensa Pública Menor junto com este programa                            *
- *     Se não, veja <http://www.gnu.org/licenses/>.                             *
- *                                                                              *
- *     Suporte: https://nomade.sourceforge.io/                                  *
- *                                                                              *
- ********************************************************************************
- 
-      E-mails:                                                                 
-      maria@arsoftware.net.br                                                  
-      pedro@locacaodiaria.com.br                                               
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+*                                                                             *
+*        Licensa de Cópia (C) <2022>  <Corporação do Trabalho Binário>        *
+*                                                                             *
+*     Este  programa  é software livre: você pode redistribuir isto e/ou      *
+*     modificar  isto sobre os termos do  GNU Licensa Geral Pública como     10
+*     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da      *
+*     Licensa, ou (dependendo da sua opção) qualquer versão posterior.        *
+*                                                                             *
+*     Este  programa é distribuído na  esperança que isto vai  ser útil,      *
+*     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de      *
+*     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a            *
+*     Licensa Geral Pública para mais detalhes.                               *
+*                                                                             *
+*     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU      *
+*     Licensa Pública Menor junto com este programa                           *
+*     Se não, veja <http://www.gnu.org/licenses/>.                            *
+*                                                                             *
+*     Suporte: https://nomade.sourceforge.io/                                 *
+*                                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
- ********************************************************************************
- *                                                                              *
- *     contato imediato(para uma resposta muito rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
- *                                                                              *
- *******************************************************************************/
+	 E-mails:
+	 dl@arsoftware.net.br
+	 pedro@locacaodiaria.com.br
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                                                                             *
+*     contato imediato(para uma resposta muito rápida) WhatsApp               *
+*     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                *
+*                                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  */
 
 #define IS_DEBUG_APE__ /* kkkkkkkkkkkk */ (-1)
 
@@ -152,8 +152,9 @@ loop_again_amanda_s_smart_ape:;
 
 	pedro_dprintf(IS_DEBUG_APE__, "endereco da struct na entrada %p\n", oi_amanda_ptr);
 	{
-		WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-		WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+		int r_temp = size_of_WCHAR_mem_r(szDir);
+		WCHAR *ar_temp = (void *)malloc(r_temp);
+		WCHAR *ar_temp2 = (void *)malloc(r_temp);
 		oi_amanda_ptr->current_hFind_amanda_s_smart_____ape = FindFirstFileW(permissive_name_m_(amanda_utf8towide_1_(szDir, ar_temp), ar_temp2), &ffd);
 
 		free(ar_temp);
@@ -192,7 +193,7 @@ loop_again_amanda_s_smart_ape:;
 			if (is_valid__Pk_folder(valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char)))
 			{
 
-				; //Mr. Do...my love Ricardo.
+				; //Mr. Do.
 
 				pedro_dprintf(-1, "2 dir  -> %s\n", valquiria_wide_to_utf8(ffd.cFileName, ar_temp_char));
 
@@ -542,8 +543,9 @@ loop_again_amanda_s_smart_ape:;
 										get_timestamp_arp(whole_entry_i, &s_arp_3, &VAL_data_i);
 
 										{
-											WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-											WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+											int r_temp = size_of_WCHAR_mem_r(whole_entry_i);
+											WCHAR *ar_temp = (void *)malloc(r_temp);
+											WCHAR *ar_temp2 = (void *)malloc(r_temp);
 											attributes_i = GetFileAttributesW(
 												permissive_name_m_(amanda_utf8towide_1_(whole_entry_i, ar_temp), ar_temp2));
 											free(ar_temp);
@@ -585,8 +587,9 @@ loop_again_amanda_s_smart_ape:;
 											__attribute__((unused)) int len_i;
 											FILE *the_file_i;
 											{
-												WCHAR *ar_temp = /*  */ (void *)malloc(AMANDA__SIZE_ww);
-												WCHAR *ar_temp2 = /* */ (void *)malloc(AMANDA__SIZE_ww);
+												int r_temp = size_of_WCHAR_mem_r(whole_entry_i);
+												WCHAR *ar_temp = /*  */ (void *)malloc(r_temp);
+												WCHAR *ar_temp2 = /* */ (void *)malloc(r_temp);
 
 												the_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(whole_entry_i, ar_temp), ar_temp2), L"rb");
 												

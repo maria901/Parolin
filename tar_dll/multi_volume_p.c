@@ -1,35 +1,35 @@
-/********************************************************************************
- *                                                                              *
- *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
- *                                                                              *
- *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
- *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
- *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
- *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
- *                                                                              *
- *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
- *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
- *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
- *     Licensa Geral Pública para mais detalhes.                                *
- *                                                                              *
- *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
- *     Licensa Pública Menor junto com este programa                            *
- *     Se não, veja <http://www.gnu.org/licenses/>.                             *
- *                                                                              *
- *     Suporte: https://nomade.sourceforge.io/                                  *
- *                                                                              *
- ********************************************************************************
- 
-      E-mails:                                                                 
-      maria@arsoftware.net.br                                                  
-      pedro@locacaodiaria.com.br                                               
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+*                                                                             *
+*        Licensa de Cópia (C) <2022>  <Corporação do Trabalho Binário>        *
+*                                                                             *
+*     Este  programa  é software livre: você pode redistribuir isto e/ou      *
+*     modificar  isto sobre os termos do  GNU Licensa Geral Pública como     10
+*     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da      *
+*     Licensa, ou (dependendo da sua opção) qualquer versão posterior.        *
+*                                                                             *
+*     Este  programa é distribuído na  esperança que isto vai  ser útil,      *
+*     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de      *
+*     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a            *
+*     Licensa Geral Pública para mais detalhes.                               *
+*                                                                             *
+*     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU      *
+*     Licensa Pública Menor junto com este programa                           *
+*     Se não, veja <http://www.gnu.org/licenses/>.                            *
+*                                                                             *
+*     Suporte: https://nomade.sourceforge.io/                                 *
+*                                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
- ********************************************************************************
- *                                                                              *
- *     contato imediato(para uma resposta muito rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
- *                                                                              *
- *******************************************************************************/
+	 E-mails:
+	 maria@arsoftware.net.br
+	 pedro@locacaodiaria.com.br
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                                                                             *
+*     contato imediato(para uma resposta muito rápida) WhatsApp               *
+*     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                *
+*                                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  */
 
 #include <windows.h>
 #include <stdint.h>
@@ -85,6 +85,10 @@ char *
 ar_gettemppath_z(void);
 
 ///////////////////////////////
+
+int size_of_WCHAR_mem_r(char *in_string);
+
+//88888888888888888888888888888
 /**
  * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
  * provide two functions that are exactly the same because someone may 
@@ -345,8 +349,9 @@ int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_file
 			//vai abrir o arquivo...
 
 			{
-				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+				int r_temp = size_of_WCHAR_mem_r(adjusted_filename_in_temp_p);
+				WCHAR *ar_temp = (void *)malloc(r_temp);
+				WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 				my_file_p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(adjusted_filename_in_temp_p, ar_temp), ar_temp2), L"wb");
 
@@ -368,8 +373,9 @@ int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_file
 
 		pedro_dprintf(-1, "final %s\n", first_chunk_p);
 		{
-			WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-			WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+			int r_temp = size_of_WCHAR_mem_r(first_chunk_p);
+			WCHAR *ar_temp = (void *)malloc(r_temp);
+			WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 			my_input_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(first_chunk_p, ar_temp), ar_temp2), L"rb");
 
@@ -388,8 +394,9 @@ int __fastcall detect_multi_volume_p(char *filename_utf_8_p, char *adjusted_file
 				fclose(my_file_p);
 				my_file_p = NULL;
 				{
-					WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-					WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+					int r_temp = size_of_WCHAR_mem_r(adjusted_filename_in_temp_p);
+					WCHAR *ar_temp = (void *)malloc(r_temp);
+					WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 					_wunlink(permissive_name_m_(amanda_utf8towide_1_(adjusted_filename_in_temp_p, ar_temp), ar_temp2));
 
@@ -495,8 +502,9 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p)
 
 			temp_data_p = malloc(CHUNK_P);
 			{
-				WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-				WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+				int r_temp = size_of_WCHAR_mem_r(filename_utf_8_p);
+				WCHAR *ar_temp = (void *)malloc(r_temp);
+				WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 				input__p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(filename_utf_8_p, ar_temp), ar_temp2), L"rb");
 
@@ -522,8 +530,9 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p)
 						".%03d",
 						counter_p + 1);
 				{
-					WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-					WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+					int r_temp = size_of_WCHAR_mem_r(out_file_p);
+					WCHAR *ar_temp = (void *)malloc(r_temp);
+					WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 					_wunlink(permissive_name_m_v27(amanda_utf8towide_1_(out_file_p, ar_temp), ar_temp2));
 
@@ -538,8 +547,9 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p)
 
 				pedro_dprintf(-1, "saiu %s\n", out_file_p);
 				{
-					WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-					WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+					int r_temp = size_of_WCHAR_mem_r(out_file_p);
+					WCHAR *ar_temp = (void *)malloc(r_temp);
+					WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 					output_p = _wfopen(permissive_name_m_(amanda_utf8towide_1_(out_file_p, ar_temp), ar_temp2), L"wb");
 
@@ -573,8 +583,9 @@ int __fastcall split_in_multiple_volumes_p(char *filename_utf_8_p)
 						fclose(input__p);
 						input__p = NULL;
 						{
-							WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-							WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+							int r_temp = size_of_WCHAR_mem_r(filename_utf_8_p);
+							WCHAR *ar_temp = (void *)malloc(r_temp);
+							WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
 							_wunlink(permissive_name_m_(amanda_utf8towide_1_(filename_utf_8_p, ar_temp), ar_temp2));
 

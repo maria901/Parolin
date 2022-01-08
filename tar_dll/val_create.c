@@ -1,35 +1,35 @@
-/********************************************************************************
- *                                                                              *
- *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
- *                                                                              *
- *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
- *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
- *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
- *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
- *                                                                              *
- *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
- *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
- *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
- *     Licensa Geral Pública para mais detalhes.                                *
- *                                                                              *
- *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
- *     Licensa Pública Menor junto com este programa                            *
- *     Se não, veja <http://www.gnu.org/licenses/>.                             *
- *                                                                              *
- *     Suporte: https://nomade.sourceforge.io/                                  *
- *                                                                              *
- ********************************************************************************
- 
-      E-mails:                                                                 
-      maria@arsoftware.net.br                                                  
-      pedro@locacaodiaria.com.br                                               
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+*                                                                             *
+*        Licensa de Cópia (C) <2022>  <Corporação do Trabalho Binário>        *
+*                                                                             *
+*     Este  programa  é software livre: você pode redistribuir isto e/ou      *
+*     modificar  isto sobre os termos do  GNU Licensa Geral Pública como     10
+*     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da      *
+*     Licensa, ou (dependendo da sua opção) qualquer versão posterior.        *
+*                                                                             *
+*     Este  programa é distribuído na  esperança que isto vai  ser útil,      *
+*     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de      *
+*     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a            *
+*     Licensa Geral Pública para mais detalhes.                               *
+*                                                                             *
+*     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU      *
+*     Licensa Pública Menor junto com este programa                           *
+*     Se não, veja <http://www.gnu.org/licenses/>.                            *
+*                                                                             *
+*     Suporte: https://nomade.sourceforge.io/                                 *
+*                                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
- ********************************************************************************
- *                                                                              *
- *     contato imediato(para uma resposta muito rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
- *                                                                              *
- *******************************************************************************/
+	 E-mails:
+	 maria@arsoftware.net.br
+	 pedro@locacaodiaria.com.br
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                                                                             *
+*     contato imediato(para uma resposta muito rápida) WhatsApp               *
+*     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                *
+*                                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  */
 
 #include <windows.h>
 #include <stdint.h>
@@ -68,6 +68,10 @@
 #include "arp.h"
 #include "arp_2.h"
 //functions
+
+//8888888888888888888888888888888888888888888888888888888
+int size_of_WCHAR_mem_r(char *in_string);
+//8888888888888888888888888888888888888888888888888888888
 wchar_t *
 permissive_name_m_(const wchar_t *wname, WCHAR *ar_temp);
 
@@ -187,11 +191,12 @@ void dump_diretory_VAL_arp(VAL_data *my_VAL_data)
 
      strcpy(temp_arp, "VAL_filename ");
 
-     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename);
+     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename_dl);
      {
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          int r_temp = size_of_WCHAR_mem_r(my_VAL_data->VAL_filename_dl);
+          WCHAR *ar_temp = (void *)malloc(r_temp);
 
-          wcscpy(ready_to_save_WCHAR_m_, amanda_utf8towide_1_(my_VAL_data->VAL_filename, ar_temp));
+          wcscpy(ready_to_save_WCHAR_m_, amanda_utf8towide_1_(my_VAL_data->VAL_filename_dl, ar_temp));
 
           while ((MAX_PATH - 2) < wcslen(amanda_utf8towide_1_(ready_to_save_char_m_, ar_temp)))
           {
@@ -227,7 +232,7 @@ void dump_diretory_VAL_arp(VAL_data *my_VAL_data)
      //modified at 13/september/2021 23:30 to support long paths...
      strcpy(temp_arp, "VAL_filename_v27_v51 ");
 
-     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename);
+     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename_dl);
 
      sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(ready_to_save_char_m_));
 
@@ -506,11 +511,16 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data *my_VAL_data)
 
      strcpy(temp_arp, "VAL_filename ");
 
-     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename);
+     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename_dl);
      {
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
+          /**
+           * @brief oi
+           * 
+           */
+          int r_temp = size_of_WCHAR_mem_r(my_VAL_data->VAL_filename_dl);
+          WCHAR *ar_temp = (void *)malloc(r_temp);
 
-          wcscpy(ready_to_save_WCHAR_m_, amanda_utf8towide_1_(my_VAL_data->VAL_filename, ar_temp));
+          wcscpy(ready_to_save_WCHAR_m_, amanda_utf8towide_1_(my_VAL_data->VAL_filename_dl, ar_temp));
 
           while ((MAX_PATH - 2) < wcslen(amanda_utf8towide_1_(ready_to_save_char_m_, ar_temp)))
           {
@@ -542,7 +552,7 @@ int dump_regular_file_VAL_arp(int fd_arp, VAL_data *my_VAL_data)
 
      strcpy(temp_arp, "VAL_filename_v27_v51 ");
 
-     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename);
+     strcpy(ready_to_save_char_m_, my_VAL_data->VAL_filename_dl);
 
      sprintf(temp_arp + strlen(temp_arp), "%d 0", (int)strlen(ready_to_save_char_m_));
 

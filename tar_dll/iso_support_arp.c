@@ -32,6 +32,7 @@
  *******************************************************************************/
 
 /**
+ * (iso is done in the libarchive lib now (2022))
  * It will dump a file or folder when the file being hadled is
  * a iso file
  *

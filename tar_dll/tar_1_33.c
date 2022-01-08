@@ -1,31 +1,35 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *                                                                              *
- *        Licensa de Cópia (C) <2021>  <Corporação do Trabalho Binário>         *
- *                                                                              *
- *     Este  programa  é software livre: você pode redistribuir isto e/ou       *
- *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como       8
- *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da       *
- *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.         *
- *                                                                              *
- *     Este  programa é distribuído na  esperança que isto vai  ser útil,       *
- *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de       *
- *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a             *
- *     Licensa Geral Pública para mais detalhes.                                *
- *                                                                              *
- *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU       *
- *     Licensa Pública Menor junto com este programa                            *
- *     Se não, veja <http://www.gnu.org/licenses/>.                             *
- *                                                                              *
- *     Suporte: https://nomade.sourceforge.io/                                  *
- *                                                                              *
- *     E-mails:                                                                 *
- *     maria@arsoftware.net.br                                                  *
- *     pedro@locacaodiaria.com.br                                               *
- *                                                                              *
- *     contato imediato(para uma resposta muito rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
- *                                                                              *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  **/
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                                                                             *
+*        Licensa de Cópia (C) <2022>  <Corporação do Trabalho Binário>        *
+*                                                                             *
+*     Este  programa  é software livre: você pode redistribuir isto e/ou      *
+*     modificar  isto sobre os termos do  GNU Licensa Geral Pública como     10
+*     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da      *
+*     Licensa, ou (dependendo da sua opção) qualquer versão posterior.        *
+*                                                                             *
+*     Este  programa é distribuído na  esperança que isto vai  ser útil,      *
+*     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de      *
+*     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a            *
+*     Licensa Geral Pública para mais detalhes.                               *
+*                                                                             *
+*     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU      *
+*     Licensa Pública Menor junto com este programa                           *
+*     Se não, veja <http://www.gnu.org/licenses/>.                            *
+*                                                                             *
+*     Suporte: https://nomade.sourceforge.io/                                 *
+*                                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      E-mails:
+      maria@arsoftware.net.br
+      pedro@locacaodiaria.com.br
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+*                                                                             *
+*     contato imediato(para uma resposta muito rápida) WhatsApp               *
+*     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                *
+*                                                                             *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  */
 
 #include "microsoft_header_fix_m.h"
 
@@ -519,7 +523,7 @@ int iso_mode_value = ARP_MODE_JOLIET_PLUS_ROCK_RIDGE;
 
 int32_t decompression_progress_mode_arp = -1;
 
-VAL_data my_VAL_data_arp;
+VAL_data my_VAL_data_arp = {0};
 
 bool is_mislaine_encrypted_;
 bool is_mislaine_encrypted_v2_z;
@@ -615,6 +619,29 @@ WCHAR *amanda_utf8towide_1_(char *pUTF8, WCHAR *ar_temp)
 
      MultiByteToWideChar(CP_UTF8, 0, (LPCSTR)pUTF8, -1, ricardo_k, AMANDA__SIZE_w);
      return ricardo_k;
+}
+
+int size_of_WCHAR_mem_r(char *in_string)
+{
+     int size_r;
+
+     /*
+
+          int wchars_num = MultiByteToWideChar( CP_UTF8 , 0 , x.c_str() , -1, NULL , 0 );
+          wchar_t* wstr = new wchar_t[wchars_num];
+          MultiByteToWideChar( CP_UTF8 , 0 , x.c_str() , -1, wstr , wchars_num );
+          // do whatever with wstr
+          delete[] wstr;
+
+     */
+
+     pedro_dprintf(-20220106, "len string ric da dua kkkkkkkk %d", strlen(in_string));
+
+     size_r = MultiByteToWideChar(CP_UTF8, 0, in_string, -1, NULL, 0);
+
+     pedro_dprintf(-20220106, "valor retornado %d", size_r);
+
+     return max((2 * (strlen(in_string) + 11)), (2 * (size_r + 11)));
 }
 
 /**
@@ -1682,8 +1709,8 @@ int old_ini_get(char *key_arp, char *data_arp, char *if_has_data_use_this_z, int
      convert_char_to_wchar_idiot_z(key_arp, key_arpw_z);
      {
 
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp = (void *)malloc(size_of_WCHAR_mem_r(exe_fath_z));
+          WCHAR *ar_temp2 = (void *)malloc(size_of_WCHAR_mem_r(exe_fath_z));
           GetPrivateProfileStringW(L"parolin", key_arpw_z, L"", data_w_z, sizeof(data_w_z) / 2 /* please, correct me if I am wrong */,
                                    permissive_name_m_(amanda_utf8towide_1_(exe_fath_z, ar_temp), ar_temp2));
           free(ar_temp);
@@ -1739,8 +1766,8 @@ int old_ini_write(char *key_arp_z, char *data_arp_z, char *if_has_data_use_this_
      convert_char_to_wchar_idiot_z(data_arp_z, data_w_z);
      {
 
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp = (void *)malloc(size_of_WCHAR_mem_r(exe_fath_z));
+          WCHAR *ar_temp2 = (void *)malloc(size_of_WCHAR_mem_r(exe_fath_z));
           WritePrivateProfileStringW(L"parolin", key_arpw_z, data_w_z,
                                      permissive_name_m_(amanda_utf8towide_1_(exe_fath_z, ar_temp), ar_temp2));
           free(ar_temp);
@@ -1790,6 +1817,13 @@ int __stdcall save_settings_arp(char *key_arp_z, char *data_arp_z)
 
      return 0;
 }
+
+struct final_fix_dl
+{
+     int64_t memory_to_free_dr;
+     struct final_fix_dl *next_dl_rc;
+};
+
 struct my_struct_for_list_ar_is_amanda_update_ // for list only
 {
      DWORD VAL_attributes;
@@ -2280,8 +2314,8 @@ getfilesize_ar(char *infile_ar)
      FILE *myfile;
      {
 
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp = (void *)malloc(size_of_WCHAR_mem_r(infile_ar));
+          WCHAR *ar_temp2 = (void *)malloc(size_of_WCHAR_mem_r(infile_ar));
           if ((myfile = _wfopen(permissive_name_m_(amanda_utf8towide_1_(infile_ar, ar_temp), ar_temp2), L"rb")) == NULL)
           {
                free(ar_temp);
@@ -3787,8 +3821,8 @@ void get_timestamp_arp(char *file_arp, __time64_t *s_arp, VAL_data *VAL_data_arp
      char szBuf[MAX_PATH];
      {
 
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          WCHAR *ar_temp = (void *)malloc(size_of_WCHAR_mem_r(file_arp));
+          WCHAR *ar_temp2 = (void *)malloc(size_of_WCHAR_mem_r(file_arp));
 
           hFile = CreateFileW(permissive_name_m_(amanda_utf8towide_1_(file_arp, ar_temp), ar_temp2),
                               /*
@@ -4445,12 +4479,12 @@ void simple_print_header_VAL(void)
                }
           }
      }
-     if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
+     if (0 != my_VAL_data_arp.VAL_filename_v27_v51_dl[0])
      {
-          strcpy(filename_k, my_VAL_data_arp.VAL_filename_v27_v51);
+          strcpy(filename_k, my_VAL_data_arp.VAL_filename_v27_v51_dl);
      }
      else
-          strcpy(filename_k, my_VAL_data_arp.VAL_filename);
+          strcpy(filename_k, my_VAL_data_arp.VAL_filename_dl);
 
      my_func_ar_(AAKP_LIST_PROCESS);
 }
@@ -4503,7 +4537,7 @@ void simple_print_header_iso(void)
           Numfiles_k++;
      }
      Size_k = my_VAL_data_arp.VAL_file_size;
-     strncpy_z(filename_k, my_VAL_data_arp.VAL_filename, 1023);
+     strncpy_z(filename_k, my_VAL_data_arp.VAL_filename_dl, 1023);
      my_func_ar_(AAKP_LIST_PROCESS);
 }
 
@@ -6012,8 +6046,9 @@ void _open_archive(enum access_mode wanted_access)
 
           case ACCESS_WRITE:
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(archive_name_array_filename);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                archive = _wcreat(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename, ar_temp), ar_temp2), _S_IWRITE);
 
@@ -6129,8 +6164,9 @@ int check_lzma_file_aakp(char *data_rspk)
 int open_compressed_archive(void)
 {
      {
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          int r_temp = size_of_WCHAR_mem_r(archive_name_array_filename);
+          WCHAR *ar_temp = (void *)malloc(r_temp);
+          WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
           archive = _wopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename, ar_temp), ar_temp2), O_RDONLY | O_BINARY,
                            _S_IREAD);
@@ -6716,8 +6752,9 @@ check_compressed_archive(bool *pshort)
      if (0 == strcmp("<no data$$$>", record_start->buffer)) // hack by BW
      {
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(archive_name_array_filename);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                FILE *my_file_z = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename, ar_temp), ar_temp2), L"rb");
 
@@ -6948,8 +6985,9 @@ int __stdcall startapi_ar_2(__attribute__((unused)) int parameter) // for list p
                }
           }
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(temp_tar_file_in_temp_path);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_tar_file_in_temp_path, ar_temp), ar_temp2));
 
@@ -7042,8 +7080,9 @@ int __stdcall startapi_ar_3(__attribute__((unused)) int parameter) // extract ca
                }
           }
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(temp_tar_file_in_temp_path);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_tar_file_in_temp_path, ar_temp), ar_temp2));
 
@@ -7491,8 +7530,9 @@ void check_mislaine_encrypted(void)
      if (8 < file_size_arp)
      {
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(archive_name_array_filename);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                amanda_file = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename, ar_temp), ar_temp2), L"rb");
 
@@ -7769,413 +7809,9 @@ int __stdcall set_iso_settings(int iso_mode)
  * get the error message for the function
  *
  */
-int __stdcall process_iso(int true_if_it_is_extract_ar, char *tar_file_ar)
+int __stdcall process_iso(__attribute__((unused)) int true_if_it_is_extract_ar, __attribute__((unused)) char *tar_file_ar)
 {
-     files_ar = 0;
-     folders_ar = 0;
-     Numdir_k = 0;
-     Numfiles_k = 0;
-     my_func_ar_(AAKP_CLEAR);
-     DWORD exit_code_arp;
-     char command_line_arp[1024];
-     STARTUPINFO si;
-     PROCESS_INFORMATION pi;
-     assert(4 == sizeof(DWORD));
-     char copy_arp[1024];
-     char list_file__S2_arp[1024] = {0};
-     char extract_file__S2_arp[1024] = {0};
-     char get_data_arp[1024];
-     char my_command_call_arp[1024];
-     int pos_arp;
-     char *token, *str, *tofree;
-     int copy_itens_arp;
-     int found_arp = 0;
-     int internal_is_dir_arp = 0;
-     int rnd_z;
-     struct my_struct_for_list_ar_is_amanda_update_ *aak_ptr;
-     strcpy(string_format_arp, "iso");
-     time_point_arp_2 = 0;
-
-     while (clean_list_itens_is_list_())
-     {
-          ;
-     }
-
-     while (clean_list_itens_is_amanda_update_())
-     {
-          ;
-     }
-     // modified April/10/2021
-
-     strcpy(error_message_k, "iso9660 was disable so the mkisofs executables and cygwin DLL is not required anymore, use libarchive instead");
-     return 27999;
-
-     assert(0 == has_itens_is_amanda_update_);
-     assert(0 == has_itens_copy_is_amanda_update_);
-#define BUF_SIZE_ARP sizeof(our_map_arp)
-     char szName_arp[1024] = "amanda_e_ricardo_map_v27";
-
-     fatal_exit_k = 0;
-     rnd_z = 1000000000;
-     rnd_z = get_rand(0, rnd_z);
-     sprintf(szName_arp + strlen(szName_arp), "_%d", rnd_z);
-
-     if (true_if_it_is_extract_ar)
-     {
-          trocadordebackslashtras(extract_folder_final);
-          if (strlen(extract_folder_final) && '\\' != extract_folder_final[strlen(extract_folder_final) - 1])
-          {
-               strcat(extract_folder_final, "\\");
-          }
-          rspmakedir(extract_folder_final);
-     }
-
-     hMapFile_arp = CreateFileMapping(
-         INVALID_HANDLE_VALUE, // use paging file
-         NULL,                 // default security
-         PAGE_READWRITE,       // read/write access
-         0,                    // maximum object size (high-order DWORD)
-         BUF_SIZE_ARP,         // maximum object size (low-order DWORD)
-         szName_arp);          // name of mapping object
-
-     if (NULL == hMapFile_arp)
-     {
-          sprintf(copy_arp, "Could not create file mapping object (%d)",
-                  (int)GetLastError());
-
-          strcpy(error_message_k, copy_arp);
-          return 28006;
-     }
-
-     global_ptr_our_map_arp_v27 = (our_map_arp *)MapViewOfFile(hMapFile_arp,        // handle to map object
-                                                               FILE_MAP_ALL_ACCESS, // read/write permission
-                                                               0,
-                                                               0,
-                                                               BUF_SIZE_ARP);
-
-     if (NULL == global_ptr_our_map_arp_v27)
-     {
-          sprintf(copy_arp, "Could not map view of file (%d)",
-                  (int)GetLastError());
-          strcpy(error_message_k, copy_arp);
-          CloseHandle(hMapFile_arp);
-          return 28007;
-     }
-
-     memset(&global_our_map_arp, 0, sizeof(global_our_map_arp));
-     CopyMemory((PVOID)global_ptr_our_map_arp_v27, &global_our_map_arp, BUF_SIZE_ARP);
-     ZeroMemory(&si, sizeof(si));
-     si.cb = sizeof(si);
-     ZeroMemory(&pi, sizeof(pi));
-     switch (iso_mode_value)
-     {
-     case ARP_MODE_ISO9660:
-          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -X -i \"");
-          break;
-
-     case ARP_MODE_JOLIET:
-          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -J -X -i \"");
-          break;
-
-     case ARP_MODE_ROCK_RIDGE:
-          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -R -X -i \"");
-          break;
-
-     case ARP_MODE_JOLIET_PLUS_ROCK_RIDGE:
-          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -R -X -i \"");
-          break;
-
-     case ARP_MODE_UDF:
-          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -X -i \"");
-          break;
-
-     default:
-          strcpy(my_command_call_arp, "be_isoinfo_cygwin64.exe -J -X -i \"");
-          break;
-     }
-
-     if (true_if_it_is_extract_ar)
-     {
-          rspgettemppath_arp(extract_file__S2_arp);
-          strcpy(global_ptr_our_map_arp_v27->extract_file_arp, extract_file__S2_arp);
-          strcpy(command_line_arp, my_command_call_arp);
-          strcat(command_line_arp, tar_file_ar);
-          strcat(command_line_arp, "\" -e \"");
-          strcat(command_line_arp, extract_folder_final);
-          strcat(command_line_arp, "\" ");
-     }
-     else
-     {
-          rspgettemppath_arp(list_file__S2_arp);
-          strcpy(command_line_arp, my_command_call_arp);
-          strcat(command_line_arp, tar_file_ar);
-          strcat(command_line_arp, "\" -l \"");
-          strcat(command_line_arp, list_file__S2_arp); // to modify
-          strcat(command_line_arp, "\" ");
-     }
-
-     sprintf(command_line_arp + strlen(command_line_arp), "%s", szName_arp);
-
-     si.wShowWindow = SW_HIDE;
-     si.dwFlags = STARTF_USESHOWWINDOW;
-
-     if (!CreateProcess(NULL, command_line_arp, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
-     {
-          sprintf(copy_arp, "Could not start executable 'be_isoinfo_cygwin64.exe' (%d)",
-                  (int)GetLastError());
-
-          strcpy(error_message_k, copy_arp);
-          UnmapViewOfFile(global_ptr_our_map_arp_v27);
-          CloseHandle(hMapFile_arp);
-          global_ptr_our_map_arp_v27 = NULL;
-          return 28008;
-     }
-
-     WaitForSingleObject(pi.hProcess, INFINITE);
-     GetExitCodeProcess(pi.hProcess, &exit_code_arp);
-     UnmapViewOfFile(global_ptr_our_map_arp_v27);
-     CloseHandle(hMapFile_arp);
-     global_ptr_our_map_arp_v27 = NULL;
-     CloseHandle(pi.hProcess);
-     CloseHandle(pi.hThread);
-
-     if (strlen(list_file__S2_arp))
-     {
-          FILE *my_arp_file;
-          {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-
-               my_arp_file = _wfopen(amanda_utf8towide_1_(list_file__S2_arp, ar_temp), L"rb");
-
-               free(ar_temp);
-          }
-          if (my_arp_file)
-          {
-               while (fgets(get_data_arp, 1024, my_arp_file))
-               {
-                    if (2 < strlen(get_data_arp))
-                    {
-                         pos_arp = 0;
-                         tofree = str = strdup(get_data_arp); // We own str's memory now.
-                         while ((token = strsep(&str, "<")))
-                         {
-                              my_VAL_data_arp.VAL_is_encrypted = 0;
-                              if (0 == pos_arp)
-                              {
-                                   strcpy(my_VAL_data_arp.VAL_filename, token);
-                                   found_arp = 0;
-                                   aak_ptr = aak_inicio_is_amanda_update_;
-                                   copy_itens_arp = has_itens_is_amanda_update_;
-                                   while (copy_itens_arp--)
-                                   {
-                                        if (0 == strcmp(my_VAL_data_arp.VAL_filename, aak_ptr->filename_k))
-                                        {
-                                             found_arp++;
-                                             break;
-                                        }
-                                        aak_ptr = aak_ptr->next_ar;
-                                   }
-                                   if (0 == found_arp)
-                                   {
-                                        add_more_one_is_amanda_update_(
-                                            my_VAL_data_arp.VAL_filename,
-                                            0,
-                                            0,
-                                            0,
-                                            0,
-                                            0,
-                                            0,
-                                            0,
-                                            NULL);
-                                   }
-                              }
-                              if (1 == pos_arp)
-                              {
-                                   my_VAL_data_arp.VAL_is_dir = 1;
-                                   if (0 == strcmp("file", token))
-                                   {
-                                        my_VAL_data_arp.VAL_is_dir = 0;
-                                   }
-                                   else
-                                   {
-                                        strcat(my_VAL_data_arp.VAL_filename, "/");
-                                   }
-                              }
-                              if (2 == pos_arp)
-                              {
-                                   ;
-                              }
-                              if (3 == pos_arp)
-                              {
-                                   my_VAL_data_arp.VAL_timestamp64 = strtoll(token, NULL, 10);
-                              }
-                              if (4 == pos_arp)
-                              {
-                                   my_VAL_data_arp.VAL_file_size = strtoll(token, NULL, 10);
-                              }
-                              pos_arp++;
-                         }
-                         free(tofree);
-                         if (!found_arp)
-                         {
-                              simple_print_header_iso();
-                         }
-                    }
-               }
-               fclose(my_arp_file);
-          }
-          {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-
-               _wunlink(amanda_utf8towide_1_(list_file__S2_arp, ar_temp));
-
-               free(ar_temp);
-          }
-          assert(0 == ispathfile(list_file__S2_arp));
-     }
-     if (strlen(extract_file__S2_arp))
-     {
-          FILE *my_arp_file;
-          {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-
-               my_arp_file = _wfopen(amanda_utf8towide_1_(extract_file__S2_arp, ar_temp), L"rb");
-
-               free(ar_temp);
-          }
-          if (my_arp_file)
-          {
-               while (fgets(get_data_arp, 1024, my_arp_file))
-               {
-                    if (2 < strlen(get_data_arp))
-                    {
-                         int achou_arp = 0;
-                         pos_arp = 0;
-                         tofree = str = strdup(get_data_arp); // We own str's memory now.
-                         found_arp = 1;
-
-                         while ((token = strsep(&str, "<")))
-                         {
-                              if (0 == pos_arp)
-                              {
-                                   found_arp = 0;
-                                   aak_ptr = aak_inicio_is_amanda_update_;
-                                   copy_itens_arp = has_itens_is_amanda_update_;
-                                   while (copy_itens_arp--)
-                                   {
-                                        if (0 == strcmp(token, aak_ptr->filename_k))
-                                        {
-                                             found_arp++;
-                                             achou_arp = 1;
-                                             break;
-                                        }
-                                        aak_ptr = aak_ptr->next_ar;
-                                   }
-                                   if (0 == found_arp)
-                                   {
-                                        add_more_one_is_amanda_update_(
-                                            token,
-                                            0,
-                                            0,
-                                            0,
-                                            0,
-                                            0,
-                                            0,
-                                            0,
-                                            NULL);
-                                   }
-                              }
-                              if (1 == pos_arp)
-                              {
-                                   if (0 == strcmp(" ", token))
-                                   {
-                                        warning_info[0] = 0;
-                                   }
-                                   else
-                                   {
-                                        fatal_exit_k = 120;
-                                        strcpy(error_message_k, "At least one warning occurred, see the ListBox to see what is it");
-                                        strcpy(warning_info, token);
-                                   }
-                              }
-                              if (2 == pos_arp)
-                              {
-                                   if (0 == strcmp(" ", token))
-                                   {
-                                        extracting_filename_ar[0] = 0;
-                                   }
-                                   else
-                                   {
-                                        strcpy(extracting_filename_ar, token);
-                                   }
-                              }
-                              if (3 == pos_arp)
-                              {
-                                   if (0 == strcmp(" ", token))
-                                   {
-                                        internal_is_dir_arp = 0;
-                                        creating_folder_maria[0] = 0;
-                                   }
-                                   else
-                                   {
-                                        internal_is_dir_arp = 1;
-                                        strcpy(creating_folder_maria, token);
-                                   }
-                              }
-                              if (4 == pos_arp)
-                              {
-                                   ;
-                              }
-                              pos_arp++;
-                         }
-                         free(tofree);
-                         if (!achou_arp)
-                         {
-                              if (internal_is_dir_arp)
-                              {
-                                   folders_ar++;
-                              }
-                              else
-                              {
-                                   files_ar++;
-                              }
-
-                              my_func_ar_(AAKP_EXTRACT_PROCESS);
-                         }
-                    }
-               }
-               fclose(my_arp_file);
-          }
-          {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-
-               _wunlink(amanda_utf8towide_1_(extract_file__S2_arp, ar_temp));
-
-               free(ar_temp);
-          }
-          assert(0 == ispathfile(extract_file__S2_arp));
-     }
-     while (clean_list_itens_is_amanda_update_())
-     {
-          ;
-     }
-     assert(0 == has_itens_is_amanda_update_);
-     assert(0 == has_itens_copy_is_amanda_update_);
-     if (exit_code_arp)
-     {
-          if (29 == exit_code_arp)
-          {
-               fatal_exit_k = 119;
-               strcpy(error_message_k, "User abort");
-               fatal_exit_k = 0;
-               goto final_arp;
-          }
-          sprintf(copy_arp, "Error %d running 'be_isoinfo_cygwin64.exe'", (int)exit_code_arp);
-          strcpy(error_message_k, copy_arp);
-          return 28009;
-     }
-final_arp:;
-     return fatal_exit_k;
+     return 0;
 }
 
 /**
@@ -8311,10 +7947,12 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
                adjust_extension_z(tar_file_ar, temp_file_for_encrypted_v2);
                if (0 != strcmp(temp_file_for_encrypted, temp_file_for_encrypted_v2))
                {
-                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp3 = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp4 = (void *)malloc(AMANDA__SIZE_ww);
+                    int r_temp = size_of_WCHAR_mem_r(temp_file_for_encrypted);
+                    WCHAR *ar_temp = (void *)malloc(r_temp);
+                    WCHAR *ar_temp2 = (void *)malloc(r_temp);
+                    int r_temp2 = size_of_WCHAR_mem_r(temp_file_for_encrypted_v2);
+                    WCHAR *ar_temp3 = (void *)malloc(r_temp2);
+                    WCHAR *ar_temp4 = (void *)malloc(r_temp2);
 
                     _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_for_encrypted, ar_temp), ar_temp2), permissive_name_m_v27(amanda_utf8towide_1_(temp_file_for_encrypted_v2, ar_temp3), ar_temp4));
 
@@ -8394,10 +8032,12 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
                adjust_extension_z(tar_file_ar, temp_file_for_encrypted_v2);
                if (0 != strcmp(temp_file_for_encrypted, temp_file_for_encrypted_v2))
                {
-                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp3 = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp4 = (void *)malloc(AMANDA__SIZE_ww);
+                    int r_temp = size_of_WCHAR_mem_r(temp_file_for_encrypted);
+                    WCHAR *ar_temp = (void *)malloc(r_temp);
+                    WCHAR *ar_temp2 = (void *)malloc(r_temp);
+                    int r_temp2 = size_of_WCHAR_mem_r(temp_file_for_encrypted_v2);
+                    WCHAR *ar_temp3 = (void *)malloc(r_temp2);
+                    WCHAR *ar_temp4 = (void *)malloc(r_temp2);
 
                     _wrename(permissive_name_m_(amanda_utf8towide_2_(temp_file_for_encrypted, ar_temp), ar_temp2), permissive_name_m_v27(amanda_utf8towide_1_(temp_file_for_encrypted_v2, ar_temp3), ar_temp4));
 
@@ -8434,6 +8074,7 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
                }
           }
      }
+
      my_func_ar_ = my_func__;
      got_a_warning_ar = 0;
      if (true_if_it_is_extract_ar)
@@ -10569,8 +10210,9 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
 
                size_got_p = getfilesize_ar(archive_name_array_filename);
                {
-                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    int r_temp = size_of_WCHAR_mem_r(archive_name_array_filename);
+                    WCHAR *ar_temp = (void *)malloc(r_temp);
+                    WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                     decoder_file_z = _wfopen(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename, ar_temp), ar_temp2), L"rb");
 
@@ -10591,8 +10233,8 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
                while (1)
                {
                     int ret_arp;
-                    memset(my_VAL_data_arp.VAL_filename, 0, sizeof(my_VAL_data_arp.VAL_filename));
-                    memset(my_VAL_data_arp.VAL_filename_v27_v51, 0, sizeof(my_VAL_data_arp.VAL_filename_v27_v51));
+                    //memset(my_VAL_data_arp.VAL_filename, 0, sizeof(my_VAL_data_arp.VAL_filename));
+                    //memset(my_VAL_data_arp.VAL_filename_v27_v51, 0, sizeof(my_VAL_data_arp.VAL_filename_v27_v51));
                     ret_arp = decode_VAL_arp(&my_VAL_data_arp);
                     if (ARP_NOMORE == ret_arp)
                     {
@@ -10605,24 +10247,24 @@ int __stdcall process_tar(int true_if_it_is_extract_ar, char *tar_file_ar, tar_l
                               processed_itens_ar++;
                               if (my_VAL_data_arp.VAL_is_dir)
                               {
-                                   if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
+                                   if (0 != my_VAL_data_arp.VAL_filename_v27_v51_dl[0])
                                    {
-                                        extract_dir_VAL(my_VAL_data_arp.VAL_filename_v27_v51);
+                                        extract_dir_VAL(my_VAL_data_arp.VAL_filename_v27_v51_dl);
                                    }
                                    else
                                    {
-                                        extract_dir_VAL(my_VAL_data_arp.VAL_filename);
+                                        extract_dir_VAL(my_VAL_data_arp.VAL_filename_dl);
                                    }
                               }
                               else
                               {
-                                   if (0 != my_VAL_data_arp.VAL_filename_v27_v51[0])
+                                   if (0 != my_VAL_data_arp.VAL_filename_v27_v51_dl[0])
                                    {
-                                        extract_file_VAL(my_VAL_data_arp.VAL_filename_v27_v51);
+                                        extract_file_VAL(my_VAL_data_arp.VAL_filename_v27_v51_dl);
                                    }
                                    else
                                    {
-                                        extract_file_VAL(my_VAL_data_arp.VAL_filename);
+                                        extract_file_VAL(my_VAL_data_arp.VAL_filename_dl);
                                    }
                               }
                          }
@@ -10720,8 +10362,9 @@ final_jump_arp:;
      {
           if (false == modo_e_duplo_ar)
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(archive_name_array_filename);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(archive_name_array_filename, ar_temp), ar_temp2));
 
@@ -10734,8 +10377,9 @@ final_jump_arp:;
      {
           if (strlen(file_to_keep_z))
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(file_to_keep_z);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(file_to_keep_z, ar_temp), ar_temp2));
 
@@ -10759,8 +10403,9 @@ final_jump_arp:;
           }
           if (strlen(copy_for_extract_ar))
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(copy_for_extract_ar);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(copy_for_extract_ar, ar_temp), ar_temp2));
 
@@ -10770,8 +10415,9 @@ final_jump_arp:;
           }
           if (strlen(file_to_keep_z))
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(file_to_keep_z);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(file_to_keep_z, ar_temp), ar_temp2));
 
@@ -10968,8 +10614,9 @@ int set_folder_time(char *in_folder_i, char *out_folder_i)
      FILETIME lpLastAccessTime_junior;
      FILETIME lpLastWriteTime__junior;
      {
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          int r_temp = size_of_WCHAR_mem_r(in_folder_i);
+          WCHAR *ar_temp = (void *)malloc(r_temp);
+          WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
           hFile =
               CreateFileW(permissive_name_m_(amanda_utf8towide_1_(in_folder_i, ar_temp), ar_temp2),
@@ -11011,8 +10658,9 @@ int set_folder_time(char *in_folder_i, char *out_folder_i)
                          HANDLE hFile2;
 
                          {
-                              WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                              WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                              int r_temp = size_of_WCHAR_mem_r(out_folder_i);
+                              WCHAR *ar_temp = (void *)malloc(r_temp);
+                              WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                               hFile2 =
                                   CreateFileW(permissive_name_m_(amanda_utf8towide_1_(out_folder_i, ar_temp), ar_temp2),
@@ -11068,8 +10716,10 @@ int file_copy_i(char *input_i, char *out_put_i)
      int returnvalue_i = 2;
      char *buf_i = malloc(AMANDA_SIZE___);
      FILE *out_i;
-     WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-     WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+
+     int r_temprr = size_of_WCHAR_mem_r(input_i);
+     WCHAR *ar_temp = (void *)malloc(r_temprr);
+     WCHAR *ar_temp2 = (void *)malloc(r_temprr);
 
      FILE *in_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(input_i, ar_temp), ar_temp2), L"rb");
 
@@ -11078,8 +10728,9 @@ int file_copy_i(char *input_i, char *out_put_i)
 
      if (in_i)
      {
-          ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-          ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          int r_temp = size_of_WCHAR_mem_r(out_put_i);
+          ar_temp = (void *)malloc(r_temp);
+          ar_temp2 = (void *)malloc(r_temp);
 
           out_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(out_put_i, ar_temp), ar_temp2), L"wb");
 
@@ -11314,8 +10965,9 @@ int __stdcall libarchive_update_archive_ar_v2_internal(char *tar_filename_ar,
 
           is_update_i = true;
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(temp_file_update_i);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                my___temp_file_i = _wfopen(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2), L"rb+");
 
@@ -11390,8 +11042,9 @@ sai_agora_i:;
           my___temp_file_i = NULL;
      }
      {
-          WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-          WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+          int r_temp = size_of_WCHAR_mem_r(temp_file_update_i);
+          WCHAR *ar_temp = (void *)malloc(r_temp);
+          WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
           _wunlink(permissive_name_m_(amanda_utf8towide_1_(temp_file_update_i, ar_temp), ar_temp2));
 
@@ -11491,10 +11144,15 @@ int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
 
           mode_is_update_arp = true;
 
+          // assert(0);
+
           while (clean_list_itens_is_amanda_update_())
           {
                ;
           }
+
+          // assert(0);
+
           assert(0 == has_itens_is_amanda_update_);
           assert(0 == has_itens_copy_is_amanda_update_);
           if (running_2_ar || running_ar)
@@ -11516,8 +11174,9 @@ int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
           strcat(update_temp_dir_arp, "_d");
           {
                {
-                    WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-                    WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+                    int r_temp = size_of_WCHAR_mem_r(update_filename_arp);
+                    WCHAR *ar_temp = (void *)malloc(r_temp);
+                    WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                     our_update_file_open__arp = _wopen(permissive_name_m_(amanda_utf8towide_1_(update_filename_arp, ar_temp), ar_temp2),
                                                        O_BINARY | O_CREAT | O_WRONLY | O_TRUNC,
@@ -11544,8 +11203,9 @@ int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
           extract_cancel_flag = false;
           strcpy(tar_file_ar_real, tar_filename_ar);
           strcpy(extract_folder_final, update_temp_dir_arp);
+          
           startapi_ar_3(1);
-
+          
           if (return_value_from_list)
           {
                clean_up_update_ARP();
@@ -11556,7 +11216,7 @@ int __stdcall update_archive_ar_v2_internal(char *tar_filename_ar,
 
           // basta zerar a flag...
           split_compressed_file_p(0);
-
+          
           ret_value_arp = create_archive_ar_v2(tar_filename_ar,
                                                path_with_the_files_ar,
                                                patern_ar,
@@ -11658,8 +11318,9 @@ ok_z:;
      if (createtempfilename_and_keep_z(copy_path, copy_path2, L"oi_"))
      {
           {
-               WCHAR *ar_temp = (void *)malloc(AMANDA__SIZE_ww);
-               WCHAR *ar_temp2 = (void *)malloc(AMANDA__SIZE_ww);
+               int r_temp = size_of_WCHAR_mem_r(copy_path2);
+               WCHAR *ar_temp = (void *)malloc(r_temp);
+               WCHAR *ar_temp2 = (void *)malloc(r_temp);
 
                _wunlink(permissive_name_m_(amanda_utf8towide_1_(copy_path2, ar_temp), ar_temp2));
 

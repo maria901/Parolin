@@ -19,15 +19,15 @@
  *     Suporte: https://nomade.sourceforge.io/                                  *
  *                                                                              *
  ********************************************************************************
- 
-      E-mails:                                                                 
-      maria@arsoftware.net.br                                                  
-      pedro@locacaodiaria.com.br                                               
+
+      E-mails:
+      maria@arsoftware.net.br
+      pedro@locacaodiaria.com.br
 
  ********************************************************************************
  *                                                                              *
  *     contato imediato(para uma resposta muito rápida) WhatsApp                *
- *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *      
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                 *
  *                                                                              *
  *******************************************************************************/
 
@@ -59,7 +59,7 @@
 
 #include "arp.h"
 #include "arp_2.h"
-//functions
+// functions
 
 void trocadordebackslashfrente(char *path);
 
@@ -111,6 +111,7 @@ extern FILE *decoder_file_z;
  */
 int decode_VAL_arp(VAL_data *my_VAL_data)
 {
+    bool found_and_decoded_dl = false;
     char buffer_in[1024] = {0};
     char flg_string_arp[300];
     char four_buffer_z[4];
@@ -234,11 +235,40 @@ achou_VAL:;
 
     if (0 == strcmp("VAL_filename", identificador_arp))
     {
+        found_and_decoded_dl = true;
         flg_arp = strtoll(flg_string_arp, NULL, 10);
         assert(0 == flg_arp);
         int_converted = strtoll(int_value_arp, NULL, 10);
 
-        len_arp = fread(my_VAL_data->VAL_filename, 1, int_converted, decoder_file_z);
+        if (NULL == my_VAL_data->VAL_filename_v27_v51_dl)
+        {
+            my_VAL_data->VAL_filename_v27_v51_dl = calloc(10, 1);
+        }
+        else
+        {
+            free(my_VAL_data->VAL_filename_v27_v51_dl);
+            my_VAL_data->VAL_filename_v27_v51_dl = calloc(10, 1);
+        }
+
+        if (NULL == my_VAL_data->VAL_filename_dl)
+        {
+            my_VAL_data->VAL_filename_dl = calloc(int_converted + 3, 1);
+        }
+        else
+        {
+            
+            if(my_VAL_data->dont_t_free_now_dl)
+            {
+                ;//Mr Do.
+            }
+            else
+            free(my_VAL_data->VAL_filename_dl);
+
+            my_VAL_data->dont_t_free_now_dl = false;
+            my_VAL_data->VAL_filename_dl = calloc(int_converted + 3, 1);
+        }
+
+        len_arp = fread(my_VAL_data->VAL_filename_dl, 1, int_converted, decoder_file_z);
 
         if (len_arp != int_converted)
         {
@@ -247,7 +277,7 @@ achou_VAL:;
             return ARP_NOMORE;
         }
 
-        trocadordebackslashfrente(my_VAL_data->VAL_filename);
+        trocadordebackslashfrente(my_VAL_data->VAL_filename_dl);
 
         get_data = buffer_in;
 
@@ -255,14 +285,24 @@ achou_VAL:;
 
         goto denovo_VAL;
     }
-    
+
     if (0 == strcmp("VAL_filename_v27_v51", identificador_arp))
     {
         flg_arp = strtoll(flg_string_arp, NULL, 10);
         assert(0 == flg_arp);
         int_converted = strtoll(int_value_arp, NULL, 10);
 
-        len_arp = fread(my_VAL_data->VAL_filename_v27_v51, 1, int_converted, decoder_file_z);
+        if (NULL == my_VAL_data->VAL_filename_v27_v51_dl)
+        {
+            my_VAL_data->VAL_filename_v27_v51_dl = calloc(int_converted + 3, 1);
+        }
+        else
+        {
+            free(my_VAL_data->VAL_filename_v27_v51_dl);
+            my_VAL_data->VAL_filename_v27_v51_dl = calloc(int_converted + 3, 1);
+        }
+
+        len_arp = fread(my_VAL_data->VAL_filename_v27_v51_dl, 1, int_converted, decoder_file_z);
 
         if (len_arp != int_converted)
         {
@@ -271,7 +311,7 @@ achou_VAL:;
             return ARP_NOMORE;
         }
 
-        trocadordebackslashfrente(my_VAL_data->VAL_filename_v27_v51);
+        trocadordebackslashfrente(my_VAL_data->VAL_filename_v27_v51_dl);
 
         get_data = buffer_in;
 
@@ -355,7 +395,7 @@ achou_VAL:;
         goto denovo_VAL;
     }
     /////////////////////////////////////////////////////////////////////
-    //new entry to check the whole size of the VAL file
+    // new entry to check the whole size of the VAL file
 
     if (0 == strcmp("VAL_p_file_size", identificador_arp))
     {
@@ -454,7 +494,7 @@ achou_VAL:;
         int_converted = strtoll(int_value_arp, NULL, 10);
 
         len_arp = fread(&temp_long_arp, 1, int_converted, decoder_file_z);
-        assert(8 == int_converted); //viu?...começa errado fica errado
+        assert(8 == int_converted); // viu?...começa errado fica errado
 
         if (len_arp != int_converted)
         {
@@ -524,6 +564,16 @@ achou_VAL:;
         }
 
         my_VAL_data->VAL_file_position = _ftelli64(decoder_file_z);
+
+        if (NULL == my_VAL_data->VAL_filename_v27_v51_dl)
+        {
+            my_VAL_data->VAL_filename_v27_v51_dl = calloc(10, 1);
+        }
+
+        if (false == found_and_decoded_dl)
+        {
+            return ARP_NOMORE;
+        }
 
         return ARP_DECODED;
     }
