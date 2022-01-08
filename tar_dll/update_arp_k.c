@@ -25,7 +25,7 @@ void add_more_one_is_amanda_update_dl(char *memory_ric)
     if (!has_itens_is_amanda_update_dl)
     {
         aak_is_amanda_update_dl = calloc(1, sizeof(struct
-                                                   my_struct_for_list_ar_is_amanda_update_));
+                                                   my_struct_for_list_ar_is_amanda_update_dl));
         aak_inicio_is_amanda_update_dl = aak_is_amanda_update_dl;
         aak_pointer_is_amanda_update_dl = aak_is_amanda_update_dl;
         aak_is_amanda_update_dl->filename_k = memory_ric;
