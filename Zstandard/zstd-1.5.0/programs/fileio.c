@@ -9,8 +9,8 @@
  */
 
 /* *************************************
-*  Compiler Options
-***************************************/
+ *  Compiler Options
+ ***************************************/
 #ifdef _MSC_VER                 /* Visual */
 #pragma warning(disable : 4127) /* disable: C4127: conditional expression is constant */
 #pragma warning(disable : 4204) /* non-constant aggregate initializer */
@@ -20,8 +20,8 @@
 #endif
 
 /*-*************************************
-*  Includes
-***************************************/
+ *  Includes
+ ***************************************/
 #include "platform.h" /* Large Files support, SET_BINARY_MODE */
 #include "util.h"     /* UTIL_getFileSize, UTIL_isRegularFile, UTIL_isSameFile */
 #include <stdio.h>    /* fprintf, open, fdopen, fread, _fileno, stdin, stdout */
@@ -39,19 +39,21 @@
 #include <io.h>
 #endif
 
+// dl--
+
 /**
  * The maximum size of an utf-8 encoded filename with the max limit of a file in Windows
  */
 #define AMANDA__SIZE ((32767 * 6) + 2)
 /**
- * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know 
- * 
+ * The maximum size of Unicode characters in a path in Windows, Linux is 1024 characters as far I know
+ *
  */
 #define AMANDA__SIZE_w (32767)
 
 /**
  * To make the path wide mode aware, stolen from libarchive
- * 
+ *
  * 15/september/2021 10:14, last visit 16/09/2021 22:36 by bhond...
  *
  */
@@ -59,13 +61,13 @@ wchar_t *
 permissive_name_m_(const wchar_t *wname);
 
 /**
- * To convert an utf-8 encoded filename to a wide string (WCHAR *), we 
- *  . provide two functions that are exactly the same because someone may 
- * use it in multi-thread code 
+ * To convert an utf-8 encoded filename to a wide string (WCHAR *), we
+ *  . provide two functions that are exactly the same because someone may
+ * use it in multi-thread code
  *
- * @param pUTF8 the input utf-8 encoded filename 
+ * @param pUTF8 the input utf-8 encoded filename
  *
- * @return the static allocated WCHAR array with the filename as wide string 
+ * @return the static allocated WCHAR array with the filename as wide string
  *
  */
 WCHAR *amanda_utf8towide_1_v27(char *pUTF8);
@@ -107,8 +109,8 @@ extern int intcancel__rspk;
 #endif
 
 /*-*************************************
-*  Constants
-***************************************/
+ *  Constants
+ ***************************************/
 #define ADAPT_WINDOWLOG_DEFAULT 23 /* 8 MB */
 #define DICTSIZE_MAX (32 MB)       /* protection against large input (attack scenario) */
 
@@ -123,8 +125,8 @@ extern int intcancel__rspk;
 #endif
 
 /*-*************************************
-*  Macros
-***************************************/
+ *  Macros
+ ***************************************/
 #define KB *(1 << 10)
 #define MB *(1 << 20)
 #define GB *(1U << 30)
@@ -198,8 +200,8 @@ static UTIL_time_t g_displayClock = UTIL_TIME_INITIALIZER;
     }
 
 /*-************************************
-*  Signal (Ctrl-C trapping)
-**************************************/
+ *  Signal (Ctrl-C trapping)
+ **************************************/
 static const char *g_artefact = NULL;
 static void INThandler(int sig)
 {
@@ -237,8 +239,8 @@ static void clearHandler(void)
 }
 
 /*-*********************************************************
-*  Termination signal trapping (Print debug stack trace)
-***********************************************************/
+ *  Termination signal trapping (Print debug stack trace)
+ ***********************************************************/
 #if defined(__has_feature) && !defined(BACKTRACE_ENABLE) /* Clang compiler */
 #if (__has_feature(address_sanitizer))
 #define BACKTRACE_ENABLE 0
@@ -326,8 +328,8 @@ void FIO_addAbortHandler()
 }
 
 /*-************************************************************
-* Avoid fseek()'s 2GiB barrier with MSVC, macOS, *BSD, MinGW
-***************************************************************/
+ * Avoid fseek()'s 2GiB barrier with MSVC, macOS, *BSD, MinGW
+ ***************************************************************/
 #if defined(_MSC_VER) && _MSC_VER >= 1400
 #define LONG_SEEK _fseeki64
 #define LONG_TELL _ftelli64
@@ -370,8 +372,8 @@ static __int64 LONG_TELL(FILE *file)
 #endif
 
 /*-*************************************
-*  Parameters: FIO_prefs_t
-***************************************/
+ *  Parameters: FIO_prefs_t
+ ***************************************/
 
 /* typedef'd to FIO_prefs_t within fileio.h */
 struct FIO_prefs_s
@@ -415,8 +417,8 @@ struct FIO_prefs_s
 };
 
 /*-*************************************
-*  Parameters: FIO_ctx_t
-***************************************/
+ *  Parameters: FIO_ctx_t
+ ***************************************/
 
 /* typedef'd to FIO_ctx_t within fileio.h */
 struct FIO_ctx_s
@@ -435,8 +437,8 @@ struct FIO_ctx_s
 };
 
 /*-*************************************
-*  Parameters: Initialization
-***************************************/
+ *  Parameters: Initialization
+ ***************************************/
 
 #define FIO_OVERLAP_LOG_NOTSET 9999
 #define FIO_LDM_PARAM_NOTSET 9999
@@ -503,16 +505,16 @@ void FIO_freeContext(FIO_ctx_t *const fCtx)
 }
 
 /*-*************************************
-*  Parameters: Display Options
-***************************************/
+ *  Parameters: Display Options
+ ***************************************/
 
 void FIO_setNotificationLevel(int level) { g_display_prefs.displayLevel = level; }
 
 void FIO_setProgressSetting(FIO_progressSetting_e setting) { g_display_prefs.progressSetting = setting; }
 
 /*-*************************************
-*  Parameters: Setters
-***************************************/
+ *  Parameters: Setters
+ ***************************************/
 
 /* FIO_prefs_t functions */
 
@@ -677,8 +679,8 @@ void FIO_determineHasStdinInput(FIO_ctx_t *const fCtx, const FileNamesTable *con
 }
 
 /*-*************************************
-*  Functions
-***************************************/
+ *  Functions
+ ***************************************/
 /** FIO_removeFile() :
  * @result : Unlink `fileName`, even if it's read-only */
 static int FIO_removeFile(const char *path)
@@ -1523,6 +1525,7 @@ FIO_compressLz4Frame(cRess_t *ress,
 }
 #endif
 
+// dl--
 static unsigned long long
 FIO_compressZstdFrame(FIO_ctx_t *const fCtx,
                       FIO_prefs_t *const prefs,
@@ -1537,7 +1540,7 @@ FIO_compressZstdFrame(FIO_ctx_t *const fCtx,
     U64 compressedfilesize = 0;
     ZSTD_EndDirective directive = ZSTD_e_continue;
 
-    //exit(27);
+    // exit(27);
 
     /* stats */
     ZSTD_frameProgression previous_zfp_update = {0, 0, 0, 0, 0, 0};
@@ -1577,7 +1580,7 @@ FIO_compressZstdFrame(FIO_ctx_t *const fCtx,
         ZSTD_inBuffer inBuff = {ress.srcBuffer, inSize, 0};
         DISPLAYLEVEL(6, "fread %u bytes from source \n", (unsigned)inSize);
         *readsize += inSize;
-
+//dl--
         while (intpause___aakp)
         {
             Sleep(50);
@@ -1594,7 +1597,7 @@ FIO_compressZstdFrame(FIO_ctx_t *const fCtx,
             return_value_arp = 119;
             goto exit_amanda;
         }
-        //processado_rspk += inSize;
+        // processado_rspk += inSize;
 
         if ((inSize == 0) || (*readsize == fileSize))
             directive = ZSTD_e_end;
@@ -1630,7 +1633,7 @@ FIO_compressZstdFrame(FIO_ctx_t *const fCtx,
                               strerror(errno));
                 compressedfilesize += outBuff.pos;
             }
-
+// dl--
             if (ricardo_o_cara < GetTickCount64())
             {
                 ZSTD_frameProgression const zfp = ZSTD_getFrameProgression(ress.cctx);
@@ -1638,7 +1641,7 @@ FIO_compressZstdFrame(FIO_ctx_t *const fCtx,
                 processado_rspk = zfp.consumed;
                 ricardo_o_cara = GetTickCount64() + 50;
             }
-           
+// dl--
             /* display notification; and adapt compression level */
             if (0 && READY_FOR_UPDATE())
             {
@@ -1646,7 +1649,7 @@ FIO_compressZstdFrame(FIO_ctx_t *const fCtx,
                 ZSTD_frameProgression const zfp = ZSTD_getFrameProgression(ress.cctx);
                 double const cShare = (double)zfp.produced / (double)(zfp.consumed + !zfp.consumed /*avoid div0*/) * 100;
 
-                //processado_rspk = zfp.consumed;
+                // processado_rspk = zfp.consumed;
 
                 /*
                 pedro_dprintf(0, "\r(L%i) Buffered :%4u MB - Consumed :%4u MB - Compressed :%4u MB => %.2f%% ",
@@ -1808,7 +1811,7 @@ FIO_compressZstdFrame(FIO_ctx_t *const fCtx,
         EXM_THROW(27, "Read error : Incomplete read : %llu / %llu B",
                   (unsigned long long)*readsize, (unsigned long long)fileSize);
     }
-
+//dl--
 exit_amanda:;
 
     return compressedfilesize;
@@ -1978,8 +1981,8 @@ static int FIO_compressFilename_dstFile(FIO_ctx_t *const fCtx,
 }
 
 /* List used to compare file extensions (used with --exclude-compressed flag)
-* Different from the suffixList and should only apply to ZSTD compress operationResult
-*/
+ * Different from the suffixList and should only apply to ZSTD compress operationResult
+ */
 static const char *compressedFileExtensions[] = {
     ZSTD_EXTENSION,
     TZSTD_EXTENSION,
@@ -2022,9 +2025,9 @@ FIO_compressFilename_srcFile(FIO_ctx_t *const fCtx,
     }
 
     /* Check if "srcFile" is compressed. Only done if --exclude-compressed flag is used
-    * YES => ZSTD will skip compression of the file and will return 0.
-    * NO => ZSTD will resume with compress operation.
-    */
+     * YES => ZSTD will skip compression of the file and will return 0.
+     * NO => ZSTD will resume with compress operation.
+     */
     if (prefs->excludeCompressedFiles == 1 && UTIL_isCompressedFile(srcFileName, compressedFileExtensions))
     {
         DISPLAYLEVEL(4, "File is already compressed : %s \n", srcFileName);
@@ -2284,8 +2287,8 @@ static void FIO_freeDResources(dRess_t ress)
 }
 
 /** FIO_fwriteSparse() :
-*  @return : storedSkips,
-*            argument for next call to FIO_fwriteSparse() or FIO_fwriteSparseEnd() */
+ *  @return : storedSkips,
+ *            argument for next call to FIO_fwriteSparse() or FIO_fwriteSparseEnd() */
 static unsigned
 FIO_fwriteSparse(FILE *file,
                  const void *buffer, size_t bufferSize,
@@ -2470,6 +2473,8 @@ FIO_zstdErrorHelp(const FIO_prefs_t *const prefs,
                  srcFileName, ZSTD_WINDOWLOG_MAX);
 }
 
+// dl--
+
 /** FIO_decompressFrame() :
  *  @return : size of decoded zstd frame, or an error code
  */
@@ -2561,7 +2566,7 @@ FIO_decompressZstdFrame(FIO_ctx_t *const fCtx, dRess_t *ress, FILE *finput,
                 size_t const toRead = toDecode - ress->srcBufferLoaded; /* > 0 */
                 void *const startPosition = (char *)ress->srcBuffer + ress->srcBufferLoaded;
                 size_t const readSize = fread(startPosition, 1, toRead, finput);
-
+//dl--
                 while (intpause___aakp)
                 {
                     Sleep(50);
@@ -2579,7 +2584,7 @@ FIO_decompressZstdFrame(FIO_ctx_t *const fCtx, dRess_t *ress, FILE *finput,
                     goto exit_amanda;
                 }
                 processado_rspk += readSize;
-
+//dl--
                 if (readSize == 0)
                 {
                     DISPLAYLEVEL(1, "%s : Read error (39) : premature end \n",
@@ -2592,7 +2597,7 @@ FIO_decompressZstdFrame(FIO_ctx_t *const fCtx, dRess_t *ress, FILE *finput,
     }
 
     FIO_fwriteSparseEnd(prefs, ress->dstFile, storedSkips);
-
+//dl--
 exit_amanda:;
     processado_rspk = tamanho____aakp;
     pedro_dprintf(-1, "Percent , ok-? ... %0.2f\n", 100.0);

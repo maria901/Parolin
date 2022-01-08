@@ -1,0 +1,20 @@
+
+search for //dl-- all entries required has this reference
+
+folder: zstd-1.5.X\programs
+file(s) fileio.c funcões FIO_decompressZstdFrame, FIO_compressZstdFrame
+
+procure por //dl-- para saber certo onde estao as modificacoes
+
+somente file.io tem que ser modificado e na funcao tem que ser adicionado
+
+
+            if (ricardo_o_cara < GetTickCount64())
+            {
+                ZSTD_frameProgression const zfp = ZSTD_getFrameProgression(ress.cctx);
+
+                processado_rspk = zfp.consumed;
+                ricardo_o_cara = GetTickCount64() + 50;
+            }
+
+            nao esqueça

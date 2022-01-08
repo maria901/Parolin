@@ -923,6 +923,29 @@ exit
 
 fi
 
+if [ "Zstandard32151" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe Zstandard_32151 -f makefile
+
+exit
+
+fi
+
+
+if [ "Zstandard64151" == "$1" ] 
+then
+
+cd /tar/tar_dll
+
+make_amanda_kp.exe Zstandard_64151 -f makefile
+
+exit
+
+fi
+
 
 if [ "Zstandard_clean" == "$1" ] 
 then
