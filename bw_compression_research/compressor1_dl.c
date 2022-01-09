@@ -229,16 +229,18 @@ typedef struct dl_dados_salvos_querido_ric__
  * @param offset the position to start from
  * @return int64_t the position where it is found or -1 if not found
  */
-int64_t mem_search_dl(__attribute__((unused)) char *haystack,
+int64_t mem_search_dl(__attribute__((unused)) uint8_t *haystack,
 					  __attribute__((unused)) int64_t haystack_len,
-					  __attribute__((unused)) char *needle,
+					  __attribute__((unused)) uint8_t *needle,
 					  __attribute__((unused)) int64_t needle_len,
 					  __attribute__((unused)) int64_t offset_dl)
 {
 
-	char *ptr_dl;
+	uint8_t *ptr_dl;
 
 	int64_t len_dl, i_dl, haystack_len_left;
+
+	(void)len_dl;
 
 	haystack_len_left = haystack_len - offset_dl;
 
@@ -276,45 +278,8 @@ int64_t mem_search_dl(__attribute__((unused)) char *haystack,
 int main()
 {
 
-	// vamos lá
-
-	/*
-
-	in portuguese, translate it
-
-	primeiro vamos criar um linked list para manter a lista de strings analizadas
-
-	64 bits claro, depois a gente ve sobre como convertar pra x86
-
-first we need to open a file that we want to compress, for this the ubiquitous 'make.exe'
-
-bom, em lz77 e lzss e lz78 a informacao se baseia nos dados que vao sendo lidos no arquivo e marcacoes vao sendo feitas pra se saber se ja apareceram ou nao
-
-primeiro teria que se desenvolver uma forma avancada para se colocar na memria e no arquivo comprimido uma forma satisfatoria de salvar as informacoes que serao necessarias para a reconstrucao do arquivo
-
-pelo jeito a cada 32kb é reiniciado o processo pois se deslocar nao sera possivel reconstruir os dados
-
-pois a informacao tera passado, sim, tem que ter uma tamanho predefinido, mas que seja aleatorio, concorda?
-
-sim
-vamos bater o bzip2 com facilidade e rapido
-
-mais rapido e melhor que bzip2
-
-precisamos de um texto de exemplo
-
-da pra trabalhar com memoria de 32 kb nao dá?
-
-mas em que isto vai ser melhor que zlib?
-
-200 mb de memoria ?
-
-tem coisa demais...
-
-
-
-	*/
 #define DL_SIZE__ (1L << 17)
+
 	__attribute__((unused)) int len_dl;
 
 	__attribute__((unused)) int len_of_data_to_compress_dl;
@@ -327,6 +292,18 @@ tem coisa demais...
 
 	__attribute__((unused)) int i_i_dl;
 
+	__attribute__((unused)) int pos_in_stream_dl;
+
+	__attribute__((unused)) int initial_size_of_string_dl;
+
+	__attribute__((unused)) int len_dl_copy;
+
+	__attribute__((unused)) uint8_t *hay_ptr_dl;
+
+	__attribute__((unused)) static uint8_t needle_buf_dl[513];
+
+	__attribute__((unused)) int64_t result_dl;
+
 	unlink("make.dl.compressed");
 	my_file_dl = fopen("make.exe", "rb");
 	out_file_dl = fopen("make.dl.compressed", "wb");
@@ -335,8 +312,14 @@ tem coisa demais...
 	{
 
 		pedro_dprintf(0, "size %d\n", DL_SIZE__);
+
+		pos_in_stream_dl = 0;
+
+		initial_size_of_string_dl = 512; // to be adjusted later...
+
 		while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
 		{
+
 			dl_dados_salvos_querido_ric minha_struct = {0};
 
 			minha_struct.amor_assinatura_dl[0] = 'd';
@@ -382,7 +365,53 @@ tem coisa demais...
 			// like a cientist...
 
 			// em search code, to detect where the code is
+			len_dl_copy = len_dl;
 
+			hay_ptr_dl = buf_dl;
+
+			if (len_dl_copy > initial_size_of_string_dl)
+			{
+				; // ok
+			}
+			else
+			{
+				initial_size_of_string_dl = len_dl_copy; // aqui ja corrige...
+			}
+
+		volta_aqui_ric:;
+			// pos_in_stream_dl
+
+			memcpy(needle_buf_dl, hay_ptr_dl, initial_size_of_string_dl);
+
+			hay_ptr_dl += initial_size_of_string_dl;
+
+			len_dl_copy -= initial_size_of_string_dl;
+
+			result_dl = mem_search_dl(hay_ptr_dl, len_dl_copy, needle_buf_dl, initial_size_of_string_dl, 0);
+
+			if (-1 == result_dl)
+			{
+				; // try again
+
+				if (initial_size_of_string_dl > 16)
+				{
+					hay_ptr_dl -= initial_size_of_string_dl;
+					len_dl_copy += initial_size_of_string_dl;
+
+					initial_size_of_string_dl -= 16; // nunca vai ser menor que 0 ric, nem nunca vai ser 0 depois disto, ok? nao quer dormir ?
+
+					goto volta_aqui_ric;
+				}
+				else
+				{
+					; // simplemente salva os dados no linked list e segue adiante
+					; // pode ser 16 ate 0;, simplesmente salva os dados e segue adiante
+				}
+			}
+			else
+			{
+				; // process..
+			}
 			/*
 
 
@@ -448,16 +477,46 @@ tem coisa demais...
 	free(buf_dl);
 	free(buf16_dl);
 
-{
-	//mem_search_dl
-}
-
 	printf("Research running...");
 
 	return 0;
 }
 
+// vamos lá
+
 /*
+
+in portuguese, translate it
+
+primeiro vamos criar um linked list para manter a lista de strings analizadas
+
+64 bits claro, depois a gente ve sobre como convertar pra x86
+
+first we need to open a file that we want to compress, for this the ubiquitous 'make.exe'
+
+bom, em lz77 e lzss e lz78 a informacao se baseia nos dados que vao sendo lidos no arquivo e marcacoes vao sendo feitas pra se saber se ja apareceram ou nao
+
+primeiro teria que se desenvolver uma forma avancada para se colocar na memria e no arquivo comprimido uma forma satisfatoria de salvar as informacoes que serao necessarias para a reconstrucao do arquivo
+
+pelo jeito a cada 32kb é reiniciado o processo pois se deslocar nao sera possivel reconstruir os dados
+
+pois a informacao tera passado, sim, tem que ter uma tamanho predefinido, mas que seja aleatorio, concorda?
+
+sim
+vamos bater o bzip2 com facilidade e rapido
+
+mais rapido e melhor que bzip2
+
+precisamos de um texto de exemplo
+
+da pra trabalhar com memoria de 32 kb nao dá?
+
+mas em que isto vai ser melhor que zlib?
+
+200 mb de memoria ?
+
+tem coisa demais...
+
 //vamos ler de quanto em quanto ?
 
 * * * * * * * * 16 caracteres ? de cada vez ? nao pode ser mais ou menos ?
@@ -585,5 +644,6 @@ sim ric...
 it is not lz77 or lz78 or lzma
 
 vai... começa com 512 e vai baixando...
+
 
 */
