@@ -293,6 +293,38 @@ tem que criar slices do arquivo inteiro , de um caracter ate 512, ok?
 
 se nao for compressivel simplesmente deixa como esta ok, uma flag comprimido ou nao
 
+entendi, tem que ler, salvar na nova memoria e manter uma copia original
+
+certo...
+
+to quase compreendendo...
+
+precisa de um meio  de salvar na memoria ou arquivo a informacao de maneira simplificada e usando pouco espaco
+
+nao da para usar aquela ideia de run lenght compression ?
+
+repete o caracter e poe um controle...
+
+precisa de um meio bem definido de como colocar as strings comprimidas no arquivo comprimido
+
+poderia contar o caracter que menos repete, mas isso leva tempo...
+
+zlib expande o arquivo se nao consegue comprimir dai aciona umma flag que faz com que seja a original em vez da versao comprimida que expande
+
+pode usar 9 bits para cada 16 byes da memira assim nao sao todos ok?
+
+numa sequencia de bytes no final usa 9 bits igual lzw, nao quer dar uma lida em lzw ?
+se usar 16 bytes serao sempre multiplos de 16 para qualquer sequencia, pode ser bom
+
+melhor dar uma lida primeiro em lzw
+
+ok, usa 9 bits mas para todos os caracteres ? dai da para definir valores para outras coisas
+
+se for abaixo de 256 entao é caractere se for acima é controle...
+
+sim é facil de controlar, basta ir mandando os bits, e fim de papo
+
+primeiro voce trabalha em cima depois salva, com dados de conpressao completos e crc32, ok ?
 
 
 		*/
