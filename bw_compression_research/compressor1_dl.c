@@ -231,6 +231,8 @@ int main()
 
 	__attribute__((unused)) int64_t result_dl;
 
+	__attribute__((unused)) int has_itens_is__dl__update_dl_copy;
+
 	unlink("make.dl.compressed");
 	my_file_dl = fopen("make.exe", "rb");
 	out_file_dl = fopen("make.dl.compressed", "wb");
@@ -247,7 +249,7 @@ int main()
 		while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
 		{
 
-			dl_dados_salvos_querido_ric minha_struct = {0};
+			__attribute__((unused)) dl_dados_salvos_querido_ric minha_struct = {0};
 
 			minha_struct.amor_assinatura_dl[0] = 'd';
 			minha_struct.amor_assinatura_dl[1] = 'l';
@@ -291,10 +293,66 @@ int main()
 			*/
 			// like a cientist...
 
+			bitposition_dl = 0; // to init the bit encode...
+
 			// em search code, to detect where the code is
 			len_dl_copy = len_dl;
 
 			hay_ptr_dl = buf_dl;
+
+			if (0 == 1)
+			{
+				goto volta_aqui_mais_alto_mar; // to make the compiler happy...
+			}
+
+		volta_aqui_mais_alto_mar:;
+
+			assert(0 <= len_dl_copy); // uma segurança a mais...
+
+			if (0 == len_dl_copy)
+			{
+				// oque faz, tem que processar nao é isso?, sim, mas agora?, sim, entao ta...
+				/*
+
+					somente copia o conteudo das duas linked lists nao é isso ?, precisa dos dois dados ja na saida pra poder criar as duas entradas no header
+
+				*/
+
+				{
+					__attribute__((unused)) struct my_struct_for_list_ar_is__dl__update_dl *my_ptr_ar;
+
+					__attribute__((unused)) struct my_struct_for_list_ar_is__dl__update_dl *my_ptr2_ar;
+
+					my_ptr2_ar = aak_inicio_is__dl__update_dl;
+					my_ptr_ar = aak_inicio_is__dl__update_dl;
+
+					has_itens_is__dl__update_dl_copy = has_itens_is__dl__update_dl;
+
+				inicio_ar:;
+					if (!has_itens_is__dl__update_dl_copy)
+					{
+
+						// has_itens_copy_is__dl__update_dl = 0;
+						goto exit_now_dl;
+					}
+					my_ptr2_ar = my_ptr_ar;
+					my_ptr_ar = my_ptr_ar->next_ar;
+
+					/*
+
+					here the process occur with the variable my_ptr2_ar
+
+					*/
+
+					// my_ptr2_ar->
+
+					has_itens_is__dl__update_dl_copy--;
+					goto inicio_ar;
+
+				exit_now_dl:;
+					// here call the finish for the first linked list, since we need the value for the header we need to call it twice, in a near future we optimize it..., we will use encode to already define the size of the output first linked list, do it, during the first pass we already encode the data with 9 bits, go on
+				}
+			}
 
 			if (len_dl_copy > initial_size_of_string_dl)
 			{
@@ -336,6 +394,8 @@ int main()
 					// se esta tudo certo é só salvar ric..., o primeiro linked list só precisa dos bytes salvos, e ja que terao tambem a referencia ao linked list vamos seguir em frente, lembrando que mais tarde faremos melhrorias nisto, nao agora, por agora só queremos que funcione, vamos montar o primiro linked list e colocar ele num arquivo fora, pra nao ficar muiot grande, faça isto
 
 					add_more_one_is__dl__update_dl(needle_buf_dl, initial_size_of_string_dl, -1, false);
+
+					// e agora, mais um round nao é isso,
 				}
 			}
 			else
@@ -376,17 +436,7 @@ int main()
 
 			*/
 
-			fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
-
-			len_of_data_to_compress_dl = len_dl;
-
-			ptr_dl = buf_dl;
-			while (len_dl--)
-			{
-
-				fwrite(ptr_dl, 1, 1, out_file_dl);
-				ptr_dl++;
-			}
+			// fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
 		}
 
 		fclose(my_file_dl);

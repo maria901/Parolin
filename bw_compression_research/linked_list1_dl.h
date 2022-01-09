@@ -1,3 +1,7 @@
+// here the encode from 8 bits to 9
+
+int bitposition_dl;
+
 // this is the first linked list that will have the data referenced to recreate the original file
 // it will have the strings and the references to the second linked list that will hold the plain strings on it if they are the same as the input string
 
@@ -5,7 +9,7 @@ struct my_struct_for_list_ar_is__dl__update_dl // for list only
 {
 
 	char *filename_k;
-
+	int last_item_of_nine_bits_encode_dl; // complexo mas tudo bem, da para lidar mais tarde otimizamos isso
 	char *memory_for_string_dl;
 	int len_of_memory_dl;
 	int number_of_index_in_linked_list_dl;		 // if in linked list only need this, dont you agree?
@@ -29,6 +33,7 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
 									__attribute__((unused)) int number_of_index_in_linked_list_dl, // if in linked list only need this, dont you agree?
 									__attribute__((unused)) bool true_if_is_entry_in_the_linked_list_dl)
 {
+	double d_temp_dl;
 	struct my_struct_for_list_ar_is__dl__update_dl *aak_ptr;
 	if (!has_itens_is__dl__update_dl)
 	{
@@ -44,7 +49,12 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
 
 		if (memory_for_string_dl)
 		{
-			aak_is__dl__update_dl->memory_for_string_dl = malloc(len_of_memory_dl);
+
+			d_temp_dl = (double)len_of_memory_dl;
+
+			d_temp_dl = d_temp_dl * .2;
+
+			aak_is__dl__update_dl->memory_for_string_dl = malloc((int)d_temp_dl);
 			memcpy(aak_is__dl__update_dl->memory_for_string_dl, memory_for_string_dl, len_of_memory_dl);
 		}
 		else
