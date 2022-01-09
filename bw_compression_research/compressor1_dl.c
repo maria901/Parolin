@@ -124,90 +124,8 @@ instead using huffman we will use range code or an optimized version of it, this
 
 */
 
-struct my_struct_for_list_ar_is__dl__update_dl // for list only
-{
-
-	char *filename_k;
-
-	int has_next; // not in use
-
-	struct my_struct_for_list_ar_is__dl__update_dl *next_ar;
-};
-
-struct my_struct_for_list_ar_is__dl__update_dl *aak_is__dl__update_dl;
-struct my_struct_for_list_ar_is__dl__update_dl *aak_inicio_is__dl__update_dl;
-
-struct my_struct_for_list_ar_is__dl__update_dl *aak_pointer_is__dl__update_dl;
-
-int has_itens_is__dl__update_dl = 0;
-
-int has_itens_copy_is__dl__update_dl = 0;
-
-void add_more_one_is__dl__update_dl(char *memory_ric)
-{
-	struct my_struct_for_list_ar_is__dl__update_dl *aak_ptr;
-	if (!has_itens_is__dl__update_dl)
-	{
-		aak_is__dl__update_dl = calloc(1, sizeof(struct my_struct_for_list_ar_is__dl__update_dl));
-		aak_inicio_is__dl__update_dl = aak_is__dl__update_dl;
-		aak_pointer_is__dl__update_dl = aak_is__dl__update_dl;
-		aak_is__dl__update_dl->filename_k = memory_ric;
-
-		aak_is__dl__update_dl->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is__dl__update_dl));
-
-		has_itens_is__dl__update_dl = 1;
-		has_itens_copy_is__dl__update_dl = has_itens_is__dl__update_dl;
-
-		aak_is__dl__update_dl = aak_is__dl__update_dl->next_ar;
-	}
-	else
-	{
-		aak_ptr = aak_is__dl__update_dl;
-		assert(aak_ptr);
-
-		assert(8 < sizeof(struct my_struct_for_list_ar_is__dl__update_dl));
-
-		aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is__dl__update_dl));
-
-		aak_ptr->filename_k = memory_ric;
-
-		aak_is__dl__update_dl = aak_ptr->next_ar;
-		has_itens_is__dl__update_dl++;
-		has_itens_copy_is__dl__update_dl = has_itens_is__dl__update_dl;
-	}
-}
-
-/**
- * To cleanup the linked list when it is not in use anymore
- *
- */
-int clean_list__ar_is__dl__update_dl(void)
-{
-	struct my_struct_for_list_ar_is__dl__update_dl *my_ptr_ar;
-
-	struct my_struct_for_list_ar_is__dl__update_dl *my_ptr2_ar;
-
-	my_ptr2_ar = aak_inicio_is__dl__update_dl;
-	my_ptr_ar = aak_inicio_is__dl__update_dl;
-inicio_ar:;
-	if (!has_itens_is__dl__update_dl)
-	{
-		has_itens_copy_is__dl__update_dl = 0;
-		return 0;
-	}
-	my_ptr2_ar = my_ptr_ar;
-	my_ptr_ar = my_ptr_ar->next_ar;
-	if (1 == has_itens_is__dl__update_dl)
-	{
-		free(my_ptr2_ar->next_ar);
-	}
-	// pedro_dprintf(-20220108, "dando free em endereco %p %s", my_ptr2_ar->filename_k, my_ptr2_ar->filename_k);
-	// free(my_ptr2_ar->filename_k); // ta aqui
-	free(my_ptr2_ar);
-	has_itens_is__dl__update_dl--;
-	goto inicio_ar;
-	return 1;
-}
+#include "linked_list1_dl.h"
+#include "linked_list2_dl.h"
 
 typedef struct dl_dados_salvos_querido_ric__
 {
@@ -381,7 +299,7 @@ int main()
 		volta_aqui_ric:;
 			// pos_in_stream_dl
 
-			memcpy(needle_buf_dl, hay_ptr_dl, initial_size_of_string_dl);
+			memcpy(needle_buf_dl, hay_ptr_dl, initial_size_of_string_dl); // nao tem problema voltar porque foram reembolsados os dados para serem lidos devolta, ta certo isso? sim...
 
 			hay_ptr_dl += initial_size_of_string_dl;
 
@@ -395,7 +313,7 @@ int main()
 
 				if (initial_size_of_string_dl > 16)
 				{
-					hay_ptr_dl -= initial_size_of_string_dl;
+					hay_ptr_dl -= initial_size_of_string_dl; // to try again...
 					len_dl_copy += initial_size_of_string_dl;
 
 					initial_size_of_string_dl -= 16; // nunca vai ser menor que 0 ric, nem nunca vai ser 0 depois disto, ok? nao quer dormir ?
@@ -406,6 +324,7 @@ int main()
 				{
 					; // simplemente salva os dados no linked list e segue adiante
 					; // pode ser 16 ate 0;, simplesmente salva os dados e segue adiante
+					  // se esta tudo certo é só salvar ric..., o primeiro linked list só precisa dos bytes salvos, e ja que terao tambem a referencia ao linked list vamos seguir em frente, lembrando que mais tarde faremos melhrorias nisto, nao agora, por agora só queremos que funcione, vamos montar o primiro linked list e colocar ele num arquivo fora, pra nao ficar muiot grande, faça isto
 				}
 			}
 			else
