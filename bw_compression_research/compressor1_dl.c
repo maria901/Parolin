@@ -140,6 +140,15 @@ typedef struct dl_dados_salvos_querido_ric__
 // helper functions, please document it ric
 
 /**
+ * @brief it will add and entry to the first linked list that will store strings that cannot be compressed and entries in the second linked list that holds the strings that repeat on the whole memory
+ *
+ */
+void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_string_dl,
+									__attribute__((unused)) int len_of_memory_dl,
+									__attribute__((unused)) int number_of_index_in_linked_list_dl, // if in linked list only need this, dont you agree?
+									__attribute__((unused)) bool true_if_is_entry_in_the_linked_list_dl);
+
+/**
  * @brief It will check whether the string is found in the haystack ( borrowed from php ;-) )
  *
  * @param haystack the main string
@@ -324,7 +333,9 @@ int main()
 				{
 					; // simplemente salva os dados no linked list e segue adiante
 					; // pode ser 16 ate 0;, simplesmente salva os dados e segue adiante
-					  // se esta tudo certo é só salvar ric..., o primeiro linked list só precisa dos bytes salvos, e ja que terao tambem a referencia ao linked list vamos seguir em frente, lembrando que mais tarde faremos melhrorias nisto, nao agora, por agora só queremos que funcione, vamos montar o primiro linked list e colocar ele num arquivo fora, pra nao ficar muiot grande, faça isto
+					// se esta tudo certo é só salvar ric..., o primeiro linked list só precisa dos bytes salvos, e ja que terao tambem a referencia ao linked list vamos seguir em frente, lembrando que mais tarde faremos melhrorias nisto, nao agora, por agora só queremos que funcione, vamos montar o primiro linked list e colocar ele num arquivo fora, pra nao ficar muiot grande, faça isto
+
+					add_more_one_is__dl__update_dl(needle_buf_dl, initial_size_of_string_dl, -1, false);
 				}
 			}
 			else
