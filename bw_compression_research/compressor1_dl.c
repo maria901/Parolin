@@ -294,6 +294,8 @@ int main()
 			// like a cientist...
 
 			bitposition_dl = 0; // to init the bit encode...
+			last_byte_encoded_value_dl = 0;
+			is_it_the_first_byte_to_encode_dl = true;
 
 			// em search code, to detect where the code is
 			len_dl_copy = len_dl;
