@@ -241,6 +241,8 @@ int main()
 
 	__attribute__((unused)) dl_dados_salvos_querido_ric minha_struct = {0};
 
+	__attribute__((unused)) int has_itens_is___rcdl____update__rcdl__ccopy;
+
 	unlink("make.dl.compressed");
 	my_file_dl = fopen("make.exe", "rb");
 	out_file_dl = fopen("make.dl.compressed", "wb");
@@ -433,7 +435,56 @@ int main()
 
 			len_dl_copy -= initial_size_of_string_dl;
 
-			result_dl = mem_search_dl(hay_ptr_dl, len_dl_copy, needle_buf_dl, initial_size_of_string_dl, 0);
+			// aqui procura primeiro nos linked lists, e qual a vantagem ?, ta vamos procurar, porque pode estar la, sim e esta se foi adicionado, em caso de lz77 ele vai adicionando marcadores que dizem aonde esta os itens, no nosso caso tem dois linked lists, no caso de lz77 ele so olha pra tras, o nosso pode olhar pra frente e nos linked lists, talvez seja isso que seja markov chain, poderia dar uma olhada
+			{
+
+				struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr_ar;
+
+				struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr2_ar;
+
+				my_ptr2_ar = aak_inicio_is___rcdl____update__rcdl__;
+				my_ptr_ar = aak_inicio_is___rcdl____update__rcdl__;
+
+				has_itens_is___rcdl____update__rcdl__ccopy = has_itens_is___rcdl____update__rcdl__;
+
+			inicio_arrrr:;
+				if (!has_itens_is___rcdl____update__rcdl__ccopy)
+				{
+					// has_itens_copy_is___rcdl____update__rcdl__ = 0;
+					goto fim_rrr;
+				}
+				my_ptr2_ar = my_ptr_ar;
+				my_ptr_ar = my_ptr_ar->next_ar;
+				/*
+				if (1 == has_itens_is___rcdl____update__rcdl__)
+				{
+					free(my_ptr2_ar->next_ar);
+				}
+				*/
+
+				if (my_ptr2_ar->len_of_memory_dl == initial_size_of_string_dl)
+				{
+
+					result_dl = mem_search_dl(my_ptr2_ar->string_saved_dl, my_ptr2_ar->len_of_memory_dl, needle_buf_dl, initial_size_of_string_dl, 0);
+
+					if (-1 == result_dl)
+					{
+						; // ta quase lá...
+					}
+					else
+					{
+						add_more_one_is__dl__update_dl((uint8_t *)"", 0, my_ptr2_ar->index_of_linked_list_starting_from_0_dl, true);
+					}
+				}
+				// free(my_ptr2_ar->string_saved_dl); // ta aqui
+				// free(my_ptr2_ar);
+				has_itens_is___rcdl____update__rcdl__ccopy--;
+				goto inicio_arrrr;
+
+			fim_rrr:;
+			}
+
+			result_dl = mem_search_dl(hay_ptr_dl, len_dl_copy, needle_buf_dl, initial_size_of_string_dl, 0); // nao tem que ser aqui oque faz a primeira pesquisa , tem que ver primeiro no segundo linked list ric, antes desse, incrivel como é complicado isso...
 
 			if (-1 == result_dl)
 			{
@@ -452,20 +503,33 @@ int main()
 				{
 					; // simplemente salva os dados no linked list e segue adiante
 					; // pode ser 16 ate 0;, simplesmente salva os dados e segue adiante
-					// se esta tudo certo é só salvar ric..., o primeiro linked list só precisa dos bytes salvos, e ja que terao tambem a referencia ao linked list vamos seguir em frente, lembrando que mais tarde faremos melhorias nisto, nao agora, por agora só queremos que funcione, vamos montar o primiro linked list e colocar ele num arquivo fora, pra nao ficar muiot grande, faça isto
+					// se esta tudo certo é só salvar ric..., o primeiro linked list só precisa dos bytes salvos, e ja que terao tambem a referencia ao linked list vamos seguir em frente, lembrando que mais tarde faremos melhorias nisto, nao agora, por agora só queremos que funcione, vamos montar o primeiro linked list e colocar ele num arquivo fora, pra nao ficar muiot grande, faça isto
 
 					add_more_one_is__dl__update_dl(needle_buf_dl, initial_size_of_string_dl, -1, false); // depois a gente pensa no linked list 2
 
 					// e agora, mais um round nao é isso,
-					goto volta_aqui_mais_alto_mar;
+					goto volta_aqui_mais_alto_mar; // perfect
 				}
 			}
 			else
 			{
 				; // process..ok, here add the item to the second linked list
 				; //
-				  //
+				// just add to the second linked list...
+
+				add_more_one_is___rcdl____update__rcdl__(needle_buf_dl, initial_size_of_string_dl);
+				goto volta_aqui_mais_alto_mar;
 			}
+
+			if (0 == 1)
+			{
+				goto continua_pro_proximo_buffer_a_ser_lido_dl;
+			}
+
+		continua_pro_proximo_buffer_a_ser_lido_dl:;
+
+			// aqui pode dar free nos linked lists, é isso mesmo
+
 			/*
 
 

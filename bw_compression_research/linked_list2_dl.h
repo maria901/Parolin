@@ -5,7 +5,7 @@ struct my_struct_for_list_ar_is___rcdl____update__rcdl__ // for list only
 
     // int16_t
 
-    int8_t *string_saved_dl;
+    uint8_t *string_saved_dl;
 
     int len_of_memory_dl; // dont need to be 9 bits because you have control over it...
 
@@ -23,7 +23,7 @@ int has_itens_is___rcdl____update__rcdl__ = 0;
 
 int has_itens_copy_is___rcdl____update__rcdl__ = 0;
 
-void add_more_one_is___rcdl____update__rcdl__(int8_t *string_saved_dl, int len_of_memory_dl)
+void add_more_one_is___rcdl____update__rcdl__(uint8_t *string_saved_dl, int len_of_memory_dl)
 {
     struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *aak_ptr;
     if (!has_itens_is___rcdl____update__rcdl__)
