@@ -264,9 +264,12 @@ tem coisa demais...
 	__attribute__((unused)) int len_of_data_to_compress_dl;
 	__attribute__((unused)) FILE *my_file_dl = NULL;
 	__attribute__((unused)) FILE *out_file_dl = NULL;
-	__attribute__((unused)) char *buf_dl = malloc(DL_SIZE__);
+	__attribute__((unused)) uint8_t *buf_dl = malloc(DL_SIZE__);
+	__attribute__((unused)) uint16_t *buf16_dl = malloc(DL_SIZE__ * 2);
 
-	__attribute__((unused)) char *ptr_dl;
+	__attribute__((unused)) uint8_t *ptr_dl;
+
+	__attribute__((unused)) int i_i_dl;
 
 	unlink("make.dl.compressed");
 	my_file_dl = fopen("make.exe", "rb");
@@ -274,10 +277,66 @@ tem coisa demais...
 
 	if (my_file_dl)
 	{
-		/*
-		//vamos ler de quanto em quanto ?
 
-		* * * * * * * * 16 caracteres ? de cada vez ? nao pode ser mais ou menos ?
+		pedro_dprintf(0, "size %d\n", DL_SIZE__);
+		while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
+		{
+			dl_dados_salvos_querido_ric minha_struct = {0};
+
+			minha_struct.amor_assinatura_dl[0] = 'd';
+			minha_struct.amor_assinatura_dl[1] = 'l';
+			minha_struct.amor_assinatura_dl[2] = 'd';
+			minha_struct.amor_assinatura_dl[3] = 'l';
+			minha_struct.amor_assinatura_dl[4] = 1; // second version version
+			minha_struct.amor_assinatura_dl[5] = 1; // compressed or not
+
+			minha_struct.tamanho_da_slice_dl = len_dl;
+
+			for (i_i_dl = 0; i_i_dl < len_dl; i_i_dl++)
+			{
+				buf16_dl[i_i_dl] = (int16_t)buf_dl[i_i_dl];
+			}
+
+			fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
+
+			len_of_data_to_compress_dl = len_dl;
+
+			ptr_dl = buf_dl;
+			while (len_dl--)
+			{
+
+				fwrite(ptr_dl, 1, 1, out_file_dl);
+				ptr_dl++;
+			}
+		}
+
+		fclose(my_file_dl);
+
+		if (out_file_dl)
+		{
+			fclose(out_file_dl);
+			out_file_dl = NULL;
+		}
+	}
+
+	if (out_file_dl)
+	{
+		fclose(out_file_dl);
+		out_file_dl = NULL;
+	}
+
+	free(buf_dl);
+	free(buf16_dl);
+
+	printf("Research running...");
+
+	return 0;
+}
+
+/*
+//vamos ler de quanto em quanto ?
+
+* * * * * * * * 16 caracteres ? de cada vez ? nao pode ser mais ou menos ?
 
 ok, we have the information now store it,
 
@@ -326,50 +385,47 @@ sim é facil de controlar, basta ir mandando os bits, e fim de papo
 
 primeiro voce trabalha em cima depois salva, com dados de conpressao completos e crc32, ok ?
 
+vamos la, comecando do inicio, transforma todos os bits para 9, e usa eles pra marcar oque for comprimido ou nao depois a gente melhora isso
 
-		*/
-		pedro_dprintf(0, "size %d\n", DL_SIZE__);
-		while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
-		{
-			dl_dados_salvos_querido_ric minha_struct = {0};
+precisamos comprimir
 
-			minha_struct.amor_assinatura_dl[0] = 'd';
-			minha_struct.amor_assinatura_dl[1] = 'l';
-			minha_struct.amor_assinatura_dl[2] = 'd';
-			minha_struct.amor_assinatura_dl[3] = 'l';
-			minha_struct.amor_assinatura_dl[4] = 0; // first version
-			minha_struct.amor_assinatura_dl[5] = 1; // compressed or not
+deste jeito ficou facil, vamos fazer...
 
-			minha_struct.tamanho_da_slice_dl = len_dl;
+*/
 
-			fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
+// precisamos de um conversor de bytes para 9 bytes...vai lá... na memoria, vamos trabalhar com ele neste 128 kb
 
-			len_of_data_to_compress_dl = len_dl;
+/*
 
-			ptr_dl = buf_dl;
-			while (len_dl--)
-			{
-				fwrite(ptr_dl, 1, 1, out_file_dl);
-				ptr_dl++;
-			}
-		}
+pra isso eu tenho um codigo rapido simplesmente converter os dados de int8 para int16, vamos la, um array
 
-		fclose(my_file_dl);
+ok, vamos copiar os 8 bits para 16 e trabalhar em cima disso pra ser rapido, da pra acelerar o lzw dos caras com isso
 
-		if (out_file_dl)
-		{
-			fclose(out_file_dl);
-			out_file_dl = NULL;
-		}
-	}
+now what...
 
-	if (out_file_dl)
-	{
-		fclose(out_file_dl);
-		out_file_dl = NULL;
-	}
+we have two arrays, but we will work on it... no need to store it now...
 
-	printf("Research running...");
+voltando a programacao, temos um array de bytes e array de shorts, precisamos iniciar o escaneamento, nove bits esta de bom tamanho pra os itens de depois da pra colocar 9 bits apenas em 16 em 16 e assim por diante
 
-	return 0;
-}
+vamos la...
+
+pode ir alocando em linked list se nao sabe o tamanho que vai ter , ok, sim, é isso,
+
+vamos comecar com 16 bytes, sim , é isso, copia 16 bytes ric,,,mas e depois , depois checa se os proximos 16 sao os mesmo ?
+
+nao, voce ja tem a memoria toda, entao apenas copia 16 e depois verifica se os proximo 512 ? se repetem ?
+
+so funciona pra tras ? acho que nao vai ser reconstruido pode ser pra tras e pra frente...
+
+ele simplesmente diz em que ponto do arquivo ocorre, e pode ter que tamanho ?
+
+em que se da a compressao amor ?
+ repetir um memoria inteiro nao comprime aonde esta a compressao ?
+
+ sim mas estes limites serao alterados mais tarde para otimizacao...
+
+aonde se da a compressao: resposta na duplicacao com menos dados da mesma informacao, nao é isso ?
+
+
+
+*/
