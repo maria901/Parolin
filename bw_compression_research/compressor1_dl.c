@@ -212,7 +212,7 @@ inicio_ar:;
 typedef struct dl_dados_salvos_querido_ric__
 {
 
-	char amor_assinatura_dl[4];
+	char amor_assinatura_dl[6];
 	int tamanho_da_slice_dl;
 
 } dl_dados_salvos_querido_ric;
@@ -278,6 +278,23 @@ tem coisa demais...
 		//vamos ler de quanto em quanto ?
 
 		* * * * * * * * 16 caracteres ? de cada vez ? nao pode ser mais ou menos ?
+
+ok, we have the information now store it,
+
+1 - first we need to scan the data for data repeating it
+
+primeiro precisa definir um meio certo de salvar as coisas no arquivo, tem que escolher um caracter e trocar ele
+
+eu tenho uma outra visao de salvar isso em linked lists e depois de processado so colocar no arquivo, mas se nao for compressivel nao adianta
+
+quando nao da para comprimir complica
+
+tem que criar slices do arquivo inteiro , de um caracter ate 512, ok?
+
+se nao for compressivel simplesmente deixa como esta ok, uma flag comprimido ou nao
+
+
+
 		*/
 		pedro_dprintf(0, "size %d\n", DL_SIZE__);
 		while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
@@ -288,6 +305,8 @@ tem coisa demais...
 			minha_struct.amor_assinatura_dl[1] = 'l';
 			minha_struct.amor_assinatura_dl[2] = 'd';
 			minha_struct.amor_assinatura_dl[3] = 'l';
+			minha_struct.amor_assinatura_dl[4] = 0; // first version
+			minha_struct.amor_assinatura_dl[5] = 1; // compressed or not
 
 			minha_struct.tamanho_da_slice_dl = len_dl;
 
