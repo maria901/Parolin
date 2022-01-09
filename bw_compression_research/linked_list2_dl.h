@@ -1,14 +1,17 @@
+int index_position_second_linked_list_dl;
 
 struct my_struct_for_list_ar_is___rcdl____update__rcdl__ // for list only
 {
 
-	char *filename_k;
+    // int16_t
 
-//int16_t 
+    int8_t *string_saved_dl;
 
-	int has_next; // not in use
+    int len_of_memory_dl; // dont need to be 9 bits because you have control over it...
 
-	struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *next_ar;
+    int index_of_linked_list_starting_from_0_dl;
+
+    struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *next_ar;
 };
 
 struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *aak_is___rcdl____update__rcdl__;
@@ -20,38 +23,56 @@ int has_itens_is___rcdl____update__rcdl__ = 0;
 
 int has_itens_copy_is___rcdl____update__rcdl__ = 0;
 
-void add_more_one_is___rcdl____update__rcdl__(char *memory_ric)
+void add_more_one_is___rcdl____update__rcdl__(int8_t *string_saved_dl, int len_of_memory_dl)
 {
-	struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *aak_ptr;
-	if (!has_itens_is___rcdl____update__rcdl__)
-	{
-		aak_is___rcdl____update__rcdl__ = calloc(1, sizeof(struct my_struct_for_list_ar_is___rcdl____update__rcdl__));
-		aak_inicio_is___rcdl____update__rcdl__ = aak_is___rcdl____update__rcdl__;
-		aak_pointer_is___rcdl____update__rcdl__ = aak_is___rcdl____update__rcdl__;
-		aak_is___rcdl____update__rcdl__->filename_k = memory_ric;
+    struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *aak_ptr;
+    if (!has_itens_is___rcdl____update__rcdl__)
+    {
+        aak_is___rcdl____update__rcdl__ = calloc(1, sizeof(struct my_struct_for_list_ar_is___rcdl____update__rcdl__));
+        aak_inicio_is___rcdl____update__rcdl__ = aak_is___rcdl____update__rcdl__;
+        aak_pointer_is___rcdl____update__rcdl__ = aak_is___rcdl____update__rcdl__;
 
-		aak_is___rcdl____update__rcdl__->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is___rcdl____update__rcdl__));
+        aak_is___rcdl____update__rcdl__->string_saved_dl = malloc(len_of_memory_dl);
 
-		has_itens_is___rcdl____update__rcdl__ = 1;
-		has_itens_copy_is___rcdl____update__rcdl__ = has_itens_is___rcdl____update__rcdl__;
+        memcpy(aak_is___rcdl____update__rcdl__->string_saved_dl, string_saved_dl, len_of_memory_dl);
+        aak_is___rcdl____update__rcdl__->len_of_memory_dl = len_of_memory_dl;
+        aak_is___rcdl____update__rcdl__->index_of_linked_list_starting_from_0_dl = index_position_second_linked_list_dl;
+        index_position_second_linked_list_dl++;
 
-		aak_is___rcdl____update__rcdl__ = aak_is___rcdl____update__rcdl__->next_ar;
-	}
-	else
-	{
-		aak_ptr = aak_is___rcdl____update__rcdl__;
-		assert(aak_ptr);
+        aak_is___rcdl____update__rcdl__->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is___rcdl____update__rcdl__));
 
-		assert(8 < sizeof(struct my_struct_for_list_ar_is___rcdl____update__rcdl__));
+        has_itens_is___rcdl____update__rcdl__ = 1;
+        has_itens_copy_is___rcdl____update__rcdl__ = has_itens_is___rcdl____update__rcdl__;
 
-		aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is___rcdl____update__rcdl__));
+        aak_is___rcdl____update__rcdl__ = aak_is___rcdl____update__rcdl__->next_ar;
+    }
+    else
+    {
+        aak_ptr = aak_is___rcdl____update__rcdl__;
+        assert(aak_ptr);
 
-		aak_ptr->filename_k = memory_ric;
+        assert(8 < sizeof(struct my_struct_for_list_ar_is___rcdl____update__rcdl__));
 
-		aak_is___rcdl____update__rcdl__ = aak_ptr->next_ar;
-		has_itens_is___rcdl____update__rcdl__++;
-		has_itens_copy_is___rcdl____update__rcdl__ = has_itens_is___rcdl____update__rcdl__;
-	}
+        aak_ptr->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is___rcdl____update__rcdl__));
+
+        /*
+
+
+        */
+        aak_ptr->string_saved_dl = malloc(len_of_memory_dl);
+        memcpy(aak_ptr->string_saved_dl, string_saved_dl, len_of_memory_dl);
+        aak_ptr->len_of_memory_dl = len_of_memory_dl;
+        aak_ptr->index_of_linked_list_starting_from_0_dl = index_position_second_linked_list_dl;
+        index_position_second_linked_list_dl++;
+        /*
+
+
+        */
+
+        aak_is___rcdl____update__rcdl__ = aak_ptr->next_ar;
+        has_itens_is___rcdl____update__rcdl__++;
+        has_itens_copy_is___rcdl____update__rcdl__ = has_itens_is___rcdl____update__rcdl__;
+    }
 }
 
 /**
@@ -60,28 +81,28 @@ void add_more_one_is___rcdl____update__rcdl__(char *memory_ric)
  */
 int clean_list__ar_is___rcdl____update__rcdl__(void)
 {
-	struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr_ar;
+    struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr_ar;
 
-	struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr2_ar;
+    struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr2_ar;
 
-	my_ptr2_ar = aak_inicio_is___rcdl____update__rcdl__;
-	my_ptr_ar = aak_inicio_is___rcdl____update__rcdl__;
+    my_ptr2_ar = aak_inicio_is___rcdl____update__rcdl__;
+    my_ptr_ar = aak_inicio_is___rcdl____update__rcdl__;
 inicio_ar:;
-	if (!has_itens_is___rcdl____update__rcdl__)
-	{
-		has_itens_copy_is___rcdl____update__rcdl__ = 0;
-		return 0;
-	}
-	my_ptr2_ar = my_ptr_ar;
-	my_ptr_ar = my_ptr_ar->next_ar;
-	if (1 == has_itens_is___rcdl____update__rcdl__)
-	{
-		free(my_ptr2_ar->next_ar);
-	}
-	// pedro_dprintf(-20220108, "dando free em endereco %p %s", my_ptr2_ar->filename_k, my_ptr2_ar->filename_k);
-	// free(my_ptr2_ar->filename_k); // ta aqui
-	free(my_ptr2_ar);
-	has_itens_is___rcdl____update__rcdl__--;
-	goto inicio_ar;
-	return 1;
+    if (!has_itens_is___rcdl____update__rcdl__)
+    {
+        has_itens_copy_is___rcdl____update__rcdl__ = 0;
+        return 0;
+    }
+    my_ptr2_ar = my_ptr_ar;
+    my_ptr_ar = my_ptr_ar->next_ar;
+    if (1 == has_itens_is___rcdl____update__rcdl__)
+    {
+        free(my_ptr2_ar->next_ar);
+    }
+
+    free(my_ptr2_ar->string_saved_dl); // ta aqui
+    free(my_ptr2_ar);
+    has_itens_is___rcdl____update__rcdl__--;
+    goto inicio_ar;
+    return 1;
 }

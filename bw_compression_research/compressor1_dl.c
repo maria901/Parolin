@@ -311,8 +311,8 @@ int main()
 
 			*/
 			// like a cientist...
-
-			bitposition_dl = 0; // to init the bit encode...
+			index_position_second_linked_list_dl = 0; // to keep track of the index of the second linked list
+			bitposition_dl = 0;						  // to init the bit encode...
 			last_byte_encoded_value_dl = 0;
 			is_it_the_first_byte_to_encode_dl = true;
 
@@ -377,11 +377,21 @@ int main()
 					has_itens_is__dl__update_dl_copy--;
 					goto inicio_ar;
 
+					/*
+
+
+
+					you need to free the linked lists at the end of execution ric...
+
+
+
+					*/
+
 				exit_now_dl:;
 					// here call the finish for the first linked list, since we need the value for the header we need to call it twice, in a near future we optimize it..., we will use encode to already define the size of the output first linked list, do it, during the first pass we already encode the data with 9 bits, go on
 				}
 				{
-					if (size_of_the_first_compressed_stream_dl < len_dl)//é so o primeiro tem que ver o segundo, sim é isso
+					if (size_of_the_first_compressed_stream_dl < len_dl) //é so o primeiro tem que ver o segundo, sim é isso
 					{
 						// got compression
 						/*
@@ -452,7 +462,9 @@ int main()
 			}
 			else
 			{
-				; // process..more to come here in a few hours, just wait...
+				; // process..ok, here add the item to the second linked list
+				; //
+				  //
 			}
 			/*
 
