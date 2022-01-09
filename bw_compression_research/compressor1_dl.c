@@ -235,9 +235,66 @@ pois a informacao tera passado, sim, tem que ter uma tamanho predefinido, mas qu
 sim
 vamos bater o bzip2 com facilidade e rapido
 
+mais rapido e melhor que bzip2
+
+precisamos de um texto de exemplo
+
+da pra trabalhar com memoria de 32 kb nao dá?
+
+mas em que isto vai ser melhor que zlib?
+
+200 mb de memoria ?
+
+tem coisa demais...
+
 
 
 	*/
+#define DL_SIZE__ (1L << 17)
+	int len_dl;
+	FILE *my_file_dl = NULL;
+	FILE *out_file_dl = NULL;
+	char *buf_dl = malloc(DL_SIZE__);
+
+	char *ptr_dl;
+
+	unlink("make.dl.compressed");
+	my_file_dl = fopen("make.exe", "rb");
+	out_file_dl = fopen("make.dl.compressed", "wb");
+
+	if (my_file_dl)
+	{
+		/*
+		//vamos ler de quanto em quanto ?
+
+		* * * * * * * * 16 caracteres ? de cada vez ? nao pode ser mais ou menos ?
+		*/
+
+		while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
+		{
+
+			ptr_dl = buf_dl;
+			while (len_dl--)
+			{
+				fwrite(ptr_dl, 1, 1, out_file_dl);
+				ptr_dl++;
+			}
+		}
+
+		fclose(my_file_dl);
+
+		if (out_file_dl)
+		{
+			fclose(out_file_dl);
+			out_file_dl = NULL;
+		}
+	}
+
+	if (out_file_dl)
+	{
+		fclose(out_file_dl);
+		out_file_dl = NULL;
+	}
 
 	printf("Research running...");
 
