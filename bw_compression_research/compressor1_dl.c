@@ -217,6 +217,62 @@ typedef struct dl_dados_salvos_querido_ric__
 
 } dl_dados_salvos_querido_ric;
 
+// 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+// helper functions, please document it ric
+
+/**
+ * @brief It will check whether the string is found in the haystack ( borrowed from php ;-) )
+ *
+ * @param haystack the main string
+ * @param needle the needle that you are searching in the haystack
+ * @param offset the position to start from
+ * @return int64_t the position where it is found or -1 if not found
+ */
+int64_t mem_search_dl(__attribute__((unused)) char *haystack,
+					  __attribute__((unused)) int64_t haystack_len,
+					  __attribute__((unused)) char *needle,
+					  __attribute__((unused)) int64_t needle_len,
+					  __attribute__((unused)) int64_t offset_dl)
+{
+
+	char *ptr_dl;
+
+	int64_t len_dl, i_dl, haystack_len_left;
+
+	haystack_len_left = haystack_len - offset_dl;
+
+	if (needle_len > haystack_len_left)
+	{
+		return -1;
+	}
+
+	for (i_dl = offset_dl; i_dl < haystack_len; i_dl++)
+	{
+		; // ok...
+
+		if (needle_len > haystack_len_left)
+		{
+			return -1;
+		}
+
+		ptr_dl = haystack;
+		ptr_dl += i_dl;
+		if (0 == memcmp(needle, ptr_dl, needle_len))
+		{
+			return i_dl;
+		}
+
+		haystack_len_left--;
+	}
+
+	return -1;
+
+	return 0;
+}
+
+// 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
 int main()
 {
 
@@ -296,6 +352,70 @@ tem coisa demais...
 			{
 				buf16_dl[i_i_dl] = (int16_t)buf_dl[i_i_dl];
 			}
+			/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			*/
+			// like a cientist...
+
+			// em search code, to detect where the code is
+
+			/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			*/
 
 			fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
 
@@ -327,6 +447,10 @@ tem coisa demais...
 
 	free(buf_dl);
 	free(buf16_dl);
+
+{
+	//mem_search_dl
+}
 
 	printf("Research running...");
 
@@ -448,10 +572,18 @@ deixa pra colocar no final, nao é melhor pra nao dar problema ?
 
 o markov chain talvez seja isso, mas voce vai criar algo melhor, sim vamos aprimorar a cada momento
 
-nao da pra manter num linked list, em linked list nao vai ter posicao, ou vai, vai um index ?, 
+nao da pra manter num linked list, em linked list nao vai ter posicao, ou vai, vai um index ?,
 
 linked list parece uma boa, salva o index o tamanho cada item comeca contando de 0, entendeu, dai na marcacao simplesmente coloca o index e na reconstrucao esta tudo certo, para isto precisamos de packets?, sim , precisa saber o tamanho total do arquivo, saber aonde termina, no meio nao tem como porque esta tudo em linked list, mas se souber o tamanho comprimido da, ric, sim é isso
 
-e cada 
+e cada pra salvar na struct inicial aonde comecam os linked lists, e linked lists nao precisam ser de 9 bits, so precisa de 9 bits no meio de linked lists e strings, vamos la
+
+da pra salvar em que posicao comecam os linked lists e meios de salvar eles
+
+sim ric...
+
+it is not lz77 or lz78 or lzma
+
+vai... começa com 512 e vai baixando...
 
 */
