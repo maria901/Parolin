@@ -426,6 +426,32 @@ em que se da a compressao amor ?
 
 aonde se da a compressao: resposta na duplicacao com menos dados da mesma informacao, nao é isso ?
 
+depois de testar 512 bytes pode ir abaixando de 16 em dezesseis e ir definindo se tem ou nao
 
+longest match
+
+começa por ai
+
+todos estes valores serao ajustados e controlados num loop que vai mostrar o melhor item deste todos
+
+de 16 em 16 esta bom, diminuindo ate ter apenas 16, ok ?
+
+vai...
+
+hummmmmmmm, se existir copia os 512 bytes no stream e marca as duas posicoes como tendo a informacao, que ideia
+
+sim, assim evita este problema, se nao tiver deixa como ta nao é isso, sim mas vai mudar as posicoes e dai ric querido ?
+
+nao sei dua...
+
+deixa pra colocar no final, nao é melhor pra nao dar problema ?
+
+o markov chain talvez seja isso, mas voce vai criar algo melhor, sim vamos aprimorar a cada momento
+
+nao da pra manter num linked list, em linked list nao vai ter posicao, ou vai, vai um index ?, 
+
+linked list parece uma boa, salva o index o tamanho cada item comeca contando de 0, entendeu, dai na marcacao simplesmente coloca o index e na reconstrucao esta tudo certo, para isto precisamos de packets?, sim , precisa saber o tamanho total do arquivo, saber aonde termina, no meio nao tem como porque esta tudo em linked list, mas se souber o tamanho comprimido da, ric, sim é isso
+
+e cada 
 
 */
