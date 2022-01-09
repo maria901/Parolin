@@ -201,8 +201,8 @@ inicio_ar:;
 	{
 		free(my_ptr2_ar->next_ar);
 	}
-	pedro_dprintf(-20220108, "dando free em endereco %p %s", my_ptr2_ar->filename_k, my_ptr2_ar->filename_k);
-	free(my_ptr2_ar->filename_k); // ta aqui
+	// pedro_dprintf(-20220108, "dando free em endereco %p %s", my_ptr2_ar->filename_k, my_ptr2_ar->filename_k);
+	// free(my_ptr2_ar->filename_k); // ta aqui
 	free(my_ptr2_ar);
 	has_itens_is__dl__update_dl--;
 	goto inicio_ar;
@@ -221,6 +221,19 @@ int main()
 	primeiro vamos criar um linked list para manter a lista de strings analizadas
 
 	64 bits claro, depois a gente ve sobre como convertar pra x86
+
+first we need to open a file that we want to compress, for this the ubiquitous 'make.exe'
+
+bom, em lz77 e lzss e lz78 a informacao se baseia nos dados que vao sendo lidos no arquivo e marcacoes vao sendo feitas pra se saber se ja apareceram ou nao
+
+primeiro teria que se desenvolver uma forma avancada para se colocar na memria e no arquivo comprimido uma forma satisfatoria de salvar as informacoes que serao necessarias para a reconstrucao do arquivo
+
+pelo jeito a cada 32kb é reiniciado o processo pois se deslocar nao sera possivel reconstruir os dados
+
+pois a informacao tera passado, sim, tem que ter uma tamanho predefinido, mas que seja aleatorio, concorda?
+
+sim
+vamos bater o bzip2 com facilidade e rapido
 
 
 
