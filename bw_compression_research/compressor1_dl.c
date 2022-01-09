@@ -130,8 +130,12 @@ instead using huffman we will use range code or an optimized version of it, this
 typedef struct dl_dados_salvos_querido_ric__
 {
 
-	char amor_assinatura_dl[6];
-	int tamanho_da_slice_dl;
+	char amor_assinatura_dl[4];
+	char version_of_the_code;
+	bool got_compression_dl;
+	int uncompressed_size_dl;
+	int linked_list_1_size_dl;
+	int linked_list_2_size_dl;
 
 } dl_dados_salvos_querido_ric;
 
@@ -233,6 +237,10 @@ int main()
 
 	__attribute__((unused)) int has_itens_is__dl__update_dl_copy;
 
+	__attribute__((unused)) int size_of_the_first_compressed_stream_dl;
+
+	__attribute__((unused)) dl_dados_salvos_querido_ric minha_struct = {0};
+
 	unlink("make.dl.compressed");
 	my_file_dl = fopen("make.exe", "rb");
 	out_file_dl = fopen("make.dl.compressed", "wb");
@@ -246,24 +254,35 @@ int main()
 
 		initial_size_of_string_dl = 512; // to be adjusted later...
 
+		minha_struct.amor_assinatura_dl[0] = 'd';
+		minha_struct.amor_assinatura_dl[1] = 'l';
+		minha_struct.amor_assinatura_dl[2] = 'd';
+		minha_struct.amor_assinatura_dl[3] = 'l';
+
+		minha_struct.version_of_the_code = 1; // second version
+
 		while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
 		{
+			/*
 
-			__attribute__((unused)) dl_dados_salvos_querido_ric minha_struct = {0};
 
-			minha_struct.amor_assinatura_dl[0] = 'd';
-			minha_struct.amor_assinatura_dl[1] = 'l';
-			minha_struct.amor_assinatura_dl[2] = 'd';
-			minha_struct.amor_assinatura_dl[3] = 'l';
-			minha_struct.amor_assinatura_dl[4] = 1; // second version version
-			minha_struct.amor_assinatura_dl[5] = 1; // compressed or not
+				char amor_assinatura_dl[4];
+				char version_of_the_code;
+				bool got_compression_dl;
+				int uncompressed_size_dl;
+				int linked_list_1_size_dl;
+				int linked_list_2_size_dl;
 
-			minha_struct.tamanho_da_slice_dl = len_dl;
 
-			for (i_i_dl = 0; i_i_dl < len_dl; i_i_dl++)
-			{
-				buf16_dl[i_i_dl] = (int16_t)buf_dl[i_i_dl];
-			}
+
+			*/
+			minha_struct.uncompressed_size_dl = len_dl;
+			/*
+						for (i_i_dl = 0; i_i_dl < len_dl; i_i_dl++)
+						{
+							buf16_dl[i_i_dl] = (int16_t)buf_dl[i_i_dl];
+						}
+			*/
 			/*
 
 
@@ -307,7 +326,7 @@ int main()
 				goto volta_aqui_mais_alto_mar; // to make the compiler happy...
 			}
 
-		volta_aqui_mais_alto_mar:;
+		volta_aqui_mais_alto_mar:; // sim é alguem, duas mar...
 
 			assert(0 <= len_dl_copy); // uma segurança a mais...
 
@@ -326,7 +345,10 @@ int main()
 					__attribute__((unused)) struct my_struct_for_list_ar_is__dl__update_dl *my_ptr2_ar;
 
 					my_ptr2_ar = aak_inicio_is__dl__update_dl;
+
 					my_ptr_ar = aak_inicio_is__dl__update_dl;
+
+					size_of_the_first_compressed_stream_dl = 0;
 
 					has_itens_is__dl__update_dl_copy = has_itens_is__dl__update_dl;
 
@@ -342,17 +364,44 @@ int main()
 
 					/*
 
-					here the process occur with the variable my_ptr2_ar
+						here the process occur with the variable my_ptr2_ar
+
+						ok, next step? ric...
+
+						we need to gather the size of the compressed stream of the first linked list, go on
 
 					*/
 
-					// my_ptr2_ar->
+					size_of_the_first_compressed_stream_dl += my_ptr2_ar->bytes_encoded_so_far_dl;
 
 					has_itens_is__dl__update_dl_copy--;
 					goto inicio_ar;
 
 				exit_now_dl:;
 					// here call the finish for the first linked list, since we need the value for the header we need to call it twice, in a near future we optimize it..., we will use encode to already define the size of the output first linked list, do it, during the first pass we already encode the data with 9 bits, go on
+				}
+				{
+					if (size_of_the_first_compressed_stream_dl < len_dl)//é so o primeiro tem que ver o segundo, sim é isso
+					{
+						// got compression
+						/*
+
+							char amor_assinatura_dl[4];//ok
+							char version_of_the_code;
+							bool got_compression_dl;
+							int uncompressed_size_dl;
+							int linked_list_1_size_dl;
+							int linked_list_2_size_dl;
+
+						*/
+						// first adjust the headers...
+						minha_struct.got_compression_dl = true;
+					}
+					else
+					{
+						// just save the uncompressed stream and go on to the next
+						minha_struct.got_compression_dl = false;
+					}
 				}
 			}
 
@@ -393,16 +442,17 @@ int main()
 				{
 					; // simplemente salva os dados no linked list e segue adiante
 					; // pode ser 16 ate 0;, simplesmente salva os dados e segue adiante
-					// se esta tudo certo é só salvar ric..., o primeiro linked list só precisa dos bytes salvos, e ja que terao tambem a referencia ao linked list vamos seguir em frente, lembrando que mais tarde faremos melhrorias nisto, nao agora, por agora só queremos que funcione, vamos montar o primiro linked list e colocar ele num arquivo fora, pra nao ficar muiot grande, faça isto
+					// se esta tudo certo é só salvar ric..., o primeiro linked list só precisa dos bytes salvos, e ja que terao tambem a referencia ao linked list vamos seguir em frente, lembrando que mais tarde faremos melhorias nisto, nao agora, por agora só queremos que funcione, vamos montar o primiro linked list e colocar ele num arquivo fora, pra nao ficar muiot grande, faça isto
 
-					add_more_one_is__dl__update_dl(needle_buf_dl, initial_size_of_string_dl, -1, false);
+					add_more_one_is__dl__update_dl(needle_buf_dl, initial_size_of_string_dl, -1, false); // depois a gente pensa no linked list 2
 
 					// e agora, mais um round nao é isso,
+					goto volta_aqui_mais_alto_mar;
 				}
 			}
 			else
 			{
-				; // process..
+				; // process..more to come here in a few hours, just wait...
 			}
 			/*
 
