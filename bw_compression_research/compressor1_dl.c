@@ -209,6 +209,14 @@ inicio_ar:;
 	return 1;
 }
 
+typedef struct dl_dados_salvos_querido_ric__
+{
+
+	char amor_assinatura_dl[4];
+	int tamanho_da_slice_dl;
+
+} dl_dados_salvos_querido_ric;
+
 int main()
 {
 
@@ -251,12 +259,14 @@ tem coisa demais...
 
 	*/
 #define DL_SIZE__ (1L << 17)
-	int len_dl;
-	FILE *my_file_dl = NULL;
-	FILE *out_file_dl = NULL;
-	char *buf_dl = malloc(DL_SIZE__);
+	__attribute__((unused)) int len_dl;
 
-	char *ptr_dl;
+	__attribute__((unused)) int len_of_data_to_compress_dl;
+	__attribute__((unused)) FILE *my_file_dl = NULL;
+	__attribute__((unused)) FILE *out_file_dl = NULL;
+	__attribute__((unused)) char *buf_dl = malloc(DL_SIZE__);
+
+	__attribute__((unused)) char *ptr_dl;
 
 	unlink("make.dl.compressed");
 	my_file_dl = fopen("make.exe", "rb");
@@ -269,9 +279,21 @@ tem coisa demais...
 
 		* * * * * * * * 16 caracteres ? de cada vez ? nao pode ser mais ou menos ?
 		*/
-
+		pedro_dprintf(0, "size %d\n", DL_SIZE__);
 		while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
 		{
+			dl_dados_salvos_querido_ric minha_struct = {0};
+
+			minha_struct.amor_assinatura_dl[0] = 'd';
+			minha_struct.amor_assinatura_dl[1] = 'l';
+			minha_struct.amor_assinatura_dl[2] = 'd';
+			minha_struct.amor_assinatura_dl[3] = 'l';
+
+			minha_struct.tamanho_da_slice_dl = len_dl;
+
+			fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
+
+			len_of_data_to_compress_dl = len_dl;
 
 			ptr_dl = buf_dl;
 			while (len_dl--)
