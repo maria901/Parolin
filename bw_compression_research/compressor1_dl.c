@@ -75,6 +75,7 @@ void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
 #define DEBUG_DL__ 0
+#define MAX_STRING_SEARCH_SIZE_DL__ 512
 
 // 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
@@ -106,15 +107,6 @@ typedef struct dl_dados_salvos_querido_ric__
 // 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 // helper functions, please document it ric
-
-/**
- * @brief it will add and entry to the first linked list that will store strings that cannot be compressed and entries in the second linked list that holds the strings that repeat on the whole memory
- *
- */
-void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_string_dl,
-                                    __attribute__((unused)) int len_of_memory_dl,
-                                    __attribute__((unused)) int number_of_index_in_linked_list_dl, // if in linked list only need this, dont you agree?
-                                    __attribute__((unused)) bool true_if_is_entry_in_the_linked_list_dl);
 
 /**
  * @brief It will check whether the string is found in the haystack ( borrowed from php ;-) )
@@ -226,15 +218,11 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) uint8_t *hay_ptr_dl;
 
-     __attribute__((unused)) static uint8_t needle_buf_dl[513];
+     __attribute__((unused)) static uint8_t needle_buf_dl[MAX_STRING_SEARCH_SIZE_DL__ + 20 /*for safety */];
 
      __attribute__((unused)) int64_t result_dl;
 
      __attribute__((unused)) int has_itens_is__dl__update_dl_copy;
-
-     __attribute__((unused)) int size_of_the_first_compressed_stream_dl;
-
-     __attribute__((unused)) int size_of_the_second_compressed_stream_dl;
 
      __attribute__((unused)) dl_dados_salvos_querido_ric minha_struct = {0};
 
@@ -281,7 +269,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           pos_in_stream_dl = 0;
 
-          initial_size_dl = 512; // more itens are based in this value
+          initial_size_dl = 16; // more itens are based in this value
 
           initial_size_of_string_dl = initial_size_dl; // to be adjusted later...
 
@@ -413,15 +401,19 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                */
                // like a cientist...
-               index_position_second_linked_list_dl = 0; // to keep track of the index of the second linked list
-               bitposition_dl = 0;                       // to init the bit encode...
-               last_byte_encoded_value_dl = 0;
-               is_it_the_first_byte_to_encode_dl = true;
 
-               delocador_fix_bug_in_version_2_0_dl = 0;
+               size_of_alredy_saw_data_dl = 0;
+
+               size_of_uncompressed_stream_dl = len_dl;
+
+               position_of_the_data_in_the_input__stream_dl = buf_dl;
+
+               position_of_the_data_in_the_output_stream_dl = buf_dl_compressed;
 
                // em search code, to detect where the code is
                len_dl_copy = len_dl;
+
+               bytes_left_in_the_input_uncompressed_stream_dl = len_dl; // sempre que avancar diminui isto
 
                hay_ptr_dl = buf_dl;
                if (DEBUG_DL__)
@@ -448,7 +440,9 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                if (DEBUG_DL__)
                     pedro_dprintf(0, "iniciou novo cliclo ou reiniciou carregamento de dados");
-               initial_size_of_string_dl = initial_size_dl;
+
+               initial_size_of_string_dl = initial_size_dl; // this will not be used ric...but we will keep, the main search is below, but if restarted it will be here
+
                if (DEBUG_DL__)
                {
                     ; // //assert(0 && "primeiros passos");
@@ -473,150 +467,12 @@ int main(int arg_dl_c, char **arg_dl_v)
                     */
 
                     {
-                         __attribute__((unused)) struct my_struct_for_list_ar_is__dl__update_dl *my_ptr_ar;
-
-                         __attribute__((unused)) struct my_struct_for_list_ar_is__dl__update_dl *my_ptr2_ar;
-
-                         my_ptr2_ar = aak_inicio_is__dl__update_dl;
-
-                         my_ptr_ar = aak_inicio_is__dl__update_dl;
-
-                         size_of_the_first_compressed_stream_dl = 0;
-
-                         has_itens_is__dl__update_dl_copy = has_itens_is__dl__update_dl;
-
-                         if (0 == has_itens_is__dl__update_dl_copy)
-                         {
-                              copy_last_item_is_required__dl = false;
-                         }
-
-                    inicio_ar:;
-                         if (!has_itens_is__dl__update_dl_copy)
-                         {
-                              if (DEBUG_DL__)
-                                   pedro_dprintf(0, "loopeando na leitura da primeira linked list, pegando o tamanho de dados a serem salvos");
-
-                              if (DEBUG_DL__)
-                              {
-                                   ; // //assert(0 && "primeira leitura da primeira linked list");
-                              }
-                              // has_itens_copy_is__dl__update_dl = 0;
-                              goto exit_now_dl;
-                         }
-                         my_ptr2_ar = my_ptr_ar;
-                         my_ptr_ar = my_ptr_ar->next_ar;
-
-                         /*
-
-                              here the process occur with the variable my_ptr2_ar
-
-                              ok, next step? ric...
-
-                              we need to gather the size of the compressed stream of the first linked list, go on
-
-                         */
-
-                         size_of_the_first_compressed_stream_dl += my_ptr2_ar->bytes_encoded_so_far_dl;
-
-                         copy_last_item_is_required__dl = my_ptr2_ar->last_item_is_required_dl;
-
-                         last_item_or_montagem_dl = my_ptr2_ar->montagem_dl_interno;
-
-                         has_itens_is__dl__update_dl_copy--;
-                         goto inicio_ar;
-
-                         /*
-
-
-
-                         you need to free the linked lists at the end of execution ric...
-
-
-
-                         */
-
-                    exit_now_dl:;
-                         if (DEBUG_DL__)
-                              pedro_dprintf(0, "ja tem o tamanho da primeira linked list -> %d", size_of_the_first_compressed_stream_dl);
-
-                         if (DEBUG_DL__)
-                         {
-                              ; // //assert(0 && "ja pegou o tamanho da primeira linked list");
-                         }
-                         if (copy_last_item_is_required__dl) // se tiver isto adiciona o no buffer size ja esta certo
-                         {
-                              if (DEBUG_DL__)
-                                   pedro_dprintf(0, "adicionando mais um byte porque o ultimo byte nao esta completo ainda");
-
-                              if (DEBUG_DL__)
-                              {
-                                   ; // //assert(0 && "adicionando ultimo byte");
-                              }
-                              size_of_the_first_compressed_stream_dl++;
-                         }
-                         // here call the finish for the first linked list, since we need the value for the header we need to call it twice, in a near future we optimize it..., we will use encode to already define the size of the output first linked list, do it, during the first pass we already encode the data with 9 bits, go on
-                    }
-
-                    // concatena ou checa primeiro se comprime ? cheque primeiro
-                    {
-
-                         struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr_ar;
-
-                         struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr2_ar;
-
-                         my_ptr2_ar = aak_inicio_is___rcdl____update__rcdl__;
-
-                         my_ptr_ar = aak_inicio_is___rcdl____update__rcdl__;
-
-                         size_of_the_second_compressed_stream_dl = 0;
-                         // pode reaproveitar este item ?, sim...
-                         has_itens_is___rcdl____update__rcdl__ccopy = has_itens_is___rcdl____update__rcdl__;
-
-                    inicio_arrrr2:;
-                         if (!has_itens_is___rcdl____update__rcdl__ccopy)
-                         {
-                              if (DEBUG_DL__)
-                                   pedro_dprintf(0, "loopeando na segunda linked list para pegar o tamanho dela ");
-
-                              if (DEBUG_DL__)
-                              {
-                                   ; // //assert(0 && "leitura da segunda linked list");
-                              }
-                              // has_itens_copy_is___rcdl____update__rcdl__ = 0;
-                              goto fim_rrr2;
-                         }
-                         my_ptr2_ar = my_ptr_ar;
-                         my_ptr_ar = my_ptr_ar->next_ar;
-                         /*
-                         if (1 == has_itens_is___rcdl____update__rcdl__)
-                         {
-                              free(my_ptr2_ar->next_ar);
-                         }
-                         */
-
-                         size_of_the_second_compressed_stream_dl += my_ptr2_ar->len_of_memory_dl + 4 + 4; // acho que é isso
-
-                         // free(my_ptr2_ar->string_saved_dl); // ta aqui
-                         // free(my_ptr2_ar);
-                         has_itens_is___rcdl____update__rcdl__ccopy--;
-                         goto inicio_arrrr2;
-
-                    fim_rrr2:;
-                         if (DEBUG_DL__)
-                              pedro_dprintf(0, "ja pegou o tamanho da segunda linked list -> %d, esta nao tem byte adicional", size_of_the_second_compressed_stream_dl);
-
-                         if (DEBUG_DL__)
-                         {
-                              ; // //assert(0 && "leitura da segunda linked list");
-                         }
-                    }
-
-                    {
-                         if (true || size_of_the_second_compressed_stream_dl + size_of_the_first_compressed_stream_dl < len_dl) //é so o primeiro tem que ver o segundo, sim é isso
+                         if (true /* || size_of_the_second_compressed_stream_dl + size_of_the_first_compressed_stream_dl < len_dl*/) //é so o primeiro tem que ver o segundo, sim é isso
                          {
                               // if (DEBUG_DL__)
+                              /*
                               printf("\n\nAchieved compression -> %d, uncompressed size -> %d\n", size_of_the_second_compressed_stream_dl + size_of_the_first_compressed_stream_dl, len_dl);
-
+                              */
                               if (DEBUG_DL__)
                               {
                                    ; // //assert(0 && "conseguiu comprimir");
@@ -641,14 +497,6 @@ int main(int arg_dl_c, char **arg_dl_v)
                                                             fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
                                                             */
 
-                              uint8_t *buf_in_dl = malloc((len_dl * 2) + 10000);
-                              uint8_t *ptr_in_buf = buf_in_dl;
-                              uint8_t *buf_out_dl = malloc((len_dl * 2) + 10000);
-                              // assert(0 && "1");
-                              int bytes_in_dl = 0;
-
-                              int bytes_out_dl = 0; // will be fixed later inside ari function
-
                               if (DEBUG_DL__)
                                    pedro_dprintf(0, "salvou as primeiras informacoes da estrutura");
 
@@ -656,214 +504,11 @@ int main(int arg_dl_c, char **arg_dl_v)
                               {
                                    ; // //assert(0 && "salvando estrutura");
                               }
-                              {
-                                   __attribute__((unused)) struct my_struct_for_list_ar_is__dl__update_dl *my_ptr_ar;
-
-                                   __attribute__((unused)) struct my_struct_for_list_ar_is__dl__update_dl *my_ptr2_ar;
-
-                                   my_ptr2_ar = aak_inicio_is__dl__update_dl;
-
-                                   my_ptr_ar = aak_inicio_is__dl__update_dl;
-
-                                   // size_of_the_first_compressed_stream_dl = 0;
-
-                                   has_itens_is__dl__update_dl_copy = has_itens_is__dl__update_dl;
-
-                              inicio_ar4:;
-                                   if (!has_itens_is__dl__update_dl_copy)
-                                   {
-                                        if (DEBUG_DL__)
-                                             pedro_dprintf(0, "loopeando na primeira linked lista para pegar os dados");
-
-                                        if (DEBUG_DL__)
-                                        {
-                                             ; // //assert(0 && "loopeando na primeira linked list para salvar os dados");
-                                        }
-                                        // has_itens_copy_is__dl__update_dl = 0;
-                                        goto exit_now_dl3;
-                                   }
-                                   my_ptr2_ar = my_ptr_ar;
-                                   my_ptr_ar = my_ptr_ar->next_ar;
-
-                                   /*
-
-                                        here the process occur with the variable my_ptr2_ar
-
-                                        ok, next step? ric...
-
-                                        we need to gather the size of the compressed stream of the first linked list, go on
-
-                                   */
-                                   /*
-                                                                      fwrite(my_ptr2_ar->output_memory_for_string_dl, 1, my_ptr2_ar->bytes_encoded_so_far_dl, out_file_dl);
-                                                                      */
-
-                                   memcpy(ptr_in_buf, my_ptr2_ar->output_memory_for_string_dl, my_ptr2_ar->bytes_encoded_so_far_dl);
-
-                                   ptr_in_buf += my_ptr2_ar->bytes_encoded_so_far_dl;
-
-                                   bytes_in_dl += my_ptr2_ar->bytes_encoded_so_far_dl;
-
-                                   if (DEBUG_DL__)
-                                        pedro_dprintf(0, "primeira linked list salvou %d bytes", my_ptr2_ar->bytes_encoded_so_far_dl);
-
-                                   if (DEBUG_DL__)
-                                   {
-                                        ; // //assert(0 && "salvou dados");
-                                   }
-
-                                   has_itens_is__dl__update_dl_copy--;
-                                   goto inicio_ar4;
-
-                                   /*
-
-
-
-                                   you need to free the linked lists at the end of execution ric...
-
-
-
-                                   */
-
-                              exit_now_dl3:;
-
-                                   if (copy_last_item_is_required__dl) // se tiver isto adiciona o no buffer size ja esta certo
-                                   {
-                                        if (DEBUG_DL__)
-                                             pedro_dprintf(0, "salvou o byte adicional");
-
-                                        if (DEBUG_DL__)
-                                        {
-                                             ; // //assert(0 && "byte saved");
-                                        }
-                                        fwrite(&last_item_or_montagem_dl, 1, 1, out_file_dl);
-                                   }
-                                   // here call the finish for the first linked list, since we need the value for the header we need to call it twice, in a near future we optimize it..., we will use encode to already define the size of the output first linked list, do it, during the first pass we already encode the data with 9 bits, go on
-                              }
-
                               // next ric
-                              {
-
-                                   struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr_ar;
-
-                                   struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr2_ar;
-
-                                   my_ptr2_ar = aak_inicio_is___rcdl____update__rcdl__;
-
-                                   my_ptr_ar = aak_inicio_is___rcdl____update__rcdl__;
-
-                                   // pode reaproveitar este item ?, sim...
-                                   has_itens_is___rcdl____update__rcdl__ccopy = has_itens_is___rcdl____update__rcdl__;
-
-                              inicio_arrrr22:;
-                                   if (!has_itens_is___rcdl____update__rcdl__ccopy)
-                                   {
-                                        if (DEBUG_DL__)
-                                             pedro_dprintf(0, "loopeando na segunda linked list para salvar os dados");
-
-                                        if (DEBUG_DL__)
-                                        {
-                                             ; // //assert(0 && "looping second linked list");
-                                        }
-                                        // has_itens_copy_is___rcdl____update__rcdl__ = 0;
-                                        goto fim_rrr22;
-                                   }
-                                   my_ptr2_ar = my_ptr_ar;
-                                   my_ptr_ar = my_ptr_ar->next_ar;
-                                   /*
-                                   if (1 == has_itens_is___rcdl____update__rcdl__)
-                                   {
-                                        free(my_ptr2_ar->next_ar);
-                                   }
-                                   */
-                                   /*
-                                                                      fwrite(&my_ptr2_ar->index_of_linked_list_starting_from_0_dl, 1, 4, out_file_dl);
-                                                                      fwrite(&my_ptr2_ar->len_of_memory_dl, 1, 4, out_file_dl);
-                                                                      fwrite(my_ptr2_ar->string_saved_dl, 1, my_ptr2_ar->len_of_memory_dl, out_file_dl);
-                                   */
-                                   /*
-
-
-
-                                   */
-                                   memcpy(ptr_in_buf, &my_ptr2_ar->index_of_linked_list_starting_from_0_dl, 4);
-
-                                   ptr_in_buf += 4;
-
-                                   bytes_in_dl += 4;
-                                   memcpy(ptr_in_buf, &my_ptr2_ar->len_of_memory_dl, 4);
-
-                                   ptr_in_buf += 4;
-
-                                   bytes_in_dl += 4;
-
-                                   memcpy(ptr_in_buf, my_ptr2_ar->string_saved_dl, my_ptr2_ar->len_of_memory_dl);
-
-                                   ptr_in_buf += my_ptr2_ar->len_of_memory_dl;
-
-                                   bytes_in_dl += my_ptr2_ar->len_of_memory_dl;
-
-                                   /*
-
-
-
-                                   */
-
-                                   if (DEBUG_DL__)
-                                        pedro_dprintf(0, "saving in the second linked list %d bytes", my_ptr2_ar->len_of_memory_dl + 4 + 4);
-
-                                   if (DEBUG_DL__)
-                                   {
-                                        ; // //assert(0 && "second linked list saving data");
-                                   }
-
-                                   // free(my_ptr2_ar->string_saved_dl); // ta aqui
-                                   // free(my_ptr2_ar);
-                                   has_itens_is___rcdl____update__rcdl__ccopy--;
-                                   goto inicio_arrrr22;
-
-                              fim_rrr22:;
-
-                                   // just exit now...
-                                   if (DEBUG_DL__)
-                                        pedro_dprintf(0, "just exiting now, the process will restart");
-
-                                   if (DEBUG_DL__)
-                                   {
-                                        ; // //assert(0 && "exiting...");
-                                   }
-                                   // assert(0 && 3);
-                                   pass_memory_output_dl(buf_out_dl, &bytes_out_dl);
-                                   pass_memory_input_dl(buf_in_dl, &bytes_in_dl);
-
-                                   pedro_dprintf(0, "123 passou %d", bytes_in_dl);
-                                   // assert(0 && 31);
-                                   main_do_mr_do();
-
-                                   pedro_dprintf(-1, "saiu %d", bytes_out_dl);
-
-                                   // //assert(0);
-                                   // assert(0 && 2);
-                                   printf("\nTotal compressed size to save %d, before the compression %d\n", bytes_out_dl, size_of_the_first_compressed_stream_dl + size_of_the_second_compressed_stream_dl);
-
-                                   printf("Linked list 1 %d Linked list 2 %d\n", size_of_the_first_compressed_stream_dl, size_of_the_second_compressed_stream_dl);
-
-                                   minha_struct.linked_list_1_size_dl = size_of_the_first_compressed_stream_dl;
-                                   minha_struct.linked_list_2_size_dl = size_of_the_second_compressed_stream_dl;
-                                   minha_struct.compressed_size_dl = bytes_out_dl;
-                                   fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
-
-                                   fwrite(buf_out_dl, 1, bytes_out_dl, out_file_dl);
-
-                                   free(buf_in_dl);  // free memory
-                                   free(buf_out_dl); // free memory
-
-                                   goto continua_pro_proximo_buffer_a_ser_lido_dl;
-                              }
                          }
                          else
                          {
-                              printf("\n\nDon't got compression, the resulting compressed data is linked list 1 %d, linked list 2 %d, just will save ucompressed data, it is %d\n", size_of_the_first_compressed_stream_dl, size_of_the_second_compressed_stream_dl, len_dl);
+                              printf("\n\nDon't got compression, size uncompressed %d\n", len_dl);
 
                               if (DEBUG_DL__)
                               {
@@ -890,29 +535,6 @@ int main(int arg_dl_c, char **arg_dl_v)
                     }
                }
 
-               if (len_dl_copy > initial_size_of_string_dl)
-               {
-                    ; // ok
-                    if (DEBUG_DL__)
-                         pedro_dprintf(0, "important%% the size of limited size of string that can be up to 512 is below the size of the data, it is now %d", initial_size_of_string_dl);
-
-                    if (DEBUG_DL__)
-                    {
-                         ; // //assert(0 && "size of the string during the first steps");
-                    }
-               }
-               else
-               {
-                    if (DEBUG_DL__)
-                         pedro_dprintf(0, "the size of the string that can be up to 512 was adjusted to %d", len_dl_copy);
-
-                    if (DEBUG_DL__)
-                    {
-                         ; // //assert(0 && "adjusting size");
-                    }
-                    initial_size_of_string_dl = len_dl_copy; // aqui ja corrige...
-               }
-
           volta_aqui_ric:;
                if (DEBUG_DL__)
                     pedro_dprintf(0, "returning or initial process 2, because 512 is too much");
@@ -923,15 +545,20 @@ int main(int arg_dl_c, char **arg_dl_v)
                }
                // pos_in_stream_dl
 
-               memcpy(needle_buf_dl, hay_ptr_dl, initial_size_of_string_dl); // nao tem problema voltar porque foram reembolsados os dados para serem lidos devolta, ta certo isso? sim...
+               size_of_the_neddle_dl = min(bytes_left_in_the_input_uncompressed_stream_dl, initial_size_of_string_dl);
 
-               // basta deslocar aqui..., certo...
-               delocador_fix_bug_in_version_2_0_dl += initial_size_of_string_dl;
-               progress_dl += initial_size_of_string_dl;
+               memcpy(needle_buf_dl, position_of_the_data_in_the_input__stream_dl, size_of_the_neddle_dl);
 
-               hay_ptr_dl += initial_size_of_string_dl;
+               position_of_the_data_in_the_input__stream_dl += size_of_the_neddle_dl;
 
-               len_dl_copy -= initial_size_of_string_dl;
+               progress_dl += size_of_the_neddle_dl;
+
+               hay_ptr_dl += size_of_the_neddle_dl;
+
+               len_dl_copy -= size_of_the_neddle_dl;
+
+               size_of_alredy_saw_data_dl += size_of_the_neddle_dl;
+
                if (DEBUG_DL__)
                     pedro_dprintf(0, "copying %d bytes from the data read to see if it already exit or not?", initial_size_of_string_dl);
 
@@ -994,9 +621,46 @@ int main(int arg_dl_c, char **arg_dl_v)
                          {
                               ; // //assert(0 && "running");
                          }
-                         add_more_one_is__dl__update_dl(needle_buf_dl, initial_size_of_string_dl, -1, false); // depois a gente pensa no linked list 2
+                         /*
+
+
+
+
+
+
+
+
+
+
+
+
+                         */
+                         // add_more_one_is__dl__update_dl(needle_buf_dl, initial_size_of_string_dl, -1, false); // depois a gente pensa no linked list 2
 
                          // e agora, mais um round nao é isso,
+
+                         /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         */
+
                          goto volta_aqui_mais_alto_mar; // perfect
                     }
                }
@@ -1013,7 +677,67 @@ int main(int arg_dl_c, char **arg_dl_v)
                          ; // //assert(0 && "running");
                     }
 
-                    add_more_one_is___rcdl____update__rcdl__(needle_buf_dl, initial_size_of_string_dl);
+                    /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    */
+
+                    // add_more_one_is___rcdl____update__rcdl__(needle_buf_dl, initial_size_of_string_dl);
+
+                    // here in version 4 we will be adding different code
+
+                    /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    */
+
                     goto volta_aqui_mais_alto_mar;
                }
 
@@ -1033,8 +757,6 @@ int main(int arg_dl_c, char **arg_dl_v)
                     ; // //assert(0 && "last step");
                }
 
-               clean_list__ar_is__dl__update_dl();
-               clean_list__ar_is___rcdl____update__rcdl__();
                /*
 
 
