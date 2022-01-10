@@ -68,7 +68,7 @@
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
-#define DEBUG_DL__ 1
+#define DEBUG_DL__ 0
 
 // 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
@@ -219,7 +219,7 @@ int main()
      __attribute__((unused)) FILE *my_file_dl = NULL;
      __attribute__((unused)) FILE *out_file_dl = NULL;
      __attribute__((unused)) uint8_t *buf_dl = malloc(DL_SIZE__);
-    
+
      __attribute__((unused)) uint8_t *ptr_dl;
 
      __attribute__((unused)) int i_i_dl;
@@ -246,6 +246,8 @@ int main()
 
      __attribute__((unused)) int has_itens_is___rcdl____update__rcdl__ccopy;
 
+     __attribute__((unused)) int initial_size_dl = -1; // to be adjusted later
+
      unlink("make.dl.compressed");
      my_file_dl = fopen("make.ava", "rb");
      out_file_dl = fopen("make.dl.compressed", "wb");
@@ -267,7 +269,9 @@ int main()
 
           pos_in_stream_dl = 0;
 
-          initial_size_of_string_dl = 512; // to be adjusted later...
+          initial_size_dl = 512; // more itens are based in this value
+
+          initial_size_of_string_dl = initial_size_dl; // to be adjusted later...
 
           minha_struct.amor_assinatura_dl[0] = 'd';
           minha_struct.amor_assinatura_dl[1] = 'l';
@@ -358,7 +362,7 @@ int main()
           volta_aqui_mais_alto_mar:; // sim é alguem, duas mar...
 
                pedro_dprintf(0, "iniciou novo cliclo ou reiniciou carregamento de dados");
-
+               initial_size_of_string_dl = initial_size_dl;
                if (DEBUG_DL__)
                {
                     assert(0 && "primeiros passos");

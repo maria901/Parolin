@@ -337,6 +337,7 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
                                     __attribute__((unused)) int number_of_index_in_linked_list_dl, // if in linked list only need this, dont you agree?
                                     __attribute__((unused)) bool true_if_is_entry_in_the_linked_list_dl)
 {
+     int adjusted_que_coisa_dl;
      double d_temp_dl;
      struct my_struct_for_list_ar_is__dl__update_dl *aak_ptr;
      if (!has_itens_is__dl__update_dl)
@@ -353,10 +354,16 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
 
           if (false == true_if_is_entry_in_the_linked_list_dl)
           {
-
+               pedro_dprintf(0, "tamanho de len_of_memory_dl %d", len_of_memory_dl);
                d_temp_dl = (double)len_of_memory_dl;
+               pedro_dprintf(0, "1valor deste lixo de d_temp_dl %f", d_temp_dl);
+               d_temp_dl = d_temp_dl + ceil((d_temp_dl * .22));
 
-               d_temp_dl = d_temp_dl * .2;
+               pedro_dprintf(0, "valor deste lixo de d_temp_dl %f", d_temp_dl);
+
+               adjusted_que_coisa_dl = (int)d_temp_dl;
+
+               pedro_dprintf(0, "depois ric %d", adjusted_que_coisa_dl);
 
                pedro_dprintf(0, "inside add_more_one_is__dl__update_dl, it is not an linked list entry");
 
@@ -398,7 +405,7 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
 
                d_temp_dl = (double)20;
 
-               d_temp_dl = d_temp_dl * .2;
+               d_temp_dl = d_temp_dl + ceil(d_temp_dl * .22);
 
                pedro_dprintf(0, "inside add_more_one_is__dl__update_dl, it is an linked list entry");
 
@@ -465,6 +472,8 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
           if (false == true_if_is_entry_in_the_linked_list_dl)
           {
 
+               pedro_dprintf(0, "tamanho de len_of_memory_dl %d", len_of_memory_dl);
+
                pedro_dprintf(0, "inside add_more_one_is__dl__update_dl, it is not an linked list entry");
 
                if (DEBUG_DL__)
@@ -472,8 +481,14 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
                     assert(0 && "inside function");
                }
                d_temp_dl = (double)len_of_memory_dl;
+               pedro_dprintf(0, "2valor deste lixo de d_temp_dl %f", d_temp_dl);
+               d_temp_dl = d_temp_dl + ceil(d_temp_dl * .22);
 
-               d_temp_dl = d_temp_dl * .2;
+               pedro_dprintf(0, "valor deste lixo de d_temp_dl %f", d_temp_dl);
+
+               adjusted_que_coisa_dl = (int)d_temp_dl;
+
+               pedro_dprintf(0, "depois ric %d", adjusted_que_coisa_dl);
 
                pedro_dprintf(0, "allocating %d bytes for the output memory", (int)d_temp_dl);
 
@@ -509,7 +524,7 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
 
                d_temp_dl = (double)20;
 
-               d_temp_dl = d_temp_dl * .2;
+               d_temp_dl = d_temp_dl + ceil((d_temp_dl * .22));
 
                pedro_dprintf(0, "inside add_more_one_is__dl__update_dl, it is an linked list entry");
 
