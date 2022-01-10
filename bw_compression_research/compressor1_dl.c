@@ -211,8 +211,8 @@ int main(int arg_dl_c, char **arg_dl_v)
      size_d_dl = (double)DL_SIZE__;
 
      size_d_dl = size_d_dl + (size_d_dl * .3); // more than enough for the moment, for version v4
-     
-     __attribute__((unused)) uint8_t *buf_dl_compressed = malloc(DL_SIZE__);
+
+     __attribute__((unused)) uint8_t *buf_dl_compressed = malloc((int)size_d_dl); // need to be ceartain that will not store more than 8 to 9 bits on it for the moment, please verify later
 
      __attribute__((unused)) uint8_t *ptr_dl;
 
@@ -1049,8 +1049,10 @@ int main(int arg_dl_c, char **arg_dl_v)
      }
 
      free(buf_dl);
+     free(buf_dl_compressed);
+
      printf("Progress my fool ric -> % 4d\n", 100);
-     printf("Research running...");
+     printf("\nResearch running...\n");
 
      return 0;
 }
