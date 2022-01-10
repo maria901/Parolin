@@ -197,7 +197,7 @@ uint getpor(int max, uint fatia)
 int main(int arg_dl_c, char **arg_dl_v)
 {
 
-#define DL_SIZE__ (1L << 17)
+#define DL_SIZE__ (1L << 15)
 
      __attribute__((unused)) int len_dl;
 
@@ -205,6 +205,14 @@ int main(int arg_dl_c, char **arg_dl_v)
      __attribute__((unused)) FILE *my_file_dl = NULL;
      __attribute__((unused)) FILE *out_file_dl = NULL;
      __attribute__((unused)) uint8_t *buf_dl = malloc(DL_SIZE__);
+
+     __attribute__((unused)) double size_d_dl;
+
+     size_d_dl = (double)DL_SIZE__;
+
+     size_d_dl = size_d_dl + (size_d_dl * .3); // more than enough for the moment, for version v4
+     
+     __attribute__((unused)) uint8_t *buf_dl_compressed = malloc(DL_SIZE__);
 
      __attribute__((unused)) uint8_t *ptr_dl;
 
@@ -303,24 +311,37 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           */
 
-          minha_struct.version_of_the_code = 2; // 3º version... initiated at 10 jan 2022 02:00:00
-                                                /*
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
-                                                */
+          // minha_struct.version_of_the_code = 2; // 3º version... initiated at 10 jan 2022 02:00:00
+
+          minha_struct.version_of_the_code = 3; // 4º version... initiated at 10 jan 2022 10:05:00
+
+          /* 4º version information, we will change the double linkd
+          list compression method that failed with a method that will
+          try to locate the maximum size of the current string in
+          the previous buffer, if found it will mark the size and position
+          in the passed string, now it 10:07 hs, hope to have it working
+          before 14:00 hs
+
+          for this we will not use a linked list but preallocated memory for the required size that is slightly larger than the input uncompressed string, and will just be adding data to it in the processed form
+
+          more code... (10:12)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                          */
 
           printf("\n\n");
 
@@ -909,78 +930,6 @@ int main(int arg_dl_c, char **arg_dl_v)
                     ; // //assert(0 && "reading data, first steps");
                }
 
-               // aqui procura primeiro nos linked lists, e qual a vantagem ?, ta vamos procurar, porque pode estar la, sim e esta se foi adicionado, em caso de lz77 ele vai adicionando marcadores que dizem aonde esta os itens, no nosso caso tem dois linked lists, no caso de lz77 ele so olha pra tras, o nosso pode olhar pra frente e nos linked lists, talvez seja isso que seja markov chain, poderia dar uma olhada
-               {
-
-                    struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr_ar;
-
-                    struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *my_ptr2_ar;
-
-                    my_ptr2_ar = aak_inicio_is___rcdl____update__rcdl__;
-                    my_ptr_ar = aak_inicio_is___rcdl____update__rcdl__;
-
-                    has_itens_is___rcdl____update__rcdl__ccopy = has_itens_is___rcdl____update__rcdl__;
-
-               inicio_arrrr:;
-                    if (!has_itens_is___rcdl____update__rcdl__ccopy)
-                    {
-                         // has_itens_copy_is___rcdl____update__rcdl__ = 0;
-                         if (DEBUG_DL__)
-                              pedro_dprintf(0, "looping on the first linked list to see whether the data is already on the first linked list, if yes it will be used");
-
-                         if (DEBUG_DL__)
-                         {
-                              ; // //assert(0 && "looping on the first linked list");
-                         }
-                         goto fim_rrr;
-                    }
-                    my_ptr2_ar = my_ptr_ar;
-                    my_ptr_ar = my_ptr_ar->next_ar;
-                    /*
-                    if (1 == has_itens_is___rcdl____update__rcdl__)
-                    {
-                         free(my_ptr2_ar->next_ar);
-                    }
-                    */
-
-                    if (my_ptr2_ar->len_of_memory_dl == initial_size_of_string_dl)
-                    {
-
-                         result_dl = mem_search_dl(my_ptr2_ar->string_saved_dl, my_ptr2_ar->len_of_memory_dl, needle_buf_dl, initial_size_of_string_dl, 0);
-
-                         if (-1 == result_dl)
-                         {
-                              if (DEBUG_DL__)
-                                   pedro_dprintf(0, "the size of the needle matches %d bytes, but it is not available, then next step in the loop of the fisrt linked list", initial_size_of_string_dl);
-
-                              if (DEBUG_DL__)
-                              {
-                                   ; // //assert(0 && "searching data");
-                              };     // ta quase lá...
-                         }
-                         else
-                         {
-                              if (DEBUG_DL__)
-                                   pedro_dprintf(0, "the string was found in the first linked list, then it will be reused");
-
-                              if (DEBUG_DL__)
-                              {
-                                   ; // //assert(0 && "reusing data");
-                              }
-                              add_more_one_is__dl__update_dl((uint8_t *)"", 0, my_ptr2_ar->index_of_linked_list_starting_from_0_dl, true);
-
-                              // e vai aonde agora? proximo item acima, se nao bater ele tenta todos que baterem o tamanho, interessante, sera dificil debugar isto....
-
-                              goto volta_aqui_mais_alto_mar; // ta proximo do fim, agora basta concatenar os dados, quando acabar, veja lá...
-                         }
-                    }
-                    // free(my_ptr2_ar->string_saved_dl); // ta aqui
-                    // free(my_ptr2_ar);
-                    has_itens_is___rcdl____update__rcdl__ccopy--;
-                    goto inicio_arrrr;
-
-               fim_rrr:;
-               }
                if (DEBUG_DL__)
                     pedro_dprintf(0, "second search mode, it will search on the iput data to see if it exist in the rest of the data, if yes it will be stored in the second linked list, if not it will be just added to the first linked list as plain data");
 
@@ -988,7 +937,7 @@ int main(int arg_dl_c, char **arg_dl_v)
                {
                     ; // //assert(0 && "inside function");
                }
-               result_dl = mem_search_dl(hay_ptr_dl, len_dl_copy, needle_buf_dl, initial_size_of_string_dl, delocador_fix_bug_in_version_2_0_dl + 1); // nao tem que ser aqui oque faz a primeira pesquisa , tem que ver primeiro no segundo linked list ric, antes desse, incrivel como é complicado isso...
+               result_dl = mem_search_dl(hay_ptr_dl, len_dl_copy, needle_buf_dl, initial_size_of_string_dl, 0); // nao tem que ser aqui oque faz a primeira pesquisa , tem que ver primeiro no segundo linked list ric, antes desse, incrivel como é complicado isso...
 
                /*
 
@@ -1269,5 +1218,14 @@ it is not lz77 or lz78 or lzma
 
 vai... começa com 512 e vai baixando...
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ok, first we need to load the data, then start creating the compressed stream, start from 16 bytes increasing until 512
+
+whats the matter?
+
+just limited to the past data, this in a near future could be improved, dont you agree ?
+
+we can read future strings
 
 */
