@@ -28,6 +28,7 @@ void add_more_one_is___rcdl____update__rcdl__(uint8_t *string_saved_dl, int len_
      struct my_struct_for_list_ar_is___rcdl____update__rcdl__ *aak_ptr;
      if (!has_itens_is___rcdl____update__rcdl__)
      {
+
           aak_is___rcdl____update__rcdl__ = calloc(1, sizeof(struct my_struct_for_list_ar_is___rcdl____update__rcdl__));
           aak_inicio_is___rcdl____update__rcdl__ = aak_is___rcdl____update__rcdl__;
           aak_pointer_is___rcdl____update__rcdl__ = aak_is___rcdl____update__rcdl__;
@@ -37,6 +38,14 @@ void add_more_one_is___rcdl____update__rcdl__(uint8_t *string_saved_dl, int len_
           memcpy(aak_is___rcdl____update__rcdl__->string_saved_dl, string_saved_dl, len_of_memory_dl);
           aak_is___rcdl____update__rcdl__->len_of_memory_dl = len_of_memory_dl;
           aak_is___rcdl____update__rcdl__->index_of_linked_list_starting_from_0_dl = index_position_second_linked_list_dl;
+
+          pedro_dprintf(0, "inside function add_more_one_is___rcdl____update__rcdl__, adding %d bytes with the index %d", len_of_memory_dl, index_position_second_linked_list_dl);
+
+          if (DEBUG_DL__)
+          {
+               assert(0 && "inside function");
+          }
+
           index_position_second_linked_list_dl++;
 
           aak_is___rcdl____update__rcdl__->next_ar = calloc(1, sizeof(struct my_struct_for_list_ar_is___rcdl____update__rcdl__));
@@ -63,6 +72,14 @@ void add_more_one_is___rcdl____update__rcdl__(uint8_t *string_saved_dl, int len_
           memcpy(aak_ptr->string_saved_dl, string_saved_dl, len_of_memory_dl);
           aak_ptr->len_of_memory_dl = len_of_memory_dl;
           aak_ptr->index_of_linked_list_starting_from_0_dl = index_position_second_linked_list_dl;
+
+          pedro_dprintf(0, "inside function add_more_one_is___rcdl____update__rcdl__, adding %d bytes with the index %d", len_of_memory_dl, index_position_second_linked_list_dl);
+
+          if (DEBUG_DL__)
+          {
+               assert(0 && "inside function");
+          }
+
           index_position_second_linked_list_dl++;
           /*
 

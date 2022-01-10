@@ -33,6 +33,13 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
 
      if (false == is_it_linked_list_entry_dl)
      {
+
+          pedro_dprintf(0, "inside convert_8_bits_to_nine_bits, it is not an linked list entry");
+
+          if (DEBUG_DL__)
+          {
+               assert(0 && "inside function");
+          }
           for (i_dl = 0; i_dl < len_of_input_to_encode_as_you_may_expect_dl; i_dl++)
           {
                meu_buf_16_dl[i_dl] = (int16_t)input_mem_dl[i_dl];
@@ -40,6 +47,13 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
      }
      else
      {
+          pedro_dprintf(0, "inside convert_8_bits_to_nine_bits, it is an linked list entry");
+
+          if (DEBUG_DL__)
+          {
+               assert(0 && "inside function");
+          }
+
           ptr_int_dl = (int *)&temp_dl[1];
 
           *ptr_int_dl = index_of_linked_list_starting_from_0_dl;
@@ -344,6 +358,20 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
 
                d_temp_dl = d_temp_dl * .2;
 
+               pedro_dprintf(0, "inside add_more_one_is__dl__update_dl, it is not an linked list entry");
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
+
+               pedro_dprintf(0, "allocating %d bytes for the output memory", (int)d_temp_dl);
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
+
                aak_is__dl__update_dl->output_memory_for_string_dl = malloc((int)d_temp_dl);
                aak_is__dl__update_dl->memory_for_string_dl = malloc(len_of_memory_dl);
                memcpy(aak_is__dl__update_dl->memory_for_string_dl, memory_for_string_dl, len_of_memory_dl);
@@ -356,6 +384,13 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
                                            false,
                                            0);
 
+               pedro_dprintf(0, " %d bytes was used by the convert_8_bits_to_nine_bits function ", aak_is__dl__update_dl->bytes_encoded_so_far_dl);
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
+
                assert(aak_is__dl__update_dl->bytes_encoded_so_far_dl < (int)d_temp_dl);
           }
           else
@@ -364,6 +399,20 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
                d_temp_dl = (double)20;
 
                d_temp_dl = d_temp_dl * .2;
+
+               pedro_dprintf(0, "inside add_more_one_is__dl__update_dl, it is an linked list entry");
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
+
+               pedro_dprintf(0, "allocating %d bytes for the output memory", (int)d_temp_dl);
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
 
                aak_is__dl__update_dl->output_memory_for_string_dl = malloc((int)d_temp_dl);
                aak_is__dl__update_dl->memory_for_string_dl = calloc(20, 1);
@@ -376,6 +425,14 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
                                            &aak_is__dl__update_dl->montagem_dl_interno, &aak_is__dl__update_dl->last_item_is_required_dl,
                                            true,
                                            number_of_index_in_linked_list_dl);
+
+               pedro_dprintf(0, " %d bytes was used by the convert_8_bits_to_nine_bits function ", aak_is__dl__update_dl->bytes_encoded_so_far_dl);
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
+
                assert(aak_is__dl__update_dl->bytes_encoded_so_far_dl < (int)d_temp_dl);
           }
 
@@ -408,9 +465,22 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
           if (false == true_if_is_entry_in_the_linked_list_dl)
           {
 
+               pedro_dprintf(0, "inside add_more_one_is__dl__update_dl, it is not an linked list entry");
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
                d_temp_dl = (double)len_of_memory_dl;
 
                d_temp_dl = d_temp_dl * .2;
+
+               pedro_dprintf(0, "allocating %d bytes for the output memory", (int)d_temp_dl);
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
 
                aak_ptr->output_memory_for_string_dl = malloc((int)d_temp_dl);
                aak_ptr->memory_for_string_dl = malloc(len_of_memory_dl);
@@ -425,6 +495,13 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
                                            false,
                                            0);
 
+               pedro_dprintf(0, " %d bytes was used by the convert_8_bits_to_nine_bits function ", aak_ptr->bytes_encoded_so_far_dl);
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
+
                assert(aak_ptr->bytes_encoded_so_far_dl < (int)d_temp_dl);
           }
           else
@@ -433,6 +510,20 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
                d_temp_dl = (double)20;
 
                d_temp_dl = d_temp_dl * .2;
+
+               pedro_dprintf(0, "inside add_more_one_is__dl__update_dl, it is an linked list entry");
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
+
+               pedro_dprintf(0, "allocating %d bytes for the output memory", (int)d_temp_dl);
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
 
                aak_ptr->output_memory_for_string_dl = malloc((int)d_temp_dl);
                aak_ptr->memory_for_string_dl = calloc(20, 1);
@@ -446,6 +537,13 @@ void add_more_one_is__dl__update_dl(__attribute__((unused)) uint8_t *memory_for_
                                            &aak_ptr->last_item_is_required_dl,
                                            true,
                                            number_of_index_in_linked_list_dl);
+
+               pedro_dprintf(0, " %d bytes was used by the convert_8_bits_to_nine_bits function ", aak_ptr->bytes_encoded_so_far_dl);
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "inside function");
+               }
 
                assert(aak_ptr->bytes_encoded_so_far_dl < (int)d_temp_dl);
           }
