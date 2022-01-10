@@ -75,7 +75,8 @@ void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
 #define DEBUG_DL__ 0
-#define MAX_STRING_SEARCH_SIZE_DL__ 512
+#define MAX_STRING_SEARCH_SIZE_DL__ (512)
+#define MIN_STRING_SEARCH_SIZE_DL__ (16)
 
 // 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
@@ -269,7 +270,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           pos_in_stream_dl = 0;
 
-          initial_size_dl = 16; // more itens are based in this value
+          initial_size_dl = MIN_STRING_SEARCH_SIZE_DL__; // more itens are based in this value
 
           initial_size_of_string_dl = initial_size_dl; // to be adjusted later...
 
@@ -557,6 +558,8 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                len_dl_copy -= size_of_the_neddle_dl;
 
+               bytes_left_in_the_input_uncompressed_stream_dl -= size_of_the_neddle_dl;
+
                size_of_alredy_saw_data_dl += size_of_the_neddle_dl;
 
                if (DEBUG_DL__)
@@ -574,6 +577,14 @@ int main(int arg_dl_c, char **arg_dl_v)
                {
                     ; // //assert(0 && "inside function");
                }
+
+               if (size_of_alredy_saw_data_dl <= MIN_STRING_SEARCH_SIZE_DL__)
+               {
+                    // just add the data, call the
+
+                    convert_8_bits_to_nine_bits()
+               }
+
                result_dl = mem_search_dl(hay_ptr_dl, len_dl_copy, needle_buf_dl, initial_size_of_string_dl, 0); // nao tem que ser aqui oque faz a primeira pesquisa , tem que ver primeiro no segundo linked list ric, antes desse, incrivel como é complicado isso...
 
                /*

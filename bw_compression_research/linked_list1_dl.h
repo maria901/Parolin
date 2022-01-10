@@ -7,7 +7,6 @@ int size_of_uncompressed_stream_dl;
 uint8_t *position_of_the_data_in_the_input__stream_dl;
 uint8_t *position_of_the_data_in_the_output_stream_dl;
 
-
 int size_of_alredy_saw_data_dl;
 
 int bytes_left_in_the_input_uncompressed_stream_dl;
@@ -23,12 +22,9 @@ uint8_t last_byte_encoded_value_dl; // only usefull for the encode, in the agreg
 bool is_it_the_first_byte_to_encode_dl;
 void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *input_mem_dl,
                                             __attribute__((unused)) int len_of_input_to_encode_as_you_may_expect_dl,
-                                            __attribute__((unused)) uint8_t *output_mem_dl,
-                                            __attribute__((unused)) int *bytes_encoded_so_far_dl, // a contagem é o tamanho dos dados ric, só isso, nao precisa processar duas vezes a cada processo vai salvando os dados que precisa, só precisa dar uma passagem rápida pra saber o tamanho dos dados, ok...
-                                            __attribute__((unused)) uint8_t *montagem_dl_interno,
-                                            __attribute__((unused)) bool *last_item_is_required_dl,
-                                            __attribute__((unused)) bool is_it_linked_list_entry_dl,
-                                            __attribute__((unused)) int index_of_linked_list_starting_from_0_dl)
+                                            __attribute__((unused)) bool is_it_string_matched_in_past_buffer_dl,
+                                            __attribute__((unused)) int past_position_location_dl,
+                                            __attribute__((unused)) int16_t len_of_matched_string_dl)
 {
 
      // int bitcount__dl = 0;
@@ -45,7 +41,7 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
 
      uint16_t *ptr_16_dl = meu_buf_16_dl;
 
-     if (false == is_it_linked_list_entry_dl)
+     if (false == is_it_string_matched_in_past_buffer_dl)
      {
           if (DEBUG_DL__)
                pedro_dprintf(0, "inside convert_8_bits_to_nine_bits, it is not an linked list entry");
