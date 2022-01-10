@@ -212,7 +212,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      size_d_dl = size_d_dl + (size_d_dl * .3); // more than enough for the moment, for version v4
 
-     __attribute__((unused)) uint8_t *buf_dl_compressed = malloc((int)size_d_dl); // need to be ceartain that will not store more than 8 to 9 bits on it for the moment, please verify later
+     __attribute__((unused)) uint8_t *buf_dl_compressed = malloc((int)size_d_dl); // need to be certain that will not store more than 8 to 9 bits on it for the moment, please verify later
 
      __attribute__((unused)) uint8_t *ptr_dl;
 
@@ -324,8 +324,18 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           for this we will not use a linked list but preallocated memory for the required size that is slightly larger than the input uncompressed string, and will just be adding data to it in the processed form
 
-          more code... (10:12)
+          more code... (10:12), description of changes will follow
 
+          added the resulting memory with the compressed data, in the function convert_8_bits_to_nine_bits the
+          hard work will be done..., variable buf_dl_compressed holds the compressed stream, first we will focus on the compression, it need to compress, fast and well, then later we write the uncompressor
+
+          for the moment we will just not use the arithmetic compression, because what we need is to achieve
+          compression with the strings replacement, later we use it
+          when working dl_compressor will be part of the Parolin project, the extension will be .dl
+
+          more code...
+
+          we will just go modifying code from version 3 to match version 4 requirements
 
 
 

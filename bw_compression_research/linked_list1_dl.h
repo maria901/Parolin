@@ -1,3 +1,7 @@
+//The variables below the majority are from version 3 that was using two linked lists, version
+//4 and above use just memory, variables will be removed in a near future, what we want forst is make this
+// code compress well and fast using lz77 or something better for (1 << 15) slices of uncompressed data
+
 // here the encode from 8 bits to 9
 
 bool copy_last_item_is_required__dl;
