@@ -17,7 +17,7 @@ dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o
 
 
 #	./dl1.exe
-
+ 
 dl_50:
 	./dl1.exe make.ava make.ava.compressed_by_dl_compressor
 	./dl1.exe test.ava test.ava.compressed_by_dl_compressor
