@@ -74,7 +74,7 @@ int main_do_mr_do(void);
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
-#define DEBUG_DL__ 0
+#define DEBUG_DL__ 1
 #define MAX_STRING_SEARCH_SIZE_DL__ (512)
 #define MIN_STRING_SEARCH_SIZE_DL__ (16)
 #define STRING_PASS_SIZE_DL__ (16)
@@ -225,6 +225,8 @@ int main(int arg_dl_c, char **arg_dl_v)
      __attribute__((unused)) static uint8_t needle_buf_dl_copy[MAX_STRING_SEARCH_SIZE_DL__ + 20 /*for safety */];
 
      __attribute__((unused)) int64_t result_dl;
+
+     __attribute__((unused)) int64_t result_dl2;
 
      __attribute__((unused)) int has_itens_is__dl__update_dl_copy;
 
@@ -415,7 +417,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                     if (DEBUG_DL__)
                     {
-                         ; // //assert(0 && "last step");
+                         assert(0 && "last step");
                     }
                     // oque faz, tem que processar nao é isso?, sim, mas agora?, sim, entao ta...
                     /*
@@ -448,26 +450,30 @@ int main(int arg_dl_c, char **arg_dl_v)
                               */
                               // first adjust the headers...
                               minha_struct.got_compression_dl = true;
-                              /*
-                                                            minha_struct.linked_list_1_size_dl = size_of_the_first_compressed_stream_dl;
-                                                            minha_struct.linked_list_2_size_dl = size_of_the_second_compressed_stream_dl;
 
-                                                            fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
-                                                            */
+                              minha_struct.compressed_size_dl = bytes_encoded_so_far_dl;
+
+                              minha_struct.uncompressed_size_dl = len_dl;
+
+                              printf("\n\nCompressed size %d uncompressed %d\n", bytes_encoded_so_far_dl, len_dl);
+                              fflush(stdout);
+                              fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
+
+                              fwrite(buf_dl_compressed, 1, bytes_encoded_so_far_dl, out_file_dl);
 
                               if (DEBUG_DL__)
-                                   pedro_dprintf(0, "salvou as primeiras informacoes da estrutura");
+                                   pedro_dprintf(0, "salvou os dados e imprimiu dados na tela");
 
                               if (DEBUG_DL__)
                               {
-                                   ; // //assert(0 && "salvando estrutura");
+                                   assert(0 && "parando");
                               }
                               // next ric
                          }
                          else
                          {
                               printf("\n\nDon't got compression, size uncompressed %d\n", len_dl);
-
+                              fflush(stdout);
                               if (DEBUG_DL__)
                               {
                                    ; // //assert(0 && "dont get compression");
@@ -488,8 +494,8 @@ int main(int arg_dl_c, char **arg_dl_v)
                               {
                                    ; // //assert(0 && "exiting...");
                               }
-                              goto continua_pro_proximo_buffer_a_ser_lido_dl;
                          }
+                         goto continua_pro_proximo_buffer_a_ser_lido_dl;
                     }
                }
 
@@ -519,6 +525,8 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                len_dl_copy -= size_of_the_neddle_dl;
 
+               assert(0 <= len_dl_copy);
+
                bytes_left_in_the_input_uncompressed_stream_dl -= size_of_the_neddle_dl;
 
                if (DEBUG_DL__)
@@ -544,13 +552,29 @@ int main(int arg_dl_c, char **arg_dl_v)
                     convert_8_bits_to_nine_bits(needle_buf_dl,
                                                 size_of_the_neddle_dl,
                                                 false, 1969, 2022); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
-                                                                    //é  buf_dl mais size_of_already_saw_data_dl, certo?
+                    //é  buf_dl mais size_of_already_saw_data_dl, certo?
+                    size_of_already_saw_data_dl += size_of_the_neddle_dl;
+                    if (DEBUG_DL__)
+                         pedro_dprintf(0, "primeiro salvamento de uma olhada");
+
+                    if (DEBUG_DL__)
+                    {
+                         assert(0 && "parando");
+                    }
                     goto volta_aqui_mais_alto_mar;
                }
 
-               result_dl = mem_search_dl(buf_dl, size_of_already_saw_data_dl,
+               result_dl = mem_search_dl(buf_dl, size_of_already_saw_data_dl, // nao pode incluir no search o item sendo buscado por isso tem que ser depois
                                          needle_buf_dl, size_of_the_neddle_dl,
                                          0);
+
+               if (DEBUG_DL__)
+                    pedro_dprintf(0, "primeira search, achou %lld", result_dl);
+
+               if (DEBUG_DL__)
+               {
+                    assert(0 && "parando");
+               }
 
                size_of_already_saw_data_dl += size_of_the_neddle_dl;
 
@@ -573,10 +597,27 @@ int main(int arg_dl_c, char **arg_dl_v)
                     {
                          ; // //assert(0 && "running");
                     }
+
+                    if (DEBUG_DL__)
+                         pedro_dprintf(0, "nao encontrou entao vai salvar %d bytes, antes de chamar o so far é %d ", size_of_the_neddle_dl, bytes_encoded_so_far_dl);
+
+                    if (DEBUG_DL__)
+                    {
+                         assert(0 && "parando");
+                    }
+
                     convert_8_bits_to_nine_bits(needle_buf_dl,
                                                 size_of_the_neddle_dl,
                                                 false, 1969, 2022); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
                                                                     //é  buf_dl mais size_of_already_saw_data_dl, certo?
+
+                    if (DEBUG_DL__)
+                         pedro_dprintf(0, "o so far agora é %d ", bytes_encoded_so_far_dl);
+
+                    if (DEBUG_DL__)
+                    {
+                         assert(0 && "parando");
+                    }
                     if (0 == 1)
                     // to make the compiler happy
                     {
@@ -586,15 +627,12 @@ int main(int arg_dl_c, char **arg_dl_v)
                }
                else
                {
-                    ; // process..ok, here add the item to the second linked list
-                    ; //
-                    // just add to the second linked list...
                     if (DEBUG_DL__)
-                         pedro_dprintf(0, "just foud the string in the main data with the size -> %d, then it will be added to the second linked list to possible be reused", initial_size_of_string_dl);
+                         pedro_dprintf(0, "encontrou entao agora vai tentar achar maior");
 
                     if (DEBUG_DL__)
                     {
-                         ; // //assert(0 && "running");
+                         assert(0 && "parando");
                     }
 
                     /*
@@ -610,7 +648,17 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                     size_of_the_neddle_dl2 = size_of_the_neddle_dl;
 
+                    result_dl2 = result_dl;
+
                try_more_ric:;
+
+                    if (DEBUG_DL__)
+                         pedro_dprintf(0, "retornando size current is %d", size_of_the_neddle_dl2);
+
+                    if (DEBUG_DL__)
+                    {
+                         assert(0 && "parando");
+                    }
 
                     if (MAX_STRING_SEARCH_SIZE_DL__ > size_of_the_neddle_dl2)
                     {
@@ -638,8 +686,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                               if (-1 == result_dl)
                               {
-
-                                   goto end_of_search_my_ric;
+                                   goto end_of_search_my_ric; // if not found larger stop here
                               }
                               else
                               {
@@ -657,6 +704,14 @@ int main(int arg_dl_c, char **arg_dl_v)
                          {
                               goto end_of_search_my_ric;
                          }
+                    }
+
+                    if (DEBUG_DL__)
+                         pedro_dprintf(0, "definiu que o maior achado é %d", size_of_the_neddle_dl2);
+
+                    if (DEBUG_DL__)
+                    {
+                         assert(0 && "parando");
                     }
 
                end_of_search_my_ric:;
@@ -679,20 +734,38 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                          len_dl_copy -= difference_of_the_new_loaded_data_dl;
 
+                         assert(0 <= len_dl_copy);
+
                          bytes_left_in_the_input_uncompressed_stream_dl -= difference_of_the_new_loaded_data_dl;
 
                          already_found_with_larger_size_dl = false;
                          // when searching just change the size of the needle, if already found
 
+                         if (DEBUG_DL__)
+                              pedro_dprintf(0, "vai reiniciar o loop, bytes remaining %d", len_dl_copy);
+
+                         if (DEBUG_DL__)
+                         {
+                              assert(0 && "parando");
+                         }
                          goto volta_aqui_mais_alto_mar;
                     }
 
                     // oque há de errado?, ta tudo certo, se nao achar nada nao faz nada se achar vai reajustando a cada caminhada entendeu
 
+                    if (DEBUG_DL__)
+                         pedro_dprintf(0, "nao pode achar maior entao vai usar oque achou, size %d, pos %lld", size_of_the_neddle_dl, result_dl2);
+
+                    if (DEBUG_DL__)
+                    {
+                         assert(0 && "parando");
+                    }
+
                     convert_8_bits_to_nine_bits(needle_buf_dl,
                                                 size_of_the_neddle_dl,
-                                                false, 1969, 2022); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
-                                                                    //é  buf_dl mais size_of_already_saw_data_dl, certo?
+                                                true,
+                                                result_dl2,
+                                                size_of_the_neddle_dl); // done
 
                     goto volta_aqui_mais_alto_mar;
                }
@@ -703,22 +776,6 @@ int main(int arg_dl_c, char **arg_dl_v)
                }
 
           continua_pro_proximo_buffer_a_ser_lido_dl:;
-
-               // aqui pode dar free nos linked lists, é isso mesmo
-               if (DEBUG_DL__)
-                    pedro_dprintf(0, "last step now it is only cleaning and freeing the memory of the two linked lists");
-
-               if (DEBUG_DL__)
-               {
-                    ; // //assert(0 && "last step");
-               }
-
-               /*
-
-
-               */
-
-               // fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
           }
 
           fclose(my_file_dl);
