@@ -2,7 +2,7 @@
 DL____FLAGS__=-O1 -Wall -Wfatal-errors -Werror -Wno-restrict -Wextra -Wno-unused-function -I .
 	
 dl:
-	cp * 'C:\cygwin64_amandaricardo_koci_10.2.0\tar\bw_compression_research'
+	cp -r * 'C:\cygwin64_amandaricardo_koci_10.2.0\tar\bw_compression_research'
 
 pedro_dl_.o: pedro.c 
 	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -c -o pedro_dl_.o pedro.c 
@@ -16,4 +16,6 @@ dl_49: pedro_dl_.o
 #	./dl1.exe
 
 dl_50:
-	./dl1.exe
+	./dl1.exe make.ava make.ava.compressed_by_dl_compressor
+	./dl1.exe test.ava test.ava.compressed_by_dl_compressor
+	./dl1.exe make.exe make.exe.compressed_by_dl_compressor
