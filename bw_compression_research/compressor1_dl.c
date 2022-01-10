@@ -556,7 +556,7 @@ int main()
                                         free(my_ptr2_ar->next_ar);
                                    }
                                    */
-                                   
+
                                    fwrite(&my_ptr2_ar->index_of_linked_list_starting_from_0_dl, 1, 4, out_file_dl);
                                    fwrite(&my_ptr2_ar->len_of_memory_dl, 1, 4, out_file_dl);
                                    fwrite(my_ptr2_ar->string_saved_dl, 1, my_ptr2_ar->len_of_memory_dl, out_file_dl);
@@ -566,12 +566,24 @@ int main()
                                    goto inicio_arrrr22;
 
                               fim_rrr22:;
+
+                                   // just exit now...
+                                   goto continua_pro_proximo_buffer_a_ser_lido_dl;
                               }
                          }
                          else
                          {
                               // just save the uncompressed stream and go on to the next
                               minha_struct.got_compression_dl = false;
+
+                              minha_struct.linked_list_1_size_dl = len_dl;
+                              minha_struct.linked_list_2_size_dl = 0;
+
+                              fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
+
+                              fwrite(buf_dl, 1, len_dl, out_file_dl);
+                              
+                              goto continua_pro_proximo_buffer_a_ser_lido_dl;
                          }
                     }
                }
