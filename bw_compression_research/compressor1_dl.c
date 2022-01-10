@@ -76,8 +76,10 @@ void pedro_dprintf(int amanda_level,
 
 #define DEBUG_DL__ 0
 #define MAX_STRING_SEARCH_SIZE_DL__ (512)
-#define MIN_STRING_SEARCH_SIZE_DL__ (16)
-#define STRING_PASS_SIZE_DL__ (4)
+#define MIN_STRING_SEARCH_SIZE_DL__ (10)
+#define STRING_PASS_SIZE_DL__ (1)
+
+#define DL_SIZE__ (1L << 15)
 
 // 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
@@ -191,8 +193,6 @@ uint getpor(int max, uint fatia)
 int main(int arg_dl_c, char **arg_dl_v)
 {
 
-#define DL_SIZE__ (1L << 15)
-
      __attribute__((unused)) int len_dl;
 
      __attribute__((unused)) int len_of_data_to_compress_dl;
@@ -288,10 +288,21 @@ int main(int arg_dl_c, char **arg_dl_v)
           /*
 
           */
+          minha_struct.version_of_the_code = 4; // 5º version... initiated at 10 jan 2022 15:54:01
 
-          // minha_struct.version_of_the_code = 2; // 3º version... initiated at 10 jan 2022 02:00:00
+          /*
 
-          minha_struct.version_of_the_code = 3; // 4º version... initiated at 10 jan 2022 10:05:00
+          Version 4 was now fast but yet dont compress very well on not very compressible files, version 5 will enable
+          arithmetic compression to see whether is more easy to make comparisons
+
+          the zlib do huffman compression not only string search, interesting would be to see how it adjusts
+          strings and how to compare it without additional compression, maybe disabling huffman in the compression in
+          zlib
+
+          more code...
+
+          */
+          // minha_struct.version_of_the_code = 3; // 4º version... initiated at 10 jan 2022 10:05:00
 
           /* 4º version information, we will change the double linkd
           list compression method that failed with a method that will
@@ -319,7 +330,11 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                                                           */
 
+          // minha_struct.version_of_the_code = 2; // 3º version... initiated at 10 jan 2022 02:00:00
+
           printf("\n\n");
+
+          replacements_dl = 0;
 
           while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
           {
@@ -455,11 +470,25 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                               minha_struct.uncompressed_size_dl = len_dl;
 
-                              printf("\n\nCompressed size %d uncompressed %d\n", bytes_encoded_so_far_dl, len_dl);
-                              fflush(stdout);
                               fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
 
-                              fwrite(buf_dl_compressed, 1, bytes_encoded_so_far_dl, out_file_dl);
+                              {
+
+                                   int input_size_dl = bytes_encoded_so_far_dl;
+                                   int output_size_dl;
+                                   uint8_t *out_buf_dl = malloc((bytes_encoded_so_far_dl * 2) + 10000);
+
+                                   pass_memory_output_dl(out_buf_dl, &output_size_dl);
+
+                                   pass_memory_input_dl(buf_dl_compressed, &input_size_dl);
+
+                                   main_do_mr_do();
+                                   printf("\n\nCompressed size %d after ari %d uncompressed %d \n", bytes_encoded_so_far_dl, output_size_dl, len_dl);
+                                   fflush(stdout);
+                                   fwrite(out_buf_dl, 1, output_size_dl, out_file_dl);
+
+                                   free(out_buf_dl);
+                              }
 
                               if (DEBUG_DL__)
                                    pedro_dprintf(0, "salvou os dados e imprimiu dados na tela");
@@ -781,6 +810,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      printf("Progress my fool ric -> % 4d\n", 100);
      printf("\nResearch running...\n");
+     printf("\nReplacements %d...\n", replacements_dl);
 
      return 0;
 }

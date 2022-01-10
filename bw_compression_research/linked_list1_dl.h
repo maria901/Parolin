@@ -2,6 +2,8 @@
 // 4 and above use just memory, variables will be removed in a near future, what we want forst is make this
 //  code compress well and fast using lz77 or something better for (1 << 15) slices of uncompressed data
 
+int replacements_dl;
+
 int bytes_encoded_so_far_dl;
 int size_of_the_neddle_dl;
 int size_of_the_neddle_dl2;
@@ -89,14 +91,15 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
           {
                ; // assert(0 && "inside function");
           }
-
+          replacements_dl++;
           ptr_int_dl = (int *)&temp_dl[1];
-          ptr_uint16_dl = (uint16_t *)&temp_dl[5];
+          ptr_uint16_dl = (uint16_t *)&temp_dl[4];
 
           *ptr_int_dl = past_position_location_dl;
-          *ptr_uint16_dl = len_of_matched_string_dl;
 
-          len_of_input_to_encode_as_you_may_expect_dl = 1 + 4 + 2; // ok...
+          *ptr_uint16_dl = len_of_matched_string_dl;
+          
+          len_of_input_to_encode_as_you_may_expect_dl = 1 + 3 + 2; // ok...
 
           for (i_dl = 0; i_dl < len_of_input_to_encode_as_you_may_expect_dl; i_dl++)
           {
