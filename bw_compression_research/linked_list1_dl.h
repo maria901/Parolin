@@ -2,14 +2,30 @@
 // 4 and above use just memory, variables will be removed in a near future, what we want forst is make this
 //  code compress well and fast using lz77 or something better for (1 << 15) slices of uncompressed data
 
+int bytes_encoded_so_far_dl;
 int size_of_the_neddle_dl;
+int size_of_the_neddle_dl2;
+int size_of_the_neddle_dl3;
+int difference_of_the_new_loaded_data_dl;
 int size_of_uncompressed_stream_dl;
+int last_found_position_dl;
+uint16_t size_of_last_found_position_dl;
+bool last_item_is_required_dl;
+bool already_found_with_larger_size_dl;
 uint8_t *position_of_the_data_in_the_input__stream_dl;
+uint8_t *position_of_the_data_in_the_input__stream_dl_copy;
+uint8_t *position_of_the_data_in_the_input__stream_dl_original; //it start from here
 uint8_t *position_of_the_data_in_the_output_stream_dl;
+uint8_t montagem_last_byte_dl;
 
-int size_of_alredy_saw_data_dl;
+uint8_t best_match_dl[MAX_STRING_SEARCH_SIZE_DL__ + 10 /* for safety */];
+
+int size_of_already_saw_data_dl;
+int size_of_already_saw_data_dl_original;
+int size_of_already_saw_data_dl2;
 
 int bytes_left_in_the_input_uncompressed_stream_dl;
+int bytes_left_in_the_input_uncompressed_stream_dl_original;
 
 // here the encode from 8 bits to 9
 
@@ -24,7 +40,7 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                                             __attribute__((unused)) int len_of_input_to_encode_as_you_may_expect_dl,
                                             __attribute__((unused)) bool is_it_string_matched_in_past_buffer_dl,
                                             __attribute__((unused)) int past_position_location_dl,
-                                            __attribute__((unused)) int16_t len_of_matched_string_dl)
+                                            __attribute__((unused)) uint16_t len_of_matched_string_dl)
 {
 
      // int bitcount__dl = 0;
@@ -36,6 +52,7 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
      static uint8_t temp_dl[30];
 
      int *ptr_int_dl;
+     uint16_t *ptr_uint16_dl;
 
      static uint16_t meu_buf_16_dl[512];
 
@@ -66,19 +83,19 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
           }
 
           ptr_int_dl = (int *)&temp_dl[1];
+          ptr_uint16_dl = (uint16_t *)&temp_dl[5];
 
-          *ptr_int_dl = index_of_linked_list_starting_from_0_dl;
+          *ptr_int_dl = past_position_location_dl;
+          *ptr_uint16_dl = len_of_matched_string_dl;
 
-          len_of_input_to_encode_as_you_may_expect_dl = 1 + 1 + 1 + 1 + 1;
+          len_of_input_to_encode_as_you_may_expect_dl = 1 + 4 + 2; // ok...
 
           for (i_dl = 0; i_dl < len_of_input_to_encode_as_you_may_expect_dl; i_dl++)
           {
                meu_buf_16_dl[i_dl] = (int16_t)temp_dl[i_dl];
           }
-          meu_buf_16_dl[0] = 260;
+          meu_buf_16_dl[0] = 260; // this is ok...no need to change
      }
-
-     (*bytes_encoded_so_far_dl) = 0;
 
      if (is_it_the_first_byte_to_encode_dl)
      {
@@ -87,8 +104,8 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
           //(*bitposition_dl_interno_for_your_pleasure__) = 0;
           montagem_dl = 0;
           deslocador_dl = 0;
-          (*montagem_dl_interno) = 0;
-          (*last_item_is_required_dl) = false;
+          bytes_encoded_so_far_dl = 0;
+          last_item_is_required_dl = false;
      }
 
      while (len_of_input_to_encode_as_you_may_expect_dl--)
@@ -109,16 +126,16 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                     {
                          montagem_dl &= ~(1 << deslocador_dl);
                     }
-                    (*montagem_dl_interno) = montagem_dl; // entao depois do ultimo item poe mais esta adicional, adiciona is itens pegos e adiciona mais o byte montagem, este é o final, e se for 0, precisa salvar o deslocador tambem pra nao saber se é 0, se deslocador for 0 nao precisa de montagem adicional
+                    montagem_last_byte_dl = montagem_dl;
                     deslocador_dl++;
-                    (*last_item_is_required_dl) = true;
+                    last_item_is_required_dl = true;
                     if (8 == deslocador_dl)
                     {
-                         (*bytes_encoded_so_far_dl)++;
-                         (*output_mem_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
-                         output_mem_dl++;
+                         bytes_encoded_so_far_dl++;
+                         (*position_of_the_data_in_the_output_stream_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
+                         position_of_the_data_in_the_output_stream_dl++;
                          deslocador_dl = 0;
-                         (*last_item_is_required_dl) = false;
+                         last_item_is_required_dl = false;
                     }
                     bitposition_dl++;
                     break;
@@ -132,16 +149,16 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                     {
                          montagem_dl &= ~(1 << deslocador_dl);
                     }
-                    (*montagem_dl_interno) = montagem_dl;
+                    montagem_last_byte_dl = montagem_dl;
                     deslocador_dl++;
-                    (*last_item_is_required_dl) = true;
+                    last_item_is_required_dl = true;
                     if (8 == deslocador_dl)
                     {
-                         (*bytes_encoded_so_far_dl)++;
-                         (*output_mem_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
-                         output_mem_dl++;
+                         bytes_encoded_so_far_dl++;
+                         (*position_of_the_data_in_the_output_stream_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
+                         position_of_the_data_in_the_output_stream_dl++;
                          deslocador_dl = 0;
-                         (*last_item_is_required_dl) = false;
+                         last_item_is_required_dl = false;
                     }
                     bitposition_dl++;
                     break;
@@ -155,16 +172,16 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                     {
                          montagem_dl &= ~(1 << deslocador_dl);
                     }
-                    (*montagem_dl_interno) = montagem_dl;
+                    montagem_last_byte_dl = montagem_dl;
                     deslocador_dl++;
-                    (*last_item_is_required_dl) = true;
+                    last_item_is_required_dl = true;
                     if (8 == deslocador_dl)
                     {
-                         (*bytes_encoded_so_far_dl)++;
-                         (*output_mem_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
-                         output_mem_dl++;
+                         bytes_encoded_so_far_dl++;
+                         (*position_of_the_data_in_the_output_stream_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
+                         position_of_the_data_in_the_output_stream_dl++;
                          deslocador_dl = 0;
-                         (*last_item_is_required_dl) = false;
+                         last_item_is_required_dl = false;
                     }
                     bitposition_dl++;
                     break;
@@ -178,16 +195,16 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                     {
                          montagem_dl &= ~(1 << deslocador_dl);
                     }
-                    (*montagem_dl_interno) = montagem_dl;
+                    montagem_last_byte_dl = montagem_dl;
                     deslocador_dl++;
-                    (*last_item_is_required_dl) = true;
+                    last_item_is_required_dl = true;
                     if (8 == deslocador_dl)
                     {
-                         (*bytes_encoded_so_far_dl)++;
-                         (*output_mem_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
-                         output_mem_dl++;
+                         bytes_encoded_so_far_dl++;
+                         (*position_of_the_data_in_the_output_stream_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
+                         position_of_the_data_in_the_output_stream_dl++;
                          deslocador_dl = 0;
-                         (*last_item_is_required_dl) = false;
+                         last_item_is_required_dl = false;
                     }
                     bitposition_dl++;
                     break;
@@ -201,16 +218,16 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                     {
                          montagem_dl &= ~(1 << deslocador_dl);
                     }
-                    (*montagem_dl_interno) = montagem_dl;
+                    montagem_last_byte_dl = montagem_dl;
                     deslocador_dl++;
-                    (*last_item_is_required_dl) = true;
+                    last_item_is_required_dl = true;
                     if (8 == deslocador_dl)
                     {
-                         (*bytes_encoded_so_far_dl)++;
-                         (*output_mem_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
-                         output_mem_dl++;
+                         bytes_encoded_so_far_dl++;
+                         (*position_of_the_data_in_the_output_stream_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
+                         position_of_the_data_in_the_output_stream_dl++;
                          deslocador_dl = 0;
-                         (*last_item_is_required_dl) = false;
+                         last_item_is_required_dl = false;
                     }
                     bitposition_dl++;
                     break;
@@ -224,16 +241,16 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                     {
                          montagem_dl &= ~(1 << deslocador_dl);
                     }
-                    (*montagem_dl_interno) = montagem_dl;
+                    montagem_last_byte_dl = montagem_dl;
                     deslocador_dl++;
-                    (*last_item_is_required_dl) = true;
+                    last_item_is_required_dl = true;
                     if (8 == deslocador_dl)
                     {
-                         (*bytes_encoded_so_far_dl)++;
-                         (*output_mem_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
-                         output_mem_dl++;
+                         bytes_encoded_so_far_dl++;
+                         (*position_of_the_data_in_the_output_stream_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
+                         position_of_the_data_in_the_output_stream_dl++;
                          deslocador_dl = 0;
-                         (*last_item_is_required_dl) = false;
+                         last_item_is_required_dl = false;
                     }
                     bitposition_dl++;
                     break;
@@ -247,16 +264,16 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                     {
                          montagem_dl &= ~(1 << deslocador_dl);
                     }
-                    (*montagem_dl_interno) = montagem_dl;
+                    montagem_last_byte_dl = montagem_dl;
                     deslocador_dl++;
-                    (*last_item_is_required_dl) = true;
+                    last_item_is_required_dl = true;
                     if (8 == deslocador_dl)
                     {
-                         (*bytes_encoded_so_far_dl)++;
-                         (*output_mem_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
-                         output_mem_dl++;
+                         bytes_encoded_so_far_dl++;
+                         (*position_of_the_data_in_the_output_stream_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
+                         position_of_the_data_in_the_output_stream_dl++;
                          deslocador_dl = 0;
-                         (*last_item_is_required_dl) = false;
+                         last_item_is_required_dl = false;
                     }
                     bitposition_dl++;
                     break;
@@ -270,16 +287,16 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                     {
                          montagem_dl &= ~(1 << deslocador_dl);
                     }
-                    (*montagem_dl_interno) = montagem_dl;
+                    montagem_last_byte_dl = montagem_dl;
                     deslocador_dl++;
-                    (*last_item_is_required_dl) = true;
+                    last_item_is_required_dl = true;
                     if (8 == deslocador_dl)
                     {
-                         (*bytes_encoded_so_far_dl)++;
-                         (*output_mem_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
-                         output_mem_dl++;
+                         bytes_encoded_so_far_dl++;
+                         (*position_of_the_data_in_the_output_stream_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
+                         position_of_the_data_in_the_output_stream_dl++;
                          deslocador_dl = 0;
-                         (*last_item_is_required_dl) = false;
+                         last_item_is_required_dl = false;
                     }
                     bitposition_dl++;
                     break;
@@ -293,16 +310,16 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                     {
                          montagem_dl &= ~(1 << deslocador_dl);
                     }
-                    (*montagem_dl_interno) = montagem_dl;
+                    montagem_last_byte_dl = montagem_dl;
                     deslocador_dl++;
-                    (*last_item_is_required_dl) = true;
+                    last_item_is_required_dl = true;
                     if (8 == deslocador_dl)
                     {
-                         (*bytes_encoded_so_far_dl)++;
-                         (*output_mem_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
-                         output_mem_dl++;
+                         bytes_encoded_so_far_dl++;
+                         (*position_of_the_data_in_the_output_stream_dl) = montagem_dl; // quando encher um byte inteiro..., ja foi prealocado do tamanho certo com multiplicacao por .2
+                         position_of_the_data_in_the_output_stream_dl++;
                          deslocador_dl = 0;
-                         (*last_item_is_required_dl) = false;
+                         last_item_is_required_dl = false;
                     }
                     bitposition_dl = 0;
                     break;

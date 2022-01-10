@@ -77,6 +77,7 @@ void pedro_dprintf(int amanda_level,
 #define DEBUG_DL__ 0
 #define MAX_STRING_SEARCH_SIZE_DL__ (512)
 #define MIN_STRING_SEARCH_SIZE_DL__ (16)
+#define STRING_PASS_SIZE_DL__ (16)
 
 // 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
@@ -221,6 +222,8 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) static uint8_t needle_buf_dl[MAX_STRING_SEARCH_SIZE_DL__ + 20 /*for safety */];
 
+     __attribute__((unused)) static uint8_t needle_buf_dl_copy[MAX_STRING_SEARCH_SIZE_DL__ + 20 /*for safety */];
+
      __attribute__((unused)) int64_t result_dl;
 
      __attribute__((unused)) int has_itens_is__dl__update_dl_copy;
@@ -282,22 +285,6 @@ int main(int arg_dl_c, char **arg_dl_v)
           //
           /*
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           */
 
           // minha_struct.version_of_the_code = 2; // 3º version... initiated at 10 jan 2022 02:00:00
@@ -325,18 +312,6 @@ int main(int arg_dl_c, char **arg_dl_v)
           more code...
 
           we will just go modifying code from version 3 to match version 4 requirements
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -374,36 +349,18 @@ int main(int arg_dl_c, char **arg_dl_v)
                                    buf16_dl[i_i_dl] = (int16_t)buf_dl[i_i_dl];
                               }
                */
+
                /*
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                */
+
                // like a cientist...
 
-               size_of_alredy_saw_data_dl = 0;
+               already_found_with_larger_size_dl = false;
+
+               is_it_the_first_byte_to_encode_dl = true;
+
+               size_of_already_saw_data_dl = 0;
 
                size_of_uncompressed_stream_dl = len_dl;
 
@@ -545,12 +502,16 @@ int main(int arg_dl_c, char **arg_dl_v)
                     ; // //assert(0 && "returning or first pass, ric");
                }
                // pos_in_stream_dl
+               size_of_already_saw_data_dl_original = size_of_already_saw_data_dl;
+
+               bytes_left_in_the_input_uncompressed_stream_dl_original = bytes_left_in_the_input_uncompressed_stream_dl; // dont and the rest
+               position_of_the_data_in_the_input__stream_dl_original = position_of_the_data_in_the_input__stream_dl;     // done, now
 
                size_of_the_neddle_dl = min(bytes_left_in_the_input_uncompressed_stream_dl, initial_size_of_string_dl);
 
                memcpy(needle_buf_dl, position_of_the_data_in_the_input__stream_dl, size_of_the_neddle_dl);
 
-               position_of_the_data_in_the_input__stream_dl += size_of_the_neddle_dl;
+               position_of_the_data_in_the_input__stream_dl += size_of_the_neddle_dl; // nao tem que lembrar isto em caso de nao achar ?, sim tem que voltar pra cá e com o tamanho certo, precisa de uma cópia, se der atualiza, vai la....
 
                progress_dl += size_of_the_neddle_dl;
 
@@ -559,8 +520,6 @@ int main(int arg_dl_c, char **arg_dl_v)
                len_dl_copy -= size_of_the_neddle_dl;
 
                bytes_left_in_the_input_uncompressed_stream_dl -= size_of_the_neddle_dl;
-
-               size_of_alredy_saw_data_dl += size_of_the_neddle_dl;
 
                if (DEBUG_DL__)
                     pedro_dprintf(0, "copying %d bytes from the data read to see if it already exit or not?", initial_size_of_string_dl);
@@ -578,14 +537,24 @@ int main(int arg_dl_c, char **arg_dl_v)
                     ; // //assert(0 && "inside function");
                }
 
-               if (size_of_alredy_saw_data_dl <= MIN_STRING_SEARCH_SIZE_DL__)
+               if (size_of_already_saw_data_dl <= MIN_STRING_SEARCH_SIZE_DL__)
                {
                     // just add the data, call the
 
-                    convert_8_bits_to_nine_bits()
+                    convert_8_bits_to_nine_bits(needle_buf_dl,
+                                                size_of_the_neddle_dl,
+                                                false, 1969, 2022); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
+                                                                    //é  buf_dl mais size_of_already_saw_data_dl, certo?
+                    goto volta_aqui_mais_alto_mar;
                }
 
-               result_dl = mem_search_dl(hay_ptr_dl, len_dl_copy, needle_buf_dl, initial_size_of_string_dl, 0); // nao tem que ser aqui oque faz a primeira pesquisa , tem que ver primeiro no segundo linked list ric, antes desse, incrivel como é complicado isso...
+               result_dl = mem_search_dl(buf_dl, size_of_already_saw_data_dl,
+                                         needle_buf_dl, size_of_the_neddle_dl,
+                                         0);
+
+               size_of_already_saw_data_dl += size_of_the_neddle_dl;
+
+               // ok, if found it will be added as a position and size
 
                /*
 
@@ -595,6 +564,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                if (-1 == result_dl)
                {
+
                     ; // try again
                     if (DEBUG_DL__)
                          pedro_dprintf(0, "string not found, now it will try with a smaller size or just save it as it is i the fisrt linked list");
@@ -603,77 +573,16 @@ int main(int arg_dl_c, char **arg_dl_v)
                     {
                          ; // //assert(0 && "running");
                     }
-                    if (initial_size_of_string_dl > 16)
+                    convert_8_bits_to_nine_bits(needle_buf_dl,
+                                                size_of_the_neddle_dl,
+                                                false, 1969, 2022); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
+                                                                    //é  buf_dl mais size_of_already_saw_data_dl, certo?
+                    if (0 == 1)
+                    // to make the compiler happy
                     {
-                         delocador_fix_bug_in_version_2_0_dl -= initial_size_of_string_dl;
-                         progress_dl -= initial_size_of_string_dl;
-                         hay_ptr_dl -= initial_size_of_string_dl; // to try again...
-                         len_dl_copy += initial_size_of_string_dl;
-
-                         initial_size_of_string_dl -= 16; // nunca vai ser menor que 0 ric, nem nunca vai ser 0 depois disto, ok? nao quer dormir ?
-                         if (DEBUG_DL__)
-                              pedro_dprintf(0, "will try again with a smaller size , now it will be %d bytes", initial_size_of_string_dl);
-
-                         if (DEBUG_DL__)
-                         {
-                              ; // //assert(0 && "running");
-                         }
                          goto volta_aqui_ric;
                     }
-                    else
-                    {
-                         ; // simplemente salva os dados no linked list e segue adiante
-                         ; // pode ser 16 ate 0;, simplesmente salva os dados e segue adiante
-                         // se esta tudo certo é só salvar ric..., o primeiro linked list só precisa dos bytes salvos, e ja que terao tambem a referencia ao linked list vamos seguir em frente, lembrando que mais tarde faremos melhorias nisto, nao agora, por agora só queremos que funcione, vamos montar o primeiro linked list e colocar ele num arquivo fora, pra nao ficar muiot grande, faça isto
-                         if (DEBUG_DL__)
-                              pedro_dprintf(0, "smmaler size reached -> %d, then it will be stored as it is and start again the initial process", initial_size_of_string_dl);
-
-                         if (DEBUG_DL__)
-                         {
-                              ; // //assert(0 && "running");
-                         }
-                         /*
-
-
-
-
-
-
-
-
-
-
-
-
-                         */
-                         // add_more_one_is__dl__update_dl(needle_buf_dl, initial_size_of_string_dl, -1, false); // depois a gente pensa no linked list 2
-
-                         // e agora, mais um round nao é isso,
-
-                         /*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                         */
-
-                         goto volta_aqui_mais_alto_mar; // perfect
-                    }
+                    goto volta_aqui_mais_alto_mar; // perfect
                }
                else
                {
@@ -691,63 +600,99 @@ int main(int arg_dl_c, char **arg_dl_v)
                     /*
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    here try different ideas
 
                     */
+                    if (0 == 1)
+                    {
+                         goto try_more_ric;
+                    }
 
-                    // add_more_one_is___rcdl____update__rcdl__(needle_buf_dl, initial_size_of_string_dl);
+                    size_of_the_neddle_dl2 = size_of_the_neddle_dl;
 
-                    // here in version 4 we will be adding different code
+               try_more_ric:;
 
-                    /*
+                    if (MAX_STRING_SEARCH_SIZE_DL__ > size_of_the_neddle_dl2)
+                    {
 
+                         size_of_the_neddle_dl2 += STRING_PASS_SIZE_DL__; // mais tarde da para ajustar isso
 
+                         if (MAX_STRING_SEARCH_SIZE_DL__ > size_of_the_neddle_dl2)
+                         {
+                              size_of_the_neddle_dl2 = MAX_STRING_SEARCH_SIZE_DL__;
+                         }
+                         // try with more data, better keep it here
+                         size_of_the_neddle_dl3 = min(bytes_left_in_the_input_uncompressed_stream_dl_original, size_of_the_neddle_dl2);
 
+                         if (size_of_the_neddle_dl3 == size_of_the_neddle_dl2) // more itens found, need to adjust if found
+                         {
+                              ; // do
 
+                              memcpy(needle_buf_dl_copy, position_of_the_data_in_the_input__stream_dl_original, size_of_the_neddle_dl3);
 
+                              // now search
 
+                              result_dl = mem_search_dl(buf_dl, size_of_already_saw_data_dl_original,
+                                                        needle_buf_dl_copy, size_of_the_neddle_dl3,
+                                                        0);
 
+                              if (-1 == result_dl)
+                              {
 
+                                   goto end_of_search_my_ric;
+                              }
+                              else
+                              {
+                                   ; // here adjust, if no more is found it is already ready to adjust
 
+                                   already_found_with_larger_size_dl = true;
+                                   difference_of_the_new_loaded_data_dl = (size_of_already_saw_data_dl_original + size_of_the_neddle_dl3) - size_of_already_saw_data_dl;
 
+                                   last_found_position_dl = result_dl;
+                                   size_of_last_found_position_dl = size_of_the_neddle_dl3;
+                                   goto try_more_ric;
+                              }
+                         }
+                         else
+                         {
+                              goto end_of_search_my_ric;
+                         }
+                    }
 
+               end_of_search_my_ric:;
+                    if (already_found_with_larger_size_dl) // need to remove
+                    {
+                         // here ric my brother...
+                         convert_8_bits_to_nine_bits(needle_buf_dl,         // irrelevant
+                                                     size_of_the_neddle_dl, // irrelevant
+                                                     true,
+                                                     last_found_position_dl,
+                                                     size_of_last_found_position_dl);
 
+                         size_of_already_saw_data_dl += difference_of_the_new_loaded_data_dl;
 
+                         position_of_the_data_in_the_input__stream_dl += difference_of_the_new_loaded_data_dl;
 
+                         progress_dl += difference_of_the_new_loaded_data_dl;
 
+                         hay_ptr_dl += difference_of_the_new_loaded_data_dl;
 
+                         len_dl_copy -= difference_of_the_new_loaded_data_dl;
 
+                         bytes_left_in_the_input_uncompressed_stream_dl -= difference_of_the_new_loaded_data_dl;
 
+                         already_found_with_larger_size_dl = false;
+                         // when searching just change the size of the needle, if already found
 
+                         goto volta_aqui_mais_alto_mar;
+                    }
 
+                    // oque há de errado?, ta tudo certo, se nao achar nada nao faz nada se achar vai reajustando a cada caminhada entendeu
 
-
-
-
-
-
-
-                    */
+                    convert_8_bits_to_nine_bits(needle_buf_dl,
+                                                size_of_the_neddle_dl,
+                                                false, 1969, 2022); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
+                                                                    //é  buf_dl mais size_of_already_saw_data_dl, certo?
 
                     goto volta_aqui_mais_alto_mar;
                }
