@@ -92,13 +92,13 @@ void __fastcall convert_8_bits_to_nine_bits(__attribute__((unused)) uint8_t *inp
                ; // assert(0 && "inside function");
           }
           replacements_dl++;
-          ptr_int_dl = (int *)&temp_dl[1];
-          ptr_uint16_dl = (uint16_t *)&temp_dl[4];
+          ptr_int_dl = (int *)&temp_dl[1];         // only 3 of the founr bytes are saved, since we will not address more than 16 million bytes
+          ptr_uint16_dl = (uint16_t *)&temp_dl[4]; // need to check it for big endian or little endian support
 
           *ptr_int_dl = past_position_location_dl;
 
           *ptr_uint16_dl = len_of_matched_string_dl;
-          
+
           len_of_input_to_encode_as_you_may_expect_dl = 1 + 3 + 2; // ok...
 
           for (i_dl = 0; i_dl < len_of_input_to_encode_as_you_may_expect_dl; i_dl++)

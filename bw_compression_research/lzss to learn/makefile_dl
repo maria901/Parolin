@@ -1,0 +1,17 @@
+#2022 ric & dl
+DL____FLAGS__=-O3 -Wall -Wfatal-errors -Werror -Wno-sign-compare -Wno-restrict -Wextra -Wno-unused-function -I .
+DL____FLAGS__2=-O1 -Wfatal-errors -Werror -Wno-restrict -Wno-unused-function -I .
+	
+dl_500:
+	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -Wl,-subsystem,windows LZARI.c -o lzari_dl.exe
+	./lzari_dl.exe e make.exe make.dl.ari
+	./lzari_dl.exe d make.dl.ari make.ari.exe
+dl_501:
+	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -Wl,-subsystem,windows LZHUF.c -o lzhuf_dl.exe
+#	./lzhuf_dl.exe e make.exe make.huf.dl
+#	./lzhuf_dl.exe d make.huf.dl make.huf.exe
+dl_502:
+	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -Wl,-subsystem,windows LZSS.c  -o  lzss_dl.exe
+	./lzss_dl.exe e make.exe make.ss
+	./lzss_dl.exe d make.ss make.ss.exe
+	-./ari < make.ss > make.ss.depois_de_ari.dl.ari
