@@ -133,11 +133,11 @@ u_int32_t local_adler32(u_int8_t *buffer, int32_t length)
 
 **************************************************************/
 
-#define N (4096)      /* size of ring buffer - must be power of 2 */
-#define F 18        /* upper limit for match_length */
-#define THRESHOLD 2 /* encode string into position and length \
-                       if match_length is greater than this */
-#define NIL N       /* index for root of binary search trees */
+#define N (4096 * 1) /* size of ring buffer - must be power of 2 */
+#define F 18         /* upper limit for match_length */
+#define THRESHOLD 2  /* encode string into position and length \
+                        if match_length is greater than this */
+#define NIL N        /* index for root of binary search trees */
 
 struct encode_state
 {
@@ -158,12 +158,12 @@ struct encode_state
 
 /**
  * @brief decompression function for modified lzss code
- * 
- * @param dst 
- * @param dstlen 
- * @param src 
- * @param srclen 
- * @return int 
+ *
+ * @param dst
+ * @param dstlen
+ * @param src
+ * @param srclen
+ * @return int
  */
 int decompress_lzss(
     u_int8_t *dst,
@@ -173,7 +173,7 @@ int decompress_lzss(
 {
     /**
      * @brief Hi
-     * 
+     *
      */
     u_int8_t text_buf[N + F - 1];
     u_int8_t *dststart = dst;
@@ -505,7 +505,7 @@ int main()
 
     FILE *myfile_dl2 = fopen("make_exe_ric_dl__lsss", "wb");
 
-int ret_value_dl;
+    int ret_value_dl;
     int size_of_data_dl = 0;
 
     fseek(myfile_dl, 0, SEEK_END);
@@ -544,30 +544,24 @@ int ret_value_dl;
             }
             fwrite(out_buf_dl, 1, (int)(saida_dl - out_buf_dl), myfile_dl2);
 
+            ret_value_dl = decompress_lzss(out_buf_dl2,
+                                           (size_of_data_dl * 2) + 10000,
+                                           out_buf_dl,
+                                           (int)(saida_dl - out_buf_dl));
 
+            pedro_dprintf(0, "retornou %d de descompressao ", ret_value_dl);
 
-ret_value_dl = decompress_lzss()
-
-
-
-
-
-
+            if (ret_value_dl == size_of_data_dl && 0 == memcmp(out_buf_dl2, in__buf_dl, size_of_data_dl))
+            {
+                printf("Bateu valores \n"); // ok vamos lá... seguindo adiante...
+            }
+            else
+            {
+                printf("Erro na checagem \n");
+                exit(29);
+            }
 
             printf("Done\n");
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
         else
         {

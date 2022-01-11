@@ -74,9 +74,9 @@ int main_do_mr_do(void);
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
-#define DEBUG_DL__ 1
-#define MAX_STRING_SEARCH_SIZE_DL__ (259) /* need to be dimished with less 4 bytes to pass */
-#define MIN_STRING_SEARCH_SIZE_DL__ (4)   /* 4 bytes is the smallest size that can be compressed */
+#define DEBUG_DL__ 0
+#define MAX_STRING_SEARCH_SIZE_DL__ (512)
+#define MIN_STRING_SEARCH_SIZE_DL__ (10)
 #define STRING_PASS_SIZE_DL__ (1)
 
 #define DL_SIZE__ (1L << 15)
@@ -103,7 +103,6 @@ typedef struct dl_dados_salvos_querido_ric__
      bool got_compression_dl;
      int uncompressed_size_dl;
      int compressed_size_dl;
-     int bits_encoded_size_in_bytes_dl;
      int linked_list_1_size_dl;
      int linked_list_2_size_dl;
 
@@ -209,16 +208,6 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) uint8_t *buf_dl_compressed = malloc((int)size_d_dl); // need to be certain that will not store more than 8 to 9 bits on it for the moment, please verify later
 
-     size_d_dl = (double)DL_SIZE__;
-
-     size_d_dl = ceil((size_d_dl * .2));
-
-     __attribute__((unused)) uint8_t *buf_dl_bit_buffer = malloc((int)size_d_dl); // need to be certain that will
-
-     bit_buffer_left_dl_original = (int)size_d_dl;
-
-     bit_buffer_left_dl = bit_buffer_left_dl_original;
-
      __attribute__((unused)) uint8_t *ptr_dl;
 
      __attribute__((unused)) int i_i_dl;
@@ -299,54 +288,7 @@ int main(int arg_dl_c, char **arg_dl_v)
           /*
 
           */
-          minha_struct.version_of_the_code = 5; // 6º version... initiated at 11 jan 2022 03:53:01
-
-          /*
-
-               After reading a few papers we saw that we are trying to compress to much large strings that are not common
-               As an example our version 5 from yeasterday will try to compress strings up to 512 characters on it
-               while lzss will compress up to 18 characters on a string, and compressed better than our implementation
-               Also we are wasting too much space at this moment, while lzss will expand only one bit for each not compressible character and more 1 bit for position and lenght stored in two bytes for a maximum of
-               4096 bytes sliding window addressable using 12 bits, plus for to the lenght
-
-               we will try to use these ideas in our compressor, for the moment the size of the data to compress is slices of (1 << 15) 32 kb then we need more than 12 bits to make a position on the passed data
-
-               Michael Dipperstein from https://michaeldipperstein.github.io/lzss.html have very interesting papers and code and advanced documentation about lzss and we will borrow some ideas
-
-               also we will try to compress strings up to 3 bytes of size or four, and not 10 as the v5 code and below, also, we will not waste time searching for strings larger than 20 characters on it, indeed it will be the limit for the moment
-
-               after the strings replaces arithmetic compression will be applied to gather some bytes on the final size
-
-               so lets code (04:04:01 day 11 jan)
-
-               first we will start modifying the function convert_8_bits_to_nine_bits to encode using the smallest possible size for a maximum window of (1 << 15)
-
-               also we will borrow the idea from Michael to use bit encode as whole bytes and just pass it later to the stream in a predefined struct as header, this idea we used in 2009 in our advanced rle compressor modified
-
-               to increase compression we will use the smallest possible size to store data as we learned with lzss
-
-               now allocating memory to the arrays of bits as bytes it will be up to 1 bit more for each byte to encode the size = size + (size * .2) will be enough, let we implement it
-
-               also the arithmetic compression can work on the whole file and not in the 32 kb slice for better
-               compression, but we will take care of this later, first we need to create an advanced strings search and replace mode
-
-               lets code...
-
-               during debug for the moment we will use the external arithmetic compressor, no need to use it internally now, only later
-
-               well, bit handling rountine was added, now what we will do is adapt a ls77 and lz77 together
-               to see if it work, we will not use a sliding window but the current buffer so far to store
-               the data encoded in the compressed stream with a sequence of encoded bytes that require plus one bit in the bit stream or a sequence of pointer to the passed data with position and size limited to a window of 32 kb perfectly
-
-               lets code, first we need to generate the adjusts for the size of data to store in case of a pointer in the passed data
-
-               lets go...
-
-
-
-          */
-
-          // minha_struct.version_of_the_code = 4; // 5º version... initiated at 10 jan 2022 15:54:01
+          minha_struct.version_of_the_code = 4; // 5º version... initiated at 10 jan 2022 15:54:01
 
           /*
 
@@ -384,7 +326,9 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           we will just go modifying code from version 3 to match version 4 requirements
 
-          */
+
+
+                                                          */
 
           // minha_struct.version_of_the_code = 2; // 3º version... initiated at 10 jan 2022 02:00:00
 
@@ -429,22 +373,6 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                // like a cientist...
 
-               compressed_and_encoded_bytes_available_11_jan_2022_v6_dl = 0;
-
-               number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl = 0;
-
-               bit_buffer_left_dl = bit_buffer_left_dl_original;
-
-               ptr_position_for_bit_memory_dl = buf_dl_bit_buffer;
-
-               bit_position_11_jan_2022_v6_dl = 0;
-
-               requires_last_byte_11_jan_2022_v6_dl = false;
-
-               current_byte_being_generated_11_jan_2022_v6_byte_dl = 0;
-
-               bits_added_11_jan_2022_v6_dl = 0;
-
                already_found_with_larger_size_dl = false;
 
                is_it_the_first_byte_to_encode_dl = true;
@@ -488,9 +416,7 @@ int main(int arg_dl_c, char **arg_dl_v)
                if (DEBUG_DL__)
                     pedro_dprintf(0, "iniciou novo cliclo ou reiniciou carregamento de dados");
 
-               initial_size_of_string_dl = initial_size_dl; //
-
-               size_real_for_number_of_characters_up_to_259_dl = initial_size_dl;
+               initial_size_of_string_dl = initial_size_dl; // this will not be used ric...but we will keep, the main search is below, but if restarted it will be here
 
                if (DEBUG_DL__)
                {
@@ -540,21 +466,14 @@ int main(int arg_dl_c, char **arg_dl_v)
                               // first adjust the headers...
                               minha_struct.got_compression_dl = true;
 
-                              minha_struct.compressed_size_dl = compressed_and_encoded_bytes_available_11_jan_2022_v6_dl;
-
-                              minha_struct.bits_encoded_size_in_bytes_dl = number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl;
-
-                              if (requires_last_byte_11_jan_2022_v6_dl)
-                              {
-                                   minha_struct.bits_encoded_size_in_bytes_dl++; // fixed already only need to save the last byte if required
-                              }
+                              minha_struct.compressed_size_dl = bytes_encoded_so_far_dl;
 
                               minha_struct.uncompressed_size_dl = len_dl;
 
                               fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
 
                               {
-                                   /*
+
                                    int input_size_dl = bytes_encoded_so_far_dl;
                                    int output_size_dl;
                                    uint8_t *out_buf_dl = malloc((bytes_encoded_so_far_dl * 2) + 10000);
@@ -564,20 +483,11 @@ int main(int arg_dl_c, char **arg_dl_v)
                                    pass_memory_input_dl(buf_dl_compressed, &input_size_dl);
 
                                    main_do_mr_do();
-                                   */
-                                   printf("\n\nCompressed size %d after uncompressed %d \n", number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl + compressed_and_encoded_bytes_available_11_jan_2022_v6_dl, len_dl);
+                                   printf("\n\nCompressed size %d after ari %d uncompressed %d \n", bytes_encoded_so_far_dl, output_size_dl, len_dl);
                                    fflush(stdout);
+                                   fwrite(out_buf_dl, 1, output_size_dl, out_file_dl);
 
-                                   if (true)
-                                   {
-                                        // fwrite(buf_dl_compressed, 1, bytes_encoded_so_far_dl, out_file_dl);
-                                   }
-                                   else
-                                   {
-                                        // fwrite(out_buf_dl, 1, output_size_dl, out_file_dl);
-                                   }
-
-                                   // free(out_buf_dl);
+                                   free(out_buf_dl);
                               }
 
                               if (DEBUG_DL__)
@@ -650,25 +560,15 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                bytes_left_in_the_input_uncompressed_stream_dl -= size_of_the_neddle_dl;
 
-               if (size_of_already_saw_data_dl < MIN_STRING_SEARCH_SIZE_DL__) // must be 0 at the begining in version v6
+               if (size_of_already_saw_data_dl < MIN_STRING_SEARCH_SIZE_DL__)
                {
                     // just add the data, call the
                     if (DEBUG_DL__)
-                         pedro_dprintf(0, "primeiro salvamento de uma olhada, size of the needle must be 4 %d", size_of_the_neddle_dl);
-                    /*
-
-
-
-
-                    */
-
-                    convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(needle_buf_dl,
-                                                                  size_of_the_neddle_dl,
-                                                                  false,
-                                                                  1969,
-                                                                  0); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
+                         pedro_dprintf(0, "primeiro salvamento de uma olhada");
+                    convert_8_bits_to_nine_bits(needle_buf_dl,
+                                                size_of_the_neddle_dl,
+                                                false, 1969, 2022); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
                     //é  buf_dl mais size_of_already_saw_data_dl, certo?
-
                     size_of_already_saw_data_dl += size_of_the_neddle_dl;
 
                     if (DEBUG_DL__)
@@ -710,28 +610,18 @@ int main(int arg_dl_c, char **arg_dl_v)
                {
 
                     if (DEBUG_DL__)
-                         pedro_dprintf(0, "nao encontrou entao vai salvar %d bytes, antes de chamar o so far alterado é %d e bits encoded ate agora %d", size_of_the_neddle_dl, compressed_and_encoded_bytes_available_11_jan_2022_v6_dl,
-                                       number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
+                         pedro_dprintf(0, "nao encontrou entao vai salvar %d bytes, antes de chamar o so far é %d ", size_of_the_neddle_dl, bytes_encoded_so_far_dl);
 
                     if (DEBUG_DL__)
                     {
                          assert(0 && "parando");
                     }
 
-                    /*
-
-
-
-
                     convert_8_bits_to_nine_bits(needle_buf_dl,
-                    size_of_the_neddle_dl,
-                    false, 1969, 2022); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
-                    //é  buf_dl mais size_of_already_saw_data_dl, certo?
+                                                size_of_the_neddle_dl,
+                                                false, 1969, 2022); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
+                                                                    //é  buf_dl mais size_of_already_saw_data_dl, certo?
 
-
-
-
-                    */
                     if (DEBUG_DL__)
                          pedro_dprintf(0, "o so far agora é %d ", bytes_encoded_so_far_dl);
 
@@ -839,20 +729,12 @@ int main(int arg_dl_c, char **arg_dl_v)
                end_of_search_my_ric:;
                     if (already_found_with_larger_size_dl) // need to remove
                     {
-                         /*
-
-
-
                          // here ric my brother...
                          convert_8_bits_to_nine_bits(needle_buf_dl,         // irrelevant
-                         size_of_the_neddle_dl, // irrelevant
-                         true,
-                         last_found_position_dl,
-                         size_of_last_found_position_dl);
-
-
-
-                         */
+                                                     size_of_the_neddle_dl, // irrelevant
+                                                     true,
+                                                     last_found_position_dl,
+                                                     size_of_last_found_position_dl);
 
                          size_of_already_saw_data_dl += difference_of_the_new_loaded_data_dl;
 
@@ -890,21 +772,13 @@ int main(int arg_dl_c, char **arg_dl_v)
                     {
                          assert(0 && "parando");
                     }
-                    /*
-
-
-
 
                     convert_8_bits_to_nine_bits(needle_buf_dl,
-                    size_of_the_neddle_dl,
-                    true,
-                    result_dl2,
-                    size_of_the_neddle_dl); // done
+                                                size_of_the_neddle_dl,
+                                                true,
+                                                result_dl2,
+                                                size_of_the_neddle_dl); // done
 
-
-
-
-                    */
                     goto volta_aqui_mais_alto_mar;
                }
 
@@ -931,7 +805,8 @@ int main(int arg_dl_c, char **arg_dl_v)
           out_file_dl = NULL;
      }
 
-     free(buf_dl), free(buf_dl_compressed), free(buf_dl_bit_buffer);
+     free(buf_dl);
+     free(buf_dl_compressed);
 
      printf("Progress my fool ric -> % 4d\n", 100);
      printf("\nResearch running...\n");
