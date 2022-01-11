@@ -662,14 +662,23 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                     */
 
-                    convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(needle_buf_dl,
-                                                                  size_of_the_neddle_dl,
-                                                                  false,
-                                                                  1969,
-                                                                  0); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
-                    //é  buf_dl mais size_of_already_saw_data_dl, certo?
+                    // it will encode the string adding one bit for each character of the string in this initial case 4 (in v6)
 
-                    size_of_already_saw_data_dl += size_of_the_neddle_dl;
+                    size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_the_neddle_dl;
+
+                    assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
+
+                    size_real_for_number_of_characters_up_to_259_dl -= 4;
+
+                    size_of_characters_adjusted_to_pass_dl = (uint8_t)size_real_for_number_of_characters_up_to_259_dl;
+
+                    convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(needle_buf_dl,
+                                                                  size_of_characters_adjusted_to_pass_dl,
+                                                                  false,
+                                                                  1969 + 2022, // just a joke..., this here is irrelevant, due to the 'false' in the past argument
+                                                                  0);          //
+
+                    size_of_already_saw_data_dl += size_of_the_neddle_dl; // adjusting even if first string added... (in v6)
 
                     if (DEBUG_DL__)
                          pedro_dprintf(0, "ja salvou");
@@ -684,7 +693,7 @@ int main(int arg_dl_c, char **arg_dl_v)
                if (DEBUG_DL__)
                     pedro_dprintf(0, "tamanho de size_of_already_saw_data_dl antes search 1 %d", size_of_already_saw_data_dl);
 
-               result_dl = mem_search_dl(buf_dl, size_of_already_saw_data_dl, // nao pode incluir no search o item sendo buscado por isso tem que ser depois
+               result_dl = mem_search_dl(buf_dl, size_of_already_saw_data_dl, // nao pode incluir no search o item sendo buscado por isso tem que ser depois, isto tambem na versao v6, senao claro ele vai ser sempre encontrado, he he he
                                          needle_buf_dl, size_of_the_neddle_dl,
                                          0);
 
@@ -696,21 +705,13 @@ int main(int arg_dl_c, char **arg_dl_v)
                     assert(0 && "parando");
                }
 
-               size_of_already_saw_data_dl += size_of_the_neddle_dl;
-
-               // ok, if found it will be added as a position and size
-
-               /*
-
-               int version 3 we will mkae the next search start from the next point that is not the first position, this is a bug in version 2
-
-               */
+               size_of_already_saw_data_dl += size_of_the_neddle_dl; // adjusting the size of available bytes to the new copied neddle, or it will locate the current neddle being tested, it was a bug in versions of the past
 
                if (-1 == result_dl)
                {
 
                     if (DEBUG_DL__)
-                         pedro_dprintf(0, "nao encontrou entao vai salvar %d bytes, antes de chamar o so far alterado é %d e bits encoded ate agora %d", size_of_the_neddle_dl, compressed_and_encoded_bytes_available_11_jan_2022_v6_dl,
+                         pedro_dprintf(0, "nao encontrou entao vai salvar %d bytes, antes de chamar o so far alterado é %d e bits as the number of whole bytes encoded ate agora %d", size_of_the_neddle_dl, compressed_and_encoded_bytes_available_11_jan_2022_v6_dl,
                                        number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
 
                     if (DEBUG_DL__)
@@ -718,22 +719,24 @@ int main(int arg_dl_c, char **arg_dl_v)
                          assert(0 && "parando");
                     }
 
-                    /*
+                    // if not found just store in the compressed stream as it is, addicional bit (0 as the value, 1 for pointers in the passed stream if this is the case) will be added for each character in the string
+                    size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_the_neddle_dl;
 
+                    assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
 
+                    size_real_for_number_of_characters_up_to_259_dl -= 4;
 
+                    size_of_characters_adjusted_to_pass_dl = (uint8_t)size_real_for_number_of_characters_up_to_259_dl;
 
-                    convert_8_bits_to_nine_bits(needle_buf_dl,
-                    size_of_the_neddle_dl,
-                    false, 1969, 2022); // simplesmente adiciona porque é o inicio, agora vamos para as melhorias, primeiro tem que copiar o needle, tem que ter a memoria pra ler tambem,
-                    //é  buf_dl mais size_of_already_saw_data_dl, certo?
+                    convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(needle_buf_dl,
+                                                                  size_of_characters_adjusted_to_pass_dl,
+                                                                  false,
+                                                                  2022 /* the value of this argument is irrelevant here */,
+                                                                  0 /* here too */); //
 
-
-
-
-                    */
                     if (DEBUG_DL__)
-                         pedro_dprintf(0, "o so far agora é %d ", bytes_encoded_so_far_dl);
+                         pedro_dprintf(0, "o so far agora é %d e array of bits as bytes size %d", compressed_and_encoded_bytes_available_11_jan_2022_v6_dl,
+                                       number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
 
                     if (DEBUG_DL__)
                     {
@@ -744,7 +747,7 @@ int main(int arg_dl_c, char **arg_dl_v)
                     {
                          goto volta_aqui_ric;
                     }
-                    goto volta_aqui_mais_alto_mar; // perfect
+                    goto volta_aqui_mais_alto_mar; // just start again (it is v6 based)
                }
                else
                {
@@ -839,20 +842,24 @@ int main(int arg_dl_c, char **arg_dl_v)
                end_of_search_my_ric:;
                     if (already_found_with_larger_size_dl) // need to remove
                     {
-                         /*
 
+                         past_position_location_dl = (uint16_t)last_found_position_dl;
 
+                         size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_last_found_position_dl;
+
+                         assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
+
+                         // adjusting
+                         size_real_for_number_of_characters_up_to_259_dl -= 4;
+
+                         size_of_characters_adjusted_to_pass_dl = (int8_t)size_real_for_number_of_characters_up_to_259_dl;
 
                          // here ric my brother...
-                         convert_8_bits_to_nine_bits(needle_buf_dl,         // irrelevant
-                         size_of_the_neddle_dl, // irrelevant
-                         true,
-                         last_found_position_dl,
-                         size_of_last_found_position_dl);
-
-
-
-                         */
+                         convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(NULL, // irrelevant
+                                                                       0,    // irrelevant
+                                                                       true,
+                                                                       past_position_location_dl,
+                                                                       size_of_characters_adjusted_to_pass_dl);
 
                          size_of_already_saw_data_dl += difference_of_the_new_loaded_data_dl;
 
@@ -890,21 +897,24 @@ int main(int arg_dl_c, char **arg_dl_v)
                     {
                          assert(0 && "parando");
                     }
-                    /*
 
+                    past_position_location_dl = (uint16_t)result_dl2;
 
+                    size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_the_neddle_dl;
 
+                    assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
 
-                    convert_8_bits_to_nine_bits(needle_buf_dl,
-                    size_of_the_neddle_dl,
-                    true,
-                    result_dl2,
-                    size_of_the_neddle_dl); // done
+                    size_real_for_number_of_characters_up_to_259_dl -= 4;
 
+                    size_of_characters_adjusted_to_pass_dl = (uint8_t)
+                        size_real_for_number_of_characters_up_to_259_dl;
 
+                    convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(NULL,
+                                                                  0,
+                                                                  true,
+                                                                  past_position_location_dl,
+                                                                  size_of_characters_adjusted_to_pass_dl); // done (v6), now debug
 
-
-                    */
                     goto volta_aqui_mais_alto_mar;
                }
 

@@ -1,6 +1,8 @@
 // now entries for version 6, variables for version 5 and below we will removed only later, now we need to
 //  to implement features that run very well
 
+int16_t past_position_location_dl;
+
 int16_t size_real_for_number_of_characters_up_to_259_dl;
 
 int8_t size_of_characters_adjusted_to_pass_dl;
@@ -84,7 +86,7 @@ void encode_bit_11_jan_2022_v6_dl(int bit_value__11_jan_2022_v6_dl)
      else
      {
           printf("Error 3738475657\n");
-          pedro_dprintf(1001, "Error 3738475657, wrong bit value"); // same error value even if generated randonly in the keyboard, kkkkkkkkkkkkkkkkkkkkkkk, unbeliavable...
+          pedro_dprintf(1001, "Error 3738475657, wrong bit value"); // same error value even if generated randonly in the keyboard, kkkkkkkkkkkkkkkkkkkkkkk, unbelievable...
           exit(27);
      }
 
