@@ -74,8 +74,8 @@ int main_do_mr_do(void);
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
-#define DEBUG_DL__ 1
-#define MAX_STRING_SEARCH_SIZE_DL__ (259) /* need to be dimished with less 4 bytes to pass */
+#define DEBUG_DL__ 0
+#define MAX_STRING_SEARCH_SIZE_DL__ (255) /* need to be dimished with less 4 bytes to pass */
 #define MIN_STRING_SEARCH_SIZE_DL__ (4)   /* 4 bytes is the smallest size that can be compressed */
 #define STRING_PASS_SIZE_DL__ (1)
 
@@ -570,7 +570,14 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                                    if (true)
                                    {
-                                        // fwrite(buf_dl_compressed, 1, bytes_encoded_so_far_dl, out_file_dl);
+                                        fwrite(buf_dl_compressed, 1, compressed_and_encoded_bytes_available_11_jan_2022_v6_dl, out_file_dl);
+
+                                        fwrite(buf_dl_bit_buffer, 1, number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl, out_file_dl);
+
+                                        if (requires_last_byte_11_jan_2022_v6_dl)
+                                        {
+                                             fwrite(&current_byte_being_generated_11_jan_2022_v6_byte_dl, 1, 1, out_file_dl);
+                                        }
                                    }
                                    else
                                    {
@@ -650,7 +657,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                bytes_left_in_the_input_uncompressed_stream_dl -= size_of_the_neddle_dl;
 
-               if (size_of_already_saw_data_dl < MIN_STRING_SEARCH_SIZE_DL__) // must be 0 at the begining in version v6
+               if (size_of_already_saw_data_dl < MIN_STRING_SEARCH_SIZE_DL__) // must be 0 at the begining in version v6, it works for strings very small? needs a small limit, at least 5 bytes
                {
                     // just add the data, call the
                     if (DEBUG_DL__)
@@ -666,9 +673,9 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                     size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_the_neddle_dl;
 
-                    assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
+                    // assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
 
-                    size_real_for_number_of_characters_up_to_259_dl -= 4;
+                    // size_real_for_number_of_characters_up_to_259_dl -= 4;
 
                     size_of_characters_adjusted_to_pass_dl = (uint8_t)size_real_for_number_of_characters_up_to_259_dl;
 
@@ -722,9 +729,9 @@ int main(int arg_dl_c, char **arg_dl_v)
                     // if not found just store in the compressed stream as it is, addicional bit (0 as the value, 1 for pointers in the passed stream if this is the case) will be added for each character in the string
                     size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_the_neddle_dl;
 
-                    assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
+                    // assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
 
-                    size_real_for_number_of_characters_up_to_259_dl -= 4;
+                    // size_real_for_number_of_characters_up_to_259_dl -= 4;
 
                     size_of_characters_adjusted_to_pass_dl = (uint8_t)size_real_for_number_of_characters_up_to_259_dl;
 
@@ -847,10 +854,10 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                          size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_last_found_position_dl;
 
-                         assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
+                         // assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
 
                          // adjusting
-                         size_real_for_number_of_characters_up_to_259_dl -= 4;
+                         // size_real_for_number_of_characters_up_to_259_dl -= 4;
 
                          size_of_characters_adjusted_to_pass_dl = (int8_t)size_real_for_number_of_characters_up_to_259_dl;
 
@@ -901,10 +908,10 @@ int main(int arg_dl_c, char **arg_dl_v)
                     past_position_location_dl = (uint16_t)result_dl2;
 
                     size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_the_neddle_dl;
+                    pedro_dprintf(0, "size %d", size_of_the_neddle_dl);
+                    // assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
 
-                    assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
-
-                    size_real_for_number_of_characters_up_to_259_dl -= 4;
+                    // size_real_for_number_of_characters_up_to_259_dl -= 4;
 
                     size_of_characters_adjusted_to_pass_dl = (uint8_t)
                         size_real_for_number_of_characters_up_to_259_dl;

@@ -228,17 +228,21 @@ void encode_bit_11_jan_2022_v6_dl(int bit_value__11_jan_2022_v6_dl)
      assert(0 <= bit_buffer_left_dl);
 }
 void __fastcall convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(__attribute__((unused)) uint8_t *input_mem_dl,
-                                                              __attribute__((unused)) uint8_t len_of_input_to_encode_as_you_may_expect_dl, // limited to the maximum of 259 == 4 + 255, since it starts from 4, as lzss taugth us it may start from 3 too in other implementations
+                                                              __attribute__((unused)) uint8_t len_of_input_to_encode_as_you_may_expect_dl_, // limited to the maximum of 255 to avoid problems but can be used, what cannot be is 0
                                                               __attribute__((unused)) bool is_it_string_matched_in_past_buffer_dl,
                                                               __attribute__((unused)) uint16_t past_position_location_dl, // could be 15 bits instead of 16, but we will keep it, also can use 65 kb instead of 32 kb with ease for maximum compression later we will see it
                                                               __attribute__((unused)) uint8_t len_of_matched_string_dl)
 {
 
+     uint16_t len_of_input_to_encode_as_you_may_expect_dl = len_of_input_to_encode_as_you_may_expect_dl_;
+
+     //len_of_input_to_encode_as_you_may_expect_dl += 4;
+
      /*
 
      in version 6 (11 jan 2022) we use
 
-     one byte  (8  bits) to the size of the maximum string (258 - start from 3 plus 255)
+     one byte  (8  bits) to the size of the maximum string (255 it is ok for the moment)
      two bytes (16 bits) to the distance in the previous window buffer that is limited to 32 kb (1 << 15)
 
      it is enough for the moment, now encode it
@@ -248,6 +252,9 @@ void __fastcall convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(__attribute__((unu
      uint16_t *ptr_uint16_dl;
      int i_dl;
      static uint8_t temp_dl[3 /* if in the future it was changed don't forget it ric... */];
+
+     if (DEBUG_DL__)
+          pedro_dprintf(0, "inside convert 8 a, size in input %d", len_of_input_to_encode_as_you_may_expect_dl);
 
      if (DEBUG_DL__)
           pedro_dprintf(0, "");
@@ -260,7 +267,7 @@ void __fastcall convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(__attribute__((unu
      if (false == is_it_string_matched_in_past_buffer_dl)
      {
           if (DEBUG_DL__)
-               pedro_dprintf(0, "");
+               pedro_dprintf(0, "inside convert 8, mode is add plain string");
 
           if (DEBUG_DL__)
           {
@@ -274,23 +281,32 @@ void __fastcall convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(__attribute__((unu
      }
      else
      {
+          replacements_dl++;
           encode_bit_11_jan_2022_v6_dl(1); // if encoded bit is one then it is a pointer to the previous data and size, each with 3 bytes
 
           if (DEBUG_DL__)
-               pedro_dprintf(0, "");
+               pedro_dprintf(0, "inside convert 8, mode is add pointer");
 
           if (DEBUG_DL__)
           {
                assert(0 && "inside function");
           }
-          temp_dl[0] = len_of_matched_string_dl; // first byte is the size - starts from 4 + 255 == 259, less than 4 don't compress or is required to be encoded, just add as plain bytes and required bit 0
+          assert(len_of_matched_string_dl);
+          temp_dl[0] = len_of_matched_string_dl; // 
+
           ptr_uint16_dl = (uint16_t *)&temp_dl[1];
 
           *ptr_uint16_dl = past_position_location_dl;
 
           len_of_input_to_encode_as_you_may_expect_dl = 3;
      }
+     if (DEBUG_DL__)
+          pedro_dprintf(0, "inside convert 8, size of data to add in the middle %d", len_of_input_to_encode_as_you_may_expect_dl);
 
+     if (DEBUG_DL__)
+     {
+          assert(0 && "inside function");
+     }
      for (i_dl = 0; i_dl < len_of_input_to_encode_as_you_may_expect_dl; i_dl++)
      {
           if (false == is_it_string_matched_in_past_buffer_dl)
@@ -307,5 +323,14 @@ void __fastcall convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(__attribute__((unu
           position_of_the_data_in_the_output_stream_dl++;
      }
      compressed_and_encoded_bytes_available_11_jan_2022_v6_dl += len_of_input_to_encode_as_you_may_expect_dl;
+
+     if (DEBUG_DL__)
+          pedro_dprintf(0, "inside convert 8, size of buffer in exit %d", compressed_and_encoded_bytes_available_11_jan_2022_v6_dl);
+
+     if (DEBUG_DL__)
+     {
+          assert(0 && "inside function");
+     }
+
      return;
 }
