@@ -74,9 +74,9 @@ int main_do_mr_do(void);
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
-#define DEBUG_DL__ 1
+#define DEBUG_DL__ 0
 #define MAX_STRING_SEARCH_SIZE_DL__ (18) /* --- */
-#define MIN_STRING_SEARCH_SIZE_DL__ (3)   /* 3 bytes is the smallest size that can be compressed, remeber if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be store in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) */
+#define MIN_STRING_SEARCH_SIZE_DL__ (3)  /* 3 bytes is the smallest size that can be compressed, remember if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be stored in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) */
 #define STRING_PASS_SIZE_DL__ (1)
 
 #define DL_SIZE__ (1L << 12) /* 4096 */
@@ -335,7 +335,7 @@ int main(int arg_dl_c, char **arg_dl_v)
           to don't waste time we will keep for the moment the v6 variables in the code, even if not in use, blame us for this
 
           happilly developed with VSCode: (but we may be forced to use Emacs for windows for some unknown reason)
-          
+
           begin ---
 
           VSCode Version: 1.63.2
@@ -350,9 +350,9 @@ int main(int arg_dl_c, char **arg_dl_v)
           end ---
 
 ...........
-........... From my point of view v7 need to compress as good as lzss, 
+........... From my point of view v7 need to compress as good as lzss,
 ........... since the idea was based on it, the size and method are
-........... almost the same but without a sliding window only the 
+........... almost the same but without a sliding window only the
 ........... real input buffer from where the string to match are
 ........... searched
 ...........
@@ -712,7 +712,7 @@ int main(int arg_dl_c, char **arg_dl_v)
                position_of_the_data_in_the_input__stream_dl_original = position_of_the_data_in_the_input__stream_dl;     // done, now
 
                size_of_the_neddle_dl = min(bytes_left_in_the_input_uncompressed_stream_dl, initial_size_of_string_dl);
-
+               size_got_of_neddle_dl = size_of_the_neddle_dl;
                memcpy(needle_buf_dl, position_of_the_data_in_the_input__stream_dl, size_of_the_neddle_dl);
 
                position_of_the_data_in_the_input__stream_dl += size_of_the_neddle_dl; // nao tem que lembrar isto em caso de nao achar ?, sim tem que voltar pra cá e com o tamanho certo, precisa de uma cópia, se der atualiza, vai la....
@@ -752,7 +752,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                     size_of_characters_adjusted_to_pass_dl = (uint8_t)size_real_for_number_of_characters_up_to_259_dl;
 
-                    convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(needle_buf_dl,
+                    convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(needle_buf_dl,
                                                                   size_of_characters_adjusted_to_pass_dl,
                                                                   false,
                                                                   1969 + 2022, // just a joke..., this here is irrelevant, due to the 'false' in the past argument
@@ -787,6 +787,11 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                size_of_already_saw_data_dl += size_of_the_neddle_dl; // adjusting the size of available bytes to the new copied neddle, or it will locate the current neddle being tested, it was a bug in versions of the past
 
+               if (MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl)
+               {
+                    result_dl = -1; // fix the bug, the code must work, lets test
+               }
+
                if (-1 == result_dl)
                {
 
@@ -808,7 +813,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                     size_of_characters_adjusted_to_pass_dl = (uint8_t)size_real_for_number_of_characters_up_to_259_dl;
 
-                    convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(needle_buf_dl,
+                    convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(needle_buf_dl,
                                                                   size_of_characters_adjusted_to_pass_dl,
                                                                   false,
                                                                   2022 /* the value of this argument is irrelevant here */,
@@ -935,7 +940,7 @@ int main(int arg_dl_c, char **arg_dl_v)
                          size_of_characters_adjusted_to_pass_dl = (int8_t)size_real_for_number_of_characters_up_to_259_dl;
 
                          // here ric my brother...
-                         convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(NULL, // irrelevant
+                         convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(NULL, // irrelevant
                                                                        0,    // irrelevant
                                                                        true,
                                                                        past_position_location_dl,
@@ -989,7 +994,7 @@ int main(int arg_dl_c, char **arg_dl_v)
                     size_of_characters_adjusted_to_pass_dl = (uint8_t)
                         size_real_for_number_of_characters_up_to_259_dl;
 
-                    convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(NULL,
+                    convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(NULL,
                                                                   0,
                                                                   true,
                                                                   past_position_location_dl,

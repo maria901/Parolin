@@ -1,3 +1,7 @@
+// variables for v7
+
+int size_got_of_neddle_dl;
+
 // now entries for version 6, variables for version 5 and below we will removed only later, now we need to
 // to implement features that run very well
 
@@ -73,11 +77,11 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
      unsigned int mask_dl;
 
-     int i_dl = 4;
+     int i_dl;
 
      // __attribute__((unused)) uint16_t exit_byte_dl = 0;
 
-     __attribute__((unused)) uint16_t resulting_short_dl = 0;
+     uint16_t resulting_short_dl = 0;
 
      assert(18 >= string_size_dl_up_to_18);
 
@@ -153,8 +157,8 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
                bit_position_12_jan_2022_v6_dl++;
                break;
 
-               //888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-               //next 12 bits
+               // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+               // next 12 bits
 
           case 4:
 
@@ -502,10 +506,10 @@ void encode_bit_11_jan_2022_v6_dl(int bit_value__11_jan_2022_v6_dl)
 
      assert(0 <= bit_buffer_left_dl);
 }
-void __fastcall convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(__attribute__((unused)) uint8_t *input_mem_dl,
-                                                              __attribute__((unused)) uint8_t len_of_input_to_encode_as_you_may_expect_dl_, // limited to the maximum of 255 to avoid problems but can be used, what cannot be is 0
+void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unused)) uint8_t *input_mem_dl,
+                                                              __attribute__((unused)) uint8_t len_of_input_to_encode_as_you_may_expect_dl_, //
                                                               __attribute__((unused)) bool is_it_string_matched_in_past_buffer_dl,
-                                                              __attribute__((unused)) uint16_t past_position_location_dl, // could be 15 bits instead of 16, but we will keep it, also can use 65 kb instead of 32 kb with ease for maximum compression later we will see it
+                                                              __attribute__((unused)) uint16_t past_position_location_dl, //
                                                               __attribute__((unused)) uint8_t len_of_matched_string_dl)
 {
 
@@ -566,14 +570,15 @@ void __fastcall convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(__attribute__((unu
           {
                assert(0 && "inside function");
           }
-          assert(len_of_matched_string_dl);
-          temp_dl[0] = len_of_matched_string_dl; //
+          // assert(len_of_matched_string_dl);
+          // temp_dl[0] = len_of_matched_string_dl; //
 
-          ptr_uint16_dl = (uint16_t *)&temp_dl[1];
+          ptr_uint16_dl = (uint16_t *)&temp_dl[0];
 
-          *ptr_uint16_dl = past_position_location_dl;
+          *ptr_uint16_dl = prepare_unsigned_short_int_12_jan_2022_v6_dl(len_of_matched_string_dl,
+                                                                        past_position_location_dl);
 
-          len_of_input_to_encode_as_you_may_expect_dl = 3;
+          len_of_input_to_encode_as_you_may_expect_dl = 2;
      }
      if (DEBUG_DL__)
           pedro_dprintf(0, "inside convert 8, size of data to add in the middle %d", len_of_input_to_encode_as_you_may_expect_dl);
