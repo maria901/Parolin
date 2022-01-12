@@ -49,6 +49,24 @@ minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022
 ........... if a string was found
 ........... We will show a proof... the version v8 will do this
 ...........
+........... (16:30)We did it!..., v8 compresses at least text better than lzss
+........... And yet it can be improved a lot, more tests will follow...
+...........
+........... for file tar_1_33.c:
+...........                         zip               : 59kb
+...........                         lzss + ari        : 74kb
+...........                         dl_compressor (v8): 73kb
+...........
+........... v8 is amazing, we did it again, it compress make.exe better
+
+........... for file make.exe 
+...........                         zip               : 85kb
+...........                         lzss + ari        : 90kb
+...........                         dl_compressor (v8): 87kb
+...........
+........... v8 outperform lzss standard, v9 development will
+........... start soon
+...........
 
             */
 // minha_struct.version_of_the_code = 6; // 7th version... initiated at 12 jan 2022 05:35:02
