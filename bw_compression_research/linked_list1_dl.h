@@ -71,7 +71,7 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 {
      int bit_position_12_jan_2022_v6_dl = 0;
 
-     int mask_dl;
+     unsigned int mask_dl;
 
      int i_dl = 4;
 
@@ -128,11 +128,11 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
                if (mask_dl & string_size_dl_up_to_18)
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+                    resulting_short_dl |= mask_dl;
                }
                else
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+                    resulting_short_dl &= ~(mask_dl);
                }
 
                bit_position_12_jan_2022_v6_dl++;
@@ -143,90 +143,203 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
                if (mask_dl & string_size_dl_up_to_18)
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+                    resulting_short_dl |= mask_dl;
                }
                else
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+                    resulting_short_dl &= ~(mask_dl);
                }
 
                bit_position_12_jan_2022_v6_dl++;
                break;
-          }
-     }
 
-     
-     for (i_dl = 0; i_dl < 12; i_dl++)
-     {
-          switch (i_dl)
-          {
+               //888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+               //next 12 bits
 
-          case 0:
+          case 4:
 
                mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+                    resulting_short_dl |= mask_dl;
                }
                else
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+                    resulting_short_dl &= ~(mask_dl);
                }
 
                bit_position_12_jan_2022_v6_dl++;
                break;
-          case 1:
+          case 5:
 
                mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
 
-               if (mask_dl & string_size_dl_up_to_18)
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+                    resulting_short_dl |= mask_dl;
                }
                else
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+                    resulting_short_dl &= ~(mask_dl);
                }
 
                bit_position_12_jan_2022_v6_dl++;
                break;
-          case 2:
+          case 6:
 
                mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
 
-               if (mask_dl & string_size_dl_up_to_18)
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+                    resulting_short_dl |= mask_dl;
                }
                else
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+                    resulting_short_dl &= ~(mask_dl);
                }
 
                bit_position_12_jan_2022_v6_dl++;
                break;
-          case 3:
+          case 7:
 
                mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
 
-               if (mask_dl & string_size_dl_up_to_18)
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+                    resulting_short_dl |= mask_dl;
                }
                else
                {
-                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+                    resulting_short_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 8:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    resulting_short_dl |= mask_dl;
+               }
+               else
+               {
+                    resulting_short_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 9:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    resulting_short_dl |= mask_dl;
+               }
+               else
+               {
+                    resulting_short_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 10:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    resulting_short_dl |= mask_dl;
+               }
+               else
+               {
+                    resulting_short_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 11:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    resulting_short_dl |= mask_dl;
+               }
+               else
+               {
+                    resulting_short_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 12:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    resulting_short_dl |= mask_dl;
+               }
+               else
+               {
+                    resulting_short_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 13:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    resulting_short_dl |= mask_dl;
+               }
+               else
+               {
+                    resulting_short_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 14:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    resulting_short_dl |= mask_dl;
+               }
+               else
+               {
+                    resulting_short_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 15:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    resulting_short_dl |= mask_dl;
+               }
+               else
+               {
+                    resulting_short_dl &= ~(mask_dl);
                }
 
                bit_position_12_jan_2022_v6_dl++;
                break;
           }
      }
-     
-bit_position_12_jan_2022_v6_dl = 0;
 
-     return exit_byte_dl;
+     return resulting_short_dl;
 }
 
 /**
