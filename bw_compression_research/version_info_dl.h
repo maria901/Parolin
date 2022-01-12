@@ -67,6 +67,12 @@ minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022
 ........... v8 outperform lzss standard, v9 development will
 ........... start soon
 ...........
+........... What we did: Added searching code for the previous
+........... buffer that now are 4096 plus the current buffer
+........... making 8192 and add plus one bit for each pointer
+........... to the uncompressed buffer previous and current 
+........... v9 will extend it to (1 << 14) or more 
+...........
 
             */
 // minha_struct.version_of_the_code = 6; // 7th version... initiated at 12 jan 2022 05:35:02
