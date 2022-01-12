@@ -331,6 +331,16 @@ int main(int arg_dl_c, char **arg_dl_v)
 ........... Working on it, for it we will add a very large high
 ........... compressible file and add to the tests 
 
+........... (11:50) Even without rle on it the compressor can dimish a 30 kb file 
+........... to 300 bytes, maybe it will not be a problem
+
+........... Interesting tar_1_33.c:
+...........                         zip          : 59kb
+...........                         lzss + ari   : 74kb
+...........                         dl_compressor: 83kb
+........... A lot need to be enhanced yet
+...........
+
 
           */
           minha_struct.version_of_the_code = 6; // 7th version... initiated at 12 jan 2022 05:35:02
@@ -1037,6 +1047,8 @@ int main(int arg_dl_c, char **arg_dl_v)
                     past_position_location_dl = (uint16_t)result_dl2;
 
                     size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_the_neddle_dl;
+
+                    if (DEBUG_DL__)
                     pedro_dprintf(0, "size %d", size_of_the_neddle_dl);
                     // assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
 
@@ -1091,7 +1103,7 @@ int main(int arg_dl_c, char **arg_dl_v)
      }
 
      unlink(temp_file_dl);
-     printf("\nVersion of the encoder -> v7 (12 jan 2022 10:09)\n");
+     printf("\nVersion of the encoder -> v8 (12 jan 2022 11:29)\n");
      return 0;
 }
 
