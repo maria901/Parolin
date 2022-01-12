@@ -359,7 +359,12 @@ int main(int arg_dl_c, char **arg_dl_v)
 
             begin of modification, will adjust the buffers (07:03)
 
-
+........... We did it (08:59), v6 compresses make.bin to 111 kb and version
+........... v7 compresses to 92 kb, the original lzss compresses to
+........... 90 kb and zip compresses to 85 kb, the difference is that
+........... our code that is compressing to 92 kb now have a lot 
+........... of room to improve 
+........... 
 
 
 
@@ -636,7 +641,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                                    main_do_mr_do();
                                    */
-                                   printf("\n\nCompressed size %d after uncompressed %d \n", number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl + compressed_and_encoded_bytes_available_11_jan_2022_v6_dl, len_dl);
+                                   printf("\n\nCompressed size %d uncompressed %d \n", number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl + compressed_and_encoded_bytes_available_11_jan_2022_v6_dl, len_dl);
                                    printf("Buffer bytes %d bits arrays size %d\n", compressed_and_encoded_bytes_available_11_jan_2022_v6_dl, number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
 
                                    fflush(stdout);
