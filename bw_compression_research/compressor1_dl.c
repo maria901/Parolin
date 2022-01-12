@@ -385,6 +385,9 @@ int main(int arg_dl_c, char **arg_dl_v)
 ........... Just removed the overhead of the additional struct and 
 ........... the size of the compressed file now is 91 kb 
 ...........
+........... And now the arithmetic compressor is already inside, no need 
+........... to call ari.exe after the compression
+...........
 
 
 
