@@ -74,7 +74,7 @@ int main_do_mr_do(void);
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
-#define DEBUG_DL__ 0
+#define DEBUG_DL__ 1
 #define MAX_STRING_SEARCH_SIZE_DL__ (18) /* --- */
 #define MIN_STRING_SEARCH_SIZE_DL__ (3)   /* 3 bytes is the smallest size that can be compressed, remeber if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be store in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) */
 #define STRING_PASS_SIZE_DL__ (1)
@@ -359,7 +359,15 @@ int main(int arg_dl_c, char **arg_dl_v)
 
             begin of modification, will adjust the buffers (07:03)
 
-
+...........
+........... Correction, the passed buffer position and string size can be 
+........... encoded in one by not two, just figured out now, anyway,
+........... the minimum string size to compress is 3 and not two, but 
+........... could be two if needed
+...........
+........... This idea can be improved, I am sure, like we did with 
+........... rle compression
+...........
 
 
 

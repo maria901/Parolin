@@ -67,6 +67,18 @@ uint8_t deslocador_dl = 0;
 uint8_t last_byte_encoded_value_dl; // only usefull for the encode, in the agregation the value will be in ht last byte of memory also in the linked list
 bool is_it_the_first_byte_to_encode_dl;
 
+uint8_t prepare_byte_12_jan_2022_v6_dl(int8_t string_size_dl_up_to_18, in16_t position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+{
+     uint8_t exit_byte_dl = 0;
+
+     assert(string_size_dl_up_to_18 >=3);
+
+string_size_dl_up_to_18 -= 3;//it will be stored in the 
+
+
+
+}
+
 /**
  * @brief It will add the bit to the array of bits that are required
  *
