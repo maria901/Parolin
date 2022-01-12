@@ -75,11 +75,11 @@ void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
 #define DEBUG_DL__ 0
-#define MAX_STRING_SEARCH_SIZE_DL__ (255) /* --- */
-#define MIN_STRING_SEARCH_SIZE_DL__ (4)   /* 4 bytes is the smallest size that can be compressed (v6) */
+#define MAX_STRING_SEARCH_SIZE_DL__ (18) /* --- */
+#define MIN_STRING_SEARCH_SIZE_DL__ (3)   /* 3 bytes is the smallest size that can be compressed, remeber if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be store in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) */
 #define STRING_PASS_SIZE_DL__ (1)
 
-#define DL_SIZE__ (1L << 15)
+#define DL_SIZE__ (1L << 12) /* 4096 */
 
 // 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
@@ -335,6 +335,9 @@ int main(int arg_dl_c, char **arg_dl_v)
           to don't waste time we will keep for the moment the v6 variables in the code, even if not in use, blame us for this
 
           happilly developed with VSCode: (but we may be forced to use Emacs for windows for some unknown reason)
+          
+          begin ---
+
           VSCode Version: 1.63.2
           Commit: 899d46d82c4c95423fb7e10e68eba52050e30ba3
           Date: 2021-12-15T09:40:02.816Z
@@ -344,9 +347,17 @@ int main(int arg_dl_c, char **arg_dl_v)
           V8: 9.1.269.39-electron.0
           OS: Windows_NT x64 10.0.19042
 
-          -----------------------------------------------------------------------------------------------------------
+          end ---
 
+...........
+........... From my point of view v7 need to compress as good as lzss, 
+........... since the idea was based on it, the size and method are
+........... almost the same but without a sliding window only the 
+........... real input buffer from where the string to match are
+........... searched
+...........
 
+            begin of modification, will adjust the buffers (07:03)
 
 
 
