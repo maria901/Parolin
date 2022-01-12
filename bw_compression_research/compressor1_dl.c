@@ -376,6 +376,9 @@ int main(int arg_dl_c, char **arg_dl_v)
 ........... the last byte (4096), and it is already compressing as good 
 ........... as original lzss... 
 ...........
+........... Just will add the arithmetic compression to the code to 
+........... avoid the requirement of the call to ari.exe after the call 
+........... It will help, and will be a simple call without ari.exe
 
 
 
