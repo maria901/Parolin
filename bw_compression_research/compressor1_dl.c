@@ -190,11 +190,11 @@ uint getpor(int max, uint fatia)
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 /**
- * @brief our magic main entry point for our pleasure...
+ * @brief our magic main entry point for our and your pleasure...
  *
  * @param arg_dl_c the number of arguments for your use
  * @param arg_dl_v the arguments passed to be openned as files this way -> arg_dl_v[2];
- * @return int
+ * @return int not 0 on error
  */
 int main(int arg_dl_c, char **arg_dl_v)
 {
@@ -203,8 +203,11 @@ int main(int arg_dl_c, char **arg_dl_v)
      __attribute__((unused)) int len_dl;
 
      __attribute__((unused)) int len_of_data_to_compress_dl;
+
      __attribute__((unused)) FILE *my_file_dl = NULL;
+
      __attribute__((unused)) FILE *out_file_dl = NULL;
+
      __attribute__((unused)) uint8_t *buf_dl = malloc(DL_SIZE__);
 
      __attribute__((unused)) double size_d_dl;
@@ -340,7 +343,30 @@ int main(int arg_dl_c, char **arg_dl_v)
 ...........                         dl_compressor: 83kb
 ........... A lot need to be enhanced yet
 ...........
-
+........... (12:12) For the moment we are using only 4096 bytes for 
+........... the limited search method, we will expand it to 
+........... (1 << 13) without losing the two bytes pointer 
+........... size that is a good value to make the compression
+........... What we will do is use the past buffer of 4098 
+........... as an additional search item if not found in the 
+........... current buffer being searched, and if possible 
+........... increasing only the additional bit to define whether 
+........... the current buffer was used or the previous, did 
+........... you got the idea? two buffers to search using only 
+........... 12 bits as the address and 4 for the string size 
+........... This will be version v8 of today noon 
+........... What is a waste of two bits if we are compressing 
+........... up to 18 characters on it?
+........... Lets code... 
+........... 
+........... Understand, we have only 12 bits for the addressing,
+........... but we can have lots of buffers to search these 12 bits
+........... and yet we will store it in two bytes the pointer
+........... 
+........... Understand, an additional bit will only be wasted 
+........... if a string was found
+........... We will show a proof... the version v8 will do this
+...........
 
           */
           minha_struct.version_of_the_code = 6; // 7th version... initiated at 12 jan 2022 05:35:02
@@ -1103,7 +1129,7 @@ int main(int arg_dl_c, char **arg_dl_v)
      }
 
      unlink(temp_file_dl);
-     printf("\nVersion of the encoder -> v8 (12 jan 2022 11:29)\n");
+     printf("\nVersion of the encoder -> v8 (12 jan 2022 12:18)\n");
      return 0;
 }
 
