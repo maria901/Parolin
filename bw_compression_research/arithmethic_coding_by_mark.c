@@ -198,9 +198,9 @@ void bit_plus_follow(int bit)
 
 int main_do_mr_do(void)
 {
-    //int ticker = 0;
+    // int ticker = 0;
     bits_to_follow = 0;
-    //fprintf(stderr, "Arithmetic coding on ");
+    // fprintf(stderr, "Arithmetic coding on ");
 
     start_model(); /* Set up other modules.    */
     start_outputing_bits();
@@ -231,7 +231,7 @@ int main_do_mr_do(void)
     encode_symbol(EOF_symbol, cum_freq); /* Encode the EOF symbol.   */
     done_encoding();                     /* Send the last few bits.  */
     done_outputing_bits();
-    //putc('\n', stderr);
+    // putc('\n', stderr);
     pedro_dprintf(-20220110, "last call in the function...");
     return 0;
 }
@@ -356,7 +356,7 @@ void update_model(int symbol)
  *
  * @return int
  */
-int main_dl(char *input_file_dl, char *output_file_dl)
+int main_dl(__attribute__((unused)) int size_of_header_dl, __attribute__((unused)) char *memory_to_add_dl, char *input_file_dl, char *output_file_dl)
 {
     int return_value_dl = 0;
     FILE *in_file_dl = fopen(input_file_dl, "rb");
@@ -370,6 +370,9 @@ int main_dl(char *input_file_dl, char *output_file_dl)
             {
                 in_file_dl2 = in_file_dl;
                 out_file_dl2 = out_file_dl;
+
+                fwrite(memory_to_add_dl, 1, size_of_header_dl, out_file_dl);
+
                 main_do_mr_do();
                 return_value_dl = 0;
                 fclose(out_file_dl);
