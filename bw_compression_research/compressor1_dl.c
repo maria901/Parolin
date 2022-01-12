@@ -75,20 +75,15 @@ void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
 #define DEBUG_DL__ 0
-#define MAX_STRING_SEARCH_SIZE_DL__ (255) /* need to be dimished with less 4 bytes to pass */
-#define MIN_STRING_SEARCH_SIZE_DL__ (4)   /* 4 bytes is the smallest size that can be compressed */
+#define MAX_STRING_SEARCH_SIZE_DL__ (255) /* --- */
+#define MIN_STRING_SEARCH_SIZE_DL__ (4)   /* 4 bytes is the smallest size that can be compressed (v6) */
 #define STRING_PASS_SIZE_DL__ (1)
 
 #define DL_SIZE__ (1L << 15)
 
-// 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+// 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 /*
-
-We will start with an enhacement over zlib to use less memory and run faster if possible
-giving better compression
-
-instead using huffman we will use range code or an optimized version of it, this is a good starting point, huffman is never better than arithmetic coding
 
 */
 
@@ -170,6 +165,14 @@ int64_t mem_search_dl(__attribute__((unused)) uint8_t *haystack,
      return 0;
 }
 #define uint unsigned int
+
+/**
+ * @brief for required progress information, it can be handy for large files since in the research we don't care about speed improvements, at least for the moment (we are testing with make.bin, this is an old version of make.exe that we used for years, zlib can compress it to 85 kb, v6 can compress it to 111kb, but v7 may compress better)
+ *
+ * @param max the total size of the data
+ * @param fatia the slice (fatia in perfect portuguese) to be used in the calculation, I developed this function myself 26 years ago, no Googling for it, at that time Altavista was the search engine to be used or Yahoo search engine
+ * @return uint the percentage, range from 0 to 100, can be more than 100 since it is not validated inside the function
+ */
 uint getpor(int max, uint fatia)
 {
 
@@ -190,7 +193,13 @@ uint getpor(int max, uint fatia)
 }
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-
+/**
+ * @brief our magic main entry point for our pleasure...
+ *
+ * @param arg_dl_c the number of arguments for your use
+ * @param arg_dl_v the arguments passed to be openned as files this way -> arg_dl_v[2];
+ * @return int
+ */
 int main(int arg_dl_c, char **arg_dl_v)
 {
 
@@ -207,13 +216,13 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      size_d_dl = size_d_dl + (size_d_dl * .3); // more than enough for the moment, for version v4
 
-     __attribute__((unused)) uint8_t *buf_dl_compressed = malloc((int)size_d_dl); // need to be certain that will not store more than 8 to 9 bits on it for the moment, please verify later
+     __attribute__((unused)) uint8_t *buf_dl_compressed = malloc((int)size_d_dl); // need to be certain that will not store more than 8 to 9 bits on it for the moment, please verify later (old information)
 
      size_d_dl = (double)DL_SIZE__;
 
      size_d_dl = ceil((size_d_dl * .2));
 
-     __attribute__((unused)) uint8_t *buf_dl_bit_buffer = malloc((int)size_d_dl); // need to be certain that will
+     __attribute__((unused)) uint8_t *buf_dl_bit_buffer = malloc((int)size_d_dl); //
 
      bit_buffer_left_dl_original = (int)size_d_dl;
 
@@ -261,7 +270,15 @@ int main(int arg_dl_c, char **arg_dl_v)
      my_file_dl = fopen(arg_dl_v[1], "rb");
      out_file_dl = fopen(arg_dl_v[2], "wb");
 
-     if (DEBUG_DL__)
+     // adding initial checks (12 jan 2022 06:41)
+
+     if (NULL == my_file_dl || NULL == out_file_dl)
+     {
+          printf("Cannot open input files, exiting...");
+          exit(27);
+     }
+
+     if (DEBUG_DL__) // this is our debug flag
      {
           ; // //assert(0 && "initial position");
      }
@@ -270,9 +287,9 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      tamanho_dl = ftell(my_file_dl);
 
-     fseek(my_file_dl, 0, SEEK_SET);
+     fseek(my_file_dl, 0, SEEK_SET); // we don't have time to use our standard size get function at this moment, time is important in research
 
-     progress_dl = 0;
+     progress_dl = 0; // progress may help when compressing files with research code that normally is not optimized for speed
 
      if (my_file_dl)
      {
@@ -290,15 +307,10 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           initial_size_of_string_dl = initial_size_dl; // to be adjusted later...
 
-          minha_struct.amor_assinatura_dl[0] = 'd';
+          minha_struct.amor_assinatura_dl[0] = 'd'; // this signature will never change for any future version, this is a promise
           minha_struct.amor_assinatura_dl[1] = 'l';
           minha_struct.amor_assinatura_dl[2] = 'd';
           minha_struct.amor_assinatura_dl[3] = 'l';
-
-          //
-          /*
-
-          */
 
           minha_struct.version_of_the_code = 6; // 7th version... initiated at 12 jan 2022 05:35:02
           /*
@@ -309,7 +321,8 @@ int main(int arg_dl_c, char **arg_dl_v)
           depending on the file it will achieve more compression than our v6 method that was not perfect but
           already can compress better than many compressors available in research papers
 
-          as you may examinate the v6 method can compress up to 4 bytes in 3, this is the maximum for the minimum size
+          as you may examinate the v6 method can compress up to 4 bytes in 3,
+          this is the maximum for the minimum size
           and up to 255 characters in a string for maximum size but we saw that this is irrelevant to the majority
           of files, and standard lzss method encode at the maximum 18 characters string to 2 bytes and it is better than our v6 compressor
 
@@ -1010,6 +1023,10 @@ int main(int arg_dl_c, char **arg_dl_v)
 // vamos lá
 
 /*
+
+the information below talks about old research information that may have changed or are now irrelevant in v6 version and above
+
+
 
 in portuguese, translate it
 

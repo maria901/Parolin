@@ -1,5 +1,5 @@
 // now entries for version 6, variables for version 5 and below we will removed only later, now we need to
-//  to implement features that run very well
+// to implement features that run very well
 
 int16_t past_position_location_dl;
 
@@ -7,7 +7,7 @@ int16_t size_real_for_number_of_characters_up_to_259_dl;
 
 int8_t size_of_characters_adjusted_to_pass_dl;
 
-int bit_buffer_left_dl; // can de used to check if not above the limit
+int bit_buffer_left_dl; // can be used to check if not above the limit
 
 int bit_buffer_left_dl_original; // dont change it ric...
 
@@ -28,8 +28,8 @@ int compressed_and_encoded_bytes_available_11_jan_2022_v6_dl;
 int number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl;
 
 // The variables below the majority are from version 3 that was using two linked lists, version
-// 4 and above use just memory, variables will be removed in a near future, what we want forst is make this
-//  code compress well and fast using lz77 or something better for (1 << 15) slices of uncompressed data
+// 4 and above use just memory, variables will be removed in a near future, what we want first is make this
+// code compress well and fast using lz77 or something better for (1 << 15) slices of uncompressed data (old information)
 
 int replacements_dl;
 
