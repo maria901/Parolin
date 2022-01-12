@@ -65,11 +65,7 @@
 
 // variables and functions defines or constants
 
-void pass_memory_output_dl(uint8_t *mem_dl, int *bytes_out);
-
-void pass_memory_input_dl(uint8_t *mem_dl, int *bytes_in);
-
-int main_do_mr_do(void);
+int main_dl(char *input_file_dl, char *output_file_dl);
 
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
@@ -202,6 +198,7 @@ uint getpor(int max, uint fatia)
  */
 int main(int arg_dl_c, char **arg_dl_v)
 {
+     char temp_file_dl[MAX_PATH + 2];
 
      __attribute__((unused)) int len_dl;
 
@@ -268,7 +265,12 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      unlink(arg_dl_v[2]);
      my_file_dl = fopen(arg_dl_v[1], "rb");
-     out_file_dl = fopen(arg_dl_v[2], "wb");
+
+     strcpy(temp_file_dl, arg_dl_v[2]);
+
+     strcat(temp_file_dl, ".bw.tmp");
+
+     out_file_dl = fopen(temp_file_dl, "wb");
 
      // adding initial checks (12 jan 2022 06:41)
 
@@ -362,24 +364,27 @@ int main(int arg_dl_c, char **arg_dl_v)
 ........... We did it (08:59), v6 compresses make.bin to 111 kb and version
 ........... v7 compresses to 92 kb, the original lzss compresses to
 ........... 90 kb and zip compresses to 85 kb, the difference is that
-........... our code that is compressing to 92 kb now have a lot 
-........... of room to improve 
-........... 
+........... our code that is compressing to 92 kb now have a lot
+........... of room to improve
+...........
 ........... By tomorrow we will have a compressor better than lzss
 ...........
 ........... Now that the code is ready compare the v7 code with 'LZSS.c'
-........... available in the subfolder './lzss to learn' and see what 
+........... available in the subfolder './lzss to learn' and see what
 ........... version is more easy to be understood
 ...........
-........... Notice that our code is not exactly lzss, it don't search on 
-........... a sliding window but on the input data to compress, from 0 to 
-........... the last byte (4096), and it is already compressing as good 
-........... as original lzss... 
+........... Notice that our code is not exactly lzss, it don't search on
+........... a sliding window but on the input data to compress, from 0 to
+........... the last byte (4096), and it is already compressing as good
+........... as original lzss...
 ...........
-........... Just will add the arithmetic compression to the code to 
-........... avoid the requirement of the call to ari.exe after the call 
+........... Just will add the arithmetic compression to the code to
+........... avoid the requirement of the call to ari.exe after the call
 ........... It will help, and will be a simple call without ari.exe
-
+...........
+........... Just removed the overhead of the additional struct and 
+........... the size of the compressed file now is 91 kb 
+...........
 
 
 
@@ -571,7 +576,7 @@ int main(int arg_dl_c, char **arg_dl_v)
                if (update_me_dl < GetTickCount64())
                {
                     update_me_dl = GetTickCount64() + 50;
-                    printf("Progress my fool ric -> % 4d\r", getpor(tamanho_dl, progress_dl));
+                    printf("Progress ric -> % 4d\r", getpor(tamanho_dl, progress_dl));
                     fflush(stdout);
                }
 
@@ -637,11 +642,23 @@ int main(int arg_dl_c, char **arg_dl_v)
                               if (requires_last_byte_11_jan_2022_v6_dl)
                               {
                                    minha_struct.bits_encoded_size_in_bytes_dl++; // fixed already only need to save the last byte if required
+                                   (*ptr_position_for_bit_memory_dl) = current_byte_being_generated_11_jan_2022_v6_byte_dl;
+                                   ptr_position_for_bit_memory_dl++;
+                                   // saving the last byte if required
                               }
 
-                              minha_struct.uncompressed_size_dl = len_dl;
+                              size_of_compressed_buffer2_dl_int = compressed_and_encoded_bytes_available_11_jan_2022_v6_dl;
 
-                              fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
+                              assert((1 << 15) > size_of_compressed_buffer2_dl_int);
+
+                              size_of_compressed_buffer_dl = size_of_compressed_buffer2_dl_int;
+
+                              size_of_compressed_buffer2_dl_int = minha_struct.bits_encoded_size_in_bytes_dl;
+
+                              assert((1 << 15) > size_of_compressed_buffer2_dl_int);
+
+                              size_of_compressed_buffer2_dl = size_of_compressed_buffer2_dl_int;
+                              // fwrite(&minha_struct, 1, sizeof(minha_struct), out_file_dl);
 
                               {
                                    /*
@@ -660,23 +677,14 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                                    fflush(stdout);
 
-                                   if (true)
-                                   {
-                                        fwrite(buf_dl_compressed, 1, compressed_and_encoded_bytes_available_11_jan_2022_v6_dl, out_file_dl);
+                                   fwrite(&size_of_compressed_buffer_dl, 1, 2, out_file_dl);
 
-                                        fwrite(buf_dl_bit_buffer, 1, number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl, out_file_dl);
+                                   fwrite(&size_of_compressed_buffer2_dl, 1, 2, out_file_dl);
 
-                                        if (requires_last_byte_11_jan_2022_v6_dl)
-                                        {
-                                             fwrite(&current_byte_being_generated_11_jan_2022_v6_byte_dl, 1, 1, out_file_dl);
-                                        }
-                                   }
-                                   else
-                                   {
-                                        // fwrite(out_buf_dl, 1, output_size_dl, out_file_dl);
-                                   }
+                                   fwrite(buf_dl_compressed, 1, size_of_compressed_buffer_dl, out_file_dl);
 
-                                   // free(out_buf_dl);
+                                   fwrite(buf_dl_bit_buffer, 1, size_of_compressed_buffer2_dl, out_file_dl);
+
                               }
 
                               if (DEBUG_DL__)
@@ -1047,9 +1055,18 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      free(buf_dl), free(buf_dl_compressed), free(buf_dl_bit_buffer);
 
-     printf("Progress my fool ric -> % 4d\n", 100);
-     printf("\nResearch running...\n");
-     printf("\nReplacements %d...\n", replacements_dl);
+     printf("\nProgress ric -> % 4d\n", 100);
+     printf("Research running...\n");
+     printf("Replacements %d\n", replacements_dl);
+
+     if (main_dl(temp_file_dl, arg_dl_v[2]))
+     {
+          unlink(temp_file_dl);
+          printf("Error in the arithmetic compression, cannot open a file to read or write\n");
+          return 27;
+     }
+
+     unlink(temp_file_dl);
 
      return 0;
 }

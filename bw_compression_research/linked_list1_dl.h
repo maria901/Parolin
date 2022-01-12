@@ -1,5 +1,9 @@
 // variables for v7
 
+int16_t size_of_compressed_buffer_dl ;
+int16_t size_of_compressed_buffer2_dl ;
+int size_of_compressed_buffer2_dl_int ;
+
 int size_got_of_neddle_dl;
 
 // now entries for version 6, variables for version 5 and below we will removed only later, now we need to

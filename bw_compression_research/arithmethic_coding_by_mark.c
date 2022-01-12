@@ -85,69 +85,18 @@
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
-uint8_t *out_data_dl;
-
-int *bytes_saved_dl;
-
-void pass_memory_output_dl(uint8_t *mem_dl, int *bytes_out)
-{
-    out_data_dl = mem_dl;
-    bytes_saved_dl = bytes_out;
-
-    (*bytes_saved_dl) = 0;
-}
-uint8_t *in_data_dl;
-
-int *bytes_read_dl;
-
-void pass_memory_input_dl(uint8_t *mem_dl, int *bytes_in)
-{
-    in_data_dl = mem_dl;
-    bytes_read_dl = bytes_in;
-
-    //(*bytes_read_dl) = 0;
-}
+static FILE *in_file_dl2;
+static FILE *out_file_dl2;
 
 int __cdecl getc_ric(void)
 {
-
-    int data_dl;
-    /*
-        if(0 > (*bytes_read_dl))
-        {
-            assert(0);
-            exit(27);
-        }
-    */
-
-    pedro_dprintf(-20220110, "getc_ric...");
-    if (0 == (*bytes_read_dl))
-    {
-        pedro_dprintf(-20220110, "end...");
-        return EOF;
-    }
-    else
-    {
-        (*bytes_read_dl)--;
-        pedro_dprintf(-20220110, "byte read1.");
-        data_dl = *in_data_dl++;
-
-        pedro_dprintf(-20220110, "byte read2.");
-        return data_dl;
-    }
-    return 0;
+    return getc(in_file_dl2);
 }
 
 int __cdecl putc_ric(int _Ch, FILE *_File)
 {
-    pedro_dprintf(-20220110, "putc_ric1");
     (void)_File;
-
-    (*out_data_dl) = (char)_Ch;
-    out_data_dl++;
-    (*bytes_saved_dl)++;
-    pedro_dprintf(-20220110, "putc_ric2");
-    return 0;
+    return putc(_Ch, out_file_dl2);
 }
 
 #define No_of_chars 256              /* Number of character symbols      */
@@ -258,7 +207,7 @@ int main_do_mr_do(void)
     start_encoding();
     for (;;)
     { /* Loop through characters. */
-   
+
         pedro_dprintf(-20220110, "begiN...");
         int ch;
         int symbol;
@@ -267,13 +216,13 @@ int main_do_mr_do(void)
         ch = getc_ric(); /* Read the next character. */
         pedro_dprintf(-20220110, "1...");
         if (ch == EOF)
-            break;                       /* Exit loop on end-of-file.*/
+            break; /* Exit loop on end-of-file.*/
         pedro_dprintf(-20220110, "2...%d", ch);
-        symbol = char_to_index[ch];      /* Translate to an index.   */
+        symbol = char_to_index[ch]; /* Translate to an index.   */
         pedro_dprintf(-20220110, "3...");
         encode_symbol(symbol, cum_freq); /* Encode that symbol.      */
         pedro_dprintf(-20220110, "4...");
-        update_model(symbol);            /* Update the model.        */
+        update_model(symbol); /* Update the model.        */
         pedro_dprintf(-20220110, "enD...");
     }
     pedro_dprintf(-20220110, "enD real...");
@@ -397,4 +346,45 @@ void update_model(int symbol)
         i -= 1;           /* update the cumulative    */
         cum_freq[i] += 1; /* frequencies.             */
     }
+}
+
+/**
+ * @brief Amazing day... just creted something interesting he he he, well this will mkae the final
+ * pass on the v7 and above compressor with arithmetic coding, thanks for uing our software
+ *
+ * @return int
+ */
+int main_dl(char *input_file_dl, char *output_file_dl)
+{
+    int return_value_dl = 0;
+    FILE *in_file_dl = fopen(input_file_dl, "rb");
+
+    if (in_file_dl)
+    {
+
+        FILE *out_file_dl = fopen(output_file_dl, "wb");
+        {
+            if (out_file_dl)
+            {
+                in_file_dl2 = in_file_dl;
+                out_file_dl2 = out_file_dl;
+                main_do_mr_do();
+                return_value_dl = 0;
+                fclose(out_file_dl);
+            }
+            else
+            {
+                printf("Cannot open output file\n");
+                return_value_dl = 27;
+            }
+        }
+        fclose(in_file_dl);
+    }
+    else
+    {
+        printf("Cannot open input file\n");
+        return_value_dl = 28;
+    }
+
+    return return_value_dl;
 }
