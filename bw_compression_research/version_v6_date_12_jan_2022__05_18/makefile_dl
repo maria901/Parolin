@@ -1,0 +1,30 @@
+#janeiro 2022 08 20:00 hs -dl
+DL____FLAGS__=-O1 -Wall -Wfatal-errors -Werror -Wno-restrict -Wextra -Wno-unused-function -I .
+	
+dl:
+	cp -r * 'C:\cygwin64_amandaricardo_koci_10.2.0\tar\bw_compression_research'
+
+pedro_dl_.o: pedro.c 
+	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -c -o pedro_dl_.o pedro.c
+
+arithmethic_coding_by_mark_dl_.o: arithmethic_coding_by_mark.c
+	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -c -o arithmethic_coding_by_mark_dl_.o arithmethic_coding_by_mark.c
+
+dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o
+
+
+	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -Wl,-subsystem,windows compressor1_dl.c -o dl1.exe pedro_dl_.o arithmethic_coding_by_mark_dl_.o
+	@cp ./dl1.exe ./dl1.bin
+
+
+#	./dl1.exe
+ 
+dl_50:
+
+#	./dl1.exe make.ava make.ava.compressed_by_dl_compressor
+#	./dl1.exe test.ava test.ava.compressed_by_dl_compressor
+	./dl1.exe make.bin make.bin.compressed_by_dl_compressor
+	-./ari.exe < make.bin.compressed_by_dl_compressor > make_bin_compressed_by_dl_compressor.ari
+#	./dl1.exe not_compressible.ava not_compressible.ava.compressed_by_dl_compressor
+#	-./rle < make.exe > make.rle
+#	-./ari < make.rle > make.ari.2
