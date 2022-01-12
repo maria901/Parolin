@@ -359,15 +359,6 @@ int main(int arg_dl_c, char **arg_dl_v)
 
             begin of modification, will adjust the buffers (07:03)
 
-...........
-........... Correction, the passed buffer position and string size can be 
-........... encoded in one by not two, just figured out now, anyway,
-........... the minimum string size to compress is 3 and not two, but 
-........... could be two if needed
-...........
-........... This idea can be improved, I am sure, like we did with 
-........... rle compression
-...........
 
 
 

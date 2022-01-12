@@ -67,16 +67,168 @@ uint8_t deslocador_dl = 0;
 uint8_t last_byte_encoded_value_dl; // only usefull for the encode, in the agregation the value will be in ht last byte of memory also in the linked list
 bool is_it_the_first_byte_to_encode_dl;
 
-uint8_t prepare_byte_12_jan_2022_v6_dl(int8_t string_size_dl_up_to_18, in16_t position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+uint8_t prepare_byte_12_jan_2022_v6_dl(uint8_t string_size_dl_up_to_18, uint16_t position_on_the_passed_buffer_up_to_4096_12_bits_dl)
 {
-     uint8_t exit_byte_dl = 0;
+     int bit_position_12_jan_2022_v6_dl = 0;
 
-     assert(string_size_dl_up_to_18 >=3);
+     int mask_dl;
 
-string_size_dl_up_to_18 -= 3;//it will be stored in the 
+     int i_dl = 4;
 
+     __attribute__((unused)) uint8_t exit_byte_dl = 0;
 
+     __attribute__((unused)) uint8_t first__part_of_the_resulting_byte_the_string_size_dl = 0;
 
+     __attribute__((unused)) uint8_t second_part_of_the_resulting_byte_the_position_in_the_input_buffer_dl = 0;
+
+     assert(18 >= string_size_dl_up_to_18);
+
+     assert(string_size_dl_up_to_18 >= 3);
+
+     assert(4096 >= position_on_the_passed_buffer_up_to_4096_12_bits_dl);
+
+     string_size_dl_up_to_18 -= 3; // it will be stored in the 4 bits
+
+     for (i_dl = 0; i_dl < 4; i_dl++)
+     {
+          switch (i_dl)
+          {
+
+          case 0:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & string_size_dl_up_to_18)
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+               }
+               else
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 1:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & string_size_dl_up_to_18)
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+               }
+               else
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 2:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & string_size_dl_up_to_18)
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+               }
+               else
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 3:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & string_size_dl_up_to_18)
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+               }
+               else
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          }
+     }
+
+     
+     for (i_dl = 0; i_dl < 12; i_dl++)
+     {
+          switch (i_dl)
+          {
+
+          case 0:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+               }
+               else
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 1:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & string_size_dl_up_to_18)
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+               }
+               else
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 2:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & string_size_dl_up_to_18)
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+               }
+               else
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          case 3:
+
+               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+
+               if (mask_dl & string_size_dl_up_to_18)
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl |= mask_dl;
+               }
+               else
+               {
+                    first__part_of_the_resulting_byte_the_string_size_dl &= ~(mask_dl);
+               }
+
+               bit_position_12_jan_2022_v6_dl++;
+               break;
+          }
+     }
+     
+bit_position_12_jan_2022_v6_dl = 0;
+
+     return exit_byte_dl;
 }
 
 /**
@@ -248,7 +400,7 @@ void __fastcall convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(__attribute__((unu
 
      uint16_t len_of_input_to_encode_as_you_may_expect_dl = len_of_input_to_encode_as_you_may_expect_dl_;
 
-     //len_of_input_to_encode_as_you_may_expect_dl += 4;
+     // len_of_input_to_encode_as_you_may_expect_dl += 4;
 
      /*
 
@@ -304,7 +456,7 @@ void __fastcall convert_8_bits_to_nine_bits_11_jan_2022_v6_dl(__attribute__((unu
                assert(0 && "inside function");
           }
           assert(len_of_matched_string_dl);
-          temp_dl[0] = len_of_matched_string_dl; // 
+          temp_dl[0] = len_of_matched_string_dl; //
 
           ptr_uint16_dl = (uint16_t *)&temp_dl[1];
 
