@@ -1,6 +1,5 @@
 // now the magic begins the v8
 
-//bool found_on_previous_buffer_dl;
 int largest_size_found_on_previous_buffer_dl;
 int size_of_the_neddle_dl2_b;
 

@@ -1,5 +1,14 @@
+minha_struct.version_of_the_code = 8; // 9th version... initiated at 12 jan 2022 18:10:05
+/*
 
-minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022 10:49:08
+........... v9 development starts now (18:10)... 
+........... We will expand the 8192 buffer size 
+........... to (1 << 14) at the beginning and also
+........... if possible will expand the 18 characters 
+........... string limit
+
+*/
+//minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022 10:49:08
 /*
 
 ........... (10:49) I should be sleeping but just figured out that the rle
