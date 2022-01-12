@@ -314,6 +314,15 @@ int main(int arg_dl_c, char **arg_dl_v)
           minha_struct.amor_assinatura_dl[2] = 'd';
           minha_struct.amor_assinatura_dl[3] = 'l';
 
+          minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022 05:35:02
+          /*
+
+........... (10:49) I should be sleeping but just figured out that the rle
+........... problem need to be solved yet today, because files
+........... highly compressible don't compress well as pure rle
+........... More on it in two hours
+
+          */
           minha_struct.version_of_the_code = 6; // 7th version... initiated at 12 jan 2022 05:35:02
           /*
 
@@ -388,7 +397,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 ........... And now the arithmetic compressor is already inside, no need
 ........... to call ari.exe after the compression
 ...........
-........... In one hour we will start the development of the v8 
+........... In one hour we will start the development of the v8
 ........... Need to rest for a while (10:28)
 ........... end of v7 updates...
 
