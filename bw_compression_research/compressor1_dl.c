@@ -314,13 +314,23 @@ int main(int arg_dl_c, char **arg_dl_v)
           minha_struct.amor_assinatura_dl[2] = 'd';
           minha_struct.amor_assinatura_dl[3] = 'l';
 
-          minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022 05:35:02
+          minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022 10:49:08
           /*
 
 ........... (10:49) I should be sleeping but just figured out that the rle
 ........... problem need to be solved yet today, because files
 ........... highly compressible don't compress well as pure rle
 ........... More on it in two hours
+
+........... v8 development started (11:27), first we will make the code 
+........... compress highly compressible files very well
+........... I don't remember about the instrinsics of zlib 
+........... but the sources talk about rle enconding and 
+........... standard lzss and our modified lz77 compress 
+........... up to 18 characters strings to two bytes plus a bit 
+........... Working on it, for it we will add a very large high
+........... compressible file and add to the tests 
+
 
           */
           minha_struct.version_of_the_code = 6; // 7th version... initiated at 12 jan 2022 05:35:02
