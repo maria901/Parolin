@@ -382,10 +382,10 @@ int main(int arg_dl_c, char **arg_dl_v)
 ........... avoid the requirement of the call to ari.exe after the call
 ........... It will help, and will be a simple call without ari.exe
 ...........
-........... Just removed the overhead of the additional struct and 
-........... the size of the compressed file now is 91 kb 
+........... Just removed the overhead of the additional struct and
+........... the size of the compressed file now is 91 kb
 ...........
-........... And now the arithmetic compressor is already inside, no need 
+........... And now the arithmetic compressor is already inside, no need
 ........... to call ari.exe after the compression
 ...........
 
@@ -579,8 +579,12 @@ int main(int arg_dl_c, char **arg_dl_v)
                if (update_me_dl < GetTickCount64())
                {
                     update_me_dl = GetTickCount64() + 50;
-                    printf("Progress ric -> % 4d\r", getpor(tamanho_dl, progress_dl));
-                    fflush(stdout);
+
+                    if (current_progress_dl != getpor(tamanho_dl, progress_dl))
+                    {
+                         printf("Progress ric -> % 4d\r", current_progress_dl = getpor(tamanho_dl, progress_dl));
+                         fflush(stdout);
+                    }
                }
 
                if (DEBUG_DL__)
@@ -675,10 +679,12 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                                    main_do_mr_do();
                                    */
-                                   printf("\n\nCompressed size %d uncompressed %d \n", number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl + compressed_and_encoded_bytes_available_11_jan_2022_v6_dl, len_dl);
-                                   printf("Buffer bytes %d bits arrays size %d\n", compressed_and_encoded_bytes_available_11_jan_2022_v6_dl, number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
+                                   /*
+                                    printf("Compressed size %d uncompressed %d ", number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl + compressed_and_encoded_bytes_available_11_jan_2022_v6_dl, len_dl);
+                                    printf(" - Buffer bytes %d bits arrays size %d \n", compressed_and_encoded_bytes_available_11_jan_2022_v6_dl, number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
 
-                                   fflush(stdout);
+                                    fflush(stdout);
+                                    */
 
                                    fwrite(&size_of_compressed_buffer_dl, 1, 2, out_file_dl);
 
@@ -687,7 +693,6 @@ int main(int arg_dl_c, char **arg_dl_v)
                                    fwrite(buf_dl_compressed, 1, size_of_compressed_buffer_dl, out_file_dl);
 
                                    fwrite(buf_dl_bit_buffer, 1, size_of_compressed_buffer2_dl, out_file_dl);
-
                               }
 
                               if (DEBUG_DL__)
@@ -1058,7 +1063,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      free(buf_dl), free(buf_dl_compressed), free(buf_dl_bit_buffer);
 
-     printf("\nProgress ric -> % 4d\n", 100);
+     printf("Progress ric -> % 4d\n", 100);
      printf("Research running...\n");
      printf("Replacements %d\n", replacements_dl);
 
@@ -1070,7 +1075,7 @@ int main(int arg_dl_c, char **arg_dl_v)
      }
 
      unlink(temp_file_dl);
-
+     printf("\nVersion of the encoder -> v7 (12 jan 2022 10:09)\n");
      return 0;
 }
 

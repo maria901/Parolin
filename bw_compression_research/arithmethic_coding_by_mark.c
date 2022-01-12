@@ -198,9 +198,9 @@ void bit_plus_follow(int bit)
 
 int main_do_mr_do(void)
 {
-    int ticker = 0;
+    //int ticker = 0;
     bits_to_follow = 0;
-    fprintf(stderr, "Arithmetic coding on ");
+    //fprintf(stderr, "Arithmetic coding on ");
 
     start_model(); /* Set up other modules.    */
     start_outputing_bits();
@@ -211,8 +211,10 @@ int main_do_mr_do(void)
         pedro_dprintf(-20220110, "begiN...");
         int ch;
         int symbol;
+        /*
         if ((ticker++ % 1024) == 0)
             putc('.', stderr);
+            */
         ch = getc_ric(); /* Read the next character. */
         pedro_dprintf(-20220110, "1...");
         if (ch == EOF)
@@ -229,7 +231,7 @@ int main_do_mr_do(void)
     encode_symbol(EOF_symbol, cum_freq); /* Encode the EOF symbol.   */
     done_encoding();                     /* Send the last few bits.  */
     done_outputing_bits();
-    putc('\n', stderr);
+    //putc('\n', stderr);
     pedro_dprintf(-20220110, "last call in the function...");
     return 0;
 }

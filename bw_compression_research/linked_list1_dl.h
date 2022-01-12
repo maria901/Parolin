@@ -1,5 +1,7 @@
 // variables for v7
 
+unsigned int current_progress_dl = 0;
+
 int16_t size_of_compressed_buffer_dl ;
 int16_t size_of_compressed_buffer2_dl ;
 int size_of_compressed_buffer2_dl_int ;
