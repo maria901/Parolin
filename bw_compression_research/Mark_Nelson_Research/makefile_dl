@@ -1,0 +1,7 @@
+#2022 12 04:11 ric & dl
+DL____FLAGS__=-O1 -Wall -Wfatal-errors -Werror -Wno-sign-compare -Wno-restrict -Wextra -Wno-unused-function -I .
+	
+dl_5001:
+	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -Wl,-subsystem,windows lzw.c -o lzw_c_dl_.exe
+
+	x86_64-w64-mingw32-g++.exe $(DL____FLAGS__) -Wl,-subsystem,windows lzw_nelson.cpp -o lzw_cpp_dl_.exe
