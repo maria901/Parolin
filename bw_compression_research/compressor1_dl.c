@@ -300,7 +300,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           */
 
-          minha_struct.version_of_the_code = 6; // 7º version... initiated at 12 jan 2022 05:35:02
+          minha_struct.version_of_the_code = 6; // 7th version... initiated at 12 jan 2022 05:35:02
           /*
 
           we have an idea of trying to compress 3 bytes in two using the standard lzss method of handling 4096
@@ -319,7 +319,19 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           coding time... (05:42:09)
 
+          to don't waste time we will keep for the moment the v6 variables in the code, even if not in use, blame us for this
 
+          happilly developed with VSCode: (but we may be forced to use Emacs for windows for some unknown reason)
+          VSCode Version: 1.63.2
+          Commit: 899d46d82c4c95423fb7e10e68eba52050e30ba3
+          Date: 2021-12-15T09:40:02.816Z
+          Electron: 13.5.2
+          Chromium: 91.0.4472.164
+          Node.js: 14.16.0
+          V8: 9.1.269.39-electron.0
+          OS: Windows_NT x64 10.0.19042
+
+          -----------------------------------------------------------------------------------------------------------
 
 
 
