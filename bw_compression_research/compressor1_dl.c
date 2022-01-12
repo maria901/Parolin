@@ -196,7 +196,7 @@ uint getpor(int max, uint fatia)
 int main(int arg_dl_c, char **arg_dl_v)
 {
      char temp_file_dl[MAX_PATH + 2];
-printf("%d\n", (1 << 14)); exit(27);
+
      __attribute__((unused)) int len_dl;
 
      __attribute__((unused)) int len_of_data_to_compress_dl;
