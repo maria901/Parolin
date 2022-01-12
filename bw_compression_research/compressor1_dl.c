@@ -299,7 +299,43 @@ int main(int arg_dl_c, char **arg_dl_v)
           /*
 
           */
-          minha_struct.version_of_the_code = 5; // 6º version... initiated at 11 jan 2022 03:53:01
+
+          minha_struct.version_of_the_code = 6; // 7º version... initiated at 12 jan 2022 05:35:02
+          /*
+
+          we have an idea of trying to compress 3 bytes in two using the standard lzss method of handling 4096
+          bytes in the sliding window but in a lz77 method
+
+          depending on the file it will achieve more compression than our v6 method that was not perfect but
+          already can compress better than many compressors available in research papers
+
+          as you may examinate the v6 method can compress up to 4 bytes in 3, this is the maximum for the minimum size
+          and up to 255 characters in a string for maximum size but we saw that this is irrelevant to the majority
+          of files, and standard lzss method encode at the maximum 18 characters string to 2 bytes and it is better than our v6 compressor
+
+          well here now with version v7 we will try to compress using 12 bits for adressing (4096 bytes) and four bits (16 possible values startinr from the minimum size that is 3 gives 18 as the maximum size)
+
+          this allow for a whole buffer like lz77 as 4096, lets see how it compresses...
+
+          coding time... (05:42:09)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          */
+
+          // minha_struct.version_of_the_code = 5; // 6º version... initiated at 11 jan 2022 03:53:01
 
           /*
 
