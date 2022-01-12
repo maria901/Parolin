@@ -258,7 +258,7 @@ int main_do_mr_do(void)
     start_encoding();
     for (;;)
     { /* Loop through characters. */
- 
+  
         pedro_dprintf(-20220110, "begiN...");
         int ch;
         int symbol;
