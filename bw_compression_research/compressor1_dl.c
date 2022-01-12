@@ -365,6 +365,17 @@ int main(int arg_dl_c, char **arg_dl_v)
 ........... our code that is compressing to 92 kb now have a lot 
 ........... of room to improve 
 ........... 
+........... By tomorrow we will have a compressor better than lzss
+...........
+........... Now that the code is ready compare the v7 code with 'LZSS.c'
+........... available in the subfolder './lzss to learn' and see what 
+........... version is more easy to be understood
+...........
+........... Notice that our code is not exactly lzss, it don't search on 
+........... a sliding window but on the input data to compress, from 0 to 
+........... the last byte (4096), and it is already compressing as good 
+........... as original lzss... 
+...........
 
 
 
