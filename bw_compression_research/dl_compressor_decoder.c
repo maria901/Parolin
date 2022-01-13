@@ -172,7 +172,7 @@ later, sorry and I love fopen, not _wfopen */
           else
           {
           jump_rhere_rrric:;
-               temp_for_ric_dl = mprintf_S2_com_retorno_se_for_6_eh_sim__arp("This file was compressed with a future version of dl_compressor, you can extract it with Parolin version 13.0.7 or above or download the correct version that is listed in the readme.txt file of the GitHub project:\nhttps://github.com/maria901/Parolin/\nTo identify the correct future release of dl_compressor search for 'char value == %i' in the readme.txt file of the project, and it will tell you what binary file you need to download to extract, touch YES if you want to visit the page of the developer\n", (unsigned int) minha_struct.version_of_the_code);
+               temp_for_ric_dl = mprintf_S2_com_retorno_se_for_6_eh_sim__arp("This file was compressed with a future version of dl_compressor, you can extract it with Parolin version 13.0.7 or above or download the correct version that is listed in the readme.txt file of the GitHub project:\nhttps://github.com/maria901/Parolin/\nTo identify the correct future release of dl_compressor search for 'char value == %i' in the https://github.com/maria901/Parolin/blob/main/bw_compression_research/readme.txt file of the project, and it will tell you what binary file you need to download to extract, touch YES if you want to visit the page of the developer\n", (unsigned int) minha_struct.version_of_the_code);
 
                if (6 == temp_for_ric_dl)
                {
