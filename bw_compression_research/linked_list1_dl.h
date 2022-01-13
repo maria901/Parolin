@@ -836,3 +836,44 @@ try_again_magician_ric1:;
      }
      //*adjusted_needle_dl -= MIN_STRING_SEARCH_SIZE_DL__;
 }
+
+
+/**
+ * To print a simple message
+ *
+ * @param format and ... the printf like parameters
+ *
+ */
+int
+mprintf_S2_com_retorno_se_for_6_eh_sim__arp(char *format, ...)
+{
+     int return_value_dl;
+     char *buffer = calloc(1, 10000); // for multithread sake
+     va_list amanda_do_ricardo;
+
+     va_start(amanda_do_ricardo, format);
+     vsprintf(buffer, format, amanda_do_ricardo);
+     va_end(amanda_do_ricardo);
+     return_value_dl = MessageBox(0, buffer, "Ric Pergunta...", MB_YESNO | MB_ICONERROR | MB_SYSTEMMODAL);
+     free(buffer);
+     return return_value_dl;
+}
+
+/**
+ * To print a simple message
+ *
+ * @param format and ... the printf like parameters
+ *
+ */
+void
+mprintf_S2_sem_retorno__arp(char *format, ...)
+{
+     char *buffer = calloc(1, 10000); // for multithread sake
+     va_list amanda_do_ricardo;
+
+     va_start(amanda_do_ricardo, format);
+     vsprintf(buffer, format, amanda_do_ricardo);
+     va_end(amanda_do_ricardo);
+     MessageBox(0, buffer, "Ric Informa...", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+     free(buffer);
+}

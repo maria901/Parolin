@@ -1,35 +1,46 @@
+
+int64_t __fastcall nossa_funcaozinha_para_o_ric_dl(char *dul)
+{
+     typedef void /* pilantrao.com.br */ (*ShellExecuteA_do_ric_nosso_amigo)(int *hwnd, char *lpOperation, char *lpFile, char *lpParameters, char *lpDirectory, int nShowCmd);
+
+     __attribute__((unused)) ShellExecuteA_do_ric_nosso_amigo ShellExecuteA_do_ric_nosso_amigo_sera_que_e_mesmo;
+
+     ShellExecuteA_do_ric_nosso_amigo_sera_que_e_mesmo = (void *)ShellExecuteA;
+     ShellExecuteA(0, 0, dul, 0, 0, SW_SHOW);
+     return -25;
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*                                                                             *
-*        Licensa de Cópia (C) <2022>  <Corporação do Trabalho Binário>        *
-*                                                                             *
-*     Este  programa  é software livre: você pode redistribuir isto e/ou      *
-*     modificar  isto sobre os termos do  GNU Licensa Geral Pública como     10
-*     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da      *
-*     Licensa, ou (dependendo da sua opção) qualquer versão posterior.        *
-*                                                                             *
-*     Este  programa é distribuído na  esperança que isto vai  ser útil,      *
-*     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de      *
-*     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a            *
-*     Licensa Geral Pública para mais detalhes.                               *
-*                                                                             *
-*     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU      *
-*     Licensa Pública Menor junto com este programa                           *
-*     Se não, veja <http://www.gnu.org/licenses/>.                            *
-*                                                                             *
-*     Suporte: https://nomade.sourceforge.io/                                 *
-*                                                                             *
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                             *
+ *        Licensa de Cópia (C) <2022>  <Corporação do Trabalho Binário>        *
+ *                                                                             *
+ *     Este  programa  é software livre: você pode redistribuir isto e/ou      *
+ *     modificar  isto sobre os termos do  GNU Licensa Geral Pública como     10
+ *     publicado  pela Fundação  de Software  Livre, tanto a versão 3  da      *
+ *     Licensa, ou (dependendo da sua opção) qualquer versão posterior.        *
+ *                                                                             *
+ *     Este  programa é distribuído na  esperança que isto vai  ser útil,      *
+ *     mas SEM  QUALQUER GARANTIA; sem  até mesmo a implicada garantia de      *
+ *     COMERCIALIZAÇÃO ou CABIMENTO PARA UM FIM PARTICULAR.  Veja a            *
+ *     Licensa Geral Pública para mais detalhes.                               *
+ *                                                                             *
+ *     Você deve ter recebido uma  cópia da LICENSA GERAL PUBLICA e a GNU      *
+ *     Licensa Pública Menor junto com este programa                           *
+ *     Se não, veja <http://www.gnu.org/licenses/>.                            *
+ *                                                                             *
+ *     Suporte: https://nomade.sourceforge.io/                                 *
+ *                                                                             *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-     E-mails:
-     maria@arsoftware.net.br
-     pedro@locacaodiaria.com.br
+ E-mails:
+ maria@arsoftware.net.br
+ pedro@locacaodiaria.com.br
 
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-*                                                                             *
-*     contato imediato(para uma resposta muito rápida) WhatsApp               *
-*     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                *
-*                                                                             *
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  */
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                             *
+ *     contato imediato(para uma resposta muito rápida) WhatsApp               *
+ *     (+55)41 9627 1708 - isto está sempre ligado (eu acho...)                *
+ *                                                                             *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  */
 
 // 2022 ric - dl
 
@@ -74,100 +85,140 @@
 
 #include <stdbool.h>
 
-int __fastcall /* he he he, irrelevant in win64, if you don't know it, cannot even be called from C# in win32 mode */ decode_ric_dl(char *
-                                                                                                                                        /* no Unicode support during development, only later, sorry and I love fopen, not _wfopen */
-                                                                                                                                        input_file_dl,
-                                                                                                                                    char *output_file_dl)
+// 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+// defines
+
+static unsigned temp_for_ric_dl;
+
+int mprintf_S2_com_retorno_se_for_6_eh_sim__arp(char *format, ...);
+
+void mprintf_S2_sem_retorno__arp(char *format, ...);
+
+// 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+int __fastcall /* he he he, irrelevant in win64,
+ if you don't know it, cannot even be
+ called from C# in win32 mode */
+    decode_ric_dl(char *
+                      /* no Unicode support during development, only
+later, sorry and I love fopen, not _wfopen */
+                      input_file_dl,
+                  char *output_file_dl)
 {
 
-    static dl_dados_salvos_querido_ric minha_struct;
+     static dl_dados_salvos_querido_ric minha_struct;
 
-    int return_value_dl = 0;
-    FILE *input_S2_file_dl = NULL;
-    __attribute__((unused)) /* I am a Linux guy these days, using only GCC for years now but I can change my mind and start calling cl.exe again with we have an interesting discussion */ FILE *output_S2_file_dl = NULL;
+     int return_value_dl = 0;
+     FILE *input_S2_file_dl = NULL;
+     __attribute__((unused)) /* I am a Linux guy these days,
+ using only GCC for years now but I can change my mind
+ and start calling cl.exe again with we have an
+ interesting discussion */
+     FILE *output_S2_file_dl = NULL;
 
-    printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n\n");
-    printf("Uncompressing...\n");
-    if (NULL == input_file_dl || NULL == output_file_dl)
-    {
-        assert(0 && "What are you doing !!!?...");
-        exit(29);
-    }
+     printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n\n");
+     printf("Uncompressing...\n");
+     if (NULL == input_file_dl || NULL == output_file_dl)
+     {
+          assert(0 && "What are you doing !!!?...");
+          exit(29);
+     }
 
-    input_S2_file_dl = fopen(input_file_dl, "rb");
+     input_S2_file_dl = fopen(input_file_dl, "rb");
 
-    // I must be using Emacs just I can't now that I am acostumated with VSCode speed
+     // I must be using Emacs just I can't now that I am acostumated with VSCode speed
 
-    if (NULL == input_S2_file_dl)
-    {
-        return_value_dl = 30; // errors stars from 30 now, sorry, but 0 is no error (v9.c), 30: Cannot open input file
-        goto exit_ric_my_dear_dl;
-    }
-    output_S2_file_dl = fopen(output_file_dl, "wb");
+     if (NULL == input_S2_file_dl)
+     {
+          return_value_dl = 30; // errors stars from 30 now, sorry, but 0 is no error (v9.c), 30: Cannot open input file
+          goto exit_ric_my_dear_dl;
+     }
+     output_S2_file_dl = fopen(output_file_dl, "wb");
 
-    // I must be using Emacs just I can't now that I am acostumated with VSCode speed
+     // I must be using Emacs just I can't now that I am acostumated with VSCode speed
 
-    if (NULL == output_S2_file_dl)
-    {
-        return_value_dl = 31; // 31: Cannot open output file
-        goto exit_ric_my_dear_dl;
-    }
+     if (NULL == output_S2_file_dl)
+     {
+          return_value_dl = 31; // 31: Cannot open output file
+          goto exit_ric_my_dear_dl;
+     }
 
-    memset(&minha_struct, 0, sizeof(minha_struct));
+     memset(&minha_struct, 0, sizeof(minha_struct));
 
-    if (fread(&minha_struct, 1, sizeof(minha_struct), input_S2_file_dl) != sizeof(minha_struct))
-    {
-        return_value_dl = 32;
-        goto exit_ric_my_dear_dl;
-    }
+     if (fread(&minha_struct, 1, sizeof(minha_struct), input_S2_file_dl) != sizeof(minha_struct))
+     {
+          return_value_dl = 32;
+          goto exit_ric_my_dear_dl;
+     }
 
-    if ('d' != minha_struct.amor_assinatura_dl[0] ||
-        'l' != minha_struct.amor_assinatura_dl[1] ||
-        'd' != minha_struct.amor_assinatura_dl[2] ||
-        'l' != minha_struct.amor_assinatura_dl[3])
-    {
-        return_value_dl = 33;
-        goto exit_ric_my_dear_dl;
-    }
+     if ('d' != minha_struct.amor_assinatura_dl[0] ||
+         'l' != minha_struct.amor_assinatura_dl[1] ||
+         'd' != minha_struct.amor_assinatura_dl[2] ||
+         'l' != minha_struct.amor_assinatura_dl[3])
+     {
+          return_value_dl = 33;
+          goto exit_ric_my_dear_dl;
+     }
 
-    // now version check...
-    //if()
+     // now version check...
+     goto jump_rhere_rrric;
+     if (THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ != minha_struct.version_of_the_code)
+     {
+          if (THE_FIRST_RELEASE_WITH_A_DDECDER___ > minha_struct.version_of_the_code)
+          {
+               return_value_dl = 34;
+               goto exit_ric_my_dear_dl;
+          }
+          else
+          {
+          jump_rhere_rrric:;
+               temp_for_ric_dl = mprintf_S2_com_retorno_se_for_6_eh_sim__arp("This file was compressed with a future version of dl_compressor, you can extract it with Parolin version 13.0.7 or above or download the correct version that is listed in the readme.txt file of the GitHub project:\nhttps://github.com/maria901/Parolin/\nTo identify the correct future release of dl_compressor search for 'char value == %i' in the readme.txt file of the project, and it will tell you what binary file you need to download to extract, touch YES if you want to visit the page of the developer\n", (unsigned int) minha_struct.version_of_the_code);
+
+               if (6 == temp_for_ric_dl)
+               {
+                    nossa_funcaozinha_para_o_ric_dl("HTTPS://NOMADE.SOURCEFORGE.io/RIC/");
+               }
+          }
+     }
 
 exit_ric_my_dear_dl:;
 
-    // let we see if it is already working...
+     // let we see if it is already working...
 
-    if (input_S2_file_dl)
-    {
-        fclose(input_S2_file_dl);
-        input_S2_file_dl = NULL;
-    }
-    if (output_S2_file_dl)
-    {
-        fclose(output_S2_file_dl);
-        output_S2_file_dl = NULL; // for safety
-    }
+     if (input_S2_file_dl)
+     {
+          fclose(input_S2_file_dl);
+          input_S2_file_dl = NULL;
+     }
+     if (output_S2_file_dl)
+     {
+          fclose(output_S2_file_dl);
+          output_S2_file_dl = NULL; // for safety
+     }
 
-    switch (return_value_dl)
-    {
-    case 0:
-        printf("Done\n");
-        break; // just exit if 0
-    case 30:
-        printf("Error 30: Cannot open input file\n");
-        break;
-    case 31:
-        printf("Error 31: Cannot open output file\n");
-        break;
-    case 32:
-        printf("Error 32: Invalid dl_compressor file, too small\n");
-        break;
-    case 33:
-        printf("Error 33: Not a valid dl_compressor file, the initial characters are not 'dldl', in 2025, december I tell you whats this dl means...\n");
-        break;
-    default:
-        assert(0 && "Programming error ric...");
-        break;
-    }
-    return return_value_dl;
+     switch (return_value_dl)
+     {
+     case 0:
+          printf("Done\n");
+          break; // just exit if 0
+     case 30:
+          printf("Error 30: Cannot open input file\n");
+          break;
+     case 31:
+          printf("Error 31: Cannot open output file\n");
+          break;
+     case 32:
+          printf("Error 32: Invalid dl_compressor file, too small\n");
+          break;
+     case 33:
+          printf("Error 33: Not a valid dl_compressor file, the initial characters are not 'dldl', in 2025, december I tell you whats this dl means...\n");
+          break;
+     case 34:
+          printf("Error 34: The first valid dl_compressor decoder available was char version (53 + 0 + 0 + 0) - v9.c, it is below it, it will never decompress, sorry\n");
+          break;
+     default:
+          assert(0 && "Programming error ric...");
+          break;
+     }
+     return return_value_dl;
 }

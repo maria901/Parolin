@@ -2,6 +2,14 @@
 
 #define STRING_VERSION_DL_COMPRESSOR "v9.c   \n(char value == 53 + 0 + 0 + 0) \ncodename: Ze Carlos (do centro espirita) \n(13 jan 2022 12:12) \n\n"
 
+/*
+
+*/
+
+// versions below this are invalid
+
+#define THE_FIRST_RELEASE_WITH_A_DDECDER___ (((53 + 0 + 0 + 0)))
+
 minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___; // 9.c version initiated at 13 jan 2022 09:48
 /*
 
