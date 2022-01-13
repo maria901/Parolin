@@ -80,6 +80,24 @@
 
 // variables and functions defines or constants
 
+/**
+ * @brief the decoder call, need to receive a dl_compressor based file that will be checked, of course and processd as you may expect
+ *
+ */
+int __fastcall /* he he he, irrelevant in win64, if you don't know it, but I am a developer that passed the 50,  cannot even be called from C# in win32 mode, in 64 any calling convention is the same, the microsoft call, ricardo is teaching it for free, he he he */ decode_ric_dl(char *
+                                                                                                                                                                                                                                                                                           /* no Unicode support during development, only later, sorry and I love fopen, not _wfopen */
+                                                                                                                                                                                                                                                                                           input_file_dl,
+                                                                                                                                                                                                                                                                                       char *output_file_dl);
+
+/**
+ * @brief Will document it later... sorry
+ *
+ * @param size_of_header_dl
+ * @param memory_to_add_dl
+ * @param input_file_dl
+ * @param output_file_dl
+ * @return int
+ */
 int main_dl(int size_of_header_dl, char *memory_to_add_dl, char *input_file_dl, char *output_file_dl);
 
 void pedro_dprintf(int amanda_level,
@@ -216,6 +234,43 @@ uint getpor(int max, uint fatia)
      return (uint)maxa;
 }
 
+/**
+ * It will return the last occurrence of a string inside the string (it is not obviously my code, if mine it would not be as good as this)
+ *
+ * @param s1 the string to search
+ *
+ * @param s2 the input string
+ *
+ * @return a pointer if the string was found or NULL otherwise
+ *
+ */
+char *
+strrstr(char *s1, char *s2)
+{
+     char *sc2, *psc1, *ps1;
+     if (*s2 == '\0')
+     {
+          return ((char *)s1);
+     }
+     ps1 = s1 + strlen(s1);
+     while (ps1 != s1)
+     {
+          --ps1;
+          for (psc1 = ps1, sc2 = s2;;)
+          {
+               if (*(psc1++) != *(sc2++))
+               {
+                    break;
+               }
+               else if (*sc2 == '\0')
+               {
+                    return ((char *)ps1);
+               }
+          }
+     }
+     return ((char *)((void *)0));
+}
+
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 /**
  * @brief our magic main entry point for our and your pleasure...
@@ -226,6 +281,24 @@ uint getpor(int max, uint fatia)
  */
 int main(int arg_dl_c, char **arg_dl_v)
 {
+
+     char file_exe_dl[MAX_PATH + 1] = {0}; // Unicode will handle later we it become part of Parolin compressors/uncompressors
+     char *file_exe_dl2;
+
+     if (4 != arg_dl_c)
+     {
+          goto exit_now_ric_dl;
+     }
+
+     if (0 == strcmp("e", arg_dl_v[1]) || 0 == strcmp("E" /* if some weird developer use 'E' */, arg_dl_v[1]))
+     {
+          ; // encoding
+     }
+     else
+     {
+          return decode_ric_dl(arg_dl_v[2], arg_dl_v[3]);
+     }
+
      char temp_file_dl[MAX_PATH + 2];
 
      __attribute__((unused)) int len_dl;
@@ -296,16 +369,10 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) ULONGLONG update_me_dl = 0;
 
-     if (3 != arg_dl_c)
-     {
-          printf("Usage <input_file> <output_file>\n");
-          exit(27);
-     }
+     unlink(arg_dl_v[3]);
+     my_file_dl = fopen(arg_dl_v[2], "rb");
 
-     unlink(arg_dl_v[2]);
-     my_file_dl = fopen(arg_dl_v[1], "rb");
-
-     strcpy(temp_file_dl, arg_dl_v[2]);
+     strcpy(temp_file_dl, arg_dl_v[3]);
 
      strcat(temp_file_dl, ".bw.tmp");
 
@@ -937,7 +1004,7 @@ if ok it will be the minimum size if reached there but check
      printf("Research running...\n");
      printf("Replacements %d\n", replacements_dl);
 
-     if (main_dl(sizeof(minha_struct), (char *)&minha_struct, temp_file_dl, arg_dl_v[2]))
+     if (main_dl(sizeof(minha_struct), (char *)&minha_struct, temp_file_dl, arg_dl_v[3]))
      {
           unlink(temp_file_dl);
           printf("Error in the arithmetic compression, cannot open a file to read or write\n");
@@ -947,6 +1014,30 @@ if ok it will be the minimum size if reached there but check
      unlink(temp_file_dl);
      printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n");
      return 0;
+
+exit_now_ric_dl:;
+
+     strcpy(file_exe_dl, arg_dl_v[0]);
+
+     file_exe_dl2 = strrstr(file_exe_dl, "/"); // for Unix guys
+     if (NULL == file_exe_dl2)
+          file_exe_dl2 = strrstr(file_exe_dl, "\\");
+
+     if (file_exe_dl2)
+     {
+     }
+     else
+     {
+          file_exe_dl2 = file_exe_dl;
+     }
+
+     printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n\n");
+     printf("Usage: %s e <input_file> <output_file>            -- to encode a file\n", file_exe_dl2 + 1);
+     printf("Usage: %s d <input_file> <output_file>            -- to decode a file, simple as it...\n", file_exe_dl2 + 1);
+     printf("\nIn case of an erroneous decoder, newer or older it will point\n");
+     printf("you to the correct version download area on GitHub or sf.net\n");
+     printf("Each different version encodes and decodes a single version since v9.c\n");
+     exit(27);
 }
 
 // it is 09:41 of 13 jan 2022 and the decoder code for dl_compressor just started (first version with a decoder v9.c)

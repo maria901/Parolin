@@ -74,15 +74,34 @@
 
 #include <stdbool.h>
 
-int __fastcall /* he he he */ decode_ric_dl(char * /* no Unicode support during development, only later, sorry and I love fopen, not _wfopen*/ input_file_dl, char *output_file_dl)
+int __fastcall /* he he he, irrelevant in win64, if you don't know it, cannot even be called from C# in win32 mode */ decode_ric_dl(char *
+                                                /* no Unicode support during development, only later, sorry and I love fopen, not _wfopen */
+                                                input_file_dl,
+                                            char *output_file_dl)
 {
-
-FILE * input_S2_file_dl = NULL;
-FILE * output_file_dl = NULL;
+    int return_value_dl = 0;
+    FILE *input_S2_file_dl = NULL;
+    __attribute__((unused)) /* I am a Linux guy these days, using only GCC for years now but I can change my mind and start calling cl.exe again with we have an interesting discussion */ FILE *output_S2_file_dl = NULL;
 
     if (NULL == input_file_dl || NULL == output_file_dl)
     {
-        assert(0 && "What are you doing !!!?..., kkkkk");
+        assert(0 && "What are you doing !!!?...");
         exit(29);
     }
+
+    input_S2_file_dl = fopen(input_file_dl, "rb");
+
+    // I must be using Emacs just I can't now that I am acostumated with VSCode speed
+
+    if (NULL == input_S2_file_dl)
+    {
+        return_value_dl = 30; // errors stars from 30 now, sorry, but 0 is no error (v9.c)
+        goto exit_ric_my_dear_dl;
+    }
+
+exit_ric_my_dear_dl:;
+
+    // let we see if it is already working...
+
+    return return_value_dl;
 }

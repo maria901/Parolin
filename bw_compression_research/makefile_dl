@@ -20,8 +20,8 @@ dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o version_info_dl.h
 #	./dl1.exe
  
 dl_50:
-	./lzari_dl.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
-	./lzari_dl.exe e make.bin make.bin.compressed_by_lzss_ari
+#	./lzari_dl.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
+#	./lzari_dl.exe e make.bin make.bin.compressed_by_lzss_ari
 #	./lzari_dl.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
 	./dl1.exe tar_1_33.c tar_1_33.c.compressed_by_dl_compressor
 #	./dl1.exe to_compress_with_rle.dl to_compress_with_rle.dl.out
