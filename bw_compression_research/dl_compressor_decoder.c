@@ -1,14 +1,5 @@
 
-int64_t __fastcall nossa_funcaozinha_para_o_ric_dl(char *dul)
-{
-     typedef void /* pilantrao.com.br */ (*ShellExecuteA_do_ric_nosso_amigo)(int *hwnd, char *lpOperation, char *lpFile, char *lpParameters, char *lpDirectory, int nShowCmd);
 
-     __attribute__((unused)) ShellExecuteA_do_ric_nosso_amigo ShellExecuteA_do_ric_nosso_amigo_sera_que_e_mesmo;
-
-     ShellExecuteA_do_ric_nosso_amigo_sera_que_e_mesmo = (void *)ShellExecuteA;
-     ShellExecuteA(0, 0, dul, 0, 0, SW_SHOW);
-     return -25;
-}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                             *
  *        Licensa de Cópia (C) <2022>  <Corporação do Trabalho Binário>        *
@@ -93,6 +84,9 @@ static unsigned temp_for_ric_dl;
 int mprintf_S2_com_retorno_se_for_6_eh_sim__arp(char *format, ...);
 
 void mprintf_S2_sem_retorno__arp(char *format, ...);
+int __fastcall /* very fast call, the others are slow __cdecl and __stdcall and __thiscall */ main_decoder_ari_dl(
+    FILE *input_S2_file_dl__,
+    FILE *output_S2_file_dl__);
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
@@ -109,10 +103,11 @@ later, sorry and I love fopen, not _wfopen */
      static dl_dados_salvos_querido_ric minha_struct;
 
      int return_value_dl = 0;
+     char temp_file_dl[MAX_PATH + 1];
      FILE *input_S2_file_dl = NULL;
      __attribute__((unused)) /* I am a Linux guy these days,
  using only GCC for years now but I can change my mind
- and start calling cl.exe again with we have an
+ and start calling cl.exe again if we have an
  interesting discussion */
      FILE *output_S2_file_dl = NULL;
 
@@ -133,7 +128,10 @@ later, sorry and I love fopen, not _wfopen */
           return_value_dl = 30; // errors stars from 30 now, sorry, but 0 is no error (v9.c), 30: Cannot open input file
           goto exit_ric_my_dear_dl;
      }
-     output_S2_file_dl = fopen(output_file_dl, "wb");
+
+     strcpy(temp_file_dl, output_file_dl);
+     strcat(temp_file_dl, ".rsp$$$.tmp");
+     output_S2_file_dl = fopen(temp_file_dl, "wb");
 
      // I must be using Emacs just I can't now that I am acostumated with VSCode speed
 
@@ -161,7 +159,9 @@ later, sorry and I love fopen, not _wfopen */
      }
 
      // now version check...
-     goto jump_rhere_rrric;
+     if (28 == 53)
+          goto jump_rhere_rrric;
+
      if (THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ != minha_struct.version_of_the_code)
      {
           if (THE_FIRST_RELEASE_WITH_A_DDECDER___ > minha_struct.version_of_the_code)
@@ -172,13 +172,23 @@ later, sorry and I love fopen, not _wfopen */
           else
           {
           jump_rhere_rrric:;
-               temp_for_ric_dl = mprintf_S2_com_retorno_se_for_6_eh_sim__arp("This file was compressed with a future version of dl_compressor, you can extract it with Parolin version 13.0.7 or above or download the correct version that is listed in the readme.txt file of the GitHub project:\nhttps://github.com/maria901/Parolin/\nTo identify the correct future release of dl_compressor search for 'char value == %i' in the https://github.com/maria901/Parolin/blob/main/bw_compression_research/readme.txt file of the project, and it will tell you what binary file you need to download to extract, touch YES if you want to visit the page of the developer\n", (unsigned int) minha_struct.version_of_the_code);
-
+               temp_for_ric_dl = mprintf_S2_com_retorno_se_for_6_eh_sim__arp("This file was compressed with a future version of dl_compressor, you can extract it with Parolin version 13.0.7 or above or download the correct version that is listed in the readme.txt file of the GitHub project:\nhttps://github.com/maria901/Parolin/\nTo identify the correct future release of dl_compressor search for 'char value == %i' in the https://github.com/maria901/Parolin/blob/main/bw_compression_research/readme.txt file of the project, and it will tell you what binary file you need to download to extract, touch YES if you want to visit the page of the developer\n", (unsigned int)minha_struct.version_of_the_code);
+               return_value_dl = 35;
                if (6 == temp_for_ric_dl)
                {
-                    nossa_funcaozinha_para_o_ric_dl("HTTPS://NOMADE.SOURCEFORGE.io/RIC/");
+                    ShellExecuteA(0, 0, "HTTPS://NOMADE.SOURCEFORGE.io/RIC/", 0, 0, SW_SHOW);
                }
           }
+     }
+
+     // finally, checking values...
+
+     // need arithmetic uncompression, go there
+
+     if (main_decoder_ari_dl(input_S2_file_dl, output_S2_file_dl))
+     {
+          return_value_dl = 36;
+          goto exit_ric_my_dear_dl;
      }
 
 exit_ric_my_dear_dl:;
@@ -216,9 +226,28 @@ exit_ric_my_dear_dl:;
      case 34:
           printf("Error 34: The first valid dl_compressor decoder available was char version (53 + 0 + 0 + 0) - v9.c, it is below it, it will never decompress, sorry\n");
           break;
+     case 35:
+          printf("Error 35: Compressed file was created with a future version of dl_compressor, but is a valid dl_compressor file\n");
+          break;
+     case 36:
+          printf("Error 36: Error in the erithmetic decompression\n");
+          break;
      default:
           assert(0 && "Programming error ric...");
           break;
      }
+
+     {
+	  int main_dl_pure(char *input_file_dl, char *output_file_dl);
+	  void decompress_simple_dl(char *input_file_dl, char *output_file_dl);
+
+	  main_dl_pure("file.dl.bin", "file.dl.bin.2");
+
+     
+
+	  decompress_simple_dl("file.dl.bin.2", "file.dl.bin.3");
+     
+     }
+
      return return_value_dl;
 }

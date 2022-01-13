@@ -142,7 +142,9 @@ int64_t mem_search_dl(__attribute__((unused)) uint8_t *haystack,
 typedef struct dl_dados_salvos_querido_ric__
 {
      char amor_assinatura_dl[4];
-     char version_of_the_code; // requires push 1 or will see additional bytes in the header, and this is weird
+     char version_of_the_code;                    // requires push 1 or will see additional bytes in the header, and this is weird
+     int32_t adler32_of_the_uncompressed_data_dl; // for the data to compress, to check after the decompression
+     int64_t size_of_the_file_to_compress_dl;
 } dl_dados_salvos_querido_ric;
 #pragma pack(pop)
 
@@ -1011,7 +1013,7 @@ if ok it will be the minimum size if reached there but check
           return 27;
      }
 
-     unlink(temp_file_dl);
+     //unlink(temp_file_dl);
      printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n");
      return 0;
 
