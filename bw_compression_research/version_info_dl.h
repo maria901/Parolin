@@ -24,6 +24,18 @@ minha_struct.version_of_the_code = 8; // 9th version... initiated at 12 jan 2022
 ........... before 12:00 hs we will have a decoder alive and
 ........... kicking
 ...........
+........... Version information is stored in the compressed file
+........... and the correct version is required to decompress
+........... If you try to decompress a newer file with an older 
+........... version or vice versa it will point you to the
+........... correct version
+........... each version will decode only the pre-defined version
+........... 
+........... Debug version need to show the size of the strings
+........... matched and the count also to show how it can be
+........... improved
+........... v9.c will follow at 12:00 hs
+........... 
 */
 //minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022 10:49:08
 /*
