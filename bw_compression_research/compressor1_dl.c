@@ -37,6 +37,11 @@
 // added to new release are always added to the file
 // version_info_dl.h
 
+// the version defined for the encoder and decoder is also defined at
+// version_info_dl.h, each different version of the encoder/decoder 
+// can do it in a single pre defined version, if cannot it will point
+// you to the place where the decoder can be found, just it
+
 #include <windows.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -65,7 +70,7 @@
 
 #include <process.h>
 
-// 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+// 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 // variables and functions defines or constants
 
@@ -933,6 +938,10 @@ if ok it will be the minimum size if reached there but check
      printf("\nVersion of the encoder -> v9.a (13 jan 2022 03:56)\n");
      return 0;
 }
+
+//it is 09:41 of 13 jan 2022 and the decoder code for dl_compressor just started
+
+int decode_dl_compressor
 
 // vamos lá
 

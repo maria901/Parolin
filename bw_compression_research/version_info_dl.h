@@ -1,4 +1,28 @@
-minha_struct.version_of_the_code = 8; // 9th version... initiated at 12 jan 2022 18:10:05
+#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ = (((9))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
+
+minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___; // 9.c version initiated at 13 jan 2022 09:48
+/*
+
+...........
+........... First version that will not only encode but also decode
+...........
+........... We will store the data information on the compressed
+........... file in such a way that a fseek and fwrite is not
+........... required to store file header information, for a
+........... compressed file the pre last 8 bytes stores the
+........... original uncompressed size and the last 8 the
+........... compressed size, to help the usage in a near
+........... future, while the compressed information for
+........... each 4096 compressed chunck is already encoded
+........... in the compressed stream, it will make it is
+........... to retrieve the information about the compressed
+........... data for decoders, also the first four bytes
+........... will never change only the version value will
+........... increase
+
+*/
+
+//9th version... initiated at 12 jan 2022 18:10:05
 /*
 
 ........... v9 development starts now (18:10 12 jan)... 
