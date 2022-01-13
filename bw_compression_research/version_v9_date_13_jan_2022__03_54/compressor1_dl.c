@@ -921,7 +921,7 @@ if ok it will be the minimum size if reached there but check
      }
 
      unlink(temp_file_dl);
-     printf("\nVersion of the encoder -> v9.a (13 jan 2022 03:56)\n");
+     printf("\nVersion of the encoder -> v8 fixed (13 jan 2022 00:15)\n");
      return 0;
 }
 
