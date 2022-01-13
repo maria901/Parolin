@@ -42,6 +42,12 @@
 // can do it in a single pre defined version, if cannot it will point
 // you to the place where the decoder can be found, just it
 
+// https://github.com/maria901/Parolin/tree/main/bw_compression_research updated daily during this compression reserch (jan 2022)
+// https://sourceforge.net/projects/parolin/
+
+// distributed as part of the Parolin project in the subfolder 
+// bw_compression_research
+
 #include <windows.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -941,7 +947,7 @@ if ok it will be the minimum size if reached there but check
 
 //it is 09:41 of 13 jan 2022 and the decoder code for dl_compressor just started
 
-int decode_dl_compressor
+#include "dl_compressor_decoder.c"
 
 // vamos lá
 

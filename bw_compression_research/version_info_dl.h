@@ -14,7 +14,7 @@ minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RE
 ........... compressed size, to help the usage in a near
 ........... future, while the compressed information for
 ........... each 4096 compressed chunck is already encoded
-........... in the compressed stream, it will make it is
+........... in the compressed stream, it will make it easy
 ........... to retrieve the information about the compressed
 ........... data for decoders, also the first four bytes
 ........... will never change only the version value will
