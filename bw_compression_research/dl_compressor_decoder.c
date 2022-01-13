@@ -75,14 +75,16 @@
 #include <stdbool.h>
 
 int __fastcall /* he he he, irrelevant in win64, if you don't know it, cannot even be called from C# in win32 mode */ decode_ric_dl(char *
-                                                /* no Unicode support during development, only later, sorry and I love fopen, not _wfopen */
-                                                input_file_dl,
-                                            char *output_file_dl)
+                                                                                                                                        /* no Unicode support during development, only later, sorry and I love fopen, not _wfopen */
+                                                                                                                                        input_file_dl,
+                                                                                                                                    char *output_file_dl)
 {
     int return_value_dl = 0;
     FILE *input_S2_file_dl = NULL;
     __attribute__((unused)) /* I am a Linux guy these days, using only GCC for years now but I can change my mind and start calling cl.exe again with we have an interesting discussion */ FILE *output_S2_file_dl = NULL;
 
+    printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n\n");
+    printf("Uncompressing...\n");
     if (NULL == input_file_dl || NULL == output_file_dl)
     {
         assert(0 && "What are you doing !!!?...");
@@ -95,7 +97,16 @@ int __fastcall /* he he he, irrelevant in win64, if you don't know it, cannot ev
 
     if (NULL == input_S2_file_dl)
     {
-        return_value_dl = 30; // errors stars from 30 now, sorry, but 0 is no error (v9.c)
+        return_value_dl = 30; // errors stars from 30 now, sorry, but 0 is no error (v9.c), 30: Cannot open input file
+        goto exit_ric_my_dear_dl;
+    }
+    output_S2_file_dl = fopen(output_file_dl, "wb");
+
+    // I must be using Emacs just I can't now that I am acostumated with VSCode speed
+
+    if (NULL == output_S2_file_dl)
+    {
+        return_value_dl = 31; // 31: Cannot open output file
         goto exit_ric_my_dear_dl;
     }
 
@@ -103,5 +114,28 @@ exit_ric_my_dear_dl:;
 
     // let we see if it is already working...
 
+    if (input_S2_file_dl)
+    {
+        fclose(input_S2_file_dl);
+        input_S2_file_dl = NULL;
+    }
+    if (output_S2_file_dl)
+    {
+        fclose(output_S2_file_dl);
+        output_S2_file_dl = NULL; // for safety
+    }
+
+    switch (return_value_dl)
+    {
+    case 0:
+        printf("Done\n");
+        break; // just exit if 0
+    case 30:
+        printf("Error 30: Cannot open input file\n");
+        break;
+    case 31:
+        printf("Error 31: Cannot open output file\n");
+        break;
+    }
     return return_value_dl;
 }
