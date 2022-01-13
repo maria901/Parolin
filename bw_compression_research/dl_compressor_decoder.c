@@ -79,6 +79,9 @@ int __fastcall /* he he he, irrelevant in win64, if you don't know it, cannot ev
                                                                                                                                         input_file_dl,
                                                                                                                                     char *output_file_dl)
 {
+
+    static dl_dados_salvos_querido_ric minha_struct;
+
     int return_value_dl = 0;
     FILE *input_S2_file_dl = NULL;
     __attribute__((unused)) /* I am a Linux guy these days, using only GCC for years now but I can change my mind and start calling cl.exe again with we have an interesting discussion */ FILE *output_S2_file_dl = NULL;
@@ -110,6 +113,26 @@ int __fastcall /* he he he, irrelevant in win64, if you don't know it, cannot ev
         goto exit_ric_my_dear_dl;
     }
 
+    memset(&minha_struct, 0, sizeof(minha_struct));
+
+    if (fread(&minha_struct, 1, sizeof(minha_struct), input_S2_file_dl) != sizeof(minha_struct))
+    {
+        return_value_dl = 32;
+        goto exit_ric_my_dear_dl;
+    }
+
+    if ('d' != minha_struct.amor_assinatura_dl[0] ||
+        'l' != minha_struct.amor_assinatura_dl[1] ||
+        'd' != minha_struct.amor_assinatura_dl[2] ||
+        'l' != minha_struct.amor_assinatura_dl[3])
+    {
+        return_value_dl = 33;
+        goto exit_ric_my_dear_dl;
+    }
+
+    // now version check...
+    //if()
+
 exit_ric_my_dear_dl:;
 
     // let we see if it is already working...
@@ -135,6 +158,15 @@ exit_ric_my_dear_dl:;
         break;
     case 31:
         printf("Error 31: Cannot open output file\n");
+        break;
+    case 32:
+        printf("Error 32: Invalid dl_compressor file, too small\n");
+        break;
+    case 33:
+        printf("Error 33: Not a valid dl_compressor file, the initial characters are not 'dldl', in 2025, december I tell you whats this dl means...\n");
+        break;
+    default:
+        assert(0 && "Programming error ric...");
         break;
     }
     return return_value_dl;

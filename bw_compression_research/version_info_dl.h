@@ -1,6 +1,6 @@
-#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((9))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
+#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 0 + 0 + 0))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
 
-#define STRING_VERSION_DL_COMPRESSOR "v9.c (13 jan 2022 09:48)"
+#define STRING_VERSION_DL_COMPRESSOR "v9.c   \n(char value == 53 + 0 + 0 + 0) \ncodename: Ze Carlos (do centro espirita) \n(13 jan 2022 12:12) \n\n"
 
 minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___; // 9.c version initiated at 13 jan 2022 09:48
 /*
@@ -24,46 +24,46 @@ minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RE
 
 */
 
-//9th version... initiated at 12 jan 2022 18:10:05
+// 9th version... initiated at 12 jan 2022 18:10:05
 /*
 
-........... v9 development starts now (18:10 12 jan)... 
-........... We will expand the 8192 buffer size 
+........... v9 development starts now (18:10 12 jan)...
+........... We will expand the 8192 buffer size
 ........... to (1 << 14) at the beginning and also
-........... if possible will expand the 18 characters 
+........... if possible will expand the 18 characters
 ........... string limit
 ...........
-........... v9.a is available at GitHub, v9.b will follow 
-........... soon, but first we need a decoder 
+........... v9.a is available at GitHub, v9.b will follow
+........... soon, but first we need a decoder
 ...........
-........... version v9.b is available, it can compress make.exe to 
+........... version v9.b is available, it can compress make.exe to
 ........... 91kb and tar_1_33.c to 64kb
 ...........
-........... our v9.b is compressing text files better than lzss + ari 
-........... we will create the decoder now 
+........... our v9.b is compressing text files better than lzss + ari
+........... we will create the decoder now
 ...........
-........... Without the additional bit for more 4096 bytes to search 
-........... it diminishes the size of the compressed file in 1 kb only 
+........... Without the additional bit for more 4096 bytes to search
+........... it diminishes the size of the compressed file in 1 kb only
 ........... And using the additional bit 5kb was won
-........... 
+...........
 ........... (09:21 13 jan)
 ........... before 12:00 hs we will have a decoder alive and
 ........... kicking
 ...........
 ........... Version information is stored in the compressed file
 ........... and the correct version is required to decompress
-........... If you try to decompress a newer file with an older 
+........... If you try to decompress a newer file with an older
 ........... version or vice versa it will point you to the
 ........... correct version
 ........... each version will decode only the pre-defined version
-........... 
+...........
 ........... Debug version need to show the size of the strings
 ........... matched and the count also to show how it can be
 ........... improved
 ........... v9.c will follow at 12:00 hs
-........... 
+...........
 */
-//minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022 10:49:08
+// minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022 10:49:08
 /*
 
 ........... (10:49) I should be sleeping but just figured out that the rle
@@ -123,7 +123,7 @@ minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RE
 ...........
 ........... v8 is amazing, we did it again, it compress make.exe better
 
-........... for file make.exe 
+........... for file make.exe
 ...........                         zip               : 85kb
 ...........                         lzss + ari        : 90kb
 ...........                         dl_compressor (v8): 87kb
@@ -134,8 +134,8 @@ minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RE
 ........... What we did: Added searching code for the previous
 ........... buffer that now are 4096 plus the current buffer
 ........... making 8192 and add plus one bit for each pointer
-........... to the uncompressed buffer previous and current 
-........... v9 will extend it to (1 << 14) or more 
+........... to the uncompressed buffer previous and current
+........... v9 will extend it to (1 << 14) or more
 ...........
 
             */
