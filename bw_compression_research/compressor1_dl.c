@@ -38,14 +38,14 @@
 // version_info_dl.h
 
 // the version defined for the encoder and decoder is also defined at
-// version_info_dl.h, each different version of the encoder/decoder 
+// version_info_dl.h, each different version of the encoder/decoder
 // can do it in a single pre defined version, if cannot it will point
 // you to the place where the decoder can be found, just it
 
 // https://github.com/maria901/Parolin/tree/main/bw_compression_research updated daily during this compression reserch (jan 2022)
 // https://sourceforge.net/projects/parolin/
 
-// distributed as part of the Parolin project in the subfolder 
+// distributed as part of the Parolin project in the subfolder
 // bw_compression_research
 
 #include <windows.h>
@@ -118,11 +118,15 @@ int64_t mem_search_dl(__attribute__((unused)) uint8_t *haystack,
 #include "linked_list1_dl.h"
 #include "linked_list2_dl.h"
 
+// it also work on GCC not only cl.exe but 'packet' is
+// the correct mode to use it
+#pragma pack(push, 1)
 typedef struct dl_dados_salvos_querido_ric__
 {
      char amor_assinatura_dl[4];
      char version_of_the_code;
 } dl_dados_salvos_querido_ric;
+#pragma pack(pop)
 
 // 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
@@ -941,11 +945,11 @@ if ok it will be the minimum size if reached there but check
      }
 
      unlink(temp_file_dl);
-     printf("\nVersion of the encoder -> v9.a (13 jan 2022 03:56)\n");
+     printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n");
      return 0;
 }
 
-//it is 09:41 of 13 jan 2022 and the decoder code for dl_compressor just started
+// it is 09:41 of 13 jan 2022 and the decoder code for dl_compressor just started
 
 #include "dl_compressor_decoder.c"
 
