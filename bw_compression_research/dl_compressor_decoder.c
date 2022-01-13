@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *                                                                             *
 *        Licensa de Cópia (C) <2022>  <Corporação do Trabalho Binário>        *
 *                                                                             *
@@ -20,9 +20,9 @@
 *                                                                             *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-	 E-mails:
-	 maria@arsoftware.net.br
-	 pedro@locacaodiaria.com.br
+     E-mails:
+     maria@arsoftware.net.br
+     pedro@locacaodiaria.com.br
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *                                                                             *
@@ -38,39 +38,51 @@
 // version_info_dl.h
 
 // the version defined for the encoder and decoder is also defined at
-// version_info_dl.h, each different version of the encoder/decoder 
+// version_info_dl.h, each different version of the encoder/decoder
 // can do it in a single pre defined version, if cannot it will point
 // you to the place where the decoder can be found, just it
 
 // https://github.com/maria901/Parolin/tree/main/bw_compression_research updated daily during this compression reserch (jan 2022)
 // https://sourceforge.net/projects/parolin/
 
-// distributed as part of the Parolin project in the subfolder 
+// distributed as part of the Parolin project in the subfolder
 // bw_compression_research
 
-#include  <windows.h>
-#include   <stdint.h>
-#include    <stdio.h>
-#include   <stdlib.h>
-#include   <string.h>
-#include     <time.h>
-#include    <errno.h>
-#include    <fcntl.h>
-#include    <ctype.h>
-#include     <math.h>
-#include   <wctype.h>
-#include    <wchar.h>
-#include   <stdarg.h>
-#include   <stddef.h>
-#include   <setjmp.h>
-#include   <locale.h>
-#include   <signal.h>
-#include   <limits.h>
-#include    <float.h>
-#include   <iso646.h>
+#include <windows.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <math.h>
+#include <wctype.h>
+#include <wchar.h>
+#include <stdarg.h>
+#include <stddef.h>
+#include <setjmp.h>
+#include <locale.h>
+#include <signal.h>
+#include <limits.h>
+#include <float.h>
+#include <iso646.h>
 
 #undef NDEBUG
-#include   <assert.h>
+#include <assert.h>
 
-#include  <stdbool.h>
+#include <stdbool.h>
 
+int __fastcall /* he he he */ decode_ric_dl(char * /* no Unicode support during development, only later, sorry and I love fopen, not _wfopen*/ input_file_dl, char *output_file_dl)
+{
+
+FILE * input_S2_file_dl = NULL;
+FILE * output_file_dl = NULL;
+
+    if (NULL == input_file_dl || NULL == output_file_dl)
+    {
+        assert(0 && "What are you doing !!!?..., kkkkk");
+        exit(29);
+    }
+}

@@ -124,7 +124,7 @@ int64_t mem_search_dl(__attribute__((unused)) uint8_t *haystack,
 typedef struct dl_dados_salvos_querido_ric__
 {
      char amor_assinatura_dl[4];
-     char version_of_the_code;
+     char version_of_the_code; // requires push 1 or will see additional bytes in the header, and this is weird
 } dl_dados_salvos_querido_ric;
 #pragma pack(pop)
 
@@ -949,7 +949,7 @@ if ok it will be the minimum size if reached there but check
      return 0;
 }
 
-// it is 09:41 of 13 jan 2022 and the decoder code for dl_compressor just started
+// it is 09:41 of 13 jan 2022 and the decoder code for dl_compressor just started (first version with a decoder v9.c)
 
 #include "dl_compressor_decoder.c"
 
