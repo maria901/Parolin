@@ -604,7 +604,12 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           replacements_dl++;
           encode_bit_11_jan_2022_v6_dl(1); // if encoded bit is one then it is a pointer to the previous data and size (v8)
 
-          if (using_previous_buffer_dl) // now we are using one more bit to select buffer previous or current, as you can see we have expanded from 4096 to 8192 searching bytes with just an increase of a bit in the compressed stream, and this is just the beginning of the research
+          if (!ENABLE_8000_DL)
+          {
+               goto jump_8192_dl2;
+          }
+
+          if (using_previous_buffer_dl) //
           {
                encode_bit_11_jan_2022_v6_dl(0); // second bit is 0 then previous 4096 buffer was used (v8)
           }
@@ -612,6 +617,8 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           {
                encode_bit_11_jan_2022_v6_dl(1); // second bit is 1 then current 4096 buffer was used (v8)
           }
+
+     jump_8192_dl2:;
 
           if (DEBUG_DL__)
                pedro_dprintf(0, "inside convert 8, mode is add pointer");

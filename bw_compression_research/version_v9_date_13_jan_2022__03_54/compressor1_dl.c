@@ -74,6 +74,8 @@ int main_dl(int size_of_header_dl, char *memory_to_add_dl, char *input_file_dl, 
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
+#define ENABLE_8000_DL (1)
+
 #define DEBUG_DL__ 0
 #define DEBUG2_DL__ 0
 #define MAX_STRING_SEARCH_SIZE_DL__ (18) /* --- (v8 is this too) */
@@ -612,8 +614,14 @@ if ok it will be the minimum size if reached there but check
                */
                found_buffer_0_dl = false;
                result_dl_0 = -1;
+
+               if (!ENABLE_8000_DL)
+               {
+                    goto jump_8192_dl;
+               }
+
                // here for buffer 0 for the moment
-               if (MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl)
+               if ((MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl))
                {
                     ; // if last item don't search in any memory
                }
@@ -640,7 +648,8 @@ if ok it will be the minimum size if reached there but check
                     }
                }
 
-               found_buffer_0_dl = false;
+          jump_8192_dl:;
+
                /*
 
 
@@ -921,7 +930,7 @@ if ok it will be the minimum size if reached there but check
      }
 
      unlink(temp_file_dl);
-     printf("\nVersion of the encoder -> v8 fixed (13 jan 2022 00:15)\n");
+     printf("\nVersion of the encoder -> v9.a (13 jan 2022 03:56)\n");
      return 0;
 }
 
