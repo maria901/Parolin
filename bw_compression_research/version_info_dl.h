@@ -1,14 +1,28 @@
 minha_struct.version_of_the_code = 8; // 9th version... initiated at 12 jan 2022 18:10:05
 /*
 
-........... v9 development starts now (18:10)... 
+........... v9 development starts now (18:10 12 jan)... 
 ........... We will expand the 8192 buffer size 
 ........... to (1 << 14) at the beginning and also
 ........... if possible will expand the 18 characters 
 ........... string limit
-
-........... Need to add a minimum compression limit of 4 
-........... bytes... below can crash the compressor
+...........
+........... v9.a is available at GitHub, v9.b will follow 
+........... soon, but first we need a decoder 
+...........
+........... version v9.b is available, it can compress make.exe to 
+........... 91kb and tar_1_33.c to 64kb
+...........
+........... our v9.b is compressing text files better than lzss + ari 
+........... we will create the decoder now 
+...........
+........... Without the additional bit for more 4096 bytes to search 
+........... it diminishes the size of the compressed file in 1 kb only 
+........... And using the additional bit 5kb was won
+........... 
+........... (09:21 13 jan)
+........... before 12:00 hs we will have a decoder alive and
+........... kicking
 ...........
 */
 //minha_struct.version_of_the_code = 7; // 8th version... initiated at 12 jan 2022 10:49:08
