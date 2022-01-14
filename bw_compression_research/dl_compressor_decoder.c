@@ -238,10 +238,88 @@ int read_bit_dl(__attribute__((unused)) bool clear_flag_dl,
      return return_value_dl;
 }
 
-void get_string_size_and_address_in_the_current_buffer_dl()
+void get_string_size_and_address_in_the_current_buffer_dl(uint16_t input_data_composed_dl,
+                                                          uint16_t *string__size_dl,
+                                                          uint16_t *address__dl)
 {
+     uint16_t string_size_dl = 0;
+     uint16_t address_dl = 0;
 
-     return;
+     int deslocador_ric_dl = 0;
+     int counter_dl = 12;
+     unsigned int mask_dl;
+     unsigned int mask_dl2;
+
+     mask_dl = (1 << 0);
+
+     // for bit 0
+     if (mask_dl & input_data_composed_dl)
+     {
+          string_size_dl |= mask_dl;
+     }
+     else
+     {
+          string_size_dl &= ~(mask_dl);
+     }
+     // for bit 1
+
+     mask_dl = (1 << 1);
+     if (mask_dl & input_data_composed_dl)
+     {
+          string_size_dl |= mask_dl;
+     }
+     else
+     {
+          string_size_dl &= ~(mask_dl);
+     }
+     // for bit 2
+
+     mask_dl = (1 << 2);
+     if (mask_dl & input_data_composed_dl)
+     {
+          string_size_dl |= mask_dl;
+     }
+     else
+     {
+          string_size_dl &= ~(mask_dl);
+     }
+
+     // for bit 3
+
+     mask_dl = (1 << 3);
+     if (mask_dl & input_data_composed_dl)
+     {
+          string_size_dl |= mask_dl;
+     }
+     else
+     {
+          string_size_dl &= ~(mask_dl);
+     }
+
+     // adjusting
+     string_size_dl += 3;
+     // now the address
+     *string__size_dl = string_size_dl;
+     // for bit 0
+     deslocador_ric_dl = 0;
+
+     while (counter_dl--)
+     {
+
+          mask_dl2 = (1 << deslocador_ric_dl);
+          mask_dl = (1 << (deslocador_ric_dl + 4));
+          if (mask_dl & input_data_composed_dl)
+          {
+               address_dl |= mask_dl2;
+          }
+          else
+          {
+               address_dl &= ~(mask_dl2);
+          }
+          deslocador_ric_dl++;
+     }
+
+     *address__dl = address_dl;
 }
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
@@ -275,7 +353,9 @@ int __fastcall decode_ric_dl(char *
      uint8_t temp_dl[2];
      uint16_t *ptr_uint16_dl;
 
-     ptr_uint16_dl = (int16_t *)&temp_dl[0];
+uint16_t string_size__dl, address__dl;
+
+     ptr_uint16_dl = (uint16_t *)&temp_dl[0];
 
      uint16_t composed_pointer_and_string_size_16_dl;
 
@@ -596,6 +676,9 @@ we need 4096 bytes buffers, 3 to be exact
                }
 
                // now process it
+               get_string_size_and_address_in_the_current_buffer_dl(composed_pointer_and_string_size_16_dl,
+               &string_size__dl,
+               &address__dl);
 
                goto read_next_bit_dl_jump;
           }
