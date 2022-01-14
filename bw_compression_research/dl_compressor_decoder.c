@@ -119,7 +119,7 @@ int read_bit_dl(__attribute__((unused)) bool clear_flag_dl,
           return 2;
      }
 
-     switch (dl__->bit_position_for_decoder_dl = 0)
+     switch (dl__->bit_position_for_decoder_dl)
      {
      case 0:
           mask_dl = (1 << dl__->bit_position_for_decoder_dl);
@@ -224,14 +224,25 @@ int read_bit_dl(__attribute__((unused)) bool clear_flag_dl,
                return_value_dl = 0;
           }
           dl__->bit_position_for_decoder_dl = 0;
-          dl__->bit_array_pointer_dl ++;
-
+          dl__->bit_array_pointer_dl++;
+          dl__->bytes_left_in_the_bits_array_dl--;
+          // first weird bug of the decoder code, day 13 jan 2022 22:27 PM -- exit(27);
           break;
-     
      }
+
+     if (1 == return_value_dl)
+     {
+          // assert(0);
+     }
+
      return return_value_dl;
 }
 
+void get_string_size_and_address_in_the_current_buffer_dl()
+{
+
+     return;
+}
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 int __fastcall decode_ric_dl(char *
@@ -260,12 +271,31 @@ int __fastcall decode_ric_dl(char *
      // will generate the memory as required, best option, since we already dont know the size
 
      // ok, lets go
+
+     uint8_t temp_dl[2];
+     uint16_t *ptr_uint16_dl;
+
+     ptr_uint16_dl = (int16_t *)&temp_dl[0];
+
+     uint16_t composed_pointer_and_string_size_16_dl;
+
      uint16_t compressed_buffer_size_dl, bits_array_buffer_size_dl;
 
      unsigned int u_len_dl;
      unsigned int len_dl;
      uint8_t *buffer_a_dl = NULL;
      uint8_t *buffer_0_dl = NULL;
+
+     int bytes_left_in_compressed_buffer_dl;
+
+     uint8_t *buffer_uncompressed_current_dl = malloc(8192);
+     uint8_t *buffer_uncompressed_previous_dl = calloc(8192, 1);
+
+     __attribute__((unused)) uint32_t bytes_added_to_the_current_buffer_dl;
+
+     __attribute__((unused)) uint8_t *current_uncompressed_buffer_ptr_dl;
+
+     __attribute__((unused)) uint8_t *compressed_buffer_ptr_dl;
 
      uint8_t *buffer_bits_array_dl = NULL;
 
@@ -373,43 +403,6 @@ int __fastcall decode_ric_dl(char *
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 we need 4096 bytes buffers, 3 to be exact
 
      */
@@ -423,9 +416,15 @@ we need 4096 bytes buffers, 3 to be exact
           printf("Abriu arquivo pra leitura\n");
 
           // read
+     reiniciar_ric_dl:;
 
           u_len_dl = fread(&compressed_buffer_size_dl, 1, 2, output_S2_file_dl);
 
+          if (0 == u_len_dl)
+          {
+               assert(0 && "terminou os dados do arquivo comprimido, saindo");
+               goto exit_ric_my_dear_dl;
+          }
           if (2 != u_len_dl)
           {
                return_value_dl = 38;
@@ -437,6 +436,13 @@ we need 4096 bytes buffers, 3 to be exact
                return_value_dl = 39;
                goto exit_ric_my_dear_dl;
           }
+
+          if (0 == compressed_buffer_size_dl)
+          {
+               return_value_dl = 46;
+               goto exit_ric_my_dear_dl;
+          }
+
           u_len_dl = fread(&bits_array_buffer_size_dl, 1, 2, output_S2_file_dl);
 
           if (2 != u_len_dl)
@@ -486,44 +492,118 @@ we need 4096 bytes buffers, 3 to be exact
                       dl_,
                       bits_array_buffer_size_dl);
 
+          // now starts the processing
+          // goto read_next_bit_dl_jump;
+          // exit(30);
+
+          bytes_left_in_compressed_buffer_dl = compressed_buffer_size_dl;
+
+          bytes_added_to_the_current_buffer_dl = 0;
+
+          current_uncompressed_buffer_ptr_dl = buffer_uncompressed_current_dl; // at the beginning init all...
+
+          compressed_buffer_ptr_dl = buffer_a_dl;
+
+     read_next_bit_dl_jump:;
+
+          len_dl = read_bit_dl(false,
+                               NULL,
+                               dl_,
+                               0);
+
+          pedro_dprintf(-1, "val %d", len_dl);
+
           /*
-
-
-
-
-
-
-
-
-
-
-
-          now process...
-          need code to read the bits one by one
-
+                    if (2 != len_dl)
+                    {
+                         // goto again_dl;
+                    }
           */
 
+          if (2 == len_dl)
+          {
+               return_value_dl = 43;
+               goto exit_ric_my_dear_dl;
+          }
+
+          if (0 == len_dl) // the byte is normal byte stored in the compressed stream
+          {
+
+               (*current_uncompressed_buffer_ptr_dl) = (*compressed_buffer_ptr_dl);
+
+               current_uncompressed_buffer_ptr_dl++;
+               compressed_buffer_ptr_dl++; // adding data and ajusting pointers
+
+               bytes_added_to_the_current_buffer_dl++;
+
+               if (4096 < bytes_added_to_the_current_buffer_dl)
+               {
+                    // too much data added to uncompressed buffer
+                    return_value_dl = 44;
+                    goto exit_ric_my_dear_dl;
+               }
+
+               bytes_left_in_compressed_buffer_dl--;
+
+               if (0 > bytes_left_in_compressed_buffer_dl)
+               {
+                    return_value_dl = 45;
+                    goto exit_ric_my_dear_dl;
+               }
+
+               if (0 == bytes_left_in_compressed_buffer_dl)
+               {
+                    assert(0 && "pode reiniciar, terminou no bit 0 ");
+                    goto reiniciar_ric_dl;
+               }
+               goto read_next_bit_dl_jump;
+          }
+
+          if (1 == len_dl) // for version of 4096 compression searching buffer and 8192 bytes too this says that the bytes in the compressed stream are pointers, lets evaluate
+          {
+
+               if (0 == bytes_left_in_compressed_buffer_dl)
+               {
+                    // error
+                    return_value_dl = 47;
+                    goto exit_ric_my_dear_dl;
+               }
+               temp_dl[0] = (*compressed_buffer_ptr_dl);
+
+               compressed_buffer_ptr_dl++;
+
+               bytes_left_in_compressed_buffer_dl--;
+
+               if (0 == bytes_left_in_compressed_buffer_dl)
+               {
+                    // error
+                    return_value_dl = 47;
+                    goto exit_ric_my_dear_dl;
+               }
+
+               temp_dl[1] = (*compressed_buffer_ptr_dl);
+
+               compressed_buffer_ptr_dl++;
+
+               bytes_left_in_compressed_buffer_dl--;
+
+               composed_pointer_and_string_size_16_dl = *ptr_uint16_dl;
+
+               if (0 == bytes_left_in_compressed_buffer_dl)
+               {
+                    assert(0 && "pode reiniciar, terminou no bit 1 ou pointer ");
+                    goto reiniciar_ric_dl;
+               }
+
+               // now process it
+
+               goto read_next_bit_dl_jump;
+          }
+
+          assert(0);
           /*
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-primeiro 16 bits é size of compressed main buffer
-
-segundo é array de bits com final se tiver
+now work...
 
           */
      }
@@ -535,44 +615,13 @@ segundo é array de bits com final se tiver
      /*
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
      */
 
 exit_ric_my_dear_dl:;
+
+     free(buffer_uncompressed_current_dl);
+
+     free(buffer_uncompressed_previous_dl);
 
      free(dl_);
      dl_ = NULL;
@@ -650,6 +699,21 @@ exit_ric_my_dear_dl:;
           break;
      case 42:
           printf("Error 42: Cannot read the array of bits as bytes from the temp file\n");
+          break;
+     case 43:
+          printf("Error 43: Reading too much bits from the bits array or damaged compressed file\n");
+          break;
+     case 44:
+          printf("Error 44: Too much data added to uncompressed buffer\n");
+          break;
+     case 45:
+          printf("Error 45: Too much data read from compressed buffer\n");
+          break;
+     case 46:
+          printf("Error 46: Invalid compressed size, cannot be 0\n");
+          break;
+     case 47:
+          printf("Error 47: No more data to process from the compressed buffer\n");
           break;
      default:
           assert(0 && "Programming error ric...");
