@@ -100,10 +100,10 @@ int __fastcall /* very fast call, the others are slow __cdecl and __stdcall and 
 int read_bit_dl(__attribute__((unused)) bool clear_flag_dl,
                 __attribute__((unused)) uint8_t *array_of_bits_as_byte_dl, __attribute__((unused)) main_dl_struct_for_dl_compressor *dl__, uint16_t array_of_bits_as_bytes_len)
 {
-
+     int ret_dl;
      int return_value_dl = 2;
      uint8_t mask_dl;
-
+     (void)ret_dl;
      if (clear_flag_dl)
      {
           pedro_dprintf(0, "cleaning flag running");
@@ -111,7 +111,13 @@ int read_bit_dl(__attribute__((unused)) bool clear_flag_dl,
           (dl__->bytes_left_in_the_bits_array_dl) = array_of_bits_as_bytes_len;
 
           dl__->bit_array_pointer_dl = array_of_bits_as_byte_dl;
-
+          /*
+                    for (ret_dl = 0; ret_dl < array_of_bits_as_bytes_len; ret_dl++)
+                    {
+                         pedro_dprintf(0, "value %i\n", (unsigned int)array_of_bits_as_byte_dl[ret_dl]);
+                    }
+                    exit(27);
+          */
           return 2;
      }
      if (0 == dl__->bytes_left_in_the_bits_array_dl)
@@ -350,10 +356,15 @@ int __fastcall decode_ric_dl(char *
 
      // ok, lets go
 
+     // assert(0);
+
+is_equal_ric_file_to_file_dl("f1.txt", "f2.txt", 24);
+exit(27);
+
      uint8_t temp_dl[2];
      uint16_t *ptr_uint16_dl;
 
-uint16_t string_size__dl, address__dl;
+     uint16_t string_size__dl, address__dl;
 
      ptr_uint16_dl = (uint16_t *)&temp_dl[0];
 
@@ -363,8 +374,17 @@ uint16_t string_size__dl, address__dl;
 
      unsigned int u_len_dl;
      unsigned int len_dl;
+
+     static uint8_t temporary_bytes[MAX_STRING_SEARCH_SIZE_DL__];
+
      uint8_t *buffer_a_dl = NULL;
      uint8_t *buffer_0_dl = NULL;
+
+     uint32_t bytes_already_in_uncompressed_buffer;
+
+     __attribute__((unused)) uint8_t *temp_buffer_dl;
+
+     __attribute__((unused)) uint8_t *ptr_for_current_uncompressed_buffer_initial_position;
 
      int bytes_left_in_compressed_buffer_dl;
 
@@ -391,6 +411,7 @@ uint16_t string_size__dl, address__dl;
 
      int return_value_dl = 0;
      char temp_file_dl[MAX_PATH + 1];
+
      FILE *input_S2_file_dl = NULL;
      __attribute__((unused)) /* I am a Linux guy these days,
  using only GCC for years now but I can change my mind
@@ -580,9 +601,13 @@ we need 4096 bytes buffers, 3 to be exact
 
           bytes_added_to_the_current_buffer_dl = 0;
 
+          ptr_for_current_uncompressed_buffer_initial_position = buffer_uncompressed_current_dl;
+
           current_uncompressed_buffer_ptr_dl = buffer_uncompressed_current_dl; // at the beginning init all...
 
           compressed_buffer_ptr_dl = buffer_a_dl;
+
+          bytes_already_in_uncompressed_buffer = 0;
 
      read_next_bit_dl_jump:;
 
@@ -591,7 +616,7 @@ we need 4096 bytes buffers, 3 to be exact
                                dl_,
                                0);
 
-          pedro_dprintf(-1, "val %d", len_dl);
+          pedro_dprintf(0, "bit %d", len_dl);
 
           /*
                     if (2 != len_dl)
@@ -612,7 +637,10 @@ we need 4096 bytes buffers, 3 to be exact
                (*current_uncompressed_buffer_ptr_dl) = (*compressed_buffer_ptr_dl);
 
                current_uncompressed_buffer_ptr_dl++;
+
                compressed_buffer_ptr_dl++; // adding data and ajusting pointers
+
+               bytes_already_in_uncompressed_buffer++;
 
                bytes_added_to_the_current_buffer_dl++;
 
@@ -633,6 +661,17 @@ we need 4096 bytes buffers, 3 to be exact
 
                if (0 == bytes_left_in_compressed_buffer_dl)
                {
+
+                    pedro_dprintf(0, "bytes left in bit array %d", dl_->bytes_left_in_the_bits_array_dl);
+
+                    if (DEBUG_DEC_DL__)
+                         pedro_dprintf(0, "string processing -> bytes in bytes_already_in_uncompressed_buffer %d %d", bytes_already_in_uncompressed_buffer, bytes_left_in_compressed_buffer_dl);
+
+                    if (DEBUG_DEC_DL__)
+                    {
+                         assert(0 && "1");
+                    }
+
                     assert(0 && "pode reiniciar, terminou no bit 0 ");
                     goto reiniciar_ric_dl;
                }
@@ -669,16 +708,28 @@ we need 4096 bytes buffers, 3 to be exact
 
                composed_pointer_and_string_size_16_dl = *ptr_uint16_dl;
 
+               // now process it
+               get_string_size_and_address_in_the_current_buffer_dl(composed_pointer_and_string_size_16_dl,
+                                                                    &string_size__dl,
+                                                                    &address__dl);
+
+#if DL_ENCODER_DECODER_MODE_ == DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096
+
+#include "mode_basic_4096_buf_size_dl.c"
+
+#elif DL_ENCODER_DECODER_MODE_ == DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192
+
+#else
+
+#error Ric, value not handled, please check...
+
+#endif
+
                if (0 == bytes_left_in_compressed_buffer_dl)
                {
                     assert(0 && "pode reiniciar, terminou no bit 1 ou pointer ");
                     goto reiniciar_ric_dl;
                }
-
-               // now process it
-               get_string_size_and_address_in_the_current_buffer_dl(composed_pointer_and_string_size_16_dl,
-               &string_size__dl,
-               &address__dl);
 
                goto read_next_bit_dl_jump;
           }
@@ -787,7 +838,7 @@ exit_ric_my_dear_dl:;
           printf("Error 43: Reading too much bits from the bits array or damaged compressed file\n");
           break;
      case 44:
-          printf("Error 44: Too much data added to uncompressed buffer\n");
+          printf("Error 44: 1 Too much data added to uncompressed buffer\n");
           break;
      case 45:
           printf("Error 45: Too much data read from compressed buffer\n");
@@ -797,6 +848,9 @@ exit_ric_my_dear_dl:;
           break;
      case 47:
           printf("Error 47: No more data to process from the compressed buffer\n");
+          break;
+     case 48:
+          printf("Error 48: 2 Too much data added to uncompressed buffer\n");
           break;
      default:
           assert(0 && "Programming error ric...");

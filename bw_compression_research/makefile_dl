@@ -18,10 +18,12 @@ arithmethic_coding_by_mark_dl_.o: arithmethic_coding_by_mark.c
 dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o unarithmethic_coding_by_mark_dl_.o version_info_dl.h
 
 
-	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -Wl,-subsystem,windows compressor1_dl.c -o dl1.exe \
-	pedro_dl_.o \
-	arithmethic_coding_by_mark_dl_.o \
-	unarithmethic_coding_by_mark_dl_.o
+	x86_64-w64-mingw32-gcc.exe                                \
+	-Wl,-subsystem,windows compressor1_dl.c -o dl1.exe        \
+	pedro_dl_.o                                               \
+	arithmethic_coding_by_mark_dl_.o                          \
+	unarithmethic_coding_by_mark_dl_.o                        \
+	$(DL____FLAGS__)
 
 	@cp ./dl1.exe ./dl1.bin
 

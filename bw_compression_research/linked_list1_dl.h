@@ -587,7 +587,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
      if (false == is_it_string_matched_in_past_buffer_dl)
      {
           if (DEBUG_DL__)
-               pedro_dprintf(0, "inside convert 8, mode is add plain string");
+               pedro_dprintf(0, "inside convert 8, mode is add plain string, len %d", len_of_input_to_encode_as_you_may_expect_dl);
 
           if (DEBUG_DL__)
           {
@@ -604,10 +604,24 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           replacements_dl++;
           encode_bit_11_jan_2022_v6_dl(1); // if encoded bit is one then it is a pointer to the previous data and size (v8)
 
-          if (!ENABLE_8000_DL)
+          if (53 == 30)
           {
+
                goto jump_8192_dl2;
           }
+
+#if DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 == DL_ENCODER_DECODER_MODE_
+
+          goto jump_8192_dl2;
+#elif DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192 == DL_ENCODER_DECODER_MODE_
+
+          ; // run the code
+
+#else
+
+#error Ric, value not handled, please check...
+
+#endif
 
           if (using_previous_buffer_dl) //
           {
@@ -837,15 +851,13 @@ try_again_magician_ric1:;
      //*adjusted_needle_dl -= MIN_STRING_SEARCH_SIZE_DL__;
 }
 
-
 /**
  * To print a simple message
  *
  * @param format and ... the printf like parameters
  *
  */
-int
-mprintf_S2_com_retorno_se_for_6_eh_sim__arp(char *format, ...)
+int mprintf_S2_com_retorno_se_for_6_eh_sim__arp(char *format, ...)
 {
      int return_value_dl;
      char *buffer = calloc(1, 10000); // for multithread sake
@@ -865,8 +877,7 @@ mprintf_S2_com_retorno_se_for_6_eh_sim__arp(char *format, ...)
  * @param format and ... the printf like parameters
  *
  */
-void
-mprintf_S2_sem_retorno__arp(char *format, ...)
+void mprintf_S2_sem_retorno__arp(char *format, ...)
 {
      char *buffer = calloc(1, 10000); // for multithread sake
      va_list amanda_do_ricardo;
@@ -876,4 +887,133 @@ mprintf_S2_sem_retorno__arp(char *format, ...)
      va_end(amanda_do_ricardo);
      MessageBox(0, buffer, "Ric Informa...", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
      free(buffer);
+}
+
+/**
+ * @brief will tell in pedro_dprintf if the files are equal, if not in what position it started to differ, my own
+ *
+ * @param file_1_dl
+ * @param file_53_dl
+ * @param min_size_dl -1 if whole file, size limit to check otherwise
+ */
+void is_equal_ric_file_to_file_dl(char *file_1_dl,
+                                  char *file_53_dl,
+                                  __attribute__((unused)) int64_t min_size_dl)
+{
+
+#define MY_SIZE_DL__14_JAN_ (1 << 17)
+
+     // int return_value_dl = 0; will keep it
+
+     int64_t size_1_dl, size_2_dl,
+         position_dl = 0,
+         limit_dl = min_size_dl;
+
+     (void)limit_dl;
+
+     uint8_t *buf1_dl = malloc(MY_SIZE_DL__14_JAN_);
+     uint8_t *buf2_dl = malloc(MY_SIZE_DL__14_JAN_);
+
+     uint8_t *ptr1_dl;
+     uint8_t *ptr2_dl;
+
+     uint32_t u_len1_dl, u_len2_dl, counter_dl;
+
+     FILE *file_1_ric_dl = fopen(file_1_dl, "rb");
+     FILE *file_2_ric_dl = fopen(file_53_dl, "rb");
+
+     pedro_dprintf(0, "begin-------------------");
+     //               "end---------------------"
+
+     if (NULL == file_1_ric_dl)
+     {
+          pedro_dprintf(0, "Cannot open file 1 '%s'", file_1_dl);
+          goto sai_1_dl;
+     }
+     if (NULL == file_2_ric_dl)
+     {
+          pedro_dprintf(0, "Cannot open file 2 '%s'", file_53_dl);
+          goto sai_1_dl;
+     }
+
+     _fseeki64(file_1_ric_dl, 0, SEEK_END);
+
+     size_1_dl = _ftelli64(file_1_ric_dl);
+
+     _fseeki64(file_1_ric_dl, 0, SEEK_SET);
+
+     pedro_dprintf(0, "file 1 size %lld", size_1_dl);
+
+     _fseeki64(file_2_ric_dl, 0, SEEK_END);
+
+     size_2_dl = _ftelli64(file_2_ric_dl);
+
+     _fseeki64(file_2_ric_dl, 0, SEEK_SET);
+
+     pedro_dprintf(0, "file 2 size %lld", size_2_dl);
+
+     if (size_1_dl != size_2_dl)
+     {
+          goto sai_1_dl;
+     }
+
+     if (-1 == limit_dl)
+     {
+          limit_dl = size_1_dl;
+     }
+
+again_ric_my_frined_dl:;
+
+     u_len1_dl = fread(buf1_dl, 1, min(limit_dl, MY_SIZE_DL__14_JAN_), file_1_ric_dl);
+
+     if (0 == u_len1_dl)
+     {
+          if (0 != limit_dl)
+               pedro_dprintf(0, "error readinf file 1");
+          else
+               pedro_dprintf(0, "files are equal");
+
+          goto sai_1_dl;
+     }
+     u_len2_dl = fread(buf2_dl, 1, min(limit_dl, MY_SIZE_DL__14_JAN_), file_2_ric_dl);
+
+     if (0 == u_len2_dl)
+     {
+          pedro_dprintf(0, "error, cannot be 0 here, error reading file 2");
+          goto sai_1_dl;
+     }
+
+     limit_dl -= u_len1_dl;
+
+     counter_dl = u_len1_dl;
+
+     ptr1_dl = buf1_dl;
+
+     ptr2_dl = buf2_dl;
+
+     while (counter_dl--)
+     {
+          if (*ptr1_dl++ != *ptr2_dl++)
+          {
+               pedro_dprintf(0, "files don't match at position %lld", position_dl);
+               goto sai_1_dl;
+          }
+          position_dl++;
+     }
+
+     goto again_ric_my_frined_dl;
+
+sai_1_dl:;
+
+     free(buf1_dl);
+     buf1_dl = NULL;
+     free(buf2_dl);
+     buf2_dl = NULL;
+
+     if (file_1_ric_dl)
+          fclose(file_1_ric_dl);
+     if (file_2_ric_dl)
+          fclose(file_2_ric_dl);
+     pedro_dprintf(0, "end---------------------");
+     return;
 }

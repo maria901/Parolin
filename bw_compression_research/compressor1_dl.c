@@ -71,9 +71,7 @@
 // are controled from here for ease of use
 //
 
-enum reserch_of_ric_compression_modes_dl
-{
-     /*
+/*
 
 
 
@@ -87,28 +85,22 @@ enum reserch_of_ric_compression_modes_dl
 
 
 
-     */
-     /**
-      * @brief in this mode it is our modified lz77 method borrowing ideas from Doctor Haruhiko Okumura 1989 code 'LZARI.c' (available in a subfolder of our reserch files), this mode don't outperform 'LZARI.c' since the idea behind 'LZARI.c' is a sliding window dictionary that got updated with new entries all the time and our method for this mode uses only the current data to compress since position 0 up to the processed string as the searching data, 'LZARI.c'compresses make..exe to 90kb while this mode compressed to 96kb as you may test
-      *
-      */
-     DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 = 1001,
-     /**
-      * @brief in this mode the things start to become interesting, using an additional bit in the code as you may examine in the file 'linked_list1_dl.h' line 607 (at he time this doc is being written (14/jan/2022 for v9.c release)) it was able like magic to stop using only 4096 searching bytes and expanded to 8192 bytes with also using the previous passed 4096 bytes buffer that is controled by this additional bit, so increasing a single bit we was able to expand the size of the searching dictionary, version v10 to be released tomorrow will use 16 kb as the searching buffer using this trick, we hope to compress even better, using this mode text files compresses better than 'LZARI.c' and make.exe compresses to 91kb while 'LZARI.c' compresses to 90kb
-      *
-      */
-     DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192,
-
-};
-
+*/
 /**
- * @brief my parents... these are the culprits... he he he, my father taugth me electronics when I was 11, my mother (and my customers and Internet friends) are the guys that keep the things working to allow this research, thanks to you all
- *
- *
- * special thanks available at: software_partners.htm in our pages you can find it by yourself
+ * @brief in this mode it is our modified lz77 method borrowing ideas from Doctor Haruhiko Okumura 1989 code 'LZARI.c' (available in a subfolder of our reserch files), this mode don't outperform 'LZARI.c' since the idea behind 'LZARI.c' is a sliding window dictionary that got updated with new entries all the time and our method for this mode uses only the current data to compress since position 0 up to the processed string as the searching data, 'LZARI.c'compresses make..exe to 90kb while this mode compressed to 96kb as you may test
  *
  */
-#define DL_ENCODER_DECODER_MODE___1928___12_nov_52_13_mar_51 (DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096)
+#define DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 (1001)
+/**
+ * @brief in this mode the things start to become interesting, using an additional bit in the code as you may examine in the file 'linked_list1_dl.h' line 607 (at he time this doc is being written (14/jan/2022 for v9.c release)) it was able like magic to stop using only 4096 searching bytes and expanded to 8192 bytes with also using the previous passed 4096 bytes buffer that is controled by this additional bit, so increasing a single bit we was able to expand the size of the searching dictionary, version v10 to be released tomorrow will use 16 kb as the searching buffer using this trick, we hope to compress even better, using this mode text files compresses better than 'LZARI.c' and make.exe compresses to 91kb while 'LZARI.c' compresses to 90kb
+ *
+ */
+#define DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192 (1002)
+
+/**
+ * @brief will define the mode to use
+ */
+#define DL_ENCODER_DECODER_MODE_ (DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096)
 
 // END ---
 
@@ -184,10 +176,11 @@ int main_dl(int size_of_header_dl, char *memory_to_add_dl, char *input_file_dl, 
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
-#define ENABLE_8000_DL (0) /* first the decoder need to use only 4096, later we use 8192 */
-
 #define DEBUG_DL__ 0
 #define DEBUG2_DL__ 0
+
+#define DEBUG_DEC_DL__ (1)
+
 #define MAX_STRING_SEARCH_SIZE_DL__ (18) /* --- (v8 is this too) */
 #define MIN_STRING_SEARCH_SIZE_DL__ (3)  /* 3 bytes is the smallest size that can be compressed, remember if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be stored in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) (v8 in this version this don't change again)*/
 #define STRING_PASS_SIZE_DL__ (1)        /* this will change in the future just to speed up execution */
@@ -799,9 +792,17 @@ if ok it will be the minimum size if reached there but check
                     goto jump_8192_dl;
                }
 
-#if DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 == DL_ENCODER_DECODER_MODE___1928___12_nov_52_13_mar_51
+#if DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 == DL_ENCODER_DECODER_MODE_
 
                goto jump_8192_dl;
+
+#elif DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192 == DL_ENCODER_DECODER_MODE_
+
+               ; // run the code
+
+#else
+
+#error Ric, value not handled, please check...
 
 #endif
                /*
@@ -812,7 +813,7 @@ if ok it will be the minimum size if reached there but check
                                    goto jump_8192_dl;
                               }
                */
-              
+
                // here for buffer 0 for the moment
                if ((MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl))
                {
