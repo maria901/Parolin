@@ -153,6 +153,15 @@ typedef struct dl_dados_salvos_querido_ric__
 } dl_dados_salvos_querido_ric;
 #pragma pack(pop)
 
+typedef struct main_dl_struct_for_dl_compressor__
+{
+
+uint8_t * bit_array_pointer_dl;
+     int bit_position_for_decoder_dl;
+     int bytes_left_in_the_bits_array_dl;
+
+} main_dl_struct_for_dl_compressor;
+
 // 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 // helper functions, please document it ric

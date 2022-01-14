@@ -88,6 +88,150 @@ int __fastcall /* very fast call, the others are slow __cdecl and __stdcall and 
     FILE *input_S2_file_dl__,
     FILE *output_S2_file_dl__);
 
+// 8888888888888888888888888888888888888888888888
+
+/**
+ * @brief return the next bit, or 2 if no more...
+ *
+ * @param clear_flag_dl true if init call to reset variables
+ * @param array_of_bits_as_byte_dl
+ * @return int
+ */
+int read_bit_dl(__attribute__((unused)) bool clear_flag_dl,
+                __attribute__((unused)) uint8_t *array_of_bits_as_byte_dl, __attribute__((unused)) main_dl_struct_for_dl_compressor *dl__, uint16_t array_of_bits_as_bytes_len)
+{
+
+     int return_value_dl = 2;
+     uint8_t mask_dl;
+
+     if (clear_flag_dl)
+     {
+          pedro_dprintf(0, "cleaning flag running");
+          (dl__->bit_position_for_decoder_dl) = 0;
+          (dl__->bytes_left_in_the_bits_array_dl) = array_of_bits_as_bytes_len;
+
+          dl__->bit_array_pointer_dl = array_of_bits_as_byte_dl;
+
+          return 2;
+     }
+     if (0 == dl__->bytes_left_in_the_bits_array_dl)
+     {
+          return 2;
+     }
+
+     switch (dl__->bit_position_for_decoder_dl = 0)
+     {
+     case 0:
+          mask_dl = (1 << dl__->bit_position_for_decoder_dl);
+
+          if (mask_dl & (*(dl__->bit_array_pointer_dl)))
+          {
+               return_value_dl = 1;
+          }
+          else
+          {
+               return_value_dl = 0;
+          }
+          dl__->bit_position_for_decoder_dl++;
+          break;
+     case 1:
+          mask_dl = (1 << dl__->bit_position_for_decoder_dl);
+
+          if (mask_dl & (*(dl__->bit_array_pointer_dl)))
+          {
+               return_value_dl = 1;
+          }
+          else
+          {
+               return_value_dl = 0;
+          }
+          dl__->bit_position_for_decoder_dl++;
+          break;
+     case 2:
+          mask_dl = (1 << dl__->bit_position_for_decoder_dl);
+
+          if (mask_dl & (*(dl__->bit_array_pointer_dl)))
+          {
+               return_value_dl = 1;
+          }
+          else
+          {
+               return_value_dl = 0;
+          }
+          dl__->bit_position_for_decoder_dl++;
+          break;
+     case 3:
+          mask_dl = (1 << dl__->bit_position_for_decoder_dl);
+
+          if (mask_dl & (*(dl__->bit_array_pointer_dl)))
+          {
+               return_value_dl = 1;
+          }
+          else
+          {
+               return_value_dl = 0;
+          }
+          dl__->bit_position_for_decoder_dl++;
+          break;
+     case 4:
+          mask_dl = (1 << dl__->bit_position_for_decoder_dl);
+
+          if (mask_dl & (*(dl__->bit_array_pointer_dl)))
+          {
+               return_value_dl = 1;
+          }
+          else
+          {
+               return_value_dl = 0;
+          }
+          dl__->bit_position_for_decoder_dl++;
+          break;
+     case 5:
+          mask_dl = (1 << dl__->bit_position_for_decoder_dl);
+
+          if (mask_dl & (*(dl__->bit_array_pointer_dl)))
+          {
+               return_value_dl = 1;
+          }
+          else
+          {
+               return_value_dl = 0;
+          }
+          dl__->bit_position_for_decoder_dl++;
+          break;
+     case 6:
+          mask_dl = (1 << dl__->bit_position_for_decoder_dl);
+
+          if (mask_dl & (*(dl__->bit_array_pointer_dl)))
+          {
+               return_value_dl = 1;
+          }
+          else
+          {
+               return_value_dl = 0;
+          }
+          dl__->bit_position_for_decoder_dl++;
+          break;
+     case 7:
+          mask_dl = (1 << dl__->bit_position_for_decoder_dl);
+
+          if (mask_dl & (*(dl__->bit_array_pointer_dl)))
+          {
+               return_value_dl = 1;
+          }
+          else
+          {
+               return_value_dl = 0;
+          }
+          dl__->bit_position_for_decoder_dl = 0;
+          dl__->bit_array_pointer_dl ++;
+
+          break;
+     
+     }
+     return return_value_dl;
+}
+
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 int __fastcall decode_ric_dl(char *
@@ -120,10 +264,12 @@ int __fastcall decode_ric_dl(char *
 
      unsigned int u_len_dl;
      unsigned int len_dl;
-     char *buffer_a_dl = NULL;
-     char *buffer_0_dl = NULL;
+     uint8_t *buffer_a_dl = NULL;
+     uint8_t *buffer_0_dl = NULL;
 
-     char *buffer_bits_array_dl = NULL;
+     uint8_t *buffer_bits_array_dl = NULL;
+
+     main_dl_struct_for_dl_compressor *dl_ = calloc(sizeof(main_dl_struct_for_dl_compressor), 1);
 
      /*
 
@@ -335,6 +481,28 @@ we need 4096 bytes buffers, 3 to be exact
                goto exit_ric_my_dear_dl;
           }
 
+          read_bit_dl(true,
+                      buffer_bits_array_dl,
+                      dl_,
+                      bits_array_buffer_size_dl);
+
+          /*
+
+
+
+
+
+
+
+
+
+
+
+          now process...
+          need code to read the bits one by one
+
+          */
+
           /*
 
 
@@ -405,6 +573,9 @@ segundo é array de bits com final se tiver
      */
 
 exit_ric_my_dear_dl:;
+
+     free(dl_);
+     dl_ = NULL;
 
      if (buffer_0_dl)
      {
