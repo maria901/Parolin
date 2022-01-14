@@ -48,6 +48,87 @@
 // distributed as part of the Parolin project in the subfolder
 // bw_compression_research
 
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////ric
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+// BEGIN ---
+
+// different modes for the compressor, all modes now
+// are controled from here for ease of use
+//
+
+enum reserch_of_ric_compression_modes_dl
+{
+     /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+     */
+     /**
+      * @brief in this mode it is our modified lz77 method borrowing ideas from Doctor Haruhiko Okumura 1989 code 'LZARI.c' (available in a subfolder of our reserch files), this mode don't outperform 'LZARI.c' since the idea behind 'LZARI.c' is a sliding window dictionary that got updated with new entries all the time and our method for this mode uses only the current data to compress since position 0 up to the processed string as the searching data, 'LZARI.c'compresses make..exe to 90kb while this mode compressed to 96kb as you may test
+      *
+      */
+     DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 = 1001,
+     /**
+      * @brief in this mode the things start to become interesting, using an additional bit in the code as you may examine in the file 'linked_list1_dl.h' line 607 (at he time this doc is being written (14/jan/2022 for v9.c release)) it was able like magic to stop using only 4096 searching bytes and expanded to 8192 bytes with also using the previous passed 4096 bytes buffer that is controled by this additional bit, so increasing a single bit we was able to expand the size of the searching dictionary, version v10 to be released tomorrow will use 16 kb as the searching buffer using this trick, we hope to compress even better, using this mode text files compresses better than 'LZARI.c' and make.exe compresses to 91kb while 'LZARI.c' compresses to 90kb
+      *
+      */
+     DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192,
+
+};
+
+/**
+ * @brief my parents... these are the culprits... he he he, my father taugth me electronics when I was 11, my mother (and my customers and Internet friends) are the guys that keep the things working to allow this research, thanks to you all
+ *
+ *
+ * special thanks available at: software_partners.htm in our pages you can find it by yourself
+ *
+ */
+#define DL_ENCODER_DECODER_MODE___1928___12_nov_52_13_mar_51 (DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096)
+
+// END ---
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////DL
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
 #include <windows.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -156,7 +237,7 @@ typedef struct dl_dados_salvos_querido_ric__
 typedef struct main_dl_struct_for_dl_compressor__
 {
 
-uint8_t * bit_array_pointer_dl;
+     uint8_t *bit_array_pointer_dl;
      int bit_position_for_decoder_dl;
      int bytes_left_in_the_bits_array_dl;
 
@@ -713,11 +794,25 @@ if ok it will be the minimum size if reached there but check
                found_buffer_0_dl = false;
                result_dl_0 = -1;
 
-               if (!ENABLE_8000_DL)
+               if (0 == 1)
                {
                     goto jump_8192_dl;
                }
 
+#if DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 == DL_ENCODER_DECODER_MODE___1928___12_nov_52_13_mar_51
+
+               goto jump_8192_dl;
+
+#endif
+               /*
+               ric, dont remove this...
+
+                              if (!ENABLE_8000_DL)
+                              {
+                                   goto jump_8192_dl;
+                              }
+               */
+              
                // here for buffer 0 for the moment
                if ((MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl))
                {
