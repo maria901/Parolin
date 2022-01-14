@@ -103,7 +103,7 @@ int main_dl(int size_of_header_dl, char *memory_to_add_dl, char *input_file_dl, 
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
-#define ENABLE_8000_DL (1)
+#define ENABLE_8000_DL (0) /* first the decoder need to use only 4096, later we use 8192 */
 
 #define DEBUG_DL__ 0
 #define DEBUG2_DL__ 0

@@ -116,8 +116,14 @@ int __fastcall decode_ric_dl(char *
      // will generate the memory as required, best option, since we already dont know the size
 
      // ok, lets go
+     uint16_t compressed_buffer_size_dl, bits_array_buffer_size_dl;
 
+     unsigned int u_len_dl;
+     unsigned int len_dl;
      char *buffer_a_dl = NULL;
+     char *buffer_0_dl = NULL;
+
+     char *buffer_bits_array_dl = NULL;
 
      /*
 
@@ -262,6 +268,102 @@ we need 4096 bytes buffers, 3 to be exact
 
      */
 
+     fclose(output_S2_file_dl), output_S2_file_dl = NULL;
+
+     output_S2_file_dl = fopen(temp_file_dl, "rb");
+
+     if (output_S2_file_dl)
+     {
+          printf("Abriu arquivo pra leitura\n");
+
+          // read
+
+          u_len_dl = fread(&compressed_buffer_size_dl, 1, 2, output_S2_file_dl);
+
+          if (2 != u_len_dl)
+          {
+               return_value_dl = 38;
+               goto exit_ric_my_dear_dl;
+          }
+
+          if (8192 < compressed_buffer_size_dl)
+          {
+               return_value_dl = 39;
+               goto exit_ric_my_dear_dl;
+          }
+          u_len_dl = fread(&bits_array_buffer_size_dl, 1, 2, output_S2_file_dl);
+
+          if (2 != u_len_dl)
+          {
+               return_value_dl = 38;
+               goto exit_ric_my_dear_dl;
+          }
+
+          if (4096 < bits_array_buffer_size_dl)
+          {
+               return_value_dl = 40;
+               goto exit_ric_my_dear_dl;
+          }
+
+          if (buffer_a_dl)
+               free(buffer_a_dl); // avoiding memory leaks...
+
+          buffer_a_dl = malloc(compressed_buffer_size_dl);
+
+          pedro_dprintf(0, "tamanho do comprimido %d\n", (int)compressed_buffer_size_dl);
+
+          len_dl = fread(buffer_a_dl, 1, (int)compressed_buffer_size_dl, output_S2_file_dl);
+
+          if (len_dl != (int)compressed_buffer_size_dl)
+          {
+               return_value_dl = 41;
+               goto exit_ric_my_dear_dl;
+          }
+
+          if (buffer_bits_array_dl)
+               free(buffer_bits_array_dl);
+
+          buffer_bits_array_dl = malloc(bits_array_buffer_size_dl + 1000 /* may be an invalid compressed file or tampered */);
+
+          pedro_dprintf(0, "tamanho do bit array in bytes %d\n", (int)bits_array_buffer_size_dl);
+
+          len_dl = fread(buffer_bits_array_dl, 1, (int)bits_array_buffer_size_dl, output_S2_file_dl);
+
+          if (len_dl != (int)bits_array_buffer_size_dl)
+          {
+               return_value_dl = 42;
+               goto exit_ric_my_dear_dl;
+          }
+
+          /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+primeiro 16 bits é size of compressed main buffer
+
+segundo é array de bits com final se tiver
+
+          */
+     }
+     else
+     {
+          return_value_dl = 37;
+          goto exit_ric_my_dear_dl;
+     }
      /*
 
 
@@ -303,6 +405,18 @@ we need 4096 bytes buffers, 3 to be exact
      */
 
 exit_ric_my_dear_dl:;
+
+     if (buffer_0_dl)
+     {
+          free(buffer_0_dl);
+          buffer_0_dl = NULL;
+     }
+
+     if (buffer_bits_array_dl)
+     {
+          free(buffer_bits_array_dl);
+          buffer_bits_array_dl = NULL;
+     }
 
      if (buffer_a_dl)
      {
@@ -347,6 +461,24 @@ exit_ric_my_dear_dl:;
           break;
      case 36:
           printf("Error 36: Error in the erithmetic decompression\n");
+          break;
+     case 37:
+          printf("Error 37: Cannot open temp file to read\n");
+          break;
+     case 38:
+          printf("Error 38: Size of the compressed data is too small, less than 2\n");
+          break;
+     case 39:
+          printf("Error 39: Too large the size of the compressed data, above 8192, while the correct value would need to be around 4096\n");
+          break;
+     case 40:
+          printf("Error 40: Too large the size of the bits array in bytes, above 4096, while the correct value would need to be below 4096\n");
+          break;
+     case 41:
+          printf("Error 41: Cannot read the compressed data from the temp file\n");
+          break;
+     case 42:
+          printf("Error 42: Cannot read the array of bits as bytes from the temp file\n");
           break;
      default:
           assert(0 && "Programming error ric...");
