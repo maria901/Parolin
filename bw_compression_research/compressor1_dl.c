@@ -113,6 +113,11 @@ void pedro_dprintf(int amanda_level,
 
 #define DL_SIZE__ (1L << 12) /* 4096 */
 
+// 88888888888888888888888888888888888888888888888
+
+#define V9C_INTERNAL_BUFFER_SIZE_DL_ (1 << 12)
+
+// 88888888888888888888888888888888888888888888888
 // 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 /**
@@ -1013,7 +1018,7 @@ if ok it will be the minimum size if reached there but check
           return 27;
      }
 
-     //unlink(temp_file_dl);
+     unlink(temp_file_dl);
      printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n");
      return 0;
 

@@ -90,16 +90,41 @@ int __fastcall /* very fast call, the others are slow __cdecl and __stdcall and 
 
 // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
-int __fastcall /* he he he, irrelevant in win64,
- if you don't know it, cannot even be
- called from C# in win32 mode */
-    decode_ric_dl(char *
-                      /* no Unicode support during development, only
-later, sorry and I love fopen, not _wfopen */
-                      input_file_dl,
-                  char *output_file_dl)
-{
+int __fastcall decode_ric_dl(char *
 
+                                 input_file_dl,
+                             char *output_file_dl)
+{
+     /* he he he, irrelevant in win64,
+     if you don't know it, cannot even be
+     called from C# in win32 mode */
+
+     /* no Unicode support during development, only
+     later, sorry and I love fopen, not _wfopen */
+
+     /*
+
+
+
+
+     */
+
+     // current decoder additional required variables...
+
+     // lets add
+
+     // will generate the memory as required, best option, since we already dont know the size
+
+     // ok, lets go
+
+     char *buffer_a_dl = NULL;
+
+     /*
+
+
+
+
+     */
      static dl_dados_salvos_querido_ric minha_struct;
 
      int return_value_dl = 0;
@@ -191,8 +216,99 @@ later, sorry and I love fopen, not _wfopen */
           goto exit_ric_my_dear_dl;
      }
 
+     // got the file, now decompresses it ric...
+     /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+we need 4096 bytes buffers, 3 to be exact
+
+     */
+
+     /*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     */
+
 exit_ric_my_dear_dl:;
 
+     if (buffer_a_dl)
+     {
+          free(buffer_a_dl);
+          buffer_a_dl = NULL;
+     }
      // let we see if it is already working...
 
      if (input_S2_file_dl)
@@ -235,18 +351,6 @@ exit_ric_my_dear_dl:;
      default:
           assert(0 && "Programming error ric...");
           break;
-     }
-
-     {
-	  int main_dl_pure(char *input_file_dl, char *output_file_dl);
-	  void decompress_simple_dl(char *input_file_dl, char *output_file_dl);
-
-	  main_dl_pure("file.dl.bin", "file.dl.bin.2");
-
-     
-
-	  decompress_simple_dl("file.dl.bin.2", "file.dl.bin.3");
-     
      }
 
      return return_value_dl;
