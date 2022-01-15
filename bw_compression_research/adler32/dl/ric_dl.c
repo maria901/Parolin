@@ -89,7 +89,7 @@ int main(__attribute__((unused)) int argc_ric, __attribute__((unused)) char **ar
 {
 
      int return_value_dl = 0;
-FILE * my_stolen_c_file_to_patch_by_ric_the_guy_dl
+FILE * my_stolen_c_file_to_patch_by_ric_the_guy_dl = fopen
      if (2 != argc_ric)
      {
           MessageBoxA(NULL, "Ric, missing the argument, you idiot...", "Code Stolen from stackoverflow", 0);

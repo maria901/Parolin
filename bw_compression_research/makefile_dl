@@ -34,23 +34,7 @@ aldre32_dl_.o: adler32/adler32.c
 dl_.o: adler32/dl.c 
 	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -c -o dl_.o adler32/DL.c
 
-
-# my latest timestamp update utility with so many
-# modifications and new releases
-dl2_.o: pedro_dl_.o
-	-x86_64-w64-mingw32-gcc.exe                                \
-	-Wl,-subsystem,windows ./adler32/dl/ric_dl.c -o /cygdrive/c/TDM-GCC-64_header_ricardo/bin/tool_dl.exe    \
-	pedro_dl_.o                                               \
-	                                                          \
-	$(DL____FLAGS__)
-
-dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o unarithmethic_coding_by_mark_dl_.o aldre32_dl_.o dl_.o dl2_.o version_info_dl.h
-
-# tool_dl.exe is a timestamp fix tool that is not required.
-# only useful at this moment to me
-
-	-tool_dl.exe
-	-tool_dl.exe compressor1_dl.c
+dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o unarithmethic_coding_by_mark_dl_.o aldre32_dl_.o dl_.o version_info_dl.h
 
 	x86_64-w64-mingw32-gcc.exe                                \
 	-Wl,-subsystem,windows compressor1_dl.c -o dl1.exe        \
