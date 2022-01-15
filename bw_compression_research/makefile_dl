@@ -41,6 +41,7 @@ dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o unarithmethic_coding_by_mark
 	pedro_dl_.o                                               \
 	arithmethic_coding_by_mark_dl_.o                          \
 	unarithmethic_coding_by_mark_dl_.o                        \
+	dl_.o                                       aldre32_dl_.o \
 	$(DL____FLAGS__)
 
 	@cp ./dl1.exe ./dl1.bin

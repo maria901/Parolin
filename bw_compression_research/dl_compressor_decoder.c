@@ -328,7 +328,8 @@ void get_string_size_and_address_in_the_current_buffer_dl(uint16_t input_data_co
 
      *address__dl = address_dl;
 }
-// 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+// 11111111111111111111111111111111111111111111111111111111111111
 
 int __fastcall decode_ric_dl(char *
 
@@ -342,22 +343,15 @@ int __fastcall decode_ric_dl(char *
      /* no Unicode support during development, only
      later, sorry and I love fopen, not _wfopen */
 
-     /*
-
-
-
-
-     */
-
      // current decoder additional required variables...
-
-     // lets add
 
      // will generate the memory as required, best option, since we already dont know the size
 
      // ok, lets go
 
-     int64_t tamanho_dl, progress_dl = 0;
+     int64_t tamanho_dl = 0, tamanho_got_dl = 0, progress_dl = 0;
+
+     __attribute__((unused)) int32_t adler32_real = 28;
 
      __attribute__((unused)) ULONGLONG update_me_dl = 0;
 
@@ -404,12 +398,6 @@ int __fastcall decode_ric_dl(char *
 
      main_dl_struct_for_dl_compressor *dl_ = calloc(sizeof(main_dl_struct_for_dl_compressor), 1);
 
-     /*
-
-
-
-
-     */
      static dl_dados_salvos_querido_ric minha_struct;
 
      int return_value_dl = 0;
@@ -417,9 +405,9 @@ int __fastcall decode_ric_dl(char *
 
      FILE *input_S2_file_dl = NULL;
      __attribute__((unused)) /* I am a Linux guy these days,
- using only GCC for years now but I can change my mind
- and start calling cl.exe again if we have an
- interesting discussion */
+     using only GCC for years now but I can change my mind
+     and start calling cl.exe again if we have an
+     interesting discussion */
 
      FILE *uncompressed_file_dl = NULL;
 
@@ -721,6 +709,11 @@ int __fastcall decode_ric_dl(char *
                     {
                          assert(0 && "1");
                     }
+                    tamanho_got_dl += bytes_already_in_uncompressed_buffer;
+                    adler32_real = dl_adler32_wrapper(adler32_real,
+                                                      ptr_for_current_uncompressed_buffer_initial_position,
+                                                      bytes_already_in_uncompressed_buffer);
+
                     if (fwrite(ptr_for_current_uncompressed_buffer_initial_position,
                                1,
                                bytes_already_in_uncompressed_buffer,
@@ -789,6 +782,10 @@ int __fastcall decode_ric_dl(char *
 
                if (0 == bytes_left_in_compressed_buffer_dl)
                {
+                    tamanho_got_dl += bytes_already_in_uncompressed_buffer;
+                    adler32_real = dl_adler32_wrapper(adler32_real,
+                                                      ptr_for_current_uncompressed_buffer_initial_position,
+                                                      bytes_already_in_uncompressed_buffer);
                     if (fwrite(ptr_for_current_uncompressed_buffer_initial_position,
                                1,
                                bytes_already_in_uncompressed_buffer,
@@ -869,6 +866,16 @@ exit_ric_my_dear_dl:;
 
      printf("Progress ric -> % 4d\r", 100);
      printf("\n");
+
+     if (0 == return_value_dl &&
+         ((minha_struct.adler32_of_the_uncompressed_data_dl != adler32_real) ||
+          minha_struct.size_of_the_file_to_compress_dl !=
+              tamanho_got_dl))
+     {
+
+          // printf("tamanhos %lld %lld\n", minha_struct.size_of_the_file_to_compress_dl, tamanho_got_dl);
+          return_value_dl = 51;
+     }
      switch (return_value_dl)
      {
      case 0:
@@ -936,6 +943,9 @@ exit_ric_my_dear_dl:;
           break;
      case 50:
           printf("Error 50: Cannot write data to destination uncompressed file\n");
+          break;
+     case 51:
+          printf("Error 51: Invalid compressed file or unexpected error in the decoder\nThe resulting file is not the original\n");
           break;
      default:
           assert(0 && "Programming error ric...");
