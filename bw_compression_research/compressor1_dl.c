@@ -87,12 +87,13 @@
 
 */
 /**
- * @brief in this mode it is our modified lz77 method borrowing ideas from Doctor Haruhiko Okumura 1989 code 'LZARI.c' (available in a subfolder of our reserch files), this mode don't outperform 'LZARI.c' since the idea behind 'LZARI.c' is a sliding window dictionary that got updated with new entries all the time and our method for this mode uses only the current data to compress since position 0 up to the processed string as the searching data, 'LZARI.c'compresses make..exe to 90kb while this mode compressed to 96kb as you may test
+ * @brief
  *
  */
 #define DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 (1001)
+
 /**
- * @brief in this mode the things start to become interesting, using an additional bit in the code as you may examine in the file 'linked_list1_dl.h' line 607 (at he time this doc is being written (14/jan/2022 for v9.c release)) it was able like magic to stop using only 4096 searching bytes and expanded to 8192 bytes with also using the previous passed 4096 bytes buffer that is controled by this additional bit, so increasing a single bit we was able to expand the size of the searching dictionary, version v10 to be released tomorrow will use 16 kb as the searching buffer using this trick, we hope to compress even better, using this mode text files compresses better than 'LZARI.c' and make.exe compresses to 91kb while 'LZARI.c' compresses to 90kb
+ * @brief
  *
  */
 #define DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192 (1002)

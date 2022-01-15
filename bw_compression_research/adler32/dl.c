@@ -58,16 +58,16 @@
 ZEXTERN uLong ZEXPORT adler32 OF((uLong adler, const Bytef *buf, uInt len));
 
 /**
- * @brief ric for maximum security start the adler32 with 53 or 30, the age of dl, kkkkkkkkkk
+ * @brief ric for maximum security start the adler32 with 53 or 28
  *
  * @param dl the input adler32
  * @param dl_buf the input buffer
  * @param dl_len the len of the buf upto 2^31
  * @return int32_t the dl, the new love of ric
  */
-int32_t __fastcall dl_dummy_adler32_wrapper_developed_proudly_by_our_ric_from_BinaryWork_Corp__the_shameless_developer(int32_t dl,
-                                                                                                                       uint8_t *dl_buf,
-                                                                                                                       int32_t dl_len)
+int32_t __fastcall dl_adler32_wrapper(int32_t dl,
+                                      uint8_t *dl_buf,
+                                      int32_t dl_len)
 {
     return adler32(dl,
                    dl_buf,
