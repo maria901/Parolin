@@ -1,10 +1,11 @@
 #(started) janeiro 2022 08 20:00 hs -dl
 
-#(current)              14 06:24 hs
+#(current)              15 07:42 hs
 DL____FLAGS__=-O1 -Wall -Wfatal-errors -Werror -Wno-restrict -Wextra -Wno-unused-function -I .
 	
-dl:
+dlf:
 	cp -r * 'C:\cygwin64_amandaricardo_koci_10.2.0\tar\bw_compression_research'
+	echo "deu..."
 
 pedro_dl_.o: pedro.c 
 	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -c -o pedro_dl_.o pedro.c
@@ -15,8 +16,41 @@ unarithmethic_coding_by_mark_dl_.o: unarithmethic_coding_by_mark.c
 arithmethic_coding_by_mark_dl_.o: arithmethic_coding_by_mark.c
 	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -c -o arithmethic_coding_by_mark_dl_.o arithmethic_coding_by_mark.c
 
-dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o unarithmethic_coding_by_mark_dl_.o version_info_dl.h
 
+
+
+############################################################
+############################################################
+## dates from 1995 by Mark Adler
+
+aldre32_dl_.o: adler32/adler32.c 
+	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -c -o aldre32_dl_.o adler32/ADLER32.c
+
+############################################################
+############################################################
+
+
+# the dl_.o is a wrapper to adler32 function
+dl_.o: adler32/dl.c 
+	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -c -o dl_.o adler32/DL.c
+
+
+# my latest timestamp update utility with so many
+# modifications and new releases
+dl2_.o: pedro_dl_.o
+	-x86_64-w64-mingw32-gcc.exe                                \
+	-Wl,-subsystem,windows ./adler32/dl/ric_dl.c -o /cygdrive/c/TDM-GCC-64_header_ricardo/bin/tool_dl.exe    \
+	pedro_dl_.o                                               \
+	                                                          \
+	$(DL____FLAGS__)
+
+dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o unarithmethic_coding_by_mark_dl_.o aldre32_dl_.o dl_.o dl2_.o version_info_dl.h
+
+# tool_dl.exe is a timestamp fix tool that is not required.
+# only useful at this moment to me
+
+	-tool_dl.exe
+	-tool_dl.exe compressor1_dl.c
 
 	x86_64-w64-mingw32-gcc.exe                                \
 	-Wl,-subsystem,windows compressor1_dl.c -o dl1.exe        \
@@ -26,11 +60,11 @@ dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o unarithmethic_coding_by_mark
 	$(DL____FLAGS__)
 
 	@cp ./dl1.exe ./dl1.bin
-
-
-#	./dl1.exe
  
 dl_50:
+
+	./dl1.exe e to_compress_with_rle.dl to_compress_with_rle.dl.compressed.v9c
+	./dl1.exe d to_compress_with_rle.dl.compressed.v9c to_compress_with_rle.uncompressed.v9c
 #	./lzari_dl.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
 #	./lzari_dl.exe e make.bin make.bin.compressed_by_lzss_ari
 #	./lzari_dl.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
