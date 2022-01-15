@@ -106,7 +106,8 @@ int read_bit_dl(__attribute__((unused)) bool clear_flag_dl,
      (void)ret_dl;
      if (clear_flag_dl)
      {
-          pedro_dprintf(0, "cleaning flag running");
+          if (DEBUG_DEC_DL__)
+               pedro_dprintf(0, "cleaning flag running");
           (dl__->bit_position_for_decoder_dl) = 0;
           (dl__->bytes_left_in_the_bits_array_dl) = array_of_bits_as_bytes_len;
 
@@ -356,12 +357,14 @@ int __fastcall decode_ric_dl(char *
 
      // ok, lets go
 
-     // assert(0);
+     int64_t tamanho_dl, progress_dl = 0;
 
-is_equal_ric_file_to_file_dl("f1.txt", "f2.txt", 24);
-exit(27);
+     __attribute__((unused)) ULONGLONG update_me_dl = 0;
+
+     unsigned int current_progress_dl = -1;
 
      uint8_t temp_dl[2];
+
      uint16_t *ptr_uint16_dl;
 
      uint16_t string_size__dl, address__dl;
@@ -375,7 +378,7 @@ exit(27);
      unsigned int u_len_dl;
      unsigned int len_dl;
 
-     static uint8_t temporary_bytes[MAX_STRING_SEARCH_SIZE_DL__];
+     static uint8_t temporary_bytes[MAX_STRING_SEARCH_SIZE_DL__ + 3];
 
      uint8_t *buffer_a_dl = NULL;
      uint8_t *buffer_0_dl = NULL;
@@ -417,6 +420,9 @@ exit(27);
  using only GCC for years now but I can change my mind
  and start calling cl.exe again if we have an
  interesting discussion */
+
+     FILE *uncompressed_file_dl = NULL;
+
      FILE *output_S2_file_dl = NULL;
 
      printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n\n");
@@ -446,6 +452,14 @@ exit(27);
      if (NULL == output_S2_file_dl)
      {
           return_value_dl = 31; // 31: Cannot open output file
+          goto exit_ric_my_dear_dl;
+     }
+
+     uncompressed_file_dl = fopen(output_file_dl, "wb");
+
+     if (NULL == uncompressed_file_dl)
+     {
+          return_value_dl = 49; // 31: Cannot open output file
           goto exit_ric_my_dear_dl;
      }
 
@@ -500,12 +514,9 @@ exit(27);
      }
 
      // got the file, now decompresses it ric...
+
      /*
-
-
-
-we need 4096 bytes buffers, 3 to be exact
-
+          we need 4096 bytes buffers, 3 to be exact
      */
 
      fclose(output_S2_file_dl), output_S2_file_dl = NULL;
@@ -514,16 +525,35 @@ we need 4096 bytes buffers, 3 to be exact
 
      if (output_S2_file_dl)
      {
-          printf("Abriu arquivo pra leitura\n");
+
+          _fseeki64(output_S2_file_dl, 0, SEEK_END);
+
+          tamanho_dl = _ftelli64(output_S2_file_dl);
+          printf("Size %lld\n\n", tamanho_dl);
+          _fseeki64(output_S2_file_dl, 0, SEEK_SET);
+          // printf("Abriu arquivo pra leitura\n");
 
           // read
      reiniciar_ric_dl:;
 
           u_len_dl = fread(&compressed_buffer_size_dl, 1, 2, output_S2_file_dl);
+          progress_dl += u_len_dl;
+          if ((update_me_dl < GetTickCount64()))
+          {
+               update_me_dl = GetTickCount64() + 50;
+               printf("Progress ric -> % 4d\r", current_progress_dl = getpor(tamanho_dl, progress_dl));
+               fflush(stdout);
+          }
 
           if (0 == u_len_dl)
           {
-               assert(0 && "terminou os dados do arquivo comprimido, saindo");
+               /*
+
+                finished at 14 jan 2022 - 22:43, with the bless of our God
+                assert(0 && "terminou os dados do arquivo comprimido, saindo");
+
+               */
+
                goto exit_ric_my_dear_dl;
           }
           if (2 != u_len_dl)
@@ -545,7 +575,13 @@ we need 4096 bytes buffers, 3 to be exact
           }
 
           u_len_dl = fread(&bits_array_buffer_size_dl, 1, 2, output_S2_file_dl);
-
+          progress_dl += u_len_dl;
+          if ((update_me_dl < GetTickCount64()))
+          {
+               update_me_dl = GetTickCount64() + 50;
+               printf("Progress ric -> % 4d\r", current_progress_dl = getpor(tamanho_dl, progress_dl));
+               fflush(stdout);
+          }
           if (2 != u_len_dl)
           {
                return_value_dl = 38;
@@ -563,10 +599,17 @@ we need 4096 bytes buffers, 3 to be exact
 
           buffer_a_dl = malloc(compressed_buffer_size_dl);
 
-          pedro_dprintf(0, "tamanho do comprimido %d\n", (int)compressed_buffer_size_dl);
+          if (DEBUG_DEC_DL__)
+               pedro_dprintf(0, "tamanho do comprimido %d\n", (int)compressed_buffer_size_dl);
 
           len_dl = fread(buffer_a_dl, 1, (int)compressed_buffer_size_dl, output_S2_file_dl);
-
+          progress_dl += len_dl;
+          if ((update_me_dl < GetTickCount64()))
+          {
+               update_me_dl = GetTickCount64() + 50;
+               printf("Progress ric -> % 4d\r", current_progress_dl = getpor(tamanho_dl, progress_dl));
+               fflush(stdout);
+          }
           if (len_dl != (int)compressed_buffer_size_dl)
           {
                return_value_dl = 41;
@@ -577,11 +620,17 @@ we need 4096 bytes buffers, 3 to be exact
                free(buffer_bits_array_dl);
 
           buffer_bits_array_dl = malloc(bits_array_buffer_size_dl + 1000 /* may be an invalid compressed file or tampered */);
-
-          pedro_dprintf(0, "tamanho do bit array in bytes %d\n", (int)bits_array_buffer_size_dl);
+          if (DEBUG_DEC_DL__)
+               pedro_dprintf(0, "tamanho do bit array in bytes %d\n", (int)bits_array_buffer_size_dl);
 
           len_dl = fread(buffer_bits_array_dl, 1, (int)bits_array_buffer_size_dl, output_S2_file_dl);
-
+          progress_dl += len_dl;
+          if ((update_me_dl < GetTickCount64()))
+          {
+               update_me_dl = GetTickCount64() + 50;
+               printf("Progress ric -> % 4d\r", current_progress_dl = getpor(tamanho_dl, progress_dl));
+               fflush(stdout);
+          }
           if (len_dl != (int)bits_array_buffer_size_dl)
           {
                return_value_dl = 42;
@@ -615,8 +664,8 @@ we need 4096 bytes buffers, 3 to be exact
                                NULL,
                                dl_,
                                0);
-
-          pedro_dprintf(0, "bit %d", len_dl);
+          if (DEBUG_DEC_DL__)
+               pedro_dprintf(0, "bit %d", len_dl);
 
           /*
                     if (2 != len_dl)
@@ -662,7 +711,8 @@ we need 4096 bytes buffers, 3 to be exact
                if (0 == bytes_left_in_compressed_buffer_dl)
                {
 
-                    pedro_dprintf(0, "bytes left in bit array %d", dl_->bytes_left_in_the_bits_array_dl);
+                    if (DEBUG_DEC_DL__)
+                         pedro_dprintf(0, "bytes left in bit array %d", dl_->bytes_left_in_the_bits_array_dl);
 
                     if (DEBUG_DEC_DL__)
                          pedro_dprintf(0, "string processing -> bytes in bytes_already_in_uncompressed_buffer %d %d", bytes_already_in_uncompressed_buffer, bytes_left_in_compressed_buffer_dl);
@@ -671,8 +721,20 @@ we need 4096 bytes buffers, 3 to be exact
                     {
                          assert(0 && "1");
                     }
+                    if (fwrite(ptr_for_current_uncompressed_buffer_initial_position,
+                               1,
+                               bytes_already_in_uncompressed_buffer,
+                               uncompressed_file_dl) != bytes_already_in_uncompressed_buffer)
+                    {
+                         return_value_dl = 50;
+                         goto exit_ric_my_dear_dl;
+                    }
+                    // fwrite here
 
-                    assert(0 && "pode reiniciar, terminou no bit 0 ");
+                    // assert(0 && "vai sair, terminou no bit 0 ");
+
+                    // exit(27);
+
                     goto reiniciar_ric_dl;
                }
                goto read_next_bit_dl_jump;
@@ -718,7 +780,7 @@ we need 4096 bytes buffers, 3 to be exact
 #include "mode_basic_4096_buf_size_dl.c"
 
 #elif DL_ENCODER_DECODER_MODE_ == DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192
-
+#include "mode_basic_4096_buf_size_dl.c"
 #else
 
 #error Ric, value not handled, please check...
@@ -727,7 +789,15 @@ we need 4096 bytes buffers, 3 to be exact
 
                if (0 == bytes_left_in_compressed_buffer_dl)
                {
-                    assert(0 && "pode reiniciar, terminou no bit 1 ou pointer ");
+                    if (fwrite(ptr_for_current_uncompressed_buffer_initial_position,
+                               1,
+                               bytes_already_in_uncompressed_buffer,
+                               uncompressed_file_dl) != bytes_already_in_uncompressed_buffer)
+                    {
+                         return_value_dl = 50;
+                         goto exit_ric_my_dear_dl;
+                    }
+
                     goto reiniciar_ric_dl;
                }
 
@@ -789,7 +859,16 @@ exit_ric_my_dear_dl:;
           fclose(output_S2_file_dl);
           output_S2_file_dl = NULL; // for safety
      }
+     if (uncompressed_file_dl)
+     {
+          fclose(uncompressed_file_dl);
+          uncompressed_file_dl = NULL;
+     }
 
+     unlink(temp_file_dl);
+
+     printf("Progress ric -> % 4d\r", 100);
+     printf("\n");
      switch (return_value_dl)
      {
      case 0:
@@ -851,6 +930,12 @@ exit_ric_my_dear_dl:;
           break;
      case 48:
           printf("Error 48: 2 Too much data added to uncompressed buffer\n");
+          break;
+     case 49:
+          printf("Error 49: Cannot open output file to write the uncompressed data\n");
+          break;
+     case 50:
+          printf("Error 50: Cannot write data to destination uncompressed file\n");
           break;
      default:
           assert(0 && "Programming error ric...");

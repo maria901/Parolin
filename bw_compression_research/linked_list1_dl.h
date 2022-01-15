@@ -1,4 +1,4 @@
-// v9 variables, for historical times
+// v9 variables, for historical times, the embedded bugs too
 
 uint8_t largest_needle_already_in_buffer_dl[MAX_STRING_SEARCH_SIZE_DL__];
 
@@ -113,7 +113,8 @@ bool is_it_the_first_byte_to_encode_dl;
 
 uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_to_18, uint16_t position_on_the_passed_buffer_up_to_4096_12_bits_dl)
 {
-     int bit_position_12_jan_2022_v6_dl = 0;
+
+     int pois_eh_dl = 0;
 
      unsigned int mask_dl;
 
@@ -123,6 +124,8 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
      uint16_t resulting_short_dl = 0;
 
+     pedro_dprintf(-1, "address inside idiot %hi", position_on_the_passed_buffer_up_to_4096_12_bits_dl);
+
      assert(18 >= string_size_dl_up_to_18);
 
      assert(string_size_dl_up_to_18 >= 3);
@@ -130,6 +133,7 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
      assert(4096 >= position_on_the_passed_buffer_up_to_4096_12_bits_dl);
 
      string_size_dl_up_to_18 -= 3; // it will be stored in the 4 bits
+                                   // pedro_dprintf(0, )
 
      for (i_dl = 0; i_dl < 16; i_dl++)
      {
@@ -138,8 +142,8 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
           case 0:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
-
+               mask_dl = (1 << pois_eh_dl);
+               pedro_dprintf(-1, "valor de mask %d des %d", mask_dl, pois_eh_dl);
                if (mask_dl & string_size_dl_up_to_18)
                {
                     resulting_short_dl |= mask_dl;
@@ -148,12 +152,12 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
                {
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 0 %04x", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 1:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & string_size_dl_up_to_18)
                {
@@ -163,12 +167,12 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
                {
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 1 %04x", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 2:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & string_size_dl_up_to_18)
                {
@@ -178,12 +182,12 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
                {
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 2 %04x", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 3:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & string_size_dl_up_to_18)
                {
@@ -193,196 +197,224 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
                {
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 3 %04x", resulting_short_dl);
+               pois_eh_dl++;
+               pois_eh_dl = 0;
                break;
 
-               // 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+               // 88888888888888888888888888888888888888888888888888888
                // next 12 bits
 
           case 4:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 4 %04x", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 5:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 5 %04x", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 6:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 6 %hi", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 7:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 7 %hi", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 8:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 8 %hi", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 9:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 9 %hi", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 10:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 10 %hi", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 11:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 11 %hi", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 12:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 12 %hi", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 13:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 13 %hi", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 14:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 14 %hi", resulting_short_dl);
+               pois_eh_dl++;
                break;
           case 15:
 
-               mask_dl = (1 << bit_position_11_jan_2022_v6_dl);
+               mask_dl = (1 << pois_eh_dl);
 
                if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl |= mask_dl;
                }
                else
                {
+                    mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-
-               bit_position_12_jan_2022_v6_dl++;
+               pedro_dprintf(-2, "resulting short bit 15 %04x", resulting_short_dl);
+               pedro_dprintf(-2, "resulting short f 1 %04x", resulting_short_dl);
+               pois_eh_dl++;
                break;
           }
      }
+     pedro_dprintf(-2, "resulting short f 2 %04x", resulting_short_dl);
 
+     //return 0;
      return resulting_short_dl;
 }
 
@@ -648,6 +680,10 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
 
           *ptr_uint16_dl = prepare_unsigned_short_int_12_jan_2022_v6_dl(len_of_matched_string_dl,
                                                                         past_position_location_dl);
+          pedro_dprintf(-1, "encoded int16_t to save %i len e address %d %d", *ptr_uint16_dl,
+                        (int)len_of_matched_string_dl,
+                        (int)past_position_location_dl);
+          // assert(0);
 
           len_of_input_to_encode_as_you_may_expect_dl = 2;
      }
@@ -1016,4 +1052,27 @@ sai_1_dl:;
           fclose(file_2_ric_dl);
      pedro_dprintf(0, "end---------------------");
      return;
+}
+
+/**
+ * @brief dump buffer to disk
+ *
+ * @param file_dl
+ * @param buffer_dl
+ * @param size_dl
+ */
+void buffer_to_file_dl(char *file_dl,
+                       uint8_t *buffer_dl,
+                       uint32_t size_dl)
+{
+
+     FILE *file_1_ric_dl = fopen(file_dl, "wb");
+
+     if (NULL == file_1_ric_dl)
+     {
+          pedro_dprintf(0, "file to save that failed %s", file_dl);
+          assert(0 && "buffer to file failed");
+     }
+
+     fwrite(buffer_dl, 1, size_dl, file_1_ric_dl);
 }

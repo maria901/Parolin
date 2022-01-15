@@ -179,7 +179,7 @@ void pedro_dprintf(int amanda_level,
 #define DEBUG_DL__ 0
 #define DEBUG2_DL__ 0
 
-#define DEBUG_DEC_DL__ (1)
+#define DEBUG_DEC_DL__ (0)
 
 #define MAX_STRING_SEARCH_SIZE_DL__ (18) /* --- (v8 is this too) */
 #define MIN_STRING_SEARCH_SIZE_DL__ (3)  /* 3 bytes is the smallest size that can be compressed, remember if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be stored in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) (v8 in this version this don't change again)*/
@@ -191,8 +191,8 @@ void pedro_dprintf(int amanda_level,
 
 #define V9C_INTERNAL_BUFFER_SIZE_DL_ (1 << 12)
 
-// 88888888888888888888888888888888888888888888888
-// 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+// 888888888888888888888888888888888888888888888888888888888888888888888
+// 888888888888888888888888888888888888888888888888888888888888888888888
 
 /**
  * @brief It will check whether the string is found in the haystack ( borrowed from php ;-) )
@@ -236,7 +236,7 @@ typedef struct main_dl_struct_for_dl_compressor__
 
 } main_dl_struct_for_dl_compressor;
 
-// 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+// 8888888888888888888888888888888888888888888888888888888888888888888888
 
 // helper functions, please document it ric
 
@@ -305,7 +305,7 @@ int64_t mem_search_dl(__attribute__((unused)) uint8_t *haystack,
  * @param fatia the slice (fatia in perfect portuguese) to be used in the calculation, I developed this function myself 26 years ago, no Googling for it, at that time Altavista was the search engine to be used or Yahoo search engine
  * @return uint the percentage, range from 0 to 100, can be more than 100 since it is not validated inside the function
  */
-uint getpor(int max, uint fatia)
+uint getpor(int64_t max, int64_t fatia)
 {
 
      double maxa;
@@ -361,7 +361,7 @@ strrstr(char *s1, char *s2)
      return ((char *)((void *)0));
 }
 
-// 888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+// 8888888888888888888888888888888888888888888888888888888888888888888888
 /**
  * @brief our magic main entry point for our and your pleasure...
  *
