@@ -9,4 +9,4 @@ this version don't is better than lzss + ari for the moment
 
 it is as good for the moment as compress from Unix
 
-next version will be better, availble by monday 17/jan/2022
+next version will be better, available by monday 17/jan/2022

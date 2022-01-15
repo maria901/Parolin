@@ -87,12 +87,13 @@
 
 */
 /**
- * @brief in this mode it is our modified lz77 method borrowing ideas from Doctor Haruhiko Okumura 1989 code 'LZARI.c' (available in a subfolder of our reserch files), this mode don't outperform 'LZARI.c' since the idea behind 'LZARI.c' is a sliding window dictionary that got updated with new entries all the time and our method for this mode uses only the current data to compress since position 0 up to the processed string as the searching data, 'LZARI.c'compresses make..exe to 90kb while this mode compressed to 96kb as you may test
+ * @brief
  *
  */
 #define DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 (1001)
+
 /**
- * @brief in this mode the things start to become interesting, using an additional bit in the code as you may examine in the file 'linked_list1_dl.h' line 607 (at he time this doc is being written (14/jan/2022 for v9.c release)) it was able like magic to stop using only 4096 searching bytes and expanded to 8192 bytes with also using the previous passed 4096 bytes buffer that is controled by this additional bit, so increasing a single bit we was able to expand the size of the searching dictionary, version v10 to be released tomorrow will use 16 kb as the searching buffer using this trick, we hope to compress even better, using this mode text files compresses better than 'LZARI.c' and make.exe compresses to 91kb while 'LZARI.c' compresses to 90kb
+ * @brief
  *
  */
 #define DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192 (1002)
@@ -149,7 +150,7 @@
 
 #include <process.h>
 
-// 88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+// 88888888888888888888888888888888888888888888888888888888888888
 
 // variables and functions defines or constants
 
@@ -176,6 +177,12 @@ int main_dl(int size_of_header_dl, char *memory_to_add_dl, char *input_file_dl, 
 void pedro_dprintf(int amanda_level,
                    char *format, ...);
 
+int32_t __fastcall dl_adler32_wrapper(int32_t dl,
+                                      uint8_t *dl_buf,
+                                      int32_t dl_len);
+
+// 9999999999999999999999999999999999999999999999999999999999999
+
 #define DEBUG_DL__ 0
 #define DEBUG2_DL__ 0
 
@@ -191,8 +198,7 @@ void pedro_dprintf(int amanda_level,
 
 #define V9C_INTERNAL_BUFFER_SIZE_DL_ (1 << 12)
 
-// 888888888888888888888888888888888888888888888888888888888888888888888
-// 888888888888888888888888888888888888888888888888888888888888888888888
+// 88888888888888888888888888888888888888888888888888888888888888
 
 /**
  * @brief It will check whether the string is found in the haystack ( borrowed from php ;-) )
@@ -236,7 +242,7 @@ typedef struct main_dl_struct_for_dl_compressor__
 
 } main_dl_struct_for_dl_compressor;
 
-// 8888888888888888888888888888888888888888888888888888888888888888888888
+// 88888888888888888888888888888888888888888888888888888888888888
 
 // helper functions, please document it ric
 
@@ -294,12 +300,12 @@ int64_t mem_search_dl(__attribute__((unused)) uint8_t *haystack,
 
      return -1;
 
-     return 0;
+     return 0; // why it is here? today is 15 jan 2022 14:34
 }
 #define uint unsigned int
 
 /**
- * @brief for required progress information, it can be handy for large files since in the research we don't care about speed improvements, at least for the moment (we are testing with make.bin, this is an old version of make.exe that we used for years, zlib can compress it to 85 kb, v6 can compress it to 111kb, but v7 may compress better)
+ * @brief for required progress information, it can be handy for large files since in the research we don't care about speed improvements, at least for the moment (we are testing with make.bin, this is an old version of make.exe that we used for years, zlib can compress it to 85 kb
  *
  * @param max the total size of the data
  * @param fatia the slice (fatia in perfect portuguese) to be used in the calculation, I developed this function myself 26 years ago, no Googling for it, at that time Altavista was the search engine to be used or Yahoo search engine
@@ -361,7 +367,7 @@ strrstr(char *s1, char *s2)
      return ((char *)((void *)0));
 }
 
-// 8888888888888888888888888888888888888888888888888888888888888888888888
+// 10101010101010101010101010101010101010101010101010101010101010
 /**
  * @brief our magic main entry point for our and your pleasure...
  *
@@ -390,6 +396,8 @@ int main(int arg_dl_c, char **arg_dl_v)
      }
 
      char temp_file_dl[MAX_PATH + 2];
+
+     __attribute__((unused)) int32_t adler32_real = 28; // Adler says 1, but we are not following the recommendation
 
      __attribute__((unused)) int len_dl;
 
@@ -455,7 +463,9 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) int initial_size_dl = -1; // to be adjusted later
 
-     __attribute__((unused)) int progress_dl, progress_dl_copy, tamanho_dl, delocador_fix_bug_in_version_2_0_dl;
+     __attribute__((unused)) int delocador_fix_bug_in_version_2_0_dl;
+
+     int64_t tamanho_dl, progress_dl, progress_dl_copy;
 
      __attribute__((unused)) ULONGLONG update_me_dl = 0;
 
@@ -481,11 +491,11 @@ int main(int arg_dl_c, char **arg_dl_v)
           ; // //assert(0 && "initial position");
      }
 
-     fseek(my_file_dl, 0, SEEK_END);
+     _fseeki64(my_file_dl, 0, SEEK_END);
 
-     tamanho_dl = ftell(my_file_dl);
+     tamanho_dl = _ftelli64(my_file_dl);
 
-     fseek(my_file_dl, 0, SEEK_SET); // we don't have time to use our standard size get function at this moment, time is important in research
+     _fseeki64(my_file_dl, 0, SEEK_SET); // we don't have time to use our standard size get function at this moment, time is important in research
 
      progress_dl = 0; // progress may help when compressing files with research code that normally is not optimized for speed
 
@@ -523,6 +533,10 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
           {
+               adler32_real = dl_adler32_wrapper(adler32_real,
+                                                 buf_dl,
+                                                 len_dl);
+
                if (DEBUG_DL__)
                     pedro_dprintf(0, "initial buffer have %d bytes", len_dl);
 
@@ -1114,7 +1128,12 @@ if ok it will be the minimum size if reached there but check
 
      printf("Progress ric -> % 4d\n", 100);
      printf("Research running...\n");
+     printf("Checksum of the file compressed %08x\n", adler32_real);
      printf("Replacements %d\n", replacements_dl);
+
+     minha_struct.adler32_of_the_uncompressed_data_dl = adler32_real;
+
+     minha_struct.size_of_the_file_to_compress_dl = tamanho_dl;
 
      if (main_dl(sizeof(minha_struct), (char *)&minha_struct, temp_file_dl, arg_dl_v[3]))
      {
@@ -1124,7 +1143,7 @@ if ok it will be the minimum size if reached there but check
      }
 
      unlink(temp_file_dl);
-     printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n");
+     printf("\nDiligent Compressor\n\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n");
      return 0;
 
 exit_now_ric_dl:;
@@ -1143,7 +1162,7 @@ exit_now_ric_dl:;
           file_exe_dl2 = file_exe_dl;
      }
 
-     printf("\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n\n");
+     printf("\n\nDiligent Compressor\n\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n\n");
      printf("Usage: %s e <input_file> <output_file>            -- to encode a file\n", file_exe_dl2 + 1);
      printf("Usage: %s d <input_file> <output_file>            -- to decode a file, simple as it...\n", file_exe_dl2 + 1);
      printf("\nIn case of an erroneous decoder, newer or older it will point\n");

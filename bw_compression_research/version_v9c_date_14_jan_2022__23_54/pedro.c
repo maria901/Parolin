@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *                                                                             *
 *        Licensa de Cópia (C) <2022>  <Corporação do Trabalho Binário>        *
 *                                                                             *
@@ -20,9 +20,9 @@
 *                                                                             *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-	 E-mails:
-	 maria@arsoftware.net.br
-	 pedro@locacaodiaria.com.br
+     E-mails:
+     maria@arsoftware.net.br
+     pedro@locacaodiaria.com.br
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *                                                                             *
@@ -31,6 +31,7 @@
 *                                                                             *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  */
 
+// Última modificação/compilação: Tue Fev 17 00:00 1994
 
 #include <windows.h>
 #include <stdint.h>
