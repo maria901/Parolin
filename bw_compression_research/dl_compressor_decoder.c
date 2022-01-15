@@ -891,7 +891,7 @@ exit_ric_my_dear_dl:;
           printf("Error 32: Invalid dl_compressor file, too small\n");
           break;
      case 33:
-          printf("Error 33: Not a valid dl_compressor file, the initial characters are not 'dldl', in 2025, december I tell you whats this dl means...\n");
+          printf("Error 33: Not a valid dl_compressor file, the initial characters are not 'dldl'\n");
           break;
      case 34:
           printf("Error 34: The first valid dl_compressor decoder available was char version (53 + 0 + 0 + 0) - v9.c, it is below it, it will never decompress, sorry\n");

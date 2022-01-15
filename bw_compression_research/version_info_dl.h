@@ -1,6 +1,6 @@
-#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 0 + 0 + 0))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
+#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 1 + 0 + 0))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
 
-#define STRING_VERSION_DL_COMPRESSOR " v9.d build 00067   \n(char value == 53 + 0 + 0 + 0) \ncodename: Douglas Szwec \n(" __TIME__ " " __DATE__ ") \n\n"
+#define STRING_VERSION_DL_COMPRESSOR " v10 build 00069   \n(char value == 53 + 1 + 0 + 0) \ncodename: Lu \n(" __TIME__ " " __DATE__ ") \n\n"
 
 /*
 
