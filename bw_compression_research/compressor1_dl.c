@@ -990,7 +990,7 @@ aqui vamos mover pra frente o item encontrado, ok...vai la
 
      minha_struct.adler32_of_the_uncompressed_data_dl = adler32_real;
 
-     minha_struct.size_of_the_file_to_compress_dl = tamanho_dl;
+      minha_struct.size_of_the_file_to_compress_dl = tamanho_dl;
 
      if (main_dl(sizeof(minha_struct), (char *)&minha_struct, temp_file_dl, arg_dl_v[3]))
      {
