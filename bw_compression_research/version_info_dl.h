@@ -1,6 +1,6 @@
-#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 2 + 1 + 1))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
+#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 2 + 2 + 1))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
 
-#define STRING_VERSION_DL_COMPRESSOR " v12 build 00105   \n(char value == 53 + 2 + 1 + 1) \ncodename: Dito \n(" __TIME__ " " __DATE__ ") \n\n"
+#define STRING_VERSION_DL_COMPRESSOR " v12b build 00138   \n(char value == 53 + 2 + 2 + 1) \ncodename: Luiz \n(" __TIME__ " " __DATE__ ") \n\n"
 
 /*
 
@@ -11,6 +11,18 @@
 #define THE_FIRST_RELEASE_WITH_A_DDECDER___ (((53 + 0 + 0 + 0)))
 
 minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___; // v12 started 17 jan 2022 18:57
+
+/*
+...........
+........... (18 jan 2022 19:58)
+........... Again... now while zlib compresses to 85kb v12b compresses
+........... to 68kb, he he he, soon I get the bug
+........... For fun I am releasing version v12b, but know that 
+........... this is a buggy version, only to test, the lzss + ari 
+........... standard working version compresses to 90 kb
+...........
+
+*/
 
 /*
 ...........
