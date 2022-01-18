@@ -1,3 +1,27 @@
+// for v11 ->
+/*
+
+for current buffer
+bit 0 == 0
+bit 1 == 0 
+
+for buffer buf_dl_0
+bit 0 == 1
+bit 1 == 0
+
+for buffer buf_dl_1
+bit 0 == 0
+bit 1 == 1
+
+for buffer buf_dl_2
+bit 0 == 1
+bit 1 == 1
+
+*/
+
+int bit_0_dl;
+int bit_1_dl;
+
 // v9 variables, for historical times, the embedded bugs too
 
 uint8_t largest_needle_already_in_buffer_dl[MAX_STRING_SEARCH_SIZE_DL__];
@@ -15,6 +39,8 @@ uint16_t position_found_buffer_0_dl;
 uint16_t position_found_buffer_1_dl;
 uint16_t position_found_buffer_2_dl;
 uint8_t new_size_of_neddle_dl;
+uint8_t new_size_of_neddle_dl1;
+uint8_t new_size_of_neddle_dl2;
 uint8_t max_size_string_from_buffer_final;
 uint8_t max_size_string_from_buffer_current;
 uint8_t max_size_string_from_buffer_0;
@@ -582,8 +608,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
                                                               __attribute__((unused)) uint8_t len_of_input_to_encode_as_you_may_expect_dl_, //
                                                               __attribute__((unused)) bool is_it_string_matched_in_past_buffer_dl,
                                                               __attribute__((unused)) uint16_t past_position_location_dl, //
-                                                              __attribute__((unused)) uint8_t len_of_matched_string_dl,
-                                                              __attribute__((unused)) bool using_previous_buffer_dl)
+                                                              __attribute__((unused)) uint8_t len_of_matched_string_dl)
 {
 
      uint16_t len_of_input_to_encode_as_you_may_expect_dl = len_of_input_to_encode_as_you_may_expect_dl_;
@@ -637,14 +662,24 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           encode_bit_11_jan_2022_v6_dl(1); // if encoded bit is one then it is a pointer to the previous data and size (v10 not working this moment)
 
           // assert(0 && "ok ric, in compressor");
-          if (using_previous_buffer_dl) //
+         if(bit_0_dl)
           {
                // exit(30);
-               encode_bit_11_jan_2022_v6_dl(0); // second bit is 0 then previous 4096 buffer was used (v8)
+               encode_bit_11_jan_2022_v6_dl(1); // second bit is 0 then previous 4096 buffer was used (v8)
           }
           else
           {
-               encode_bit_11_jan_2022_v6_dl(1); // second bit is 1 then current 4096 buffer was used (v8)
+               encode_bit_11_jan_2022_v6_dl(0); // second bit is 1 then current 4096 buffer was used (v8)
+          }
+
+         if(bit_1_dl)
+          {
+               // exit(30);
+               encode_bit_11_jan_2022_v6_dl(1); // second bit is 0 then previous 4096 buffer was used (v8)
+          }
+          else
+          {
+               encode_bit_11_jan_2022_v6_dl(0); // second bit is 1 then current 4096 buffer was used (v8)
           }
 
           if (DEBUG_DL__)

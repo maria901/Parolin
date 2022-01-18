@@ -766,8 +766,7 @@ if ok it will be the minimum size if reached there but check
                                                                   size_of_characters_adjusted_to_pass_dl,
                                                                   false,
                                                                   1969 + 2022, // just a joke..., this here is irrelevant, due to the 'false' in the past argument
-                                                                  0,
-                                                                  false); //
+                                                                  0);          //
 
                     size_of_already_saw_data_dl += size_of_the_neddle_dl; // adjusting even if first string added... (in v6), may be less than 3 bytes, two or 1 in first call, here
 
@@ -798,35 +797,20 @@ if ok it will be the minimum size if reached there but check
 
 
                */
+               /*
+
+
+
+
+
+
+
+
+
+
+               */
                found_buffer_0_dl = false;
                result_dl_0 = -1;
-
-               if (0 == 1)
-               {
-                    goto jump_8192_dl;
-               }
-
-#if DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 == DL_ENCODER_DECODER_MODE_
-#error ric please check...
-               goto jump_8192_dl;
-
-#elif DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192 == DL_ENCODER_DECODER_MODE_
-
-               ; // run the code
-
-#else
-
-#error Ric, value not handled, please check...
-
-#endif
-               /*
-               ric, dont remove this...
-
-                              if (!ENABLE_8000_DL)
-                              {
-                                   goto jump_8192_dl;
-                              }
-               */
 
                // here for buffer 0 for the moment
                if ((MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl))
@@ -853,12 +837,117 @@ if ok it will be the minimum size if reached there but check
 
                          result_dl_0 = position_found_buffer_0_dl;
                          max_size_string_from_buffer_final = max_size_string_from_buffer_0;
+
+                         bit_0_dl = 1;
+                         bit_1_dl = 0;
                     }
                }
 
-          jump_8192_dl:;
-               // found_buffer_0_dl = false;
+               /*
+
+
+
+
+
+
+
+
+
+
+               */
+               found_buffer_1_dl = false;
                // result_dl_0 = -1;
+
+               // here for buffer 0 for the moment
+               if ((MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl))
+               {
+                    ; // if last item don't search in any memory
+               }
+               else
+               {
+                    // for the moment just 0
+
+                    process_search_in_passed_buffers_at_once_dl(buf_dl_1,
+                                                                &found_buffer_1_dl,
+                                                                &max_size_string_from_buffer_1,
+                                                                &position_found_buffer_1_dl,
+                                                                position_of_the_data_in_the_input__stream_dl_original, &new_size_of_neddle_dl1);
+
+                    // just use current
+
+                    if (found_buffer_1_dl) // only used here...
+                    {
+
+                         assert(MIN_STRING_SEARCH_SIZE_DL__ == size_of_the_neddle_dl); // for safety and no hidden bugs (v8 fixed)
+                                                                                       // adjust everything
+
+                         if (-1 != result_dl_0)
+                         {
+                              if (max_size_string_from_buffer_1 > max_size_string_from_buffer_0)
+                              {
+                                   max_size_string_from_buffer_0 = max_size_string_from_buffer_1;
+
+                                   result_dl_0 = position_found_buffer_1_dl;
+
+                                   max_size_string_from_buffer_final = max_size_string_from_buffer_0;
+                                   new_size_of_neddle_dl = new_size_of_neddle_dl1;
+
+                                   bit_0_dl = 0;
+                                   bit_1_dl = 1;
+                              }
+                         }
+                         // result_dl_0 = position_found_buffer_0_dl;
+                         // max_size_string_from_buffer_final = max_size_string_from_buffer_0;
+                    }
+               }
+
+               found_buffer_2_dl = false;
+               // result_dl_0 = -1;
+
+               // here for buffer 0 for the moment
+               if ((MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl))
+               {
+                    ; // if last item don't search in any memory
+               }
+               else
+               {
+                    // for the moment just 0
+
+                    process_search_in_passed_buffers_at_once_dl(buf_dl_2,
+                                                                &found_buffer_2_dl,
+                                                                &max_size_string_from_buffer_2,
+                                                                &position_found_buffer_2_dl,
+                                                                position_of_the_data_in_the_input__stream_dl_original, &new_size_of_neddle_dl2);
+
+                    // just use current
+
+                    if (found_buffer_2_dl) // only used here...
+                    {
+
+                         assert(MIN_STRING_SEARCH_SIZE_DL__ == size_of_the_neddle_dl); // for safety and no hidden bugs (v8 fixed)
+                                                                                       // adjust everything
+
+                         if (-1 != result_dl_0)
+                         {
+                              if (max_size_string_from_buffer_2 > max_size_string_from_buffer_0)
+                              {
+                                   max_size_string_from_buffer_0 = max_size_string_from_buffer_2;
+
+                                   result_dl_0 = position_found_buffer_2_dl;
+
+                                   max_size_string_from_buffer_final = max_size_string_from_buffer_0;
+
+                                   new_size_of_neddle_dl = new_size_of_neddle_dl2;
+
+                                   bit_0_dl = 1;
+                                   bit_1_dl = 1;
+                              }
+                         }
+                         // result_dl_0 = position_found_buffer_0_dl;
+                         // max_size_string_from_buffer_final = max_size_string_from_buffer_0;
+                    }
+               }
+
                /*
 
 
@@ -933,6 +1022,10 @@ if ok it will be the minimum size if reached there but check
                          }
                          else
                          {
+
+                              bit_0_dl = 0;
+                              bit_1_dl = 0;
+
                               result_dl_0 = -1;
                               result_dl = position_found_buffer_current_dl;
 
@@ -982,6 +1075,10 @@ if ok it will be the minimum size if reached there but check
                     }
                     else if (found_buffer_current_dl)
                     {
+
+                         bit_0_dl = 0;
+                         bit_1_dl = 0;
+
                          result_dl_0 = -1;
                          result_dl = position_found_buffer_current_dl;
 
@@ -1054,8 +1151,8 @@ if ok it will be the minimum size if reached there but check
                                                                   size_of_characters_adjusted_to_pass_dl,
                                                                   false,
                                                                   2022 /* the value of this argument is irrelevant here */,
-                                                                  0 /* here too */,
-                                                                  false); //
+                                                                  0 /* here too */
+                    );                                              //
 
                     if (DEBUG_DL__)
                          pedro_dprintf(0, "o so far agora é %d e array of bits as bytes size %d", compressed_and_encoded_bytes_available_11_jan_2022_v6_dl,
@@ -1115,6 +1212,26 @@ if ok it will be the minimum size if reached there but check
                memcpy(buf_dl_2, buf_dl_1, len_dl); // is it correct, later we will test..., indeed it is irrelevant if you know how to reconstruct it later
                memcpy(buf_dl_1, buf_dl_0, len_dl);
                memcpy(buf_dl_0, buf_dl, len_dl);
+
+               /*
+
+               for current buffer
+               bit 0 == 0
+               bit 1 == 0
+
+               for buffer buf_dl_0
+               bit 0 == 1
+               bit 1 == 0
+
+               for buffer buf_dl_1
+               bit 0 == 0
+               bit 1 == 1
+
+               for buffer buf_dl_2
+               bit 0 == 1
+               bit 1 == 1
+
+               */
           }
 
           fclose(my_file_dl);
