@@ -187,15 +187,16 @@ int32_t __fastcall dl_adler32_wrapper(int32_t dl,
 
 #define DEBUG_DEC_DL__ (0)
 
-#define MAX_STRING_SEARCH_SIZE_DL__ (18) /* --- (v8 is this too) */
-#define MIN_STRING_SEARCH_SIZE_DL__ (3)  /* 3 bytes is the smallest size that can be compressed, remember if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be stored in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) (v8 in this version this don't change again)*/
-#define STRING_PASS_SIZE_DL__ (1)        /* this will change in the future just to speed up execution */
+#define MAX_STRING_SEARCH_SIZE_REAL_DL__ (18) /* max string size modified */
+#define MAX_STRING_SEARCH_SIZE_DL__ (18)      /* --- (v8 is this too) */
+#define MIN_STRING_SEARCH_SIZE_DL__ (3)       /* 3 bytes is the smallest size that can be compressed, remember if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be stored in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) (v8 in this version this don't change again)*/
+#define STRING_PASS_SIZE_DL__ (1)             /* this will change in the future just to speed up execution */
 
 #define DL_SIZE__ (1L << 12) /* 4096 */
 
 // 88888888888888888888888888888888888888888888888
 
-#define V9C_INTERNAL_BUFFER_SIZE_DL_ (1 << 12)
+#define V9C_INTERNAL_BUFFER_SIZE_DL_ (DL_SIZE__)
 
 // 88888888888888888888888888888888888888888888888888888888888888
 
@@ -410,6 +411,8 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) uint8_t *buf_dl_0 = malloc(DL_SIZE__);
 
+     __attribute__((unused)) uint8_t *sliding_window_amanda = malloc(DL_SIZE__ + MAX_STRING_SEARCH_SIZE_DL__);
+
      __attribute__((unused)) uint8_t *buf_dl_1 = malloc(DL_SIZE__);
 
      __attribute__((unused)) uint8_t *buf_dl_2 = malloc(DL_SIZE__);
@@ -450,7 +453,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) int64_t result_dl, result_temp_dl;
 
-     __attribute__((unused)) int64_t result_dl_0;
+     __attribute__((unused)) int64_t result_dl_0, result_dl_1;
 
      __attribute__((unused)) int64_t result_dl2;
 
@@ -464,7 +467,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) int delocador_fix_bug_in_version_2_0_dl;
 
-     int64_t tamanho_dl, progress_dl, progress_dl_copy;
+     int64_t tamanho_dl, progress_dl;
 
      __attribute__((unused)) ULONGLONG update_me_dl = 0;
 
@@ -527,15 +530,21 @@ int main(int arg_dl_c, char **arg_dl_v)
           replacements_dl = 0;
 
           // initializing the second buffer with character 0
+
+          memset(buf_dl, 0, DL_SIZE__);
+
           memset(buf_dl_0, 0, DL_SIZE__);
           memset(buf_dl_1, 0, DL_SIZE__);
           memset(buf_dl_2, 0, DL_SIZE__);
+          memset(sliding_window_amanda, 0, DL_SIZE__);
 
           while ((len_dl = fread(buf_dl, 1, DL_SIZE__, my_file_dl)))
           {
                adler32_real = dl_adler32_wrapper(adler32_real,
                                                  buf_dl,
                                                  len_dl);
+
+               // memcpy(sliding_window_amanda, buf_dl, len_dl);
 
                if (DEBUG_DL__)
                     pedro_dprintf(0, "initial buffer have %d bytes", len_dl);
@@ -650,6 +659,9 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                               size_of_compressed_buffer2_dl = size_of_compressed_buffer2_dl_int;
 
+                              pedro_dprintf(0, "buf 0 %i", size_of_compressed_buffer_dl);
+                              pedro_dprintf(0, "buf 1 %i", size_of_compressed_buffer2_dl);
+                              // assert(0);
                               {
                                    fwrite(&size_of_compressed_buffer_dl, 1, 2, out_file_dl);
 
@@ -699,9 +711,9 @@ int main(int arg_dl_c, char **arg_dl_v)
                     largest_neddle_size_dl = min(bytes_left_in_the_input_uncompressed_stream_dl, MAX_STRING_SEARCH_SIZE_DL__);
                }
 
-               if (MAX_STRING_SEARCH_SIZE_DL__ > min(bytes_left_in_the_input_uncompressed_stream_dl, MAX_STRING_SEARCH_SIZE_DL__))
+               if (MAX_STRING_SEARCH_SIZE_REAL_DL__ > min(bytes_left_in_the_input_uncompressed_stream_dl, MAX_STRING_SEARCH_SIZE_REAL_DL__))
                {
-                    cannot_be_largest_string_size_dl = true;
+                    cannot_be_largest_string_size_dl = true; // will not be used in a few minutes v12
                }
 
                // nao tem que lembrar isto em caso de nao achar ?, sim tem que voltar pra cá e com o tamanho certo, precisa de uma cópia, se der atualiza, vai la....
@@ -717,29 +729,17 @@ use the copy, and now
 if ok it will be the minimum size if reached there but check
                */
 
-               position_of_the_data_in_the_input__stream_dl_copy_3 = position_of_the_data_in_the_input__stream_dl;
+               position_of_the_data_in_the_input__stream_dl += 1;
 
-               position_of_the_data_in_the_input__stream_dl += size_of_the_neddle_dl;
+               progress_dl += 1; // we need the limit for , or it is handled by the first call ?
 
-               progress_dl_copy = progress_dl;
+               hay_ptr_dl += 1;
 
-               progress_dl += size_of_the_neddle_dl; // we need the limit for , or it is handled by the first call ?
-
-               hay_ptr_dl_copy = hay_ptr_dl;
-
-               hay_ptr_dl += size_of_the_neddle_dl;
-
-               len_dl_copy_2 = len_dl_copy;
-
-               len_dl_copy -= size_of_the_neddle_dl;
+               len_dl_copy -= 1;
 
                assert(0 <= len_dl_copy);
 
-               bytes_left_in_the_input_uncompressed_stream_dl_copy = bytes_left_in_the_input_uncompressed_stream_dl;
-
-               bytes_left_in_the_input_uncompressed_stream_dl -= size_of_the_neddle_dl;
-
-               // a copy of this, now...
+               bytes_left_in_the_input_uncompressed_stream_dl -= 1;
 
                /*
 
@@ -751,77 +751,19 @@ if ok it will be the minimum size if reached there but check
 
 
                */
-               if (size_of_already_saw_data_dl < MIN_STRING_SEARCH_SIZE_DL__) // (v9) if first call, just add the first 3 bytes (or less) and if the second call is one byte ?it is handled too, no search for it, only if above 18 characters is free to work, but we can test it, when we create the decoder (v8 fixed)
-               // and return to the beginning
-               {
-                    // just add the data
-                    if (DEBUG_DL__)
-                         pedro_dprintf(0, "primeiro salvamento de uma olhada, size of the needle must be 4 %d", size_of_the_neddle_dl);
 
-                    size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_the_neddle_dl;
-
-                    size_of_characters_adjusted_to_pass_dl = (uint8_t)size_real_for_number_of_characters_up_to_259_dl;
-
-                    convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(needle_buf_dl,
-                                                                  size_of_characters_adjusted_to_pass_dl,
-                                                                  false,
-                                                                  1969 + 2022, // just a joke..., this here is irrelevant, due to the 'false' in the past argument
-                                                                  0);          //
-
-                    size_of_already_saw_data_dl += size_of_the_neddle_dl; // adjusting even if first string added... (in v6), may be less than 3 bytes, two or 1 in first call, here
-
-                    if (DEBUG_DL__)
-                         pedro_dprintf(0, "ja salvou");
-
-                    if (DEBUG_DL__)
-                    {
-                         assert(0 && "parando");
-                    }
-                    goto volta_aqui_mais_alto_mar;
-               }
-
-               if (DEBUG_DL__)
-                    pedro_dprintf(0, "tamanho de size_of_already_saw_data_dl antes search 1 %d", size_of_already_saw_data_dl);
-               /*
-
-
-
-
-
-
-
-
-
-
-
-
-
-               */
-               /*
-
-
-
-
-
-
-
-
-
-
-               */
                found_buffer_0_dl = false;
-               result_dl_0 = -1;
 
                // here for buffer 0 for the moment
                if ((MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl))
                {
-                    ; // if last item don't search in any memory
+                    ; // if last item don't search in any memory, it will be deleted soon v12
                }
                else
                {
                     // for the moment just 0
 
-                    process_search_in_passed_buffers_at_once_dl(buf_dl_0,
+                    process_search_in_passed_buffers_at_once_dl(sliding_window_amanda,
                                                                 &found_buffer_0_dl,
                                                                 &max_size_string_from_buffer_0,
                                                                 &position_found_buffer_0_dl,
@@ -833,278 +775,96 @@ if ok it will be the minimum size if reached there but check
                     {
 
                          assert(MIN_STRING_SEARCH_SIZE_DL__ == size_of_the_neddle_dl); // for safety and no hidden bugs (v8 fixed)
-                         // adjust everything
-
-                         result_dl_0 = position_found_buffer_0_dl;
-                         max_size_string_from_buffer_final = max_size_string_from_buffer_0;
-
-                         bit_0_dl = 1;
-                         bit_1_dl = 0;
                     }
                }
 
                /*
 
-
-
-
-
-
-
-
-
-
                */
-               found_buffer_1_dl = false;
-               // result_dl_0 = -1;
 
-               // here for buffer 0 for the moment
-               if ((MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl))
                {
-                    ; // if last item don't search in any memory
-               }
-               else
-               {
-                    // for the moment just 0
+                    /*
+                                        process_search_in_current_buffer_at_once_dl(buf_dl,
+                                                                                    &found_buffer_current_dl,
+                                                                                    &max_size_string_from_buffer_current,
+                                                                                    &position_found_buffer_current_dl,
+                                                                                    position_of_the_data_in_the_input__stream_dl_original,
+                                                                                    size_of_already_saw_data_dl,
+                                                                                    &adjusted_needle_dl);
+                    */
+                    // found_buffer_current_dl = false;
 
-                    process_search_in_passed_buffers_at_once_dl(buf_dl_1,
-                                                                &found_buffer_1_dl,
-                                                                &max_size_string_from_buffer_1,
-                                                                &position_found_buffer_1_dl,
-                                                                position_of_the_data_in_the_input__stream_dl_original, &new_size_of_neddle_dl1);
-
-                    // just use current
-
-                    if (found_buffer_1_dl) // only used here...
+                    // size_of_already_saw_data_dl += MIN_STRING_SEARCH_SIZE_DL__;
+                    if (found_buffer_0_dl)
                     {
 
-                         assert(MIN_STRING_SEARCH_SIZE_DL__ == size_of_the_neddle_dl); // for safety and no hidden bugs (v8 fixed)
-                                                                                       // adjust everything
-
-                         if (-1 != result_dl_0)
+                         if (true)
                          {
-                              if (max_size_string_from_buffer_1 > max_size_string_from_buffer_0)
-                              {
-                                   max_size_string_from_buffer_0 = max_size_string_from_buffer_1;
 
-                                   result_dl_0 = position_found_buffer_1_dl;
+                              pedro_dprintf(-1, "max_size_string_from_buffer_0 %d new_size_of_neddle_dl %d",
+                                            max_size_string_from_buffer_0,
+                                            new_size_of_neddle_dl);
+                              // assert(0);
+                              past_position_location_dl = (uint16_t)position_found_buffer_0_dl;
 
-                                   max_size_string_from_buffer_final = max_size_string_from_buffer_0;
-                                   new_size_of_neddle_dl = new_size_of_neddle_dl1;
+                              size_real_for_number_of_characters_up_to_259_dl = (uint16_t)max_size_string_from_buffer_0;
 
-                                   bit_0_dl = 0;
-                                   bit_1_dl = 1;
-                              }
-                         }
-                         // result_dl_0 = position_found_buffer_0_dl;
-                         // max_size_string_from_buffer_final = max_size_string_from_buffer_0;
-                    }
-               }
+                              size_of_characters_adjusted_to_pass_dl = (int8_t)size_real_for_number_of_characters_up_to_259_dl;
 
-               found_buffer_2_dl = false;
-               // result_dl_0 = -1;
+                              // here ric my brother...
+                              convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(NULL, // irrelevant
+                                                                            0,    // irrelevant
+                                                                            true,
+                                                                            past_position_location_dl,
+                                                                            size_of_characters_adjusted_to_pass_dl,
+                                                                            true); // v12
 
-               // here for buffer 0 for the moment
-               if ((MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl))
-               {
-                    ; // if last item don't search in any memory
-               }
-               else
-               {
-                    // for the moment just 0
-
-                    process_search_in_passed_buffers_at_once_dl(buf_dl_2,
-                                                                &found_buffer_2_dl,
-                                                                &max_size_string_from_buffer_2,
-                                                                &position_found_buffer_2_dl,
-                                                                position_of_the_data_in_the_input__stream_dl_original, &new_size_of_neddle_dl2);
-
-                    // just use current
-
-                    if (found_buffer_2_dl) // only used here...
-                    {
-
-                         assert(MIN_STRING_SEARCH_SIZE_DL__ == size_of_the_neddle_dl); // for safety and no hidden bugs (v8 fixed)
-                                                                                       // adjust everything
-
-                         if (-1 != result_dl_0)
-                         {
-                              if (max_size_string_from_buffer_2 > max_size_string_from_buffer_0)
-                              {
-                                   max_size_string_from_buffer_0 = max_size_string_from_buffer_2;
-
-                                   result_dl_0 = position_found_buffer_2_dl;
-
-                                   max_size_string_from_buffer_final = max_size_string_from_buffer_0;
-
-                                   new_size_of_neddle_dl = new_size_of_neddle_dl2;
-
-                                   bit_0_dl = 1;
-                                   bit_1_dl = 1;
-                              }
-                         }
-                         // result_dl_0 = position_found_buffer_0_dl;
-                         // max_size_string_from_buffer_final = max_size_string_from_buffer_0;
-                    }
-               }
-
-               /*
+                              /*
 
 
+                              */
 
+                              progress_dl = progress_dl + (new_size_of_neddle_dl - 1); // we need the limit for, or it is handled by the first call ?
 
+                              hay_ptr_dl = hay_ptr_dl + (new_size_of_neddle_dl - 1);
 
+                              position_of_the_data_in_the_input__stream_dl = position_of_the_data_in_the_input__stream_dl + (new_size_of_neddle_dl - 1);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-               */
-               found_buffer_current_dl = false;
-               result_dl = -1;
-
-               if (MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl)
-               {
-                    ; // if last item don't search in any memory
-               }
-               else
-               {
-
-                    process_search_in_current_buffer_at_once_dl(buf_dl,
-                                                                &found_buffer_current_dl,
-                                                                &max_size_string_from_buffer_current,
-                                                                &position_found_buffer_current_dl,
-                                                                position_of_the_data_in_the_input__stream_dl_original,
-                                                                size_of_already_saw_data_dl,
-                                                                &adjusted_needle_dl);
-
-                    size_of_already_saw_data_dl += MIN_STRING_SEARCH_SIZE_DL__;
-
-                    if (found_buffer_current_dl && found_buffer_0_dl)
-                    {
-                         pedro_dprintf(-1, "found_buffer_current_dl && found_buffer_0_dl");
-                         ; // entao resolve o item
-
-                         if (max_size_string_from_buffer_final > max_size_string_from_buffer_current)
-                         {
-                              result_dl = -1;
-                              progress_dl = progress_dl_copy + new_size_of_neddle_dl; // we need the limit for, or it is handled by the first call ?
-
-                              position_of_the_data_in_the_input__stream_dl = position_of_the_data_in_the_input__stream_dl_copy_3;
-
-                              position_of_the_data_in_the_input__stream_dl += new_size_of_neddle_dl;
-
-                              hay_ptr_dl = hay_ptr_dl_copy + new_size_of_neddle_dl;
-
-                              len_dl_copy = len_dl_copy_2;
-
-                              len_dl_copy -= new_size_of_neddle_dl;
+                              len_dl_copy -= (new_size_of_neddle_dl - 1);
 
                               assert(0 <= len_dl_copy);
+                              bytes_left_in_the_input_uncompressed_stream_dl -= (new_size_of_neddle_dl - 1);
 
-                              bytes_left_in_the_input_uncompressed_stream_dl = bytes_left_in_the_input_uncompressed_stream_dl_copy;
+                              /*
 
-                              bytes_left_in_the_input_uncompressed_stream_dl -= new_size_of_neddle_dl;
+aqui vamos mover pra frente o item encontrado, ok...vai la
 
-                              size_of_the_neddle_dl = new_size_of_neddle_dl;
+                              */
+
+                              pedro_dprintf(0, "pos %d",
+                                            position_found_buffer_0_dl);
+                              {
+
+                                   void remove_string_ar(uint8_t * needle_a,
+                                                         int position_a,
+                                                         int needle_len_a,
+                                                         uint8_t *input_a,
+                                                         uint8_t *output_a);
+
+                                   memcpy(slice_amanda_, sliding_window_amanda + position_found_buffer_0_dl,
+                                          max_size_string_from_buffer_0);
+
+                                   remove_string_ar(slice_amanda_, position_found_buffer_0_dl, max_size_string_from_buffer_0, sliding_window_amanda, sliding_window_amanda);
+                              }
+                              goto volta_aqui_mais_alto_mar;
+
+                              /*
+
+
+                              */
                          }
-                         else
-                         {
-
-                              bit_0_dl = 0;
-                              bit_1_dl = 0;
-
-                              result_dl_0 = -1;
-                              result_dl = position_found_buffer_current_dl;
-
-                              position_of_the_data_in_the_input__stream_dl = position_of_the_data_in_the_input__stream_dl_copy_3;
-
-                              position_of_the_data_in_the_input__stream_dl += adjusted_needle_dl;
-
-                              progress_dl = progress_dl_copy + adjusted_needle_dl; // we need the limit for, or it is handled by the first call ?
-
-                              hay_ptr_dl = hay_ptr_dl_copy + adjusted_needle_dl;
-
-                              len_dl_copy = len_dl_copy_2;
-
-                              len_dl_copy -= adjusted_needle_dl;
-
-                              assert(0 <= len_dl_copy);
-
-                              bytes_left_in_the_input_uncompressed_stream_dl = bytes_left_in_the_input_uncompressed_stream_dl_copy;
-
-                              bytes_left_in_the_input_uncompressed_stream_dl -= adjusted_needle_dl;
-
-                              size_of_the_neddle_dl = adjusted_needle_dl;
-                         }
-                    }
-                    else if (found_buffer_0_dl)
-                    {
-                         result_dl = -1;
-                         progress_dl = progress_dl_copy + new_size_of_neddle_dl; // we need the limit for, or it is handled by the first call ?
-
-                         hay_ptr_dl = hay_ptr_dl_copy + new_size_of_neddle_dl;
-
-                         position_of_the_data_in_the_input__stream_dl = position_of_the_data_in_the_input__stream_dl_copy_3;
-
-                         position_of_the_data_in_the_input__stream_dl += new_size_of_neddle_dl;
-
-                         len_dl_copy = len_dl_copy_2;
-
-                         len_dl_copy -= new_size_of_neddle_dl;
-
-                         assert(0 <= len_dl_copy);
-
-                         bytes_left_in_the_input_uncompressed_stream_dl = bytes_left_in_the_input_uncompressed_stream_dl_copy;
-
-                         bytes_left_in_the_input_uncompressed_stream_dl -= new_size_of_neddle_dl;
-
-                         size_of_the_neddle_dl = new_size_of_neddle_dl;
-                    }
-                    else if (found_buffer_current_dl)
-                    {
-
-                         bit_0_dl = 0;
-                         bit_1_dl = 0;
-
-                         result_dl_0 = -1;
-                         result_dl = position_found_buffer_current_dl;
-
-                         progress_dl = progress_dl_copy + adjusted_needle_dl; // we need the limit for, or it is handled by the first call ?
-
-                         position_of_the_data_in_the_input__stream_dl = position_of_the_data_in_the_input__stream_dl_copy_3;
-
-                         position_of_the_data_in_the_input__stream_dl += adjusted_needle_dl;
-
-                         hay_ptr_dl = hay_ptr_dl_copy + adjusted_needle_dl;
-
-                         len_dl_copy = len_dl_copy_2;
-
-                         len_dl_copy -= adjusted_needle_dl;
-
-                         assert(0 <= len_dl_copy);
-
-                         bytes_left_in_the_input_uncompressed_stream_dl = bytes_left_in_the_input_uncompressed_stream_dl_copy;
-
-                         bytes_left_in_the_input_uncompressed_stream_dl -= adjusted_needle_dl;
-
-                         size_of_the_neddle_dl = adjusted_needle_dl;
                     }
                }
-
-               pedro_dprintf(-1, "p1 result_dl result_dl_0 %lld %lld", result_dl, result_dl_0);
 
                if (DEBUG_DL__)
                     pedro_dprintf(0, "size_of_the_neddle_dl %d", size_of_the_neddle_dl);
@@ -1120,17 +880,11 @@ if ok it will be the minimum size if reached there but check
 
                // the_magic_begins_here__dl:;
 
-               if (MIN_STRING_SEARCH_SIZE_DL__ > size_got_of_neddle_dl || cannot_be_largest_string_size_dl) //(v9) don't compress if cannot be a large string anymore (last pass or almost)
+               if (true)
                {
-                    result_dl = -1; // fix the bug, the code must work, lets test
-                    result_dl_0 = -1;
-               }
-
-               if (-1 == result_dl && -1 == result_dl_0)
-               {
-
+                    pedro_dprintf(-1, "salvando byte");
                     if (DEBUG_DL__)
-                         pedro_dprintf(0, "nao encontrou entao vai salvar %d bytes, antes de chamar o so far alterado é %d e bits as the number of whole bytes encoded ate agora %d", size_of_the_neddle_dl, compressed_and_encoded_bytes_available_11_jan_2022_v6_dl,
+                         pedro_dprintf(0, "nao encontrou entao vai salvar %d bytes, antes de chamar o so far alterado é %d e bits as the number of whole bytes encoded ate agora %d", 1, compressed_and_encoded_bytes_available_11_jan_2022_v6_dl,
                                        number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
 
                     if (DEBUG_DL__)
@@ -1138,8 +892,8 @@ if ok it will be the minimum size if reached there but check
                          assert(0 && "parando");
                     }
 
-                    assert(MIN_STRING_SEARCH_SIZE_DL__ >= size_of_the_neddle_dl);
-                    size_real_for_number_of_characters_up_to_259_dl = (uint16_t)size_of_the_neddle_dl;
+                    assert(MIN_STRING_SEARCH_SIZE_DL__ >= 1);
+                    size_real_for_number_of_characters_up_to_259_dl = (uint16_t)1;
 
                     // assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
 
@@ -1147,12 +901,25 @@ if ok it will be the minimum size if reached there but check
 
                     size_of_characters_adjusted_to_pass_dl = (uint8_t)size_real_for_number_of_characters_up_to_259_dl;
 
-                    convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(largest_needle_already_in_buffer_dl,
+                    convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(largest_needle_already_in_buffer_dl, // it will be improved
                                                                   size_of_characters_adjusted_to_pass_dl,
                                                                   false,
                                                                   2022 /* the value of this argument is irrelevant here */,
-                                                                  0 /* here too */
-                    );                                              //
+                                                                  0 /* here too */,
+                                                                  false); //
+
+                    {
+
+                         memcpy(desloca_buffer_amanda,
+                                sliding_window_amanda + 1,
+                                V9C_INTERNAL_BUFFER_SIZE_DL_ - 1);
+
+                         desloca_buffer_amanda[V9C_INTERNAL_BUFFER_SIZE_DL_ - 1] = largest_needle_already_in_buffer_dl[0];
+
+                         memcpy(sliding_window_amanda,
+                                desloca_buffer_amanda,
+                                V9C_INTERNAL_BUFFER_SIZE_DL_);
+                    }
 
                     if (DEBUG_DL__)
                          pedro_dprintf(0, "o so far agora é %d e array of bits as bytes size %d", compressed_and_encoded_bytes_available_11_jan_2022_v6_dl,
@@ -1167,71 +934,23 @@ if ok it will be the minimum size if reached there but check
                     {
                          goto volta_aqui_ric;
                     }
+
+                    /*
+
+                    // add the byte dear ric
+
+
+                    */
+
                     goto volta_aqui_mais_alto_mar; // just start again (it is v6 based)
                }
-               else if (-1 != result_dl || -1 != result_dl_0)
-               {
 
-                    pedro_dprintf(-1, "result_dl       %lld", result_dl);
-                    pedro_dprintf(-1, "result_dl_0     %lld", result_dl_0);
-
-                    if (DEBUG_DL__)
-                         pedro_dprintf(0, "encontrou entao agora vai tentar achar maior");
-
-                    if (DEBUG_DL__)
-                    {
-                         assert(0 && "parando");
-                    }
-
-                    size_of_the_neddle_dl2 = size_of_the_neddle_dl;
-                    size_of_the_neddle_dl2_b = size_of_the_neddle_dl;
-                    result_dl2 = result_dl;
-
-                    // largest_size_found_on_previous_buffer_dl = 0;
-
-                    already_found_with_larger_size_dl = false;
-
-#include "handling_previous_buffer.c"
-
-#include "handling_current_buffer.c"
-               }
-
-               if (0 == 1)
+               if (0 == 1) // to always make compiler happy
                {
                     goto continua_pro_proximo_buffer_a_ser_lido_dl;
                }
 
           continua_pro_proximo_buffer_a_ser_lido_dl:;
-
-               // we need to copy this buffer?, yes..., maybe not, how?
-
-               // for the moment copy... we don't care about speed for the moment, but we can read 8192 at once at the beggining and just adjust the position...
-
-               // for the moment will copy but can be speed up
-
-               memcpy(buf_dl_2, buf_dl_1, len_dl); // is it correct, later we will test..., indeed it is irrelevant if you know how to reconstruct it later
-               memcpy(buf_dl_1, buf_dl_0, len_dl);
-               memcpy(buf_dl_0, buf_dl, len_dl);
-
-               /*
-
-               for current buffer
-               bit 0 == 0
-               bit 1 == 0
-
-               for buffer buf_dl_0
-               bit 0 == 1
-               bit 1 == 0
-
-               for buffer buf_dl_1
-               bit 0 == 0
-               bit 1 == 1
-
-               for buffer buf_dl_2
-               bit 0 == 1
-               bit 1 == 1
-
-               */
           }
 
           fclose(my_file_dl);
@@ -1249,7 +968,8 @@ if ok it will be the minimum size if reached there but check
           out_file_dl = NULL;
      }
 
-     free(buf_dl), free(buf_dl_0), free(buf_dl_1), free(buf_dl_2), free(buf_dl_compressed), free(buf_dl_bit_buffer);
+     free(buf_dl), free(buf_dl_0), free(buf_dl_1), free(buf_dl_2),
+         free(sliding_window_amanda), free(buf_dl_compressed), free(buf_dl_bit_buffer);
 
      printf("Progress ric -> % 4d\n", 100);
      printf("Research running...\n");
@@ -1267,7 +987,7 @@ if ok it will be the minimum size if reached there but check
           return 27;
      }
 
-     unlink(temp_file_dl);
+     // unlink(temp_file_dl);
      printf("\nDiligent Compressor\n\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n");
      return 0;
 

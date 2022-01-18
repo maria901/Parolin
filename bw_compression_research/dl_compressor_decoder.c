@@ -346,10 +346,6 @@ int __fastcall decode_ric_dl(char *
 
      // ok, lets go
 
-     int bit_0_dl;
-
-     int bit_1_dl;
-
      __attribute__((unused)) bool using_previous_buffer_dl;
 
      int64_t tamanho_dl = 0, tamanho_got_dl = 0, progress_dl = 0;
@@ -391,12 +387,6 @@ int __fastcall decode_ric_dl(char *
      uint8_t *buffer_uncompressed_current_dl = malloc(8192);
 
      uint8_t *buffer_uncompressed_previous_dl = calloc(8192, 1);
-
-     uint8_t *buf_dl_0 = calloc(8192, 1);
-
-     uint8_t *buf_dl_1 = calloc(8192, 1);
-
-     uint8_t *buf_dl_2 = calloc(8192, 1);
 
      __attribute__((unused)) uint32_t bytes_added_to_the_current_buffer_dl;
 
@@ -732,11 +722,6 @@ int __fastcall decode_ric_dl(char *
                            ptr_for_current_uncompressed_buffer_initial_position,
                            bytes_already_in_uncompressed_buffer);
 
-                    memcpy(buf_dl_2, buf_dl_1, bytes_already_in_uncompressed_buffer);
-                    memcpy(buf_dl_1, buf_dl_0, bytes_already_in_uncompressed_buffer);
-                    memcpy(buf_dl_0, ptr_for_current_uncompressed_buffer_initial_position,
-                           bytes_already_in_uncompressed_buffer);
-
                     if (fwrite(ptr_for_current_uncompressed_buffer_initial_position,
                                1,
                                bytes_already_in_uncompressed_buffer,
@@ -802,22 +787,15 @@ int __fastcall decode_ric_dl(char *
                     goto exit_ric_my_dear_dl;
                }
 
-               bit_0_dl = len_dl;
-
-               len_dl = read_bit_dl(false,
-                                    NULL,
-                                    dl_,
-                                    0);
-               if (DEBUG_DEC_DL__)
-                    pedro_dprintf(0, "bit %d", len_dl);
-
-               if (2 == len_dl)
+               if (0 == len_dl)
                {
-                    return_value_dl = 53;
-                    goto exit_ric_my_dear_dl;
+                    using_previous_buffer_dl = true;
+                    // assert(0);
                }
-               
-               bit_1_dl = len_dl;
+               else
+               {
+                    using_previous_buffer_dl = false;
+               }
 
                // now process it
                get_string_size_and_address_in_the_current_buffer_dl(composed_pointer_and_string_size_16_dl,
@@ -859,11 +837,6 @@ int __fastcall decode_ric_dl(char *
                            ptr_for_current_uncompressed_buffer_initial_position,
                            bytes_already_in_uncompressed_buffer);
 
-                    memcpy(buf_dl_2, buf_dl_1, bytes_already_in_uncompressed_buffer);
-                    memcpy(buf_dl_1, buf_dl_0, bytes_already_in_uncompressed_buffer);
-                    memcpy(buf_dl_0, ptr_for_current_uncompressed_buffer_initial_position,
-                           bytes_already_in_uncompressed_buffer);
-
                     if (fwrite(ptr_for_current_uncompressed_buffer_initial_position,
                                1,
                                bytes_already_in_uncompressed_buffer,
@@ -897,12 +870,6 @@ now work...
      */
 
 exit_ric_my_dear_dl:;
-
-     free(buf_dl_0);
-
-     free(buf_dl_1);
-
-     free(buf_dl_2);
 
      free(buffer_uncompressed_current_dl);
 

@@ -1,28 +1,42 @@
-// for v11 ->
-/*
+// v12 variables
 
-for current buffer
-bit 0 == 0
-bit 1 == 0 
+bool enable_desloca_a;
 
-for buffer buf_dl_0
-bit 0 == 1
-bit 1 == 0
+int i_a;
 
-for buffer buf_dl_1
-bit 0 == 0
-bit 1 == 1
+int pos_111_amanda;
 
-for buffer buf_dl_2
-bit 0 == 1
-bit 1 == 1
+int len_111_amanda;
 
-*/
+int len_112_amanda;
 
-int bit_0_dl;
-int bit_1_dl;
+int64_t achou_ric_amanda;
 
 // v9 variables, for historical times, the embedded bugs too
+
+int32_t adler_ar;
+
+uint8_t temp_buffer_ar;
+
+uint8_t slice_amanda_[MAX_STRING_SEARCH_SIZE_DL__];
+
+int size_1_amanda, size_2_amanda, size_3_amanda;
+
+uint8_t desloca_buffer_amanda4[V9C_INTERNAL_BUFFER_SIZE_DL_ + MAX_STRING_SEARCH_SIZE_DL__ /* will not use more than 3 for the moment (v12) */];
+
+uint8_t desloca_buffer_amanda3[V9C_INTERNAL_BUFFER_SIZE_DL_ + MAX_STRING_SEARCH_SIZE_DL__ /* will not use more than 3 for the moment (v12) */];
+
+uint8_t desloca_buffer_amanda2[V9C_INTERNAL_BUFFER_SIZE_DL_ + MAX_STRING_SEARCH_SIZE_DL__ /* will not use more than 3 for the moment (v12) */];
+
+uint8_t desloca_buffer_amanda[V9C_INTERNAL_BUFFER_SIZE_DL_ + MAX_STRING_SEARCH_SIZE_DL__ /* will not use more than 3 for the moment (v12) */];
+
+uint8_t size_of_string_log_decode_dl(uint8_t index_dl);
+
+uint8_t *ptr_1_amanda;
+
+uint8_t *ptr_2_amanda;
+
+uint8_t *ptr_3_amanda;
 
 uint8_t largest_needle_already_in_buffer_dl[MAX_STRING_SEARCH_SIZE_DL__];
 
@@ -40,7 +54,6 @@ uint16_t position_found_buffer_1_dl;
 uint16_t position_found_buffer_2_dl;
 uint8_t new_size_of_neddle_dl;
 uint8_t new_size_of_neddle_dl1;
-uint8_t new_size_of_neddle_dl2;
 uint8_t max_size_string_from_buffer_final;
 uint8_t max_size_string_from_buffer_current;
 uint8_t max_size_string_from_buffer_0;
@@ -152,11 +165,13 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
      pedro_dprintf(-1, "address inside idiot %hi", position_on_the_passed_buffer_up_to_4096_12_bits_dl);
 
-     assert(18 >= string_size_dl_up_to_18);
+     assert(100 >= string_size_dl_up_to_18);
 
      assert(string_size_dl_up_to_18 >= 3);
 
      assert(4096 >= position_on_the_passed_buffer_up_to_4096_12_bits_dl);
+
+     string_size_dl_up_to_18 = size_of_string_log_decode_dl(string_size_dl_up_to_18);
 
      string_size_dl_up_to_18 -= 3; // it will be stored in the 4 bits
                                    // pedro_dprintf(0, )
@@ -608,7 +623,8 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
                                                               __attribute__((unused)) uint8_t len_of_input_to_encode_as_you_may_expect_dl_, //
                                                               __attribute__((unused)) bool is_it_string_matched_in_past_buffer_dl,
                                                               __attribute__((unused)) uint16_t past_position_location_dl, //
-                                                              __attribute__((unused)) uint8_t len_of_matched_string_dl)
+                                                              __attribute__((unused)) uint8_t len_of_matched_string_dl,
+                                                              __attribute__((unused)) bool using_previous_buffer_dl)
 {
 
      uint16_t len_of_input_to_encode_as_you_may_expect_dl = len_of_input_to_encode_as_you_may_expect_dl_;
@@ -655,32 +671,26 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
                // set the bit array with the required bits, one bit 0 for each plain character added
                encode_bit_11_jan_2022_v6_dl(0);
           }
+          // assert(0 && "encode byte");
      }
      else
      {
           replacements_dl++;
           encode_bit_11_jan_2022_v6_dl(1); // if encoded bit is one then it is a pointer to the previous data and size (v10 not working this moment)
+                                           /*
+                                                     // assert(0 && "ok ric, in compressor");
+                                                     if (using_previous_buffer_dl) //
+                                                     {
+                                                          // exit(30);
+                                                          encode_bit_11_jan_2022_v6_dl(0); // second bit is 0 then previous 4096 buffer was used (v8)
+                                                     }
+                                                     else
+                                                     {
+                                                          encode_bit_11_jan_2022_v6_dl(1); // second bit is 1 then current 4096 buffer was used (v8)
+                                                     }
+                                           */
 
-          // assert(0 && "ok ric, in compressor");
-         if(bit_0_dl)
-          {
-               // exit(30);
-               encode_bit_11_jan_2022_v6_dl(1); // second bit is 0 then previous 4096 buffer was used (v8)
-          }
-          else
-          {
-               encode_bit_11_jan_2022_v6_dl(0); // second bit is 1 then current 4096 buffer was used (v8)
-          }
-
-         if(bit_1_dl)
-          {
-               // exit(30);
-               encode_bit_11_jan_2022_v6_dl(1); // second bit is 0 then previous 4096 buffer was used (v8)
-          }
-          else
-          {
-               encode_bit_11_jan_2022_v6_dl(0); // second bit is 1 then current 4096 buffer was used (v8)
-          }
+          // encode_bit_11_jan_2022_v6_dl(1);
 
           if (DEBUG_DL__)
                pedro_dprintf(0, "inside convert 8, mode is add pointer");
@@ -699,7 +709,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           pedro_dprintf(-1, "encoded int16_t to save %i len e address %d %d", *ptr_uint16_dl,
                         (int)len_of_matched_string_dl,
                         (int)past_position_location_dl);
-          // assert(0);
+          // assert(0 && "encode pointer");
 
           len_of_input_to_encode_as_you_may_expect_dl = 2;
      }
@@ -738,6 +748,148 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
      return;
 }
 
+uint8_t size_of_string_log_get_dl(uint8_t index_dl)
+{
+     return index_dl;
+     /*
+     uint8_t array_in_dl[255] = {
+     0,  // 0
+     0,  // 1
+     0,  // 2
+     3,  // 3
+     5,  // 4
+     7,  // 5
+     9,  // 6
+     12, // 7
+     15, // 8
+     19, // 9
+     24, // 10
+     30, // 11
+     38, // 12
+     45, // 13
+     55, // 14
+     100 // 15
+     };
+     */
+     switch (index_dl)
+     {
+          // case  0,  // 0
+          //    0,  // 1
+          //  0,  // 2
+     case 3: //,  // 3
+
+          return 3;
+
+     case 4:
+          return 4; //,  // 4
+
+     case 5:
+          return 5; //,        // 5
+     case 6:
+
+          return 6; //,    // 6
+     case 7:
+
+          return 12; //,       // 7
+     case 8:
+
+          return 15; //,   // 8
+     case 9:
+
+          return 19; //,   // 9
+     case 10:
+
+          return 24; //,        // 10
+     case 11:
+
+          return 30; //,        // 11
+     case 12:
+
+          return 38; //,    // 12
+     case 13:
+
+          return 45; //,        // 13
+     case 14:
+
+          return 55; //,        // 14
+     case 15:
+
+          return 100; //        // 15
+     }
+     return 3;
+}
+
+uint8_t size_of_string_log_decode_dl(uint8_t index_dl)
+{
+     return index_dl;
+     /*
+     uint8_t array_in_dl[255] = {
+     0,  // 0
+     0,  // 1
+     0,  // 2
+     3,  // 3
+     5,  // 4
+     7,  // 5
+     9,  // 6
+     12, // 7
+     15, // 8
+     19, // 9
+     24, // 10
+     30, // 11
+     38, // 12
+     45, // 13
+     55, // 14
+     100 // 15
+     };
+     */
+     switch (index_dl)
+     {
+          // case  0,  // 0
+          //    0,  // 1
+          //  0,  // 2
+     case 3: //,  // 3
+
+          return 3;
+
+     case 4:
+          return 4; //,  // 4
+
+     case 5:
+          return 5; //,        // 5
+     case 6:
+
+          return 6; //,    // 6
+     case 12:
+
+          return 7; //,       // 7
+     case 15:
+
+          return 8; //,   // 8
+     case 19:
+
+          return 9; //,   // 9
+     case 24:
+
+          return 10; //,        // 10
+     case 30:
+
+          return 11; //,        // 11
+     case 38:
+
+          return 12; //,    // 12
+     case 45:
+
+          return 13; //,        // 13
+     case 55:
+
+          return 14; //,        // 14
+     case 100:
+
+          return 15; //        // 15
+     }
+     return 3;
+}
+
 /**
  * @brief if found it will already return the largest possible size, ok (v8 fixed) (also v9)
  *
@@ -754,10 +906,12 @@ void process_search_in_passed_buffers_at_once_dl(uint8_t *buffer_dl,
                                                  uint8_t *pos_ori_current_buffer_dl,
                                                  uint8_t *new_size_of_neddle_dl)
 {
+     // int index_in_array_deslocador_dl = 0;
 
      static uint8_t needle_S2_buf_dl_copy[MAX_STRING_SEARCH_SIZE_DL__];
 
-     uint8_t size_of_the_neddle_dl2_b = MIN_STRING_SEARCH_SIZE_DL__;
+     uint8_t size_of_the_neddle_dl2_b = MIN_STRING_SEARCH_SIZE_DL__,
+             size_of_the_neddle_dl2_b_real;
      *new_size_of_neddle_dl = size_of_the_neddle_dl2_b;
      int64_t result_S2_temp_dl = -1;
 
@@ -774,12 +928,14 @@ try_again_magician_ric1:;
                size_of_the_neddle_dl2_b = MAX_STRING_SEARCH_SIZE_DL__;
           }
 
-          memcpy(needle_S2_buf_dl_copy, pos_ori_current_buffer_dl, size_of_the_neddle_dl2_b);
+          size_of_the_neddle_dl2_b_real = size_of_string_log_get_dl(size_of_the_neddle_dl2_b);
+
+          memcpy(needle_S2_buf_dl_copy, pos_ori_current_buffer_dl, size_of_the_neddle_dl2_b_real);
 
           // now search again
           result_S2_temp_dl = mem_search_dl(buffer_dl, DL_SIZE__,
                                             needle_S2_buf_dl_copy,
-                                            size_of_the_neddle_dl2_b,
+                                            size_of_the_neddle_dl2_b_real,
                                             0);
 
           if (-1 == result_S2_temp_dl)
@@ -793,9 +949,9 @@ try_again_magician_ric1:;
 
                *found_dl = true;
 
-               *max_size_of_string_found_dl = size_of_the_neddle_dl2_b; // correct, need to check (v8 fixed)
+               *max_size_of_string_found_dl = size_of_the_neddle_dl2_b_real; // correct, need to check (v8 fixed)
 
-               *new_size_of_neddle_dl = size_of_the_neddle_dl2_b;
+               *new_size_of_neddle_dl = size_of_the_neddle_dl2_b_real;
 
                goto try_again_magician_ric1;
           }
@@ -828,7 +984,8 @@ void process_search_in_current_buffer_at_once_dl(uint8_t *current_buffer_dl,
 
      static uint8_t needle_S2_buf_dl_copy[MAX_STRING_SEARCH_SIZE_DL__];
 
-     uint8_t size_of_the_neddle_dl2_b = MIN_STRING_SEARCH_SIZE_DL__;
+     uint8_t size_of_the_neddle_dl2_b = MIN_STRING_SEARCH_SIZE_DL__,
+             size_of_the_neddle_dl2_b_real;
 
      *adjusted_needle_dl = MIN_STRING_SEARCH_SIZE_DL__;
 
@@ -849,7 +1006,9 @@ try_again_magician_ric1:;
                size_of_the_neddle_dl2_b = MAX_STRING_SEARCH_SIZE_DL__;
           }
 
-          memcpy(needle_S2_buf_dl_copy, pos_ori_current_buffer_dl, size_of_the_neddle_dl2_b);
+          size_of_the_neddle_dl2_b_real = size_of_string_log_get_dl(size_of_the_neddle_dl2_b);
+
+          memcpy(needle_S2_buf_dl_copy, pos_ori_current_buffer_dl, size_of_the_neddle_dl2_b_real);
 
           if (DEBUG_DL__)
                pedro_dprintf(0, "available size %d %d", (int)(pos_ori_current_buffer_dl - current_buffer_dl),
@@ -870,9 +1029,10 @@ try_again_magician_ric1:;
           }
 
           // now search again
-          result_S2_temp_dl = mem_search_dl(current_buffer_dl, got_value_to_fix_dl,
+          result_S2_temp_dl = mem_search_dl(current_buffer_dl,
+                                            got_value_to_fix_dl,
                                             needle_S2_buf_dl_copy,
-                                            size_of_the_neddle_dl2_b,
+                                            size_of_the_neddle_dl2_b_real,
                                             0);
 
           if (-1 == result_S2_temp_dl)
@@ -886,8 +1046,8 @@ try_again_magician_ric1:;
 
                *found_dl = true;
 
-               *max_size_of_string_found_dl = size_of_the_neddle_dl2_b; // correct, need to check (v8 fixed)
-               *adjusted_needle_dl = size_of_the_neddle_dl2_b;
+               *max_size_of_string_found_dl = size_of_the_neddle_dl2_b_real; // correct, need to check (v8 fixed)
+               *adjusted_needle_dl = size_of_the_neddle_dl2_b_real;
                goto try_again_magician_ric1;
           }
      }
@@ -1091,4 +1251,90 @@ void buffer_to_file_dl(char *file_dl,
      }
 
      fwrite(buffer_dl, 1, size_dl, file_1_ric_dl);
+}
+
+void remove_string_ar5(uint8_t *needle_a, int position_a, int needle_len_a, uint8_t *input_a, uint8_t *output_a)
+{
+     uint8_t *a_a;
+     uint8_t *b_a;
+     __attribute__((unused)) uint8_t *c_a = needle_a;
+     // desloca_buffer_amanda
+
+     int restantes_a = V9C_INTERNAL_BUFFER_SIZE_DL_;
+
+     a_a = desloca_buffer_amanda;
+     b_a = input_a;
+     for (i_a = 0; i_a < position_a; i_a++)
+     {
+          a_a[i_a] = b_a[i_a];
+     }
+     a_a += position_a;
+     b_a += position_a;
+     b_a += needle_len_a;
+     restantes_a -= position_a;
+     restantes_a -= needle_len_a;
+
+     for (i_a = 0; i_a < restantes_a; i_a++)
+     {
+          *a_a++ = *b_a++;
+     }
+     pedro_dprintf(-1, "2 tamanho %d %d", b_a - input_a, restantes_a);
+     for (i_a = 0; i_a < needle_len_a; i_a++)
+     {
+          *a_a++ = *c_a++;
+     }
+     pedro_dprintf(-1, "tamanho %d", a_a - desloca_buffer_amanda);
+     // assert(0);
+     memcpy(output_a,
+            desloca_buffer_amanda,
+            V9C_INTERNAL_BUFFER_SIZE_DL_);
+}
+void remove_string_ar3(uint8_t *needle_a, __attribute__((unused)) int position_a, int needle_len_a, uint8_t *input_a, uint8_t *output_a)
+{
+
+     __attribute__((unused)) uint8_t *c_a = needle_a;
+     // desloca_buffer_amanda
+
+     __attribute__((unused)) int restantes_a = V9C_INTERNAL_BUFFER_SIZE_DL_;
+
+     memcpy(desloca_buffer_amanda,
+            input_a + needle_len_a, V9C_INTERNAL_BUFFER_SIZE_DL_);
+
+     memcpy(desloca_buffer_amanda +
+                (V9C_INTERNAL_BUFFER_SIZE_DL_ - needle_len_a),
+            needle_a,
+            needle_len_a);
+
+     memcpy(output_a,
+            desloca_buffer_amanda,
+            V9C_INTERNAL_BUFFER_SIZE_DL_);
+}
+
+void remove_string_ar(uint8_t *needle_a, __attribute__((unused)) const int position_a, int needle_len_a, uint8_t *input_a, uint8_t *output_a)
+{
+
+     __attribute__((unused)) uint8_t *c_a = needle_a;
+     // desloca_buffer_amanda
+
+     __attribute__((unused)) int restantes_a = V9C_INTERNAL_BUFFER_SIZE_DL_;
+
+/*
+     if (3500 < position_a)
+     {
+          // assert(0);
+          return;
+     }
+*/
+
+     memcpy(desloca_buffer_amanda,
+            input_a + needle_len_a, V9C_INTERNAL_BUFFER_SIZE_DL_);
+
+     memcpy(desloca_buffer_amanda +
+                (V9C_INTERNAL_BUFFER_SIZE_DL_ - needle_len_a),
+            needle_a,
+            needle_len_a);
+
+     memcpy(output_a,
+            desloca_buffer_amanda,
+            V9C_INTERNAL_BUFFER_SIZE_DL_);
 }

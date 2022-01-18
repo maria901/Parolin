@@ -1,7 +1,7 @@
 if (-1 != result_dl) // if found in the previous
 {
-
-    past_position_location_dl = (uint16_t) result_dl;
+    // assert(0 && "aqui 3 ric");
+    past_position_location_dl = (uint16_t)result_dl;
 
     size_real_for_number_of_characters_up_to_259_dl = (uint16_t)max_size_string_from_buffer_current;
 
@@ -17,7 +17,8 @@ if (-1 != result_dl) // if found in the previous
                                                   0,    // irrelevant
                                                   true,
                                                   past_position_location_dl,
-                                                  size_of_characters_adjusted_to_pass_dl); // (v8) now you use 8192 searching bytes and not 4096 due to an enhancement that we did, and this is just the beginning
+                                                  size_of_characters_adjusted_to_pass_dl,
+                                                  false); // (v8) now you use 8192 searching bytes and not 4096 due to an enhancement that we did, and this is just the beginning
 
     // when searching just change the size of the needle, if already found
 

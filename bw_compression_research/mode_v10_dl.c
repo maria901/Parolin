@@ -6,29 +6,14 @@ assert(4096 >= address__dl);
 
 assert(18 >= string_size__dl);
 
-if (0 == bit_0_dl && 0 == bit_1_dl)
+if (false == using_previous_buffer_dl)
 {
     temp_buffer_dl = ptr_for_current_uncompressed_buffer_initial_position;
 }
-else if(1 == bit_0_dl && 0 == bit_1_dl)
-{
-    //exit(90);
-    temp_buffer_dl = buf_dl_0;
-}
-else if(0 == bit_0_dl && 1 == bit_1_dl)
-{
-    //exit(90);
-    temp_buffer_dl = buf_dl_1;
-}
-else if(1 == bit_0_dl && 1 == bit_1_dl)
-{
-    //exit(90);
-    temp_buffer_dl = buf_dl_2;
-}
 else
 {
-    assert(0 && "invalid bit value, ric...");
-    temp_buffer_dl = NULL;
+    //exit(90);
+    temp_buffer_dl = buffer_uncompressed_previous_dl;
 }
 
 temp_buffer_dl += address__dl;

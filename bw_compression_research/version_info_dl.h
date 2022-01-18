@@ -1,6 +1,6 @@
-#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 1 + 1 + 0))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
+#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 2 + 1 + 1))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
 
-#define STRING_VERSION_DL_COMPRESSOR " v11 build 00079   \n(char value == 53 + 1 + 1 + 0) \ncodename: Jair \n(" __TIME__ " " __DATE__ ") \n\n"
+#define STRING_VERSION_DL_COMPRESSOR " v12 build 00105   \n(char value == 53 + 2 + 1 + 1) \ncodename: Dito \n(" __TIME__ " " __DATE__ ") \n\n"
 
 /*
 
@@ -10,18 +10,24 @@
 
 #define THE_FIRST_RELEASE_WITH_A_DDECDER___ (((53 + 0 + 0 + 0)))
 
-minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___; // v11 started 17 jan 2022 18:57
+minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___; // v12 started 17 jan 2022 18:57
 
 /*
+...........
+........... (18 jan 2022 13:25)
+........... Great... now while zlib compresses make.exe to 85kb 
+........... our v12 is compressing to 23kb 
+........... More work to find the bug now...
+...........
 
-........... in v11 we will try to compress better adding
+........... in v12 we will try to compress better adding
 ........... more 8kb at the dictionary size using past 
 ........... buffers like v10
 ........... it will add the overhead of more one bit
 ........... to the compressed stream
 ........... Coding...
 ...........
-........... v1 will use two bits to select each of the
+........... v12 will use two bits to select each of the
 ........... 4 buffer of 4096 bytes making 16 kb of buffer
 ...........
 

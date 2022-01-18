@@ -50,8 +50,8 @@ dl_49: pedro_dl_.o arithmethic_coding_by_mark_dl_.o unarithmethic_coding_by_mark
  
 dl_50:
 
-	./dl1.exe e to_compress_with_rle.dl to_compress_with_rle.dl.compressed.v11
-	./dl1.exe d to_compress_with_rle.dl.compressed.v11 to_compress_with_rle.uncompressed.v11
+#	./dl1.exe e to_compress_with_rle.dl to_compress_with_rle.dl.compressed.v12
+#	./dl1.exe d to_compress_with_rle.dl.compressed.v12 to_compress_with_rle.uncompressed.v12
 #	./lzari_dl.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
 #	./lzari_dl.exe e make.bin make.bin.compressed_by_lzss_ari
 #	./lzari_dl.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
@@ -61,8 +61,8 @@ dl_50:
 
 #	./dl1.exe make.ava make.ava.compressed_by_dl_compressor
 #	./dl1.exe test.ava test.ava.compressed_by_dl_compressor
-	./dl1.exe e make.bin make.bin.compressed_by_dl_compressor.v11
-	./dl1.exe d make.bin.compressed_by_dl_compressor.v11 make.bin.decompressed_by_dl_v11
+	./dl1.exe e make.bin make.bin.compressed_by_dl_compressor.v12
+	./dl1.exe d make.bin.compressed_by_dl_compressor.v12 make.bin.decompressed_by_dl_v12
 #	./dl1.exe not_compressible.ava not_compressible.ava.compressed_by_dl_compressor
 #	-./rle < make.exe > make.rle
 #	-./ari < make.rle > make.ari.2
