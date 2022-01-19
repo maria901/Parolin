@@ -180,7 +180,9 @@ int32_t __fastcall dl_adler32_wrapper(int32_t dl,
                                       uint8_t *dl_buf,
                                       int32_t dl_len);
 
-// 9999999999999999999999999999999999999999999999999999999999999
+int main_rle(uint8_t *buf_ar, int len_ar, uint8_t *buf_out, int *len_out_ar);
+
+// 1010101010101010101010101010101010101010101010101010101010101010
 
 #define DEBUG_DL__ 0
 #define DEBUG2_DL__ 0
@@ -408,9 +410,11 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) FILE *out_file_dl = NULL;
 
-     __attribute__((unused)) uint8_t *buf_dl = malloc(DL_SIZE__);
+     __attribute__((unused)) int rle_len_mark_ar;
 
-     __attribute__((unused)) uint8_t *buf_dl_0 = malloc(DL_SIZE__);
+     __attribute__((unused)) uint8_t *buf_dl = malloc(DL_SIZE__ * 2);
+
+     __attribute__((unused)) uint8_t *buf_dl_0 = malloc(DL_SIZE__ * 2);
 
      __attribute__((unused)) uint8_t *sliding_window_amanda = malloc(DL_SIZE__ + MAX_STRING_SEARCH_SIZE_DL__);
 
@@ -545,7 +549,9 @@ int main(int arg_dl_c, char **arg_dl_v)
           the_final_buffer_v12_ar = 0;
           count_of_bits_ar = 0;
 
-          while ((len_dl = fread(buf_dl, 1, (227 * 18), my_file_dl)))
+          memset(&strings_found_ar, 0, sizeof(strings_found_ar));
+
+          while ((len_dl = fread(buf_dl, 1, 4096, my_file_dl)))
           {
                adler32_real = dl_adler32_wrapper(adler32_real,
                                                  buf_dl,
@@ -669,7 +675,7 @@ int main(int arg_dl_c, char **arg_dl_v)
                               pedro_dprintf(-1, "buf 0 %i", size_of_compressed_buffer_dl);
                               pedro_dprintf(-1, "buf 1 %i", size_of_compressed_buffer2_dl);
                               // assert(0);
-                              
+
                               {
                                    fwrite(&size_of_compressed_buffer_dl, 1, 2, out_file_dl);
 
@@ -679,7 +685,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                                    fwrite(buf_dl_bit_buffer, 1, size_of_compressed_buffer2_dl, out_file_dl);
                               }
-                              
+
                               if (DEBUG_DL__)
                                    pedro_dprintf(0, "salvou os dados e imprimiu dados na tela");
 
@@ -825,12 +831,20 @@ if ok it will be the minimum size if reached there but check
                                                                             true,
                                                                             past_position_location_dl,
                                                                             size_of_characters_adjusted_to_pass_dl,
-                                                                            true/*,
-                                                                            out_file_dl*/); // v12
+                                                                            true /*,
+                                                                             out_file_dl*/
+                              );                                                 // v12
 
                               /*
 
 
+
+
+
+
+
+
+this don't change...
                               */
 
                               progress_dl = progress_dl + (new_size_of_neddle_dl - 1); // we need the limit for, or it is handled by the first call ?
@@ -847,6 +861,34 @@ if ok it will be the minimum size if reached there but check
                               /*
 
 aqui vamos mover pra frente o item encontrado, ok...vai la
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1 - primeiro crie o search ric... 
 
                               */
 
@@ -865,6 +907,19 @@ aqui vamos mover pra frente o item encontrado, ok...vai la
 
                                    remove_string_ar(slice_amanda_, position_found_buffer_0_dl, max_size_string_from_buffer_0, sliding_window_amanda, sliding_window_amanda);
                               }
+
+
+
+
+
+
+
+
+
+
+
+
+
                               goto volta_aqui_mais_alto_mar;
 
                               /*
@@ -915,8 +970,9 @@ aqui vamos mover pra frente o item encontrado, ok...vai la
                                                                   false,
                                                                   2022 /* the value of this argument is irrelevant here */,
                                                                   0 /* here too */,
-                                                                  false/*,
-                                                                  out_file_dl*/); //
+                                                                  false /*,
+                                                                   out_file_dl*/
+                    );                                                  //
 
                     {
 

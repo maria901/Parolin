@@ -1,4 +1,13 @@
-// v12 variables
+// v13 variables
+
+typedef struct ar_found_string_in_sliding_window__
+{
+     int8_t string_ar[18];
+     int len_ricardo;
+} ar_found_string_in_sliding_window;
+
+ar_found_string_in_sliding_window strings_found_ar[V9C_INTERNAL_BUFFER_SIZE_DL_];
+
 int8_t the_final_buffer_v12_ar;
 
 int64_t count_of_bits_ar;
@@ -682,20 +691,6 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
      {
           replacements_dl++;
           encode_bit_11_jan_2022_v6_dl(1); // if encoded bit is one then it is a pointer to the previous data and size (v10 not working this moment)
-                                           /*
-                                                     // assert(0 && "ok ric, in compressor");
-                                                     if (using_previous_buffer_dl) //
-                                                     {
-                                                          // exit(30);
-                                                          encode_bit_11_jan_2022_v6_dl(0); // second bit is 0 then previous 4096 buffer was used (v8)
-                                                     }
-                                                     else
-                                                     {
-                                                          encode_bit_11_jan_2022_v6_dl(1); // second bit is 1 then current 4096 buffer was used (v8)
-                                                     }
-                                           */
-
-          // encode_bit_11_jan_2022_v6_dl(1);
 
           if (DEBUG_DL__)
                pedro_dprintf(0, "inside convert 8, mode is add pointer");
@@ -912,6 +907,7 @@ void process_search_in_passed_buffers_at_once_dl(uint8_t *buffer_dl,
                                                  uint8_t *new_size_of_neddle_dl)
 {
      // int index_in_array_deslocador_dl = 0;
+     int i_amanda;
 
      static uint8_t needle_S2_buf_dl_copy[MAX_STRING_SEARCH_SIZE_DL__];
 
@@ -964,6 +960,32 @@ try_again_magician_ric1:;
      else
      {
           ; // largest_size_found_on_previous_buffer_dl got the largest size got from buffer previous (v8)
+     }
+     // two searches, then two bits, ok
+     // um contador fluatuante se achar... sim atualiza baseado nisto assim fina na memoria os ultimos 4096 strings que bateu
+     // e so atualiza se bater se nao nao, ok, calma, vamos la
+
+     // isto so ocorre se houver necessidade de atualizar, e dai vai deslocando se for achando
+     // sim, usa o magic bit, seletor de dois modos, um preciso do len o outro nao
+
+
+     // o magic bit diz se precisa deslocar o deslocador porque so existe se precisou adicionar a entrada maior
+     // o magic bit serve pra isso dizer que na busca foi adicionado a nova string nao achada ou nao
+
+     // ta quase la, so adiciona se nao achar, ric, ou um sistema rotativo para novas entradas
+
+     // so adiciona se achar entao o magic bit so vai servir pra dizer se precisa deslocar 
+     // o deslocador e se precisa de 4 bits para len ou nao, se estiver no strings 
+     // 0 se estiver no strings
+     // 1 se estiver no strings e precisar de deslocador
+
+     // vamos la, se nao achar nao faz nada magic bit 0 que é irrelevante
+     // se encontrar no sliding window e for maior doque strings ou maior magic bit 0 e move deslocador mod 4096  e adiciona ao strings na nova posicao deslocada
+
+     // se esncontrar no sliding window e for menor magic bit 1 e entao nao desloca, ok, certo, vamos la ric
+     for (i_amanda = 0; i_amanda < V9C_INTERNAL_BUFFER_SIZE_DL_; i_amanda++) // aqui ja tem ric... ta no buffer
+     {
+          strings_found_ar[i_amanda];
      }
 }
 
@@ -1323,13 +1345,13 @@ void remove_string_ar(uint8_t *needle_a, __attribute__((unused)) const int posit
 
      __attribute__((unused)) int restantes_a = V9C_INTERNAL_BUFFER_SIZE_DL_;
 
-/*
-     if (3500 < position_a)
-     {
-          // assert(0);
-          return;
-     }
-*/
+     /*
+          if (3500 < position_a)
+          {
+               // assert(0);
+               return;
+          }
+     */
 
      memcpy(desloca_buffer_amanda,
             input_a + needle_len_a, V9C_INTERNAL_BUFFER_SIZE_DL_);
@@ -1345,3 +1367,5 @@ void remove_string_ar(uint8_t *needle_a, __attribute__((unused)) const int posit
 }
 
 #include "add_bits_ar.c"
+
+#include "mark_nelson_rle.c"
