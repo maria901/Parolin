@@ -1,6 +1,6 @@
 #define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 2 + 2 + 1))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
 
-#define STRING_VERSION_DL_COMPRESSOR " v12b build 00138   \n(char value == 53 + 2 + 2 + 1) \ncodename: Luiz \n(" __TIME__ " " __DATE__ ") \n\n"
+#define STRING_VERSION_DL_COMPRESSOR " v12b build 00139   \n(char value == 53 + 2 + 2 + 1) \ncodename: Luiz \n(" __TIME__ " " __DATE__ ") \n\n"
 
 /*
 

@@ -669,8 +669,7 @@ int main(int arg_dl_c, char **arg_dl_v)
                               pedro_dprintf(-1, "buf 0 %i", size_of_compressed_buffer_dl);
                               pedro_dprintf(-1, "buf 1 %i", size_of_compressed_buffer2_dl);
                               // assert(0);
-
-                              /*
+                              
                               {
                                    fwrite(&size_of_compressed_buffer_dl, 1, 2, out_file_dl);
 
@@ -680,8 +679,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                                    fwrite(buf_dl_bit_buffer, 1, size_of_compressed_buffer2_dl, out_file_dl);
                               }
-                              */
-
+                              
                               if (DEBUG_DL__)
                                    pedro_dprintf(0, "salvou os dados e imprimiu dados na tela");
 
@@ -827,8 +825,8 @@ if ok it will be the minimum size if reached there but check
                                                                             true,
                                                                             past_position_location_dl,
                                                                             size_of_characters_adjusted_to_pass_dl,
-                                                                            true,
-                                                                            out_file_dl); // v12
+                                                                            true/*,
+                                                                            out_file_dl*/); // v12
 
                               /*
 
@@ -917,8 +915,8 @@ aqui vamos mover pra frente o item encontrado, ok...vai la
                                                                   false,
                                                                   2022 /* the value of this argument is irrelevant here */,
                                                                   0 /* here too */,
-                                                                  false,
-                                                                  out_file_dl); //
+                                                                  false/*,
+                                                                  out_file_dl*/); //
 
                     {
 
@@ -990,7 +988,7 @@ aqui vamos mover pra frente o item encontrado, ok...vai la
 
      minha_struct.adler32_of_the_uncompressed_data_dl = adler32_real;
 
-      minha_struct.size_of_the_file_to_compress_dl = tamanho_dl;
+     minha_struct.size_of_the_file_to_compress_dl = tamanho_dl;
 
      if (main_dl(sizeof(minha_struct), (char *)&minha_struct, temp_file_dl, arg_dl_v[3]))
      {
@@ -999,7 +997,7 @@ aqui vamos mover pra frente o item encontrado, ok...vai la
           return 27;
      }
 
-     unlink(temp_file_dl);
+     // unlink(temp_file_dl);
      printf("\nDiligent Compressor\n\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n");
      return 0;
 

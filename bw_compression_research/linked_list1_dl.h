@@ -624,7 +624,7 @@ void encode_bit_11_jan_2022_v6_dl(int bit_value__11_jan_2022_v6_dl)
 
      assert(0 <= bit_buffer_left_dl);
 }
-void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl2(__attribute__((unused)) uint8_t *input_mem_dl,
+void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unused)) uint8_t *input_mem_dl,
                                                               __attribute__((unused)) uint8_t len_of_input_to_encode_as_you_may_expect_dl_, //
                                                               __attribute__((unused)) bool is_it_string_matched_in_past_buffer_dl,
                                                               __attribute__((unused)) uint16_t past_position_location_dl, //

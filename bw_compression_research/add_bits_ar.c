@@ -35,8 +35,6 @@ void insert_bytes_and_bits_ar(__attribute__((unused)) uint8_t *data_ar,
     int i_ar2;
     __attribute__((unused)) unsigned int mask_dl;
 
-    if (0 == bit_to_use_ar)
-    {
         for (i_ar = 0; i_ar < len_ar; i_ar++)
         {
 
@@ -138,11 +136,11 @@ void insert_bytes_and_bits_ar(__attribute__((unused)) uint8_t *data_ar,
                 */
             }
         }
-    }
+    
     return;
 }
 
-void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unused)) uint8_t *input_mem_dl,
+void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl22(__attribute__((unused)) uint8_t *input_mem_dl,
                                                               __attribute__((unused)) uint8_t len_of_input_to_encode_as_you_may_expect_dl_, //
                                                               __attribute__((unused)) bool is_it_string_matched_in_past_buffer_dl,
                                                               __attribute__((unused)) uint16_t past_position_location_dl, //
