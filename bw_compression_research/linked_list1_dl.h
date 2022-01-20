@@ -1,5 +1,42 @@
 // v13 variables
 
+uint32_t amanda_need_to_flush_ric;
+
+/* wraps array index within array bounds (assumes value < 2 * limit) */
+#define Wrap(value, limit) \
+     (((value) < (limit)) ? (value) : ((value) - (limit)))
+
+#include "bitfile.c"
+
+#define ENCODED 1 /* encoded string */
+#define UNCODED 0 /* unencoded character */
+
+#define OFFSET_BITS 12
+#define LENGTH_BITS 4
+
+#define MAX_UNCODED (((2))) /* humble programmer */
+
+bit_file_t *bfpOut;
+
+int bytes_left_ar;
+int bytes_in_buffer_ar;
+
+int len_temp;
+
+bool alternating_buffer_dl;
+
+int8_t real_buf_ar[MAX_STRING_SEARCH_SIZE_DL__];
+int8_t real_buf_temp_ar[MAX_STRING_SEARCH_SIZE_DL__];
+
+int contador_pra_baixo_ar;
+int contador_pra_baixo_2ar;
+
+uint32_t bytes_in_strings_buffer_ar;
+
+int ric_amanda_deslocador;
+
+uint16_t ric_ready_to_be_encoded;
+
 typedef struct ar_found_string_in_sliding_window__
 {
      int8_t string_ar[18];
@@ -42,7 +79,7 @@ uint8_t desloca_buffer_amanda3[V9C_INTERNAL_BUFFER_SIZE_DL_ + MAX_STRING_SEARCH_
 
 uint8_t desloca_buffer_amanda2[V9C_INTERNAL_BUFFER_SIZE_DL_ + MAX_STRING_SEARCH_SIZE_DL__ /* will not use more than 3 for the moment (v12) */];
 
-uint8_t desloca_buffer_amanda[V9C_INTERNAL_BUFFER_SIZE_DL_ + MAX_STRING_SEARCH_SIZE_DL__ /* will not use more than 3 for the moment (v12) */];
+uint8_t desloca_buffer_amanda[(V9C_INTERNAL_BUFFER_SIZE_DL_ * 2) + MAX_STRING_SEARCH_SIZE_DL__ /* will not use more than 3 for the moment (v12) */];
 
 uint8_t size_of_string_log_decode_dl(uint8_t index_dl);
 
@@ -88,6 +125,10 @@ uint16_t bits_encoded_size_in_bytes_dl;
 
 unsigned int current_progress_dl = 0;
 
+/**
+ * @brief temp variable
+ * 
+ */
 int16_t size_of_compressed_buffer_dl;
 int16_t size_of_compressed_buffer2_dl;
 int size_of_compressed_buffer2_dl_int;
@@ -121,7 +162,7 @@ uint8_t *position_of_the_data_in_the_output_stream_dl;
 
 int compressed_and_encoded_bytes_available_11_jan_2022_v6_dl;
 
-int number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl;
+uint32_t number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl;
 
 // The variables below the majority are from version 3 that was using two linked lists, version
 // 4 and above use just memory, variables will be removed in a near future, what we want first is make this
@@ -133,7 +174,7 @@ int size_of_the_neddle_dl;
 int size_of_the_neddle_dl2;
 int size_of_the_neddle_dl3;
 int difference_of_the_new_loaded_data_dl;
-int size_of_uncompressed_stream_dl;
+// int size_of_uncompressed_stream_dl;
 int last_found_position_dl;
 uint16_t size_of_last_found_position_dl;
 bool last_item_is_required_dl;
@@ -167,6 +208,8 @@ bool is_it_the_first_byte_to_encode_dl;
 uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_to_18, uint16_t position_on_the_passed_buffer_up_to_4096_12_bits_dl)
 {
 
+     // assert(0 && "you are not authorized to use this function, period...");
+     // exit
      int pois_eh_dl = 0;
 
      unsigned int mask_dl;
@@ -187,8 +230,8 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
      string_size_dl_up_to_18 = size_of_string_log_decode_dl(string_size_dl_up_to_18);
 
-     string_size_dl_up_to_18 -= 3; // it will be stored in the 4 bits
-                                   // pedro_dprintf(0, )
+     string_size_dl_up_to_18 -= 3; // keep it here forever, it will be stored in the 4 bits
+     // pedro_dprintf(0, )
 
      for (i_dl = 0; i_dl < 16; i_dl++)
      {
@@ -480,6 +523,8 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
  */
 void encode_bit_11_jan_2022_v6_dl(int bit_value__11_jan_2022_v6_dl)
 {
+     pedro_dprintf(-1, "entrou bem %d", bit_position_11_jan_2022_v6_dl);
+     //assert(0);
      uint8_t mask_dl;
      if (0 == bit_value__11_jan_2022_v6_dl)
      {
@@ -628,9 +673,11 @@ void encode_bit_11_jan_2022_v6_dl(int bit_value__11_jan_2022_v6_dl)
           (*ptr_position_for_bit_memory_dl) = current_byte_being_generated_11_jan_2022_v6_byte_dl;
           ptr_position_for_bit_memory_dl++; // add byte to the buffer and advance to fill the next
           number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl++;
+
+          pedro_dprintf(-1, "viu %d", number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
           break;
      }
-
+     //assert(0 && "saiu amor");
      assert(0 <= bit_buffer_left_dl);
 }
 void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unused)) uint8_t *input_mem_dl,
@@ -641,6 +688,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
                                                               __attribute__((unused)) bool using_previous_buffer_dl)
 {
 
+     // assert(0);
      uint16_t len_of_input_to_encode_as_you_may_expect_dl = len_of_input_to_encode_as_you_may_expect_dl_;
 
      // len_of_input_to_encode_as_you_may_expect_dl += 4;
@@ -655,7 +703,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
      it is enough for the moment, now encode it
 
      */
-     uint8_t temp_ric_dl;
+     // uint8_t temp_ric_dl;
      uint16_t *ptr_uint16_dl;
      int i_dl;
      static uint8_t temp_dl[3 /* if in the future it was changed don't forget it ric... */];
@@ -670,7 +718,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
      {
           assert(0 && "parando");
      }
-
+     // assert(0);
      if (false == is_it_string_matched_in_past_buffer_dl)
      {
           if (DEBUG_DL__)
@@ -680,6 +728,13 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           {
                assert(0 && "inside function");
           }
+          /*
+                    BitFilePutBit(UNCODED, bfpOut);
+                    BitFilePutChar((int)input_mem_dl[0], bfpOut);
+                    */
+          // return;
+
+          assert(1 == len_of_input_to_encode_as_you_may_expect_dl);
           for (i_dl = 0; i_dl < len_of_input_to_encode_as_you_may_expect_dl; i_dl++)
           {
                // set the bit array with the required bits, one bit 0 for each plain character added
@@ -689,6 +744,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
      }
      else
      {
+          // return;
           replacements_dl++;
           encode_bit_11_jan_2022_v6_dl(1); // if encoded bit is one then it is a pointer to the previous data and size (v10 not working this moment)
 
@@ -705,13 +761,26 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           ptr_uint16_dl = (uint16_t *)&temp_dl[0];
 
           *ptr_uint16_dl = prepare_unsigned_short_int_12_jan_2022_v6_dl(len_of_matched_string_dl,
-                                                                        past_position_location_dl);
+                                                                       past_position_location_dl);
           pedro_dprintf(-1, "encoded int16_t to save %i len e address %d %d", *ptr_uint16_dl,
                         (int)len_of_matched_string_dl,
                         (int)past_position_location_dl);
-          // assert(0 && "encode pointer");
 
           len_of_input_to_encode_as_you_may_expect_dl = 2;
+          /*
+                    unsigned int offset_ar = past_position_location_dl;
+                    unsigned int adjustedLen = len_of_matched_string_dl;// - 3;
+
+                    assert(3 <= adjustedLen);
+
+                    BitFilePutBit(ENCODED, bfpOut);
+                    BitFilePutBitsNum(bfpOut, &offset_ar, OFFSET_BITS,
+                                      sizeof(unsigned int));
+                    BitFilePutBitsNum(bfpOut, &adjustedLen, LENGTH_BITS,
+                                      sizeof(unsigned int));
+
+                    return;
+                    */
      }
      if (DEBUG_DL__)
           pedro_dprintf(0, "inside convert 8, size of data to add in the middle %d", len_of_input_to_encode_as_you_may_expect_dl);
@@ -722,6 +791,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
      }
      for (i_dl = 0; i_dl < len_of_input_to_encode_as_you_may_expect_dl; i_dl++)
      {
+          uint8_t temp_ric_dl;
           if (false == is_it_string_matched_in_past_buffer_dl)
           {
                ; //
@@ -734,6 +804,8 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           }
           (*position_of_the_data_in_the_output_stream_dl) = temp_ric_dl;
           position_of_the_data_in_the_output_stream_dl++;
+
+          amanda_need_to_flush_ric++;
      }
      compressed_and_encoded_bytes_available_11_jan_2022_v6_dl += len_of_input_to_encode_as_you_may_expect_dl;
 
@@ -889,6 +961,95 @@ uint8_t size_of_string_log_decode_dl(uint8_t index_dl)
      }
      return 3;
 }
+/***************************************************************************
+ * This data structure stores an encoded string in (offset, length) format.
+ * The actual encoded string is stored using OFFSET_BITS for the offset and
+ * LENGTH_BITS for the length.
+ ***************************************************************************/
+typedef struct encoded_string_t
+{
+     unsigned int offset; /* offset to start of longest match */
+     unsigned int length; /* length of longest match */
+} encoded_string_t;
+
+/****************************************************************************
+ *   Function   : FindMatch
+ *   Description: This function will search through the slidingWindow
+ *                dictionary for the longest sequence matching the MAX_CODED
+ *                long string stored in uncodedLookahed.
+ *   Parameters : windowHead - head of sliding window
+ *                uncodedHead - head of uncoded lookahead buffer
+ *   Effects    : None
+ *   Returned   : The sliding window index where the match starts and the
+ *                length of the match.  If there is no match a length of
+ *                zero will be returned.
+ ****************************************************************************/
+encoded_string_t FindMatch(const unsigned int windowHead,
+                           unsigned int uncodedHead, /*
+
+
+
+
+                            */
+
+                           /*
+
+
+
+
+                           */
+                           uint8_t *uncodedLookahead_amanda,
+                           uint8_t *slidingWindow_ricardo)
+{
+     encoded_string_t matchData;
+     unsigned int i;
+     unsigned int j;
+
+     matchData.length = 0;
+     matchData.offset = 0;
+     i = windowHead; /* start at the beginning of the sliding window */
+     j = 0;
+
+     while (1)
+     {
+          if (slidingWindow_ricardo[i] == uncodedLookahead_amanda[uncodedHead])
+          {
+               /* we matched one. how many more match? */
+               j = 1;
+
+               while (slidingWindow_ricardo[Wrap((i + j), (((1 << OFFSET_BITS))))] ==
+                      uncodedLookahead_amanda[Wrap((uncodedHead + j), ((1 << LENGTH_BITS) + MAX_UNCODED))])
+               {
+                    if (j >= ((1 << LENGTH_BITS) + MAX_UNCODED))
+                    {
+                         break;
+                    }
+                    j++;
+               }
+
+               if (j > matchData.length)
+               {
+                    matchData.length = j;
+                    matchData.offset = i;
+               }
+          }
+
+          if (j >= ((1 << LENGTH_BITS) + MAX_UNCODED))
+          {
+               matchData.length = ((1 << LENGTH_BITS) + MAX_UNCODED);
+               break;
+          }
+
+          i = Wrap((i + 1), (1 << OFFSET_BITS));
+          if (i == windowHead)
+          {
+               /* we wrapped around */
+               break;
+          }
+     }
+
+     return matchData;
+}
 
 /**
  * @brief if found it will already return the largest possible size, ok (v8 fixed) (also v9)
@@ -906,13 +1067,54 @@ void process_search_in_passed_buffers_at_once_dl(uint8_t *buffer_dl,
                                                  uint8_t *pos_ori_current_buffer_dl,
                                                  uint8_t *new_size_of_neddle_dl)
 {
-     // int index_in_array_deslocador_dl = 0;
-     int i_amanda;
+
+     __attribute__((unused /*ricardo*/)) encoded_string_t
+         matchData_ricava = FindMatch(/*
+
+
+
+
+
+            */ 0,
+                                      /*
+
+
+
+
+
+
+
+                                      */
+                                      0, pos_ori_current_buffer_dl,
+                                      buffer_dl);
+
+     if (3 <= matchData_ricava.length)
+     {
+          *position_found = matchData_ricava.offset;
+
+          *found_dl = true;
+
+          *max_size_of_string_found_dl = matchData_ricava.length; // correct, need to check (v8 fixed)
+
+          *new_size_of_neddle_dl = matchData_ricava.length;
+          return;
+     }
+     else
+     {
+          // *found_dl = true; sacanagem... como sempre
+          *found_dl = false;
+          return;
+     }
+
+     return; // for safety...
 
      static uint8_t needle_S2_buf_dl_copy[MAX_STRING_SEARCH_SIZE_DL__];
 
+     static uint8_t needle_S2_buf_dl_copy2[MAX_STRING_SEARCH_SIZE_DL__];
+
      uint8_t size_of_the_neddle_dl2_b = MIN_STRING_SEARCH_SIZE_DL__,
              size_of_the_neddle_dl2_b_real;
+
      *new_size_of_neddle_dl = size_of_the_neddle_dl2_b;
      int64_t result_S2_temp_dl = -1;
 
@@ -934,7 +1136,7 @@ try_again_magician_ric1:;
           memcpy(needle_S2_buf_dl_copy, pos_ori_current_buffer_dl, size_of_the_neddle_dl2_b_real);
 
           // now search again
-          result_S2_temp_dl = mem_search_dl(buffer_dl, DL_SIZE__,
+          result_S2_temp_dl = mem_search_dl(buffer_dl, (DL_SIZE__),
                                             needle_S2_buf_dl_copy,
                                             size_of_the_neddle_dl2_b_real,
                                             0);
@@ -954,6 +1156,8 @@ try_again_magician_ric1:;
 
                *new_size_of_neddle_dl = size_of_the_neddle_dl2_b_real;
 
+               memcpy(needle_S2_buf_dl_copy2, needle_S2_buf_dl_copy, size_of_the_neddle_dl2_b_real);
+
                goto try_again_magician_ric1;
           }
      }
@@ -961,34 +1165,7 @@ try_again_magician_ric1:;
      {
           ; // largest_size_found_on_previous_buffer_dl got the largest size got from buffer previous (v8)
      }
-     // two searches, then two bits, ok
-     // um contador fluatuante se achar... sim atualiza baseado nisto assim fina na memoria os ultimos 4096 strings que bateu
-     // e so atualiza se bater se nao nao, ok, calma, vamos la
-
-     // isto so ocorre se houver necessidade de atualizar, e dai vai deslocando se for achando
-     // sim, usa o magic bit, seletor de dois modos, um preciso do len o outro nao
-
-
-     // o magic bit diz se precisa deslocar o deslocador porque so existe se precisou adicionar a entrada maior
-     // o magic bit serve pra isso dizer que na busca foi adicionado a nova string nao achada ou nao
-
-     // ta quase la, so adiciona se nao achar, ric, ou um sistema rotativo para novas entradas
-
-     // so adiciona se achar entao o magic bit so vai servir pra dizer se precisa deslocar 
-     // o deslocador e se precisa de 4 bits para len ou nao, se estiver no strings 
-     // 0 se estiver no strings
-     // 1 se estiver no strings e precisar de deslocador
-
-     // vamos la, se nao achar nao faz nada magic bit 0 que é irrelevante
-     // se encontrar no sliding window e for maior doque strings ou maior magic bit 0 e move deslocador mod 4096  e adiciona ao strings na nova posicao deslocada
-
-     // se esncontrar no sliding window e for menor magic bit 1 e entao nao desloca, ok, certo, vamos la ric
-     for (i_amanda = 0; i_amanda < V9C_INTERNAL_BUFFER_SIZE_DL_; i_amanda++) // aqui ja tem ric... ta no buffer
-     {
-          strings_found_ar[i_amanda];
-     }
 }
-
 /**
  * @brief if found it will already return the largest possible size, ok (v8 fixed) (also v9)
  *
@@ -1337,7 +1514,7 @@ void remove_string_ar3(uint8_t *needle_a, __attribute__((unused)) int position_a
             V9C_INTERNAL_BUFFER_SIZE_DL_);
 }
 
-void remove_string_ar(uint8_t *needle_a, __attribute__((unused)) const int position_a, int needle_len_a, uint8_t *input_a, uint8_t *output_a)
+void remove_string_ar(uint8_t *needle_a, int needle_len_a, uint8_t *input_a, uint8_t *output_a)
 {
 
      __attribute__((unused)) uint8_t *c_a = needle_a;

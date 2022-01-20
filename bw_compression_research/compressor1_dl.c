@@ -402,7 +402,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) int32_t adler32_real = 28; // Adler says 1, but we are not following the recommendation
 
-     __attribute__((unused)) int len_dl;
+     __attribute__((unused)) int len_dl, len_dl2;
 
      __attribute__((unused)) int len_of_data_to_compress_dl;
 
@@ -412,11 +412,17 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) int rle_len_mark_ar;
 
+     __attribute__((unused)) uint8_t *buf_dl_ptr;
+
      __attribute__((unused)) uint8_t *buf_dl = malloc(DL_SIZE__ * 2);
+
+     __attribute__((unused)) uint8_t *buf_dlb = malloc(DL_SIZE__ * 2);
 
      __attribute__((unused)) uint8_t *buf_dl_0 = malloc(DL_SIZE__ * 2);
 
-     __attribute__((unused)) uint8_t *sliding_window_amanda = malloc(DL_SIZE__ + MAX_STRING_SEARCH_SIZE_DL__);
+     __attribute__((unused)) uint8_t *sliding_window_amanda = malloc((DL_SIZE__ * 2) + MAX_STRING_SEARCH_SIZE_DL__);
+
+     __attribute__((unused)) uint8_t *sliding_window_amanda2 = malloc(DL_SIZE__ + MAX_STRING_SEARCH_SIZE_DL__);
 
      __attribute__((unused)) uint8_t *buf_dl_1 = malloc(DL_SIZE__);
 
@@ -426,13 +432,21 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      size_d_dl = (double)DL_SIZE__;
 
-     size_d_dl = size_d_dl + (size_d_dl * .4); // more than enough for the moment, for version v4
+     size_d_dl = size_d_dl + (size_d_dl * .4); // more than enough for the moment, for version v4 and v13 too
 
      __attribute__((unused)) uint8_t *buf_dl_compressed = malloc((int)size_d_dl); // need to be certain that will not store more than 8 to 9 bits on it for the moment, please verify later (old information)
 
      size_d_dl = (double)DL_SIZE__;
 
      size_d_dl = ceil((size_d_dl * .2));
+
+     assert(size_d_dl < 65000);
+
+/**
+ * @brief Construct a new attribute object, querido ric, este é o limite para o array de bit as bytes
+ * 
+ */
+     __attribute__((unused)) uint16_t fixed_value_for_great_ric = size_d_dl - 100;
 
      __attribute__((unused)) uint8_t *buf_dl_bit_buffer = malloc((int)size_d_dl); //
 
@@ -448,9 +462,9 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) int initial_size_of_string_dl;
 
-     __attribute__((unused)) int len_dl_copy, len_dl_copy_2;
+     __attribute__((unused)) int len_dl_copy_2;
 
-     __attribute__((unused)) uint8_t *hay_ptr_dl, *hay_ptr_dl_copy;
+     __attribute__((unused)) uint8_t *hay_ptr_dl_copy;
 
      __attribute__((unused)) static uint8_t needle_buf_dl[MAX_STRING_SEARCH_SIZE_DL__ + 20 /*for safety */];
 
@@ -484,6 +498,14 @@ int main(int arg_dl_c, char **arg_dl_v)
      strcat(temp_file_dl, ".bw.tmp");
 
      out_file_dl = fopen(temp_file_dl, "wb");
+
+     // bfpOut = MakeBitFile(out_file_dl, BF_WRITE);
+
+     if (NULL == bfpOut)
+     {
+          // printf("Cannot create bitfile, exiting...");
+          // exit(27);
+     }
 
      // adding initial checks (12 jan 2022 06:41)
 
@@ -543,19 +565,29 @@ int main(int arg_dl_c, char **arg_dl_v)
           memset(buf_dl_0, 0, DL_SIZE__);
           memset(buf_dl_1, 0, DL_SIZE__);
           memset(buf_dl_2, 0, DL_SIZE__);
-          memset(sliding_window_amanda, 0, DL_SIZE__);
+          memset(sliding_window_amanda, ' ', DL_SIZE__);
+          memset(sliding_window_amanda2, 0, DL_SIZE__);
 
           bit_deslocador_v12_ar = 0;
           the_final_buffer_v12_ar = 0;
           count_of_bits_ar = 0;
-
+          ric_amanda_deslocador = 0;
           memset(&strings_found_ar, 0, sizeof(strings_found_ar));
 
-          while ((len_dl = fread(buf_dl, 1, 4096, my_file_dl)))
+          bytes_in_strings_buffer_ar = 0;
+
+          contador_pra_baixo_ar = 0;
+          contador_pra_baixo_2ar = 0;
+
+          amanda_need_to_flush_ric = -0;
+
+          while (true)
           {
+               /*
                adler32_real = dl_adler32_wrapper(adler32_real,
                                                  buf_dl,
                                                  len_dl);
+*/
 
                // memcpy(sliding_window_amanda, buf_dl, len_dl);
 
@@ -591,18 +623,12 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                size_of_already_saw_data_dl = 0;
 
-               size_of_uncompressed_stream_dl = len_dl;
-
-               position_of_the_data_in_the_input__stream_dl = buf_dl;
+               // size_of_uncompressed_stream_dl = len_dl;
 
                position_of_the_data_in_the_output_stream_dl = buf_dl_compressed;
 
                // em search code, to detect where the code is
-               len_dl_copy = len_dl;
 
-               bytes_left_in_the_input_uncompressed_stream_dl = len_dl; // sempre que avancar diminui isto
-
-               hay_ptr_dl = buf_dl;
                if (DEBUG_DL__)
                     pedro_dprintf(0, "zero init variables", len_dl);
 
@@ -610,13 +636,65 @@ int main(int arg_dl_c, char **arg_dl_v)
                {
                     ; // //assert(0 && "first steps, zeroing data");
                }
-               if (0 == 1)
-               {
-                    goto volta_aqui_mais_alto_mar; // to make the compiler happy...
-               }
+
+               bytes_left_ar = 0;
+
+               buf_dl_ptr = buf_dlb;
+
+               bytes_in_buffer_ar = fread(buf_dlb, 1, V9C_INTERNAL_BUFFER_SIZE_DL_, my_file_dl);
 
           volta_aqui_mais_alto_mar:; // sim é alguem, duas mar...
 
+               /*
+                              if (len_dl_copy < 18)
+                              {
+                                   len_dl2 = fread(buf_dl + (len_dl_copy), 1, 18 - len_dl_copy, my_file_dl);
+
+                                   if (0 == len_dl2)
+                                   {
+                                        goto fim_de_jogo_dl;
+                                   }
+
+                                   len_dl_copy += len_dl2;
+                                   bytes_left_in_the_input_uncompressed_stream_dl += len_dl2;
+                              }
+               */
+
+               if (bytes_in_buffer_ar < 36)
+               {
+                    if (alternating_buffer_dl)
+                    {
+                         alternating_buffer_dl = false;
+                         len_temp = fread(buf_dl_0, 1, V9C_INTERNAL_BUFFER_SIZE_DL_, my_file_dl);
+
+                         memcpy(buf_dl_2, buf_dl_ptr, bytes_in_buffer_ar);
+
+                         memcpy(buf_dlb, buf_dl_2, bytes_in_buffer_ar);
+
+                         memcpy(buf_dlb + bytes_in_buffer_ar, buf_dl_0, len_temp);
+                    }
+                    else
+                    {
+                         alternating_buffer_dl = true;
+                         len_temp = fread(buf_dl_1, 1, V9C_INTERNAL_BUFFER_SIZE_DL_, my_file_dl);
+
+                         memcpy(buf_dl_2, buf_dl_ptr, bytes_in_buffer_ar);
+
+                         memcpy(buf_dlb, buf_dl_2, bytes_in_buffer_ar);
+
+                         memcpy(buf_dlb + bytes_in_buffer_ar, buf_dl_1, len_temp);
+                    }
+
+                    bytes_in_buffer_ar += len_temp;
+
+                    buf_dl_ptr = buf_dlb;
+               }
+
+               if (0 == bytes_in_buffer_ar)
+               {
+                    goto final_ric_amanda;
+               }
+               position_of_the_data_in_the_input__stream_dl = buf_dl_ptr;
                // se funcionar o contrario vai ser mais rapido mas ai sera versao 3 ok...
                if (update_me_dl < GetTickCount64())
                {
@@ -635,9 +713,15 @@ int main(int arg_dl_c, char **arg_dl_v)
                initial_size_of_string_dl = initial_size_dl; //
 
                size_real_for_number_of_characters_up_to_259_dl = initial_size_dl;
+               // assert(0);
+               pedro_dprintf(-1, "compressed buffer %d", amanda_need_to_flush_ric);
 
-               if (0 == len_dl_copy)
+               if (number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl)
+                    pedro_dprintf(-1, "aqui  %d", number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
+
+               if (4095 < compressed_and_encoded_bytes_available_11_jan_2022_v6_dl)
                {
+                    // assert(0);
                     if (DEBUG_DL__)
                          pedro_dprintf(0, "passo final agora é só salvar os dados das duas linked lists");
 
@@ -681,9 +765,19 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                                    fwrite(&size_of_compressed_buffer2_dl, 1, 2, out_file_dl);
 
-                                   fwrite(buf_dl_compressed, 1, size_of_compressed_buffer_dl, out_file_dl);
+                                   //;; pedro_dprintf(0, " %d %d ", )
 
+                                   assert(size_of_compressed_buffer2_dl < fixed_value_for_great_ric);
+
+                                   pedro_dprintf(-1, "array of bytes %d", size_of_compressed_buffer_dl);
+
+                                   pedro_dprintf(-1, "size_of_compressed_buffer_dl %d", size_of_compressed_buffer_dl);
+
+                                   fwrite(buf_dl_compressed, 1, size_of_compressed_buffer_dl, out_file_dl);
+                                   // assert(0);
                                    fwrite(buf_dl_bit_buffer, 1, size_of_compressed_buffer2_dl, out_file_dl);
+
+
                               }
 
                               if (DEBUG_DL__)
@@ -696,11 +790,32 @@ int main(int arg_dl_c, char **arg_dl_v)
                               // next ric
                          }
 
-                         goto continua_pro_proximo_buffer_a_ser_lido_dl;
+                         number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl = 0;
+                         requires_last_byte_11_jan_2022_v6_dl = false;
+                         size_of_compressed_buffer_dl = -0; // have you seen this before?
+                         size_of_compressed_buffer2_dl = 0;
+                         bit_position_11_jan_2022_v6_dl = 0;
+                         bits_added_11_jan_2022_v6_dl = 0;
+                         current_byte_being_generated_11_jan_2022_v6_byte_dl = 0;
+
+                         ptr_position_for_bit_memory_dl = buf_dl_bit_buffer;
+                         position_of_the_data_in_the_output_stream_dl = buf_dl_compressed;
+
+                         amanda_need_to_flush_ric = -0;
+
+                         size_of_compressed_buffer2_dl_int = 0;
+
+                         compressed_and_encoded_bytes_available_11_jan_2022_v6_dl = 0;
+                         bits_encoded_size_in_bytes_dl = 0;
+                         number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl = 0;
+                         number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl = 0;
+
+                         bits_encoded_size_in_bytes_dl = 0;
+
+                         // goto continua_pro_proximo_buffer_a_ser_lido_dl;, just a removal, it even the 'guy' can do
                     }
                }
 
-          volta_aqui_ric:;
                if (DEBUG_DL__)
                     pedro_dprintf(0, "initial process");
 
@@ -708,6 +823,9 @@ int main(int arg_dl_c, char **arg_dl_v)
                {
                     assert(0 && "parando");
                }
+
+               bytes_left_in_the_input_uncompressed_stream_dl = bytes_in_buffer_ar;
+
                size_of_already_saw_data_dl_original = size_of_already_saw_data_dl;
 
                bytes_left_in_the_input_uncompressed_stream_dl_original = bytes_left_in_the_input_uncompressed_stream_dl; // dont and the rest
@@ -727,6 +845,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                if (MAX_STRING_SEARCH_SIZE_REAL_DL__ > min(bytes_left_in_the_input_uncompressed_stream_dl, MAX_STRING_SEARCH_SIZE_REAL_DL__))
                {
+                    pedro_dprintf(0, "aqui 1");
                     cannot_be_largest_string_size_dl = true; // will not be used in a few minutes v12
                }
 
@@ -744,25 +863,15 @@ if ok it will be the minimum size if reached there but check
                */
 
                position_of_the_data_in_the_input__stream_dl += 1;
+               buf_dl_ptr += 1;
 
                progress_dl += 1; // we need the limit for , or it is handled by the first call ?
 
-               hay_ptr_dl += 1;
+               bytes_in_buffer_ar -= 1;
 
-               len_dl_copy -= 1;
-
-               assert(0 <= len_dl_copy);
-
-               bytes_left_in_the_input_uncompressed_stream_dl -= 1;
+               assert(0 <= bytes_in_buffer_ar);
 
                /*
-
-
-
-
-
-
-
 
                */
 
@@ -777,11 +886,15 @@ if ok it will be the minimum size if reached there but check
                {
                     // for the moment just 0
 
+                    pedro_dprintf(-1, "antes 1");
+
                     process_search_in_passed_buffers_at_once_dl(sliding_window_amanda,
                                                                 &found_buffer_0_dl,
                                                                 &max_size_string_from_buffer_0,
                                                                 &position_found_buffer_0_dl,
                                                                 position_of_the_data_in_the_input__stream_dl_original, &new_size_of_neddle_dl);
+
+                    pedro_dprintf(-1, "antes 2");
 
                     // just use current
 
@@ -797,18 +910,7 @@ if ok it will be the minimum size if reached there but check
                */
 
                {
-                    /*
-                                        process_search_in_current_buffer_at_once_dl(buf_dl,
-                                                                                    &found_buffer_current_dl,
-                                                                                    &max_size_string_from_buffer_current,
-                                                                                    &position_found_buffer_current_dl,
-                                                                                    position_of_the_data_in_the_input__stream_dl_original,
-                                                                                    size_of_already_saw_data_dl,
-                                                                                    &adjusted_needle_dl);
-                    */
-                    // found_buffer_current_dl = false;
 
-                    // size_of_already_saw_data_dl += MIN_STRING_SEARCH_SIZE_DL__;
                     if (found_buffer_0_dl)
                     {
 
@@ -824,7 +926,7 @@ if ok it will be the minimum size if reached there but check
                               size_real_for_number_of_characters_up_to_259_dl = (uint16_t)max_size_string_from_buffer_0;
 
                               size_of_characters_adjusted_to_pass_dl = (int8_t)size_real_for_number_of_characters_up_to_259_dl;
-
+                              pedro_dprintf(-1, "size_of_characters_adjusted_to_pass_dl ric %d", size_of_characters_adjusted_to_pass_dl);
                               // here ric my brother...
                               convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(NULL, // irrelevant
                                                                             0,    // irrelevant
@@ -847,78 +949,42 @@ if ok it will be the minimum size if reached there but check
 this don't change...
                               */
 
-                              progress_dl = progress_dl + (new_size_of_neddle_dl - 1); // we need the limit for, or it is handled by the first call ?
+                              for (i_a = 0; i_a < max_size_string_from_buffer_0; i_a++)
+                              {
 
-                              hay_ptr_dl = hay_ptr_dl + (new_size_of_neddle_dl - 1);
+                                   sliding_window_amanda[contador_pra_baixo_ar++] = position_of_the_data_in_the_input__stream_dl_original[i_a];
+
+                                   if (4096 == contador_pra_baixo_ar)
+                                   {
+                                        contador_pra_baixo_ar = 0;
+                                   }
+                              }
+
+                              pedro_dprintf(-1, "size %d", new_size_of_neddle_dl);
+
+                              progress_dl = progress_dl + (new_size_of_neddle_dl - 1); // we need the limit for, or it is handled by the first call ?
 
                               position_of_the_data_in_the_input__stream_dl = position_of_the_data_in_the_input__stream_dl + (new_size_of_neddle_dl - 1);
 
-                              len_dl_copy -= (new_size_of_neddle_dl - 1);
+                              buf_dl_ptr = buf_dl_ptr + (new_size_of_neddle_dl - 1);
 
-                              assert(0 <= len_dl_copy);
-                              bytes_left_in_the_input_uncompressed_stream_dl -= (new_size_of_neddle_dl - 1);
+                              bytes_in_buffer_ar -= (new_size_of_neddle_dl - 1);
 
-                              /*
+                              assert(0 <= bytes_in_buffer_ar);
 
-aqui vamos mover pra frente o item encontrado, ok...vai la
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1 - primeiro crie o search ric... 
-
-                              */
-
-                              pedro_dprintf(-1, "pos %d",
-                                            position_found_buffer_0_dl);
+                              if (true)
                               {
+                                   pedro_dprintf(-1, "pos %d",
+                                                 position_found_buffer_0_dl);
+                                   {
 
-                                   void remove_string_ar(uint8_t * needle_a,
-                                                         int position_a,
-                                                         int needle_len_a,
-                                                         uint8_t *input_a,
-                                                         uint8_t *output_a);
+                                        void remove_string_ar(uint8_t * needle_a,
 
-                                   memcpy(slice_amanda_, sliding_window_amanda + position_found_buffer_0_dl,
-                                          max_size_string_from_buffer_0);
-
-                                   remove_string_ar(slice_amanda_, position_found_buffer_0_dl, max_size_string_from_buffer_0, sliding_window_amanda, sliding_window_amanda);
+                                                              int needle_len_a,
+                                                              uint8_t *input_a,
+                                                              uint8_t *output_a);
+                                   }
                               }
-
-
-
-
-
-
-
-
-
-
-
-
 
                               goto volta_aqui_mais_alto_mar;
 
@@ -974,17 +1040,11 @@ aqui vamos mover pra frente o item encontrado, ok...vai la
                                                                    out_file_dl*/
                     );                                                  //
 
+                    sliding_window_amanda[contador_pra_baixo_ar++] = largest_needle_already_in_buffer_dl[0];
+
+                    if (4096 == contador_pra_baixo_ar)
                     {
-
-                         memcpy(desloca_buffer_amanda,
-                                sliding_window_amanda + 1,
-                                V9C_INTERNAL_BUFFER_SIZE_DL_ - 1);
-
-                         desloca_buffer_amanda[V9C_INTERNAL_BUFFER_SIZE_DL_ - 1] = largest_needle_already_in_buffer_dl[0];
-
-                         memcpy(sliding_window_amanda,
-                                desloca_buffer_amanda,
-                                V9C_INTERNAL_BUFFER_SIZE_DL_);
+                         contador_pra_baixo_ar = 0;
                     }
 
                     if (DEBUG_DL__)
@@ -995,30 +1055,18 @@ aqui vamos mover pra frente o item encontrado, ok...vai la
                     {
                          assert(0 && "parando");
                     }
-                    if (0 == 1)
-                    // to make the compiler happy
-                    {
-                         goto volta_aqui_ric;
-                    }
-
-                    /*
-
-                    // add the byte dear ric
-
-
-                    */
 
                     goto volta_aqui_mais_alto_mar; // just start again (it is v6 based)
                }
-
-               if (0 == 1) // to always make compiler happy
-               {
-                    goto continua_pro_proximo_buffer_a_ser_lido_dl;
-               }
-
-          continua_pro_proximo_buffer_a_ser_lido_dl:;
+               break;
           }
+     final_ric_amanda:;
 
+          if (28 == 53) // to make ricardo happy...
+          {
+               goto continua_pro_proximo_buffer_a_ser_lido_dl;
+          }
+     continua_pro_proximo_buffer_a_ser_lido_dl:;
           fclose(my_file_dl);
 
           if (out_file_dl)
@@ -1034,8 +1082,10 @@ aqui vamos mover pra frente o item encontrado, ok...vai la
           out_file_dl = NULL;
      }
 
-     free(buf_dl), free(buf_dl_0), free(buf_dl_1), free(buf_dl_2),
-         free(sliding_window_amanda), free(buf_dl_compressed), free(buf_dl_bit_buffer);
+     free(buf_dl), free(buf_dlb), free(buf_dl_0), free(buf_dl_1), free(buf_dl_2),
+         free(sliding_window_amanda),
+         free(sliding_window_amanda2),
+         free(buf_dl_compressed), free(buf_dl_bit_buffer);
 
      printf("Progress ric -> % 4d\n", 100);
      printf("Research running...\n");
