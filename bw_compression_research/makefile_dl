@@ -55,7 +55,7 @@ dl_50:
 #	./lzari_dl.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
 #	./lzari_dl.exe e make.bin make.bin.compressed_by_lzss_ari
 #	./lzari_dl.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
-#	./dl1.exe e tar_1_33.c tar_1_33.c.compressed_by_dl_compressor
+	./dl1.exe e tar_1_33.c tar_1_33.c.compressed_by_dl_compressor.v14c
 #	./dl1.exe d tar_1_33.c.compressed_by_dl_compressor tar_1_33.c.uncompressed_by_dl_compressor
 #	./dl1.exe to_compress_with_rle.dl to_compress_with_rle.dl.out
 

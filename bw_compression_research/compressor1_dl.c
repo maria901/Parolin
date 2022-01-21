@@ -88,19 +88,32 @@
  * @brief this is the mode where the buffer searched for matching string is the current buffer that is composed by the bytes being added, when searching on this current buffer if the maximum possible string for the needle is found the address and size is stored in the destination compressed buffer, so if the bytes loaded are 100 then you have 100 bytes in the searching buffer for the moment up to the maximum loaded bytes of 4096 bytes, this is lz77 like approuch, not lzss that have a sliding window that get bytes shifted all the time, for our method the buffer to search is the already loaded bytes, for this reason lzss gives a better compression ratio, lzss starts with a sliding window always of 4096 of space (character 32), in our method the bytes available in the searching code is the input buffer limited to the number of byes already processed, it don't compress better than lzss + ari from Doctor Haruhiko
  *
  */
-#define DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 (1001)
+#define DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 (1001) /* old version */
 
 /**
  * @brief this is the method that we will implement in a few minutes (now is 19:41 15/jan/2022), in this enhanced method we extend the 4096 maximum searching dictionary from 4096 to 8192 bytes, how? just adding an addicional bit that selects whether the buffer being searched is the current buffer or the last passed buffer, then it at least increases the required space in one bit for each string that need to be reconstructed using the two bytes storeage 4 bits for string size and 12 for the 4096 maximum address position, did you got it?
  * Well using this additional bit it expands the searching possibilies to the double, but will also require more space to store the compressed data, but as you will see it allows better compression, well now we will add the code to it
  *
  */
-#define DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192 (1002)
+#define DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192 (1002) /* old version */
+
+/**
+ * @brief started with v14c at 21 jan 2022 04:22
+ * it is pure lzss.c based code but buffers not using 4096 but 8192 bytes
+ * 
+ * did you got that, soon we will see why people preffer the 4096 version
+ * 
+ * of course it will be slower but can compress better
+ * 
+ * lets work on it...
+ * 
+ */
+#define DL_NEW_MODE_LZSS_WITH8192_BYTES_SLIDING_WINDOW__ (1003) /* old version */
 
 /**
  * @brief will define the mode to use
  */
-#define DL_ENCODER_DECODER_MODE_ (DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192)
+#define DL_ENCODER_DECODER_MODE_ (DL_NEW_MODE_LZSS_WITH8192_BYTES_SLIDING_WINDOW__)
 
 // END ---
 
@@ -203,7 +216,7 @@ int main_dl_THE_amanda(char *input_file_dl, char *output_file_dl);
 #define MIN_STRING_SEARCH_SIZE_DL__ (3)       /* 3 bytes is the smallest size that can be compressed, remember if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be stored in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) (v8 in this version this don't change again)*/
 #define STRING_PASS_SIZE_DL__ (1)             /* this will change in the future just to speed up execution */
 
-#define DL_SIZE__ (1L << 12) /* 4096 */
+#define DL_SIZE__ (1L << 13) /* was 4096 now in the v14c and above it is 8192 */
 
 // 88888888888888888888888888888888888888888888888
 
@@ -713,6 +726,9 @@ int main(int arg_dl_c, char **arg_dl_v)
                     {
                          alternating_buffer_dl = false;
                          len_temp = fread(buf_dl_0, 1, V9C_INTERNAL_BUFFER_SIZE_DL_, my_file_dl);
+                         adler32_real = dl_adler32_wrapper(adler32_real, // for future integrity check, not now v14c
+                                                           buf_dl_0,
+                                                           len_temp);
 
                          memcpy(buf_dl_2, buf_dl_ptr, bytes_in_buffer_ar);
 
@@ -724,6 +740,9 @@ int main(int arg_dl_c, char **arg_dl_v)
                     {
                          alternating_buffer_dl = true;
                          len_temp = fread(buf_dl_1, 1, V9C_INTERNAL_BUFFER_SIZE_DL_, my_file_dl);
+                         adler32_real = dl_adler32_wrapper(adler32_real,
+                                                           buf_dl_1,
+                                                           len_temp);
 
                          memcpy(buf_dl_2, buf_dl_ptr, bytes_in_buffer_ar);
 

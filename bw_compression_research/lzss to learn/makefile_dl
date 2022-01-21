@@ -12,6 +12,7 @@ dl_501:
 #	./lzhuf_dl.exe d make.huf.dl make.huf.exe
 dl_502:
 	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -Wl,-subsystem,windows LZSS.c  -o  lzss_dl.exe
+	./lzss_dl.exe e tar_1_33.c tar_1_33.c.ss
 	./lzss_dl.exe e make.exe make.ss
 	./lzss_dl.exe d make.ss make.ss.exe
 	-./ari < make.ss > make.ss.depois_de_ari.dl.ari
