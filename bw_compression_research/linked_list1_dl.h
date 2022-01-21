@@ -1,10 +1,49 @@
-// v14b variables
 
-// v13 variables
+#include <windows.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <math.h>
+#include <wctype.h>
+#include <wchar.h>
+#include <stdarg.h>
+#include <stddef.h>
+#include <setjmp.h>
+#include <locale.h>
+#include <signal.h>
+#include <limits.h>
+#include <float.h>
+#include <iso646.h>
+
+#undef NDEBUG
+#include <assert.h>
+
+#ifndef _MSC_VER
+#include <stdbool.h>
+#else
+#define bool char
+#define true 1
+#define false 0
+
+#define __attribute__(ricardo) /* unused */
+
+#endif
+#include <process.h>
+
+// v14c variables (old version)
+
+// v14b variables (old version)
+
+// v13 variables (old version)
 
 uint32_t amanda_need_to_flush_ric;
 
-char temp_file_dl[MAX_PATH + 2];
+char temp_file_dl[MAX_PATH + 2]; // why not 1 ric?
 char temp_file_dl2[MAX_PATH + 2];
 char temp_file_dl3[MAX_PATH + 2];
 char temp_file_dl4[MAX_PATH + 2];
@@ -20,16 +59,16 @@ FILE *out_file_dl5 = NULL;
 FILE *out_file_dl6 = NULL;
 FILE *out_file_dl7 = NULL;
 
-/* wraps array index within array bounds (assumes value < 2 * limit) */
+/* wraps array index within array bounds (assumes value < 2 * limit) */ // borrowed
 #define Wrap(value, limit) \
      (((value) < (limit)) ? (value) : ((value) - (limit)))
 
-#include "bitfile.c"
+#include "bitfile.c" /* borrowed at once */
 
 #define ENCODED 1 /* encoded string */
 #define UNCODED 0 /* unencoded character */
 
-#define OFFSET_BITS 12
+#define OFFSET_BITS 13
 #define LENGTH_BITS 4
 
 #define MAX_UNCODED (((2))) /* humble programmer */
@@ -90,7 +129,7 @@ uint8_t temp_buffer_ar;
 uint8_t slice_amanda_[MAX_STRING_SEARCH_SIZE_DL__];
 
 int size_1_amanda, size_2_amanda, size_3_amanda;
-
+//(old info, we are now in v14c)
 uint8_t desloca_buffer_amanda4[V9C_INTERNAL_BUFFER_SIZE_DL_ + MAX_STRING_SEARCH_SIZE_DL__ /* will not use more than 3 for the moment (v12) */];
 
 uint8_t desloca_buffer_amanda3[V9C_INTERNAL_BUFFER_SIZE_DL_ + MAX_STRING_SEARCH_SIZE_DL__ /* will not use more than 3 for the moment (v12) */];
@@ -223,7 +262,60 @@ uint8_t deslocador_dl = 0;
 uint8_t last_byte_encoded_value_dl; // only usefull for the encode, in the agregation the value will be in ht last byte of memory also in the linked list
 bool is_it_the_first_byte_to_encode_dl;
 
-uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_to_18, uint16_t position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+// Borrowed from my own sources, the rspcutil
+
+int invertbits32(int value)
+{
+
+     int out;
+     char *input = (char *)&value;
+     char *output = (char *)&out;
+     output[0] = input[3];
+     output[1] = input[2];
+     output[2] = input[1];
+     output[3] = input[0];
+     return out;
+}
+
+short invertbits16(short value)
+{
+
+     short out;
+     char *input = (char *)&value;
+     char *output = (char *)&out;
+     output[0] = input[1];
+     output[1] = input[0];
+
+     return out;
+}
+
+/**
+ * @brief developed by me at jan 2022
+ *
+ * @param value
+ * @return uint16_t
+ */
+uint16_t
+invertbits16_uint16_t(uint16_t value)
+{
+
+     uint16_t out;
+     char *input = (char *)&value;
+     char *output = (char *)&out;
+     output[0] = input[1];
+     output[1] = input[0];
+
+     return out;
+}
+
+uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_to_18, uint16_t position_on_the_passed_buffer_up_to_4096_12_bits_dl
+
+#if DL_ENCODER_DECODER_MODE_ == DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_
+                                                      ,
+                                                      __attribute__((unused)) int *th13_bit_i
+#endif
+
+)
 {
 
      // assert(0 && "you are not authorized to use this function, period...");
@@ -234,8 +326,6 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
      int i_dl;
 
-     // __attribute__((unused)) uint16_t exit_byte_dl = 0;
-
      uint16_t resulting_short_dl = 0;
 
      pedro_dprintf(-1, "address inside idiot %hi", position_on_the_passed_buffer_up_to_4096_12_bits_dl);
@@ -244,14 +334,23 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
      assert(string_size_dl_up_to_18 >= 3);
 
-     assert(4096 >= position_on_the_passed_buffer_up_to_4096_12_bits_dl);
+     assert(V9C_INTERNAL_BUFFER_SIZE_DL_ >= position_on_the_passed_buffer_up_to_4096_12_bits_dl);
 
      string_size_dl_up_to_18 = size_of_string_log_decode_dl(string_size_dl_up_to_18);
 
      string_size_dl_up_to_18 -= 3; // keep it here forever, it will be stored in the 4 bits
      // pedro_dprintf(0, )
 
-     for (i_dl = 0; i_dl < 16; i_dl++)
+     for (i_dl = 0; i_dl <
+
+#if DL_ENCODER_DECODER_MODE_ == DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_
+                    17
+#else
+                    16
+#endif
+
+          ;
+          i_dl++)
      {
           switch (i_dl)
           {
@@ -522,10 +621,29 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
                     mask_dl = (1 << (pois_eh_dl + 4));
                     resulting_short_dl &= ~(mask_dl);
                }
-               pedro_dprintf(-2, "resulting short bit 15 %04x", resulting_short_dl);
-               pedro_dprintf(-2, "resulting short f 1 %04x", resulting_short_dl);
+
                pois_eh_dl++;
                break;
+
+#if DL_ENCODER_DECODER_MODE_ == DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_
+
+          case 16:
+
+               mask_dl = (1 << pois_eh_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    *th13_bit_i = 1;
+               }
+               else
+               {
+                    *th13_bit_i = 0;
+               }
+
+               pois_eh_dl++;
+               break;
+
+#endif
           }
      }
      pedro_dprintf(-2, "resulting short f 2 %04x", resulting_short_dl);
@@ -700,6 +818,7 @@ void encode_bit_11_jan_2022_v6_dl(int bit_value__11_jan_2022_v6_dl)
      // assert(0 && "saiu amor");
      assert(0 <= bit_buffer_left_dl);
 }
+
 void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unused)) uint8_t *input_mem_dl,
                                                               __attribute__((unused)) uint8_t len_of_input_to_encode_as_you_may_expect_dl_, //
                                                               __attribute__((unused)) bool is_it_string_matched_in_past_buffer_dl,
@@ -725,7 +844,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
      */
      // uint8_t temp_ric_dl;
      uint16_t *ptr_uint16_dl;
-     int i_dl;
+     int i_dl, th13____; // 13th bit
      static uint8_t temp_dl[3 /* if in the future it was changed don't forget it ric... */];
 
      if (DEBUG_DL__)
@@ -781,7 +900,28 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           ptr_uint16_dl = (uint16_t *)&temp_dl[0];
 
           *ptr_uint16_dl = prepare_unsigned_short_int_12_jan_2022_v6_dl(len_of_matched_string_dl,
-                                                                        past_position_location_dl);
+                                                                        past_position_location_dl
+
+#if DL_ENCODER_DECODER_MODE_ == DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_
+                                                                        ,
+                                                                        &th13____
+#endif
+
+          );
+
+#if DL_ENCODER_DECODER_MODE_ == DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_
+          encode_bit_11_jan_2022_v6_dl(th13____);
+#endif
+
+          if (is_it_little_ric_endian_ar)
+          {
+               ; // just pass by
+          }
+          else
+          {
+               *ptr_uint16_dl = invertbits16_uint16_t(*ptr_uint16_dl);
+          }
+
           pedro_dprintf(-1, "encoded int16_t to save %i len e address %d %d", *ptr_uint16_dl,
                         (int)len_of_matched_string_dl,
                         (int)past_position_location_dl);
@@ -1131,64 +1271,6 @@ void process_search_in_passed_buffers_at_once_dl(uint8_t *buffer_dl,
      }
 
      return; // for safety...
-
-     static uint8_t needle_S2_buf_dl_copy[MAX_STRING_SEARCH_SIZE_DL__];
-
-     static uint8_t needle_S2_buf_dl_copy2[MAX_STRING_SEARCH_SIZE_DL__];
-
-     uint8_t size_of_the_neddle_dl2_b = MIN_STRING_SEARCH_SIZE_DL__,
-             size_of_the_neddle_dl2_b_real;
-
-     *new_size_of_neddle_dl = size_of_the_neddle_dl2_b;
-     int64_t result_S2_temp_dl = -1;
-
-     *found_dl = false;
-
-try_again_magician_ric1:;
-
-     if (MAX_STRING_SEARCH_SIZE_DL__ > size_of_the_neddle_dl2_b)
-     {
-          size_of_the_neddle_dl2_b += STRING_PASS_SIZE_DL__;
-
-          if (MAX_STRING_SEARCH_SIZE_DL__ < size_of_the_neddle_dl2_b) // perfet...
-          {
-               size_of_the_neddle_dl2_b = MAX_STRING_SEARCH_SIZE_DL__;
-          }
-
-          size_of_the_neddle_dl2_b_real = size_of_string_log_get_dl(size_of_the_neddle_dl2_b);
-
-          memcpy(needle_S2_buf_dl_copy, pos_ori_current_buffer_dl, size_of_the_neddle_dl2_b_real);
-
-          // now search again
-          result_S2_temp_dl = mem_search_dl(buffer_dl, (DL_SIZE__),
-                                            needle_S2_buf_dl_copy,
-                                            size_of_the_neddle_dl2_b_real,
-                                            0);
-
-          if (-1 == result_S2_temp_dl)
-          {
-               ; // go try the standard method, but we already have thje largest size got in previous buffer
-          }
-          else
-          {
-
-               *position_found = result_S2_temp_dl;
-
-               *found_dl = true;
-
-               *max_size_of_string_found_dl = size_of_the_neddle_dl2_b_real; // correct, need to check (v8 fixed)
-
-               *new_size_of_neddle_dl = size_of_the_neddle_dl2_b_real;
-
-               memcpy(needle_S2_buf_dl_copy2, needle_S2_buf_dl_copy, size_of_the_neddle_dl2_b_real);
-
-               goto try_again_magician_ric1;
-          }
-     }
-     else
-     {
-          ; // largest_size_found_on_previous_buffer_dl got the largest size got from buffer previous (v8)
-     }
 }
 /**
  * @brief if found it will already return the largest possible size, ok (v8 fixed) (also v9)

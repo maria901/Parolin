@@ -84,13 +84,13 @@
 
 
 */
-/**
+/** (old information)
  * @brief this is the mode where the buffer searched for matching string is the current buffer that is composed by the bytes being added, when searching on this current buffer if the maximum possible string for the needle is found the address and size is stored in the destination compressed buffer, so if the bytes loaded are 100 then you have 100 bytes in the searching buffer for the moment up to the maximum loaded bytes of 4096 bytes, this is lz77 like approuch, not lzss that have a sliding window that get bytes shifted all the time, for our method the buffer to search is the already loaded bytes, for this reason lzss gives a better compression ratio, lzss starts with a sliding window always of 4096 of space (character 32), in our method the bytes available in the searching code is the input buffer limited to the number of byes already processed, it don't compress better than lzss + ari from Doctor Haruhiko
  *
  */
 #define DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 (1001) /* old version */
 
-/**
+/** (old information)
  * @brief this is the method that we will implement in a few minutes (now is 19:41 15/jan/2022), in this enhanced method we extend the 4096 maximum searching dictionary from 4096 to 8192 bytes, how? just adding an addicional bit that selects whether the buffer being searched is the current buffer or the last passed buffer, then it at least increases the required space in one bit for each string that need to be reconstructed using the two bytes storeage 4 bits for string size and 12 for the 4096 maximum address position, did you got it?
  * Well using this additional bit it expands the searching possibilies to the double, but will also require more space to store the compressed data, but as you will see it allows better compression, well now we will add the code to it
  *
@@ -101,20 +101,18 @@
  * It will compress a 8192 based lzss stream but with a 12 bits only adress not 13, then the compressed stream is invalid, only for research purposes, cannot decompress but will chow the most higher ratio the compression can achieve for 8192 bytes sliding window
  *
  */
-#define DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_12_BITS_ADRESS_ (1003) 
-
+#define DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_12_BITS_ADRESS_ (199428)
 
 /**
- * It will compress a 8192 based lzss stream but with a 13 bits , then the compressed stream is valid, can decompress
+ * It will compress a 8192 based lzss stream but with 13 bits, then the compressed stream is valid, can decompress, but will use an additional bit
  *
  */
-#define DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_ (1004) 
-
+#define DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_ (196953)
 
 /**
- * @brief will define the mode to use
+ * @brief will define the mode to use, as you may guess and for your pleasure, as always... (by your friend, ric)
  */
-#define DL_ENCODER_DECODER_MODE_ (DL_NEW_MODE_LZSS_WITH8192_BYTES_SLIDING_WINDOW__)
+#define DL_ENCODER_DECODER_MODE_ (DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_) /* first we will generate an invalid stream but with a higher ratio, for research purposes */
 
 // END ---
 
@@ -159,14 +157,37 @@
 #undef NDEBUG
 #include <assert.h>
 
+#ifndef _MSC_VER
 #include <stdbool.h>
+#else
+#define bool char
+#define true 1
+#define false 0
 
+#define __attribute__(ricardo) /* unused */
+
+#endif
 #include <process.h>
+
+#ifndef uchar
+#define uchar unsigned char
+#endif
+
+#ifndef uint
+#define uint unsigned int
+#endif
+
+#ifndef ushort
+#define ushort unsigned short
+#endif
 
 // 88888888888888888888888888888888888888888888888888888888888888
 
 // variables and functions defines or constants
 
+bool is_it_little_ric_endian_ar; // First Endian support to our ric's software Factory  -- 21 jan 2022 11:00 AM Brasilia Time
+
+/////////////////////////////////////////////////////////////////
 /**
  * @brief the decoder call, need to receive a dl_compressor based file that will be checked, of course and processd as you may expect
  *
@@ -224,7 +245,7 @@ int main_dl_THE_amanda(char *input_file_dl, char *output_file_dl);
 #define V9C_INTERNAL_BUFFER_SIZE_DL_ (DL_SIZE__) /* it says v9c but at this moment it is v14c */
 
 // 88888888888888888888888888888888888888888888888888888888888888
-
+#if 1
 /**
  * @brief It will check whether the string is found in the haystack ( borrowed from php ;-) )
  *
@@ -238,6 +259,7 @@ int64_t mem_search_dl(__attribute__((unused)) uint8_t *haystack,
                       __attribute__((unused)) uint8_t *needle,
                       __attribute__((unused)) int64_t needle_len,
                       __attribute__((unused)) int64_t offset_dl);
+#endif
 
 /*
 
@@ -412,6 +434,8 @@ int main(int arg_dl_c, char **arg_dl_v)
           goto exit_now_ric_dl;
      }
 
+     DetermineEndianess();
+
      if (0 == strcmp("e", arg_dl_v[1]) || 0 == strcmp("E" /* if some weird developer use 'E' */, arg_dl_v[1]))
      {
           ; // encoding
@@ -421,7 +445,7 @@ int main(int arg_dl_c, char **arg_dl_v)
           return decode_ric_dl(arg_dl_v[2], arg_dl_v[3]);
      }
 
-     __attribute__((unused)) int32_t adler32_real = 28; // Adler says 1, but we are not following the recommendation
+     __attribute__((unused)) int32_t adler32_real = 28; // Adler says 1, but we are not following the recommendation, could be 53 too as you already know
 
      __attribute__((unused)) int len_dl, len_dl2;
 
@@ -447,7 +471,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) uint8_t *sliding_window_amanda = malloc((DL_SIZE__ * 2) + MAX_STRING_SEARCH_SIZE_DL__); // as you can see it is large enough, kkkkkk, dont be afraid in a near future (next week (jan 2022)) it will have only the real required size, thanks for your patience
 
-     __attribute__((unused)) uint8_t *sliding_window_amanda2 = malloc(DL_SIZE__ + MAX_STRING_SEARCH_SIZE_DL__);
+     __attribute__((unused)) uint8_t *sliding_window_amanda2 = malloc(DL_SIZE__ + MAX_STRING_SEARCH_SIZE_DL__); // was used for passed versions below v14ca
 
      __attribute__((unused)) uint8_t *buf_dl_1 = malloc(DL_SIZE__);
 
@@ -465,10 +489,10 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      size_d_dl = ceil((size_d_dl * .2));
 
-     assert(size_d_dl < 65000);
+     assert(size_d_dl < 65000); // here we may have a problem in a near future, better to keep it here
 
      /**
-      * @brief Construct a new attribute object, querido ric, este é o limite para o array de bit as bytes
+      * @brief Construct a new attribute object, querido ric, este é o limite para o array de bit as bytes (not in use anymore)
       *
       */
      __attribute__((unused)) uint16_t fixed_value_for_great_ric = size_d_dl - 100;
@@ -526,19 +550,19 @@ int main(int arg_dl_c, char **arg_dl_v)
      {
           strcpy(temp_file_dl2, arg_dl_v[3]);
 
-          strcat(temp_file_dl2, ".bw.lzss_bytes.tmp");
+          strcat(temp_file_dl2, ".bw.lzss_bytes.tmp"); // for the bytes array
           out_file_dl2 = fopen(temp_file_dl2, "wb");
      }
      {
           strcpy(temp_file_dl3, arg_dl_v[3]);
 
-          strcat(temp_file_dl3, ".bw.lzss_bits.tmp");
+          strcat(temp_file_dl3, ".bw.lzss_bits.tmp"); // for the bits array
           out_file_dl3 = fopen(temp_file_dl3, "wb");
      }
      {
           strcpy(temp_file_dl4, arg_dl_v[3]);
 
-          strcat(temp_file_dl4, ".bw.lzss_pointers.tmp");
+          strcat(temp_file_dl4, ".bw.lzss_pointers.tmp"); // for the pointers array
           out_file_dl4 = fopen(temp_file_dl4, "wb");
      }
      {
@@ -646,13 +670,6 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           while (true)
           {
-               /*
-               adler32_real = dl_adler32_wrapper(adler32_real,
-                                                 buf_dl,
-                                                 len_dl);
-*/
-
-               // memcpy(sliding_window_amanda, buf_dl, len_dl);
 
                if (DEBUG_DL__)
                     pedro_dprintf(0, "initial buffer have %d bytes", len_dl);
@@ -684,11 +701,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                size_of_already_saw_data_dl = 0;
 
-               // size_of_uncompressed_stream_dl = len_dl;
-
                position_of_the_data_in_the_output_stream_dl = buf_dl_compressed;
-
-               // em search code, to detect where the code is
 
                if (DEBUG_DL__)
                     pedro_dprintf(0, "zero init variables", len_dl);
@@ -704,23 +717,9 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                bytes_in_buffer_ar = fread(buf_dlb, 1, V9C_INTERNAL_BUFFER_SIZE_DL_, my_file_dl);
 
-          volta_aqui_filho_da_mae___:; // sim é alguem, duas mar...
+          volta_aqui_filho_da_mae___:;
 
-               /*
-                              if (len_dl_copy < 18)
-                              {
-                                   len_dl2 = fread(buf_dl + (len_dl_copy), 1, 18 - len_dl_copy, my_file_dl);
-
-                                   if (0 == len_dl2)
-                                   {
-                                        goto fim_de_jogo_dl;
-                                   }
-
-                                   len_dl_copy += len_dl2;
-                                   bytes_left_in_the_input_uncompressed_stream_dl += len_dl2;
-                              }
-               */
-
+               /* spent one hour to develop this code */
                if (bytes_in_buffer_ar < 36)
                {
                     if (alternating_buffer_dl)
@@ -762,7 +761,8 @@ int main(int arg_dl_c, char **arg_dl_v)
                     goto final_ric_amanda;
                }
                position_of_the_data_in_the_input__stream_dl = buf_dl_ptr;
-               // se funcionar o contrario vai ser mais rapido mas ai sera versao 3 ok...
+
+               // year 2000 compliant
                if (update_me_dl < GetTickCount64())
                {
                     update_me_dl = GetTickCount64() + 50;
@@ -912,9 +912,6 @@ if ok it will be the minimum size if reached there but check
 
 
 
-
-
-
                               */
 
                               for (i_a = 0; i_a < max_size_string_from_buffer_0; i_a++)
@@ -940,24 +937,9 @@ if ok it will be the minimum size if reached there but check
 
                               assert(0 <= bytes_in_buffer_ar);
 
-                              if (true)
-                              {
-                                   pedro_dprintf(-1, "pos %d",
-                                                 position_found_buffer_0_dl);
-                                   {
-
-                                        void remove_string_ar(uint8_t * needle_a,
-
-                                                              int needle_len_a,
-                                                              uint8_t *input_a,
-                                                              uint8_t *output_a);
-                                   }
-                              }
-
                               goto volta_aqui_filho_da_mae___; // isso foi que meu primeiro sogro disse no dia que fui conhecer minha filha Mislaine em 1990
 
                               /*
-
 
                               */
                          }
@@ -1010,7 +992,7 @@ if ok it will be the minimum size if reached there but check
 
                     sliding_window_amanda[contador_pra_baixo_ar++] = largest_needle_already_in_buffer_dl[0];
 
-                    if (4096 == contador_pra_baixo_ar)
+                    if (V9C_INTERNAL_BUFFER_SIZE_DL_ == contador_pra_baixo_ar)
                     {
                          contador_pra_baixo_ar = 0;
                     }

@@ -47,33 +47,53 @@
 //
 //
 // 2022 dl & ric
-#include <windows.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <ctype.h>
-#include <math.h>
-#include <wctype.h>
-#include <wchar.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <setjmp.h>
-#include <locale.h>
-#include <signal.h>
-#include <limits.h>
-#include <float.h>
-#include <iso646.h>
+#include  <windows.h>
+#include   <stdint.h>
+#include    <stdio.h>
+#include   <stdlib.h>
+#include   <string.h>
+#include     <time.h>
+#include    <errno.h>
+#include    <fcntl.h>
+#include    <ctype.h>
+#include     <math.h>
+#include   <wctype.h>
+#include    <wchar.h>
+#include   <stdarg.h>
+#include   <stddef.h>
+#include   <setjmp.h>
+#include   <locale.h>
+#include   <signal.h>
+#include   <limits.h>
+#include    <float.h>
+#include   <iso646.h>
 
 #undef NDEBUG
-#include <assert.h>
+#include   <assert.h>
 
-#include <stdbool.h>
+#ifndef _MSC_VER
+#include  <stdbool.h>
+#else 
+#define bool	char
+#define true	1
+#define false	0
 
-#include <process.h>
+#define __attribute__(ricardo) /* unused */
+
+#endif 
+#include  <process.h>
+
+#ifndef uchar
+#define uchar unsigned char
+#endif
+
+#ifndef uint
+#define uint unsigned int
+#endif
+
+#ifndef ushort
+#define ushort unsigned short
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -82,7 +102,7 @@
 #endif
 #include <fcntl.h>
 
-void pedro_dprintf(int amanda_level,
+void pedro_dprintf(int amanda_level,//indeed the Amanda level...
                    char *format, ...);
 
 static FILE *in_file_dl2;
@@ -396,7 +416,7 @@ int main_dl(__attribute__((unused)) int size_of_header_dl, __attribute__((unused
 
 /**
  * @brief Amazing day... just creted something interesting he he he, well this will mkae the final
- * pass on the v7 and above compressor with arithmetic coding, thanks for uing our software
+ * pass on the v7 and above compressor with arithmetic coding, thanks for using our software borrowed from others
  *
  * @return int
  */
