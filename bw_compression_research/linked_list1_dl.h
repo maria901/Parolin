@@ -1,6 +1,24 @@
+// v14b variables
+
 // v13 variables
 
 uint32_t amanda_need_to_flush_ric;
+
+char temp_file_dl[MAX_PATH + 2];
+char temp_file_dl2[MAX_PATH + 2];
+char temp_file_dl3[MAX_PATH + 2];
+char temp_file_dl4[MAX_PATH + 2];
+char temp_file_dl5[MAX_PATH + 2];
+char temp_file_dl6[MAX_PATH + 2];
+char temp_file_dl7[MAX_PATH + 2];
+
+FILE *out_file_dl = NULL;
+FILE *out_file_dl2 = NULL;
+FILE *out_file_dl3 = NULL;
+FILE *out_file_dl4 = NULL;
+FILE *out_file_dl5 = NULL;
+FILE *out_file_dl6 = NULL;
+FILE *out_file_dl7 = NULL;
 
 /* wraps array index within array bounds (assumes value < 2 * limit) */
 #define Wrap(value, limit) \
@@ -127,7 +145,7 @@ unsigned int current_progress_dl = 0;
 
 /**
  * @brief temp variable
- * 
+ *
  */
 int16_t size_of_compressed_buffer_dl;
 int16_t size_of_compressed_buffer2_dl;
@@ -524,7 +542,7 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 void encode_bit_11_jan_2022_v6_dl(int bit_value__11_jan_2022_v6_dl)
 {
      pedro_dprintf(-1, "entrou bem %d", bit_position_11_jan_2022_v6_dl);
-     //assert(0);
+     // assert(0);
      uint8_t mask_dl;
      if (0 == bit_value__11_jan_2022_v6_dl)
      {
@@ -670,14 +688,16 @@ void encode_bit_11_jan_2022_v6_dl(int bit_value__11_jan_2022_v6_dl)
           requires_last_byte_11_jan_2022_v6_dl = false; // if whole byte is filled no need for last byte being encode because there is no data on it yet
           bits_added_11_jan_2022_v6_dl++;               // I dont know if will be used, but will keep it...
           bit_position_11_jan_2022_v6_dl = 0;           // reset to 0 if above 7
-          (*ptr_position_for_bit_memory_dl) = current_byte_being_generated_11_jan_2022_v6_byte_dl;
-          ptr_position_for_bit_memory_dl++; // add byte to the buffer and advance to fill the next
-          number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl++;
+                                                        // (*ptr_position_for_bit_memory_dl) = current_byte_being_generated_11_jan_2022_v6_byte_dl;
+                                                        // ptr_position_for_bit_memory_dl++; // add byte to the buffer and advance to fill the next
+          putc((int)current_byte_being_generated_11_jan_2022_v6_byte_dl, out_file_dl3);
+
+          // number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl++;
 
           pedro_dprintf(-1, "viu %d", number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
           break;
      }
-     //assert(0 && "saiu amor");
+     // assert(0 && "saiu amor");
      assert(0 <= bit_buffer_left_dl);
 }
 void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unused)) uint8_t *input_mem_dl,
@@ -761,7 +781,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           ptr_uint16_dl = (uint16_t *)&temp_dl[0];
 
           *ptr_uint16_dl = prepare_unsigned_short_int_12_jan_2022_v6_dl(len_of_matched_string_dl,
-                                                                       past_position_location_dl);
+                                                                        past_position_location_dl);
           pedro_dprintf(-1, "encoded int16_t to save %i len e address %d %d", *ptr_uint16_dl,
                         (int)len_of_matched_string_dl,
                         (int)past_position_location_dl);
@@ -796,16 +816,20 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           {
                ; //
                temp_ric_dl = input_mem_dl[i_dl];
+               putc((int)temp_ric_dl, out_file_dl2);
           }
           else
           {
                ; //
                temp_ric_dl = temp_dl[i_dl];
+               putc((int)temp_ric_dl, out_file_dl4);
           }
-          (*position_of_the_data_in_the_output_stream_dl) = temp_ric_dl;
-          position_of_the_data_in_the_output_stream_dl++;
+          //(*position_of_the_data_in_the_output_stream_dl) = temp_ric_dl;
+          // position_of_the_data_in_the_output_stream_dl++;
 
-          amanda_need_to_flush_ric++;
+          // aqui ta resolvido
+
+          // amanda_need_to_flush_ric++;
      }
      compressed_and_encoded_bytes_available_11_jan_2022_v6_dl += len_of_input_to_encode_as_you_may_expect_dl;
 
@@ -1010,7 +1034,7 @@ encoded_string_t FindMatch(const unsigned int windowHead,
      i = windowHead; /* start at the beginning of the sliding window */
      j = 0;
 
-     while (1)
+     while (12)
      {
           if (slidingWindow_ricardo[i] == uncodedLookahead_amanda[uncodedHead])
           {
@@ -1541,6 +1565,38 @@ void remove_string_ar(uint8_t *needle_a, int needle_len_a, uint8_t *input_a, uin
      memcpy(output_a,
             desloca_buffer_amanda,
             V9C_INTERNAL_BUFFER_SIZE_DL_);
+}
+
+int64_t __fastcall /* because the others are slow */
+    concatenate_files_from_ric_da_amandua(char *input_file_dl,
+                                          char *destino_do_ric_he_he_he)
+{
+     int len_hanoric;
+     char *b1 = malloc(DL_SIZE__);
+     FILE *my_small_file_in_rico_ou_pobre = fopen(input_file_dl,
+                                                  "rb");
+     FILE *my_small_file_out_rico_ou_pobre = fopen(destino_do_ric_he_he_he,
+                                                   "ab");
+     {
+     }
+     // Beep(1000, 100);
+     if (NULL == my_small_file_in_rico_ou_pobre || NULL == my_small_file_out_rico_ou_pobre)
+     {
+          Beep(1000, 100);
+
+          exit(27);
+     }
+
+     while ((len_hanoric = fread(b1, 1, DL_SIZE__, my_small_file_in_rico_ou_pobre)))
+     {
+          fwrite(b1,
+                 1,
+                 len_hanoric,
+                 my_small_file_out_rico_ou_pobre);
+     }
+     fclose(my_small_file_in_rico_ou_pobre);
+     fclose(my_small_file_out_rico_ou_pobre);
+     return (25 - 1);
 }
 
 #include "add_bits_ar.c"

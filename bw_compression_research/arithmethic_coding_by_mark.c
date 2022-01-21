@@ -394,7 +394,6 @@ int main_dl(__attribute__((unused)) int size_of_header_dl, __attribute__((unused
     return return_value_dl;
 }
 
-
 /**
  * @brief Amazing day... just creted something interesting he he he, well this will mkae the final
  * pass on the v7 and above compressor with arithmetic coding, thanks for uing our software
@@ -409,24 +408,24 @@ int main_dl_pure(char *input_file_dl, char *output_file_dl)
     if (in_file_dl)
     {
 
-	 FILE *out_file_dl = fopen(output_file_dl, "wb");
-	 {
-	      if (out_file_dl)
-	      {              
-		   in_file_dl2 = in_file_dl;
-		   out_file_dl2 = out_file_dl;
-		
-		   main_do_mr_do();
-		   return_value_dl = 0;
-		   fclose(out_file_dl);
-	      }
-	      else
-	      {
-		   printf("Cannot open output file\n");
-		   return_value_dl = 27;
-	      }
-	 }
-	 fclose(in_file_dl);
+        FILE *out_file_dl = fopen(output_file_dl, "wb");
+        {
+            if (out_file_dl)
+            {
+                in_file_dl2 = in_file_dl;
+                out_file_dl2 = out_file_dl;
+
+                main_do_mr_do();
+                return_value_dl = 0;
+                fclose(out_file_dl);
+            }
+            else
+            {
+                printf("Cannot open output file\n");
+                return_value_dl = 27;
+            }
+        }
+        fclose(in_file_dl);
     }
     else
     {
@@ -435,4 +434,19 @@ int main_dl_pure(char *input_file_dl, char *output_file_dl)
     }
 
     return return_value_dl;
+}
+
+/**
+ * @brief just an Amanda wrapper
+ * 
+ * @param input_file_dl 
+ * @param output_file_dl 
+ * @return int 
+ */
+int main_dl_THE_amanda(char *input_file_dl, char *output_file_dl)
+{
+    return main_dl(0,
+                   "ricardo_o_'cara'",
+                   input_file_dl,
+                   output_file_dl);
 }

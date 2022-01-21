@@ -182,7 +182,16 @@ int32_t __fastcall dl_adler32_wrapper(int32_t dl,
 
 int main_rle(uint8_t *buf_ar, int len_ar, uint8_t *buf_out, int *len_out_ar);
 
-// 1010101010101010101010101010101010101010101010101010101010101010
+/**
+ * @brief just an Amanda wrapper
+ *
+ * @param input_file_dl
+ * @param output_file_dl
+ * @return int
+ */
+int main_dl_THE_amanda(char *input_file_dl, char *output_file_dl);
+
+// 121212
 
 #define DEBUG_DL__ 0
 #define DEBUG2_DL__ 0
@@ -398,8 +407,6 @@ int main(int arg_dl_c, char **arg_dl_v)
           return decode_ric_dl(arg_dl_v[2], arg_dl_v[3]);
      }
 
-     char temp_file_dl[MAX_PATH + 2];
-
      __attribute__((unused)) int32_t adler32_real = 28; // Adler says 1, but we are not following the recommendation
 
      __attribute__((unused)) int len_dl, len_dl2;
@@ -407,8 +414,12 @@ int main(int arg_dl_c, char **arg_dl_v)
      __attribute__((unused)) int len_of_data_to_compress_dl;
 
      __attribute__((unused)) FILE *my_file_dl = NULL;
+     __attribute__((unused)) FILE *my_file_dl2 = NULL;
+     __attribute__((unused)) FILE *my_file_dl3 = NULL;
 
-     __attribute__((unused)) FILE *out_file_dl = NULL;
+     out_file_dl = NULL;
+     out_file_dl2 = NULL;
+     out_file_dl3 = NULL;
 
      __attribute__((unused)) int rle_len_mark_ar;
 
@@ -442,10 +453,10 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      assert(size_d_dl < 65000);
 
-/**
- * @brief Construct a new attribute object, querido ric, este é o limite para o array de bit as bytes
- * 
- */
+     /**
+      * @brief Construct a new attribute object, querido ric, este é o limite para o array de bit as bytes
+      *
+      */
      __attribute__((unused)) uint16_t fixed_value_for_great_ric = size_d_dl - 100;
 
      __attribute__((unused)) uint8_t *buf_dl_bit_buffer = malloc((int)size_d_dl); //
@@ -492,12 +503,48 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      unlink(arg_dl_v[3]);
      my_file_dl = fopen(arg_dl_v[2], "rb");
+     {
+          strcpy(temp_file_dl, arg_dl_v[3]);
 
-     strcpy(temp_file_dl, arg_dl_v[3]);
+          strcat(temp_file_dl, ".bw.tmp");
+          out_file_dl = fopen(temp_file_dl, "wb");
+     }
+     {
+          strcpy(temp_file_dl2, arg_dl_v[3]);
 
-     strcat(temp_file_dl, ".bw.tmp");
+          strcat(temp_file_dl2, ".bw.lzss_bytes.tmp");
+          out_file_dl2 = fopen(temp_file_dl2, "wb");
+     }
+     {
+          strcpy(temp_file_dl3, arg_dl_v[3]);
 
-     out_file_dl = fopen(temp_file_dl, "wb");
+          strcat(temp_file_dl3, ".bw.lzss_bits.tmp");
+          out_file_dl3 = fopen(temp_file_dl3, "wb");
+     }
+     {
+          strcpy(temp_file_dl4, arg_dl_v[3]);
+
+          strcat(temp_file_dl4, ".bw.lzss_pointers.tmp");
+          out_file_dl4 = fopen(temp_file_dl4, "wb");
+     }
+     {
+          strcpy(temp_file_dl5, arg_dl_v[3]);
+
+          strcat(temp_file_dl5, ".bw.lzss+ari.tmp");
+          // out_file_dl5 = fopen(temp_file_dl5, "wb");
+     }
+     {
+          strcpy(temp_file_dl6, arg_dl_v[3]);
+
+          strcat(temp_file_dl6, ".bw.lzss_bytes+ari.tmp");
+          // out_file_dl6 = fopen(temp_file_dl6, "wb");
+     }
+     {
+          strcpy(temp_file_dl7, arg_dl_v[3]);
+
+          strcat(temp_file_dl7, ".bw.lzss_bits+ari.tmp");
+          // out_file_dl7 = fopen(temp_file_dl7, "wb");
+     }
 
      // bfpOut = MakeBitFile(out_file_dl, BF_WRITE);
 
@@ -581,6 +628,8 @@ int main(int arg_dl_c, char **arg_dl_v)
 
           amanda_need_to_flush_ric = -0;
 
+          requires_last_byte_11_jan_2022_v6_dl = false;
+
           while (true)
           {
                /*
@@ -610,8 +659,6 @@ int main(int arg_dl_c, char **arg_dl_v)
                ptr_position_for_bit_memory_dl = buf_dl_bit_buffer;
 
                bit_position_11_jan_2022_v6_dl = 0;
-
-               requires_last_byte_11_jan_2022_v6_dl = false;
 
                current_byte_being_generated_11_jan_2022_v6_byte_dl = 0;
 
@@ -718,104 +765,6 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                if (number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl)
                     pedro_dprintf(-1, "aqui  %d", number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl);
-
-               if (4095 < compressed_and_encoded_bytes_available_11_jan_2022_v6_dl)
-               {
-                    // assert(0);
-                    if (DEBUG_DL__)
-                         pedro_dprintf(0, "passo final agora é só salvar os dados das duas linked lists");
-
-                    if (DEBUG_DL__)
-                    {
-                         assert(0 && "last step");
-                    }
-
-                    {
-                         if (true)
-                         {
-
-                              bits_encoded_size_in_bytes_dl = number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl;
-
-                              if (requires_last_byte_11_jan_2022_v6_dl)
-                              {
-                                   bits_encoded_size_in_bytes_dl++; // fixed already only need to save the last byte if required
-                                   (*ptr_position_for_bit_memory_dl) = current_byte_being_generated_11_jan_2022_v6_byte_dl;
-                                   ptr_position_for_bit_memory_dl++;
-                                   // saving the last byte if required
-                              }
-
-                              size_of_compressed_buffer2_dl_int = compressed_and_encoded_bytes_available_11_jan_2022_v6_dl;
-
-                              assert((1 << 15) > size_of_compressed_buffer2_dl_int);
-
-                              size_of_compressed_buffer_dl = size_of_compressed_buffer2_dl_int;
-
-                              size_of_compressed_buffer2_dl_int = bits_encoded_size_in_bytes_dl;
-
-                              assert((1 << 15) > size_of_compressed_buffer2_dl_int);
-
-                              size_of_compressed_buffer2_dl = size_of_compressed_buffer2_dl_int;
-
-                              pedro_dprintf(-1, "buf 0 %i", size_of_compressed_buffer_dl);
-                              pedro_dprintf(-1, "buf 1 %i", size_of_compressed_buffer2_dl);
-                              // assert(0);
-
-                              {
-                                   fwrite(&size_of_compressed_buffer_dl, 1, 2, out_file_dl);
-
-                                   fwrite(&size_of_compressed_buffer2_dl, 1, 2, out_file_dl);
-
-                                   //;; pedro_dprintf(0, " %d %d ", )
-
-                                   assert(size_of_compressed_buffer2_dl < fixed_value_for_great_ric);
-
-                                   pedro_dprintf(-1, "array of bytes %d", size_of_compressed_buffer_dl);
-
-                                   pedro_dprintf(-1, "size_of_compressed_buffer_dl %d", size_of_compressed_buffer_dl);
-
-                                   fwrite(buf_dl_compressed, 1, size_of_compressed_buffer_dl, out_file_dl);
-                                   // assert(0);
-                                   fwrite(buf_dl_bit_buffer, 1, size_of_compressed_buffer2_dl, out_file_dl);
-
-
-                              }
-
-                              if (DEBUG_DL__)
-                                   pedro_dprintf(0, "salvou os dados e imprimiu dados na tela");
-
-                              if (DEBUG_DL__)
-                              {
-                                   assert(0 && "parando");
-                              }
-                              // next ric
-                         }
-
-                         number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl = 0;
-                         requires_last_byte_11_jan_2022_v6_dl = false;
-                         size_of_compressed_buffer_dl = -0; // have you seen this before?
-                         size_of_compressed_buffer2_dl = 0;
-                         bit_position_11_jan_2022_v6_dl = 0;
-                         bits_added_11_jan_2022_v6_dl = 0;
-                         current_byte_being_generated_11_jan_2022_v6_byte_dl = 0;
-
-                         ptr_position_for_bit_memory_dl = buf_dl_bit_buffer;
-                         position_of_the_data_in_the_output_stream_dl = buf_dl_compressed;
-
-                         amanda_need_to_flush_ric = -0;
-
-                         size_of_compressed_buffer2_dl_int = 0;
-
-                         compressed_and_encoded_bytes_available_11_jan_2022_v6_dl = 0;
-                         bits_encoded_size_in_bytes_dl = 0;
-                         number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl = 0;
-                         number_of_encoded_bytes_resulting_of_encoding_bits_requires_the_last_byte_in_some_cases_11_jan_2022_v6_dl = 0;
-
-                         bits_encoded_size_in_bytes_dl = 0;
-
-                         // goto continua_pro_proximo_buffer_a_ser_lido_dl;, just a removal, it even the 'guy' can do
-                    }
-               }
-
                if (DEBUG_DL__)
                     pedro_dprintf(0, "initial process");
 
@@ -946,7 +895,6 @@ if ok it will be the minimum size if reached there but check
 
 
 
-this don't change...
                               */
 
                               for (i_a = 0; i_a < max_size_string_from_buffer_0; i_a++)
@@ -1067,6 +1015,14 @@ this don't change...
                goto continua_pro_proximo_buffer_a_ser_lido_dl;
           }
      continua_pro_proximo_buffer_a_ser_lido_dl:;
+
+          if (requires_last_byte_11_jan_2022_v6_dl)
+          {
+               putc(1, out_file_dl3);
+          }
+          else
+               putc(0, out_file_dl3);
+
           fclose(my_file_dl);
 
           if (out_file_dl)
@@ -1080,6 +1036,21 @@ this don't change...
      {
           fclose(out_file_dl);
           out_file_dl = NULL;
+     }
+     if (out_file_dl2)
+     {
+          fclose(out_file_dl2);
+          out_file_dl2 = NULL;
+     }
+     if (out_file_dl3)
+     {
+          fclose(out_file_dl3);
+          out_file_dl3 = NULL;
+     }
+     if (out_file_dl4)
+     {
+          fclose(out_file_dl4);
+          out_file_dl4 = NULL;
      }
 
      free(buf_dl), free(buf_dlb), free(buf_dl_0), free(buf_dl_1), free(buf_dl_2),
@@ -1096,14 +1067,53 @@ this don't change...
 
      minha_struct.size_of_the_file_to_compress_dl = tamanho_dl;
 
-     if (main_dl(sizeof(minha_struct), (char *)&minha_struct, temp_file_dl, arg_dl_v[3]))
-     {
-          unlink(temp_file_dl);
-          printf("Error in the arithmetic compression, cannot open a file to read or write\n");
-          return 27;
-     }
+     // main_dl_THE_amanda()
 
-     // unlink(temp_file_dl);
+     /*
+          if (main_dl(sizeof(minha_struct), (char *)&minha_struct, temp_file_dl, arg_dl_v[3]))
+          {
+               unlink(temp_file_dl);
+               printf("Error in the arithmetic compression, cannot open a file to read or write\n");
+               return 27;
+          }
+     */
+
+     /*
+          main_dl_THE_amanda(temp_file_dl4, temp_file_dl5);
+          main_dl_THE_amanda(temp_file_dl2, temp_file_dl6);
+          main_dl_THE_amanda(temp_file_dl3, temp_file_dl7);
+          unlink("ric o cara");
+          system("touch 'ric o cara'");
+          concatenate_files_from_ric_da_amandua(temp_file_dl5, arg_dl_v[3]);
+          concatenate_files_from_ric_da_amandua(temp_file_dl6, arg_dl_v[3]);
+          concatenate_files_from_ric_da_amandua(temp_file_dl7, arg_dl_v[3]);
+     */
+
+     concatenate_files_from_ric_da_amandua(temp_file_dl2, arg_dl_v[3]);
+     concatenate_files_from_ric_da_amandua(temp_file_dl3, arg_dl_v[3]);
+     concatenate_files_from_ric_da_amandua(temp_file_dl4, arg_dl_v[3]);
+
+     unlink(temp_file_dl2);
+     unlink(temp_file_dl3);
+     unlink(temp_file_dl4);
+
+     /*
+      unlink(temp_file_dl5);
+      concatenate_files_from_ric_da_amandua(temp_file_dl2, temp_file_dl5);
+      concatenate_files_from_ric_da_amandua(temp_file_dl3, temp_file_dl5);
+      concatenate_files_from_ric_da_amandua(temp_file_dl4, temp_file_dl5);
+
+      main_dl_THE_amanda(temp_file_dl5, arg_dl_v[3]);
+
+      unlink(temp_file_dl2);
+      unlink(temp_file_dl3);
+      unlink(temp_file_dl4);
+      unlink(temp_file_dl5);
+      unlink(temp_file_dl6);
+      unlink(temp_file_dl7);
+ */
+
+     unlink(temp_file_dl);
      printf("\nDiligent Compressor\n\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n");
      return 0;
 
