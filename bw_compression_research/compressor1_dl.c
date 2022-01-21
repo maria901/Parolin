@@ -98,17 +98,18 @@
 #define DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192 (1002) /* old version */
 
 /**
- * @brief started with v14c at 21 jan 2022 04:22
- * it is pure lzss.c based code but buffers not using 4096 but 8192 bytes
- * 
- * did you got that, soon we will see why people preffer the 4096 version
- * 
- * of course it will be slower but can compress better
- * 
- * lets work on it...
- * 
+ * It will compress a 8192 based lzss stream but with a 12 bits only adress not 13, then the compressed stream is invalid, only for research purposes, cannot decompress but will chow the most higher ratio the compression can achieve for 8192 bytes sliding window
+ *
  */
-#define DL_NEW_MODE_LZSS_WITH8192_BYTES_SLIDING_WINDOW__ (1003) /* old version */
+#define DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_12_BITS_ADRESS_ (1003) 
+
+
+/**
+ * It will compress a 8192 based lzss stream but with a 13 bits , then the compressed stream is valid, can decompress
+ *
+ */
+#define DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_ (1004) 
+
 
 /**
  * @brief will define the mode to use
@@ -220,7 +221,7 @@ int main_dl_THE_amanda(char *input_file_dl, char *output_file_dl);
 
 // 88888888888888888888888888888888888888888888888
 
-#define V9C_INTERNAL_BUFFER_SIZE_DL_ (DL_SIZE__)
+#define V9C_INTERNAL_BUFFER_SIZE_DL_ (DL_SIZE__) /* it says v9c but at this moment it is v14c */
 
 // 88888888888888888888888888888888888888888888888888888888888888
 
@@ -444,7 +445,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
      __attribute__((unused)) uint8_t *buf_dl_0 = malloc(DL_SIZE__ * 2);
 
-     __attribute__((unused)) uint8_t *sliding_window_amanda = malloc((DL_SIZE__ * 2) + MAX_STRING_SEARCH_SIZE_DL__);
+     __attribute__((unused)) uint8_t *sliding_window_amanda = malloc((DL_SIZE__ * 2) + MAX_STRING_SEARCH_SIZE_DL__); // as you can see it is large enough, kkkkkk, dont be afraid in a near future (next week (jan 2022)) it will have only the real required size, thanks for your patience
 
      __attribute__((unused)) uint8_t *sliding_window_amanda2 = malloc(DL_SIZE__ + MAX_STRING_SEARCH_SIZE_DL__);
 
@@ -703,7 +704,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                bytes_in_buffer_ar = fread(buf_dlb, 1, V9C_INTERNAL_BUFFER_SIZE_DL_, my_file_dl);
 
-          volta_aqui_mais_alto_mar:; // sim é alguem, duas mar...
+          volta_aqui_filho_da_mae___:; // sim é alguem, duas mar...
 
                /*
                               if (len_dl_copy < 18)
@@ -921,7 +922,7 @@ if ok it will be the minimum size if reached there but check
 
                                    sliding_window_amanda[contador_pra_baixo_ar++] = position_of_the_data_in_the_input__stream_dl_original[i_a];
 
-                                   if (4096 == contador_pra_baixo_ar)
+                                   if (DL_SIZE__ == contador_pra_baixo_ar)
                                    {
                                         contador_pra_baixo_ar = 0;
                                    }
@@ -953,7 +954,7 @@ if ok it will be the minimum size if reached there but check
                                    }
                               }
 
-                              goto volta_aqui_mais_alto_mar;
+                              goto volta_aqui_filho_da_mae___; // isso foi que meu primeiro sogro disse no dia que fui conhecer minha filha Mislaine em 1990
 
                               /*
 
@@ -1023,7 +1024,7 @@ if ok it will be the minimum size if reached there but check
                          assert(0 && "parando");
                     }
 
-                    goto volta_aqui_mais_alto_mar; // just start again (it is v6 based)
+                    goto volta_aqui_filho_da_mae___; // just start again (it is v6 based)
                }
                break;
           }
@@ -1171,6 +1172,12 @@ exit_now_ric_dl:;
 
 the information below talks about old research information that may have changed or are now irrelevant in v6 version and above
 
+
+
+
+
+
+BEGIN ---
 
 
 in portuguese, translate it

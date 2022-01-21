@@ -803,6 +803,13 @@ int __fastcall decode_ric_dl(char *
                                                                     &address__dl);
 
 #if DL_ENCODER_DECODER_MODE_ == DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096
+
+
+assert(0 && "you don't know what you are doing, are you? he he he");
+// #error Ric, value not handled, please check...
+
+//cannot be called ric, not ric, the function kkkkk, it is v4 and not v14c or above...
+
 #error 3 ric please check...
 #include "mode_basic_4096_buf_size_dl.c"
 
@@ -810,7 +817,12 @@ int __fastcall decode_ric_dl(char *
 #include "mode_v10_dl.c"
 #else
 
-#error Ric, value not handled, please check...
+assert(0 && "you don't know what you are doing, are you? he he he");
+// #error Ric, value not handled, please check...
+
+//cannot be called ric, not ric, the function kkkkk, it is v10 and not v14c or above...
+
+#include "mode_v10_dl.c"
 
 #endif
 
@@ -1011,3 +1023,4 @@ exit_ric_my_dear_dl:;
 
      return return_value_dl;
 }
+// https://music.youtube.com/watch?v=mL2Evq3ge5A&list=RDAMVMwBfVsucRe1w 
