@@ -68,7 +68,7 @@ FILE *out_file_dl7 = NULL;
 #define ENCODED 1 /* encoded string */
 #define UNCODED 0 /* unencoded character */
 
-#define OFFSET_BITS 13
+#define OFFSET_BITS 12
 #define LENGTH_BITS 4
 
 #define MAX_UNCODED (((2))) /* humble programmer */
@@ -334,6 +334,14 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
      assert(string_size_dl_up_to_18 >= 3);
 
+     /*
+          if(4095 < position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+          {
+               position_on_the_passed_buffer_up_to_4096_12_bits_dl = 4095;
+          }
+     */
+
+     pedro_dprintf(-1, "%d", position_on_the_passed_buffer_up_to_4096_12_bits_dl);
      assert(V9C_INTERNAL_BUFFER_SIZE_DL_ >= position_on_the_passed_buffer_up_to_4096_12_bits_dl);
 
      string_size_dl_up_to_18 = size_of_string_log_decode_dl(string_size_dl_up_to_18);
@@ -844,7 +852,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
      */
      // uint8_t temp_ric_dl;
      uint16_t *ptr_uint16_dl;
-     int i_dl, th13____; // 13th bit
+     int i_dl;
      static uint8_t temp_dl[3 /* if in the future it was changed don't forget it ric... */];
 
      if (DEBUG_DL__)

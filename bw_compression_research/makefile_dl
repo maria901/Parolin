@@ -1,15 +1,15 @@
 #(started) janeiro 2022 08 20:00 hs -dl
 
 #(current)              15 07:42 hs
-DL____FLAGS__=-O1 -Wall -Wfatal-errors -Werror -Wno-restrict -Wextra -Wno-unused-function -I .
+DL____FLAGS__=-Os -I./Nosso_ricardinho_euclid -I./Filho_do_Ghazi_e_lu -I./Ricardo_ibn_Ghazi_ibn_Douglas_ibn_Silvio_ibn_Mauricio_ibn_Pavlo_ibn_Marcao_ibn_Roberto_ibn_Roberto_ibn_Roberto_ibn_Nilson_ibn_Ladinho
 	
 ESPACO_VAZIO_BW_ = -Dl2345678901OI_RIC_
 
 dlf:
-	cp -r * 'C:\cygwin64_amandaricardo_koci_10.2.0\tar\bw_compression_research'
+	cp -r * 'C:\cygwin64_ra\tar\bw_compression_research'
 	echo "deu..."
 
-pedro_dl_.o: pedro.c 
+pedro_dl_.o: pedro.c
 	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -c -o pedro_dl_.o pedro.c
 
 unarithmethic_coding_by_mark_dl_.o: unarithmethic_coding_by_mark.c
@@ -18,8 +18,9 @@ unarithmethic_coding_by_mark_dl_.o: unarithmethic_coding_by_mark.c
 arithmethic_coding_by_mark_dl_.o: arithmethic_coding_by_mark.c
 	x86_64-w64-mingw32-gcc.exe $(DL____FLAGS__) -c -o arithmethic_coding_by_mark_dl_.o arithmethic_coding_by_mark.c
 
-
-
+################################################################################################################################ 
+###	
+################################################################################################################################ 
 
 ############################################################
 ############################################################

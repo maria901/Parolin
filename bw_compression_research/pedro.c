@@ -20,9 +20,9 @@
 *                                                                             *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-     E-mails:
-     maria@arsoftware.net.br
-     pedro@locacaodiaria.com.br
+	 E-mails:
+	 maria@arsoftware.net.br
+	 pedro@locacaodiaria.com.br
 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 *                                                                             *
@@ -155,4 +155,32 @@ void pedro_dprintfW( // para imprimir wide string use %ls ok?, te amo...
 #endif
 	}
 	return;
+}
+
+int ra____file_size(unsigned char *ra____file)
+{
+	int ra____tamanho;
+	FILE *ra____file_ptr = fopen((void *)ra____file, "rb");
+	if (NULL == ra____file_ptr)
+	{
+		printf("Erro em %s\n", __FUNCTION__);
+		exit(7);
+		return 7;
+	}
+
+	fseek(ra____file_ptr, 0, SEEK_END);
+
+	ra____tamanho = ftell(ra____file_ptr);
+
+	fclose(ra____file_ptr);
+
+	return ra____tamanho;
+}
+int ra____mensaginha_sim_nao(unsigned short *ra____text)
+{
+	return MessageBoxW(0, ra____text, L"Ric listen to this\n", MB_YESNO);
+}
+int ra____mensaginha_ok(unsigned short *ra____text)
+{
+	return MessageBoxW(0, ra____text, L"Ric listen to this\n", MB_OK);
 }

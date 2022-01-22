@@ -110,9 +110,15 @@
 #define DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_ (196953)
 
 /**
+ * @brief Let we see whether fi above 18 the string size it compress better
+ *
+ */
+#define DL_NEW_MODE_LZSS_WITH_4096_BYTES_SLIDING_WINDOW_32_MAX_STRING_SIZE_ (2020)
+
+/**
  * @brief will define the mode to use, as you may guess and for your pleasure, as always... (by your friend, ric)
  */
-#define DL_ENCODER_DECODER_MODE_ (DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_) /* first we will generate an invalid stream but with a higher ratio, for research purposes */
+#define DL_ENCODER_DECODER_MODE_ (DL_NEW_MODE_LZSS_WITH_4096_BYTES_SLIDING_WINDOW_32_MAX_STRING_SIZE_) /* first we will generate an invalid stream but with a higher ratio, for research purposes */
 
 // END ---
 
@@ -238,7 +244,7 @@ int main_dl_THE_amanda(char *input_file_dl, char *output_file_dl);
 #define MIN_STRING_SEARCH_SIZE_DL__ (3)       /* 3 bytes is the smallest size that can be compressed, remember if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be stored in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) (v8 in this version this don't change again)*/
 #define STRING_PASS_SIZE_DL__ (1)             /* this will change in the future just to speed up execution */
 
-#define DL_SIZE__ (1L << 13) /* was 4096 now in the v14c and above it is 8192 */
+#define DL_SIZE__ (1L << 12) /* testing */
 
 // 88888888888888888888888888888888888888888888888
 
@@ -717,7 +723,7 @@ int main(int arg_dl_c, char **arg_dl_v)
 
                bytes_in_buffer_ar = fread(buf_dlb, 1, V9C_INTERNAL_BUFFER_SIZE_DL_, my_file_dl);
 
-          volta_aqui_filho_da_mae___:;
+          volta_aqui_filho_da_mae___:; // Meu Tio Antoninho, avo da minha filha me berrou isso uma vez e eu nao apareci mais
 
                /* spent one hour to develop this code */
                if (bytes_in_buffer_ar < 36)
@@ -818,18 +824,8 @@ int main(int arg_dl_c, char **arg_dl_v)
                     cannot_be_largest_string_size_dl = true; // will not be used in a few minutes v12
                }
 
-               // nao tem que lembrar isto em caso de nao achar ?, sim tem que voltar pra cá e com o tamanho certo, precisa de uma cópia, se der atualiza, vai la....
-
                if (DEBUG_DL__)
                     pedro_dprintf(0, "size of already saw data %d e deslocamento no buffer real %d", size_of_already_saw_data_dl, size_of_already_saw_data_dl + size_of_the_neddle_dl);
-
-               /*
-
-
-
-use the copy, and now
-if ok it will be the minimum size if reached there but check
-               */
 
                position_of_the_data_in_the_input__stream_dl += 1;
                buf_dl_ptr += 1;
@@ -839,10 +835,6 @@ if ok it will be the minimum size if reached there but check
                bytes_in_buffer_ar -= 1;
 
                assert(0 <= bytes_in_buffer_ar);
-
-               /*
-
-               */
 
                found_buffer_0_dl = false;
 
@@ -874,10 +866,6 @@ if ok it will be the minimum size if reached there but check
                     }
                }
 
-               /*
-
-               */
-
                {
 
                     if (found_buffer_0_dl)
@@ -906,14 +894,6 @@ if ok it will be the minimum size if reached there but check
                                                                              out_file_dl*/
                               );                                                 // v12
 
-                              /*
-
-
-
-
-
-                              */
-
                               for (i_a = 0; i_a < max_size_string_from_buffer_0; i_a++)
                               {
 
@@ -939,9 +919,6 @@ if ok it will be the minimum size if reached there but check
 
                               goto volta_aqui_filho_da_mae___; // isso foi que meu primeiro sogro disse no dia que fui conhecer minha filha Mislaine em 1990
 
-                              /*
-
-                              */
                          }
                     }
                }
@@ -953,10 +930,6 @@ if ok it will be the minimum size if reached there but check
                {
                     assert(0 && "parando");
                }
-
-               // pula_pra_ca_se_ajustar_size_of_already_saw_data_dl:;
-
-               // adjusting the size of available bytes to the new copied neddle, or it will locate the current neddle being tested, it was a bug in versions of the past
 
                // the_magic_begins_here__dl:;
 
@@ -974,10 +947,6 @@ if ok it will be the minimum size if reached there but check
 
                     assert(MIN_STRING_SEARCH_SIZE_DL__ >= 1);
                     size_real_for_number_of_characters_up_to_259_dl = (uint16_t)1;
-
-                    // assert(4 <= size_real_for_number_of_characters_up_to_259_dl);
-
-                    // size_real_for_number_of_characters_up_to_259_dl -= 4;
 
                     size_of_characters_adjusted_to_pass_dl = (uint8_t)size_real_for_number_of_characters_up_to_259_dl;
 
@@ -1113,7 +1082,7 @@ if ok it will be the minimum size if reached there but check
       unlink(temp_file_dl5);
       unlink(temp_file_dl6);
       unlink(temp_file_dl7);
- */
+      */
 
      unlink(temp_file_dl);
      printf("\nDiligent Compressor\n\nVersion of the encoder/decoder -> " STRING_VERSION_DL_COMPRESSOR "\n");
