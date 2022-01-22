@@ -1,8 +1,8 @@
 #(started) janeiro 2022 08 20:00 hs -dl
 
 #(current)              15 07:42 hs
-DL____FLAGS__=-Os -I./Nosso_ricardinho_euclid -I./Filho_do_Ghazi_e_lu -I./Ricardo_ibn_Ghazi_ibn_Douglas_ibn_Silvio_ibn_Mauricio_ibn_Pavlo_ibn_Marcao_ibn_Roberto_ibn_Roberto_ibn_Roberto_ibn_Nilson_ibn_Ladinho
-	
+DL____FLAGS__=-Wall -Wextra -Wall -Wno-unused-value -Wno-unused-variable -Os -I./Nosso_ricardinho_euclid -I./Filho_do_Ghazi_e_lu -I./Ricardo_ibn_Ghazi_ibn_Douglas_ibn_Silvio_ibn_Mauricio_ibn_Pavlo_ibn_Marcao_ibn_Roberto_ibn_Roberto_ibn_Roberto_ibn_Nilson_ibn_Ladinho
+
 ESPACO_VAZIO_BW_ = -Dl2345678901OI_RIC_
 
 dlf:
