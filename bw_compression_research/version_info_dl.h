@@ -1,6 +1,6 @@
-#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 4 + 3 + 3))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
+#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 4 + 4 + 3))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
 
-#define STRING_VERSION_DL_COMPRESSOR " v14ca build 00345   \n(char value == 53 + 4 + 3 + 3) \ncodename: Alvin e Olga \n(" __TIME__ " " __DATE__ ") \n\n"
+#define STRING_VERSION_DL_COMPRESSOR " v15 build 00425   \n(char value == 53 + 4 + 4 + 3) \ncodename: ricardinho \n(" __TIME__ " " __DATE__ ") \n\n"
 
 /*
 
@@ -13,6 +13,11 @@
 minha_struct.version_of_the_code = THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___; // v12 started 17 jan 2022 18:57
 
 /*
+...........
+........... (22 jan 2022) v15 uses 8192 bytes for sliding dictionary this is why it
+........... compresses better, but is slower than any prior version, and yet it dont
+........... compress the last 18 characters on the input data,but v16 will
+...........
 ........... (20 jan 2022 16:02)
 ........... 101643 - ric (v14a)
 ........... 101575 - Haruhiko Okumura

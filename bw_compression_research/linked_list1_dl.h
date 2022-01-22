@@ -68,7 +68,7 @@ FILE *out_file_dl7 = NULL;
 #define ENCODED 1 /* encoded string */
 #define UNCODED 0 /* unencoded character */
 
-#define OFFSET_BITS 12
+//#define OFFSET_BITS 12
 #define LENGTH_BITS 4
 
 #define MAX_UNCODED (((2))) /* humble programmer */
@@ -1189,10 +1189,10 @@ encoded_string_t FindMatch(const unsigned int windowHead,
                /* we matched one. how many more match? */
                j = 1;
 
-               while (slidingWindow_ricardo[Wrap((i + j), (((1 << OFFSET_BITS))))] ==
-                      uncodedLookahead_amanda[Wrap((uncodedHead + j), ((1 << LENGTH_BITS) + MAX_UNCODED))])
+               while (slidingWindow_ricardo[Wrap((i + j), (((V9C_INTERNAL_BUFFER_SIZE_DL_))))] ==
+                      uncodedLookahead_amanda[Wrap((uncodedHead + j), ((MAX_STRING_SEARCH_SIZE_DL__) + MAX_UNCODED))])
                {
-                    if (j >= ((1 << LENGTH_BITS) + MAX_UNCODED))
+                    if (j >= ((MAX_STRING_SEARCH_SIZE_DL__) + MAX_UNCODED))
                     {
                          break;
                     }
@@ -1206,13 +1206,13 @@ encoded_string_t FindMatch(const unsigned int windowHead,
                }
           }
 
-          if (j >= ((1 << LENGTH_BITS) + MAX_UNCODED))
+          if (j >= ((MAX_STRING_SEARCH_SIZE_DL__) + MAX_UNCODED))
           {
-               matchData.length = ((1 << LENGTH_BITS) + MAX_UNCODED);
+               matchData.length = ((MAX_STRING_SEARCH_SIZE_DL__) + MAX_UNCODED);
                break;
           }
 
-          i = Wrap((i + 1), (1 << OFFSET_BITS));
+          i = Wrap((i + 1), (V9C_INTERNAL_BUFFER_SIZE_DL_));
           if (i == windowHead)
           {
                /* we wrapped around */

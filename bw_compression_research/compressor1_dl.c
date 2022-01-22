@@ -116,9 +116,15 @@
 #define DL_NEW_MODE_LZSS_WITH_4096_BYTES_SLIDING_WINDOW_32_MAX_STRING_SIZE_ (2020)
 
 /**
+ * @brief doing this compresses better but requires more memory
+ * 
+ */
+#define DL_LZSS_WITH_8192_SLIDING_DICTIONARY_ (2098)
+
+/**
  * @brief will define the mode to use, as you may guess and for your pleasure, as always... (by your friend, ric)
  */
-#define DL_ENCODER_DECODER_MODE_ (DL_NEW_MODE_LZSS_WITH_4096_BYTES_SLIDING_WINDOW_32_MAX_STRING_SIZE_) /* first we will generate an invalid stream but with a higher ratio, for research purposes */
+#define DL_ENCODER_DECODER_MODE_ (DL_LZSS_WITH_8192_SLIDING_DICTIONARY_) /* first we will generate an invalid stream but with a higher ratio, for research purposes */
 
 // END ---
 
@@ -244,7 +250,10 @@ int main_dl_THE_amanda(char *input_file_dl, char *output_file_dl);
 #define MIN_STRING_SEARCH_SIZE_DL__ (3)       /* 3 bytes is the smallest size that can be compressed, remember if the string input is less than 3 bytes just store the string without searching for a match, or it will try to add an entry to the pointers with less than 3 and it cannot be stored in our moved initial value that is 0 plus 3 to make 18 (15 max value) (v7) (v8 in this version this don't change again)*/
 #define STRING_PASS_SIZE_DL__ (1)             /* this will change in the future just to speed up execution */
 
-#define DL_SIZE__ (1L << 12) /* testing */
+#if 1
+#define DL_SIZE__ (1L << 13) /* testing */
+#define DL_SIZE__ (1L << 13) /* testing */
+#endif
 
 // 88888888888888888888888888888888888888888888888
 
