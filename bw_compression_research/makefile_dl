@@ -62,7 +62,7 @@ dl_50:
 
 #	./dl1.exe make.ava make.ava.compressed_by_dl_compressor
 #	./dl1.exe test.ava test.ava.compressed_by_dl_compressor
-	./dl1.exe e make.bin make.bin.compressed_by_dl_compressor.v15
+	./dl1.exe e make.bin make.bin.compressed_by_dl_compressor.v16
 #	./dl1.exe d make.bin.compressed_by_dl_compressor.v14a make.bin.decompressed_by_dl_v14a
 #	./dl1.exe not_compressible.ava not_compressible.ava.compressed_by_dl_compressor
 #	-./rle < make.exe > make.rle
