@@ -312,7 +312,9 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
 
 #if 1
                                                       ,
-                                                      int *th13_bit_i
+                                                      int *th13_bit_i,
+                                                      int *th14_bit_i,
+                                                      int *th15_bit_i
 #endif
 
 )
@@ -352,7 +354,7 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
      for (i_dl = 0; i_dl <
 
 #if 1
-                    17
+                    17 + 2 /* is it */
 #endif
 
           ;
@@ -649,6 +651,37 @@ uint16_t prepare_unsigned_short_int_12_jan_2022_v6_dl(uint8_t string_size_dl_up_
                pois_eh_dl++;
                break;
 
+          case 17:
+
+               mask_dl = (1 << pois_eh_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    *th14_bit_i = 1;
+               }
+               else
+               {
+                    *th14_bit_i = 0;
+               }
+
+               pois_eh_dl++;
+               break;
+          case 18:
+
+               mask_dl = (1 << pois_eh_dl);
+
+               if (mask_dl & position_on_the_passed_buffer_up_to_4096_12_bits_dl)
+               {
+                    *th15_bit_i = 1;
+               }
+               else
+               {
+                    *th15_bit_i = 0;
+               }
+
+               pois_eh_dl++;
+               break;
+
 #endif
           }
      }
@@ -833,7 +866,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
                                                               __attribute__((unused)) bool using_previous_buffer_dl)
 {
 
-     int th13____;
+     int th13____, th14____, th15____;
      uint16_t len_of_input_to_encode_as_you_may_expect_dl = len_of_input_to_encode_as_you_may_expect_dl_;
 
      uint16_t *ptr_uint16_dl;
@@ -899,13 +932,17 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
 
 #if 1
                                                                         ,
-                                                                        &th13____
+                                                                        &th13____,
+                                                                        &th14____,
+                                                                        &th15____
 #endif
 
           );
 
 #if 1
           encode_bit_11_jan_2022_v6_dl(th13____);
+          encode_bit_11_jan_2022_v6_dl(th14____);
+          encode_bit_11_jan_2022_v6_dl(th15____);
 #endif
 
           if (is_it_little_ric_endian_ar)

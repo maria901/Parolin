@@ -84,47 +84,6 @@
 
 
 */
-/** (old information)
- * @brief this is the mode where the buffer searched for matching string is the current buffer that is composed by the bytes being added, when searching on this current buffer if the maximum possible string for the needle is found the address and size is stored in the destination compressed buffer, so if the bytes loaded are 100 then you have 100 bytes in the searching buffer for the moment up to the maximum loaded bytes of 4096 bytes, this is lz77 like approuch, not lzss that have a sliding window that get bytes shifted all the time, for our method the buffer to search is the already loaded bytes, for this reason lzss gives a better compression ratio, lzss starts with a sliding window always of 4096 of space (character 32), in our method the bytes available in the searching code is the input buffer limited to the number of byes already processed, it don't compress better than lzss + ari from Doctor Haruhiko
- *
- */
-#define DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096 (1001) /* old version */
-
-/** (old information)
- * @brief this is the method that we will implement in a few minutes (now is 19:41 15/jan/2022), in this enhanced method we extend the 4096 maximum searching dictionary from 4096 to 8192 bytes, how? just adding an addicional bit that selects whether the buffer being searched is the current buffer or the last passed buffer, then it at least increases the required space in one bit for each string that need to be reconstructed using the two bytes storeage 4 bits for string size and 12 for the 4096 maximum address position, did you got it?
- * Well using this additional bit it expands the searching possibilies to the double, but will also require more space to store the compressed data, but as you will see it allows better compression, well now we will add the code to it
- *
- */
-#define DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192 (1002) /* old version */
-
-/**
- * It will compress a 8192 based lzss stream but with a 12 bits only adress not 13, then the compressed stream is invalid, only for research purposes, cannot decompress but will chow the most higher ratio the compression can achieve for 8192 bytes sliding window
- *
- */
-#define DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_12_BITS_ADRESS_ (199428)
-
-/**
- * It will compress a 8192 based lzss stream but with 13 bits, then the compressed stream is valid, can decompress, but will use an additional bit
- *
- */
-#define DL_NEW_MODE_LZSS_WITH_8192_BYTES_SLIDING_WINDOW_13_BITS_ADRESS_ (196953)
-
-/**
- * @brief Let we see whether fi above 18 the string size it compress better
- *
- */
-#define DL_NEW_MODE_LZSS_WITH_4096_BYTES_SLIDING_WINDOW_32_MAX_STRING_SIZE_ (2020)
-
-/**
- * @brief doing this compresses better but requires more memory
- * 
- */
-#define DL_LZSS_WITH_8192_SLIDING_DICTIONARY_ (2098)
-
-/**
- * @brief will define the mode to use, as you may guess and for your pleasure, as always... (by your friend, ric)
- */
-#define DL_ENCODER_DECODER_MODE_ (DL_LZSS_WITH_8192_SLIDING_DICTIONARY_) /* first we will generate an invalid stream but with a higher ratio, for research purposes */
 
 // END ---
 
@@ -178,19 +137,6 @@
 
 #define __attribute__(ricardo) /* unused */
 
-#endif
-#include <process.h>
-
-#ifndef uchar
-#define uchar unsigned char
-#endif
-
-#ifndef uint
-#define uint unsigned int
-#endif
-
-#ifndef ushort
-#define ushort unsigned short
 #endif
 
 // 88888888888888888888888888888888888888888888888888888888888888
@@ -251,8 +197,8 @@ int main_dl_THE_amanda(char *input_file_dl, char *output_file_dl);
 #define STRING_PASS_SIZE_DL__ (1)             /* this will change in the future just to speed up execution */
 
 #if 1
-#define DL_SIZE__ (1L << 13) /* testing */
-#define DL_SIZE__ (1L << 13) /* testing */
+#define DL_SIZE__ (1L << 15) /* testing */
+#define DL_SIZE__ (1L << 15) /* testing */
 #endif
 
 // 88888888888888888888888888888888888888888888888
@@ -927,7 +873,6 @@ int main(int arg_dl_c, char **arg_dl_v)
                               assert(0 <= bytes_in_buffer_ar);
 
                               goto volta_aqui_filho_da_mae___; // isso foi que meu primeiro sogro disse no dia que fui conhecer minha filha Mislaine em 1990
-
                          }
                     }
                }

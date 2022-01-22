@@ -47,41 +47,41 @@
 // distributed as part of the Parolin project in the subfolder
 // bw_compression_research
 
-#include  <windows.h>
-#include   <stdint.h>
-#include    <stdio.h>
-#include   <stdlib.h>
-#include   <string.h>
-#include     <time.h>
-#include    <errno.h>
-#include    <fcntl.h>
-#include    <ctype.h>
-#include     <math.h>
-#include   <wctype.h>
-#include    <wchar.h>
-#include   <stdarg.h>
-#include   <stddef.h>
-#include   <setjmp.h>
-#include   <locale.h>
-#include   <signal.h>
-#include   <limits.h>
-#include    <float.h>
-#include   <iso646.h>
+#include <windows.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <math.h>
+#include <wctype.h>
+#include <wchar.h>
+#include <stdarg.h>
+#include <stddef.h>
+#include <setjmp.h>
+#include <locale.h>
+#include <signal.h>
+#include <limits.h>
+#include <float.h>
+#include <iso646.h>
 
 #undef NDEBUG
-#include   <assert.h>
+#include <assert.h>
 
 #ifndef _MSC_VER
-#include  <stdbool.h>
-#else 
-#define bool	char
-#define true	1
-#define false	0
+#include <stdbool.h>
+#else
+#define bool char
+#define true 1
+#define false 0
 
 #define __attribute__(ricardo) /* unused */
 
-#endif 
-#include  <process.h>
+#endif
+#include <process.h>
 
 // 8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 // defines
@@ -811,31 +811,13 @@ int __fastcall decode_ric_dl(char *
                get_string_size_and_address_in_the_current_buffer_dl(composed_pointer_and_string_size_16_dl,
                                                                     &string_size__dl,
                                                                     &address__dl);
+               assert(0 && "cannot decompress for the moment");
 
-#if DL_ENCODER_DECODER_MODE_ == DL_MODE_INITIAL_LZ77_PLUS_LZSS_LIMITED_BUFFER_SIZE_OF_4096
+#include "mode_v10_dl.c" /* old 4096 based sliding window */
 
-
-assert(0 && "you don't know what you are doing, are you? he he he");
-// #error Ric, value not handled, please check...
-
-//cannot be called ric, not ric, the function kkkkk, it is v4 and not v14c or above...
-
-#error 3 ric please check...
-#include "mode_basic_4096_buf_size_dl.c"
-
-#elif DL_ENCODER_DECODER_MODE_ == DL_MODE_EXTENDED_LZ77_PLUS_LZSS_AUGMENTED_THE_4096_BUFFER_TO_8192
-#include "mode_v10_dl.c"
-#else
-
-assert(0 && "you don't know what you are doing, are you? he he he");
-// #error Ric, value not handled, please check...
-
-//cannot be called ric, not ric, the function kkkkk, it is v10 and not v14c or above...
-
-#include "mode_v10_dl.c"
-
-#endif
-
+               assert(0 && "you don't know what you are doing, are you? he he he");
+               exit(1993);
+             
                if (0 == bytes_left_in_compressed_buffer_dl)
                {
 
@@ -1033,4 +1015,4 @@ exit_ric_my_dear_dl:;
 
      return return_value_dl;
 }
-// https://music.youtube.com/watch?v=mL2Evq3ge5A&list=RDAMVMwBfVsucRe1w 
+// https://music.youtube.com/watch?v=mL2Evq3ge5A&list=RDAMVMwBfVsucRe1w
