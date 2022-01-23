@@ -184,7 +184,17 @@ int main_rle(uint8_t *buf_ar, int len_ar, uint8_t *buf_out, int *len_out_ar);
  */
 int main_dl_THE_amanda(char *input_file_dl, char *output_file_dl);
 
-// 121212
+int ra____file_size(unsigned char *ra____file);
+
+int ra____files_size_char(char *ra____file)
+{
+     return ra____file_size((void *)ra____file);
+}
+void ra____dump_arrays_to_disk(unsigned char *ra____bytes_array_file,
+                               unsigned char *ra____bits_array_file,
+                               unsigned char *ra____pointers_array_file,
+                               unsigned char *ra____file_out);
+//                                  13131313131313
 
 #define DEBUG_DL__ 0
 #define DEBUG2_DL__ 0
@@ -1003,24 +1013,37 @@ int main(int arg_dl_c, char **arg_dl_v)
           }
      */
 
+     ra____dump_arrays_to_disk((void *)temp_file_dl2,
+                               (void *)temp_file_dl3,
+                               (void *)temp_file_dl4,
+                               (void *)"ra____temp.tmp");
+
+                               main_dl_THE_amanda((void *)"ra____temp.tmp", arg_dl_v[3]);
+/*
+     main_dl_THE_amanda(temp_file_dl4, temp_file_dl5); // pointers
+     main_dl_THE_amanda(temp_file_dl2, temp_file_dl6); // bytes
+     main_dl_THE_amanda(temp_file_dl3, temp_file_dl7); // array of bits
+
+     concatenate_files_from_ric_da_amandua(temp_file_dl5, arg_dl_v[3]);
+     concatenate_files_from_ric_da_amandua(temp_file_dl6, arg_dl_v[3]);
+     concatenate_files_from_ric_da_amandua(temp_file_dl7, arg_dl_v[3]);
+*/
+     //unlink(temp_file_dl2);
+     //unlink(temp_file_dl3);
+     //unlink(temp_file_dl4);
+     //unlink(temp_file_dl5);
+     //unlink(temp_file_dl6);
+     //unlink(temp_file_dl7);
+     // unlink("ra____temp.tmp");
      /*
-          main_dl_THE_amanda(temp_file_dl4, temp_file_dl5);
-          main_dl_THE_amanda(temp_file_dl2, temp_file_dl6);
-          main_dl_THE_amanda(temp_file_dl3, temp_file_dl7);
-          unlink("ric o cara");
-          system("touch 'ric o cara'");
-          concatenate_files_from_ric_da_amandua(temp_file_dl5, arg_dl_v[3]);
-          concatenate_files_from_ric_da_amandua(temp_file_dl6, arg_dl_v[3]);
-          concatenate_files_from_ric_da_amandua(temp_file_dl7, arg_dl_v[3]);
+          concatenate_files_from_ric_da_amandua(temp_file_dl2, arg_dl_v[3]);
+          concatenate_files_from_ric_da_amandua(temp_file_dl3, arg_dl_v[3]);
+          concatenate_files_from_ric_da_amandua(temp_file_dl4, arg_dl_v[3]);
+
+          unlink(temp_file_dl2);
+          unlink(temp_file_dl3);
+          unlink(temp_file_dl4);
      */
-
-     concatenate_files_from_ric_da_amandua(temp_file_dl2, arg_dl_v[3]);
-     concatenate_files_from_ric_da_amandua(temp_file_dl3, arg_dl_v[3]);
-     concatenate_files_from_ric_da_amandua(temp_file_dl4, arg_dl_v[3]);
-
-     unlink(temp_file_dl2);
-     unlink(temp_file_dl3);
-     unlink(temp_file_dl4);
 
      /*
       unlink(temp_file_dl5);

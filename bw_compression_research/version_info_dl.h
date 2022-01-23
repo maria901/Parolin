@@ -1,6 +1,6 @@
-#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 5 + 5 + 4))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
+#define THE_CURRENT_DL_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 6 + 5 + 5))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
 
-#define STRING_VERSION_DL_COMPRESSOR " v16 build 00428   \n(char value == 53 + 5 + 5 + 4) \ncodename: Chico \n(" __TIME__ " " __DATE__ ") \n\n"
+#define STRING_VERSION_DL_COMPRESSOR " v17 build 00429   \n(char value == 53 + 6 + 5 + 5) \ncodename: Dete \n(" __TIME__ " " __DATE__ ") \n\n"
 
 /*
 

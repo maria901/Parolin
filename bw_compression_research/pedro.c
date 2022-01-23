@@ -184,3 +184,99 @@ int ra____mensaginha_ok(unsigned short *ra____text)
 {
 	return MessageBoxW(0, ra____text, L"Ric listen to this\n", MB_OK);
 }
+
+void ra____dump_arrays_to_disk(unsigned char *ra____bytes_array_file,
+							   unsigned char *ra____bits_array_file,
+							   unsigned char *ra____pointers_array_file,
+							   unsigned char *ra____file_out)
+{
+	uint8_t ra____character_one;
+	uint8_t ra____character_two;
+	uint64_t ra____last_byte_saved_postion = 0;
+	uint64_t ra____last_bit_saved_postion = 0;
+	uint64_t ra____counter_1 = 0;
+	uint64_t ra____counter_2 = 0;
+	uint64_t ra____counter_3 = 0;
+	int ra____character_read_bytes;
+	int ra____character_temp;
+	int ra____len;
+
+	uint64_t ra____size_r = ra____file_size(ra____bits_array_file) +
+							ra____file_size(ra____bytes_array_file) +
+							ra____file_size(ra____pointers_array_file);
+
+	printf("Total size %lld\n", ra____size_r);
+
+	FILE *ra____dest_file = fopen((void *)ra____file_out, "wb");
+	FILE *ra____S2_bytes_array_file = fopen((void *)ra____bytes_array_file, "rb");
+	FILE *ra____S2_bits_array_file = fopen((void *)ra____bits_array_file, "rb");
+	FILE *ra____S2_pointers_array_file = fopen((void *)ra____pointers_array_file, "rb");
+	// assert(0 && "inicio");
+	if (NULL == ra____dest_file || NULL == ra____S2_bytes_array_file || NULL == ra____S2_bits_array_file || NULL == ra____S2_pointers_array_file)
+	{
+		printf("Cannot open temporary files, exiting\n");
+		exit(7);
+	}
+	/*
+	fwrite(&ra____last_byte_saved_postion, 1, sizeof(ra____last_byte_saved_postion), ra____dest_file);
+	fwrite(&ra____last_byte_saved_postion, 1, sizeof(ra____last_byte_saved_postion), ra____dest_file);
+	putc(0, ra____dest_file);
+	putc(0, ra____dest_file);
+	*/
+	while ((/* for your pleasure */ fread(&ra____character_one, 1, 1, ra____S2_bytes_array_file)))
+	{
+		if (0 == ra____counter_2 % 8)
+		{
+			ra____len = fread(&ra____character_two, 1, 1, ra____S2_bits_array_file);
+
+			assert(0 != ra____len);
+
+			fwrite(&ra____character_two, 1, 1, ra____dest_file);
+
+			ra____counter_2++;
+		}
+
+		fwrite(&ra____character_one, 1, 1, ra____dest_file);
+
+		ra____counter_1++;
+	}
+	while (fread(&ra____character_one, 1, 1, ra____S2_pointers_array_file))
+	{
+		if (0 == ra____counter_2 % 8)
+		{
+			ra____len = fread(&ra____character_two, 1, 1, ra____S2_bits_array_file);
+
+			assert(0 != ra____len);
+
+			fwrite(&ra____character_two, 1, 1, ra____dest_file);
+
+			ra____counter_2++;
+		}
+
+		ra____counter_3++;
+		fwrite(&ra____character_one, 1, 1, ra____dest_file);
+	}
+
+	while (fread(&ra____character_two, 1, 1, ra____S2_bits_array_file))
+	{
+
+		fwrite(&ra____character_two, 1, 1, ra____dest_file);
+
+		ra____counter_2++;
+	}
+	// assert(0 && "final");
+	printf("Total %lld\n", ra____counter_1 + ra____counter_2 + ra____counter_3);
+	printf("Bytes saved %lld\n", ra____counter_1);
+	printf("Bits saved %lld\n", ra____counter_2);
+	printf("\n\nbytes file ric %s\n", ra____bytes_array_file);
+	printf("ra____bits_array_file file ric %s\n", ra____bits_array_file);
+	printf("ra____pointers_array_file file ric %s\n", ra____pointers_array_file);
+	printf("ra____file_out file ric %s\n\n", ra____file_out);
+
+	fclose(ra____dest_file);
+	fclose(ra____S2_bytes_array_file);
+	fclose(ra____S2_bits_array_file);
+	fclose(ra____S2_pointers_array_file);
+
+	return;
+}
