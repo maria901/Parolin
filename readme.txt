@@ -272,6 +272,12 @@ About required libraries installed
 
 Changelog:
 
+What is new in version 13.1.3  build 006389  Sunday 23 jan 2022 07:05 codename Douglas o brabo
+
+.......... The package includes v17 research of bw research an lzss
+.......... compression enhancement
+
+What is new in version 13.1.2  build 006388  Sunday 23 jan 2022 07:05 codename Lucrecia a santa
 
 .......... Solved the error in the extraction of GNU tar
 .......... files where the timestamp had errors, this occur
