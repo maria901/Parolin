@@ -963,7 +963,7 @@ void __fastcall convert_8_bits_to_nine_bits_12_jan_2022_v6_dl(__attribute__((unu
           encode_bit_11_jan_2022_v6_dl(th13____);
           encode_bit_11_jan_2022_v6_dl(th14____);
           encode_bit_11_jan_2022_v6_dl(th15____);
-          encode_bit_11_jan_2022_v6_dl(th16____);
+          // encode_bit_11_jan_2022_v6_dl(th16____);
 #endif
 
           if (is_it_little_ric_endian_ar)

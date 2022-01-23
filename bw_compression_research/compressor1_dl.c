@@ -207,8 +207,8 @@ void ra____dump_arrays_to_disk(unsigned char *ra____bytes_array_file,
 #define STRING_PASS_SIZE_DL__ (1)             /* this will change in the future just to speed up execution */
 
 #if 1
-#define DL_SIZE__ (1L << 16) /* testing */
-#define DL_SIZE__ (1L << 16) /* testing */
+#define DL_SIZE__ (1L << 15) /* testing */
+#define DL_SIZE__ (1L << 15) /* testing */
 #endif
 
 // 88888888888888888888888888888888888888888888888
