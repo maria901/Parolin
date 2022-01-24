@@ -1,0 +1,50 @@
+#(started) janeiro 2022 08 20:00 hs -amanda
+
+#(current)              24 04:13 hs
+amanda____FLAGS__=-Wall -Wextra -Wall -Wno-unused-value -Wno-unused-variable -Os -I./Nosso_ricardinho_euclid -I./Filho_do_Ghazi_e_lu -I ./ -I./Ricardo_ibn_Ghazi_ibn_Douglas_ibn_Silvio_ibn_Mauricio_ibn_Pavlo_ibn_Marcao_ibn_Roberto_ibn_Roberto_ibn_Roberto_ibn_Nilson_ibn_Ladinho
+
+ESPACO_VAZIO_BW_ = -Damanda5675678901OI_RIC_
+
+amandaf:
+	cp -r * 'C:\cygwin64_ra\tar\bw_compression_research'
+	echo "deu..."
+
+pedro_amanda_.o: pedro.c
+	x86_64-w64-mingw32-gcc.exe $(amanda____FLAGS__) -c -o pedro_amanda_.o pedro.c
+
+################################################################################################################################ 
+###	
+################################################################################################################################ 
+
+# the amanda_.o is a wrapper to aamandaer32 function
+amanda_.o: aamandaer32/amanda.c 
+	x86_64-w64-mingw32-gcc.exe $(amanda____FLAGS__) -c -o amanda_.o aamandaer32/amanda.c
+
+amanda_49: pedro_amanda_.o arithmethic_coding_by_mark_amanda_.o unarithmethic_coding_by_mark_amanda_.o version_info_amanda.h
+	
+	x86_64-w64-mingw32-gcc.exe -Wl,-subsystem,windows                  $(ESPACO_VAZIO_BW_) \
+	compressor1_amanda.c -o amanda1.exe                                $(ESPACO_VAZIO_BW_) \
+	pedro_amanda_.o                                                    $(ESPACO_VAZIO_BW_) \
+	amanda_.o                                       adler32_amanda_.o  $(ESPACO_VAZIO_BW_) \
+	$(amanda____FLAGS__)
+
+	@cp ./amanda1.exe ./amanda1.bin
+ 
+amanda_50:
+
+#	./amanda1.exe e to_compress_with_rle.amanda to_compress_with_rle.amanda.compressed.v12
+#	./amanda1.exe d to_compress_with_rle.amanda.compressed.v12 to_compress_with_rle.uncompressed.v12
+#	./lzari_amanda.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
+#	./lzari_amanda.exe e make.bin make.bin.compressed_by_lzss_ari
+#	./lzari_amanda.exe e tar_1_33.c tar_1_33.c.compressed_by_lzss_ari
+#	./amanda1.exe e tar_1_33.c tar_1_33.c.compressed_by_amanda_compressor.v15
+#	./amanda1.exe d tar_1_33.c.compressed_by_amanda_compressor tar_1_33.c.uncompressed_by_amanda_compressor
+#	./amanda1.exe to_compress_with_rle.amanda to_compress_with_rle.amanda.out
+
+#	./amanda1.exe make.ava make.ava.compressed_by_amanda_compressor
+#	./amanda1.exe test.ava test.ava.compressed_by_amanda_compressor
+	./amanda1.exe e make.bin make.bin.compressed_by_amanda_compressor.v21
+#	./amanda1.exe d make.bin.compressed_by_amanda_compressor.v14a make.bin.decompressed_by_amanda_v14a
+#	./amanda1.exe not_compressible.ava not_compressible.ava.compressed_by_amanda_compressor
+#	-./rle < make.exe > make.rle
+#	-./ari < make.rle > make.ari.2

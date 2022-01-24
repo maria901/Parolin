@@ -46,11 +46,11 @@
 //  rle < raw-file | bwt | mtf | rle | ari > compressed-file
 //
 //
-// 2022 dl & ric
+// 2022 amanda & ric
 #include  <windows.h>
 #include   <stdint.h>
 #include    <stdio.h>
-#include   <stdlib.h>
+#include   <stamandaib.h>
 #include   <string.h>
 #include     <time.h>
 #include    <errno.h>
@@ -96,7 +96,7 @@
 #endif
 
 #include <stdio.h>
-#include <stdlib.h>
+#include <stamandaib.h>
 #if !defined(unix)
 #include <io.h>
 #endif
@@ -105,18 +105,18 @@
 void pedro_dprintf(int amanda_level,//indeed the Amanda level...
                    char *format, ...);
 
-static FILE *in_file_dl2;
-static FILE *out_file_dl2;
+static FILE *in_file_amanda2;
+static FILE *out_file_amanda2;
 
 int __cdecl getc_ric(void)
 {
-    return getc(in_file_dl2);
+    return getc(in_file_amanda2);
 }
 
 int __cdecl putc_ric(int _Ch, FILE *_File)
 {
     (void)_File;
-    return putc(_Ch, out_file_dl2);
+    return putc(_Ch, out_file_amanda2);
 }
 
 #define No_of_chars 256              /* Number of character symbols      */
@@ -291,9 +291,9 @@ void encode_symbol(int symbol, int cum_freq[])
         }
         else if (low >= First_qtr /* Output an opposite bit   */
                  && high < Third_qtr)
-        { /* later if in middle half. */
+        { /* later if in midamandae half. */
             bits_to_follow += 1;
-            low -= First_qtr; /* Subtract offset to middle*/
+            low -= First_qtr; /* Subtract offset to midamandae*/
             high -= First_qtr;
         }
         else
@@ -376,42 +376,42 @@ void update_model(int symbol)
  *
  * @return int
  */
-int main_dl(__attribute__((unused)) int size_of_header_dl, __attribute__((unused)) char *memory_to_add_dl, char *input_file_dl, char *output_file_dl)
+int main_amanda(__attribute__((unused)) int size_of_header_amanda, __attribute__((unused)) char *memory_to_add_amanda, char *input_file_amanda, char *output_file_amanda)
 {
-    int return_value_dl = 0;
-    FILE *in_file_dl = fopen(input_file_dl, "rb");
+    int return_value_amanda = 0;
+    FILE *in_file_amanda = fopen(input_file_amanda, "rb");
 
-    if (in_file_dl)
+    if (in_file_amanda)
     {
 
-        FILE *out_file_dl = fopen(output_file_dl, "wb");
+        FILE *out_file_amanda = fopen(output_file_amanda, "wb");
         {
-            if (out_file_dl)
+            if (out_file_amanda)
             {
-                in_file_dl2 = in_file_dl;
-                out_file_dl2 = out_file_dl;
+                in_file_amanda2 = in_file_amanda;
+                out_file_amanda2 = out_file_amanda;
 
-                fwrite(memory_to_add_dl, 1, size_of_header_dl, out_file_dl);
+                fwrite(memory_to_add_amanda, 1, size_of_header_amanda, out_file_amanda);
 
                 main_do_mr_do();
-                return_value_dl = 0;
-                fclose(out_file_dl);
+                return_value_amanda = 0;
+                fclose(out_file_amanda);
             }
             else
             {
                 printf("Cannot open output file\n");
-                return_value_dl = 27;
+                return_value_amanda = 27;
             }
         }
-        fclose(in_file_dl);
+        fclose(in_file_amanda);
     }
     else
     {
         printf("Cannot open input file\n");
-        return_value_dl = 28;
+        return_value_amanda = 28;
     }
 
-    return return_value_dl;
+    return return_value_amanda;
 }
 
 /**
@@ -420,53 +420,53 @@ int main_dl(__attribute__((unused)) int size_of_header_dl, __attribute__((unused
  *
  * @return int
  */
-int main_dl_pure(char *input_file_dl, char *output_file_dl)
+int main_amanda_pure(char *input_file_amanda, char *output_file_amanda)
 {
-    int return_value_dl = 0;
-    FILE *in_file_dl = fopen(input_file_dl, "rb");
+    int return_value_amanda = 0;
+    FILE *in_file_amanda = fopen(input_file_amanda, "rb");
 
-    if (in_file_dl)
+    if (in_file_amanda)
     {
 
-        FILE *out_file_dl = fopen(output_file_dl, "wb");
+        FILE *out_file_amanda = fopen(output_file_amanda, "wb");
         {
-            if (out_file_dl)
+            if (out_file_amanda)
             {
-                in_file_dl2 = in_file_dl;
-                out_file_dl2 = out_file_dl;
+                in_file_amanda2 = in_file_amanda;
+                out_file_amanda2 = out_file_amanda;
 
                 main_do_mr_do();
-                return_value_dl = 0;
-                fclose(out_file_dl);
+                return_value_amanda = 0;
+                fclose(out_file_amanda);
             }
             else
             {
                 printf("Cannot open output file\n");
-                return_value_dl = 27;
+                return_value_amanda = 27;
             }
         }
-        fclose(in_file_dl);
+        fclose(in_file_amanda);
     }
     else
     {
         printf("Cannot open input file\n");
-        return_value_dl = 28;
+        return_value_amanda = 28;
     }
 
-    return return_value_dl;
+    return return_value_amanda;
 }
 
 /**
  * @brief just an Amanda wrapper
  * 
- * @param input_file_dl 
- * @param output_file_dl 
+ * @param input_file_amanda 
+ * @param output_file_amanda 
  * @return int 
  */
-int main_dl_THE_amanda(char *input_file_dl, char *output_file_dl)
+int main_amanda_THE_amanda(char *input_file_amanda, char *output_file_amanda)
 {
-    return main_dl(0,
+    return main_amanda(0,
                    "ricardo_o_'cara'",
-                   input_file_dl,
-                   output_file_dl);
+                   input_file_amanda,
+                   output_file_amanda);
 }

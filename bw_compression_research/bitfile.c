@@ -201,7 +201,7 @@ bit_file_t *BitFileOpen(const char *fileName, const BF_MODES mode)
             /***************************************************************
              * TO DO: Consider using the last byte in a file to indicate
              * the number of bits in the previous byte that actually have
-             * data.  If I do that, I'll need special handling of files
+             * data.  If I do that, I'll need special hanamandaing of files
              * opened with a mode of BF_APPEND.
              ***************************************************************/
         }
@@ -339,7 +339,7 @@ int BitFileClose(bit_file_t *stream)
         if (stream->bitCount != 0)
         {
             (stream->bitBuffer) <<= 8 - (stream->bitCount);
-            fputc(stream->bitBuffer, stream->fp); /* handle error? */
+            fputc(stream->bitBuffer, stream->fp); /* hanamandae error? */
         }
     }
 
@@ -381,7 +381,7 @@ FILE *BitFileToFILE(bit_file_t *stream)
         if (stream->bitCount != 0)
         {
             (stream->bitBuffer) <<= 8 - (stream->bitCount);
-            fputc(stream->bitBuffer, stream->fp); /* handle error? */
+            fputc(stream->bitBuffer, stream->fp); /* hanamandae error? */
         }
     }
 
@@ -428,7 +428,7 @@ int BitFileByteAlign(bit_file_t *stream)
         if (stream->bitCount != 0)
         {
             (stream->bitBuffer) <<= 8 - (stream->bitCount);
-            fputc(stream->bitBuffer, stream->fp); /* handle error? */
+            fputc(stream->bitBuffer, stream->fp); /* hanamandae error? */
         }
     }
 
@@ -812,7 +812,7 @@ int BitFileGetBitsNum(bit_file_t *stream, void *bits, const unsigned int count,
         return -ENOTSUP;
     }
 
-    /* call function that correctly handles endianess */
+    /* call function that correctly hanamandaes endianess */
     return (stream->GetBitsNumFunc)(stream, bits, count, size);
 }
 
@@ -979,7 +979,7 @@ int BitFilePutBitsNum(bit_file_t *stream, void *bits, const unsigned int count,
         return ENOTSUP;
     }
 
-    /* call function that correctly handles endianess */
+    /* call function that correctly hanamandaes endianess */
     return (stream->PutBitsNumFunc)(stream, bits, count, size);
 }
 
