@@ -1,6 +1,6 @@
 #define THE_CURRENT_amanda_COMPRESSOR_VERSION_FOR_THIS_RELEASE___ (((53 + 7 + 7 + 7))) /* each version can encode/decode a single version, if don't match the decoder will point you to the correct version to download the decoder binary ready to be used */
 
-#define STRING_VERSION_amanda_COMPRESSOR " v21 build 01437   \n(char value == 53 + 7 + 7 + 7) \ncodename: Madrinha Tereza \n(" __TIME__ " " __DATE__ ") \n\n"
+#define STRING_VERSION_amanda_COMPRESSOR " v21 build 01438   \n(char value == 53 + 7 + 7 + 7) \ncodename: Andrea & Paul \n(" __TIME__ " " __DATE__ ") \n\n"
 
 /*
 
